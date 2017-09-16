@@ -22,20 +22,48 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 </p>
 
 ### References
-* _HoloClean: Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
+* _HoloClean:Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
 
-## Jupyter Notebook Best Practices
+### Installation
 
-HoloClean is built specifically with usage in **Jupyter/IPython notebooks** in mind; an incomplete set of best practices for the notebooks:
+Holoclean uses Python 2.7 and requires [some python packages] (python-package-requirement.txt
+) which can be installed using conda and `pip`.
 
-It's usually most convenient to write most code in an external `.py` file, and load as a module that's automatically reloaded; use:
-```python
-%load_ext autoreload
-%autoreload 2
+### Setting Up Conda
+
+Before the installation we have to download and install [`conda`](https://www.continuum.io/downloads).
+If you are running multiple version of Python, you might need to run:
 ```
-A more convenient option is to add these lines to your IPython config file, in `~/.ipython/profile_default/ipython_config.py`:
+conda create -n py27Env python=2.7 anaconda
 ```
-c.InteractiveShellApp.extensions = ['autoreload']     
-c.InteractiveShellApp.exec_lines = ['%autoreload 2']
+And then run the correct environment:
+```
+source activate py27Env
+```
+### Download and install Spark
+Visiting the web page
+
+In order to download spark you should first go to the web page:
+https://spark.apache.org/downloads.html
+And choose the spark release you want to download. For our project, you should choose the options:
+1. Choose a Spark release: 2.2.0( JUl 11 2017)
+2. Choose a package type: Pre-built for Apache Hadoop 2.7 and later
+3. Choose a dowload type: Direct Download
+
+And then you press to download spark-2.2.0-bin-hadoop2.7.tgz
+
+Go the folder where you downloaded the file, extract the file 
+```
+<<<<<<< HEAD
+tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
+```
+### Installing dependencies
+Install the package requirements:
+```
+pip install --requirement python-package-requirement.txt
+
 ```
 
+
+=======
+>>>>>>> origin/holopandas
