@@ -63,7 +63,3 @@ Install the package requirements:
 pip install --requirement python-package-requirement.txt
 
 ```
-
-
-=======
->>>>>>> origin/holopandas
