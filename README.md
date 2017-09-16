@@ -54,7 +54,6 @@ And then you press to download spark-2.2.0-bin-hadoop2.7.tgz
 
 Go the folder where you downloaded the file, extract the file 
 ```
-<<<<<<< HEAD
 tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
 ```
 ### Installing dependencies
