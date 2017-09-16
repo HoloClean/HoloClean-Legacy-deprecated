@@ -26,8 +26,7 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 
 ### Installation
 
-Holoclean uses Python 2.7 and requires [some python packages] (python-package-requirement.txt
-) which can be installed using conda and `pip`.
+Holoclean uses Python 2.7 and requires [a few python packages](python-package-requirement.txt) which can be installed using conda and `pip`.
 
 ### Setting Up Conda
 
