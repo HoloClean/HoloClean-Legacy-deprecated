@@ -1,0 +1,9 @@
+﻿Jupyter
+pandas
+numpy>=1.11
+tensorflow>=1.0
+pyspark
+itertools
+operator
+copy
+
