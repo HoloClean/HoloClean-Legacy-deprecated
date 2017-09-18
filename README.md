@@ -55,6 +55,11 @@ Go the folder where you downloaded the file, extract the file
 ```
 tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
 ```
+### Setup MysqlServer
+In order to install Mysql use the command:
+```
+sudo apt-get install mysql-server
+```
 ### Installing dependencies
 Install the package requirements:
 ```
