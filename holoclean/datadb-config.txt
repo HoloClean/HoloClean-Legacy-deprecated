@@ -1,0 +1,4 @@
+localhost
+holocleandb
+holocleanUser
+holoclean
