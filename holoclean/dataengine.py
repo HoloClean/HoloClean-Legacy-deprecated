@@ -86,21 +86,26 @@ class dataengine:
         except sqla.exc.IntegrityError:
             logging.warn("failed to insert values")
             
-    def add_meta(self,db_engine,dataset_id,table_name,table_meta):
-        dbcur = db_engine.cursor()
+    def add_meta(self,dataset_id,table_name,table_meta):
+        tmp_conn = self.meta_engine.raw_connection()
+        dbcur=tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row="INSERT INTO 'metatable' ('dataset_id','tablename','schema') VALUES("+str(dataset_id)+","+str(table_name)+","+str(table_meta)+");"
+        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+str(dataset_id)+"','"+str(table_name)+"','"+str(table_meta)+"');"
         if result:
             # there is a table named "metatable"
-            db_engine.execute(add_row)              
+            self.meta_engine.execute(add_row)              
         else:
             #create db with columns 'dataset_id' , 'tablename' , 'schema'
             # there are no tables named "metatable"
-            create_table=0
+            create_table='CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
+#             dbcur.execute(create_table)
+            self.meta_engine.execute(create_table)
+            self.meta_engine.execute(add_row)
 
 d=dataengine("metadb-config.txt")
 dataengine.connect_datadb('datadb-config.txt')
+d.add_meta("id_456", "T","index,attribute")
 print("Done!")
 
