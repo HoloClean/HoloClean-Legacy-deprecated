@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import mysql.connector
 import sqlalchemy as sqla
 import getpass
 import logging
@@ -18,12 +17,14 @@ class dataengine:
 
     def connect(self,filepath):
         """create a connection with the database"""
-        file = open(filepath,"r");
-	    address = file.readline();
-        user = file.readline();
-        password = file.readline();
-        self.engine = sqla.create_engine("mysql+mysqldb://" + user +
-                                         ":"+password+"@"+address+"/holoclean")
+        file = open(filepath,"r")
+        
+        address = file.readline()
+        dbname = file.readline()
+        user = file.readline()
+        password = file.readline()
+        con_str="mysql+mysqldb://" + user[:-1] +":"+password[:-1]+"@"+address[:-1]+"/"+dbname[:-1]
+        self.engine = sqla.create_engine(con_str)
 
     def register(self, chunk):
         """for the first chunk, create the table and return
@@ -46,3 +47,8 @@ class dataengine:
             logging.info("correct insertion for" + name_table)
         except sqla.exc.IntegrityError:
             logging.warn("failed to insert values")
+            
+d=dataengine()
+d.connect('config.txt')
+print("Done!")
+
