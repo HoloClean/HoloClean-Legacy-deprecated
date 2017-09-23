@@ -68,15 +68,23 @@ class dataengine:
     def register(self, chunk):
         """for the first chunk, create the table and return
         the name of the table"""
-        name_table = raw_input("please write the name of the table for" +
-                               "the mysql database: ")
-        try:
-            chunk.to_sql(name_table, con=self.engine, if_exists='append',
-                         index=True, index_label=None)
-            logging.info("correct insertion for" + name_table)
-        except sqla.exc.IntegrityError:
-            logging.warn("failed to insert values")
-        return name_table
+        #name_table = raw_input("please write the name of the table for" +
+                              # "the mysql database: ")
+	table_cols=chunk.columns.tolist()
+	print(table_cols)
+	table_schema=''	
+	for i in table_cols:
+		table_schema=table_schema+","+str(i)
+	table_schema=table_schema[1:]
+	print (table_schema)
+	name_table="asd"
+       # try:
+        #    chunk.to_sql(name_table, con=self.engine, if_exists='append',
+         #                index=True, index_label=None)
+          #  logging.info("correct insertion for" + name_table)
+        #except sqla.exc.IntegrityError:
+         #   logging.warn("failed to insert values")
+       # return name_table
 
 
     def add(self, chunk, name_table):
@@ -111,8 +119,8 @@ class dataengine:
             self.meta_engine.execute(create_table)
             self.meta_engine.execute(add_row)
             
-d=dataengine("metadb-config.txt")
-dataengine.connect_datadb('datadb-config.txt')
-d.add_meta("id_456", "T","index,attribute")
-print("Done!")
+#d=dataengine("metadb-config.txt")
+#dataengine.connect_datadb('datadb-config.txt')
+#d.add_meta("id_456", "T","index,attribute")
+#print("Done!")
 
