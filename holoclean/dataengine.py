@@ -41,6 +41,7 @@ class dataengine:
         except:
             print("No connection to data database")  
         return data_engine
+     
             
     def connect_metadb(self,meta_filepath):
         """create a connection with the database"""
@@ -77,6 +78,7 @@ class dataengine:
             logging.warn("failed to insert values")
         return name_table
 
+
     def add(self, chunk, name_table):
         """adding the information from the chunk to the table"""
         try:
@@ -85,6 +87,11 @@ class dataengine:
             logging.info("correct insertion for" + name_table)
         except sqla.exc.IntegrityError:
             logging.warn("failed to insert values")
+ 
+    
+    def retrieve(self,database_handler,sql_query):
+        pass
+
             
     def add_meta(self,dataset_id,table_name,table_meta):
         tmp_conn = self.meta_engine.raw_connection()
@@ -103,7 +110,7 @@ class dataengine:
 #             dbcur.execute(create_table)
             self.meta_engine.execute(create_table)
             self.meta_engine.execute(add_row)
-
+            
 d=dataengine("metadb-config.txt")
 dataengine.connect_datadb('datadb-config.txt')
 d.add_meta("id_456", "T","index,attribute")
