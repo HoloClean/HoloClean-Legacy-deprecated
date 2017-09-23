@@ -1,4 +1,0 @@
-localhost
-holocleandb
-holocleanUser
-holoclean
