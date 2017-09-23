@@ -15,10 +15,12 @@ class dataengine:
     
     
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    def __init__(self):
+    def __init__(self,meta_filepath):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
-        pass
-
+        self.connect_metadb(meta_filepath)
+        
+    
+    @staticmethod
     def connect_datadb(self,dt_filepath):
         """create a connection with the database"""
         dt_file = open(dt_filepath,"r")
@@ -54,14 +56,13 @@ class dataengine:
         con_str_meta="mysql+mysqldb://" + usermt[:-1] +":"+passwordmt[:-1]+"@"+addressmt[:-1]+"/"+dbnamemt[:-1]
         
 
-        meta_engine = sqla.create_engine(con_str_meta)
+        self.meta_engine = sqla.create_engine(con_str_meta)
         
         try:
-            meta_engine.connect()       
+            self.meta_engine.connect()       
         except:
             print("No connection to meta database")
-        
-        return meta_engine       
+               
 
     def register(self, chunk):
         """for the first chunk, create the table and return
@@ -85,11 +86,22 @@ class dataengine:
         except sqla.exc.IntegrityError:
             logging.warn("failed to insert values")
             
-    def add_meta(self,dataset_obj,table_name,table_meta):
-        
+    def add_meta(self,db_con,dataset_obj,dataset_id,table_name,table_meta):
+        dbcur = db_con.cursor()
+        stmt = "SHOW TABLES LIKE 'metatable'"
+        dbcur.execute(stmt)
+        result = dbcur.fetchone()
+        add_row="INSERT INTO 'metatable' ('dataset_id','tablename','schema') VALUES("+dataset_id+","+dataset_obj.attributes[table_name]+col1*2+");"
+        if result:
+            # there is a table named "metatable"
+            
+            
+        else:
+            #create db with columns 'dataset_id' , 'tablename' , 'schema'
+            # there are no tables named "metatable"
         
 
 d=dataengine()
-d.connect('config.txt')
+dataengine.connect('config.txt')
 print("Done!")
 
