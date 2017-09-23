@@ -16,12 +16,12 @@ class dataengine:
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
         pass
 
-    def connect(self):
+    def connect(self,filepath):
         """create a connection with the database"""
-        user = raw_input("please write the user for the mysql database: ")
-        password = getpass.getpass("please write the password for" +
-                                   "the mysql database: ")
-        address = raw_input("please write address for the mysql database: ")
+        file = open(filepath,"r");
+	    address = file.readline();
+        user = file.readline();
+        password = file.readline();
         self.engine = sqla.create_engine("mysql+mysqldb://" + user +
                                          ":"+password+"@"+address+"/holoclean")
 
