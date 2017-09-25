@@ -7,7 +7,8 @@ class Ingest:
 
     Takes as argument the full path name of the  file
     """
-
+    chunksize = 2
+    
     def __init__(self,filepath):
         self.filepath=filepath
 
@@ -33,10 +34,10 @@ class Ingest:
 
         Takes as argument the full path name of the csv file
         """
-        chunksize = 20000
+        
         #data.connect()
         first_time = 0
-        for chunk in pd.read_csv(self.filepath, chunksize=chunksize):
+        for chunk in pd.read_csv(self.filepath, chunksize=self.chunksize):
             if first_time == 0:
                 name_table = dataengine.register(chunk)
                 first_time = first_time + 1

@@ -20,9 +20,11 @@ class Dataengine:
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     def __init__(self,meta_filepath,data_filepath,dataset):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
-        self.connect_metadb(meta_filepath)
-        self.dataset=dataset
         self.data_filepath=data_filepath
+        self.meta_filepath=meta_filepath
+        self.dataset=dataset
+        self.connect_metadb()
+        self.connect_datadb()
         
     
     def connect_datadb(self):
@@ -41,14 +43,15 @@ class Dataengine:
         self.data_engine = sqla.create_engine(con_str_data)
         
         try:
-            self.data_engine.connect()      
+            self.data_engine.connect()
+            logging.info("Connection established to data database")      
         except:
-            print("No connection to data database")  
+            logging.warn("No connection to data database") 
      
             
-    def connect_metadb(self,meta_filepath):
+    def connect_metadb(self):
         """create a connection with the database"""
-        meta_file = open(meta_filepath,"r")
+        meta_file = open(self.meta_filepath,"r")
         
         
         # Connection part for the meta 
@@ -63,62 +66,63 @@ class Dataengine:
         self.meta_engine = sqla.create_engine(con_str_meta)
         
         try:
-            self.meta_engine.connect()       
+            self.meta_engine.connect() 
+            logging.info("Connection established to meta data database")      
         except:
-            print("No connection to meta database")
+            logging.warn("No connection to meta database")
                
 
     def register(self, chunk):
         """for the first chunk, create the table and return
         the name of the table"""
-        #name_table = raw_input("please write the name of the table for" +
-                              # "the mysql database: ")
+
     	table_cols=chunk.columns
     	print(table_cols)
     	table_schema=''	
     	for i in table_cols:
     		table_schema=table_schema+","+str(i)
-    	table_schema=table_schema[1:]
-    	print (table_schema)
-    	name_table="asd"
-           # try:
-        #    chunk.to_sql(name_table, con=self.engine, if_exists='append',
-         #                index=True, index_label=None)
-          #  logging.info("correct insertion for" + name_table)
-        #except sqla.exc.IntegrityError:
-         #   logging.warn("failed to insert values")
-       # return name_table
-
+        table_schema=table_schema[1:]
+    	self.add_meta(self.dataset.attributes[1], table_schema)
+        
+        """Add first table to data"""
+        table_name=self.dataset.table_name[1]
+        try:
+            chunk.to_sql(table_name, con=self.data_engine, if_exists='append',
+                         index=True, index_label=None)
+            logging.info("Correct insertion for " + table_name)
+        except sqla.exc.IntegrityError:
+            logging.warn("Failed to insert values")
+            
+        return table_name
+        
 
     def add(self, chunk, name_table):
         """adding the information from the chunk to the table"""
         try:
-            chunk.to_sql(name_table, con=self.engine, if_exists='append',
+            chunk.to_sql(name_table, con=self.data_engine, if_exists='append',
                          index=True, index_label=None)
-            logging.info("correct insertion for" + name_table)
+            logging.info("Correct insertion for " + name_table)
         except sqla.exc.IntegrityError:
-            logging.warn("failed to insert values")
+            logging.warn("Failed to insert values")
  
     
-    def retrieve(self,id_table):
+    def retrieve(self,sql_query,chunksize):
         
-    	id1=str(datset.getattribute("id"))
-    	id_table=id1+id_table
-    	stmt="SELECT *  from"+" "+id_table
-    	print (id1,id_table,stmt)
-    	Conne=self.connect_datadb()
+    	dt_eng=self.data_engine
     	#sql = "SELECT * FROM My_Table"
-    	for chunk in pd.read_sql_query(stmt , Conne, chunksize=5):
-        		print(chunk)
-  
+    	generator = pd.read_sql_query(sql_query , dt_eng)
+        dataframe = pd.DataFrame(generator)
+        
+        return dataframe
+        		  
             
-    def add_meta(self,dataset,table_name,table_meta):
+    def add_meta(self,table_name,table_schema):
         tmp_conn = self.meta_engine.raw_connection()
         dbcur=tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+dataset.dataset_id+"','"+str(table_name)+"','"+str(table_meta)+"');"
+        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+self.dataset.dataset_id+"','"+str(table_name)+"','"+str(table_schema)+"');"
         if result:
             # there is a table named "metatable"
             self.meta_engine.execute(add_row)              
