@@ -1,47 +1,44 @@
 import pandas as pd
 import numpy as np
-import Dataengine as dt
 
-
-class ingest:
+class Ingest:
 
     """Finds the extesion of the file and calls the appropriate reader
 
     Takes as argument the full path name of the  file
     """
 
-    def __init__(self):
-        pass
+    def __init__(self,filepath):
+        self.filepath=filepath
 
-    def findextesion(self, filepath):
+    def findextesion(self):
         """Finds the extesion of the file.
 
         Takes as argument the full path name of the file
          """
-        extention = filepath.split('.')[-1]
+        extention = self.filepath.split('.')[-1]
         return extention
 
-    def reader(self, filepath):
+    def reader(self,dataengine):
         """Calls the appropriate reader for the file
 
         Takes as argument the full path name of the  file
         """
-        if (self.findextesion(filepath) == "csv"):
-            self.csv_reader(filepath)
+        if (self.findextesion() == "csv"):
+            self.csv_reader(dataengine)
 
-    def csv_reader(self, filepath):
+    def csv_reader(self,dataengine):
         """Creates a chunksize of size 20000, reads the csv files and sends the chunk
            to the DataEgine.
 
         Takes as argument the full path name of the csv file
         """
         chunksize = 20000
-        data = dt.dataengine()
-        data.connect()
+        #data.connect()
         first_time = 0
-        for chunk in pd.read_csv(filepath, chunksize=chunksize):
+        for chunk in pd.read_csv(self.filepath, chunksize=chunksize):
             if first_time == 0:
-                name_table = data.register(chunk)
+                name_table = dataengine.register(chunk)
                 first_time = first_time + 1
             else:
-                data.add(chunk, name_table)
+                dataengine.add(chunk, name_table)

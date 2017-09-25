@@ -4,10 +4,11 @@ import sqlalchemy as sqla
 import getpass
 import logging
 import dataset
+import ingest 
 
 
 
-class dataengine:
+class Dataengine:
 
     """Connects our program to the database
 
@@ -17,15 +18,16 @@ class dataengine:
     
     
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    def __init__(self,meta_filepath):
+    def __init__(self,meta_filepath,data_filepath,dataset):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
         self.connect_metadb(meta_filepath)
+        self.dataset=dataset
+        self.data_filepath=data_filepath
         
     
-    @staticmethod
-    def connect_datadb(dt_filepath):
+    def connect_datadb(self):
         """create a connection with the database"""
-        dt_file = open(dt_filepath,"r")
+        dt_file = open(self.data_filepath,"r")
         
         # Connection part for the data 
         addressdt = dt_file.readline()
@@ -36,13 +38,12 @@ class dataengine:
         
         con_str_data="mysql+mysqldb://" + userdt[:-1] +":"+passworddt[:-1]+"@"+addressdt[:-1]+"/"+dbnamedt[:-1]
         
-        data_engine = sqla.create_engine(con_str_data)
+        self.data_engine = sqla.create_engine(con_str_data)
         
         try:
-            data_engine.connect()      
+            self.data_engine.connect()      
         except:
             print("No connection to data database")  
-        return data_engine
      
             
     def connect_metadb(self,meta_filepath):
@@ -72,7 +73,7 @@ class dataengine:
         the name of the table"""
         #name_table = raw_input("please write the name of the table for" +
                               # "the mysql database: ")
-    	table_cols=chunk.columns.tolist()
+    	table_cols=chunk.columns
     	print(table_cols)
     	table_schema=''	
     	for i in table_cols:
@@ -99,25 +100,25 @@ class dataengine:
             logging.warn("failed to insert values")
  
     
-    def retrieve(self,datset,id_table):
-	id1=str(datset.getattribute("id"))
-	id_table=id1+id_table
-	stmt="SELECT *  from"+" "+id_table
-	print (id1,id_table,stmt)
-	Conne=self.connect_datadb('datadb-config.txt')
-	#sql = "SELECT * FROM My_Table"
-	for chunk in pd.read_sql_query(stmt , Conne, chunksize=5):
-    		print(chunk)
+    def retrieve(self,id_table):
+        
+    	id1=str(datset.getattribute("id"))
+    	id_table=id1+id_table
+    	stmt="SELECT *  from"+" "+id_table
+    	print (id1,id_table,stmt)
+    	Conne=self.connect_datadb()
+    	#sql = "SELECT * FROM My_Table"
+    	for chunk in pd.read_sql_query(stmt , Conne, chunksize=5):
+        		print(chunk)
   
-
             
-    def add_meta(self,dataset_id,table_name,table_meta):
+    def add_meta(self,dataset,table_name,table_meta):
         tmp_conn = self.meta_engine.raw_connection()
         dbcur=tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+str(dataset_id)+"','"+str(table_name)+"','"+str(table_meta)+"');"
+        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+dataset.dataset_id+"','"+str(table_name)+"','"+str(table_meta)+"');"
         if result:
             # there is a table named "metatable"
             self.meta_engine.execute(add_row)              
@@ -128,11 +129,13 @@ class dataengine:
 #             dbcur.execute(create_table)
             self.meta_engine.execute(create_table)
             self.meta_engine.execute(add_row)
- 
-a=dataset.Dataset()
-print(a.setatrribute(1,"id"))
-d=dataengine("metadb-config.txt")
-print (d.retrieve(a,"T"))
+
+# a=ingest()
+# a.reader("10.csv") 
+# a=dataset.Dataset()
+# print(a.setatrribute(1,"id"))
+# d=dataengine("metadb-config.txt",'datadb-config.txt',a)
+# print (d.register(chunk))
 #print (  a.atrribute)         
 #d=dataengine("metadb-config.txt")
 #dataengine.connect_datadb('datadb-config.txt')
