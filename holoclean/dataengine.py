@@ -3,6 +3,8 @@ import numpy as np
 import sqlalchemy as sqla
 import getpass
 import logging
+import dataset
+
 
 
 class dataengine:
@@ -97,8 +99,16 @@ class dataengine:
             logging.warn("failed to insert values")
  
     
-    def retrieve(self,database_handler,sql_query):
-        pass
+    def retrieve(self,datset,id_table):
+	id1=str(datset.getattribute("id"))
+	id_table=id1+id_table
+	stmt="SELECT *  from"+" "+id_table
+	print (id1,id_table,stmt)
+	Conne=self.connect_datadb('datadb-config.txt')
+	#sql = "SELECT * FROM My_Table"
+	for chunk in pd.read_sql_query(stmt , Conne, chunksize=5):
+    		print(chunk)
+  
 
             
     def add_meta(self,dataset_id,table_name,table_meta):
@@ -118,7 +128,12 @@ class dataengine:
 #             dbcur.execute(create_table)
             self.meta_engine.execute(create_table)
             self.meta_engine.execute(add_row)
-            
+ 
+a=dataset.Dataset()
+print(a.setatrribute(1,"id"))
+d=dataengine("metadb-config.txt")
+print (d.retrieve(a,"T"))
+#print (  a.atrribute)         
 #d=dataengine("metadb-config.txt")
 #dataengine.connect_datadb('datadb-config.txt')
 #d.add_meta("id_456", "T","index,attribute")
