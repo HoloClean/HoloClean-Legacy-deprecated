@@ -12,6 +12,7 @@ class Dataset:
 		for a in Dataset.attributes:
 			self.attribute[a] = 0
 		self.dataset_id=self.id_generator()
+		self.table_name[0]=self.dataset_id
 		for i in range(1,len(self.attributes)):
 			self.table_name[i]=self.dataset_id+'_'+self.attributes[i]
 	def getattribute(self,attr):

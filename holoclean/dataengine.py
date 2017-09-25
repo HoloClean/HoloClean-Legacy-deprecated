@@ -77,7 +77,6 @@ class Dataengine:
         the name of the table"""
 
     	table_cols=chunk.columns
-    	print(table_cols)
     	table_schema=''	
     	for i in table_cols:
     		table_schema=table_schema+","+str(i)

@@ -13,12 +13,11 @@ class HolocleanSession:
 
 
  
-ds=dataset.Dataset()
-print(ds.attributes)
-d=de.Dataengine("metadb-config.txt",'datadb-config.txt',ds)
-a=ingest.Ingest("10.csv")
-a.reader(d)
-sql_query="Select * from "+ds.table_name[1]
-df=d.retrieve(sql_query)
-
-print(d.get_schema("T"))
+# ds=dataset.Dataset()
+# d=de.Dataengine("metadb-config.txt",'datadb-config.txt',ds)
+# a=ingest.Ingest("10.csv")
+# a.reader(d)
+# sql_query="Select * from "+ds.table_name[1]
+# df=d.retrieve(sql_query)
+# 
+# print(d.get_schema("T"))
