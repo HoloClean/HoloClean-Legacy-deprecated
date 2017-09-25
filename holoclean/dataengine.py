@@ -106,7 +106,7 @@ class Dataengine:
             logging.warn("Failed to insert values")
  
     
-    def retrieve(self,sql_query,chunksize):
+    def retrieve(self,sql_query):
         
     	dt_eng=self.data_engine
     	#sql = "SELECT * FROM My_Table"
@@ -127,12 +127,29 @@ class Dataengine:
             # there is a table named "metatable"
             self.meta_engine.execute(add_row)              
         else:
-            #create db with columns 'dataset_id' , 'tablename' , 'schema'
+            #create db with columns 'dataset_id' , 'tablename' , 'schem'
             # there are no tables named "metatable"
             create_table='CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
 #             dbcur.execute(create_table)
             self.meta_engine.execute(create_table)
             self.meta_engine.execute(add_row)
+            
+            
+    def get_schema(self,table_name):
+        
+
+        sql_query = "SELECT schem FROM metatable Where dataset_id = '"+self.dataset.dataset_id+"' AND  tablename = '"+table_name +"';"
+        mt_eng=self.meta_engine
+        
+        generator = pd.read_sql_query(sql_query , mt_eng)
+        dataframe = pd.DataFrame(generator)
+        
+        try :
+            return dataframe.iloc[0][0]
+        except:
+            return "Not such element"
+
+
 
 # a=ingest()
 # a.reader("10.csv") 

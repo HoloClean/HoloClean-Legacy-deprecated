@@ -14,17 +14,13 @@ class Dataset:
 		self.dataset_id=self.id_generator()
 		for i in range(1,len(self.attributes)):
 			self.table_name[i]=self.dataset_id+'_'+self.attributes[i]
-	def setatrribute(self,value,attr):
-		self.attribute[attr]=value
-		return self.attribute[attr]
 	def getattribute(self,attr):
-		return self.attribute[attr]
+		return self.table_name[attr]
 	
 	def id_generator(self):
 		"""This function create 
 		a random id from the system time
-		"""
-		
+		"""	
 		r=random.seed(datetime.now())
 		return str(random.random())[2:]
 

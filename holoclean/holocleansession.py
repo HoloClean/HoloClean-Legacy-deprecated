@@ -1,9 +1,10 @@
 import pyspark as ps
 import pandas as pd
 import dataengine as de
-import ingest
+import sys
+sys.path.append('../')
 import dataset
-
+from holoclean.utils import ingest
 
 class HolocleanSession:
     
@@ -18,5 +19,6 @@ d=de.Dataengine("metadb-config.txt",'datadb-config.txt',ds)
 a=ingest.Ingest("10.csv")
 a.reader(d)
 sql_query="Select * from "+ds.table_name[1]
-df=d.retrieve(sql_query,4)
-print(df)
+df=d.retrieve(sql_query)
+
+print(d.get_schema("T"))
