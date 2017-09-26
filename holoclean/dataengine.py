@@ -1,10 +1,14 @@
+import os
+import sys
 import pandas as pd
 import numpy as np
 import sqlalchemy as sqla
 import getpass
 import logging
 import dataset
-import ingest 
+sys.path.append('../')
+from holoclean.utils import reader
+
 
 
 
@@ -149,8 +153,18 @@ class Dataengine:
             return "Not such element"
 
 
+    def ingest(self,file_path):
+        """
+        This method creates an instance of the Reader class and write it to db
+        
+        """
+                
+        reader2db=reader.Reader(file_path) #Create Reader
+        reader2db.reader(self)
+        
+        
 
-# a=ingest()
+
 # a.reader("10.csv") 
 # a=dataset.Dataset()
 # print(a.setatrribute(1,"id"))
