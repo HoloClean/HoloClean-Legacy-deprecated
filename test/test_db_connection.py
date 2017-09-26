@@ -2,7 +2,6 @@ import unittest
 import sys
 sys.path.append('../')
 from holoclean import dataengine , dataset 
-from holoclean.utils import ingest
 
 
 class Dbtest(unittest.TestCase):
@@ -10,8 +9,7 @@ class Dbtest(unittest.TestCase):
     
     ds=dataset.Dataset()   
     d=dataengine.Dataengine("metadb-config.txt",'datadb-config.txt',ds)
-    a=ingest.Ingest("10.csv")
-    a.reader(d) 
+    d.ingest("10.csv")
     meta_schema=d.get_schema("T")
     sql_query="Select * from "+ds.table_name[1]
     df=d.retrieve(sql_query)
