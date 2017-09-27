@@ -14,7 +14,7 @@ class DCErrorDetection:
         
 
             
-    def pandas_violated_tuples(self):
+    def proxy_violated_tuples(self):
         
         T_table_name=self.dataengine.dataset.spec_tb_name('T')
         attr_set = self.dataengine.get_schema('T').split(',')
@@ -25,9 +25,10 @@ class DCErrorDetection:
             
             q="SELECT table1.index as indexT1 ,table2.index as indexT2 FROM " + T_table_name + " table1,"+T_table_name+ " table2 WHERE ("+cond+")"
             
-            violates=self.dataengine.retrieve(q)
+            violates=self.dataengine.query(q)
             
-            attr=dcparser.DCParser.get_attribute(cond,attr_set)
+        return violates
+            
             
             
             

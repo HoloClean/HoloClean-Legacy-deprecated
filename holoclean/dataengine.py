@@ -100,16 +100,21 @@ class Dataengine:
         return table_name_spc
         
 	
-	def query(self, sql_query):
-		return self.data_engine.execute(sql_query);
+    def query(self, sql_query):
+        return self.data_engine.execute(sql_query)
 	
-	def register(self, general_table_name, schema):
-		schemaList = schema.split(",")
-		q= "CREATE TABLE " + self.dataset.spec_tb_name(general_table_name)+ "("
-		for i in schemaList:
-			q = q + schemaList[i]+"TEXT,"
-		schemaList = schemaList[:-1]
-		q = q + ");"	
+	
+    def register(self, general_table_name, schema):
+        schemaList = schema.split(",")
+        q= "CREATE TABLE " + self.dataset.spec_tb_name(general_table_name)+ "("
+        for i in schemaList:
+        	q = q + i +" TEXT," 
+        q = q[:-1] + ");"
+
+        self.query(q)
+        
+        
+        
 
     def add(self, name_table , chunk = None):
         """adding the information from the chunk to the table"""
@@ -184,12 +189,12 @@ class Dataengine:
          
         table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
         
-        return self.retrieve(table_get)
+        return self.query(table_get)
         
 
 
 
-# a=dataset.Dataset()
+a=dataset.Dataset()
 # print(a.setatrribute(1,"id"))
 # d=dataengine("metadb-config.txt",'datadb-config.txt',a)
 # print (d.register(chunk))
