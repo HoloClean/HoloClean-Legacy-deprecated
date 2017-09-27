@@ -64,7 +64,7 @@ class Dataengine:
         dbnamemt = meta_file.readline()
         usermt = meta_file.readline()
         passwordmt = meta_file.readline()
-        
+        1
         con_str_meta="mysql+mysqldb://" + usermt[:-1] +":"+passwordmt[:-1]+"@"+addressmt[:-1]+"/"+dbnamemt[:-1]
         
 
@@ -77,7 +77,7 @@ class Dataengine:
             logging.warn("No connection to meta database")
                
 
-    def register(self,table_name,chunk):
+    def _csv2DB(self,table_name,chunk):
         """for the first chunk, create the table and return
         the name of the table"""
 
@@ -99,6 +99,17 @@ class Dataengine:
             
         return table_name_spc
         
+	
+	def query(self, sql_query):
+		return self.data_engine.execute(sql_query);
+	
+	def register(self, general_table_name, schema):
+		schemaList = schema.split(",")
+		q= "CREATE TABLE " + self.dataset.spec_tb_name(general_table_name)+ "("
+		for i in schemaList:
+			q = q + schemaList[i]+"TEXT,"
+		schemaList = schemaList[:-1]
+		q = q + ");"	
 
     def add(self, name_table , chunk = None):
         """adding the information from the chunk to the table"""
