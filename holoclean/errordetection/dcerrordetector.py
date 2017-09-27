@@ -19,13 +19,13 @@ class DCErrorDetection:
         T_table_name=self.dataengine.dataset.spec_tb_name('T')
         attr_set = self.dataengine.get_schema('T').split(',')
         
-        data=[]
+        violates=[]
         
         for cond in  self.and_of_preds:
             
             q="SELECT table1.index as indexT1 ,table2.index as indexT2 FROM " + T_table_name + " table1,"+T_table_name+ " table2 WHERE ("+cond+")"
             
-            violates=self.dataengine.query(q)
+            violates.append(self.dataengine.query(q))
             
         return violates
             
