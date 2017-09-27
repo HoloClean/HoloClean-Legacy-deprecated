@@ -5,18 +5,29 @@ import dataengine as de
 
 class HolocleanSession:
     
-    def __init__(self,dataengine , spark_master_path = None):
+    def __init__(self,dataengine , spark_cluster_path = None):
         self.dataengine=dataengine
-        if spark_master_path is not None:
-            self.spark_master_path=spark_master_path
-        self._start_spark_session(spark_master_path)
+        if spark_cluster_path is not None:
+            self.spark_cluster_path=spark_cluster_path
+        self._start_spark_session(spark_cluster_path)
+    
+    def _covert2_spark_dataframe(self,table_name):
         
-    def _start_spark_session(self,spark_master_path):
-        if spark_master_path is None:
-            #   spark_master_path would be something like 127.0.0.1:7707           
+        """
+        This function by getting the name of the table load it to Spark dataframe
+        """
+        panda_dataframe=  self.dataengine.get_table(table_name)
+        col_names=self.dataengine.get_schema(table_name).split(',')
+        spark_df = self.spark_session.createDataFrame(panda_dataframe,col_names)
+        
+        return spark_df
+    
+    def _start_spark_session(self,spark_cluster_path):
+        if spark_cluster_path is None:
+            #   spark_cluster_path would be something like 127.0.0.1:7707           
              self.spark_session=ps.sql.SparkSession.builder.master("local").appName("Holoclean Session").getOrCreate()
         else:
-            self.spark_session=ps.sql.SparkSession.builder.master(self.spark_master_path).appName("Holoclean Session").getOrCreate()
+            self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
            
 
     def _error_detection(self):

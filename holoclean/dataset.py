@@ -42,4 +42,8 @@ class Dataset:
 		"""	
 		r=random.seed(datetime.now())
 		return str(random.random())[2:]
+	
+	def spec_tb_name(self,table_general_name):
+		return self.table_name[self.attributes.index(table_general_name)]
+		
 

@@ -22,13 +22,14 @@ class Dataengine:
     
     
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    def __init__(self,meta_filepath,data_filepath,dataset):
+    def __init__(self,meta_filepath,data_filepath,dataset,index_name = None):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
         self.data_filepath=data_filepath
         self.meta_filepath=meta_filepath
         self.dataset=dataset
         self.connect_metadb()
         self.connect_datadb()
+        self.index_name=index_name
         
     
     def connect_datadb(self):
@@ -76,7 +77,7 @@ class Dataengine:
             logging.warn("No connection to meta database")
                
 
-    def register(self, chunk):
+    def register(self,table_name,chunk):
         """for the first chunk, create the table and return
         the name of the table"""
 
@@ -88,18 +89,18 @@ class Dataengine:
     	self.add_meta(self.dataset.attributes[1], table_schema)
         
         """Add first table to data"""
-        table_name=self.dataset.table_name[1]
+        table_name_spc=self.dataset.spec_tb_name(table_name)
         try:
-            chunk.to_sql(table_name, con=self.data_engine, if_exists='append',
+            chunk.to_sql(table_name_spc, con=self.data_engine, if_exists='append',
                          index=True, index_label=None)
-            logging.info("Correct insertion for " + table_name)
+            logging.info("Correct insertion for " + table_name_spc)
         except sqla.exc.IntegrityError:
             logging.warn("Failed to insert values")
             
-        return table_name
+        return table_name_spc
         
 
-    def add(self, chunk, name_table):
+    def add(self, name_table , chunk = None):
         """adding the information from the chunk to the table"""
         try:
             chunk.to_sql(name_table, con=self.data_engine, if_exists='append',
@@ -111,11 +112,16 @@ class Dataengine:
     
     def retrieve(self,sql_query):
         
-    	dt_eng=self.data_engine
-    	#sql = "SELECT * FROM My_Table"
-    	generator = pd.read_sql_query(sql_query , dt_eng)
+
+        if self.index_name is not None:
+            generator = pd.read_sql_query(sql_query , self.data_engine )
+        else:
+            generator = pd.read_sql_query(sql_query , self.data_engine  )
         dataframe = pd.DataFrame(generator)
         
+        if 'level_0'  in dataframe.columns:
+            dataframe = dataframe.drop('level_0', 1)
+
         return dataframe
         		  
             
@@ -162,10 +168,16 @@ class Dataengine:
         reader2db=reader.Reader(file_path) #Create Reader
         reader2db.reader(self)
         
+    
+    def get_table(self,table_name):
+         
+        table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
+        
+        return self.retrieve(table_get)
         
 
 
-# a.reader("10.csv") 
+
 # a=dataset.Dataset()
 # print(a.setatrribute(1,"id"))
 # d=dataengine("metadb-config.txt",'datadb-config.txt',a)

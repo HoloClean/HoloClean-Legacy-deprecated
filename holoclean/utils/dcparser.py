@@ -12,6 +12,11 @@ class DCParser:
         
         """
         Creates list of list of sql predicates by parsing the input denial constraints
+        the standard form for the is like 
+        't_i&t_j&EQ(t_i.a,t_j.a)&IQ(t_i.b,t_j.b)' or
+        't1&t2&EQ(t1.c,t2.c)&IQ(t1.a,t2.a)' or
+        't1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)'
+        
         :return: list[list[string]]
         """
 
@@ -81,4 +86,13 @@ class DCParser:
                 for i in range(1,len(parts)):
                     strRes=strRes+" AND "+str(parts[i])
             return strRes 
+    @staticmethod
+    def get_attribute(cond,attributes):
+        attr=set()
+        for attribute in attributes:
+            if attribute in cond:
+                attr.add(attribute)
+        
+        return list(attr)
+        
         

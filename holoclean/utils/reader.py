@@ -51,7 +51,7 @@ class CSVReaders:
         first_time = 0
         for chunk in pd.read_csv(self.file_path, chunksize=self.chunksize):
             if first_time == 0:
-                name_table = dataengine.register(chunk)
+                name_table = dataengine.register('T',chunk)
                 first_time = first_time + 1
             else:
-                dataengine.add(chunk, name_table)
+                dataengine.add(name_table , chunk)
