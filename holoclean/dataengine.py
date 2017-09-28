@@ -101,10 +101,23 @@ class Dataengine:
         
 	
     def query(self, sql_query):
+        """
+        execute the sql_query return the result of the query
+
+        :type sql_query: string
+        "r_type sqla.ResultProxy
+        """
         return self.data_engine.execute(sql_query)
 	
 	
     def register(self, general_table_name, schema):
+        """
+        create a new table in the current db
+
+        :type general_table_name: string
+        :type schema: list[string]
+        :r_type sqla.ResultProxy
+        """
         schemaList = schema.split(",")
         q= "CREATE TABLE " + self.dataset.spec_tb_name(general_table_name)+ "("
         for i in schemaList:
@@ -127,7 +140,12 @@ class Dataengine:
  
     
     def retrieve(self,sql_query):
-        
+        """
+        return the result of sql_query as a DataFrame
+
+        :type sql_query: string
+        :r_type pd.DataFrame
+        """
 
         if self.index_name is not None:
             generator = pd.read_sql_query(sql_query , self.data_engine )
@@ -142,6 +160,12 @@ class Dataengine:
         		  
             
     def add_meta(self,table_name,table_schema):
+        """
+        add table information to the metadata db
+
+        :type table_name: string
+        :type table_schema: list[string]
+        """
         tmp_conn = self.meta_engine.raw_connection()
         dbcur=tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
@@ -161,7 +185,12 @@ class Dataengine:
             
             
     def get_schema(self,table_name):
-        
+        """
+        query and return information about table_name from the metadata db
+
+        :type table_name: string
+        :r_type string
+        """
 
         sql_query = "SELECT schem FROM metatable Where dataset_id = '"+self.dataset.dataset_id+"' AND  tablename = '"+table_name +"';"
         mt_eng=self.meta_engine
