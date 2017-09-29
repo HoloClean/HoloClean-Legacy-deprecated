@@ -1,15 +1,26 @@
 import pyspark as ps
 import pandas as pd
 import dataengine as de
+from pyspark import SparkContext,SparkConf
+from pyspark.sql import SQLContext, Row
+
+
+
 
 
 class HolocleanSession:
     
-    def __init__(self,dataengine , spark_cluster_path = None):
-        self.dataengine=dataengine
-        if spark_cluster_path is not None:
-            self.spark_cluster_path=spark_cluster_path
-        self._start_spark_session(spark_cluster_path)
+   # def __init__(self,dataengine , spark_cluster_path = None):
+    #    self.dataengine=dataengine
+     #   if spark_cluster_path is not None:
+      #      self.spark_cluster_path=spark_cluster_path
+       # self._start_spark_session(spark_cluster_path)
+
+    def __init__(self,spark_cluster_path = None):
+	pass
+      #  if spark_cluster_path is not None:
+       #     self.spark_cluster_path=spark_cluster_path
+       # self._start_spark_session(spark_cluster_path)
     
     def _covert2_spark_dataframe(self,table_name):
         
@@ -22,12 +33,23 @@ class HolocleanSession:
         
         return spark_df
     
-    def _start_spark_session(self,spark_cluster_path):
-        if spark_cluster_path is None:
+    def _start_spark_session(self,spark_cluster_path = None):
+
+	conf=SparkConf()
+	conf.set("spark.executor.extraClassPath", "/home/gmichalo/Downloads/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar")
+	conf.set("spark.driver.extraClassPath", "/home/gmichalo/Downloads/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar")
+	sc = SparkContext(conf=conf)
+	self.sql = SQLContext(sc)
+	spark=self.sql.sparkSession
+      #  if spark_cluster_path is None:
             #   spark_cluster_path would be something like 127.0.0.1:7707           
-             self.spark_session=ps.sql.SparkSession.builder.master("local").appName("Holoclean Session").getOrCreate()
-        else:
-            self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
+       #      self.spark_session=ps.sql.SparkSession.builder.master("local").appName("Holoclean Session").getOrCreate()
+       # else:
+        #    self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
+	return spark
+
+    def return_sqlcontext(self):
+	return self.sql
            
 
     def _error_detection(self):
