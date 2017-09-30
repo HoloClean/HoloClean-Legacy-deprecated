@@ -6,7 +6,7 @@ from holoclean.utils import dcparser
 
 
 holoclean_se=holocleansession.HolocleanSession()
-spark_session=holoclean_se._start_spark_session()
+spark_session=holoclean_se._start_spark_session("/home/gmichalo/Downloads/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar")
 ds=dataset.Dataset()  
 d=dataengine.Dataengine("metadb-config.txt",'datadb-config.txt',ds)
 d.ingest_spark('10.csv',spark_session)

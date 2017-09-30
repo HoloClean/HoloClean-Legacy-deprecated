@@ -33,11 +33,11 @@ class HolocleanSession:
         
         return spark_df
     
-    def _start_spark_session(self,spark_cluster_path = None):
+    def _start_spark_session(self,filepath,spark_cluster_path = None):
 
 	conf=SparkConf()
-	conf.set("spark.executor.extraClassPath", "/home/gmichalo/Downloads/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar")
-	conf.set("spark.driver.extraClassPath", "/home/gmichalo/Downloads/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar")
+	conf.set("spark.executor.extraClassPath", filepath)
+	conf.set("spark.driver.extraClassPath", filepath)
 	sc = SparkContext(conf=conf)
 	self.sql = SQLContext(sc)
 	spark=self.sql.sparkSession
