@@ -8,7 +8,8 @@ import logging
 import dataset
 sys.path.append('../')
 from holoclean.utils import reader
-import mysql.connector
+from sqlalchemy import connectors
+# import mysql.connector
 
 
 
@@ -104,22 +105,22 @@ class Dataengine:
         """for the first chunk, create the table and return
         the name of the table"""
 
-	print (table_schema[0])
-	schema=''
-	for i in table_schema:
-		schema=schema+", "+str(i)
-	table_name_spc=self.dataset.spec_tb_name(table_name)
-    	self.add_meta(self.dataset.attributes[1], schema)   
-	return table_name_spc
+    	print (table_schema[0])
+    	schema=''
+    	for i in table_schema:
+    		schema=schema+", "+str(i)
+    	table_name_spc=self.dataset.spec_tb_name(table_name)
+        self.add_meta(self.dataset.attributes[1], schema)   
+    	return table_name_spc
 
     def _csv2DB_cursor(self,table_name,schema):
         """for the first chunk, create the table and return
         the name of the table"""
 
-	schema=''
-	table_name_spc=self.dataset.spec_tb_name(table_name)
-    	self.add_meta(self.dataset.attributes[1], schema)   
-	return table_name_spc
+    	schema=''
+    	table_name_spc=self.dataset.spec_tb_name(table_name)
+        self.add_meta(self.dataset.attributes[1], schema)   
+    	return table_name_spc
 
 	
         
@@ -128,7 +129,7 @@ class Dataengine:
         return self.data_engine.execute(sql_query)
 
     def query_spark(self,sql_query,sql):
-	dt_file = open(self.data_filepath,"r")
+        dt_file = open(self.data_filepath,"r")
         
      	# Connection part for the data 
         addressdt = dt_file.readline()
@@ -151,40 +152,39 @@ class Dataengine:
         self.query(q)
         
     def add_spark(self, name_table , df):
-         """adding the information from the chunk to the table"""
-	 # Connection part for the data 
-	 dt_file = open(self.data_filepath,"r")
-         addressdt = dt_file.readline()
-         dbnamedt = dt_file.readline()
-         userdt = dt_file.readline()
-         passworddt = dt_file.readline()
-         jdbcUrl1="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]
-
-	 dbProperties = {
-    		"user" : userdt[:-1],
-		"password" : passworddt[:-1]
+        """adding the information from the chunk to the table"""
+        # Connection part for the data 
+        dt_file = open(self.data_filepath,"r")
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        jdbcUrl1="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]
+        dbProperties = {
+            "user" : userdt[:-1],
+            "password" : passworddt[:-1]
 		}
-	 print (name_table)
-         df.write.jdbc(jdbcUrl1, name_table,"overwrite", properties=dbProperties)
+        
+        df.write.jdbc(jdbcUrl1, name_table,"overwrite", properties=dbProperties)
 	
     def add_cursor(self, name_table , csv_file):
-         """adding the information from the chunk to the table"""
-	 # not ready yet
-	 name_table="81789958447_T"
-	 dt_file = open(self.data_filepath,"r")
-         addressdt = dt_file.readline()
-         dbnamedt = dt_file.readline()
-         userdt = dt_file.readline()
-         passworddt = dt_file.readline()
-         mysqlcon="host="+addressdt[:-1]+", user="+userdt[:-1]+", passwd="+passworddt[:-1]+", database="+dbnamedt[:-1]
-	 print mysqlcon
-
-	 db = mysql.connector.connect(host="localhost",user="root", passwd="", database="holocleandb")
-	# db = mysql.connector.connect(mysqlcon)
-    	 cursor = db.cursor()
-   	 load_data_sql = "LOAD DATA INFILE '" + csv_file + "' INTO TABLE "+ name_table
-   	 cursor.execute(load_data_sql)   
-   	 #db.commit()
+        """adding the information from the chunk to the table"""
+        # not ready yet
+        name_table="81789958447_T"
+        dt_file = open(self.data_filepath,"r")
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        mysqlcon="host="+addressdt[:-1]+", user="+userdt[:-1]+", passwd="+passworddt[:-1]+", database="+dbnamedt[:-1]
+        print mysqlcon
+        
+        db = sqlalchemy.connector.connect(host="localhost",user="root", passwd="", database="holocleandb")
+        # db = mysql.connector.connect(mysqlcon)
+        cursor = db.cursor()
+        load_data_sql = "LOAD DATA INFILE '" + csv_file + "' INTO TABLE "+ name_table
+        cursor.execute(load_data_sql)   
+        #db.commit()
 	
         
 
@@ -213,17 +213,15 @@ class Dataengine:
         return dataframe
 
     def retrieve_spark(self,sql_query,sql):
-		 dt_file = open(self.data_filepath,"r")
-        
-     		 # Connection part for the data 
-                 addressdt = dt_file.readline()
-                 dbnamedt = dt_file.readline()
-                 userdt = dt_file.readline()
-                 passworddt = dt_file.readline()
-        	 jdbcUrl="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]+"?user="+userdt[:-1] +"&password="+passworddt[:-1]
-
-        	 df = sql.read.format('jdbc').options(url=jdbcUrl, dbtable="("+sql_query+") as tablename").load()
-		 return df
+        dt_file = open(self.data_filepath,"r")
+        # Connection part for the data 
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        jdbcUrl="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]+"?user="+userdt[:-1] +"&password="+passworddt[:-1]
+        df = sql.read.format('jdbc').options(url=jdbcUrl, dbtable="("+sql_query+") as tablename").load()
+        return df
 
   
 
