@@ -9,7 +9,7 @@ import dataset
 sys.path.append('../')
 from holoclean.utils import reader
 from sqlalchemy import connectors
-# import mysql.connector
+import mysql.connector
 
 
 
@@ -170,19 +170,22 @@ class Dataengine:
     def add_cursor(self, name_table , csv_file):
         """adding the information from the chunk to the table"""
         # not ready yet
-        name_table="81789958447_T"
         dt_file = open(self.data_filepath,"r")
         addressdt = dt_file.readline()
         dbnamedt = dt_file.readline()
         userdt = dt_file.readline()
         passworddt = dt_file.readline()
-        mysqlcon="host="+addressdt[:-1]+", user="+userdt[:-1]+", passwd="+passworddt[:-1]+", database="+dbnamedt[:-1]
-        print mysqlcon
-        
-        db = sqlalchemy.connector.connect(host="localhost",user="root", passwd="", database="holocleandb")
-        # db = mysql.connector.connect(mysqlcon)
+	config = {
+  	'user': userdt[:-1],
+  	'password': passworddt[:-1],
+  	'host': addressdt[:-1],
+  	'database': dbnamedt[:-1]
+	}
+
+
+        db = mysql.connector.connect(**config)
         cursor = db.cursor()
-        load_data_sql = "LOAD DATA INFILE '" + csv_file + "' INTO TABLE "+ name_table
+        load_data_sql = "LOAD DATA INFILE '" + csv_file + "' INTO TABLE "+ name_table + " fields terminated by ','"
         cursor.execute(load_data_sql)   
         #db.commit()
 	
