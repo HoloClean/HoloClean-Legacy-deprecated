@@ -175,12 +175,12 @@ class Dataengine:
         dbnamedt = dt_file.readline()
         userdt = dt_file.readline()
         passworddt = dt_file.readline()
-	config = {
-  	'user': userdt[:-1],
-  	'password': passworddt[:-1],
-  	'host': addressdt[:-1],
-  	'database': dbnamedt[:-1]
-	}
+    	config = {
+      	'user': userdt[:-1],
+      	'password': passworddt[:-1],
+      	'host': addressdt[:-1],
+      	'database': dbnamedt[:-1]
+    	}
 
 
         db = mysql.connector.connect(**config)

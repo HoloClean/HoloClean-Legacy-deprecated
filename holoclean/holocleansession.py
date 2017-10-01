@@ -17,10 +17,9 @@ class HolocleanSession:
        # self._start_spark_session(spark_cluster_path)
 
     def __init__(self,spark_cluster_path = None):
-	pass
-      #  if spark_cluster_path is not None:
-       #     self.spark_cluster_path=spark_cluster_path
-       # self._start_spark_session(spark_cluster_path)
+        if spark_cluster_path is not None:
+            self.spark_cluster_path=spark_cluster_path
+        self._start_spark_session(spark_cluster_path)
     
     def _covert2_spark_dataframe(self,table_name):
         
@@ -35,21 +34,25 @@ class HolocleanSession:
     
     def _start_spark_session(self,filepath,spark_cluster_path = None):
 
-	conf=SparkConf()
-	conf.set("spark.executor.extraClassPath", filepath)
-	conf.set("spark.driver.extraClassPath", filepath)
-	sc = SparkContext(conf=conf)
-	self.sql = SQLContext(sc)
-	spark=self.sql.sparkSession
-      #  if spark_cluster_path is None:
-            #   spark_cluster_path would be something like 127.0.0.1:7707           
-       #      self.spark_session=ps.sql.SparkSession.builder.master("local").appName("Holoclean Session").getOrCreate()
-       # else:
-        #    self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
-	return spark
+    	conf=SparkConf()
+    	conf.set("spark.executor.extraClassPath", filepath)
+    	conf.set("spark.driver.extraClassPath", filepath)
+        if spark_cluster_path is not None:
+            #spark_cluster_path would be something like 127.0.0.1:7707           
+            conf.set("spark.master", spark_cluster_path)
+             
+          #  if spark_cluster_path is None:
+                #   spark_cluster_path would be something like 127.0.0.1:7707           
+           #      self.spark_session=ps.sql.SparkSession.builder.master("local").appName("Holoclean Session").getOrCreate()
+           # else:
+            #    self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
+        sc = SparkContext(conf=conf)
+        self.sql = SQLContext(sc)
+        spark=self.sql.sparkSession
+    	return spark
 
     def return_sqlcontext(self):
-	return self.sql
+        return self.sql
            
 
     def _error_detection(self):
