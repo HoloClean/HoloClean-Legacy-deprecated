@@ -5,17 +5,13 @@ from pyspark import SparkContext,SparkConf
 from pyspark.sql import SQLContext, Row
 sys.path.append('../../')
 from holoclean.errordetection import errordetector
+from holoclean.utils import domainpruning
 
 
 
 
 class HolocleanSession:
     
-   # def __init__(self,dataengine , spark_cluster_path = None):
-    #    self.dataengine=dataengine
-     #   if spark_cluster_path is not None:
-      #      self.spark_cluster_path=spark_cluster_path
-       # self._start_spark_session(spark_cluster_path)
 
     def __init__(self,driver_path,spark_cluster_path = None):
         if spark_cluster_path is not None:
@@ -75,12 +71,27 @@ class HolocleanSession:
         
         return dk_cells_dataframes,clean_cells_dataframes
         
-    def _domain_prunnig(self,c_dk_dataframe = None,data_dataframe = None):
+    def _domain_prunnig(self,c_dk_dataframe = None,data_dataframe = None,new_threshold = None):
         """
         This method will change fill the table D of the dataset that assigned to the dataengine
         
         """
-        pass
+        if c_dk_dataframe is None:
+            c_dk_dataframe = self.dataengine.get_table_spark('C_dk')
+        if data_dataframe is None:
+            data_dataframe = self.dataengine.get_table_spark('T')
+        
+        dom_prun=domainpruning.DomainPruning(data_dataframe,c_dk_dataframe)
+        
+        if new_threshold is not None:
+            dom_prun.set_threshold(new_threshold)
+        
+        prunned_domain_dataframe = dom_prun.allowable_doamin_value(self.spark)
+        
+        self.dataengine.register_spark('D',prunned_domain_dataframe)
+        
+        return prunned_domain_dataframe
+
     
     def _featurizer(self,data_dataframe = None):
         """
