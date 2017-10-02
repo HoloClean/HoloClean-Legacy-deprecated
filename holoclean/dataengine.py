@@ -8,6 +8,8 @@ import logging
 import dataset
 sys.path.append('../')
 from holoclean.utils import reader
+from sqlalchemy import connectors
+import mysql.connector
 
 
 
@@ -22,7 +24,7 @@ class Dataengine:
     
     
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    def __init__(self,meta_filepath,data_filepath,dataset,index_name = None):
+    def __init__(self,meta_filepath,data_filepath,dataset,sql,index_name = None):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
         self.data_filepath=data_filepath
         self.meta_filepath=meta_filepath
@@ -30,6 +32,7 @@ class Dataengine:
         self.connect_metadb()
         self.connect_datadb()
         self.index_name=index_name
+        self.sql=sql
         
     
     def connect_datadb(self):
@@ -98,11 +101,48 @@ class Dataengine:
             logging.warn("Failed to insert values")
             
         return table_name_spc
+
+    def _csv2DB_spark(self,table_name,table_schema):
+        """for the first chunk, create the table and return
+        the name of the table"""
+
+    	print (table_schema[0])
+    	schema=''
+    	for i in table_schema:
+    		schema=schema+","+str(i)
+        
+    	table_name_spc=self.dataset.spec_tb_name(table_name)
+        self.add_meta(table_name, schema[1:])   
+    	return table_name_spc
+
+    def _csv2DB_cursor(self,table_name,schema):
+        """for the first chunk, create the table and return
+        the name of the table"""
+
+    	schema=''
+    	table_name_spc=self.dataset.spec_tb_name(table_name)
+        self.add_meta(self.dataset.attributes[1], schema)   
+    	return table_name_spc
+
+	
         
 	
     def query(self, sql_query):
         return self.data_engine.execute(sql_query)
-	
+
+    def query_spark(self,sql_query,sql):
+        dt_file = open(self.data_filepath,"r")
+        
+     	# Connection part for the data 
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        jdbcUrl="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]+"?user="+userdt[:-1] +"&password="+passworddt[:-1]
+
+        df = sql.read.format('jdbc').options(url=jdbcUrl, dbtable="("+sql_query+") as tablename").load()
+	return df
+		
 	
     def register(self, general_table_name, schema):
         schemaList = schema.split(",")
@@ -113,7 +153,49 @@ class Dataengine:
 
         self.query(q)
         
+    def register_spark(self,table_general_name,spark_dataframe):
+        schema=spark_dataframe.schema.names
+        specific_table_name=self._csv2DB_spark(table_general_name,schema)
+        self._add_spark(specific_table_name, spark_dataframe)
         
+    def _add_spark(self, name_table , df):
+        """Add spark dataframe df with specific name table name_table in the data database with spark session"""
+        # Connection part for the data 
+        dt_file = open(self.data_filepath,"r")
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        jdbcUrl1="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]
+        dbProperties = {
+            "user" : userdt[:-1],
+            "password" : passworddt[:-1]
+		}
+        
+        df.write.jdbc(jdbcUrl1, name_table,"overwrite", properties=dbProperties)
+	
+    def add_cursor(self, name_table , csv_file):
+        """adding the information from the chunk to the table"""
+        # not ready yet
+        dt_file = open(self.data_filepath,"r")
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+    	config = {
+      	'user': userdt[:-1],
+      	'password': passworddt[:-1],
+      	'host': addressdt[:-1],
+      	'database': dbnamedt[:-1]
+    	}
+
+
+        db = mysql.connector.connect(**config)
+        cursor = db.cursor()
+        load_data_sql = "LOAD DATA INFILE '" + csv_file + "' INTO TABLE "+ name_table + " fields terminated by ','"
+        cursor.execute(load_data_sql)   
+        #db.commit()
+	
         
 
     def add(self, name_table , chunk = None):
@@ -139,6 +221,21 @@ class Dataengine:
             dataframe = dataframe.drop('level_0', 1)
 
         return dataframe
+
+    def retrieve_spark(self,sql_query,sql):
+        dt_file = open(self.data_filepath,"r")
+        # Connection part for the data 
+        addressdt = dt_file.readline()
+        dbnamedt = dt_file.readline()
+        userdt = dt_file.readline()
+        passworddt = dt_file.readline()
+        jdbcUrl="jdbc:mysql://" + addressdt[:-1]+"/"+dbnamedt[:-1]+"?user="+userdt[:-1] +"&password="+passworddt[:-1]
+        df = sql.read.format('jdbc').options(url=jdbcUrl, dbtable="("+sql_query+") as tablename").load()
+        return df
+
+  
+
+	
         		  
             
     def add_meta(self,table_name,table_schema):
@@ -184,17 +281,47 @@ class Dataengine:
         reader2db=reader.Reader(file_path) #Create Reader
         reader2db.reader(self)
         
+
+    
+    def ingest_spark(self,file_path,spark_session):
+        """
+        This method creates an instance of the Reader class and write it to db
+        
+        """
+                
+        reader2db=reader.Reader(file_path) #Create Reader
+        df=reader2db.reader_spark(self,spark_session)
+        
+        return df
+
+    def ingest_cursor(self,file_path):
+        """
+        This method creates an instance of the Reader class and write it to db
+        
+        """
+                
+        reader2db=reader.Reader(file_path) #Create Reader
+        reader2db.reader_cursor(self)
+        
     
     def get_table(self,table_name):
          
         table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
         
         return self.query(table_get)
+
+    def get_table_spark(self,table_name):
+        """
+        This method get table general name and return it as spark dataframe
+        """
+         
+        table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
         
+        return self.query_spark(table_get,self.sql)
 
 
 
-a=dataset.Dataset()
+# a=dataset.Dataset()
 # print(a.setatrribute(1,"id"))
 # d=dataengine("metadb-config.txt",'datadb-config.txt',a)
 # print (d.register(chunk))

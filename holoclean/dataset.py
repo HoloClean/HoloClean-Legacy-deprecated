@@ -5,7 +5,7 @@ from datetime import datetime
 class Dataset:
 
 	attributes = ['id','T', 'C_clean', 'C_dk', 'X', 'D', 'Y',
-					'W', 'b', 'Y_prod', 'config']
+					'W', 'b', 'Y_pred', 'config']
 	
 	"""
 	
@@ -20,7 +20,7 @@ class Dataset:
 		Y : is the set of label for the cell in the T 
 		W : table of weights that we learn in the learning section
 		b : is the table that contains the biases that generated in learning part
-		Y_prod : is the table of probabilities for don't know cells  
+		Y_pred : is the table of probabilities for don't know cells  
 	
 	"""
 	
