@@ -4,7 +4,7 @@ NAME
     dataset
 
 FILE
-    /home/peter/Desktop/ura/HoloClean-v0.01/holoclean/dataset.py
+    /HoloClean-v0.01/holoclean/dataset.py
 
 CLASSES
     Dataset
