@@ -5,3 +5,4 @@ tensorflow>=1.0
 pyspark
 MySQL-python
 sqlalchemy
+mysql-connector-python-rf
