@@ -2,8 +2,6 @@ import sys
 import os
 sys.path.append('../')
 from holoclean import holocleansession , dataset , dataengine
-from holoclean.errordetection import dcerrordetector
-from holoclean.utils import dcparser
 
 
 my_path = os.path.abspath(os.path.dirname(__file__))
