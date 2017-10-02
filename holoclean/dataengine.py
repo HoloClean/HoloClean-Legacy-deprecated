@@ -32,7 +32,7 @@ class Dataengine:
         self.connect_metadb()
         self.connect_datadb()
         self.index_name=index_name
-	self.sql=sql
+        self.sql=sql
         
     
     def connect_datadb(self):
@@ -109,9 +109,10 @@ class Dataengine:
     	print (table_schema[0])
     	schema=''
     	for i in table_schema:
-    		schema=schema+", "+str(i)
+    		schema=schema+","+str(i)
+        
     	table_name_spc=self.dataset.spec_tb_name(table_name)
-        self.add_meta(self.dataset.attributes[1], schema)   
+        self.add_meta(table_name, schema[1:])   
     	return table_name_spc
 
     def _csv2DB_cursor(self,table_name,schema):
@@ -152,8 +153,13 @@ class Dataengine:
 
         self.query(q)
         
-    def add_spark(self, name_table , df):
-        """adding the information from the chunk to the table"""
+    def register_spark(self,table_general_name,spark_dataframe):
+        schema=spark_dataframe.schema.names
+        specific_table_name=self._csv2DB_spark(table_general_name,schema)
+        self._add_spark(specific_table_name, spark_dataframe)
+        
+    def _add_spark(self, name_table , df):
+        """Add spark dataframe df with specific name table name_table in the data database with spark session"""
         # Connection part for the data 
         dt_file = open(self.data_filepath,"r")
         addressdt = dt_file.readline()
@@ -284,7 +290,9 @@ class Dataengine:
         """
                 
         reader2db=reader.Reader(file_path) #Create Reader
-        reader2db.reader_spark(self,spark_session)
+        df=reader2db.reader_spark(self,spark_session)
+        
+        return df
 
     def ingest_cursor(self,file_path):
         """
@@ -303,6 +311,9 @@ class Dataengine:
         return self.query(table_get)
 
     def get_table_spark(self,table_name):
+        """
+        This method get table general name and return it as spark dataframe
+        """
          
         table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
         
@@ -310,7 +321,7 @@ class Dataengine:
 
 
 
-a=dataset.Dataset()
+# a=dataset.Dataset()
 # print(a.setatrribute(1,"id"))
 # d=dataengine("metadb-config.txt",'datadb-config.txt',a)
 # print (d.register(chunk))

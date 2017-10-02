@@ -45,7 +45,8 @@ class Reader:
         """
         if (self.findextesion() == "csv"):
             csv_obj = CSVReaders_spark(self.filepath,spark_session)
-            csv_obj.csv_reader(dataengine)
+            df=csv_obj.csv_reader(dataengine)
+            return df
         
         ##### More Extension will come in here ######
         else :
@@ -100,10 +101,12 @@ class CSVReaders_spark:
         Takes as argument the full path name of the csv file
         """
         
-	df=self.spark_session.read.csv("10.csv",header=True)
-	schema=df.schema.names
-	name_table=dataengine._csv2DB_spark('T',schema)
-	dataengine.add_spark(name_table, df)
+    	df=self.spark_session.read.csv("10.csv",header=True)
+    	schema=df.schema.names
+    	name_table=dataengine._csv2DB_spark('T',schema)
+    	dataengine._add_spark(name_table, df)
+        
+        return df
 
 class CSVReaders_cursor:
     
@@ -116,7 +119,7 @@ class CSVReaders_cursor:
 
         Takes as argument the full path name of the csv file
         """
-	schema=""
-	name_table=dataengine._csv2DB_cursor('T',schema)
-	dataengine.add_cursor(name_table,"/var/lib/mysql-files/10.csv")
+        schema=""
+        name_table=dataengine._csv2DB_cursor('T',schema)
+        dataengine.add_cursor(name_table,"/var/lib/mysql-files/10.csv")
 
