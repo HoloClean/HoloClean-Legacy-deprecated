@@ -24,7 +24,7 @@ class Dataengine:
     
     
     #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    def __init__(self,meta_filepath,data_filepath,dataset,index_name = None):
+    def __init__(self,meta_filepath,data_filepath,dataset,sql,index_name = None):
         logging.basicConfig(filename='dataengine.log', level=logging.DEBUG)
         self.data_filepath=data_filepath
         self.meta_filepath=meta_filepath
@@ -32,6 +32,7 @@ class Dataengine:
         self.connect_metadb()
         self.connect_datadb()
         self.index_name=index_name
+	self.sql=sql
         
     
     def connect_datadb(self):
@@ -301,11 +302,11 @@ class Dataengine:
         
         return self.query(table_get)
 
-    def get_table_spark(self,table_name,sql):
+    def get_table_spark(self,table_name):
          
         table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
         
-        return self.query_spark(table_get,sql)
+        return self.query_spark(table_get,self.sql)
 
 
 

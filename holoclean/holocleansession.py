@@ -16,10 +16,10 @@ class HolocleanSession:
       #      self.spark_cluster_path=spark_cluster_path
        # self._start_spark_session(spark_cluster_path)
 
-    def __init__(self,spark_cluster_path = None):
+    def __init__(self,driver_path,spark_cluster_path = None):
         if spark_cluster_path is not None:
             self.spark_cluster_path=spark_cluster_path
-        self._start_spark_session(spark_cluster_path)
+        self._start_spark_session(driver_path,spark_cluster_path)
     
     def _covert2_spark_dataframe(self,table_name):
         
@@ -48,8 +48,11 @@ class HolocleanSession:
             #    self.spark_session=ps.sql.SparkSession.builder.master(self.spark_cluster_path).appName("Holoclean Session").getOrCreate()
         sc = SparkContext(conf=conf)
         self.sql = SQLContext(sc)
-        spark=self.sql.sparkSession
-    	return spark
+	
+        self.spark=self.sql.sparkSession
+
+    def returnspark_session(self):
+	return self.spark
 
     def return_sqlcontext(self):
         return self.sql
