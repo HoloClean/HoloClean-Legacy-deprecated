@@ -35,7 +35,7 @@ class DCParser:
                 dc2sql=''
                 predParts=ruleParts[c].split('(')
                 op=predParts[0]
-                dcOperations.append(op)
+                dcOperations.append(self.operationsArr[self.operationSign.index(op)])
                 predBody=predParts[1][:-1]
                 tmp=predBody.split(',')
                 predLeft=tmp[0]

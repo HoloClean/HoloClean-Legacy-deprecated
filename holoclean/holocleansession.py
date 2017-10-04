@@ -5,6 +5,7 @@ from pyspark import SparkContext,SparkConf
 from pyspark.sql import SQLContext, Row
 sys.path.append('../../')
 from holoclean.errordetection import errordetector
+from holoclean.featurization import featurizer,quantativefeaturizer,dcfeaturizer 
 from holoclean.utils import domainpruning
 
 
@@ -93,16 +94,16 @@ class HolocleanSession:
         return prunned_domain_dataframe
 
     
-    def _featurizer(self,data_dataframe = None):
+    def _featurizer(self,denial_constraints,data_dataframe = None,):
         """
         This method will fill the X based on the 3 signal that we have in the project
         
         """
-	if data_dataframe is None:
+        if data_dataframe is None:
             data_dataframe = self.dataengine.get_table_spark('T')
-	###signal from dc	
-	singledc=self.err.error_feauturize(data_dataframe)
-	singledc.show()
+        dc_featurizer=dcfeaturizer.DCFeaturizer(data_dataframe,denial_constraints)
+        dc_features=dc_featurizer.featurize()
+        
         
     
     def _labeler(self,featurized_dataframe = None,data_dataframe = None):
@@ -115,7 +116,6 @@ class HolocleanSession:
     
     def _learn(self,model_name,prunned_domain_dataframe = None,c_clean_dataframe = None):
         """
-        
         This method will fill W,b tables to dataset that assigned to dataengine. for learning section it uses model_name to
         specifies which model would be use for now we just implement softmax so model_name='softmax'
         
