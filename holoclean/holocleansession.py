@@ -64,8 +64,8 @@ class HolocleanSession:
         if data_dataframe is None:
             data_dataframe = self.dataengine.get_table_spark('T')
         
-        err=errordetector.ErrorDetectors(denial_constarint_standard_list,self.dataengine,self.spark)
-        dk_cells_dataframes,clean_cells_dataframes=err.fill_table(data_dataframe)
+        self.err=errordetector.ErrorDetectors(denial_constarint_standard_list,self.dataengine,self.spark)
+        dk_cells_dataframes,clean_cells_dataframes=self.err.fill_table(data_dataframe)
         self.dataengine.register_spark('C_clean',clean_cells_dataframes)
         self.dataengine.register_spark('C_dk',dk_cells_dataframes)
         
@@ -98,8 +98,12 @@ class HolocleanSession:
         This method will fill the X based on the 3 signal that we have in the project
         
         """
+	if data_dataframe is None:
+            data_dataframe = self.dataengine.get_table_spark('T')
+	###signal from dc	
+	singledc=self.err.error_feauturize(data_dataframe)
+	singledc.show()
         
-        pass
     
     def _labeler(self,featurized_dataframe = None,data_dataframe = None):
         """

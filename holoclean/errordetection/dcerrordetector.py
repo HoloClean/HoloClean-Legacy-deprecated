@@ -17,6 +17,70 @@ class DCErrorDetection:
             q="SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE NOT("+cond+")"        
             satisfied_tuples_index.append(self.spark_session.sql(q))         
         return satisfied_tuples_index
+
+    def index2list(self,dataset):        
+        """
+        Returns list of indices
+        :rtype: list[string]
+        """
+        li_tmp=dataset.select('index').collect()
+        
+        return [i.asDict()['index'] for i in li_tmp ]
+
+    def featurize(self,noviolations,dataset):
+        temp_dataset=dataset
+        num_of_rows=temp_dataset.count()*(len(temp_dataset.columns)-1)
+        data=[]
+	#noviolations[0].show()
+	#dataset.show()
+	#raw_input("input!!!")
+        indexCol=self.index2list(dataset)
+	#print indexCol
+	#print temp_dataset.columns
+	#raw_input("input2!!!")
+        for row in indexCol:
+	  #  print row
+            for p in temp_dataset.columns:
+	#	print p
+                if p!='index':
+                    tm=[-1]*(temp_dataset.count()*len(self.and_of_preds))
+                    data.append([(row, p)]+tm)
+	#print data
+	#raw_input("input2!!!")
+
+        for dc_count in range(0,len(self.and_of_preds)):
+            tmp=noviolations[dc_count] 
+	   # tmp.show()
+	   # print dc_count
+	   # raw_input("asdasddasdasda")          
+            for i in tmp.collect():
+                row_tuple=i.asDict()['ind']
+                col_tuple=i.asDict()['indexT2']
+                for tu_count in range(0,num_of_rows):
+                    cell_info =data[tu_count][0]
+                    curr_tuple_index=cell_info[0]
+                    curr_tuple_attribute=cell_info[1]
+
+                    col_changed=(dc_count) * dataset.count() + indexCol.index(col_tuple) + 1
+                    if self.inclusion(curr_tuple_attribute,dc_count):                       
+                        if int(curr_tuple_index) == int(row_tuple):
+                            data[tu_count][col_changed] = 1
+                    else:
+                        data[tu_count][col_changed] = 0
+
+        col_names=['cell']+[str(i) for i in range(1,temp_dataset.count()*len(self.and_of_preds)+1)]
+
+        new_df = self.spark_session.createDataFrame(data,col_names)
+        
+        return(new_df) 
+ 
+    def inclusion (self, attribute, denial_index):
+        #This function by getting denial_index return TRUE if attribute
+        # included in the denial constraints that index in denial_constraint
+        if attribute in self.and_of_preds[denial_index]:
+            return True
+        else:
+            return False
     
     def violation_tuples(self,dataset):
         

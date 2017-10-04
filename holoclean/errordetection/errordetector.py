@@ -10,8 +10,9 @@ class ErrorDetectors:
         noisy_cells=self.detect_obj.noisy_cells(data_dataframe)
         clean_cells=self.detect_obj.clean_cells(data_dataframe,noisy_cells)
         return noisy_cells,clean_cells
-        
-             
+ 
+    def error_feauturize(self,data_dataframe):
+	return self.detect_obj.featurize(self.detect_obj.no_violation_tuples(data_dataframe),data_dataframe)	         
         
 
   
