@@ -124,6 +124,10 @@ class DCFeaturizer:
     
                 return True
     
+    
+    
+    
+    
     def make_dc_f_table(self):
         view_name=self.make_pre_feature()
         cursor = self.dataengine.data_engine.raw_connection().cursor()
@@ -205,7 +209,26 @@ class DCFeaturizer:
                 cursor.execute(rest_cols_view)
         print ("OK!")
         return table_name,view_names
-    
+
+    def create_views_(self):
+        
+        db_name=self.dataengine.dbname
+        table_name=self.dataengine.dataset.spec_tb_name('T')
+        table_attribute_string=self.dataengine.get_schema('T')
+        table_attribute=table_attribute_string.split(',')
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        print (table_name)
+        view_names=[]
+        for attr in table_attribute:
+            if attr != 'index':
+                attr_alone_view='CREATE VIEW '+db_name+'.'+attr+'_col_'+table_name+' AS SELECT '+table_name+'.index as index1,'+attr+' FROM '+table_name+';'
+                rest_cols_view='CREATE VIEW '+db_name+'.'+attr+'_mis_'+table_name+' AS SELECT '+table_name+'.index as index2,'+self.make_list_drop(table_attribute, attr)+' FROM '+table_name+';'
+                tmp=[attr,db_name+'.'+attr+'_col_'+table_name,db_name+'.'+attr+'_mis_'+table_name]
+                view_names.append(tmp)
+                cursor.execute(attr_alone_view)
+                cursor.execute(rest_cols_view)
+        print ("OK!")
+        return table_name,view_names    
     
 
     def make_list_drop(self,org_list,attr):
