@@ -4,6 +4,8 @@ sys.path.append('../')
 from holoclean import holocleansession , dataset , dataengine
 from holoclean.utils import domainpruning
 from holoclean.featurization import dcfeaturizer
+import time
+
 
 
 
@@ -21,11 +23,18 @@ dcCode=['t1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempTyp
 
 # dk_cells,clean_cells=holoclean_se._error_detection(dcCode,df)
 
-dcf=dcfeaturizer.DCFeaturizer(df,dcCode)
+dcf=dcfeaturizer.DCFeaturizer(df,dcCode,d)
 
-dgf=dcf.pre_features(holoclean_se.returnspark_session())
-dgf.show()
+# dgf=dcf.pre_features(holoclean_se.returnspark_session())
+# dgf.show()
+# table_name,view_names=dcf.create_views()
+start_time_mysql = time.time()
+dcf.make_dc_f_table()
+finish_time_mysql=time.time()
+mysqlv=d.get_table_spark("dc_f")
+print(mysqlv.show())
 
+print("--- %s seconds ---" % (finish_time_spark-start_time_spark))
 
 
 

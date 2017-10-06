@@ -1,7 +1,9 @@
 import sys
+from distributed.diagnostics.progress_stream import counter
 sys.path.append('../../')
 from holoclean.utils import dcparser
 import pyspark as ps
+import sqlalchemy as sa
 
 class DCFeaturizer:
     
@@ -13,10 +15,10 @@ class DCFeaturizer:
 
     
     #For each QuantativeStatisticsFeaturize , data_dataframe and noisy cells are needed
-    def __init__(self,data_dataframe,denial_constraints):
+    def __init__(self,data_dataframe,denial_constraints,dataengine):
         self.data_dataframe=data_dataframe
         self.denial_constraints=denial_constraints
-   
+        self.dataengine=dataengine
  
     #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    
@@ -119,9 +121,113 @@ class DCFeaturizer:
             if result.count()== 0:
                 return False
             else:
+    
                 return True
+    
+    def make_dc_f_table(self):
+        view_name=self.make_pre_feature()
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        create_table='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f')+' AS SELECT * FROM '+view_name+';'
+        cursor.execute(create_table)        
+        
             
-            
+    def make_pre_feature(self):
+        table_name,union_view=self.make_union_view()
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        db_name=self.dataengine.dbname
+        view_name=db_name+'.pre_feature_'+table_name
+        feature_view='CREATE VIEW '+view_name+' AS SELECT rv_index,rv_attr,assigned_val,DCname,tup_id FROM '+union_view+' WHERE (rv_index<>tup_id)'
+        cursor.execute(feature_view)      
+        return view_name
+        
+    def make_union_view(self):
+        table_name,cond_view_name=self.make_dc_view()
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        db_name=self.dataengine.dbname
+        view_name=db_name+'.union_view_'+table_name
+        feature_view='CREATE VIEW '+view_name+' AS '
+        for cond in cond_view_name:
+            feature_view+='SELECT * from '+cond[1]+' UNION '
+        feature_view=feature_view[:-6]
+        feature_view+='GROUP BY rv_index,rv_attr,assigned_val,DCname,tup_id;'
+        cursor.execute(feature_view)
+
+        return table_name,view_name
+    
+    def make_dc_view(self):
+        table_name,prod_view_name=self.make_cross_veiw()
+        dcp=dcparser.DCParser(self.denial_constraints)
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        db_name=self.dataengine.dbname
+#         dc_sql_parts=self.make_and_list(dc_sql_parts)
+        #select city,IF(city IS NOT NULL,'Gooood','bad') as name from holocleandb.prod_view_tempType_0666684774209_T
+        cond_view_name=[]
+        for prod_view in prod_view_name:
+            counter=1
+            for dcs in dc_sql_parts:
+                check_dc_query='CREATE VIEW '+db_name+'.cond_view_'+prod_view[0]+'_'+table_name+'_dc'+str(counter)+' AS SELECT table1.index2 as rv_index,IF(table1.index2 IS NOT NULL,"'+prod_view[0]+'","Bad") as rv_attr,table1.'+prod_view[0]+' as assigned_val,IF(table1.index2 IS NOT NULL,"'+dcs+'","No dc") as DCname,table2.index as tup_id  FROM '+prod_view[1]+' table1,'+table_name+' table2 WHERE ('+dcs+') GROUP BY rv_index,rv_attr,assigned_val,DCname,tup_id;'
+                cond_view_name.append([prod_view[0],db_name+'.cond_view_'+prod_view[0]+'_'+table_name+'_dc'+str(counter)])
+                cursor.execute(check_dc_query)
+                counter+=1
+        return table_name,cond_view_name
+    
+        
+             
+    def make_cross_veiw(self):
+        table_name,view_names=self.create_views()
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        db_name=self.dataengine.dbname
+        prod_view_name=[] 
+        for view_pair in view_names:
+            cross_join_query='CREATE VIEW '+db_name+'.prod_view_'+view_pair[0]+'_'+table_name+' AS SELECT *  FROM '+view_pair[1]+' CROSS JOIN '+view_pair[2]+';'     
+            cursor.execute(cross_join_query)
+            prod_view_name.append([view_pair[0],db_name+'.prod_view_'+view_pair[0]+'_'+table_name])
+        
+        return table_name,prod_view_name
+    
+    def create_views(self):
+        
+        db_name=self.dataengine.dbname
+        table_name=self.dataengine.dataset.spec_tb_name('T')
+        table_attribute_string=self.dataengine.get_schema('T')
+        table_attribute=table_attribute_string.split(',')
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        print (table_name)
+        view_names=[]
+        for attr in table_attribute:
+            if attr != 'index':
+                attr_alone_view='CREATE VIEW '+db_name+'.'+attr+'_col_'+table_name+' AS SELECT '+table_name+'.index as index1,'+attr+' FROM '+table_name+';'
+                rest_cols_view='CREATE VIEW '+db_name+'.'+attr+'_mis_'+table_name+' AS SELECT '+table_name+'.index as index2,'+self.make_list_drop(table_attribute, attr)+' FROM '+table_name+';'
+                tmp=[attr,db_name+'.'+attr+'_col_'+table_name,db_name+'.'+attr+'_mis_'+table_name]
+                view_names.append(tmp)
+                cursor.execute(attr_alone_view)
+                cursor.execute(rest_cols_view)
+        print ("OK!")
+        return table_name,view_names
+    
+    
+
+    def make_list_drop(self,org_list,attr):
+        result=''
+        for i in org_list:
+            if i != attr and i != 'index':
+                result+=i+','
+        return result[:-1]
+
+
+    def make_and_list(self,dc_sql_parts):
+        dc_sql_string=[]
+        for q_l in dc_sql_parts:
+            tmp=''
+            for i in q_l:
+                tmp+=i +' AND '
+            dc_sql_string.append(tmp[:-5])
+        return dc_sql_string
+
+
+
+
 
                          
     

@@ -44,7 +44,7 @@ class Dataengine:
         dbnamedt = dt_file.readline()
         userdt = dt_file.readline()
         passworddt = dt_file.readline()
-        
+        self.dbname=dbnamedt[:-1]
         
         con_str_data="mysql+mysqldb://" + userdt[:-1] +":"+passworddt[:-1]+"@"+addressdt[:-1]+"/"+dbnamedt[:-1]
         
