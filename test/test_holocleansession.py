@@ -3,8 +3,9 @@ import os
 sys.path.append('../')
 from holoclean import holocleansession , dataset , dataengine
 from holoclean.utils import domainpruning
-from holoclean.featurization import dcfeaturizer
+from holoclean.featurization import dc_featurizer
 import time
+from holoclean.utils import dcparser
 
 
 
@@ -22,19 +23,28 @@ df=d.ingest_spark('10.csv',holoclean_se.returnspark_session())
 dcCode=['t1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)']
 
 # dk_cells,clean_cells=holoclean_se._error_detection(dcCode,df)
+dcp=dcparser.DCParser(dcCode)
+dcf=dc_featurizer.DCFeaturizer(df,dcCode,d)
+dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
 
-dcf=dcfeaturizer.DCFeaturizer(df,dcCode,d)
+predsam=dc_sql_parts[0].split(' AND ')[2]
+dcf.make_dc_f_table()
+mysqlv=d.get_table_spark("dc_f")
+print(mysqlv.show(mysqlv.count()))
+
+
 
 # dgf=dcf.pre_features(holoclean_se.returnspark_session())
 # dgf.show()
 # table_name,view_names=dcf.create_views()
-start_time_mysql = time.time()
-dcf.make_dc_f_table()
-finish_time_mysql=time.time()
-mysqlv=d.get_table_spark("dc_f")
-print(mysqlv.show())
+# start_time_mysql = time.time()
+# dcf.create_possible_value()
+# print(dcf.create_init_value())
+# finish_time_mysql=time.time()
+# mysqlv=d.get_table_spark("dc_f")
+# print(mysqlv.show())
 
-print("--- %s seconds ---" % (finish_time_spark-start_time_spark))
+# print("--- %s seconds ---" % (finish_time_spark-start_time_spark))
 
 
 

@@ -3,6 +3,7 @@ from distributed.diagnostics.progress_stream import counter
 sys.path.append('../../')
 from holoclean.utils import dcparser
 import pyspark as ps
+from numpy import unique
 import sqlalchemy as sa
 
 class DCFeaturizer:
@@ -123,15 +124,12 @@ class DCFeaturizer:
             else:
     
                 return True
-    
-    
-    
-    
+       
     
     def make_dc_f_table(self):
         view_name=self.make_pre_feature()
         cursor = self.dataengine.data_engine.raw_connection().cursor()
-        create_table='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f')+' AS SELECT * FROM '+view_name+';'
+        create_table='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f_mysql')+' AS SELECT * FROM '+view_name+';'
         cursor.execute(create_table)        
         
             
@@ -175,9 +173,7 @@ class DCFeaturizer:
                 cursor.execute(check_dc_query)
                 counter+=1
         return table_name,cond_view_name
-    
-        
-             
+                      
     def make_cross_veiw(self):
         table_name,view_names=self.create_views()
         cursor = self.dataengine.data_engine.raw_connection().cursor()
@@ -209,35 +205,127 @@ class DCFeaturizer:
                 cursor.execute(rest_cols_view)
         print ("OK!")
         return table_name,view_names
+    
+    def create_pre_featurize(self):
+        dcp=dcparser.DCParser(self.denial_constraints)
+        possib_view=self.create_possible_value()
+        db_name=self.dataengine.dbname
+        table_name=self.dataengine.dataset.spec_tb_name('T')
+        dc_list=self.create_relaxed_dc()
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
 
-    def create_views_(self):
+        check_dc_query='CREATE VIEW '+db_name+'.result_view_'+'_'+table_name+' AS'        
+        for cnt in range(len(dc_sql_parts)):
+            for rel in dc_list[cnt]:
+                check_dc_query+=' SELECT table3.tid as rv_index,table3.attr_name as rv_attr,table3.attr_val as assigned_val,IF(table3.tid IS NOT NULL,"'+dc_sql_parts[cnt]+'","No dc") as DCname,'+rel[0]+'.index as tup_id FROM '+possib_view+' table3,'+table_name+' table1,'+table_name+' table2 WHERE ('+rel[1]+') UNION'
+        
+        check_dc_query=check_dc_query[:-5]
+        check_dc_query+='GROUP BY rv_index,rv_attr,assigned_val,DCname,tup_id;'
+#         cursor.execute(check_dc_query)
+        print(check_dc_query)
+
+    def create_relaxed_dc(self):
+        dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        relaxed_dcs=[]
+        for dc_sql in dc_sql_parts:
+            tmp_list=[]
+            preds=dc_sql.split('AND')
+            num_of_preds=len(preds)
+            for i in range(num_of_preds):
+                if 'table1' in preds[i]:
+                    tmp=preds[i].replace('table1','table3')
+                    tmp_list.append(['table2',dc_sql.replace(preds[i],tmp)])
+                if 'table2' in preds[i]:
+                    tmp=preds[i].replace('table2','table3')
+                    tmp_list.append(['table1',dc_sql.replace(preds[i],tmp)])
+            relaxed_dcs.append(tmp_list)
+        return relaxed_dcs
+    
+    def make_new_cond(self,cond):
+        list_preds=cond.split(' AND ')
+        new_cond=''
+        for pred in list_preds:
+            new_cond+=self.create_new_pred(pred)+' AND '
+        new_cond=new_cond[:-5]
+        new_pred_parts=new_cond.split(' AND ')
+        tmp=list(unique(new_pred_parts))
+        result=''
+        for e in tmp:
+            result+=e+' AND '
+        result=result[:-5]
+        return result
+        
+        
+        
+    
+    def create_new_pred(self,old_pred):
+        dcp=dcparser.DCParser(self.denial_constraints)
+        op_set=dcp.operationsArr
+        op_set=sorted(op_set, key=len, reverse=True)
+        for oper in op_set:
+            if oper in old_pred:
+                pred_parts=old_pred.split(oper)
+                first_table=pred_parts[0].split('.')[0]
+                first_attr=pred_parts[0].split('.')[1]
+                second_table=pred_parts[1].split('.')[0]
+                second_attr=pred_parts[1].split('.')[1]
+                if second_attr.replace(' ','') != first_attr.replace(' ',''):
+                    new_pred=first_table+'.attr_name='+first_attr+' AND '+second_table+'.attr_name='+second_attr+' AND '+old_pred.replace(first_attr,'attr_val').replace(second_attr,'attr_val')
+                else:
+                    new_pred=first_table+'.attr_name='+second_table+'.attr_name AND '+old_pred.replace(first_attr,'attr_val').replace(second_attr,'attr_val')
+                return new_pred
+        
+    
+               
+    def create_possible_value(self):
         
         db_name=self.dataengine.dbname
         table_name=self.dataengine.dataset.spec_tb_name('T')
         table_attribute_string=self.dataengine.get_schema('T')
         table_attribute=table_attribute_string.split(',')
         cursor = self.dataengine.data_engine.raw_connection().cursor()
-        print (table_name)
         view_names=[]
+        cell_possible_view='CREATE VIEW '+db_name+'.value_possible_'+table_name+' AS'
+        instance1=table_name+'1'
+        instance2=table_name+'2'
+        index_name=instance1+'.index'
         for attr in table_attribute:
             if attr != 'index':
-                attr_alone_view='CREATE VIEW '+db_name+'.'+attr+'_col_'+table_name+' AS SELECT '+table_name+'.index as index1,'+attr+' FROM '+table_name+';'
-                rest_cols_view='CREATE VIEW '+db_name+'.'+attr+'_mis_'+table_name+' AS SELECT '+table_name+'.index as index2,'+self.make_list_drop(table_attribute, attr)+' FROM '+table_name+';'
-                tmp=[attr,db_name+'.'+attr+'_col_'+table_name,db_name+'.'+attr+'_mis_'+table_name]
-                view_names.append(tmp)
-                cursor.execute(attr_alone_view)
-                cursor.execute(rest_cols_view)
-        print ("OK!")
-        return table_name,view_names    
+                cell_possible_view+=' SELECT '+index_name+' as tid,IF('+index_name+' IS NOT NULL,"'+attr+'","Bad") as attr_name,'+instance2+'.'+attr+' as attr_val FROM '+table_name+' '+instance1+','+table_name+' '+instance2+' UNION '
+        cell_possible_view=cell_possible_view[:-6]
+        cell_possible_view+=';'
+        cursor.execute(cell_possible_view)
+        
+        return db_name+'.value_possible_'+table_name  
     
+    def create_init_value(self):
+        
+        db_name=self.dataengine.dbname
+        table_name=self.dataengine.dataset.spec_tb_name('T')
+        table_attribute_string=self.dataengine.get_schema('T')
+        table_attribute=table_attribute_string.split(',')
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        view_names=[]
+        cell_possible_view='CREATE VIEW '+db_name+'.value_init_'+table_name+' AS'
 
+        index_name=table_name+'.index'
+        for attr in table_attribute:
+            if attr != 'index':
+                cell_possible_view+=' SELECT '+index_name+' as tid,IF('+index_name+' IS NOT NULL,"'+attr+'","Bad") as attr_name,'+attr+' as attr_val FROM '+table_name+' UNION '
+        cell_possible_view=cell_possible_view[:-6]
+        cell_possible_view+=';'
+#         cursor.execute(cell_possible_view)
+        print(cell_possible_view)
+        return db_name+'.value_init_'+table_name    
+    
     def make_list_drop(self,org_list,attr):
         result=''
         for i in org_list:
             if i != attr and i != 'index':
                 result+=i+','
         return result[:-1]
-
 
     def make_and_list(self,dc_sql_parts):
         dc_sql_string=[]
