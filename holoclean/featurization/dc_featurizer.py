@@ -1,11 +1,14 @@
 import sys
-from distributed.diagnostics.progress_stream import counter
+#from distributed.diagnostics.progress_stream import counter
 sys.path.append('../../')
 from holoclean.utils import dcparser
 import pyspark as ps
 from numpy import unique
 import sqlalchemy as sa
 import itertools
+from pyspark.sql.functions import lit
+from pyspark.sql.functions import col
+from pyspark.sql.functions import when  
 
 class DCFeaturizer:
     
@@ -30,6 +33,117 @@ class DCFeaturizer:
         final_query=final_query[:-7]
         
         return final_query
+
+
+
+    def create_init_value_spark(self,spark_session):
+	dataframe=spark_session.get_table_spark("T")
+	d=dataframe.columns
+	inside=1
+	for attri in  d:#atributes
+	 if attri!="index":
+		if inside==1:
+			dataframe=dataframe.withColumn("attr_name", lit(attri))
+			dataframe_sel=dataframe.select("index",attri,"attr_name").withColumnRenamed(attri, "atribute_value")
+			inside=2
+		else:
+			dataframe=dataframe.withColumn("attr_name", lit(attri))
+    	 		dataframe_sel=dataframe_sel.unionAll(dataframe.select("index",attri,"attr_name").withColumnRenamed(attri, "atribute_value"))
+    	return dataframe_sel	
+
+    def create_possible_value_spark(self, spark_session):
+	dataframe=spark_session.get_table_spark("T")
+	dataframe1=spark_session.get_table_spark("T")
+
+	d=dataframe.columns
+	inside=1
+	for attri in  d:#atributes
+	 if attri!="index":
+		if inside==1:
+			dataframe=dataframe.withColumn("attr_name", lit(attri))
+			dataframe_cross=dataframe.crossJoin(dataframe1.select("index",attri).withColumnRenamed(attri, "val_name").withColumnRenamed("index", "index2")).select("index","attr_name","val_name").distinct().sort(col("index"))
+			inside=2
+		else:
+			dataframe=dataframe.withColumn("attr_name", lit(attri))
+			dataframe_cross1=dataframe.crossJoin(dataframe1.select("index",attri).withColumnRenamed(attri, "val_name").withColumnRenamed("index", "index2")).select("index","attr_name","val_name").distinct().sort(col("index"))
+    	 		dataframe_cross=dataframe_cross.unionAll(dataframe_cross1)
+
+    	return dataframe_cross
+	
+    def change_con(self,spark_session):
+	dataframe=spark_session.get_table_spark("T")
+	d=dataframe.columns
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        new_dcs=[]
+	i=0
+        for c in dc_sql_parts:
+		list_preds,type_list=self.table_type(c)
+		new_dcs.append(self.table_type_new(list_preds,d,i))
+	return new_dcs
+
+    
+    def table_type_new(self,cond,d,number):
+	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
+	type_list=[]
+	for i in range(0,len(cond)):
+		list_preds=cond[i].split('.')
+		string1=""
+		for p in (0,len(list_preds)-1):
+			if list_preds[p] in d:
+				for text in operationsArr:
+					if text in list_preds[p-1] :
+						list3=list_preds[p-1].split(text)
+						string1="table1.attr_name= '"+list_preds[p]+"' AND " + "table1.val_name"+text+list3[1]+"."+list_preds[p]
+						break
+				for k in range(0,len(cond)):
+					if k!=i:
+						string1=string1+" AND "+cond[k]
+				type_list.append([string1])
+				break
+	final=""
+
+	final=final+"("+type_list[0][0]+")"
+	for i in (1,len(type_list)-1):
+		final=final+" OR "+"("+type_list[i][0]+")"
+	final1=[number,final]
+	return final1
+    
+	
+
+  
+    def make_spark_table(self,spark_session,sqlContext):
+	dataframe1=self.create_possible_value_spark(spark_session)
+	dataframe=spark_session.get_table_spark("T")
+	dataframe.registerTempTable("table2")
+	dataframe1=dataframe.crossJoin(dataframe1.withColumnRenamed("index", "index2"))
+	final1=self.change_con(spark_session)
+	
+	dataframe1.registerTempTable("table1")
+
+
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+
+	for p in range (0, len(dc_sql_parts)):
+		final=final1[p]
+
+		final_number=final[0]
+		final_condition=final[1]
+		dc1="'table1.city=table2.city AND table1.temp>=table2.temp AND table1.tempType<>table2.tempType'"
+		print dc_sql_parts[0]
+		dc="'"+dc_sql_parts[0]+"'"
+		query="""SELECT  distinct  table1.index as rv_index, table1.attr_name as assigned_val, table1.val_name as rv_attr, table2.index as tup_id, IF(table1.index2 IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from table2, table1 where ("""+final_condition+""" )order BY rv_index,rv_attr,assigned_val,DC_name,tup_id"""
+
+		tcp_interactions = sqlContext.sql(query)
+		tcp_interactions.show()
+
+
+
+	
+
+	
+
     
     def make_queries(self):
         init_t_name=self.create_init_value()
@@ -50,7 +164,8 @@ class DCFeaturizer:
                     tup_id=relaxed[2]['table2'][0]
                 tmp='SELECT '+rv_index+'.tid as rv_index,'+rv_index+'.attr_name as rv_attr,'+rv_index+'.attr_val as assigned_val,IF('+rv_index+'.tid  IS NOT NULL,"'+dc_name+'","BAD") as DC,'+tup_id+'.tid as tup_id FROM '+ relaxed[0] +' WHERE '+relaxed[1]    
                 query.append(tmp)
-        relaxed_queries.append(query)
+        relaxed_queries.append(query)	
+
         return relaxed_queries
     
     
@@ -102,6 +217,7 @@ class DCFeaturizer:
         cell_possible_view=cell_possible_view[:-6]
         cell_possible_view+=';'
         cursor.execute(cell_possible_view)
+
         
         return db_name+'.value_possible_'+table_name
     
