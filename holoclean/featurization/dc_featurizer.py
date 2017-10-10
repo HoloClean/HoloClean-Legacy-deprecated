@@ -130,13 +130,10 @@ class DCFeaturizer:
 
 		final_number=final[0]
 		final_condition=final[1]
-		dc1="'table1.city=table2.city AND table1.temp>=table2.temp AND table1.tempType<>table2.tempType'"
-		print dc_sql_parts[0]
 		dc="'"+dc_sql_parts[0]+"'"
 		query="""SELECT  distinct  table1.index as rv_index, table1.attr_name as assigned_val, table1.val_name as rv_attr, table2.index as tup_id, IF(table1.index2 IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from table2, table1 where ("""+final_condition+""" )order BY rv_index,rv_attr,assigned_val,DC_name,tup_id"""
-
-		tcp_interactions = sqlContext.sql(query)
-		tcp_interactions.show()
+		final = sqlContext.sql(query)
+		final.show()
 
 
 
