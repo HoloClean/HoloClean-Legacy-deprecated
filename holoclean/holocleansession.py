@@ -72,26 +72,27 @@ class HolocleanSession:
         
         return dk_cells_dataframes,clean_cells_dataframes
         
-    def _domain_prunnig(self,c_dk_dataframe = None,data_dataframe = None,new_threshold = None):
+    def _domain_prunnig(self,data_dataframe = None,c_dk_dataframe = None,new_threshold = None):
         """
         This method will change fill the table D of the dataset that assigned to the dataengine
         
         """
-        if c_dk_dataframe is None:
-            c_dk_dataframe = self.dataengine.get_table_spark('C_dk')
+
         if data_dataframe is None:
             data_dataframe = self.dataengine.get_table_spark('T')
+        if c_dk_dataframe is None:
+            c_dk_dataframe = self.dataengine.get_table_spark('C_dk')
         
         dom_prun=domainpruning.DomainPruning(data_dataframe,c_dk_dataframe)
         
         if new_threshold is not None:
             dom_prun.set_threshold(new_threshold)
         
-        prunned_domain_dataframe = dom_prun.allowable_doamin_value(self.spark)
+        p_domain_df = dom_prun.allowable_doamin_value(self.spark)
         
-        self.dataengine.register_spark('D',prunned_domain_dataframe)
+        self.dataengine.register_spark('D',p_domain_df)
         
-        return prunned_domain_dataframe
+        return p_domain_df
 
     
     def _featurizer(self,denial_constraints,data_dataframe = None,):
