@@ -21,16 +21,31 @@ df=d.ingest_spark('10.csv',holoclean_se.returnspark_session())
 
 
 dcCode=['t1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)']
+dcCode2=['t1&t2&EQ(t1.zip,t2.zip)&IQ(t1.city,t2.city)']
+
+
+ff=dcparser.DCParser(dcCode)
+standard_list=ff.make_and_condition(conditionInd = 'all')
+holoclean_se._error_detection(dcCode)
+
+
+holoclean_se._domain_prunnig()
+
+print(d.get_table_spark("D").show())
+
+
 
 # dk_cells,clean_cells=holoclean_se._error_detection(dcCode,df)
-dcp=dcparser.DCParser(dcCode)
-dcf=dc_featurizer.DCFeaturizer(df,dcCode,d)
-dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
-
-predsam=dc_sql_parts[0].split(' AND ')[2]
-dcf.make_dc_f_table()
-mysqlv=d.get_table_spark("dc_f")
-print(mysqlv.show(mysqlv.count()))
+# dcp=dcparser.DCParser(dcCode)
+# dcf=dc_featurizer.DCFeaturizer(df,dcCode2,d)
+# dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+# 
+# predsam=dc_sql_parts[0].split(' AND ')[2]
+# x=dcf.make_queries()
+# for i in x[0]:
+#     print(i)
+# mysqlv=d.get_table_spark("dc_f")
+# print(mysqlv.show(mysqlv.count()))
 
 
 

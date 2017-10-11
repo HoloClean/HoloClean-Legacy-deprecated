@@ -32,27 +32,26 @@ class DomainPruning:
                         # Calculate the Pr(v_c | v_attr)
                         
                         num_v_attr=len(self.data_dataframe.filter(self.data_dataframe[attr]==v_attr).collect())    
-                        num_both=len(self.data_dataframe.filter(self.data_dataframe[c_attr]==c_v).filter(self.data_dataframe[attr]==v_attr).collect())
+                        cooc=len(self.data_dataframe.filter(self.data_dataframe[c_attr]==c_v).filter(self.data_dataframe[attr]==v_attr).collect())
                             
-                        pr = float(num_both) / num_v_attr
+                        pr = float(cooc) / num_v_attr
                         if pr >= self.selection_threshold:
                             repair_candidate.add(c_v)
             repair_candidates.append(list(repair_candidate))
-    
         return repair_candidates
     
     #This function get an attribute and return its active domain
     
-    def attribute_active_domain(self,attribute):
+    def attribute_active_domain(self,attr):
         """
-        Returns the full domain of an attribute
+        Returns the full domain of an attr
         :type attr: string
         :rtype: list[string]
         """
         domain = set()
-        tmp=self.data_dataframe.select(attribute).collect()
+        tmp=self.data_dataframe.select(attr).collect()
         for v in range(0,len(tmp)):
-            domain.add(tmp[v].asDict()[attribute])
+            domain.add(tmp[v].asDict()[attr])
         return list(domain) 
     #By using this function we can change the domain pruning threshold
     
@@ -154,3 +153,5 @@ class DomainPruning:
         index=tmp['_1']
         column=tmp['_2']
         return index,column
+    
+    
