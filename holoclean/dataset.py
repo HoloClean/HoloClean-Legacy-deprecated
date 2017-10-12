@@ -5,7 +5,7 @@ from datetime import datetime
 class Dataset:
 
 	attributes = ['id','T', 'C_clean', 'C_dk','dc_f_mysql','dc_f_dd', 'X', 'D', 'Y',
-					'W', 'b', 'Y_pred', 'config']
+					'W', 'b', 'Y_pred', 'config','dc_f1']
 	
 	"""
 	

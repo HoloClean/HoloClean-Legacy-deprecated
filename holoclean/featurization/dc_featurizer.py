@@ -17,6 +17,148 @@ class DCFeaturizer:
         self.denial_constraints=denial_constraints
         self.dataengine=dataengine
     
+    def create_possible_table_value(self):
+        
+        db_name=self.dataengine.dbname
+        table_name=self.dataengine.dataset.spec_tb_name('T')
+        table_attribute_string=self.dataengine.get_schema('T')
+        table_attribute=table_attribute_string.split(',')
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        view_names=[]
+        cell_possible_view='CREATE TABLE '+db_name+'.value_possible1_'+table_name+' AS'
+        instance1=table_name+'1'
+        instance2=table_name+'2'
+        index_name=instance1+'.index'
+        for attr in table_attribute:
+            if attr != 'index':
+                cell_possible_view+=' SELECT '+index_name+' as tid,IF('+index_name+' IS NOT NULL,"'+attr+'","Bad") as attr_name,'+instance2+'.'+attr+' as attr_val FROM '+table_name+' '+instance1+','+table_name+' '+instance2+' UNION '
+        cell_possible_view=cell_possible_view[:-6]
+        cell_possible_view+=';'
+        cursor.execute(cell_possible_view)
+
+	return db_name+'.value_possible1_'+table_name
+   
+    def table_featurizer(self):
+	db_name=self.dataengine.dbname
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        view_names=[]
+	possible_name=self.create_possible_table_value()
+	table_name=self.dataengine.dataset.spec_tb_name('T')
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+	final1=self.change_cond()
+
+	for p in range (0, len(dc_sql_parts)):
+		final=final1[p]
+		final_number=final[0]
+		final_condition=final[1]
+		dc="'"+dc_sql_parts[0]+"'"
+		table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS '
+		table_feaurizer+="""SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) ) order BY rv_index,rv_attr,assigned_val,DC_name,tup_id;"""
+		cursor.execute(table_feaurizer)
+
+	return table_feaurizer
+
+    def table_featurizer_pruning(self):
+	db_name=self.dataengine.dbname
+        cursor = self.dataengine.data_engine.raw_connection().cursor()
+        view_names=[]
+	table_name=self.dataengine.dataset.spec_tb_name('T')
+	possible_name=self.dataengine.dataset.spec_tb_name('D')
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+	final1=self.change_condition()
+
+	for p in range (0, len(dc_sql_parts)):
+		final=final1[p]
+		final_number=final[0]
+		final_condition=final[1]
+		dc="'"+dc_sql_parts[0]+"'"
+		table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS '
+		table_feaurizer+="""SELECT  distinct  table1.index as rv_index, table3.value as assigned_val, table3. attr as rv_attr, table2.index as tup_id, IF(table1.index IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" );"""
+		cursor.execute(table_feaurizer)
+	return table_feaurizer
+
+
+    def change_condition(self):
+	table_attribute_string=self.dataengine.get_schema('T')
+       	d=table_attribute_string.split(',')
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        new_dcs=[]
+	i=0
+        for c in dc_sql_parts:
+		list_preds,type_list=self.table_type(c)
+		new_dcs.append(self.table_type_new_cond(list_preds,d,i))
+	return new_dcs
+
+    def change_cond(self):
+	table_attribute_string=self.dataengine.get_schema('T')
+       	d=table_attribute_string.split(',')
+	dcp=dcparser.DCParser(self.denial_constraints)
+        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        new_dcs=[]
+	i=0
+        for c in dc_sql_parts:
+		list_preds,type_list=self.table_type(c)
+		new_dcs.append(self.table_type_cond(list_preds,d,i))
+	return new_dcs
+
+    
+    def table_type_cond(self,cond,d,number):
+	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
+	type_list=[]
+	for i in range(0,len(cond)):
+		list_preds=cond[i].split('.')
+		string1=""
+		for p in (0,len(list_preds)-1):
+			if list_preds[p] in d:
+				for text in operationsArr:
+					if text in list_preds[p-1] :
+						list3=list_preds[p-1].split(text)
+						string1="table3.attr_name= '"+list_preds[p]+"' AND " + "table3.attr_val"+text+list3[1]+"."+list_preds[p]
+						break
+				for k in range(0,len(cond)):
+					if k!=i:
+						string1=string1+" AND "+cond[k]
+				type_list.append([string1])
+				break
+	final=""
+
+	final=final+"("+type_list[0][0]+")"
+	for i in (1,len(type_list)-1):
+		final=final+" OR "+"("+type_list[i][0]+")"
+	final1=[number,final]
+	return final1
+ 
+    def table_type_new_cond(self,cond,d,number):
+	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
+	type_list=[]
+	for i in range(0,len(cond)):
+		list_preds=cond[i].split('.')
+		string1=""
+		for p in (0,len(list_preds)-1):
+			if list_preds[p] in d:
+				for text in operationsArr:
+					if text in list_preds[p-1] :
+						list3=list_preds[p-1].split(text)
+						string1="table3.attr= '"+list_preds[p]+"' AND " + "table3.value"+text+list3[1]+"."+list_preds[p]
+						break
+				for k in range(0,len(cond)):
+					if k!=i:
+						string1=string1+" AND "+cond[k]
+				type_list.append([string1])
+				break
+	final=""
+
+	final=final+"("+type_list[0][0]+")"
+	for i in (1,len(type_list)-1):
+		final=final+" OR "+"("+type_list[i][0]+")"
+	final1=[number,final]
+	return final1
+
+
+
     def make_dc_f_table(self):
         q=self.create_pre_feature_query()
         cursor = self.dataengine.data_engine.raw_connection().cursor()

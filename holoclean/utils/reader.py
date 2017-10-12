@@ -101,7 +101,7 @@ class CSVReaders_spark:
         Takes as argument the full path name of the csv file
         """
         
-    	df=self.spark_session.read.csv("10.csv",header=True)
+    	df=self.spark_session.read.csv(self.file_path,header=True)
     	schema=df.schema.names
     	name_table=dataengine._csv2DB_spark('T',schema)
     	dataengine._add_spark(name_table, df)
