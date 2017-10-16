@@ -48,14 +48,20 @@ class DCFeaturizer:
         dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
 	final1=self.change_cond()
 
+	table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS (select * from ( '
 	for p in range (0, len(dc_sql_parts)):
 		final=final1[p]
 		final_number=final[0]
 		final_condition=final[1]
 		dc="'"+dc_sql_parts[0]+"'"
-		table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS '
-		table_feaurizer+="""SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) ) order BY rv_index,rv_attr,assigned_val,DC_name,tup_id;"""
-		cursor.execute(table_feaurizer)
+		if p==0:
+			table_feaurizer+="""SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) )"""
+		else:
+			table_feaurizer+=""" UNION SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) )"""
+		
+	table_feaurizer+=""")as table1);"""	
+	cursor.execute(table_feaurizer)
+
 
 	return table_feaurizer
 
@@ -69,14 +75,21 @@ class DCFeaturizer:
         dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
 	final1=self.change_condition()
 
+	table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS (select * from ( '
 	for p in range (0, len(dc_sql_parts)):
 		final=final1[p]
 		final_number=final[0]
 		final_condition=final[1]
 		dc="'"+dc_sql_parts[0]+"'"
-		table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS '
-		table_feaurizer+="""SELECT  distinct  table1.index as rv_index, table3.value as assigned_val, table3. attr as rv_attr, table2.index as tup_id, IF(table1.index IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" );"""
-		cursor.execute(table_feaurizer)
+		
+		if p==0:
+			table_feaurizer+="""SELECT  distinct  table1.index as rv_index, table3.value as assigned_val, table3. attr as rv_attr, table2.index as tup_id, IF(table1.index IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" ) AND (table1.index<>table2.index)"""
+		else:
+			table_feaurizer+=""" UNION SELECT  distinct  table1.index as rv_index, table3.value as assigned_val, table3. attr as rv_attr, table2.index as tup_id, IF(table1.index IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" )  AND (table1.index<>table2.index)"""
+		
+	table_feaurizer+=""")as table1);"""	
+	cursor.execute(table_feaurizer)
+		
 	return table_feaurizer
 
 
