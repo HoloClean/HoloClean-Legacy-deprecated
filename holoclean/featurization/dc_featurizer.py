@@ -77,11 +77,11 @@ class DCFeaturizer:
 	final=[]
 	for c in dataframe.collect():
 		temp=[c['rv_index'],c['rv_attr'],c['feature']]
-		if temp not in teliko:
+		if temp not in final:
 			final.append(temp)
 	query="UPDATE "+self.dataengine.dataset.spec_tb_name('dc_f1')+" SET weight_id= CASE"
-	for i in range(0,len(teliko)):
-		query+=" WHEN  rv_index='"+teliko[i][0]+"'and rv_attr='"+teliko[i][1]+"'and feature='"+teliko[i][2]+"' THEN "+ str(i)
+	for i in range(0,len(final)):
+		query+=" WHEN  rv_index='"+final[i][0]+"'and rv_attr='"+final[i][1]+"'and feature='"+final[i][2]+"' THEN "+ str(i)
 	query+=" END;"
 	self.dataengine.query(query)
 
