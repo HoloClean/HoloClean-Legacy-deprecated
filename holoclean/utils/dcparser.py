@@ -88,6 +88,12 @@ class DCParser:
             return strRes 
     @staticmethod
     def get_attribute(cond,attributes):
+        """
+        returns a list of attributes that are in the conditions
+        :param cond: list[string]
+        :param attributes: list[string]
+        :return: list[string]
+        """
         attr=set()
         for attribute in attributes:
             if attribute in cond:
