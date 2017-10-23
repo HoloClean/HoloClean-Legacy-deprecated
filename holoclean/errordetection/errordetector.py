@@ -1,16 +1,18 @@
 import sys 
 sys.path.append('../')
-import dcerrordetector as dc
+from dcerrordetector import DCErrorDetection
+
 
 class ErrorDetectors:
-    
+    """TODO:
+    This class call different error detection method that we needed
+    """
     def __init__(self,DenialConstraints,dataengine,spark_session,detection_type = None):
         
         if detection_type is None:
-            self.detect_obj=dc.DCErrorDetection(DenialConstraints,dataengine,spark_session)
+            self.detect_obj=DCErrorDetection(DenialConstraints,dataengine,spark_session)
     
     #Setters:
-    
     
     #Getters:
       
