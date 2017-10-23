@@ -3,7 +3,12 @@ sys.path.append('../../')
 from holoclean.utils import dcparser
 
 class DCErrorDetection:
-    
+    """TODO:
+    This class return error
+    cells and clean 
+    cells based on the 
+    denial constraint
+    """
     def __init__(self,DenialConstraints,dataengine,spark_session):
         self.and_of_preds=dcparser.DCParser(DenialConstraints).make_and_condition('all')
         self.dataengine=dataengine
@@ -18,7 +23,7 @@ class DCErrorDetection:
         """
         li_tmp=dataset.select('index').collect()
         
-        return [i.asDict()['index'] for i in li_tmp ]   
+        return [list_count.asDict()['index'] for list_count in li_tmp ]   
     
     def _make_cells(self,tuples_dataframe,cond):
         
@@ -35,8 +40,8 @@ class DCErrorDetection:
         attr_list=dcparser.DCParser.get_attribute(cond,all_list)
         index_data=tuples_dataframe.select('ind').unionAll(tuples_dataframe.select('indexT2')).distinct()
         dc_data=[]
-        for i in attr_list:
-            dc_data.append([i])
+        for attribute in attr_list:
+            dc_data.append([attribute])
         dc_df = self.spark_session.createDataFrame(dc_data,['attr'])
         
         result = index_data.crossJoin(dc_df)
@@ -54,8 +59,8 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df") 
         satisfied_tuples_index=[]
         for cond in  self.and_of_preds: 
-            q="SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"        
-            satisfied_tuples_index.append(self.spark_session.sql(q))         
+            query="SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"        
+            satisfied_tuples_index.append(self.spark_session.sql(query))         
         return satisfied_tuples_index
     
     
@@ -74,8 +79,8 @@ class DCErrorDetection:
         violation = self._violation_tuples(dataset)
         result=self._make_cells(violation[0],self.and_of_preds[0])
         if num_of_constarints>1:
-            for i in range(1,num_of_constarints):
-                result=result.unionAll(self._make_cells(violation[i], self.and_of_preds[i]))
+            for dc_count in range(1,num_of_constarints):
+                result=result.unionAll(self._make_cells(violation[dc_count], self.and_of_preds[dc_count]))
         return result.distinct()    
     
     def get_clean_cells(self,dataset,noisy_cells):
@@ -91,8 +96,8 @@ class DCErrorDetection:
         index_set=self.spark_session.sql(q)
         all_attr=self.dataengine.get_schema("T").split(',')
         rev_attr_list=[]
-        for i in all_attr:
-            rev_attr_list.append([i])
+        for attribute in all_attr:
+            rev_attr_list.append([attribute])
         all_attr_df = self.spark_session.createDataFrame(rev_attr_list,['attr'])
         all_cell=index_set.crossJoin(all_attr_df)
         
