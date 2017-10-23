@@ -25,6 +25,7 @@ class ErrorDetectors:
         
         noisy_cells=self.detect_obj.get_noisy_cells(data_dataframe)
         clean_cells=self.detect_obj.get_clean_cells(data_dataframe,noisy_cells)
+        
         return noisy_cells,clean_cells
  
 	         

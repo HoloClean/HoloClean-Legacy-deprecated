@@ -104,11 +104,3 @@ class DCErrorDetection:
         
         result =all_cell.subtract(noisy_cells) 
         return result    
-
-
-
-    
-
-
-
-

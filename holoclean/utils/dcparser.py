@@ -1,4 +1,11 @@
+
 class DCParser:
+    
+    """TODO:
+    This class parse the dc in format of
+    <first tuple>&<second tuple>&<first predicate>&<second predicate>... 
+    and create strings that SQL comprehensive
+    """  
     
     operationsArr=['=' , '<' , '>' , '<>' , '<=' ,'>=']
     operationSign=['EQ','LT', 'GT','IQ','LTE', 'GTE']
@@ -8,32 +15,34 @@ class DCParser:
     def __init__(self,denial_constraints):
         self.denial_constraints=denial_constraints
     
-    def dc2SqlCondition(self):
+    # Private methods:
+    
+    def _dc_to_Sql_condition(self):
         
         """
         Creates list of list of sql predicates by parsing the input denial constraints
         the standard form for the is like 
         't_i&t_j&EQ(t_i.a,t_j.a)&IQ(t_i.b,t_j.b)' or
-        't1&t2&EQ(t1.c,t2.c)&IQ(t1.a,t2.a)' or
+        't1&t2&EQ(t1.part_counter,t2.part_counter)&IQ(t1.a,t2.a)' or
         't1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)'
         
         :return: list[list[string]]
         """
-
-        
+               
         dcSql=[]
         usedOperations=[]
         numOfContraints=len(self.denial_constraints)
-        for i in range(0,numOfContraints):
-            ruleParts=self.denial_constraints[i].split('&')
+        
+        for dc_count in range(0,numOfContraints):
+            ruleParts=self.denial_constraints[dc_count].split('&')
             firstTuple=ruleParts[0]
             secondTuple=ruleParts[1]
             numOfpredicate=len(ruleParts)-2
             dcOperations=[]
             dc2sqlpred=[]
-            for c in range(2,len(ruleParts)):
+            for part_counter in range(2,len(ruleParts)):
                 dc2sql=''
-                predParts=ruleParts[c].split('(')
+                predParts=ruleParts[part_counter].split('(')
                 op=predParts[0]
                 dcOperations.append(self.operationsArr[self.operationSign.index(op)])
                 predBody=predParts[1][:-1]
@@ -57,19 +66,29 @@ class DCParser:
                     else:
                         dc2sql= dc2sql+ predLeft+ self.operationsArr[self.operationSign.index(op)]+'table2.'+ predRight.split('.')[1]
                 dc2sqlpred.append(dc2sql)
+                
             usedOperations.append(dcOperations)
+            
             dcSql.append(dc2sqlpred) 
+            
         return dcSql,usedOperations
     
-    def make_and_condition(self,conditionInd = 'all'):
+    # Setters:
+    
+    
+    # Getters:
+    
+    def get_anded_string(self,conditionInd = 'all'):
+       
         """
-        return and string or list of string for conditions
+        Return and string or list of string for conditions
         :param conditionInd: int
         :return: string or list[string]
         """
+        
         if conditionInd == 'all':
             andlist=[]
-            result,dc=self.dc2SqlCondition()
+            result,dc=self._dc_to_Sql_condition()
             for parts in result:
                 strRes=str(parts[0])
                 if len(parts)>1:
@@ -79,20 +98,29 @@ class DCParser:
             return andlist
         
         else:
-            result,dc=self.dc2SqlCondition()
+            result,dc=self._dc_to_Sql_condition()
             parts=result[conditionInd]
             strRes=str(parts[0])
             if len(parts)>1:
                 for i in range(1,len(parts)):
                     strRes=strRes+" AND "+str(parts[i])
             return strRes 
+    
+    
     @staticmethod
-    def get_attribute(cond,attributes):
-        attr=set()
-        for attribute in attributes:
-            if attribute in cond:
-                attr.add(attribute)
+    def get_attribute(cond,all_table_attribuites):
         
-        return list(attr)
+        """
+        Return list of attribute in the give denial constraint
+        :param cond: string
+        :return: list[string]
+        """
+                
+        attributes=set()
+        for attribute in all_table_attribuites:
+            if attribute in cond:
+                attributes.add(attribute)
+        
+        return list(attributes)
         
         
