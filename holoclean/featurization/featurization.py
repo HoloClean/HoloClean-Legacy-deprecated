@@ -55,7 +55,7 @@ class Featurizer:
 	self._add_weights()
 
 
-    #Methods	
+    #Internal Methods	
     def _featurization_for_dc(self,table_featurizer,possible_table_name,table_name):
 
 	"""TODO: create the query for the dc part of the featurization"""
