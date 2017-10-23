@@ -18,7 +18,7 @@ class DCFeaturizer:
         self.dataengine=dataengine
     
     def create_possible_table_value(self):
-        
+	"""create a table with all possible values"""
         db_name=self.dataengine.dbname
         table_name=self.dataengine.dataset.spec_tb_name('T')
         table_attribute_string=self.dataengine.get_schema('T')
@@ -38,7 +38,8 @@ class DCFeaturizer:
 
 	return db_name+'.value_possible1_'+table_name
    
-    def table_featurizer(self):
+    def table_featurizer(self,spark_session):
+	"""create a featurization table with three queries. Finally it updates the weights id for each class """
 	db_name=self.dataengine.dbname
         cursor = self.dataengine.data_engine.raw_connection().cursor()
         view_names=[]
@@ -47,25 +48,47 @@ class DCFeaturizer:
 	dcp=dcparser.DCParser(self.denial_constraints)
         dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
 	final1=self.change_cond()
-
 	table_feaurizer='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('dc_f1')+' AS (select * from ( '
 	for p in range (0, len(dc_sql_parts)):
 		final=final1[p]
 		final_number=final[0]
 		final_condition=final[1]
-		dc="'"+dc_sql_parts[0]+"'"
+		dc="',"+dc_sql_parts[0]+"'"
 		if p==0:
-			table_feaurizer+="""SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) )"""
+			table_feaurizer+="""(SELECT distinct    table1.index as rv_index,table3.attr_name as rv_attr, table3.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) ) )"""
 		else:
-			table_feaurizer+=""" UNION SELECT distinct    table1.index as rv_index, table3.attr_val as assigned_val, table3.attr_name as rv_attr, table2.index as tup_id, IF(table3.tid IS NOT NULL, """+dc+""" ,"No dc") as DC_name  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) )"""
-		
-	table_feaurizer+=""")as table1);"""	
+			table_feaurizer+=""" UNION SELECT distinct    table1.index as rv_index,table3.attr_name as rv_attr, table3.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'           ' as weight_id  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition+""" AND (table1.index<>table2.index) )"""
+	
+	table_attribute_string=self.dataengine.get_schema('T')
+        table_attribute=table_attribute_string.split(',')
+	for i in table_attribute:
+		if i!="index":
+			variable="'"+i+"'"
+			variable1="table1."+i
+			final_condition1="table3.attr_name="+variable+" and table1.index=table3.tid"
+			table_feaurizer+=""" union (SELECT distinct    table3.tid as rv_index,table3.attr_name as rv_attr, table3.attr_val as assigned_val, concat ( 'INIT=',"""+ variable1 + """) as feature,'init' AS TYPE,'      ' as weight_id   from """+ table_name+ """ as table1, """+ possible_name+ """ as table3 where ("""+final_condition1+"""  ) )"""
+	
+	table_feaurizer+=""" union (SELECT distinct table3.tid as rv_index,table3.attr_name as rv_attr, table3.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'concur' AS TYPE,'        ' as weight_id  from """+ possible_name+ """ as table1, """+ possible_name+ """ as table3  where (table1.attr_name<>table3.attr_name))"""
+	table_feaurizer+=""")as table1)order by rv_index,rv_attr,feature;"""	
 	cursor.execute(table_feaurizer)
-
+	dataframe=spark_session.get_table_spark("dc_f1")
+	d=dataframe.columns
+	inside=1
+	final=[]
+	for c in dataframe.collect():
+		temp=[c['rv_index'],c['rv_attr'],c['feature']]
+		if temp not in final:
+			final.append(temp)
+	query="UPDATE "+self.dataengine.dataset.spec_tb_name('dc_f1')+" SET weight_id= CASE"
+	for i in range(0,len(final)):
+		query+=" WHEN  rv_index='"+final[i][0]+"'and rv_attr='"+final[i][1]+"'and feature='"+final[i][2]+"' THEN "+ str(i)
+	query+=" END;"
+	self.dataengine.query(query)
 
 	return table_feaurizer
 
     def table_featurizer_pruning(self):
+	"""(incomplete method for featurization after pruning).create a featurization table with three queries. Finally it updates the weights id for each class """
 	db_name=self.dataengine.dbname
         cursor = self.dataengine.data_engine.raw_connection().cursor()
         view_names=[]
@@ -94,6 +117,7 @@ class DCFeaturizer:
 
 
     def change_condition(self):
+	"""for each dc finds the predicates """
 	table_attribute_string=self.dataengine.get_schema('T')
        	d=table_attribute_string.split(',')
 	dcp=dcparser.DCParser(self.denial_constraints)
@@ -106,6 +130,7 @@ class DCFeaturizer:
 	return new_dcs
 
     def change_cond(self):
+	"""for each dc finds the predicates """
 	table_attribute_string=self.dataengine.get_schema('T')
        	d=table_attribute_string.split(',')
 	dcp=dcparser.DCParser(self.denial_constraints)
@@ -119,6 +144,7 @@ class DCFeaturizer:
 
     
     def table_type_cond(self,cond,d,number):
+	"""for each predicats we change it to form that we need for the query"""
 	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
 	type_list=[]
 	for i in range(0,len(cond)):
@@ -145,6 +171,7 @@ class DCFeaturizer:
 	return final1
  
     def table_type_new_cond(self,cond,d,number):
+	"""for each predicats we change it to form that we need for the query"""
 	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
 	type_list=[]
 	for i in range(0,len(cond)):
@@ -192,6 +219,7 @@ class DCFeaturizer:
 
 
     def create_init_value_spark(self,spark_session):
+	"""create initial table in spark"""
 	dataframe=spark_session.get_table_spark("T")
 	d=dataframe.columns
 	inside=1
@@ -207,6 +235,7 @@ class DCFeaturizer:
     	return dataframe_sel	
 
     def create_possible_value_spark(self, spark_session):
+	"""create table for possible values in spark"""
 	dataframe=spark_session.get_table_spark("T")
 	dataframe1=spark_session.get_table_spark("T")
 
@@ -226,6 +255,7 @@ class DCFeaturizer:
     	return dataframe_cross
 	
     def change_con(self,spark_session):
+	"""for each we get the predicates"""
 	dataframe=spark_session.get_table_spark("T")
 	d=dataframe.columns
 	dcp=dcparser.DCParser(self.denial_constraints)
@@ -239,6 +269,7 @@ class DCFeaturizer:
 
     
     def table_type_new(self,cond,d,number):
+	""" we change the predicates in the acceptable form for the queries"""
 	operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
 	type_list=[]
 	for i in range(0,len(cond)):
@@ -268,6 +299,7 @@ class DCFeaturizer:
 
   
     def make_spark_table(self,spark_session,sqlContext):
+	"""create final table  in spark"""
 	dataframe1=self.create_possible_value_spark(spark_session)
 	dataframe=spark_session.get_table_spark("T")
 	dataframe.registerTempTable("table2")
