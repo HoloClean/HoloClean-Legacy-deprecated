@@ -1,6 +1,7 @@
 import sys 
 sys.path.append('../../')
-from holoclean.utils import dcparser
+from holoclean.utils.dcparser import DCParser
+
 
 class DCErrorDetection:
     """TODO:
@@ -10,7 +11,7 @@ class DCErrorDetection:
     denial constraint
     """
     def __init__(self,DenialConstraints,dataengine,spark_session):
-        self.and_of_preds=dcparser.DCParser(DenialConstraints).make_and_condition('all')
+        self.and_of_preds=DCParser(DenialConstraints).make_and_condition('all')
         self.dataengine=dataengine
         self.spark_session=spark_session
 
@@ -37,7 +38,7 @@ class DCErrorDetection:
         
         all_list=self.dataengine.get_schema("T")
         all_list=all_list.split(',')
-        attr_list=dcparser.DCParser.get_attribute(cond,all_list)
+        attr_list=DCParser.get_attribute(cond,all_list)
         index_data=tuples_dataframe.select('ind').unionAll(tuples_dataframe.select('indexT2')).distinct()
         dc_data=[]
         for attribute in attr_list:
