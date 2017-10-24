@@ -10,6 +10,15 @@ class Reader:
 		Takes as an argument the spark_Session from the Data Engine
 	"""
         self.spark_session=spark_session
+        
+    #Internal Methods
+    def _findextesion(self,filepath):
+        """Finds the extesion of the file.
+
+        Takes as argument the full path name of the file
+         """
+        extention = filepath.split('.')[-1]
+        return extention
 
   
     #Setters
@@ -22,24 +31,15 @@ class Reader:
             csv_obj = CSVReaders()
             df=csv_obj.csv_reader(filepath,self.spark_session)
             return df
-        
-        """ TO DO: More Extension """
         else :
             print("This extension doesn't support")
     
-    #Internal Methods
-    def _findextesion(self,filepath):
-        """Finds the extesion of the file.
 
-        Takes as argument the full path name of the file
-         """
-        extention = filepath.split('.')[-1]
-        return extention
 
 
 
 class CSVReaders:
-     """TODO:CSVReader class,Reads a csv file and send its content back"""
+    """TODO:CSVReader class: Reads a csv file and send its content back"""
     
     def __init__(self):
 	pass
