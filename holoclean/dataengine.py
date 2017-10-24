@@ -162,7 +162,7 @@ class DataEngine:
 
         # Store dataframe to DB table
         schema = df.schema.names
-        name_table = dataengine._register_meta_table('T', schema,dataset)
+        name_table = dataengine._register_meta_table('Init', schema,dataset)
         dataengine.add_db_table(name_table, df)
         return
 

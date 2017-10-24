@@ -36,7 +36,7 @@ class DCErrorDetection:
         """
         
         
-        all_list=self.dataengine.get_schema("T")
+        all_list=self.dataengine.get_schema("Init")
         all_list=all_list.split(',')
         attr_list=DCParser.get_attribute(cond,all_list)
         index_data=tuples_dataframe.select('ind').unionAll(tuples_dataframe.select('indexT2')).distinct()
@@ -95,7 +95,7 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df")
         q="SELECT table1.index as ind FROM df table1"
         index_set=self.spark_session.sql(q)
-        all_attr=self.dataengine.get_schema("T").split(',')
+        all_attr=self.dataengine.get_schema("InitT").split(',')
         rev_attr_list=[]
         for attribute in all_attr:
             rev_attr_list.append([attribute])
