@@ -56,7 +56,6 @@ class Dataset:
 
 	#Getter
 	def getattribute(self,attr):
-		"""TODO return the name of the attribute for this dataset"""
 		return self.table_name[attr]
 	
 	

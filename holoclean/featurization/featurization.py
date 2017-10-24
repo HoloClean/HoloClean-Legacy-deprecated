@@ -1,5 +1,3 @@
-import sys
-sys.path.append('../../')
 from holoclean.utils.dcparser import DCParser
 
 class Featurizer:
