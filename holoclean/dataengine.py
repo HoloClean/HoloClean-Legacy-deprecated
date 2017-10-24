@@ -64,6 +64,71 @@ class DataEngine:
             self.holoEnv.log.info("Connection established to data database")
         except:
             self.holoEnv.log.warn("No connection to data database")
+    
+    def _register_meta_table(self,table_name,table_schema,dataset):
+
+        """
+        TO DO:store information for a table to the metatable
+        """
+
+        schema=''
+        for attribute in table_schema:
+            schema=schema+","+str(attribute)
+        
+        table_name_spc=dataset.spec_tb_name(table_name)
+        self._add_meta(table_name, schema[1:],database)   
+        return table_name_spc
+    
+    
+    def _add_meta(self,table_name,table_schema,dataset):
+        tmp_conn = self.db_backend.raw_connection()
+        dbcur=tmp_conn.cursor()
+        stmt = "SHOW TABLES LIKE 'metatable'"
+        dbcur.execute(stmt)
+        result = dbcur.fetchone()
+        add_row="INSERT INTO metatable (dataset_id,tablename,schem) VALUES('"+dataset.dataset_id+"','"+str(table_name)+"','"+str(table_schema)+"');"
+        if result:
+            # there is a table named "metatable"
+            self.db_backend.execute(add_row)              
+        else:
+            #create db with columns 'dataset_id' , 'tablename' , 'schem'
+            # there are no tables named "metatable"
+            create_table='CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
+#             dbcur.execute(create_table)
+            self.db_backend.execute(create_table)
+            self.db_backend.execute(add_row)
+    
+    def _table_to_dataframe(self, table_name ,dataset):
+
+        """
+        This method get table general name and return it as spark dataframe
+        """
+         
+        table_get="Select * from "+dataset.table_name[dataset.attributes.index(table_name)]
+        
+        useSpark=1
+        
+        return self.query(table_get,useSpark)
+
+    def _dataframe_to_table(self, table_name,dataframe,dataset):
+
+        """
+        This method get spark dataframe and a table_name and creates a table.
+        """
+        
+        schema=spark_dataframe.schema.names
+        specific_table_name=self._register_meta_table(table_general_name,schema,dataset)
+        self.add_db_table(specific_table_name, spark_dataframe)
+        
+        
+    def _query_spark(self, sqlQuery):
+
+        """
+        TO DO:execute a query and create a dataframe from the results
+        """
+
+        dataframe = self.sql_ctxt.read.format('jdbc').options(url=self._init_sparksql_url(), dbtable="("+sqlQuery+") as tablename").load()
+        return dataframe
 
     # Getters
     def get_db_backend(self):
@@ -72,25 +137,11 @@ class DataEngine:
 
     # Setters
 
-    def _register_meta_table(self,table_name,table_schema):
-
-	"""
-        TO DO:store information for a table to the metatable
-        """
-
-    	schema=''
-    	for attribute in table_schema:
-    		schema=schema+","+str(attribute)
-        
-    	table_name_spc=self.dataset.spec_tb_name(table_name)
-        self.add_meta(table_name, schema[1:])   
-    	return table_name_spc
-
     def add_db_table(self, name_table, dataframe):
 
-  	"""Add spark dataframe df with specific name table name_table in the data database 
-	with spark session
-	"""
+      	"""Add spark dataframe df with specific name table name_table in the data database 
+    	with spark session
+    	"""
 
         jdbcUrl="jdbc:mysql://" + self.holoEnv.db_host+"/"+self.holoEnv.db_name
         dbProperties = {
@@ -100,9 +151,9 @@ class DataEngine:
         
         dataframe.write.jdbc(jdbcUrl1, name_table,"overwrite", properties=dbProperties)
 
-    def ingest_data(self, filepath):
+    def ingest_data(self, filepath,dataset):
 
-	"""
+        """
         TO DO:load data from a file to a dataframe and store it on the db
         """
         # Spawn new reader and load data into dataframe
@@ -111,53 +162,24 @@ class DataEngine:
 
         # Store dataframe to DB table
         schema = df.schema.names
-        name_table = dataengine._register_meta_table('T', schema)
+        name_table = dataengine._register_meta_table('T', schema,dataset)
         dataengine.add_db_table(name_table, df)
         return
 
     def query(self, sqlQuery,spark_flag=0):
 
-	"""
+        """
         TO DO:execute a query, uses the flag to decide if it will store the results on spark dataframe
         """
 
-	if spark_flag==1:
-		return self.query_spark(sqlQuery)
-	else:
-        	return self.db_backend.excute(sqlQuery)
+    	if spark_flag==1:
+    		return self._query_spark(sqlQuery)
+    	else:
+            return self.db_backend.excute(sqlQuery)
 
 
-    def query_spark(self, sqlQuery):
-
-	"""
-        TO DO:execute a query and create a dataframe from the results
-        """
-
-        dataframe = self.sql_ctxt.read.format('jdbc').options(url=self._init_sparksql_url(), dbtable="("+sqlQuery+") as tablename").load()
-	return dataframe
 
 
-# Member methods
-    def _table_to_dataframe(self, table_name):
-
-        """
-        This method get table general name and return it as spark dataframe
-        """
-         
-        table_get="Select * from "+self.dataset.table_name[self.dataset.attributes.index(table_name)]
-        
-	spark_flag=1
-        return self.query(table_get,spark_flag)
-
-    def _dataframe_to_table(self, table_name,dataframe):
-
-        """
-        This method get spark dataframe and a table_name and creates a table.
-        """
-        
-	schema=spark_dataframe.schema.names
-        specific_table_name=self._register_meta_table(table_general_name,schema)
-        self.add_db_table(specific_table_name, spark_dataframe)
 
 
 
