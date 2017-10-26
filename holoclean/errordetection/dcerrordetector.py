@@ -1,5 +1,4 @@
 import sys
-sys.path.append('../../')
 from holoclean.utils.dcparser import DCParser
 
 
@@ -17,7 +16,8 @@ class DCErrorDetection:
         to the form of SQL constraints
         and it get dataengine to connect to the database
         """
-        self.and_of_preds = DCParser(DenialConstraints).make_and_condition('all')
+        self.and_of_preds = DCParser(DenialConstraints)\
+            .make_and_condition('all')
         self.dataengine = dataengine
         self.spark_session = spark_session
 
@@ -44,7 +44,8 @@ class DCErrorDetection:
         all_list = self.dataengine.get_schema("Init")
         all_list = all_list.split(',')
         attr_list = DCParser.get_attribute(cond, all_list)
-        index_data = tuples_dataframe.select('ind').unionAll(tuples_dataframe.select('indexT2')).distinct()
+        index_data = tuples_dataframe.select('ind')\
+            .unionAll(tuples_dataframe.select('indexT2')).distinct()
         dc_data = []
         for attribute in attr_list:
             dc_data.append([attribute])
@@ -65,7 +66,8 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df")
         satisfied_tuples_index = []
         for cond in self.and_of_preds:
-            query = "SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"
+            query = "SELECT table1.index as ind,table2.index as\
+                indexT2 FROM df table1,df table2 WHERE ("+cond+")"
             satisfied_tuples_index.append(self.spark_session.sql(query))
         return satisfied_tuples_index
 
@@ -85,7 +87,9 @@ class DCErrorDetection:
         result = self._make_cells(violation[0], self.and_of_preds[0])
         if num_of_constarints > 1:
             for dc_count in range(1, num_of_constarints):
-                result = result.unionAll(self._make_cells(violation[dc_count], self.and_of_preds[dc_count]))
+                pred = self.and_of_preds[dc_count]
+                result = result.\
+                    unionAll(self._make_cells(violation[dc_count], pred))
         return result.distinct()
 
     def get_clean_cells(self, dataset, noisy_cells):
@@ -102,7 +106,8 @@ class DCErrorDetection:
         rev_attr_list = []
         for attribute in all_attr:
             rev_attr_list.append([attribute])
-        all_attr_df = self.spark_session.createDataFrame(rev_attr_list, ['attr'])
+        all_attr_df = self.spark_session.\
+            createDataFrame(rev_attr_list, ['attr'])
         all_cell = index_set.crossJoin(all_attr_df)
 
         result = all_cell.subtract(noisy_cells)
