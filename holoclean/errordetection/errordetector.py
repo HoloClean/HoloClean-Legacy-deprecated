@@ -5,8 +5,11 @@ class ErrorDetectors:
     """TODO:
     This class call different error detection method that we needed
     """
-    def __init__(self, DenialConstraints, dataengine, spark_session,
-            detection_type=None):
+    def __init__(self, DenialConstraints,
+                 dataengine,
+                 spark_session,
+                 detection_type=None
+                 ):
         """
         In this class we instantiate a DC error detector and pass dataengine to
         fill correspondence tables in data base
@@ -22,7 +25,7 @@ class ErrorDetectors:
     def get_noisy_dknow_dataframe(self, data_dataframe):
 
         """
-        Return tuple of noisy cells and clean cells dataframes        
+        Return tuple of noisy cells and clean cells dataframes
         :rtype: tuple[spark_dataframe]
         """
 
