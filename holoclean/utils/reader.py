@@ -28,8 +28,8 @@ class Reader:
         Takes as argument the full path name of the  file
         """
         if (self._findextesion(filepath) == "csv"):
-            csv_obj = CSVReaders()
-            df=csv_obj.csv_reader(filepath,self.spark_session)
+            csv_obj = CSVReader()
+            df=csv_obj.read(filepath,self.spark_session)
             return df
         else :
             print("This extension doesn't support")
@@ -38,14 +38,14 @@ class Reader:
 
 
 
-class CSVReaders:
+class CSVReader:
     """TODO:CSVReader class: Reads a csv file and send its content back"""
     
     def __init__(self):
 	pass
 
     #Setters
-    def csv_reader(self,file_path,spark_session):
+    def read(self,file_path,spark_session):
         """Create a dataframe from the csv file
 
         Takes as argument the full path name of the csv file and the spark_session 
