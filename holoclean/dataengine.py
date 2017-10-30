@@ -83,7 +83,8 @@ class DataEngine:
     def _add_meta(self,table_name,table_schema,dataset):
 
 	 """
-        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations (the id of the dataset, the name of the table and the schema) for a new table
+        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations 
+	(the id of the dataset, the name of the table and the schema) for a new table
         """
         tmp_conn = self.db_backend.raw_connection()
         dbcur=tmp_conn.cursor()
