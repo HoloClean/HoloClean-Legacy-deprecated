@@ -65,7 +65,7 @@ class DataEngine:
 	    pass
             #self.holoEnv.log.warn("No connection to data database")
     
-    def _register_meta_table(self,table_name,table_schema,dataset):
+    def _add_info_to_meta(self,table_name,table_schema,dataset):
 
         """
         TO DO:store information for a table to the metatable
@@ -81,6 +81,10 @@ class DataEngine:
     
     
     def _add_meta(self,table_name,table_schema,dataset):
+
+	 """
+        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations (the id of the dataset, the name of the table and the schema) for a new table
+        """
         tmp_conn = self.db_backend.raw_connection()
         dbcur=tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
@@ -117,7 +121,7 @@ class DataEngine:
         """
         
         schema=spark_dataframe.schema.names
-        specific_table_name=self._register_meta_table(table_general_name,schema,dataset)
+        specific_table_name=self._add_info_to_meta(table_general_name,schema,dataset)
         self.add_db_table(specific_table_name, spark_dataframe)
         
         
@@ -162,7 +166,7 @@ class DataEngine:
 
         # Store dataframe to DB table
         schema = df.schema.names
-        name_table = self._register_meta_table('Init', schema,dataset)
+        name_table = self._add_info_to_meta('Init', schema,dataset)
         self.add_db_table(name_table, df)
         return
 
