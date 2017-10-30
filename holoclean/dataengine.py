@@ -60,10 +60,9 @@ class DataEngine:
         """Connect to MySQL database"""
         try:
             self.db_backend.connect()
-            #self.holoEnv.log.info("Connection established to data database")
+            self.holoEnv.log.info("Connection established to data database")
         except:
-	    pass
-            #self.holoEnv.log.warn("No connection to data database")
+            self.holoEnv.log.warn("No connection to data database")
     
     def _add_info_to_meta(self,table_name,table_schema,dataset):
 
@@ -82,7 +81,7 @@ class DataEngine:
     
     def _add_meta(self,table_name,table_schema,dataset):
 
-	 """
+	"""
         TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations 
 	(the id of the dataset, the name of the table and the schema) for a new table
         """

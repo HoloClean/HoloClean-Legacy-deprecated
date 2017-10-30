@@ -201,7 +201,6 @@ class Session:
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
 	self.dataset=Dataset() 
 	self.holo_env.dataengine.ingest_data(src_path,self.dataset)
-	print self.dataset.spec_tb_name('Init')
         return
 
     def add_featurizer(self, newFeaturizer):
