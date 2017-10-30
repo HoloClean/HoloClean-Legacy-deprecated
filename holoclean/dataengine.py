@@ -4,9 +4,8 @@ import sys
 import logging
 import sqlalchemy as sqla
 import mysql.connector
-from holoclean import *
-from holoclean.dataset import *
-from holoclean.utils.reader import Reader
+from dataset import *
+from utils.reader import Reader
 
 
 class DataEngine:
@@ -33,7 +32,7 @@ class DataEngine:
         self.db_backend = self._start_db()
         self._db_connect()
         self.sparkSqlUrl = self._init_sparksql_url()
-        self.sql_ctxt = self.holoEnv.sql_ctxt
+        self.sql_ctxt = self.holoEnv.spark_sql_ctxt
 
         # Init spark dataframe store
         self.spark_dataframes = {}
@@ -61,9 +60,10 @@ class DataEngine:
         """Connect to MySQL database"""
         try:
             self.db_backend.connect()
-            self.holoEnv.log.info("Connection established to data database")
+            #self.holoEnv.log.info("Connection established to data database")
         except:
-            self.holoEnv.log.warn("No connection to data database")
+	    pass
+            #self.holoEnv.log.warn("No connection to data database")
     
     def _register_meta_table(self,table_name,table_schema,dataset):
 
@@ -76,7 +76,7 @@ class DataEngine:
             schema=schema+","+str(attribute)
         
         table_name_spc=dataset.spec_tb_name(table_name)
-        self._add_meta(table_name, schema[1:],database)   
+        self._add_meta(table_name, schema[1:],dataset)   
         return table_name_spc
     
     
@@ -149,7 +149,7 @@ class DataEngine:
             "password" : self.holoEnv.db_pwd
 		}
         
-        dataframe.write.jdbc(jdbcUrl1, name_table,"overwrite", properties=dbProperties)
+        dataframe.write.jdbc(jdbcUrl, name_table,"overwrite", properties=dbProperties)
 
     def ingest_data(self, filepath,dataset):
 
@@ -158,12 +158,12 @@ class DataEngine:
         """
         # Spawn new reader and load data into dataframe
         fileReader = Reader(self.holoEnv.spark_session)
-        df = fileReader.read(self, filepath)
+        df = fileReader.read(filepath)
 
         # Store dataframe to DB table
         schema = df.schema.names
-        name_table = dataengine._register_meta_table('Init', schema,dataset)
-        dataengine.add_db_table(name_table, df)
+        name_table = self._register_meta_table('Init', schema,dataset)
+        self.add_db_table(name_table, df)
         return
 
     def query(self, sqlQuery,spark_flag=0):

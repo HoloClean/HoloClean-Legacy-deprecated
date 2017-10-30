@@ -2,9 +2,10 @@
 
 import sys
 import logging
-from holoclean.dataengine import DataEngine
+from dataengine import DataEngine
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext, Row
+from dataset import Dataset
 
 # Define arguments for HoloClean
 arguments = [
@@ -45,6 +46,7 @@ arguments = [
          'type': str,
          'help': 'Spark cluster address'}),
 ]
+
 
 flags = [
     (('-q', '--quiet'),
@@ -105,9 +107,10 @@ class HoloClean:
             self.log = None
 
         # Initialize dataengine and spark session
-        self.dataengine = self._init_dataengine()
+        
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
-
+	self.dataengine = self._init_dataengine()	
+	
         # Init empty session collection
         self.session = {}
         self.session_id = 0
@@ -115,15 +118,15 @@ class HoloClean:
     # Internal methods
     def _init_dataengine(self):
         """TODO: Initialize HoloClean's Data Engine"""
-        if self.dataengine:
-            return
+       # if self.dataengine:
+        #    return
         dataEngine = DataEngine(self)
         return dataEngine
 
     def _init_spark(self):
         """TODO: Initialize Spark Session"""
-        if self.spark_session and self.spark_sql_ctxt:
-            return
+        #if self.spark_session and self.spark_sql_ctxt:
+         #   return
 
         # Set spark configuration
         conf = SparkConf()
@@ -196,6 +199,9 @@ class Session:
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
+	self.dataset=Dataset() 
+	self.holo_env.dataengine.ingest_data(src_path,self.dataset)
+	print self.dataset.spec_tb_name('Init')
         return
 
     def add_featurizer(self, newFeaturizer):
@@ -234,50 +240,4 @@ class Session:
         """TODO: Returns suggested repair"""
         return
 
-    # def _error_detection(self,denial_constarint_standard_list,data_dataframe = None):
-    #     """
-    #     This method will fill the two table clean and dont-know cell in the dataset that assigned to the dataegine
-    #
-    #     """
-    #     if data_dataframe is None:
-    #         data_dataframe = self.dataengine.get_table_spark('T')
-    #
-    #     self.err=errordetector.ErrorDetectors(denial_constarint_standard_list,self.dataengine,self.spark)
-    #     dk_cells_dataframes,clean_cells_dataframes=self.err.fill_table(data_dataframe)
-    #     self.dataengine.register_spark('C_clean',clean_cells_dataframes)
-    #     self.dataengine.register_spark('C_dk',dk_cells_dataframes)
-    #
-    #     return dk_cells_dataframes,clean_cells_dataframes
-    #
-    # def _domain_prunnig(self,data_dataframe = None,c_dk_dataframe = None,new_threshold = None):
-    #     """
-    #     This method will change fill the table D of the dataset that assigned to the dataengine
-    #
-    #     """
-    #
-    #     if data_dataframe is None:
-    #         data_dataframe = self.dataengine.get_table_spark('T')
-    #     if c_dk_dataframe is None:
-    #         c_dk_dataframe = self.dataengine.get_table_spark('C_dk')
-    #
-    #     dom_prun=domainpruning.DomainPruning(data_dataframe,c_dk_dataframe)
-    #
-    #     if new_threshold is not None:
-    #         dom_prun.set_threshold(new_threshold)
-    #
-    #     p_domain_df = dom_prun.allowable_doamin_value(self.spark)
-    #
-    #     self.dataengine.register_spark('D',p_domain_df)
-    #
-    #     return p_domain_df
-    #
-    #
-    # def _featurizer(self,denial_constraints,data_dataframe = None,):
-    #     """
-    #     This method will fill the X based on the 3 signal that we have in the project
-    #
-    #     """
-    #     if data_dataframe is None:
-    #         data_dataframe = self.dataengine.get_table_spark('T')
-    #     dc_featurizer=dcfeaturizer.DCFeaturizer(data_dataframe,denial_constraints)
-    #     dc_features=dc_featurizer.featurize()
+
