@@ -3,8 +3,8 @@ from datetime import datetime
 
 class Dataset:
 
-	attributes = ['id','Init', 'C_clean', 'C_dk','dc_f_mysql','dc_f_dd', 'Feature_', 'Domain', 'Labels',
-					'Weights', 'biases', 'Probabilities', 'config','dc_f1']
+	attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature_', 'Domain', 'Labels',
+					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1']
 	
 	"""
 	
@@ -24,7 +24,7 @@ class Dataset:
 	
 	"""
 	
-	table_name=['']*len(attributes)
+	self.dataset_tables_specific_name = [''] * len(attributes)
 	def __init__(self):
 		"""TODO.
 
@@ -41,27 +41,25 @@ class Dataset:
 		self.attribute = {}
 		for a in Dataset.attributes:
 			self.attribute[a] = 0
-		self.dataset_id=self._id_generator()
-		self.table_name[0]=self.dataset_id
-		for i in range(1,len(self.attributes)):
-			self.table_name[i]=self.dataset_id+'_'+self.attributes[i]
+		self.dataset_id = self._id_generator()
+		self.dataset_tables_specific_name[0] = self.dataset_id
+		for i in range(1, len(self.attributes)):
+			self.dataset_tables_specific_name[i] = self.dataset_id+'_' + self.attributes[i]
 			
-	#Internal methods
+	# Internal methods
 	def _id_generator(self):
 		"""This function create 
 		a random id from the system time
 		"""	
-		r=random.seed(datetime.now())
+		r = random.seed(datetime.now())
 		return str(random.random())[2:]
 
-	#Getter
-	def getattribute(self,attr):
-		return self.table_name[attr]
-	
-	
-	
-	def spec_tb_name(self,table_general_name):
-		"""TODO return the name of the table for this dataset"""
-		return self.table_name[self.attributes.index(table_general_name)]
-		
+	# Getters
+	def getattribute(self, attr):
+		return self.dataset_tables_specific_name[attr]
 
+	def table_specific_name(self, table_general_name):
+		"""TODO return the name of the table for this dataset"""
+		return self.dataset_tables_specific_name[self.attributes.index(table_general_name)]
+		
+	# Setters
