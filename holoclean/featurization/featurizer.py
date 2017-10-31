@@ -1,11 +1,11 @@
-from holoclean.utils.dcparser import DCParser
+from utils.dcparser import DCParser
 
 class Featurizer:
     """TODO.
     Creates the table for the featurization
     """
     
-    def __init__(self,denial_constraints,dataengine):
+    def __init__(self,denial_constraints,dataengine,dataset):
 	"""TODO.
 	Parameters
 	--------
@@ -13,6 +13,7 @@ class Featurizer:
 	"""
         self.denial_constraints=denial_constraints
         self.dataengine=dataengine
+	self.dataset=dataset
         
     #Internal Methods    
     def _query_for_featurization_of_dc(self,query_for_featurization,possible_table_name,table_name):
@@ -28,7 +29,7 @@ class Featurizer:
         """
         
         dcp=DCParser(self.denial_constraints)
-        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        dc_sql_parts=dcp.get_anded_string(conditionInd = 'all')
         new_dc=self._create_new_dc()
         for index_dc in range (0, len(dc_sql_parts)):
             new_condition=new_dc[index_dc ]
@@ -37,7 +38,7 @@ class Featurizer:
                 query_for_featurization+="""(SELECT distinct    table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
             else:
                 #if you have more than one dc
-                query_for_featurization+=""" UNION SELECT distinct    table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'           ' as weight_id  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) )"""
+                query_for_featurization+=""" UNION (SELECT distinct    table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ table_name +""" as table2, """+ table_name+ """ as table1, """+ possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
         return query_for_featurization
     
     def _query_for_featurization_of_init(self,query_for_featurization,possible_table_name,table_name):
@@ -53,8 +54,9 @@ class Featurizer:
 	
         """
         
-        table_attribute_string=self.dataengine.get_schema('Init')
-        table_attribute=table_attribute_string.split(',')
+        dataframe=self.dataengine._table_to_dataframe("Init",self.dataset)
+        table_attribute=dataframe.columns
+
         for attribute in table_attribute:
             if attribute !="index":
                 str_attribute="'"+attribute +"'"
@@ -85,14 +87,14 @@ class Featurizer:
         This method updates the values of weights for the featurization table"
 	"""
         
-        dataframe=self.dataengine.get_table_spark("Feature")
+        dataframe=self.dataengine._table_to_dataframe("Feature",self.dataset)
         d=dataframe.columns
         groups=[]
         for c in dataframe.collect():
             temp=[c['rv_index'],c['rv_attr'],c['feature']]
             if temp not in groups:
                 groups.append(temp)
-        query="UPDATE "+self.dataengine.dataset.spec_tb_name('Feature')+" SET weight_id= CASE"
+        query="UPDATE "+self.dataset.spec_tb_name('Feature')+" SET weight_id= CASE"
         for weight_id in range(0,len(groups)):
             query+=" WHEN  rv_index='"+groups[weight_id][0]+"'and rv_attr='"+groups[weight_id][1]+"'and feature='"+groups[weight_id][2]+"' THEN "+ str(weight_id)
         query+=" END;"
@@ -105,10 +107,10 @@ class Featurizer:
         For each dc we change the predicates, and return the new type of dc 
 	"""
        
-        table_attribute_string=self.dataengine.get_schema('Init')
-        attributes=table_attribute_string.split(',')
+       	dataframe=self.dataengine._table_to_dataframe("Init",self.dataset)
+        attributes=dataframe.columns
         dcp=DCParser(self.denial_constraints)
-        dc_sql_parts=dcp.make_and_condition(conditionInd = 'all')
+        dc_sql_parts=dcp.get_anded_string(conditionInd = 'all')
         new_dcs=[]
         dc_id=0
         for c in dc_sql_parts:
@@ -171,15 +173,14 @@ class Featurizer:
 	"""
         This method creates the table for the featurization by combining queries
         """
-        cursor = self.dataengine.data_engine.raw_connection().cursor()
-        possible_table_name=self.dataengine.dataset.spec_tb_name('Domain')
-        table_name=self.dataengine.dataset.spec_tb_name('Init')
-        query_for_featurization='CREATE TABLE '+self.dataengine.dataset.spec_tb_name('Feature')+' AS (select * from ( '
+        possible_table_name=self.dataset.spec_tb_name('Domain')
+        table_name=self.dataset.spec_tb_name('Init')
+        query_for_featurization='CREATE TABLE '+self.dataset.spec_tb_name('Feature')+' AS (select * from ( '
         query_for_featurization=self._query_for_featurization_of_dc(query_for_featurization,possible_table_name,table_name)
         query_for_featurization=self._query_for_featurization_of_init(query_for_featurization,possible_table_name,table_name)
         query_for_featurization=self._query_for_featurization_of_cooccur(query_for_featurization,possible_table_name,table_name)
 	query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;"""
-        cursor.execute(query_for_featurization)
+        self.dataengine.query(query_for_featurization)
         self._add_weights()
 
    

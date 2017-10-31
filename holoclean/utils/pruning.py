@@ -9,7 +9,7 @@ class random_var:
 class Pruning:
 
     """TODO:Pruning class: Creates the domain table for all the cells"""
-    def __init__(self,dataengine, spark_session,threshold=0.5):
+    def __init__(self,dataengine,dataset, spark_session,threshold=0.5):
 	"""TODO.
 	Parameters
 	--------
@@ -20,6 +20,7 @@ class Pruning:
 	self.spark_session=spark_session
 	self.dataengine=dataengine
         self.threshold = threshold
+	self.dataset=dataset
         self.assignments = {}
         self.cell_domain_nb = {}
         self.domain_stats = {}
@@ -32,6 +33,7 @@ class Pruning:
         self.cell_domain = {}
         self.all_cells = []
 	self.all_cells_temp={}
+
         
         print 'Analyzing associations of DB Entries...',
 	self.noisycells=self._d_cell()
@@ -43,7 +45,8 @@ class Pruning:
         self._generate_nbs()
         self._find_cell_domain()
 	domain=self._create_dataframe()
-	dataengine.register_spark('Domain',domain)
+	domain.show()
+	dataengine.add_db_table(dataset.dataset_id+'_Domain',domain,)
         print 'DONE.'
  
     #Internal Method
@@ -51,7 +54,7 @@ class Pruning:
 	"""
 	Create noisy_cell list from the C_dk table
         """
-	dataframe1=self.dataengine.get_table_spark("C_dk")
+	dataframe1=self.dataengine._table_to_dataframe("C_dk",self.dataset)
 	dataframe1.show()
 	noisy_cells=[]
 	for c in dataframe1.collect():
@@ -63,9 +66,8 @@ class Pruning:
 	"""
 	Create c_value list from the init table
         """
-	dataframe=self.dataengine.get_table_spark("Init")
-	table_attribute_string=self.dataengine.get_schema('Init')
-        table_attribute=table_attribute_string.split(',')
+	dataframe=self.dataengine._table_to_dataframe("Init",self.dataset)
+        table_attribute=dataframe.columns
 	rows=0
 	cell_values={}
 	number_id=0
