@@ -94,7 +94,7 @@ class Featurizer:
             temp=[c['rv_index'],c['rv_attr'],c['feature']]
             if temp not in groups:
                 groups.append(temp)
-        query="UPDATE "+self.dataset.spec_tb_name('Feature')+" SET weight_id= CASE"
+        query="UPDATE "+self.dataset.table_specific_name('Feature')+" SET weight_id= CASE"
         for weight_id in range(0,len(groups)):
             query+=" WHEN  rv_index='"+groups[weight_id][0]+"'and rv_attr='"+groups[weight_id][1]+"'and feature='"+groups[weight_id][2]+"' THEN "+ str(weight_id)
         query+=" END;"
@@ -173,9 +173,9 @@ class Featurizer:
 	"""
         This method creates the table for the featurization by combining queries
         """
-        possible_table_name=self.dataset.spec_tb_name('Domain')
-        table_name=self.dataset.spec_tb_name('Init')
-        query_for_featurization='CREATE TABLE '+self.dataset.spec_tb_name('Feature')+' AS (select * from ( '
+        possible_table_name=self.dataset.table_specific_name('Domain')
+        table_name=self.dataset.table_specific_name('Init')
+        query_for_featurization='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
         query_for_featurization=self._query_for_featurization_of_dc(query_for_featurization,possible_table_name,table_name)
         query_for_featurization=self._query_for_featurization_of_init(query_for_featurization,possible_table_name,table_name)
         query_for_featurization=self._query_for_featurization_of_cooccur(query_for_featurization,possible_table_name,table_name)
