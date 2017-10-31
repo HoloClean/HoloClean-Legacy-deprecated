@@ -45,7 +45,6 @@ class Pruning:
         self._generate_nbs()
         self._find_cell_domain()
 	domain=self._create_dataframe()
-	domain.show()
 	dataengine.add_db_table(dataset.dataset_id+'_Domain',domain,)
         print 'DONE.'
  
@@ -55,7 +54,6 @@ class Pruning:
 	Create noisy_cell list from the C_dk table
         """
 	dataframe1=self.dataengine._table_to_dataframe("C_dk",self.dataset)
-	dataframe1.show()
 	noisy_cells=[]
 	for c in dataframe1.collect():
 		cell = random_var(columnname=c[1], row_id=int(c[0]))
@@ -227,8 +225,7 @@ class Pruning:
 		for j in self.cell_domain[i]:
 				list_to_dataframe.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
 	new_df = self.spark_session.createDataFrame(list_to_dataframe,['tid','attr_name','attr_val'])
-	new_df=new_df.orderBy("tid")
-	new_df.show()	
+	new_df=new_df.orderBy("tid")	
 	return new_df
 
 
