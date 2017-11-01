@@ -37,7 +37,6 @@ class Pruning:
         
         print 'Analyzing associations of DB Entries...',
 	self.noisycells=self._d_cell()
-	self.final=[]
 	self.cellvalues = self._c_values()
         self._preprop()
         self._analyzeEntries()
@@ -114,6 +113,7 @@ class Pruning:
 	trgt_attr: the name of attribute
         """
         cell_values = set([assignment[trgt_attr]])
+
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -122,6 +122,7 @@ class Pruning:
                 if attr_val in self.nb_cache[attr]:
                     if trgt_attr in self.nb_cache[attr][attr_val]:
                         cell_values |= set(self.nb_cache[attr][attr_val][trgt_attr].keys())
+
         return cell_values
 
     def _preprop(self):
@@ -224,6 +225,11 @@ class Pruning:
 	for i in self.cell_domain:
 		for j in self.cell_domain[i]:
 				list_to_dataframe.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
+	for tupleid in self.cellvalues:
+            for cid in self.cellvalues[tupleid]:
+                cell = self.cellvalues[tupleid][cid]
+		if not( [(cell.tupleid+1),cell.columnname,cell.value] in list_to_dataframe):
+			list_to_dataframe.append([(cell.tupleid+1),cell.columnname,cell.value])
 	new_df = self.spark_session.createDataFrame(list_to_dataframe,['tid','attr_name','attr_val'])
 	new_df=new_df.orderBy("tid")	
 	return new_df
