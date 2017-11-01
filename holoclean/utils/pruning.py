@@ -219,7 +219,7 @@ class Pruning:
 
     def _create_dataframe(self):
 	"""
-	creates a spark dataframe from cell_domain
+	creates a spark dataframe from cell_domain for all the cells
         """
 	list_to_dataframe=[]
 	for i in self.cell_domain:
