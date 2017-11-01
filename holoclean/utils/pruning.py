@@ -9,7 +9,7 @@ class random_var:
 class Pruning:
 
     """TODO:Pruning class: Creates the domain table for all the cells"""
-    def __init__(self,dataengine, spark_session,threshold=0.5):
+    def __init__(self,dataengine,dataset, spark_session,threshold=0.5):
 	"""TODO.
 	Parameters
 	--------
@@ -20,6 +20,7 @@ class Pruning:
 	self.spark_session=spark_session
 	self.dataengine=dataengine
         self.threshold = threshold
+	self.dataset=dataset
         self.assignments = {}
         self.cell_domain_nb = {}
         self.domain_stats = {}
@@ -32,10 +33,10 @@ class Pruning:
         self.cell_domain = {}
         self.all_cells = []
 	self.all_cells_temp={}
+
         
         print 'Analyzing associations of DB Entries...',
 	self.noisycells=self._d_cell()
-	self.final=[]
 	self.cellvalues = self._c_values()
         self._preprop()
         self._analyzeEntries()
@@ -43,7 +44,7 @@ class Pruning:
         self._generate_nbs()
         self._find_cell_domain()
 	domain=self._create_dataframe()
-	dataengine.register_spark('Domain',domain)
+	dataengine.add_db_table(dataset.dataset_id+'_Domain',domain,)
         print 'DONE.'
  
     #Internal Method
@@ -51,8 +52,7 @@ class Pruning:
 	"""
 	Create noisy_cell list from the C_dk table
         """
-	dataframe1=self.dataengine.get_table_spark("C_dk")
-	dataframe1.show()
+	dataframe1=self.dataengine._table_to_dataframe("C_dk",self.dataset)
 	noisy_cells=[]
 	for c in dataframe1.collect():
 		cell = random_var(columnname=c[1], row_id=int(c[0]))
@@ -63,9 +63,8 @@ class Pruning:
 	"""
 	Create c_value list from the init table
         """
-	dataframe=self.dataengine.get_table_spark("Init")
-	table_attribute_string=self.dataengine.get_schema('Init')
-        table_attribute=table_attribute_string.split(',')
+	dataframe=self.dataengine._table_to_dataframe("Init",self.dataset)
+        table_attribute=dataframe.columns
 	rows=0
 	cell_values={}
 	number_id=0
@@ -114,6 +113,7 @@ class Pruning:
 	trgt_attr: the name of attribute
         """
         cell_values = set([assignment[trgt_attr]])
+
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -122,6 +122,7 @@ class Pruning:
                 if attr_val in self.nb_cache[attr]:
                     if trgt_attr in self.nb_cache[attr][attr_val]:
                         cell_values |= set(self.nb_cache[attr][attr_val][trgt_attr].keys())
+
         return cell_values
 
     def _preprop(self):
@@ -218,15 +219,19 @@ class Pruning:
 
     def _create_dataframe(self):
 	"""
-	creates a spark dataframe from cell_domain
+	creates a spark dataframe from cell_domain for all the cells
         """
 	list_to_dataframe=[]
 	for i in self.cell_domain:
 		for j in self.cell_domain[i]:
 				list_to_dataframe.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
+	for tupleid in self.cellvalues:
+            for cid in self.cellvalues[tupleid]:
+                cell = self.cellvalues[tupleid][cid]
+		if not( [(cell.tupleid+1),cell.columnname,cell.value] in list_to_dataframe):
+			list_to_dataframe.append([(cell.tupleid+1),cell.columnname,cell.value])
 	new_df = self.spark_session.createDataFrame(list_to_dataframe,['tid','attr_name','attr_val'])
-	new_df=new_df.orderBy("tid")
-	new_df.show()	
+	new_df=new_df.orderBy("tid")	
 	return new_df
 
 
