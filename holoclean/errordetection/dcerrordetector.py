@@ -9,7 +9,7 @@ class DCErrorDetection:
     cells based on the
     denial constraint
     """
-    def __init__(self, DenialConstraints, dataengine, spark_session):
+    def __init__(self, DenialConstraints, dataengine,dataset, spark_session):
 
         """
         This constructor at first convert all denial constraints
@@ -19,6 +19,7 @@ class DCErrorDetection:
         self.and_of_preds = DCParser(DenialConstraints)\
             .make_and_condition('all')
         self.dataengine = dataengine
+        self.dataset = dataset
         self.spark_session = spark_session
 
     # Private methods
@@ -41,7 +42,7 @@ class DCErrorDetection:
         :rtype: spark_dataframe
         """
 
-        all_list = self.dataengine.get_schema("Init")
+        all_list = self.dataengine._get_schema(self.dataset,"Init")
         all_list = all_list.split(',')
         attr_list = DCParser.get_attribute(cond, all_list)
         index_data = tuples_dataframe.select('ind')\
@@ -102,7 +103,7 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df")
         query = "SELECT table1.index as ind FROM df table1"
         index_set = self.spark_session.sql(query)
-        all_attr = self.dataengine.get_schema("InitT").split(',')
+        all_attr = self.dataengine._get_schema(dataset,"InitT").split(',')
         rev_attr_list = []
         for attribute in all_attr:
             rev_attr_list.append([attribute])

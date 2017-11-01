@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-
-import sys
-import logging
 import sqlalchemy as sqla
 import mysql.connector
 from dataset import *
+import panadas as pd
 from utils.reader import Reader
 
 
@@ -134,7 +132,22 @@ class DataEngine:
         dataframe = self.sql_ctxt.read.format('jdbc').options(url=self._init_sparksql_url(), dbtable="("+sqlQuery+") as tablename").load()
         return dataframe
 
+    def _get_schema(self,dataset,table_general_name):
+
+
+        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + self.dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
+        mt_eng = self.db_backend
+
+        generator = pd.read_sql_query(sql_query, mt_eng)
+        dataframe = pd.DataFrame(generator)
+
+        try:
+            return dataframe.iloc[0][0]
+        except:
+            return "Not such element"
+
     # Getters
+
     def get_db_backend(self):
         """Return MySQL database"""
         return self.db_backend

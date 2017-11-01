@@ -8,6 +8,7 @@ class ErrorDetectors:
     def __init__(self, DenialConstraints,
                  dataengine,
                  spark_session,
+                 dataset,
                  detection_type=None
                  ):
         """
@@ -16,7 +17,7 @@ class ErrorDetectors:
         """
         if detection_type is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               engine, spark_session)
+                                               dataengine, dataset, spark_session)
 
     # Setters:
 
