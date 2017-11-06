@@ -1,4 +1,3 @@
-import sys
 from holoclean.utils.dcparser import DCParser
 
 

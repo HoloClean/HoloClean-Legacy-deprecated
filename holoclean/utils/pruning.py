@@ -44,7 +44,7 @@ class Pruning:
         self._generate_nbs()
         self._find_cell_domain()
 	domain=self._create_dataframe()
-	dataengine.add_db_table(dataset.dataset_id+'_Domain',domain,)
+	dataengine._dataframe_to_table(dataset.dataset_id + '_Domain', domain, )
         print 'DONE.'
  
     #Internal Method

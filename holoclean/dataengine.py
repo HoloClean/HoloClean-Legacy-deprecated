@@ -79,9 +79,9 @@ class DataEngine:
     
     def _add_meta(self,table_name,table_schema,dataset):
 
-	"""
-        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations 
-	(the id of the dataset, the name of the table and the schema) for a new table
+        """
+        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations
+        (the id of the dataset, the name of the table and the schema) for a new table
         """
         tmp_conn = self.db_backend.raw_connection()
         dbcur=tmp_conn.cursor()
@@ -112,16 +112,19 @@ class DataEngine:
         
         return self.query(table_get,useSpark)
 
-    def _dataframe_to_table(self, table_name,dataframe,dataset):
+    def _dataframe_to_table(self, spec_table_name, dataframe):
+        """Add spark dataframe df with specific name table name_table in the data database
+        with spark session
+        """
 
-        """
-        This method get spark dataframe and a table_name and creates a table.
-        """
-        
-        schema=spark_dataframe.schema.names
-        specific_table_name=self._add_info_to_meta(table_general_name,schema,dataset)
-        self.add_db_table(specific_table_name, spark_dataframe)
-        
+        jdbcUrl = "jdbc:mysql://" + self.holoEnv.db_host + "/" + self.holoEnv.db_name
+        dbProperties = {
+            "user": self.holoEnv.db_user,
+            "password": self.holoEnv.db_pwd
+        }
+
+        dataframe.write.jdbc(jdbcUrl, spec_table_name, "overwrite", properties=dbProperties)
+
         
     def _query_spark(self, sqlQuery):
 
@@ -154,19 +157,15 @@ class DataEngine:
 
     # Setters
 
-    def add_db_table(self, name_table, dataframe):
+    def add_db_table(self, table_name, spark_dataframe, dataset):
 
-      	"""Add spark dataframe df with specific name table name_table in the data database 
-    	with spark session
-    	"""
+        """
+        This method get spark dataframe and a table_name and creates a table.
+        """
 
-        jdbcUrl="jdbc:mysql://" + self.holoEnv.db_host+"/"+self.holoEnv.db_name
-        dbProperties = {
-            "user" : self.holoEnv.db_user,
-            "password" : self.holoEnv.db_pwd
-		}
-        
-        dataframe.write.jdbc(jdbcUrl, name_table,"overwrite", properties=dbProperties)
+        schema = spark_dataframe.schema.names
+        specific_table_name = self._add_info_to_meta(table_name, schema, dataset)
+        self._dataframe_to_table(specific_table_name, spark_dataframe)
 
     def ingest_data(self, filepath,dataset):
 
@@ -180,7 +179,7 @@ class DataEngine:
         # Store dataframe to DB table
         schema = df.schema.names
         name_table = self._add_info_to_meta('Init', schema,dataset)
-        self.add_db_table(name_table, df)
+        self._dataframe_to_table(name_table, df)
         return
 
     def query(self, sqlQuery,spark_flag=0):

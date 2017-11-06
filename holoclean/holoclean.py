@@ -6,6 +6,7 @@ from dataengine import DataEngine
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext, Row
 from dataset import Dataset
+from errordetection.errordetector import ErrorDetectors
 
 # Define arguments for HoloClean
 arguments = [
@@ -199,8 +200,8 @@ class Session:
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
-	self.dataset=Dataset() 
-	self.holo_env.dataengine.ingest_data(src_path,self.dataset)
+        self.dataset=Dataset()
+        self.holo_env.dataengine.ingest_data(src_path,self.dataset)
         return
 
     def add_featurizer(self, newFeaturizer):
@@ -223,8 +224,26 @@ class Session:
         return self.dataset
 
     # Methods
-    def ds_detect_errors(self):
+    def ds_detect_errors(self,dataset):
         """TODO: Detect errors in dataset"""
+        clean_cells = []
+        dk_cells = []
+
+        for err_detector in self.error_detectors:
+            temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', dataset))
+            clean_cells.append(temp[1])
+            dk_cells.append(temp[0])
+
+        num_of_error_detectors = len(dk_cells)
+        intersect_dk_cells = dk_cells[0]
+        union_clean_cells = clean_cells[0]
+        for detector_counter in range(1, num_of_error_detectors):
+            intersect_dk_cells = intersect_dk_cells.intersect(dk_cells[detector_counter])
+            union_clean_cells = union_clean_cells.unionAll(clean_cells[detector_counter])
+
+        self.holo_env.dataengine._dataframe_to_table('C_clean', union_clean_cells, dataset)
+        self.holo_env.dataengine._dataframe_to_table('C_dk', intersect_dk_cells, dataset)
+
         return
 
     def ds_featurize(self):
