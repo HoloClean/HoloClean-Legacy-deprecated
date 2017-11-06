@@ -107,7 +107,7 @@ class DataEngine:
         This method get table general name and return it as spark dataframe
         """
          
-        table_get="Select * from "+dataset.table_name[dataset.attributes.index(table_name)]
+        table_get="Select * from "+dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
         
         useSpark=1
         
@@ -121,7 +121,7 @@ class DataEngine:
         jdbcUrl = "jdbc:mysql://" + self.holoEnv.db_host + "/" + self.holoEnv.db_name
         dbProperties = {
             "user": self.holoEnv.db_user,
-            "password": self.holoEnv.db_pwd
+            "password": self.holoEnv.db_pwd,
         }
 
         dataframe.write.jdbc(jdbcUrl, spec_table_name, "overwrite", properties=dbProperties)
@@ -139,7 +139,7 @@ class DataEngine:
     def _get_schema(self,dataset,table_general_name):
 
 
-        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + self.dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
+        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
         mt_eng = self.db_backend
 
         generator = pd.read_sql_query(sql_query, mt_eng)

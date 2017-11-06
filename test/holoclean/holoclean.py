@@ -7,6 +7,10 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext, Row
 from dataset import Dataset
 from errordetection.errordetector import ErrorDetectors
+from featurization.featurizer import Signal_Init
+from utils.pruning import Pruning
+
+
 
 # Define arguments for HoloClean
 arguments = [
@@ -37,7 +41,7 @@ arguments = [
     (('-m', '--mysql_driver'),
         {'metavar': 'MYSQL_DRIVER',
          'dest': 'mysql_driver',
-         'default': 'lib/mysql-connector-java-5.1.44-bin.jar',
+         'default': 'holoclean/lib/mysql-connector-java-5.1.44-bin.jar',
          'type': str,
          'help': 'Path for MySQL driver'}),
     (('-s', '--spark_cluster'),
@@ -162,6 +166,7 @@ class HoloClean:
         self.dataengine = newDataEngine
         return
 
+
     # Getters
     def get_spark_session(self):
         """TODO: Get spark session"""
@@ -210,6 +215,7 @@ class Session:
         self.error_detectors = []
 
     # Internal methods
+    
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -229,6 +235,14 @@ class Session:
         self.error_detectors.append(newErrorDetector)
         return
 
+    def denial_constraints(self,filepath):
+	self.Denial_constraints=[]
+	dc_file=open(filepath,'r')
+	for line in dc_file:
+		self.Denial_constraints.append(line[:-1])
+	print self.Denial_constraints
+	
+
     # Getters
     def get_name(self):
         """TODO: Return session name"""
@@ -238,14 +252,14 @@ class Session:
         """TODO: Return session dataset"""
         return self.dataset
 
-    # Methods
-    def ds_detect_errors(self,dataset):
+    # Methodsdata	
+    def ds_detect_errors(self):
         """TODO: Detect errors in dataset"""
         clean_cells = []
         dk_cells = []
 
         for err_detector in self.error_detectors:
-            temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', dataset))
+            temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -256,13 +270,25 @@ class Session:
             intersect_dk_cells = intersect_dk_cells.intersect(dk_cells[detector_counter])
             union_clean_cells = union_clean_cells.unionAll(clean_cells[detector_counter])
 
-        self.holo_env.dataengine._dataframe_to_table('C_clean', union_clean_cells, dataset)
-        self.holo_env.dataengine._dataframe_to_table('C_dk', intersect_dk_cells, dataset)
+        self.holo_env.dataengine.add_db_table('C_clean', union_clean_cells, self.dataset)
+        self.holo_env.dataengine.add_db_table('C_dk', intersect_dk_cells, self.dataset)
 
         return
 
+    def ds_domain_pruning(self):
+	Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5)
+	return
+
     def ds_featurize(self):
         """TODO: Extract dataset features"""
+	query_for_featurization='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
+	for feature in self.featurizers:
+		query_for_featurization+=feature.get_query()+" union "
+	query_for_featurization=query_for_featurization[:-7]
+	query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;"""
+	print query_for_featurization
+	self.holo_env.dataengine.query(query_for_featurization)
+	
         return
 
     def ds_learn_repair_model(self):
@@ -272,5 +298,6 @@ class Session:
     def ds_repair(self):
         """TODO: Returns suggested repair"""
         return
+
 
 

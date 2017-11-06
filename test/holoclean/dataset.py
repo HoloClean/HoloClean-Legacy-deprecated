@@ -3,8 +3,8 @@ from datetime import datetime
 
 class Dataset:
 
-	attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature_', 'Domain', 'Labels',
-					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1']
+	attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature', 'Domain', 'Labels','Possible_values',
+					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1','Variable','Factor']
 	
 	"""
 	
@@ -16,12 +16,15 @@ class Dataset:
 		C_dk : is table of indices that we don't know they are noisy or clean
 		Feature : table of feature vector each row of it is feature vector for a cell with id of indices it has size of cells in the T
 		Domain : is the table of domain for each attribute
+		Possible_values: is the table of all possible values for each attribute
 		Labels : is the set of label for the cell in the T 
-		Weights : table of weights that we learn in the learning section
 		biases : is the table that contains the biases that generated in learning part
 		Probabilities : is the table of probabilities for don't know cells  
+		Variable: is the table for the wrapper of variables for numbskull
+		Factor: is the table for the wrapper of factor for numbskull
+		Weights : table of weights that we learn in the learning section fro numbskull
 		dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
-	
+		
 	"""
 
 	def __init__(self):

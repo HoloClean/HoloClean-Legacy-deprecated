@@ -16,7 +16,7 @@ class DCErrorDetection:
         and it get dataengine to connect to the database
         """
         self.and_of_preds = DCParser(DenialConstraints)\
-            .make_and_condition('all')
+            .get_anded_string('all')
         self.dataengine = dataengine
         self.dataset = dataset
         self.spark_session = spark_session
@@ -92,17 +92,18 @@ class DCErrorDetection:
                     unionAll(self._make_cells(violation[dc_count], pred))
         return result.distinct()
 
-    def get_clean_cells(self, dataset, noisy_cells):
+    def get_clean_cells(self, dataframe, noisy_cells):
 
         """
         Return a dataframe that consist of index of clean cells index,attribute
         :rtype: spark_dataframe
         """
 
-        dataset.createOrReplaceTempView("df")
+        dataframe.createOrReplaceTempView("df")
         query = "SELECT table1.index as ind FROM df table1"
         index_set = self.spark_session.sql(query)
-        all_attr = self.dataengine._get_schema(dataset,"InitT").split(',')
+        all_attr = self.dataengine._get_schema(self.dataset,"Init").split(',')
+	all_attr.remove('index')
         rev_attr_list = []
         for attribute in all_attr:
             rev_attr_list.append([attribute])
