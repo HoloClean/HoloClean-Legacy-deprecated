@@ -1,4 +1,0 @@
-localhost
-holometadb
-holocleanUser
-A@12345
