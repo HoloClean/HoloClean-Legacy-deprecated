@@ -19,4 +19,5 @@ b.add_featurizer(signal2)
 signal3=Signal_dc(b.Denial_constraints,a.dataengine,b.dataset)
 b.add_featurizer(signal3)
 b.ds_featurize()
+b._numskull()
 
