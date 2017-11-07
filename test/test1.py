@@ -11,6 +11,7 @@ class Intermed:
 
         ds = Dataset()
         ds.dataset_tables_specific_name[0] = id[:-1]
+	ds.dataset_id=id[:-1]
         for li in range(1, len(ds.dataset_tables_specific_name)):
             ds.dataset_tables_specific_name[li] = str(id[:-1]) + "_" + str(ds.attributes[li])
 

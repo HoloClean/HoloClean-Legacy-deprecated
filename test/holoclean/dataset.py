@@ -4,7 +4,7 @@ from datetime import datetime
 class Dataset:
 
 	attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature', 'Domain', 'Labels','Possible_values',
-					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1','Variable','Factor']
+					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1','Variable','Factor','Factor_to_var']
 	
 	"""
 	
@@ -22,7 +22,8 @@ class Dataset:
 		Probabilities : is the table of probabilities for don't know cells  
 		Variable: is the table for the wrapper of variables for numbskull
 		Factor: is the table for the wrapper of factor for numbskull
-		Weights : table of weights that we learn in the learning section fro numbskull
+		Weights : table of weights that we learn in the learning section for numbskull
+		Factor_to_var: table of factor_to_var for numbskull
 		dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
 		
 	"""

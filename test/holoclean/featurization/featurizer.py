@@ -131,7 +131,7 @@ class Signal_Init(Featurizer):
 		        str_attribute="'"+attribute +"'"
 		        table_attribute="table1."+attribute 
 		        condition="possible_table.attr_name="+str_attribute+" and table1.index=possible_table.tid"
-		        query_for_featurization+=""" (SELECT distinct    possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( 'INIT=',"""+ table_attribute + """) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+condition+"""  ) ) UNION"""
+		        query_for_featurization+=""" (SELECT distinct NULL as var_index,   possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( 'INIT=',"""+ table_attribute + """) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+condition+"""  ) and (possible_table.attr_val=table1."""+attribute +""") ) UNION"""
 		query_for_featurization=query_for_featurization[:-5]
 		return query_for_featurization
 
@@ -152,7 +152,7 @@ class Signal_cooccur(Featurizer):
 		"""
 		This method creates a query for the featurization table for the cooccurances
 		"""     
-        	query_for_featurization=""" (SELECT distinct possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from """+ self.possible_table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table  where (table1.attr_name<>possible_table.attr_name))"""
+        	query_for_featurization=""" (SELECT distinct  NULL as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from """+ self.possible_table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table  where (table1.attr_name<>possible_table.attr_name))"""
                 return query_for_featurization
 
 class Signal_dc(Featurizer):
@@ -179,10 +179,10 @@ class Signal_dc(Featurizer):
 		    new_condition=new_dc[index_dc ]
 		    dc="',"+dc_sql_parts[index_dc ]+"'"
 		    if index_dc ==0:
-		        query_for_featurization="""(SELECT distinct    table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
+		        query_for_featurization="""(SELECT distinct  NULL as var_index,  table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
 		    else:
 		        #if you have more than one dc
-		        query_for_featurization+=""" UNION (SELECT distinct    table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
+		        query_for_featurization+=""" UNION (SELECT distinct  NULL as var_index,  table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
 		return query_for_featurization	
 	   
 

@@ -140,6 +140,7 @@ class DataEngine:
 
 
         sql_query = "SELECT schem FROM metatable Where dataset_id = '" + dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
+	print dataset.dataset_id
         mt_eng = self.db_backend
 
         generator = pd.read_sql_query(sql_query, mt_eng)
