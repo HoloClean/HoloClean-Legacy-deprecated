@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+
 import sys
+
 import logging
 from dataengine import DataEngine
 from pyspark import SparkContext, SparkConf
@@ -10,7 +12,10 @@ from errordetection.errordetector import ErrorDetectors
 from utils.pruning import Pruning
 from featurization.featurizer import Featurizer
 from learning.wrapper import Wrapper
-from numbskull import NumbSkull 
+import numpy as np
+import numbskull
+
+
 
 
 
@@ -218,20 +223,37 @@ class Session:
         self.error_detectors = []
 
     # Internal methods
-    def _wrapper(self):
-	wrapper1=Wrapper(self.holo_env.dataengine,self.dataset)
-	#wrapper1.set_variable()
-	#wrapper1.set_weight()
-	#wrapper1.set_Factor_to_Var()
-	#wrapper1.set_factor()
-	weight=wrapper1.spark_list_weight()
-	variable=wrapper1.spark_list_variable()
-	factor_to_var=wrapper1.spark_list_Factor_to_var()
-	factor=wrapper1.spark_list_Factor()
-	edge=wrapper1.create_edge(factor)
-	domain_mask=wrapper1.create_mask(variable)
-    	num=NumbSkull()
-	num.loadFactorGraph(weight,variable,factor,factor_to_var,domain_mask,edge)
+    def _numbskull_fg_lists(self):
+        wrapper_obj=Wrapper(self.holo_env.dataengine,self.dataset)
+        wrapper_obj.set_variable()
+        wrapper_obj.set_weight()
+        wrapper_obj.set_Factor_to_Var()
+        wrapper_obj.set_factor()
+        weight=wrapper_obj.spark_list_weight()
+        variable=wrapper_obj.spark_list_variable()
+        fmap=wrapper_obj.spark_list_Factor_to_var()
+        factor=wrapper_obj.spark_list_Factor()
+        edges=wrapper_obj.create_edge(factor)
+        domain_mask=wrapper_obj.create_mask(variable)
+        return weight, variable, factor, fmap, domain_mask, edges
+
+    def _numskull(self):
+        learn = 100
+        ns = numbskull.NumbSkull(n_inference_epoch=100,
+                                 n_learning_epoch=learn,
+                                 quiet=True,
+                                 learn_non_evidence=True,
+                                 stepsize=0.0001,
+                                 burn_in=100,
+                                 decay=0.001 ** (1.0 / learn),
+                                 regularization=1,
+                                 reg_param=0.01)
+
+        fg=self._numbskull_fg_lists()
+        ns.loadFactorGraph(*fg)
+        print(ns.factorGraphs[0].weight_value)
+        ns.learning()
+        print(ns.factorGraphs[0].weight_value)
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -252,11 +274,11 @@ class Session:
         return
 
     def denial_constraints(self,filepath):
-	self.Denial_constraints=[]
-	dc_file=open(filepath,'r')
-	for line in dc_file:
-		self.Denial_constraints.append(line[:-1])
-	print self.Denial_constraints
+        self.Denial_constraints=[]
+        dc_file=open(filepath,'r')
+        for line in dc_file:
+          self.Denial_constraints.append(line[:-1])
+        print self.Denial_constraints
 	
 
     # Getters
@@ -292,20 +314,20 @@ class Session:
         return
 
     def ds_domain_pruning(self):
-	Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5)
-	return
+        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5)
+        return
 
     def ds_featurize(self):
         """TODO: Extract dataset features"""
-	query_for_featurization='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
-	for feature in self.featurizers:
-		query_for_featurization+=feature.get_query()+" union "
-	query_for_featurization=query_for_featurization[:-7]
-	query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """+self.dataset.table_specific_name('Feature')+""" MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
-	self.holo_env.dataengine.query(query_for_featurization)
-	featurizer=Featurizer(self.Denial_constraints,self.holo_env.dataengine,self.dataset)
-	featurizer.add_weights()
-	
+        query_for_featurization='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
+        for feature in self.featurizers:
+            query_for_featurization+=feature.get_query()+" union "
+        query_for_featurization=query_for_featurization[:-7]
+        query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """+self.dataset.table_specific_name('Feature')+""" MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
+        self.holo_env.dataengine.query(query_for_featurization)
+        featurizer=Featurizer(self.Denial_constraints,self.holo_env.dataengine,self.dataset)
+        featurizer.add_weights()
+
         return
 
     def ds_learn_repair_model(self):

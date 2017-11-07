@@ -10,10 +10,10 @@ class Intermed:
         id = reader.readlines()[0]
 
         ds = Dataset()
-        ds.dataset_tables_specific_name[0] = id[:-1]
-	ds.dataset_id=id[:-1]
+        ds.dataset_tables_specific_name[0] = id
+	ds.dataset_id=id
         for li in range(1, len(ds.dataset_tables_specific_name)):
-            ds.dataset_tables_specific_name[li] = str(id[:-1]) + "_" + str(ds.attributes[li])
+            ds.dataset_tables_specific_name[li] = str(id) + "_" + str(ds.attributes[li])
 
         return ds
 
@@ -27,7 +27,7 @@ a=HoloClean()
 b=Session("Session",a)
 
 ds=I.get_dataset("abc.txt")
-print (ds.dataset_tables_specific_name)
+
 b.dataset=ds
-print b.dataset.dataset_id
-b._wrapper()
+
+b._numskull()

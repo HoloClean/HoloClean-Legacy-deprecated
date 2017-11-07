@@ -1,65 +1,84 @@
 #!/usr/bin/env python
 
+
 import sys
+
 import logging
 from dataengine import DataEngine
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext, Row
 from dataset import Dataset
 from errordetection.errordetector import ErrorDetectors
+from utils.pruning import Pruning
+from featurization.featurizer import Featurizer
+from learning.wrapper import Wrapper
+import numpy as np
+import numbskull
 
 # Define arguments for HoloClean
 arguments = [
     (('-u', '--db_user'),
-        {'metavar': 'DB_USER',
-         'dest': 'db_user',
-         'default': 'holoclean',
-         'type': str,
-         'help': 'User for DB used to persist state'}),
+     {'metavar': 'DB_USER',
+      'dest': 'db_user',
+      'default': 'holocleanUser',
+      'type': str,
+      'help': 'User for DB used to persist state'}),
     (('-p', '--password', '--pass'),
-        {'metavar': 'PASSWORD',
-         'dest': 'db_pwd',
-         'default': '',
-         'type': str,
-         'help': 'Password for DB used to persist state'}),
+     {'metavar': 'PASSWORD',
+      'dest': 'db_pwd',
+      'default': 'abcd1234',
+      'type': str,
+      'help': 'Password for DB used to persist state'}),
     (('-h', '--host'),
-        {'metavar': 'HOST',
-         'dest': 'db_host',
-         'default': '127.0.0.1',
-         'type': str,
-         'help': 'Host for DB used to persist state'}),
+     {'metavar': 'HOST',
+      'dest': 'db_host',
+      'default': 'localhost',
+      'type': str,
+      'help': 'Host for DB used to persist state'}),
     (('-d', '--database'),
-        {'metavar': 'DATABASE',
-         'dest': 'db_name',
-         'default': 'holostate',
-         'type': str,
-         'help': 'Name of DB used to persist state'}),
+     {'metavar': 'DATABASE',
+      'dest': 'db_name',
+      'default': 'holocleandb',
+      'type': str,
+      'help': 'Name of DB used to persist state'}),
     (('-m', '--mysql_driver'),
-        {'metavar': 'MYSQL_DRIVER',
-         'dest': 'mysql_driver',
-         'default': None,
-         'type': str,
-         'help': 'Path for MySQL driver'}),
+     {'metavar': 'MYSQL_DRIVER',
+      'dest': 'mysql_driver',
+      'default': 'holoclean/lib/mysql-connector-java-5.1.44-bin.jar',
+      'type': str,
+      'help': 'Path for MySQL driver'}),
     (('-s', '--spark_cluster'),
-        {'metavar': 'SPARK',
-         'dest': 'spark_cluster',
-         'default': None,
-         'type': str,
-         'help': 'Spark cluster address'}),
+     {'metavar': 'SPARK',
+      'dest': 'spark_cluster',
+      'default': None,
+      'type': str,
+      'help': 'Spark cluster address'}),
 ]
-
 
 flags = [
     (('-q', '--quiet'),
-        {'default': False,
-         'dest': 'quiet',
-         'action': 'store_true',
-         'help': 'quiet'}),
+     {'default': False,
+      'dest': 'quiet',
+      'action': 'store_true',
+      'help': 'quiet'}),
     (tuple(['--verbose']),
-        {'default': False,
-         'dest': 'verbose',
-         'action': 'store_true',
-         'help': 'verbose'})
+     {'default': False,
+      'dest': 'verbose',
+      'action': 'store_true',
+      'help': 'verbose'})
+]
+
+flags = [
+    (('-q', '--quiet'),
+     {'default': False,
+      'dest': 'quiet',
+      'action': 'store_true',
+      'help': 'quiet'}),
+    (tuple(['--verbose']),
+     {'default': False,
+      'dest': 'verbose',
+      'action': 'store_true',
+      'help': 'verbose'})
 ]
 
 
@@ -108,10 +127,10 @@ class HoloClean:
             self.log = None
 
         # Initialize dataengine and spark session
-        
+
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
-	self.dataengine = self._init_dataengine()	
-	
+        self.dataengine = self._init_dataengine()
+
         # Init empty session collection
         self.session = {}
         self.session_id = 0
@@ -119,15 +138,15 @@ class HoloClean:
     # Internal methods
     def _init_dataengine(self):
         """TODO: Initialize HoloClean's Data Engine"""
-       # if self.dataengine:
+        # if self.dataengine:
         #    return
         dataEngine = DataEngine(self)
         return dataEngine
 
     def _init_spark(self):
         """TODO: Initialize Spark Session"""
-        #if self.spark_session and self.spark_sql_ctxt:
-         #   return
+        # if self.spark_session and self.spark_sql_ctxt:
+        #   return
 
         # Set spark configuration
         conf = SparkConf()
@@ -159,7 +178,7 @@ class HoloClean:
 
     def start_new_session(self, name='session'):
         """TODO: Get new HoloClean Session"""
-        newSession = Session(name+str(self.session_id))
+        newSession = Session(name + str(self.session_id))
         self.section_id += 1
         return newSession
 
@@ -167,7 +186,7 @@ class HoloClean:
         if name in self.session:
             return self.session[name]
         else:
-            self.log.warn("No HoloClean session named "+name)
+            self.log.warn("No HoloClean session named " + name)
             return
 
 
@@ -196,12 +215,44 @@ class Session:
         self.error_detectors = []
 
     # Internal methods
+    def _numbskull_fg_lists(self):
+        wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
+        # wrapper_obj.set_variable()
+        # wrapper_obj.set_weight()
+        # wrapper_obj.set_Factor_to_Var()
+        # wrapper_obj.set_factor()
+        weight = wrapper_obj.spark_list_weight()
+        variable = wrapper_obj.spark_list_variable()
+        fmap = wrapper_obj.spark_list_Factor_to_var()
+        factor = wrapper_obj.spark_list_Factor()
+        edges = wrapper_obj.create_edge(factor)
+        domain_mask = wrapper_obj.create_mask(variable)
+        return weight, variable, factor, fmap, domain_mask, edges
+
+    def _numskull(self):
+        learn = 100
+        ns = numbskull.NumbSkull(n_inference_epoch=100,
+                                 n_learning_epoch=learn,
+                                 quiet=True,
+                                 learn_non_evidence=True,
+                                 stepsize=0.0001,
+                                 burn_in=100,
+                                 decay=0.001 ** (1.0 / learn),
+                                 regularization=1,
+                                 reg_param=0.01)
+
+        fg = self._numbskull_fg_lists()
+        ns.loadFactorGraph(*fg)
+        print(ns.factorGraphs[0].weight_value)
+        ns.learning()
+        print(ns.factorGraphs[0].weight_value)
 
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
-        self.dataset=Dataset()
-        self.holo_env.dataengine.ingest_data(src_path,self.dataset)
+        self.dataset = Dataset()
+        self.holo_env.dataengine.ingest_data(src_path, self.dataset)
+        self.dataset.print_id()
         return
 
     def add_featurizer(self, newFeaturizer):
@@ -214,6 +265,13 @@ class Session:
         self.error_detectors.append(newErrorDetector)
         return
 
+    def denial_constraints(self, filepath):
+        self.Denial_constraints = []
+        dc_file = open(filepath, 'r')
+        for line in dc_file:
+            self.Denial_constraints.append(line[:-1])
+        print self.Denial_constraints
+
     # Getters
     def get_name(self):
         """TODO: Return session name"""
@@ -223,14 +281,15 @@ class Session:
         """TODO: Return session dataset"""
         return self.dataset
 
-    # Methods
-    def ds_detect_errors(self,dataset):
+    # Methodsdata
+    def ds_detect_errors(self):
         """TODO: Detect errors in dataset"""
         clean_cells = []
         dk_cells = []
 
         for err_detector in self.error_detectors:
-            temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', dataset))
+            temp = err_detector.get_noisy_dknow_dataframe(
+                self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -241,13 +300,28 @@ class Session:
             intersect_dk_cells = intersect_dk_cells.intersect(dk_cells[detector_counter])
             union_clean_cells = union_clean_cells.unionAll(clean_cells[detector_counter])
 
-        self.holo_env.dataengine._dataframe_to_table('C_clean', union_clean_cells, dataset)
-        self.holo_env.dataengine._dataframe_to_table('C_dk', intersect_dk_cells, dataset)
+        self.holo_env.dataengine.add_db_table('C_clean', union_clean_cells, self.dataset)
+        self.holo_env.dataengine.add_db_table('C_dk', intersect_dk_cells, self.dataset)
 
+        return
+
+    def ds_domain_pruning(self):
+        Pruning(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session, 0.5)
         return
 
     def ds_featurize(self):
         """TODO: Extract dataset features"""
+        query_for_featurization = 'CREATE TABLE ' + self.dataset.table_specific_name(
+            'Feature') + ' AS (select * from ( '
+        for feature in self.featurizers:
+            query_for_featurization += feature.get_query() + " union "
+        query_for_featurization = query_for_featurization[:-7]
+        query_for_featurization += """)as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """ + self.dataset.table_specific_name(
+            'Feature') + """ MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
+        self.holo_env.dataengine.query(query_for_featurization)
+        featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
+        featurizer.add_weights()
+
         return
 
     def ds_learn_repair_model(self):
@@ -257,5 +331,3 @@ class Session:
     def ds_repair(self):
         """TODO: Returns suggested repair"""
         return
-
-

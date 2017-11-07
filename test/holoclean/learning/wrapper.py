@@ -1,14 +1,57 @@
 import numpy as np
 from numbskull.numbskulltypes import *
+
+
 class Wrapper:
+
 	def __init__(self,dataengine,dataset):
 		"""TODO.
-			Parameters
+		Parameters
 		--------
 		parameter: denial_constraints,dataengine
 		"""
 		self.dataset=dataset
 		self.dataengine=dataengine
+		self._make_dictionary()
+
+	def _make_dictionary(self):
+
+		domain_dataframe=self.dataengine._table_to_dataframe("Domain",self.dataset)
+		temp = domain_dataframe.select("attr_name", "attr_val").collect()
+		attribute = ""
+		id = 0
+		self.dictionary = {}
+		secDic = {}
+		dic_list=[]
+		for row in temp:
+			dic_list.append(row.asDict())
+		attr_set=set()
+		for element in dic_list:
+			attr_set.add(element["attr_name"])
+		attr_set=list(attr_set)
+		result={}
+		for a in attr_set:
+			dict={}
+			result.update({a:dict})
+		id=[0]*len(attr_set)
+		for element in dic_list:
+			result[element["attr_name"]].update({element["attr_val"]:id[attr_set.index(element["attr_name"])]})
+			id[attr_set.index(element["attr_name"])]+=1
+
+		# for row in temp:
+		# 	tempdictionary = row.asDict()
+		# 	if attribute == tempdictionary["attr_name"]:
+		# 		secDic.update({tempdictionary["attr_val"]: id})
+		# 		id = id + 1
+		# 	else:
+		# 		secDic.update({tempdictionary["attr_val"]: id})
+		# 		id = 0
+		# 		secDic = {}
+		# 		attribute = tempdictionary["attr_name"]
+        #
+		# 	self.dictionary.update({attribute: secDic})
+		self.dictionary=result
+
 	def set_weight(self):
 		"""
         	This method creates a query for weight table for the factor"
@@ -55,29 +98,22 @@ class Wrapper:
 		weight_list=[]
 		for row in temp:
 			tempdictionary=row.asDict()
-			#weight_list.append([np.bool(int(tempdictionary["Is_fixed"])),np.float64(int(tempdictionary["init_val"]))])
-			weight_list.append(Weight((int(tempdictionary["Is_fixed"])),int(tempdictionary["init_val"])))	
-		return np.ndarray(weight_list)
+			weight_list.append([(tempdictionary["Is_fixed"]),tempdictionary["init_val"]])
+		weight = np.zeros(len(weight_list), Weight)
+
+		count=0
+		for w in weight:
+			w["isFixed"]=weight_list[count][0]
+			w["initialValue"]=weight_list[count][1]
+			count+=1
+
+		return weight
 
 	def spark_list_variable(self):
 		variable_dataframe=self.dataengine._table_to_dataframe("Variable",self.dataset)
-		domain_dataframe=self.dataengine._table_to_dataframe("Domain",self.dataset)
-		temp=domain_dataframe.select("attr_name", "attr_val").collect()
-		attribute=""
-		id=0
-		self.dictionary={}
-		domain_dataframe.show()
-		for row in temp:
-			tempdictionary=row.asDict()
-			if attribute!=tempdictionary["attr_name"]:
-				temp={}
-				id=0
-				attribute=tempdictionary["attr_name"]
-			else:
-				id=id+1
-			temp.update({tempdictionary["attr_val"]:id})
-			self.dictionary.update({attribute:temp})
-			
+
+
+
 
 		temp=variable_dataframe.select("rv_attr","is_Evidence","initial_value","Datatype","Cardinality","vtf_offset").collect()
 		variable_list=[]
@@ -86,8 +122,17 @@ class Wrapper:
 			if int(tempdictionary["is_Evidence"])==0:
 				variable_list.append([np.int8(int(tempdictionary["is_Evidence"])),np.int64((int(0))),np.int16(int(tempdictionary["Datatype"])),np.int64(int(tempdictionary["Cardinality"])),np.int64(int(tempdictionary["vtf_offset"]))])	
 			else:
-				variable_list.append([np.int8(int(tempdictionary["is_Evidence"])),np.int64((int(self.dictionary[tempdictionary["rv_attr"]][tempdictionary["initial_value"]]))),np.int16(int(tempdictionary["Datatype"])),np.int64(int(tempdictionary["Cardinality"])),np.int64(int(tempdictionary["vtf_offset"]))])	
-		return np.array(variable_list)
+				variable_list.append([np.int8(int(tempdictionary["is_Evidence"])),np.int64((int(self.dictionary[tempdictionary["rv_attr"]][tempdictionary["initial_value"]]))),np.int16(int(tempdictionary["Datatype"])),np.int64(int(tempdictionary["Cardinality"])),np.int64(int(tempdictionary["vtf_offset"]))])
+			variable=np.zeros(len(variable_list), Variable)
+		count=0
+		for v in variable:
+			v["isEvidence"]=variable_list[count][0]
+			v["initialValue"] = variable_list[count][1]
+			v["dataType"] = variable_list[count][2]
+			v["cardinality"] = variable_list[count][3]
+			v["vtf_offset"] = variable_list[count][4]
+			count+=1
+		return variable
 
 	def spark_list_Factor_to_var(self):
 		Factor_to_var_dataframe=self.dataengine._table_to_dataframe("Factor_to_var",self.dataset)
@@ -97,8 +142,14 @@ class Wrapper:
 		
 		for row in temp:
 			tempdictionary=row.asDict()
-			Factor_to_var_list.append([np.int64(tempdictionary["vid"]),np.int64(self.dictionary[tempdictionary["attr_name"]][tempdictionary["attr_val"]])])	
-		return np.array(Factor_to_var_list)
+			Factor_to_var_list.append([np.int64(tempdictionary["vid"]),np.int64(self.dictionary[tempdictionary["attr_name"]][tempdictionary["attr_val"]])])
+		fmap=np.zeros(len(Factor_to_var_list), FactorToVar)
+		count=0
+		for f in fmap:
+			f["vid"]=Factor_to_var_list[count][0]-1
+			f["dense_equal_to"]=Factor_to_var_list[count][1]
+			count+=1
+		return fmap
 
 	def spark_list_Factor(self):
 		Factor_dataframe=self.dataengine._table_to_dataframe("Factor",self.dataset)
@@ -107,16 +158,27 @@ class Wrapper:
 		
 		for row in temp:
 			tempdictionary=row.asDict()
-			Factor_list.append([np.int16(tempdictionary["FactorFunction"]),np.int64(tempdictionary["weightID"]),np.float64(tempdictionary["Feature_Value"]),np.int64(tempdictionary["arity"]),np.int64((int(tempdictionary["ftv_offest"])-1))])	
-		return np.array(Factor_list)
+			Factor_list.append([np.int16(tempdictionary["FactorFunction"]),np.int64(tempdictionary["weightID"]),np.float64(tempdictionary["Feature_Value"]),np.int64(tempdictionary["arity"]),np.int64((int(tempdictionary["ftv_offest"])-1))])
+
+		factor=np.zeros(len(Factor_list), Factor)
+
+		count=0
+		for f in factor:
+			f["factorFunction"]=Factor_list[count][0]
+			f["weightId"] = Factor_list[count][1]
+			f["featureValue"] = Factor_list[count][2]
+			f["arity"] = Factor_list[count][3]
+			f["ftv_offset"] = Factor_list[count][4]
+			count+=1
+
+
+		return factor
 
 	def create_edge(self,Factor_list):
 		edges=len(Factor_list)
 		return edges
 
 	def create_mask(self,variable_list):
-		mask=[]
-		for i in variable_list:
-			mask.append("False")
+		mask=np.zeros(len(variable_list), np.bool)
 		return mask
-		
+
