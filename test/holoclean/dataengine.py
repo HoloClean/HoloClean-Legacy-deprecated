@@ -192,7 +192,7 @@ class DataEngine:
     	if spark_flag==1:
     		return self._query_spark(sqlQuery)
     	else:
-            return self.db_backend.excute(sqlQuery)
+            return self.db_backend.execute(sqlQuery)
 
 
 

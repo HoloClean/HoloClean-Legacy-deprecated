@@ -7,8 +7,10 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext, Row
 from dataset import Dataset
 from errordetection.errordetector import ErrorDetectors
-from featurization.featurizer import Signal_Init
 from utils.pruning import Pruning
+from featurization.featurizer import Featurizer
+from learning.wrapper import Wrapper
+
 
 
 
@@ -215,6 +217,12 @@ class Session:
         self.error_detectors = []
 
     # Internal methods
+    def _wrapper(self):
+	wrapper1=Wrapper(self.holo_env.dataengine,self.dataset)
+	wrapper1.set_variable()
+	#wrapper1.set_weight()
+	#wrapper1.set_factor()
+	
     
 
     # Setters
@@ -286,8 +294,9 @@ class Session:
 		query_for_featurization+=feature.get_query()+" union "
 	query_for_featurization=query_for_featurization[:-7]
 	query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;"""
-	print query_for_featurization
 	self.holo_env.dataengine.query(query_for_featurization)
+	featurizer=Featurizer(self.Denial_constraints,self.holo_env.dataengine,self.dataset)
+	featurizer.add_weights()
 	
         return
 

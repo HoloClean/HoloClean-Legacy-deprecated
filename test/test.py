@@ -1,6 +1,8 @@
 from holoclean.holoclean import HoloClean,Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import Signal_Init,Signal_cooccur,Signal_dc
+from holoclean.dataset import Dataset
+
 #import reader as dcreader
 a=HoloClean()
 b=Session("Session",a)
