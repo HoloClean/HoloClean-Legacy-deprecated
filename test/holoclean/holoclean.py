@@ -10,6 +10,7 @@ from errordetection.errordetector import ErrorDetectors
 from utils.pruning import Pruning
 from featurization.featurizer import Featurizer
 from learning.wrapper import Wrapper
+from numbskull import NumbSkull 
 
 
 
@@ -219,13 +220,18 @@ class Session:
     # Internal methods
     def _wrapper(self):
 	wrapper1=Wrapper(self.holo_env.dataengine,self.dataset)
-	wrapper1.set_variable()
-	wrapper1.set_weight()
-	wrapper1.set_Factor_to_Var()
-	wrapper1.set_factor()
-			
-	
-    
+	#wrapper1.set_variable()
+	#wrapper1.set_weight()
+	#wrapper1.set_Factor_to_Var()
+	#wrapper1.set_factor()
+	weight=wrapper1.spark_list_weight()
+	variable=wrapper1.spark_list_variable()
+	factor_to_var=wrapper1.spark_list_Factor_to_var()
+	factor=wrapper1.spark_list_Factor()
+	edge=wrapper1.create_edge(factor)
+	domain_mask=wrapper1.create_mask(variable)
+    	num=NumbSkull()
+	num.loadFactorGraph(weight,variable,factor,factor_to_var,domain_mask,edge)
 
     # Setters
     def ingest_dataset(self, src_path):

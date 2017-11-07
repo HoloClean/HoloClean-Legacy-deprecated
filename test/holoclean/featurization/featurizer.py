@@ -179,10 +179,10 @@ class Signal_dc(Featurizer):
 		    new_condition=new_dc[index_dc ]
 		    dc="',"+dc_sql_parts[index_dc ]+"'"
 		    if index_dc ==0:
-		        query_for_featurization="""(SELECT distinct  NULL as var_index,  table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
+		        query_for_featurization="""(SELECT distinct  NULL as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
 		    else:
 		        #if you have more than one dc
-		        query_for_featurization+=""" UNION (SELECT distinct  NULL as var_index,  table1.index as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
+		        query_for_featurization+=""" UNION (SELECT distinct  NULL as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,"""+ dc+ """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """+ self.table_name +""" as table2, """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+new_condition+""" AND (table1.index<>table2.index) ) )"""
 		return query_for_featurization	
 	   
 
