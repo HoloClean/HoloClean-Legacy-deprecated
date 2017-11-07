@@ -43,8 +43,7 @@ class Pruning:
         self._generate_assignments()
         self._generate_nbs()
         self._find_cell_domain()
-	domain=self._create_dataframe()
-	dataengine._dataframe_to_table(dataset.dataset_id + '_Domain', domain, )
+	self._create_dataframe()
         print 'DONE.'
  
     #Internal Method
@@ -133,8 +132,9 @@ class Pruning:
         for cid in tpl:
             cell = tpl[cid]
             self.col_to_cid[cell.columnname] = cid
-        for cell in self.noisycells:
-            self.trgt_cols.add(cell.columnname)
+        for tupleid in self.cellvalues:
+            for cid in self.cellvalues[tupleid]:
+            	self.trgt_cols.add(self.cellvalues[tupleid][cid].columnname)
         for col in self.col_to_cid:
             self.domain_stats[col] = {}
         for col1 in self.col_to_cid:
@@ -174,6 +174,7 @@ class Pruning:
                     self.domain_pair_stats[col][tgt_col][assgn_tuple] += 1.0
 
 
+
     def _generate_nbs(self):
 	"""TO DO: 
 	generate_nbs creates candidates repairs
@@ -189,7 +190,7 @@ class Pruning:
                         if tgt_col not in self.nb_cache[col][assgn_tuple[0]]:
                             self.nb_cache[col][assgn_tuple[0]][tgt_col] = {}
                         self.nb_cache[col][assgn_tuple[0]][tgt_col][assgn_tuple[1]] = nb
-	
+
                     
 
     def _generate_assignments(self):
@@ -206,6 +207,7 @@ class Pruning:
                 assignment[c.columnname] = c.value
             self.assignments[cell.cellid] = assignment
             self.trgt_attr[cell.cellid] = trgt_attr
+
 	
  
 
@@ -221,17 +223,26 @@ class Pruning:
 	"""
 	creates a spark dataframe from cell_domain for all the cells
         """
-	list_to_dataframe=[]
+	list_to_dataframe_possible_values=[]
+	list_to_dataframe_Domain=[]
+	attribute=[]
+	temp=[]
+
+
 	for i in self.cell_domain:
 		for j in self.cell_domain[i]:
-				list_to_dataframe.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
-	for tupleid in self.cellvalues:
-            for cid in self.cellvalues[tupleid]:
-                cell = self.cellvalues[tupleid][cid]
-		if not( [(cell.tupleid+1),cell.columnname,cell.value] in list_to_dataframe):
-			list_to_dataframe.append([(cell.tupleid+1),cell.columnname,cell.value])
-	new_df = self.spark_session.createDataFrame(list_to_dataframe,['tid','attr_name','attr_val'])
-	new_df=new_df.orderBy("tid")	
-	return new_df
+				attribute.append(self.all_cells_temp[i].columnname)
+				list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
+				if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
+					list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
+
+
+	new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val'])
+	new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
+	new_df_domain=new_df_domain.orderBy("attr_name")
+	self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)
+	new_df_possible=new_df_possible.orderBy("tid")
+	self.dataengine.add_db_table('Possible_values',new_df_possible,self.dataset)
+	return
 
 

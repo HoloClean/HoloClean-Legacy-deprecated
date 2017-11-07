@@ -2,7 +2,7 @@
 import sqlalchemy as sqla
 import mysql.connector
 from dataset import *
-import panadas as pd
+import pandas as pd
 from utils.reader import Reader
 
 
@@ -58,9 +58,10 @@ class DataEngine:
         """Connect to MySQL database"""
         try:
             self.db_backend.connect()
-            self.holoEnv.log.info("Connection established to data database")
+           # self.holoEnv.log.info("Connection established to data database")
         except:
-            self.holoEnv.log.warn("No connection to data database")
+	    pass
+            #self.holoEnv.log.warn("No connection to data database")
     
     def _add_info_to_meta(self,table_name,table_schema,dataset):
 
@@ -72,7 +73,7 @@ class DataEngine:
         for attribute in table_schema:
             schema=schema+","+str(attribute)
         
-        table_name_spc=dataset.spec_tb_name(table_name)
+        table_name_spc=dataset.table_specific_name(table_name)
         self._add_meta(table_name, schema[1:],dataset)   
         return table_name_spc
     
@@ -106,7 +107,7 @@ class DataEngine:
         This method get table general name and return it as spark dataframe
         """
          
-        table_get="Select * from "+dataset.table_name[dataset.attributes.index(table_name)]
+        table_get="Select * from "+dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
         
         useSpark=1
         
@@ -120,7 +121,7 @@ class DataEngine:
         jdbcUrl = "jdbc:mysql://" + self.holoEnv.db_host + "/" + self.holoEnv.db_name
         dbProperties = {
             "user": self.holoEnv.db_user,
-            "password": self.holoEnv.db_pwd
+            "password": self.holoEnv.db_pwd,
         }
 
         dataframe.write.jdbc(jdbcUrl, spec_table_name, "overwrite", properties=dbProperties)
@@ -138,7 +139,7 @@ class DataEngine:
     def _get_schema(self,dataset,table_general_name):
 
 
-        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + self.dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
+        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
         mt_eng = self.db_backend
 
         generator = pd.read_sql_query(sql_query, mt_eng)
@@ -191,7 +192,7 @@ class DataEngine:
     	if spark_flag==1:
     		return self._query_spark(sqlQuery)
     	else:
-            return self.db_backend.excute(sqlQuery)
+            return self.db_backend.execute(sqlQuery)
 
 
 
