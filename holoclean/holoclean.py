@@ -217,10 +217,10 @@ class Session:
     # Internal methods
     def _numbskull_fg_lists(self):
         wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
-        # wrapper_obj.set_variable()
-        # wrapper_obj.set_weight()
-        # wrapper_obj.set_Factor_to_Var()
-        # wrapper_obj.set_factor()
+        wrapper_obj.set_variable()
+        wrapper_obj.set_weight()
+        wrapper_obj.set_Factor_to_Var()
+        wrapper_obj.set_factor()
         weight = wrapper_obj.spark_list_weight()
         variable = wrapper_obj.spark_list_variable()
         fmap = wrapper_obj.spark_list_Factor_to_var()
