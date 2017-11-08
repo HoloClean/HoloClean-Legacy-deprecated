@@ -12,8 +12,8 @@ class Testing:
 	def test(self):
 		a=HoloClean()
 		b=Session("Session",a)
-		b.ingest_dataset("/home/gmichalo/Desktop/tuesday/HoloClean-v0.01/test/10.csv")
-		b.denial_constraints("/home/gmichalo/Desktop/tuesday/HoloClean-v0.01/test/dc.txt")
+		b.ingest_dataset("test/10.csv")
+		b.denial_constraints("test/dc.txt")
 		err_detector=ErrorDetectors(b.Denial_constraints,a.dataengine,a.spark_session,b.dataset)
 		b.add_error_detector(err_detector)
 		b.ds_detect_errors()
