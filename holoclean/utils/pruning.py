@@ -53,9 +53,12 @@ class Pruning:
         """
 	dataframe1=self.dataengine._table_to_dataframe("C_dk",self.dataset)
 	noisy_cells=[]
+	self.noisy_list=[]
 	for c in dataframe1.collect():
 		cell = random_var(columnname=c[1], row_id=int(c[0]))
 		noisy_cells.append(cell)
+		self.noisy_list.append([c[1], int(c[0])])
+		
 	return noisy_cells
 
     def _c_values(self):
@@ -132,9 +135,8 @@ class Pruning:
         for cid in tpl:
             cell = tpl[cid]
             self.col_to_cid[cell.columnname] = cid
-        for tupleid in self.cellvalues:
-            for cid in self.cellvalues[tupleid]:
-            	self.trgt_cols.add(self.cellvalues[tupleid][cid].columnname)
+        for cell in self.noisycells:
+            self.trgt_cols.add(cell.columnname)
         for col in self.col_to_cid:
             self.domain_stats[col] = {}
         for col1 in self.col_to_cid:
@@ -225,16 +227,28 @@ class Pruning:
         """
 	list_to_dataframe_possible_values=[]
 	list_to_dataframe_Domain=[]
-	attribute=[]
+
 	temp=[]
 
+	#print self.noisy_list
 
-	for i in self.cell_domain:
-		for j in self.cell_domain[i]:
-				attribute.append(self.all_cells_temp[i].columnname)
-				list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
-				if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
-					list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
+	for tupleid in self.cellvalues:
+            for cid in self.cellvalues[tupleid]:
+				if not ([self.cellvalues[tupleid][cid].columnname,(self.cellvalues[tupleid][cid].tupleid+1)] in self.noisy_list):
+					list_to_dataframe_possible_values.append([(self.cellvalues[tupleid][cid].tupleid+1),self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value])
+					if not ([self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value] in list_to_dataframe_Domain):
+						list_to_dataframe_Domain.append([self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value])
+				else:
+					for j in self.cell_domain[self.cellvalues[tupleid][cid].cellid]:
+						list_to_dataframe_possible_values.append([(self.all_cells_temp[self.cellvalues[tupleid][cid].cellid].tupleid+1),self.all_cells_temp[self.cellvalues[tupleid][cid].cellid].columnname,j])
+						if not ([self.all_cells_temp[self.cellvalues[tupleid][cid].cellid].columnname,j] in list_to_dataframe_Domain):
+							list_to_dataframe_Domain.append([self.all_cells_temp[self.cellvalues[tupleid][cid].cellid].columnname,j])
+					
+
+	#print list_to_dataframe_possible_values
+	#print list_to_dataframe_Domain
+	#print self.cell_domain
+	#raw_input("asd!!")
 
 
 	new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val'])

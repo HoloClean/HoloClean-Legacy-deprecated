@@ -229,12 +229,13 @@ class Session:
         wrapper_obj.set_weight()
         wrapper_obj.set_Factor_to_Var()
         wrapper_obj.set_factor()
-        weight=wrapper_obj.spark_list_weight()
-        variable=wrapper_obj.spark_list_variable()
-        fmap=wrapper_obj.spark_list_Factor_to_var()
-        factor=wrapper_obj.spark_list_Factor()
-        edges=wrapper_obj.create_edge(factor)
-        domain_mask=wrapper_obj.create_mask(variable)
+        weight=wrapper_obj.get_list_weight()
+        variable=wrapper_obj.get_list_variable()
+        fmap=wrapper_obj.get_list_Factor_to_var()
+        factor=wrapper_obj.get_list_Factor()
+        edges=wrapper_obj.get_edge(factor)
+        domain_mask=wrapper_obj.get_mask(variable)
+
         return weight, variable, factor, fmap, domain_mask, edges
 
     def _numskull(self):
