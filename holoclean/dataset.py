@@ -4,7 +4,7 @@ from datetime import datetime
 class Dataset:
 
 	attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature', 'Domain', 'Labels','Possible_values',
-					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1','Variable','Factor','Factor_to_var']
+					'Weights', 'Biases', 'Probabilities', 'config', 'dc_f1','Variable','Factor','Factor_to_var','Final','Correct']
 	
 	"""
 	
@@ -25,6 +25,8 @@ class Dataset:
 		Weights : table of weights that we learn in the learning section for numbskull
 		Factor_to_var: table of factor_to_var for numbskull
 		dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
+		Final: table with final results in order to check the accuracy
+		Correct: table with the correct values for our dataset
 		
 	"""
 

@@ -12,6 +12,7 @@ from errordetection.errordetector import ErrorDetectors
 from utils.pruning import Pruning
 from featurization.featurizer import Featurizer
 from learning.wrapper import Wrapper
+from learning.inference import inference
 import numpy as np
 import numbskull
 
@@ -252,9 +253,23 @@ class Session:
 
         fg=self._numbskull_fg_lists()
         ns.loadFactorGraph(*fg)
-        print(ns.factorGraphs[0].weight_value)
+        #print(ns.factorGraphs[0].weight_value)
+	#print ns.factorGraphs[0].weight 
+	#print ns.factorGraphs[0].variable
+        #print ns.factorGraphs[0].factor 
+        #print ns.factorGraphs[0].fmap
         ns.learning()
-        print(ns.factorGraphs[0].weight_value)
+        #print(ns.factorGraphs[0].weight_value)
+	list_weightvalue=[]
+	list_temp=ns.factorGraphs[0].weight_value[0]
+	for i in range(0 , len(list_temp)):
+	    list_weightvalue.append([i,float(list_temp[i])])
+
+	new_df_weights = self.holo_env.spark_session.createDataFrame(list_weightvalue,['weight_id','weight_val'])
+	delete_table_query='drop table ' + self.dataset.table_specific_name('Weights')+";"
+	self.holo_env.dataengine.query(delete_table_query)
+	self.holo_env.dataengine.add_db_table('Weights',new_df_weights,self.dataset)
+	
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -336,6 +351,9 @@ class Session:
 
     def ds_repair(self):
         """TODO: Returns suggested repair"""
+	learning_obj=inference(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session)
+	accuracy=learning_obj.learning()
+	print ("The accuracy that we have is :"+str(accuracy))
         return
 
 
