@@ -227,13 +227,15 @@ class Pruning:
         """
 	list_to_dataframe_possible_values=[]
 	list_to_dataframe_Domain=[]
+	list_to_dataframe_initial=[]
 
 	temp=[]
 
-	#print self.noisy_list
+
 
 	for tupleid in self.cellvalues:
             for cid in self.cellvalues[tupleid]:
+				list_to_dataframe_initial.append([(self.cellvalues[tupleid][cid].tupleid+1),self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value])
 				if not ([self.cellvalues[tupleid][cid].columnname,(self.cellvalues[tupleid][cid].tupleid+1)] in self.noisy_list):
 					list_to_dataframe_possible_values.append([(self.cellvalues[tupleid][cid].tupleid+1),self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value])
 					if not ([self.cellvalues[tupleid][cid].columnname,self.cellvalues[tupleid][cid].value] in list_to_dataframe_Domain):
@@ -245,11 +247,9 @@ class Pruning:
 							list_to_dataframe_Domain.append([self.all_cells_temp[self.cellvalues[tupleid][cid].cellid].columnname,j])
 					
 
-	#print list_to_dataframe_possible_values
-	#print list_to_dataframe_Domain
-	#print self.cell_domain
-	#raw_input("asd!!")
 
+	new_df_initial = self.spark_session.createDataFrame(list_to_dataframe_initial,['tid','attr_name','attr_val'])
+	self.dataengine.add_db_table('dc_f1',new_df_initial,self.dataset)	
 
 	new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val'])
 	new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])

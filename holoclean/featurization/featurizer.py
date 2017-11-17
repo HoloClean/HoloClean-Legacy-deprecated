@@ -151,7 +151,11 @@ class Signal_cooccur(Featurizer):
 		"""
 		This method creates a query for the featurization table for the cooccurances
 		"""     
-        	query_for_featurization=""" (SELECT distinct  NULL as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from """+ self.possible_table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table  where (table1.attr_name != possible_table.attr_name and table1.tid = possible_table.tid ))"""
+		self.table_name1=self.dataset.table_specific_name('dc_f1')
+		query_for_featurization=""" (SELECT distinct  NULL as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from """+ self.table_name1 + """ as table1, """+ self.possible_table_name+ """ as possible_table  where (table1.attr_name != possible_table.attr_name and table1.tid = possible_table.tid ))"""
+                return query_for_featurization
+
+
                 return query_for_featurization
 
 class Signal_dc(Featurizer):
