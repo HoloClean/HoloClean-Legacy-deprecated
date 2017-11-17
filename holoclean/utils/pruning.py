@@ -257,6 +257,7 @@ class Pruning:
 	self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)
 	new_df_possible=new_df_possible.orderBy("tid")
 	self.dataengine.add_db_table('Possible_values',new_df_possible,self.dataset)
+	self.dataengine.query("ALTER TABLE "+self.dataset.table_specific_name('Possible_values') +" order by tid,attr_name ASC ;")
 	return
 
 
