@@ -238,7 +238,7 @@ class Session:
         edges=wrapper_obj.get_edge(factor)
         domain_mask=wrapper_obj.get_mask(variable)
 
-	anti=anti_Wrapper(self.holo_env.dataengine,self.dataset)
+	# anti=anti_Wrapper(self.holo_env.dataengine,self.dataset)
 
         return weight, variable, factor, fmap, domain_mask, edges
 
@@ -255,12 +255,14 @@ class Session:
                                  reg_param=0.01)
 
         fg=self._numbskull_fg_lists()
+
+
         ns.loadFactorGraph(*fg)
         #print(ns.factorGraphs[0].weight_value)
-	print ns.factorGraphs[0].weight 
-	print ns.factorGraphs[0].variable
-        print ns.factorGraphs[0].factor
-        #print ns.factorGraphs[0].fmap
+        # print ns.factorGraphs[0].weight
+        # print ns.factorGraphs[0].variable
+        print list(ns.factorGraphs[0].factor)
+        # print list(ns.factorGraphs[0].fmap)
         ns.learning()
         #print(ns.factorGraphs[0].weight_value)
 	list_weightvalue=[]

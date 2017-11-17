@@ -162,11 +162,15 @@ class Wrapper:
        		"""
 		Factor_dataframe=self.dataengine._table_to_dataframe("Factor",self.dataset)
 		temp=Factor_dataframe.select("FactorFunction","weightID","Feature_Value","arity","ftv_offest").collect()
-		Factor_list=[]
-		
+		print len(temp)
+		Factor_list=[0]*len(temp)
+
+		counter=0
 		for row in temp:
 			tempdictionary=row.asDict()
-			Factor_list.append([np.int16(tempdictionary["FactorFunction"]),np.int64(tempdictionary["weightID"]),np.float64(tempdictionary["Feature_Value"]),np.int64(tempdictionary["arity"]),np.int64((int(tempdictionary["ftv_offest"])-1))])
+			Factor_list[counter]=[np.int16(tempdictionary["FactorFunction"]),np.int64(tempdictionary["weightID"]),np.float64(tempdictionary["Feature_Value"]),np.int64(tempdictionary["arity"]),np.int64((int(tempdictionary["ftv_offest"])-1))]
+			counter+=1
+		print Factor_list
 
 		factor=np.zeros(len(Factor_list), Factor)
 
