@@ -1,4 +1,8 @@
 from test.test import Testing
+from test.sematic_compare_test import CompareUnittest
 
-object_testing=Testing()
-object_testing.test()
+
+x=CompareUnittest()
+x.runTest()
+# object_testing=Testing()
+# object_testing.test()

@@ -13,12 +13,12 @@ class Wrapper:
 		self.dataset=dataset
 		self.dataengine=dataengine
 		self._make_dictionary()
-	
+
 	#Internal method
 	def _make_dictionary(self):
 		"""
         	This method creates a dictionary for each attribute
-	
+
        		"""
 
 		domain_dataframe=self.dataengine._table_to_dataframe("Domain",self.dataset)
@@ -48,16 +48,16 @@ class Wrapper:
 	def set_weight(self):
 		"""
         	This method creates a query for weight table for the factor
-	
+
        		"""
-		
+
 		mysql_query="Create TABLE "+self.dataset.table_specific_name('Weights')+" as (select (0 + weight_id) as weight_id ,1 as Is_fixed,1  as init_val from "+ self.dataset.table_specific_name('Feature') +" where TYPE='init' group by weight_id  ) union (select (0 + weight_id) as weight_id ,0 as Is_fixed, 0 as init_val from "+ self.dataset.table_specific_name('Feature') +" where TYPE!='init' group by weight_id ) order by weight_id;"
 		self.dataengine.query(mysql_query)
 
 	def set_variable(self):
 		"""
         	This method creates a query for variable table for numbskull
-	
+
        		"""
 
 		mysql_query='CREATE TABLE '+self.dataset.table_specific_name('Variable')+' AS'
@@ -74,13 +74,13 @@ class Wrapper:
 	def set_Factor_to_Var(self):
 		"""
         	This method creates a query for factor_to_variable table for numbskull
-	
+
        		"""
 		mysql_query='CREATE TABLE '+self.dataset.table_specific_name('Factor_to_var')+' AS'
 		mysql_query=mysql_query+ "(select (@n := @n + 1 ) as factor_to_var_index, variable_index as vid,attr_val,table1.attr_name from  "+self.dataset.table_specific_name('Possible_values')+" as table1, "+self.dataset.table_specific_name('Variable')+" as table2 , (select @n:=0) m where  table1.tid=rv_ind and   table1.attr_name=table2.rv_attr);"
 		self.dataengine.query(mysql_query)
 
-	def set_factor(self):	
+	def set_factor(self):
 		"""
         	This method creates a query for factor table for numbskull"
 	
@@ -88,12 +88,12 @@ class Wrapper:
 		mysql_query='CREATE TABLE '+self.dataset.table_specific_name('Factor')+' AS'
 		mysql_query=mysql_query+ "(select distinct (@n := @n + 1 ) as factor_index,var_index, '4' as FactorFunction, table1.weight_id as weightID, '1' as Feature_Value, '1' as arity, table3.factor_to_var_index as ftv_offest from "+self.dataset.table_specific_name('Feature')+" as table1,"+self.dataset.table_specific_name('Variable')+" as table2,"+self.dataset.table_specific_name('Factor_to_var')+" as table3 , (select @n:=0) m where  table1.rv_index=table2.rv_ind and table1.rv_attr= table2.rv_attr and table3.vid=table2.variable_index and table3.attr_val=table1.assigned_val order by var_index);"
 		self.dataengine.query(mysql_query)
-	
+
 	#Getters
 	def get_list_weight(self):
 		"""
         	This method creates list of weights for numbskull
-	
+
        		"""
 		weight_dataframe=self.dataengine._table_to_dataframe("Weights",self.dataset)
 		temp=weight_dataframe.select("Is_fixed","init_val").collect()
@@ -189,7 +189,7 @@ class Wrapper:
 	def get_edge(self,Factor_list):
 		"""
         	This method returns the number of edges for numbskull
-	
+
        		"""
 		edges=len(Factor_list)
 		return edges
@@ -197,7 +197,7 @@ class Wrapper:
 	def get_mask(self,variable_list):
 		"""
         	This method returns the domain mask for numbskull
-	
+
        		"""
 		mask=np.zeros(len(variable_list), np.bool)
 		return mask

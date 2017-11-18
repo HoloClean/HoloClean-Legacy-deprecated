@@ -1,26 +1,19 @@
 #!/usr/bin/env python
 
 
+import logging
 import sys
 
-import logging
-from dataengine import DataEngine
-from pyspark import SparkContext, SparkConf
-from pyspark.sql import SQLContext, Row
-from dataset import Dataset
-from errordetection.errordetector import ErrorDetectors
-from utils.pruning import Pruning
-from featurization.featurizer import Featurizer
-from learning.wrapper import Wrapper
-from learning.inference import inference
-from learning.antiwrapper import anti_Wrapper
-import numpy as np
 import numbskull
+from pyspark import SparkContext, SparkConf
+from pyspark.sql import SQLContext
 
-
-
-
-
+from dataengine import DataEngine
+from dataset import Dataset
+from featurization.featurizer import Featurizer
+from learning.inference import inference
+from learning.wrapper import Wrapper
+from utils.pruning import Pruning
 
 # Define arguments for HoloClean
 arguments = [
@@ -138,8 +131,8 @@ class HoloClean:
         # Initialize dataengine and spark session
         
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
-	self.dataengine = self._init_dataengine()	
-	
+        self.dataengine = self._init_dataengine()
+
         # Init empty session collection
         self.session = {}
         self.session_id = 0
@@ -147,7 +140,7 @@ class HoloClean:
     # Internal methods
     def _init_dataengine(self):
         """TODO: Initialize HoloClean's Data Engine"""
-       # if self.dataengine:
+        # if self.dataengine:
         #    return
         dataEngine = DataEngine(self)
         return dataEngine
@@ -175,7 +168,6 @@ class HoloClean:
         """TODO: Manually set Data Engine"""
         self.dataengine = newDataEngine
         return
-
 
     # Getters
     def get_spark_session(self):
@@ -238,8 +230,6 @@ class Session:
         edges=wrapper_obj.get_edge(factor)
         domain_mask=wrapper_obj.get_mask(variable)
 
-	# anti=anti_Wrapper(self.holo_env.dataengine,self.dataset)
-
         return weight, variable, factor, fmap, domain_mask, edges
 
     def _numskull(self):
@@ -256,32 +246,24 @@ class Session:
 
         fg=self._numbskull_fg_lists()
 
-
         ns.loadFactorGraph(*fg)
-        #print(ns.factorGraphs[0].weight_value)
-        # print ns.factorGraphs[0].weight
-        # print ns.factorGraphs[0].variable
-        print list(ns.factorGraphs[0].factor)
-        # print list(ns.factorGraphs[0].fmap)
         ns.learning()
-        #print(ns.factorGraphs[0].weight_value)
-	list_weightvalue=[]
-	list_temp=ns.factorGraphs[0].weight_value[0]
-	for i in range(0 , len(list_temp)):
-	    list_weightvalue.append([i,float(list_temp[i])])
+        list_weight_value = []
+        list_temp=ns.factorGraphs[0].weight_value[0]
+        for i in range(0 , len(list_temp)):
+            list_weight_value.append([i,float(list_temp[i])])
 
-	new_df_weights = self.holo_env.spark_session.createDataFrame(list_weightvalue,['weight_id','weight_val'])
-	delete_table_query='drop table ' + self.dataset.table_specific_name('Weights')+";"
-	self.holo_env.dataengine.query(delete_table_query)
-	self.holo_env.dataengine.add_db_table('Weights',new_df_weights,self.dataset)
-	
+        new_df_weights = self.holo_env.spark_session.createDataFrame(list_weight_value,['weight_id','weight_val'])
+        delete_table_query='drop table ' + self.dataset.table_specific_name('Weights')+";"
+        self.holo_env.dataengine.query(delete_table_query)
+        self.holo_env.dataengine.add_db_table('Weights',new_df_weights,self.dataset)
 
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
         self.dataset=Dataset()
         self.holo_env.dataengine.ingest_data(src_path,self.dataset)
-	print self.dataset.print_id()
+        print self.dataset.print_id()
         return
 
     def add_featurizer(self, newFeaturizer):
@@ -299,9 +281,9 @@ class Session:
         dc_file=open(filepath,'r')
         for line in dc_file:
           self.Denial_constraints.append(line[:-1])
-	
 
     # Getters
+
     def get_name(self):
         """TODO: Return session name"""
         return self.name
@@ -345,13 +327,9 @@ class Session:
         query_for_featurization=query_for_featurization[:-7]
         query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """+self.dataset.table_specific_name('Feature')+""" MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
 
-
         self.holo_env.dataengine.query(query_for_featurization)
-        featurizer=Featurizer(self.Denial_constraints,self.holo_env.dataengine,self.dataset)
+        featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
         featurizer.add_weights()
-
-
-	
 
         return
 
@@ -361,9 +339,9 @@ class Session:
 
     def ds_repair(self):
         """TODO: Returns suggested repair"""
-	learning_obj=inference(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session)
-	accuracy=learning_obj.learning()
-	print ("The accuracy that we have is :"+str(accuracy))
+        learning_obj = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
+        accuracy = learning_obj.learning()
+        print ("The accuracy that we have is :"+str(accuracy))
         return
 
 
