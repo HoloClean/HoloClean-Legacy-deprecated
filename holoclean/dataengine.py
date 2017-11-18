@@ -189,9 +189,9 @@ class DataEngine:
         TO DO:execute a query, uses the flag to decide if it will store the results on spark dataframe
         """
 
-    	if spark_flag==1:
-    		return self._query_spark(sqlQuery)
-    	else:
+        if spark_flag == 1:
+            return self._query_spark(sqlQuery)
+        else:
             return self.db_backend.execute(sqlQuery)
 
 
