@@ -38,8 +38,8 @@ class SemanticCompare:
     def numbskull_to_factor_graph(self):
 
         wrapper_obj = Wrapper(self.dataengine, self.dataset)
-        factor_to_var=list(wrapper_obj.get_list_Factor_to_var())
-        factors=list(wrapper_obj.get_list_Factor())
+        factor_to_var=list(wrapper_obj.get_list_factor_to_var())
+        factors=list(wrapper_obj.get_list_factor())
         numbskull_to_fg_edges = set()
         for factor in factors:
             numbskull_to_fg_edges.add((factor_to_var[factor[4]][0], factors.index(factor)))
