@@ -86,7 +86,7 @@ class Wrapper:
 	
        		"""
 		mysql_query='CREATE TABLE '+self.dataset.table_specific_name('Factor')+' AS'
-		mysql_query=mysql_query+ "(select distinct (@n := @n + 1 ) as factor_index, '4' as FactorFunction, table1.weight_id as weightID, '1' as Feature_Value, '1' as arity, table3.factor_to_var_index as ftv_offest from "+self.dataset.table_specific_name('Feature')+" as table1,"+self.dataset.table_specific_name('Variable')+" as table2,"+self.dataset.table_specific_name('Factor_to_var')+" as table3 , (select @n:=0) m where  table1.rv_index=table2.rv_ind and table1.rv_attr= table2.rv_attr and table3.vid=table2.variable_index and table3.attr_val=table1.assigned_val );"
+		mysql_query=mysql_query+ "(select distinct (@n := @n + 1 ) as factor_index,var_index, '4' as FactorFunction, table1.weight_id as weightID, '1' as Feature_Value, '1' as arity, table3.factor_to_var_index as ftv_offest from "+self.dataset.table_specific_name('Feature')+" as table1,"+self.dataset.table_specific_name('Variable')+" as table2,"+self.dataset.table_specific_name('Factor_to_var')+" as table3 , (select @n:=0) m where  table1.rv_index=table2.rv_ind and table1.rv_attr= table2.rv_attr and table3.vid=table2.variable_index and table3.attr_val=table1.assigned_val order by var_index);"
 		self.dataengine.query(mysql_query)
 	
 	#Getters

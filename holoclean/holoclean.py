@@ -334,7 +334,7 @@ class Session:
         return
 
     def ds_domain_pruning(self):
-        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5)
+        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0)
         return
 
     def ds_featurize(self):
@@ -344,9 +344,12 @@ class Session:
             query_for_featurization+=feature.get_query()+" union "
         query_for_featurization=query_for_featurization[:-7]
         query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """+self.dataset.table_specific_name('Feature')+""" MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
+
+
         self.holo_env.dataengine.query(query_for_featurization)
         featurizer=Featurizer(self.Denial_constraints,self.holo_env.dataengine,self.dataset)
         featurizer.add_weights()
+
 
 	
 
