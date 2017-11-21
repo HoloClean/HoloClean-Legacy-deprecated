@@ -233,16 +233,16 @@ class Pruning:
 			
 	
 	for i in self.cell_domain:
-		list_to_dataframe_initial.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,self.all_cells_temp[i].value])
+		list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,self.all_cells_temp[i].value,"1"])
 		for j in self.cell_domain[i]:
-				list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j])
+				if not ([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"1"] in list_to_dataframe_possible_values):
+					list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"0"])
 				if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
 					list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
 
 
-	new_df_initial = self.spark_session.createDataFrame(list_to_dataframe_initial,['tid','attr_name','attr_val'])
-	self.dataengine.add_db_table('dc_f1',new_df_initial,self.dataset)	
-	new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val'])
+
+	new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val','observed'])
 	new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
 	new_df_domain=new_df_domain.orderBy("attr_name")
 	self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)

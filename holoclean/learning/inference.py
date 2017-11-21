@@ -41,18 +41,30 @@ class inference:
         query = "CREATE TABLE " + self.dataset.table_specific_name(
             'Final') + " AS (" + " select table1.rv_index, table1.rv_attr, assigned_val from (select max(probability) as max1 ,rv_index , rv_attr   from " + self.dataset.table_specific_name(
             'Probabilities') + " group by rv_attr,rv_index) as table1 , " + self.dataset.table_specific_name(
-            'Probabilities') + " as table2  where table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr and max1=table2.probability);"
+            'Probabilities') + " as table2, "+  self.dataset.table_specific_name('C_dk')  +" as table3 where table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr and max1=table2.probability and table3.ind=table1.rv_index and table3.attr=table1.rv_attr);"
         self.dataengine.query(query)
+        print query
 
         # We get the number of repairs form the dont know cells
         dataframe1 = self.dataengine._table_to_dataframe("C_dk", self.dataset)
         number_of_repairs = dataframe1.count()
 
+        accuracy=0
+        table_attribute_string=self.dataengine._get_schema(self.dataset,"Init")
+        attributes=table_attribute_string.split(',')
+        query=""
+        for attribute in attributes:
+            if attribute !="index":
+                query=query+"update "  +  self.dataset.table_specific_name('Init')  + " as table1 , "+  self.dataset.table_specific_name('Final')  +  " as table2  SET table1."+ attribute +"=table2.assigned_val where table1.index=table2.rv_index and rv_attr='"+attribute +"';"
+            
+
+        self.dataengine.query(query)
+
         # We get the number of incorrect repairs by comparing the repairs to the correct table
-        df1 = self.dataengine._table_to_dataframe("Final", self.dataset)
-        df2 = self.dataengine._table_to_dataframe("Correct", self.dataset)
-        incorrect_repairs = df1.subtract(df2).count()
+       # df1 = self.dataengine._table_to_dataframe("Final", self.dataset)
+       # df2 = self.dataengine._table_to_dataframe("Correct", self.dataset)
+       # incorrect_repairs = df1.subtract(df2).count()
 
         # We find the accuracy
-        accuracy = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
+        #accuracy = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
         return accuracy
