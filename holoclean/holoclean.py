@@ -340,8 +340,7 @@ class Session:
     def ds_repair(self):
         """TODO: Returns suggested repair"""
         learning_obj = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-        accuracy = learning_obj.learning()
-        print ("The accuracy that we have is :"+str(accuracy))
+        learning_obj.learning()
         return
 
 

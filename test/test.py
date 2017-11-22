@@ -1,6 +1,7 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import Signal_Init,Signal_cooccur, Signal_dc
+from holoclean.learning.accuracy import Accuracy
 
 
 class Testing:
@@ -28,4 +29,7 @@ class Testing:
         self.session.ds_featurize()
         self.session._numskull()
         self.session.ds_repair()
+        acc = Accuracy(self.holo_obj.dataengine, "test/testGT.csv", self.session.dataset, self.holo_obj.spark_session)
+        acc.accuracy_calculation()
+
 

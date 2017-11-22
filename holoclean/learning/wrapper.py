@@ -185,7 +185,6 @@ class Wrapper:
                 """
         factor_dataframe = self.dataengine._table_to_dataframe("Factor", self.dataset)
         temp = factor_dataframe.select("FactorFunction", "weightID", "Feature_Value", "arity", "ftv_offest").collect()
-        print len(temp)
         factor_list = [0] * len(temp)
 
         counter = 0
@@ -195,7 +194,7 @@ class Wrapper:
                                     np.float64(tempdictionary["Feature_Value"]), np.int64(tempdictionary["arity"]),
                                     np.int64((int(tempdictionary["ftv_offest"]) - 1))]
             counter += 1
-        print factor_list
+
 
         factor = np.zeros(len(factor_list), Factor)
 
