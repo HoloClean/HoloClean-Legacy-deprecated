@@ -27,4 +27,5 @@ class Testing:
         self.session.add_featurizer(dc_signal)
         self.session.ds_featurize()
         self.session._numskull()
+        self.session.ds_repair()
 

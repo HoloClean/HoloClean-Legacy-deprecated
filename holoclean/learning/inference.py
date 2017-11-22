@@ -52,10 +52,12 @@ class inference:
         accuracy=0
         table_attribute_string=self.dataengine._get_schema(self.dataset,"Init")
         attributes=table_attribute_string.split(',')
+        create_changes_table="CREATE TABLE "+self.dataset.table_specific_name('Changes')+" AS (SELECT * FROM "+self.dataset.table_specific_name('Init')+");"
+        self.dataengine.query(create_changes_table)
         query=""
         for attribute in attributes:
             if attribute !="index":
-                query=query+"update "  +  self.dataset.table_specific_name('Init')  + " as table1 , "+  self.dataset.table_specific_name('Final')  +  " as table2  SET table1."+ attribute +"=table2.assigned_val where table1.index=table2.rv_index and rv_attr='"+attribute +"';"
+                query=query+"update "  +  self.dataset.table_specific_name('Changes')  + " as table1 , "+  self.dataset.table_specific_name('Final')  +  " as table2  SET table1."+ attribute +"=table2.assigned_val where table1.index=table2.rv_index and rv_attr='"+attribute +"';"
             
 
         self.dataengine.query(query)
