@@ -9,7 +9,7 @@ class Accuracy:
 
 
     def accuracy_calculation(self):
-        # accuracy=0
+        # precision=0
         dont_know_cells_df = self.dataengine._table_to_dataframe("C_dk", self.dataset)
         tmp=dont_know_cells_df.collect()
 
@@ -31,10 +31,15 @@ class Accuracy:
         grand_truth_dk_cells_df.show()
         incorrect_repairs = repair_value.subtract(grand_truth_dk_cells_df).count()
 
-        # We find the accuracy
-        accuracy = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
+        # We find the precision, recall ,and F1 score
+        precision = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
+        recall = (1.0) * (number_of_repairs - incorrect_repairs) / incorrect_repairs
+        f1_score = (2.0) * (precision * recall) / (precision + recall)
 
-        print ("The accuracy that we have is :" + str(accuracy))
+
+        print ("The precision that we have is :" + str(precision))
+        print ("The recall that we have is :" + str(recall))
+        print ("The F1 score that we have is :" + str(f1_score))
 
     def read(self):
         """Create a dataframe from the csv file
