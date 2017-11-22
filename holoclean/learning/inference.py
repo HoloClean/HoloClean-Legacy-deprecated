@@ -39,10 +39,10 @@ class inference:
 
         # Query to find the repair for each cell
         query = "CREATE TABLE " + self.dataset.table_specific_name(
-            'Final') + " AS (" + " select table1.rv_index, table1.rv_attr, assigned_val from (select max(probability) as max1 ,rv_index , rv_attr   from " + self.dataset.table_specific_name(
+            'Final') + " AS (" + " select table1.rv_index, table1.rv_attr, max(assigned_val) as assigned_val from (select max(probability) as max1 ,rv_index , rv_attr   from " + self.dataset.table_specific_name(
             'Probabilities') + " group by rv_attr,rv_index) as table1 , " + self.dataset.table_specific_name(
             'Probabilities') + " as table2, " + self.dataset.table_specific_name(
-            'C_dk') + " as table3 where table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr and max1=table2.probability and table3.ind=table1.rv_index and table3.attr=table1.rv_attr);"
+            'C_dk') + " as table3 where table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr and max1=table2.probability and table3.ind=table1.rv_index and table3.attr=table1.rv_attr group by table1.rv_index,table1.rv_attr);"
         self.dataengine.query(query)
         print query
 

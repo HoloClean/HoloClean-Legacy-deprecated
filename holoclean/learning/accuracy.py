@@ -1,5 +1,3 @@
-import holoclean.holoclean
-
 class Accuracy:
     def __init__(self, dataengine, path_to_grand_truth, dataset, spark_session):
         self.dataengine = dataengine
@@ -30,12 +28,16 @@ class Accuracy:
         repair_value.show()
         grand_truth_dk_cells_df.show()
         incorrect_repairs = repair_value.subtract(grand_truth_dk_cells_df).count()
+        print number_of_repairs
+        print incorrect_repairs
+        raw_input("sad")
 
         # We find the precision, recall ,and F1 score
         precision = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
         recall = (1.0) * (number_of_repairs - incorrect_repairs) / incorrect_repairs
         f1_score = (2.0) * (precision * recall) / (precision + recall)
-
+        print number_of_repairs
+        print incorrect_repairs
 
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))
