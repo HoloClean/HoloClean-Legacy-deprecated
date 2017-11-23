@@ -10,8 +10,8 @@ class Testing:
         self.session = Session("Session", self.holo_obj)
 
     def test(self):
-        self.session.ingest_dataset("test/50.csv")
-        self.session.denial_constraints("test/dcf.txt")
+        self.session.ingest_dataset("test/test100.csv")
+        self.session.denial_constraints("test/dc100.txt")
         err_detector = ErrorDetectors(self.session.Denial_constraints, self.holo_obj.dataengine,
                                       self.holo_obj.spark_session, self.session.dataset)
         self.session.add_error_detector(err_detector)
@@ -28,7 +28,7 @@ class Testing:
         self.session.ds_featurize()
         self.session._numskull()
         self.session.ds_repair()
-        acc = Accuracy(self.holo_obj.dataengine, "test/50groundTruth.csv", self.session.dataset, self.holo_obj.spark_session)
+        acc = Accuracy(self.holo_obj.dataengine, "test/gt.csv", self.session.dataset, self.holo_obj.spark_session)
         acc.accuracy_calculation()
 
 

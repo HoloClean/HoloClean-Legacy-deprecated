@@ -25,12 +25,12 @@ class inference:
         query_probability = query_probability + " select table1.rv_attr,table1.rv_index,assigned_val, sum_probabilities/total_sum as probability from"
 
         # First table of the query where get the sum of all the probabilities for each distinct group of rv_attr,rv_index
-        query_probability = query_probability + " (select sum(sum_probabilities) as total_sum , rv_index,rv_attr from (select exp((-1)*sum(weight_val)) as sum_probabilities ,rv_attr , rv_index,assigned_val from " + self.dataset.table_specific_name(
+        query_probability = query_probability + " (select sum(sum_probabilities) as total_sum , rv_index,rv_attr from (select exp(sum(0+weight_val)) as sum_probabilities ,rv_attr , rv_index,assigned_val from " + self.dataset.table_specific_name(
             'Weights') + " as table1, " + self.dataset.table_specific_name(
             'Feature') + " as table2 where table1.weight_id=table2.weight_id group by rv_attr,rv_index,assigned_val) as table1 group by rv_attr,rv_index)as table2 ,"
 
         # Second table of the query where get the probabilities for each distinct group of rv_attr,rv_index,assigned_val
-        query_probability = query_probability + "(select exp((-1)*sum(weight_val)) as sum_probabilities ,rv_attr , rv_index,assigned_val from " + self.dataset.table_specific_name(
+        query_probability = query_probability + "(select exp(sum(0+weight_val)) as sum_probabilities ,rv_attr , rv_index,assigned_val from " + self.dataset.table_specific_name(
             'Weights') + " as table1, " + self.dataset.table_specific_name(
             'Feature') + " as table2 where table1.weight_id=table2.weight_id group by rv_attr,rv_index,assigned_val) as table1"
 

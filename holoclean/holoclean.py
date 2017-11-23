@@ -316,7 +316,8 @@ class Session:
         return
 
     def ds_domain_pruning(self):
-        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0)
+        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5
+                )
         return
 
     def ds_featurize(self):
