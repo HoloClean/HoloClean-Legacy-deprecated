@@ -4,5 +4,6 @@ from test.semantic_compare_test import CompareUnittest
 
 # x=CompareUnittest()
 # x.runTest()
-object_testing=Testing()
-object_testing.test()
+def main()
+	object_testing=Testing()
+	object_testing.test()
