@@ -197,7 +197,7 @@ class HoloClean:
         else:
             self.log.warn("No HoloClean session named "+name)
             return
-def main()
+def main():
     print "main"
 
 class Session:
