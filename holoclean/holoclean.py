@@ -121,6 +121,10 @@ class HoloClean:
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
+	for arg in sys.argv:
+		if arg!="script.py":
+			argumets=arg.split('=')
+			setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
         # Set verbose and initialize logging
         if self.verbose:
             self.log = logging.basicConfig(stream=sys.stdout,
@@ -136,6 +140,9 @@ class HoloClean:
         # Init empty session collection
         self.session = {}
         self.session_id = 0
+	print self.db_user
+	print self.db_pwd
+	raw_input("ad")
 
     # Internal methods
     def _init_dataengine(self):
@@ -190,7 +197,8 @@ class HoloClean:
         else:
             self.log.warn("No HoloClean session named "+name)
             return
-
+    def main()
+	print "main"
 
 class Session:
     """TODO. HoloClean Session Class"""
