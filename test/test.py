@@ -11,48 +11,71 @@ class Testing:
         self.session = Session("Session", self.holo_obj)
 
     def test(self):
+        print "Testing started :"+str(t())
         self.fx = open('execution_time.txt', 'w')
         start_time = t()
-        self.session.ingest_dataset("test/test100.csv")
-        self.fx.write('ingest csv time: '+str(t()-start_time)+'\n')
+        self.session.ingest_dataset("test/inputDatabase.csv")
+        d = t()-start_time
+        self.fx.write('ingest csv time: '+str(d)+'\n')
+        print 'ingest csv time: '+str(d)+'\n'
         start_time = t()
-        self.session.denial_constraints("test/dc100.txt")
-        self.fx.write('read denial constraints time: '+str(t()-start_time)+'\n')
+        self.session.denial_constraints("test/inputConstraint.txt")
+        d = t() - start_time
+        self.fx.write('read denial constraints time: '+str(d)+'\n')
+        print 'read denial constraints time: '+str(d)+'\n'
         start_time = t()
         err_detector = ErrorDetectors(self.session.Denial_constraints, self.holo_obj.dataengine,
                                       self.holo_obj.spark_session, self.session.dataset)
         self.session.add_error_detector(err_detector)
         self.session.ds_detect_errors()
-        self.fx.write('error dectection time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('error dectection time: '+str(d)+'\n')
+        print 'error dectection time: '+str(d)+'\n'
         start_time = t()
         pruning_threshold=0
         self.session.ds_domain_pruning(pruning_threshold)
-        self.fx.write('domain pruning time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('domain pruning time: '+str(d)+'\n')
+        print 'domain pruning time: '+str(d)+'\n'
         start_time = t()
         start_time1 = t()
         initial_value_signal = Signal_Init(self.session.Denial_constraints, self.holo_obj.dataengine,
                                            self.session.dataset)
-        self.fx.write('init signal time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('init signal time: '+str(d)+'\n')
+        print 'init signal time: '+str(d)+'\n'
         start_time = t()
         self.session.add_featurizer(initial_value_signal)
         statistics_signal = Signal_cooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
                                            self.session.dataset)
-        self.fx.write('cooccur signal time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('cooccur signal time: '+str(d)+'\n')
+        print 'cooccur signal time: '+str(d)+'\n'
         start_time = t()
         self.session.add_featurizer(statistics_signal)
-        self.fx.write('dc signal time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('dc signal time: '+str(d)+'\n')
+        print 'dc signal time: '+str(d)+'\n'
         start_time = t()
         dc_signal = Signal_dc(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset)
-        self.fx.write('dc featurize time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('dc featurize time: '+str(d)+'\n')
+        print 'dc featurize time: '+str(d)+'\n'
         self.session.add_featurizer(dc_signal)
         self.session.ds_featurize()
-        self.fx.write('total featurization time: '+str(t()-start_time1)+'\n')
+        d = t() - start_time
+        self.fx.write('total featurization time: '+str(d)+'\n')
+        print 'total featurization time: '+str(d)+'\n'
         start_time = t()
         self.session._numskull()
-        self.fx.write('numbskull time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('numbskull time: '+str(d)+'\n')
+        print 'numbskull time: '+str(d)+'\n'
         start_time = t()
         self.session.ds_repair()
-        self.fx.write('repair time: '+str(t()-start_time)+'\n')
+        d = t() - start_time
+        self.fx.write('repair time: '+str(d)+'\n')
+        print 'repair time: '+str(d)+'\n'
         # acc = Accuracy(self.holo_obj.dataengine, "test/gt.csv", self.session.dataset, self.holo_obj.spark_session)
         # acc.accuracy_calculation()
         self.fx.close()
