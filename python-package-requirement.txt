@@ -1,8 +1,9 @@
 Jupyter
 pandas
 numpy>=1.11
-tensorflow>=1.0
 pyspark
 MySQL-python
 sqlalchemy
 mysql-connector-python-rf
+git+https://github.com/HazyResearch/numbskull@master
+numba
