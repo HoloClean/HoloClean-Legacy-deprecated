@@ -47,11 +47,11 @@ class Wrapper:
         """
         #all the weights that are  fixed
         mysql_query = "Create TABLE " + self.dataset.table_specific_name(
-        'Weights') + " as (select (0 + weight_id) as weight_id ,1 as Is_fixed,1  as init_val from " + self.dataset.table_specific_name(
-        'Feature') + " where TYPE='init' group by weight_id  )"
+        'Weights') + " as (select (0 + table1.weight_id) as weight_id ,1 as Is_fixed,1  as init_val from " + self.dataset.table_specific_name(
+        'Feature') + " as table1 where TYPE='init' group by table1.weight_id  )"
         #all the weights that are not fixed
-        mysql_query=mysql_query+ "union (select (0 + weight_id) as weight_id ,0 as Is_fixed, 0 as init_val from " + self.dataset.table_specific_name(
-        'Feature') + " where TYPE!='init' group by weight_id ) order by weight_id;"
+        mysql_query=mysql_query+ "union (select (0 + table2.weight_id) as weight_id ,0 as Is_fixed, 0 as init_val from " + self.dataset.table_specific_name(
+        'Feature') + " as table2 where TYPE!='init' group by table2.weight_id ) order by weight_id;"
         self.dataengine.query(mysql_query)
 
     def set_variable(self):
