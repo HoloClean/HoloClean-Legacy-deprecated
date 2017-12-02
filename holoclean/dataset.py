@@ -65,7 +65,9 @@ class Dataset:
         return str(random.random())[2:]
 
     def print_id(self):
-        print (self.dataset_id)
+        fx = open('dataset_id.txt', 'w')
+        fx.write(str(self.dataset_id))
+        fx.close()
 
     # Getters
     def getattribute(self, attr):

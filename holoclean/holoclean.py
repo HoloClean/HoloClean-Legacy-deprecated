@@ -121,10 +121,10 @@ class HoloClean:
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
-	for arg in sys.argv:
-		if arg!="script.py":
-			argumets=arg.split('=')
-			setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
+#	for arg in sys.argv:
+#		if arg!="script.py":
+#			argumets=arg.split('=')
+#			setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
         # Set verbose and initialize logging
         if self.verbose:
             self.log = logging.basicConfig(stream=sys.stdout,
@@ -140,9 +140,7 @@ class HoloClean:
         # Init empty session collection
         self.session = {}
         self.session_id = 0
-	print self.db_user
-	print self.db_pwd
-	raw_input("ad")
+
 
     # Internal methods
     def _init_dataengine(self):
@@ -323,8 +321,8 @@ class Session:
 
         return
 
-    def ds_domain_pruning(self):
-        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,0.5
+    def ds_domain_pruning(self,pruning_threshold=0):
+        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,pruning_threshold
                 )
         return
 
