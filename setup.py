@@ -8,6 +8,7 @@ setup(
     version=__version__,
     packages=find_packages(),
     install_requires=['futures'],
+    package_data={'': ['holocelan/lib/mysql-connector-java-5.1.44-bin.jar']}
     include_package_data=True,
     entry_points={
         'console_scripts': [
