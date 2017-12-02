@@ -104,7 +104,7 @@ class Pruning:
 		p_ab = cooccur_count / len(self.cellvalues)
 		p_a  = v_cnt / len(self.cellvalues)
 		p_b = v_trgt_cnt / len(self.cellvalues)
-		nb = math.log(p_ab/(p_a*p_b)) / -math.log(p_ab)
+		# nb = math.log(p_ab/(p_a*p_b)) / -math.log(p_ab)
 		return p_ab / p_a
 		#return nb
 
