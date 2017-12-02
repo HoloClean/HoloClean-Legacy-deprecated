@@ -256,11 +256,11 @@ class Pruning:
 		new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val','observed'])
 		print "done second step"
 		new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
-		new_df_domain=new_df_domain.orderBy("attr_name")
+		#new_df_domain=new_df_domain.orderBy("attr_name")
 		self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)
-		new_df_possible=new_df_possible.orderBy("tid")
+		#new_df_possible=new_df_possible.orderBy("tid")
 		self.dataengine.add_db_table('Possible_values',new_df_possible,self.dataset)
-		self.dataengine.query("ALTER TABLE "+self.dataset.table_specific_name('Possible_values') +" order by tid,attr_name ASC ;")
+		#self.dataengine.query("ALTER TABLE "+self.dataset.table_specific_name('Possible_values') +" order by tid,attr_name ASC ;")
 		return
 
 
