@@ -8,7 +8,7 @@ setup(
     version=__version__,
     packages=find_packages(),
     install_requires=['futures'],
-    package_data={'lib': ['holoclean/lib/*']},
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'holoclean = holoclean.holoclean:main',
