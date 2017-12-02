@@ -44,7 +44,7 @@ arguments = [
     (('-m', '--mysql_driver'),
         {'metavar': 'MYSQL_DRIVER',
          'dest': 'mysql_driver',
-         'default': 'lib/mysql-connector-java-5.1.44-bin.jar',
+         'default': '.lib/mysql-connector-java-5.1.44-bin.jar',
          'type': str,
          'help': 'Path for MySQL driver'}),
     (('-s', '--spark_cluster'),
