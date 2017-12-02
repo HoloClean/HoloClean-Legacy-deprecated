@@ -10,7 +10,7 @@ setup(
     install_requires=['futures'],
     entry_points={
         'console_scripts': [
-            'holoclean = script:main',
+            'holoclean = .__main__:main',
         ],
     },
 )
