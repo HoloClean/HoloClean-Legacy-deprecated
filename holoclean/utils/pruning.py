@@ -38,11 +38,17 @@ class Pruning:
 		print 'Analyzing associations of DB Entries...'
 		self.noisycells=self._d_cell()
 		self.cellvalues = self._c_values()
+		print("1")
 		self._preprop()
+		print("2")
 		self._analyzeEntries()
+		print("3")
 		self._generate_assignments()
+		print("4")
 		self._generate_nbs()
+		print("5")
 		self._find_cell_domain()
+		print("6")
 		self._create_dataframe()
 		print 'DONE.'
  
@@ -232,18 +238,23 @@ class Pruning:
 		
 		temp=[]
 			
-		
+		print "something"
+		number=0
 		for i in self.cell_domain:
+			print number
+			number=number+1
 			list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,self.all_cells_temp[i].value,"1"])
 			for j in self.cell_domain[i]:
-					if not ([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"1"] in list_to_dataframe_possible_values):
+					if j!=self.all_cells_temp[i].value:
+					#if not ([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"1"] in list_to_dataframe_possible_values):
 						list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"0"])
 					if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
 						list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
 		
 		
-		
+		print "first step"
 		new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val','observed'])
+		print "done second step"
 		new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
 		new_df_domain=new_df_domain.orderBy("attr_name")
 		self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)
