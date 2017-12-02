@@ -25,8 +25,8 @@ class Accuracy:
         grand_truth_dk_cells_df=self.spark_session.createDataFrame(grad_truth_dk,schema_grand_truth)
         number_of_repairs = dont_know_cells_df.count()
         repair_value = self.dataengine._table_to_dataframe("Final", self.dataset)
-        repair_value.show()
-        grand_truth_dk_cells_df.show()
+       # repair_value.show()
+       # grand_truth_dk_cells_df.show()
         incorrect_repairs = repair_value.subtract(grand_truth_dk_cells_df).count()
         correct_repairs=grand_truth_dk_cells_df.count()
 
@@ -36,12 +36,27 @@ class Accuracy:
         precision = (1.0) * (number_of_repairs - incorrect_repairs) / number_of_repairs
         recall = (1.0) * (number_of_repairs - incorrect_repairs) / correct_repairs
         f1_score = (2.0) * (precision * recall) / (precision + recall)
-        print number_of_repairs
-        print incorrect_repairs
+       # print number_of_repairs
+       # print incorrect_repairs
 
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))
         print ("The F1 score that we have is :" + str(f1_score))
+        
+    def hospital_accuracy(self):
+         final = self.dataengine._table_to_dataframe("Final", self.dataset)
+         incorrect=final.substact(self.grand_truth)
+         incorrect_values=incorrect.count()
+         repair=final.count()
+         all_corect=elf.grand_truth.count()
+         
+         precision=float((repair-incorrect_values))/repair
+         recall=((repair-incorrect_values))/all_corect
+         f1_score = (2.0) * (precision * recall) / (precision + recall)
+         print ("The precision that we have is :" + str(precision))
+         print ("The recall that we have is :" + str(recall))
+         print ("The F1 score that we have is :" + str(f1_score))
+          
 
     def read(self):
         """Create a dataframe from the csv file
