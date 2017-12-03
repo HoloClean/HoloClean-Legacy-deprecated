@@ -237,12 +237,8 @@ class Pruning:
 		list_to_dataframe_initial=[]
 		
 		temp=[]
-			
-		print "something"
-		number=0
+
 		for i in self.cell_domain:
-			print number
-			number=number+1
 			list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,self.all_cells_temp[i].value,"1"])
 			for j in self.cell_domain[i]:
 					if j!=self.all_cells_temp[i].value:
@@ -250,11 +246,7 @@ class Pruning:
 						list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"0"])
 					if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
 						list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
-		
-		
-		print "first step"
 		new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val','observed'])
-		print "done second step"
 		new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
 		#new_df_domain=new_df_domain.orderBy("attr_name")
 		self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)

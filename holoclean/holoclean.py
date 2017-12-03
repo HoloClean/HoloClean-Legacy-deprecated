@@ -38,7 +38,7 @@ arguments = [
     (('-d', '--database'),
         {'metavar': 'DATABASE',
          'dest': 'db_name',
-         'default': 'holocleandb',
+         'default': 'holo',
          'type': str,
          'help': 'Name of DB used to persist state'}),
     (('-m', '--mysql_driver'),
@@ -326,13 +326,15 @@ class Session:
                 )
         return
 
-    def ds_featurize(self):
+    def     ds_featurize(self):
         """TODO: Extract dataset features"""
-        query_for_featurization='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
+        query_for_featurization = "select @n:=0;"
+        query_for_featurization+='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
         for feature in self.featurizers:
+
             query_for_featurization+=feature.get_query()+" union "
         query_for_featurization=query_for_featurization[:-7]
-        query_for_featurization+=""")as Feature)order by rv_index,rv_attr,feature;ALTER TABLE """+self.dataset.table_specific_name('Feature')+""" MODIFY var_index INT AUTO_INCREMENT PRIMARY KEY;"""
+        query_for_featurization+=""")as Feature);"""
 
         self.holo_env.dataengine.query(query_for_featurization)
         featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
