@@ -14,12 +14,12 @@ class Testing:
         print "Testing started :"+str(t())
         self.fx = open('execution_time.txt', 'w')
         start_time = t()
-        self.session.ingest_dataset("test/inputDatabase.csv")
+        self.session.ingest_dataset("test/test.csv")
         d = t()-start_time
         self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
         start_time = t()
-        self.session.denial_constraints("test/inputConstraint.txt")
+        self.session.denial_constraints("test/dc1.txt")
         d = t() - start_time
         self.fx.write('read denial constraints time: '+str(d)+'\n')
         print 'read denial constraints time: '+str(d)+'\n'

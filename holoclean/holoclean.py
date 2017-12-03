@@ -14,6 +14,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
+import logging
 
 # Define arguments for HoloClean
 arguments = [
@@ -202,7 +203,9 @@ class Session:
     """TODO. HoloClean Session Class"""
 
     def __init__(self, name, holo_env):
+        logging.basicConfig()
         """TODO.
+        
 
         Parameters
         ----------
@@ -328,15 +331,21 @@ class Session:
 
     def     ds_featurize(self):
         """TODO: Extract dataset features"""
-        query_for_featurization = "select @n:=0;"
-        query_for_featurization+='CREATE TABLE '+self.dataset.table_specific_name('Feature')+' AS (select * from ( '
-        for feature in self.featurizers:
 
-            query_for_featurization+=feature.get_query()+" union "
-        query_for_featurization=query_for_featurization[:-7]
-        query_for_featurization+=""")as Feature);"""
-
+        query_for_featurization = "CREATE TABLE "+self.dataset.table_specific_name('Feature')+ "(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT, feature TEXT,TYPE TEXT, weight_id TEXT);"
+        print query_for_featurization
         self.holo_env.dataengine.query(query_for_featurization)
+        global_counter = "select @p:=0;"
+        self.holo_env.dataengine.query(global_counter)
+
+        counter=0
+        insert_signal_query = ""
+        for feature in self.featurizers:
+            insert_signal_query +="INSERT INTO "+self.dataset.table_specific_name('Feature')+" SELECT * FROM( " + feature.get_query() + "as T_"+str(counter)+");"
+            counter += 1
+        print insert_signal_query
+        self.holo_env.dataengine.query(insert_signal_query)
+
         featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
         featurizer.add_weights()
 
