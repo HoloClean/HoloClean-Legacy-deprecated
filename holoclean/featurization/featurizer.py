@@ -117,16 +117,8 @@ class Signal_Init(Featurizer):
         """
         This method creates a query for the featurization table for the initial values"
         """
-        
-        table_attribute_string=self.dataengine._get_schema(self.dataset,"Init")
-        table_attribute=table_attribute_string.split(',')
         query_for_featurization=""
-        for attribute in table_attribute:
-           if attribute !="index":
-               str_attribute="'"+attribute +"'"
-               table_attribute="table1."+attribute 
-               condition="possible_table.attr_name="+str_attribute+" and table1.index = possible_table.tid"
-               query_for_featurization+=""" (SELECT @n := @n + 1 as var_index,possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( 'INIT=',"""+ table_attribute + """) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.table_name+ """ as table1, """+ self.possible_table_name+ """ as possible_table where ("""+condition+"""  ) and (possible_table.attr_val=table1."""+attribute +""") ) UNION"""
+        query_for_featurization+=""" (SELECT  @n := @n + 1 as var_index,   possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, ('Init=',possible_table.attr_val ) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.possible_table_name+ """ as possible_table where possible_table.observed='1') UNION"""
         query_for_featurization=query_for_featurization[:-5]
         return query_for_featurization
 
@@ -176,10 +168,10 @@ class Signal_dc(Featurizer):
             new_condition=new_dc[index_dc ]
             dc="',"+dc_sql_parts[index_dc ]+"'"
             if index_dc ==0:
-                query_for_featurization = """(SELECT  @n := @n + 1 as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (possible_table.tid != table2.index)  and possible_table.tid=table1.index ) )"""
+                query_for_featurization = """(SELECT  @n := @n + 1 as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (table1.index != table2.index)  and possible_table.tid=table1.index ) )"""
             else:
                 #if you have more than one dc
-                query_for_featurization += """ UNION (SELECT  @n := @n + 1 as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (possible_table.tid != table2.index) and possible_table.tid=table1.index ) )"""
+                query_for_featurization += """ UNION (SELECT  @n := @n + 1 as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (table1.index != table2.index) and possible_table.tid=table1.index ) )"""
         
         
         return query_for_featurization	
