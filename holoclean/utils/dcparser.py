@@ -55,31 +55,31 @@ class DCParser:
                 # predicate type detection
                 if firstTuple in predBody and secondTuple in predBody:
                     if firstTuple in predLeft:
-                        dc2sql = dc2sql + 'table1.' + predLeft.split('.')[1] \
+                        dc2sql = dc2sql + 'table1.first_' + predLeft.split('.')[1] \
                             + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table2.' + predRight.split('.')[1]
+                            + 'table1.second_' + predRight.split('.')[1]
                     else:
-                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
+                        dc2sql = dc2sql + 'table1.second_' + predLeft.split('.')[1]\
                             + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table1.' + predRight.split('.')[1]
+                            + 'table1.first_' + predRight.split('.')[1]
                 elif firstTuple in predBody:
                     if firstTuple in predLeft:
-                        dc2sql = dc2sql+'table1.' + predLeft.split('.')[1]\
+                        dc2sql = dc2sql+'table1.first_' + predLeft.split('.')[1]\
                             + self.operationsArr[self.operationSign.index(op)]\
                             + predRight
                     else:
                         dc2sql = dc2sql + predLeft\
                             + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table1.' + predRight.split('.')[1]
+                            + 'table1.first_' + predRight.split('.')[1]
                 else:
                     if secondTuple in predLeft:
-                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
+                        dc2sql = dc2sql + 'table1.second_' + predLeft.split('.')[1]\
                             + self.operationsArr[self.operationSign.index(op)]\
                             + predRight
                     else:
                         dc2sql = dc2sql + predLeft\
                             + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table2.' + predRight.split('.')[1]
+                            + 'table1.second_' + predRight.split('.')[1]
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
             usedOperations.append(dcOperations)
