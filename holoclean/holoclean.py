@@ -121,17 +121,10 @@ class HoloClean:
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
-        # for arg in sys.argv:
-        # if arg!="script.py":
-        # argumets=arg.split('=')
-        # setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
-        # Set verbose and initialize logging
-        if self.verbose:
-            self.log = logging.basicConfig(stream=sys.stdout,
-                                           level=logging.DEBUG)
-        else:
-            self.log = None
-
+        logging.basicConfig(filename="logger.log",
+                            filemode='w',level=logging.INFO)
+        self.logger = logging.getLogger("__main__")
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
         # Initialize dataengine and spark session
         
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
@@ -267,19 +260,24 @@ class Session:
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
+        self.holo_env.logger.info('ingesting file:' + src_path)
         self.dataset = Dataset()
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
-        print self.dataset.print_id()
+        self.holo_env.logger.info('creating dataset with id:' + self.dataset.print_id())
         return
 
     def add_featurizer(self, newFeaturizer):
         """TODO: Add a new featurizer"""
+        self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(newFeaturizer)
+        self.holo_env.logger.info('getting new signal for featurization is finished')
         return
 
     def add_error_detector(self, newErrorDetector):
         """TODO: Add a new error detector"""
+        self.holo_env.logger.info('getting the  for error detection...')
         self.error_detectors.append(newErrorDetector)
+        self.holo_env.logger.info('getting new for error detection')
         return
 
     def denial_constraints(self, filepath):
@@ -287,6 +285,7 @@ class Session:
         dc_file = open(filepath, 'r')
         for line in dc_file:
             self.Denial_constraints.append(line[:-1])
+        
 
     # Getters
 
@@ -304,6 +303,7 @@ class Session:
         clean_cells = []
         dk_cells = []
 
+        self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
             temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
             clean_cells.append(temp[1])
@@ -318,18 +318,22 @@ class Session:
 
         self.holo_env.dataengine.add_db_table('C_clean', union_clean_cells, self.dataset)
         self.holo_env.dataengine.add_db_table('C_dk', intersect_dk_cells, self.dataset)
-
+        self.holo_env.logger.info('error detection is finished')
+ 
         return
 
     def ds_domain_pruning(self,pruning_threshold=0):
+        self.holo_env.logger.info('starting domain pruning with threshold %s',pruning_threshold)
         Pruning(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session, pruning_threshold
                 )
+        self.holo_env.logger.info('Domain pruning is finished')
         return
 
     def     ds_featurize(self):
         """TODO: Extract dataset features"""
 
-        query_for_featurization = "CREATE TABLE "+self.dataset.table_specific_name('Feature')+ "(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT, feature TEXT,TYPE TEXT, weight_id TEXT);"
+        query_for_featurization = "CREATE TABLE "+self.dataset.table_specific_name('Feature')\
+             +"(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT, feature TEXT,TYPE TEXT, weight_id TEXT);"
         self.holo_env.dataengine.query(query_for_featurization)
         global_counter = "select @p:=0;"
         self.holo_env.dataengine.query(global_counter)
@@ -337,12 +341,17 @@ class Session:
         counter=0
         insert_signal_query = ""
         for feature in self.featurizers:
-            insert_signal_query ="INSERT INTO "+self.dataset.table_specific_name('Feature')+" SELECT * FROM( " + feature.get_query() + ")AS T_"+str(counter)+";"
+            insert_signal_query ="INSERT INTO "+self.dataset.table_specific_name('Feature')\
+                +" SELECT * FROM( " + feature.get_query() + ")as T_"+str(counter)+";"
             counter += 1
+            self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
             self.holo_env.dataengine.query(insert_signal_query)
+            self.holo_env.logger.info('the query was executed is:'+insert_signal_query)
 
+        self.holo_env.logger.info('adding weight_id to feature table...')
         featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
         featurizer.add_weights()
+        self.holo_env.logger.info('adding weight_id to feature table is finished')
 
         return
 

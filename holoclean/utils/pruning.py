@@ -34,8 +34,6 @@ class Pruning:
 		self.all_cells = []
 		self.all_cells_temp={}
 		
-		    
-		#print 'Analyzing associations of DB Entries...'
 		self.noisycells=self._d_cell()
 		self.cellvalues = self._c_values()
 		self._preprop()
@@ -44,7 +42,7 @@ class Pruning:
 		self._generate_nbs()
 		self._find_cell_domain()
 		self._create_dataframe()
-		#print 'DONE.'
+
  
     #Internal Method
     def _d_cell(self):
@@ -74,7 +72,8 @@ class Pruning:
 			row={}
 			j=1
 			for i in c:			
-				cell =random_var(columnname=table_attribute[j], value=i,tupleid=rows,cellid=number_id)
+				cell =random_var(columnname=table_attribute[j], 
+								value=i,tupleid=rows,cellid=number_id)
 				row[j]=cell
 				number_id=number_id+1
 				j=j+1	
@@ -104,9 +103,7 @@ class Pruning:
 		p_ab = cooccur_count / len(self.cellvalues)
 		p_a  = v_cnt / len(self.cellvalues)
 		p_b = v_trgt_cnt / len(self.cellvalues)
-		# nb = math.log(p_ab/(p_a*p_b)) / -math.log(p_ab)
 		return p_ab / p_a
-		#return nb
 
     def _findDomain(self, assignment, trgt_attr):
 		"""TO DO: _findDomain finds the domain for each cell
@@ -220,7 +217,8 @@ class Pruning:
 		find_cell_domain finds the domain for each cell
 		"""
 		for cellid in self.assignments:
-		    self.cell_domain[cellid] = self._findDomain(self.assignments[cellid], self.trgt_attr[cellid])
+		    self.cell_domain[cellid] = self._findDomain(self.assignments[cellid], 
+													self.trgt_attr[cellid])
 
     def _create_dataframe(self):
 		"""
@@ -233,20 +231,22 @@ class Pruning:
 		temp=[]
 
 		for i in self.cell_domain:
-			list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,self.all_cells_temp[i].value,"1"])
+			list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,
+													self.all_cells_temp[i].value,"1"])
 			for j in self.cell_domain[i]:
 					if j!=self.all_cells_temp[i].value:
-					#if not ([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"1"] in list_to_dataframe_possible_values):
-						list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.all_cells_temp[i].columnname,j,"0"])
+						list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid+1),self.
+																all_cells_temp[i].columnname,j,"0"])
 					if not ([self.all_cells_temp[i].columnname,j] in list_to_dataframe_Domain):
 						list_to_dataframe_Domain.append([self.all_cells_temp[i].columnname,j])
-		new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,['tid','attr_name','attr_val','observed'])
-		new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,['attr_name','attr_val'])
-		#new_df_domain=new_df_domain.orderBy("attr_name")
-		self.dataengine.add_db_table('Domain',new_df_domain,self.dataset)
-		#new_df_possible=new_df_possible.orderBy("tid")
-		self.dataengine.add_db_table('Possible_values',new_df_possible,self.dataset)
-		#self.dataengine.query("ALTER TABLE "+self.dataset.table_specific_name('Possible_values') +" order by tid,attr_name ASC ;")
+		new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,
+															['tid','attr_name','attr_val','observed'])
+		new_df_domain = self.spark_session.createDataFrame(list_to_dataframe_Domain,
+														['attr_name','attr_val'])
+		self.dataengine.add_db_table('Domain',
+									new_df_domain,self.dataset)
+		self.dataengine.add_db_table('Possible_values',
+									new_df_possible,self.dataset)
 		return
 
 

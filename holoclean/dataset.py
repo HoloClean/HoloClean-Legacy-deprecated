@@ -68,6 +68,7 @@ class Dataset:
         fx = open('dataset_id.txt', 'w')
         fx.write(str(self.dataset_id))
         fx.close()
+        return str(self.dataset_id)
 
     # Getters
     def getattribute(self, attr):
