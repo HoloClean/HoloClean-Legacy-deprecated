@@ -337,9 +337,9 @@ class Session:
         counter=0
         insert_signal_query = ""
         for feature in self.featurizers:
-            insert_signal_query +="INSERT INTO "+self.dataset.table_specific_name('Feature')+" SELECT * FROM( " + feature.get_query() + ")as T_"+str(counter)+";"
+            insert_signal_query ="INSERT INTO "+self.dataset.table_specific_name('Feature')+" SELECT * FROM( " + feature.get_query() + ")AS T_"+str(counter)+";"
             counter += 1
-        self.holo_env.dataengine.query(insert_signal_query)
+            self.holo_env.dataengine.query(insert_signal_query)
 
         featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
         featurizer.add_weights()

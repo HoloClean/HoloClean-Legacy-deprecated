@@ -1,23 +1,24 @@
 from holoclean.utils.dcparser import DCParser
 
+
 class Featurizer:
     """TODO.
         parent class for all the signals
         """
     
-    def __init__(self,denial_constraints,dataengine,dataset):
+    def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
-        Parameters
-        --------
-        parameter: denial_constraints,dataengine,dataset
-        """
+                Parameters
+                --------
+                parameter: denial_constraints,dataengine,dataset
+                """
         self.denial_constraints = denial_constraints
         self.dataengine = dataengine
         self.dataset = dataset
         self.possible_table_name = self.dataset.table_specific_name('Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
             
-    #Internal Method 
+    # Internal Method
     def _create_new_dc(self):
         """
         For each dc we change the predicates, and return the new type of dc 
@@ -78,7 +79,6 @@ class Featurizer:
                                     new_pred1 = new_pred1 + " AND " + list_preds[k]
                         self.change_pred.append(new_pred1)
                         new_pred_list.append(new_pred)
-                            #break
         new_dc = ""
         new_dcs = []
         new_dc = new_dc + "(" + new_pred_list[0] + ")"
@@ -118,18 +118,19 @@ class Featurizer:
         query += " END;"
         self.dataengine.query(query)
 
-class Signal_Init(Featurizer):
+
+class SignalInit(Featurizer):
     """TODO.
     Signal for initial values
     """
     
-    def __init__(self,denial_constraints,dataengine,dataset):
+    def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
         Parameters
         --------
         parameter: denial_constraints,dataengine,dataset
         """
-        Featurizer.__init__(self,denial_constraints,dataengine,dataset)
+        Featurizer.__init__(self, denial_constraints, dataengine, dataset)
     
     def get_query(self):
         """
@@ -137,25 +138,26 @@ class Signal_Init(Featurizer):
         """
         query_for_featurization = ""
         query_for_featurization += """ (SELECT  @p := @p + 1 AS var_index,\
-        possible_table.tid AS rv_index,\
-        possible_table.attr_name AS rv_attr,\
-         possible_table.attr_val AS assigned_val,\
-          concat('Init=',possible_table.attr_val ) AS feature,\
-          'init' AS TYPE,\
-          '      ' AS weight_id\
-             FROM """ +\
-                                   self.possible_table_name +\
-                                   """ AS possible_table\
-                                    WHERE possible_table.observed='1') UNION"""
+            possible_table.tid AS rv_index,\
+            possible_table.attr_name AS rv_attr,\
+            possible_table.attr_val AS assigned_val,\
+            concat('Init=',possible_table.attr_val ) AS feature,\
+            'init' AS TYPE,\
+            '      ' AS weight_id\
+            FROM """ +\
+            self.possible_table_name +\
+            """ AS possible_table\
+            WHERE possible_table.observed='1') UNION"""
         query_for_featurization = query_for_featurization[:-5]
         return query_for_featurization
 
-class Signal_cooccur(Featurizer):
+
+class SignalCooccur(Featurizer):
     """TODO.
     Signal for cooccurance
     """
 
-    def __init__(self,denial_constraints,dataengine,dataset):
+    def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
                 Parameters
                 --------
@@ -169,28 +171,28 @@ class Signal_cooccur(Featurizer):
                 """
         self.table_name1 = self.dataset.table_specific_name('Possible_values')
         query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
-                 possible_table.tid AS rv_index,\
-                 possible_table.attr_name AS rv_attr,\
-                 possible_table.attr_val AS assigned_val,\
-                 concat (table1.attr_name,'=',table1.attr_val ) AS feature,\
-                 'cooccur' AS TYPE,'        ' AS weight_id \
-                  FROM (\
-                  SELECT * FROM """ + self.table_name1 + """ AS table1\
-                   WHERE table1.observed='1') AS table1,\
-                    """ + self.possible_table_name + """ AS possible_table\
-                      WHERE (table1.attr_name != possible_table.attr_name\
-                       AND\
-                                           table1.tid = possible_table.tid )\
-                                           )"""
+            possible_table.tid AS rv_index,\
+            possible_table.attr_name AS rv_attr,\
+            possible_table.attr_val AS assigned_val,\
+            concat (table1.attr_name,'=',table1.attr_val ) AS feature,\
+            'cooccur' AS TYPE,'        ' AS weight_id \
+            FROM (\
+            SELECT * FROM """ + self.table_name1 + """ AS table1\
+            WHERE table1.observed='1') AS table1,\
+            """ + self.possible_table_name + """ AS possible_table\
+            WHERE (table1.attr_name != possible_table.attr_name\
+            AND\
+            table1.tid = possible_table.tid )\
+            )"""  # End of FROM
         return query_for_featurization
 
 
-class Signal_dc(Featurizer):
+class SignalDC(Featurizer):
     """TODO.
         Signal for dc
         """
 
-    def __init__(self,denial_constraints,dataengine,dataset):
+    def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
         Parameters
         --------
@@ -216,42 +218,37 @@ class Signal_dc(Featurizer):
         for index_dc in range(0, len(new_dc)):
             new_condition = new_dc[index_dc]
             if index_dc == 0:
-                query_for_featurization = """(SELECT  @p := @p + 1 AS var_index, \\
-                                 possible_table.tid AS rv_index,\\
-                                possible_table.attr_name AS rv_attr,\\
-                                possible_table.attr_val AS assigned_val\\
-                                concat ( table1.second_index,""" + \
-                                          self.final_dc[
-                                              index_dc] + \
-                                          """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM  \\
-                                                                              (SELECT * FROM """ + join_table_name + \
-                                          """ AS table1 WHERE """ + \
-                                          self.change_pred[
-                                              index_dc] + \
-                                          """) AS table1, (SELECT * FROM """ + self.possible_table_name \
-                                          + """ AS possible_table WHERE """ + \
-                                          self.attributes_list[
-                                              index_dc] + \
-                                          """ ) AS possible_table WHERE (""" + new_condition + \
-                                          """ AND possible_table.tid=table1.first_index ) )"""
-
+                query_for_featurization = """(SELECT  @p := @p + 1 AS var_index, \
+                    possible_table.tid AS rv_index,\
+                    possible_table.attr_name AS rv_attr,\
+                    possible_table.attr_val AS assigned_val,\
+                    concat ( table1.second_index,""" + \
+                    self.final_dc[index_dc] + \
+                    """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM  \
+                    (SELECT * FROM """ + join_table_name + \
+                    """ AS table1 WHERE """ + \
+                    self.change_pred[index_dc] + \
+                    """) AS table1, (SELECT * FROM """ + self.possible_table_name \
+                    + """ AS possible_table WHERE """ + \
+                    self.attributes_list[index_dc] + \
+                    """ ) AS possible_table WHERE (""" + new_condition + \
+                    """ AND possible_table.tid=table1.first_index ) )"""
+                print query_for_featurization
             else:
-                query_for_featurization += """UNION (SELECT  @p := @p + 1 AS var_index, \\
-                                                                                 possible_table.tid AS rv_index, \\
-                                                                                 possible_table.attr_name AS rv_attr,\\
-                                                                                 possible_table.attr_val AS assigned_val,\\
-                                                                                concat ( table1.second_index,""" + \
-                                          self.final_dc[
-                                              index_dc] + \
-                                          """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM (SELECT * FROM """ \
-                                          + join_table_name + """ AS table1  WHERE """ + \
-                                          self.change_pred[
-                                              index_dc] + """) AS table1, (SELECT * FROM """ + \
-                                          self.possible_table_name \
-                                          + """ AS possible_table WHERE """ + \
-                                          self.attributes_list[
-                                              index_dc] \
-                                          + """ ) AS possible_table  WHERE (""" + new_condition + """ AND \\
-                                                                          possible_table.tid=table1.first_index ) )"""
+                query_for_featurization += """UNION (SELECT  @p := @p + 1 AS var_index, \
+                    possible_table.tid AS rv_index, \
+                    possible_table.attr_name AS rv_attr,\
+                    possible_table.attr_val AS assigned_val,\
+                    concat ( table1.second_index,""" + \
+                    self.final_dc[index_dc] + \
+                    """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM (SELECT * FROM """ \
+                    + join_table_name + """ AS table1  WHERE """ + \
+                    self.change_pred[index_dc] +\
+                    """) AS table1, (SELECT * FROM """ + \
+                    self.possible_table_name \
+                    + """ AS possible_table WHERE """ + \
+                    self.attributes_list[index_dc] + \
+                    """ ) AS possible_table  WHERE (""" + new_condition + """ AND \
+                    possible_table.tid=table1.first_index ) )"""
 
         return query_for_featurization
