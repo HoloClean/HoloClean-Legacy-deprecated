@@ -14,7 +14,6 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
-import logging
 
 # Define arguments for HoloClean
 arguments = [
@@ -122,10 +121,10 @@ class HoloClean:
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
-#	for arg in sys.argv:
-#		if arg!="script.py":
-#			argumets=arg.split('=')
-#			setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
+        # for arg in sys.argv:
+        # if arg!="script.py":
+        # argumets=arg.split('=')
+        # setattr(self, argumets[0].split("--")[1], kwargs.get(argumets[0].split("--")[1], argumets[1]))
         # Set verbose and initialize logging
         if self.verbose:
             self.log = logging.basicConfig(stream=sys.stdout,
@@ -142,7 +141,6 @@ class HoloClean:
         self.session = {}
         self.session_id = 0
 
-
     # Internal methods
     def _init_dataengine(self):
         """TODO: Initialize HoloClean's Data Engine"""
@@ -153,8 +151,8 @@ class HoloClean:
 
     def _init_spark(self):
         """TODO: Initialize Spark Session"""
-        #if self.spark_session and self.spark_sql_ctxt:
-         #   return
+        # if self.spark_session and self.spark_sql_ctxt:
+        # return
 
         # Set spark configuration
         conf = SparkConf()
@@ -196,8 +194,7 @@ class HoloClean:
         else:
             self.log.warn("No HoloClean session named "+name)
             return
-def main():
-    print "main"
+
 
 class Session:
     """TODO. HoloClean Session Class"""
@@ -227,17 +224,17 @@ class Session:
 
     # Internal methods
     def _numbskull_fg_lists(self):
-        wrapper_obj=Wrapper(self.holo_env.dataengine,self.dataset)
+        wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
         wrapper_obj.set_variable()
         wrapper_obj.set_weight()
         wrapper_obj.set_factor_to_var()
         wrapper_obj.set_factor()
-        weight=wrapper_obj.get_list_weight()
-        variable=wrapper_obj.get_list_variable()
-        fmap=wrapper_obj.get_list_factor_to_var()
-        factor=wrapper_obj.get_list_factor()
-        edges=wrapper_obj.get_edge(factor)
-        domain_mask=wrapper_obj.get_mask(variable)
+        weight = wrapper_obj.get_list_weight()
+        variable = wrapper_obj.get_list_variable()
+        fmap = wrapper_obj.get_list_factor_to_var()
+        factor = wrapper_obj.get_list_factor()
+        edges = wrapper_obj.get_edge(factor)
+        domain_mask = wrapper_obj.get_mask(variable)
 
         return weight, variable, factor, fmap, domain_mask, edges
 
@@ -253,25 +250,25 @@ class Session:
                                  regularization=1,
                                  reg_param=0.01)
 
-        fg=self._numbskull_fg_lists()
+        fg = self._numbskull_fg_lists()
 
         ns.loadFactorGraph(*fg)
         ns.learning()
         list_weight_value = []
-        list_temp=ns.factorGraphs[0].weight_value[0]
-        for i in range(0 , len(list_temp)):
-            list_weight_value.append([i,float(list_temp[i])])
+        list_temp = ns.factorGraphs[0].weight_value[0]
+        for i in range(0, len(list_temp)):
+            list_weight_value.append([i, float(list_temp[i])])
 
-        new_df_weights = self.holo_env.spark_session.createDataFrame(list_weight_value,['weight_id','weight_val'])
-        delete_table_query='drop table ' + self.dataset.table_specific_name('Weights')+";"
+        new_df_weights = self.holo_env.spark_session.createDataFrame(list_weight_value, ['weight_id', 'weight_val'])
+        delete_table_query = 'drop table ' + self.dataset.table_specific_name('Weights') + ";"
         self.holo_env.dataengine.query(delete_table_query)
-        self.holo_env.dataengine.add_db_table('Weights',new_df_weights,self.dataset)
+        self.holo_env.dataengine.add_db_table('Weights', new_df_weights, self.dataset)
 
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
-        self.dataset=Dataset()
-        self.holo_env.dataengine.ingest_data(src_path,self.dataset)
+        self.dataset = Dataset()
+        self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         print self.dataset.print_id()
         return
 
@@ -285,11 +282,11 @@ class Session:
         self.error_detectors.append(newErrorDetector)
         return
 
-    def denial_constraints(self,filepath):
-        self.Denial_constraints=[]
-        dc_file=open(filepath,'r')
+    def denial_constraints(self, filepath):
+        self.Denial_constraints = []
+        dc_file = open(filepath, 'r')
         for line in dc_file:
-          self.Denial_constraints.append(line[:-1])
+            self.Denial_constraints.append(line[:-1])
 
     # Getters
 
@@ -301,7 +298,7 @@ class Session:
         """TODO: Return session dataset"""
         return self.dataset
 
-    # Methodsdata	
+    # Methodsdata
     def ds_detect_errors(self):
         """TODO: Detect errors in dataset"""
         clean_cells = []
@@ -325,7 +322,7 @@ class Session:
         return
 
     def ds_domain_pruning(self,pruning_threshold=0):
-        Pruning(self.holo_env.dataengine,self.dataset,self.holo_env.spark_session,pruning_threshold
+        Pruning(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session, pruning_threshold
                 )
         return
 
