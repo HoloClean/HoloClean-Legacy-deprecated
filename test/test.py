@@ -1,6 +1,6 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
-from holoclean.featurization.featurizer import Signal_Init,Signal_cooccur, Signal_dc
+from holoclean.featurization.featurizer import SignalInit,SignalCooccur, SignalDC
 from holoclean.learning.accuracy import Accuracy
 from time import time as t
 
@@ -14,12 +14,12 @@ class Testing:
         print "Testing started :"+str(t())
         self.fx = open('execution_time.txt', 'w')
         start_time = t()
-        self.session.ingest_dataset("test/inputDatabase.csv")
+        self.session.ingest_dataset("test/test.csv")
         d = t()-start_time
         self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
         start_time = t()
-        self.session.denial_constraints("test/inputConstraint.txt")
+        self.session.denial_constraints("test/dc1.txt")
         d = t() - start_time
         self.fx.write('read denial constraints time: '+str(d)+'\n')
         print 'read denial constraints time: '+str(d)+'\n'
@@ -39,15 +39,15 @@ class Testing:
         print 'domain pruning time: '+str(d)+'\n'
         start_time = t()
         start_time1 = t()
-        initial_value_signal = Signal_Init(self.session.Denial_constraints, self.holo_obj.dataengine,
-                                           self.session.dataset)
+        initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
+                                          self.session.dataset)
         d = t() - start_time
         self.fx.write('init signal time: '+str(d)+'\n')
         print 'init signal time: '+str(d)+'\n'
         start_time = t()
         self.session.add_featurizer(initial_value_signal)
-        statistics_signal = Signal_cooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
-                                           self.session.dataset)
+        statistics_signal = SignalCooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
+                                          self.session.dataset)
         d = t() - start_time
         self.fx.write('cooccur signal time: '+str(d)+'\n')
         print 'cooccur signal time: '+str(d)+'\n'
@@ -57,7 +57,7 @@ class Testing:
         self.fx.write('dc signal time: '+str(d)+'\n')
         print 'dc signal time: '+str(d)+'\n'
         start_time = t()
-        dc_signal = Signal_dc(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset)
+        dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset)
         d = t() - start_time
         self.fx.write('dc featurize time: '+str(d)+'\n')
         print 'dc featurize time: '+str(d)+'\n'
