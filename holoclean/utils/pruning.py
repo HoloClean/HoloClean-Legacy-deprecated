@@ -35,22 +35,16 @@ class Pruning:
 		self.all_cells_temp={}
 		
 		    
-		print 'Analyzing associations of DB Entries...'
+		#print 'Analyzing associations of DB Entries...'
 		self.noisycells=self._d_cell()
 		self.cellvalues = self._c_values()
-		print("1")
 		self._preprop()
-		print("2")
 		self._analyzeEntries()
-		print("3")
 		self._generate_assignments()
-		print("4")
 		self._generate_nbs()
-		print("5")
 		self._find_cell_domain()
-		print("6")
 		self._create_dataframe()
-		print 'DONE.'
+		#print 'DONE.'
  
     #Internal Method
     def _d_cell(self):

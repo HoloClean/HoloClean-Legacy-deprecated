@@ -25,12 +25,18 @@ class Featurizer:
         table_attribute_string=self.dataengine._get_schema(self.dataset,"Init")
         attributes=table_attribute_string.split(',')
         dcp=DCParser(self.denial_constraints)
-        dc_sql_parts=dcp.get_anded_string(conditionInd = 'all')
+        dc_sql_parts=dcp.for_join_condition()
         new_dcs=[]
         dc_id=0
+        self.final_dc=[]
+        self.change_pred=[]
+        self.attributes_list=[]
         for c in dc_sql_parts:
             list_preds=self._find_predicates(c)
-            new_dcs.append(self._change_predicates_for_query(list_preds,attributes))
+            temp=self._change_predicates_for_query(list_preds,attributes)
+            for dc in temp:
+                new_dcs.append(dc)
+                self.final_dc.append(c)
         return new_dcs
 
     
@@ -46,26 +52,41 @@ class Featurizer:
         
         operationsArr=['<>' , '<=' ,'>=','=' , '<' , '>']
         new_pred_list=[]
+
         for i in range(0,len(list_preds)):
             components_preds=list_preds[i].split('.')
             new_pred=""
+            new_pred1=""
+            first=0
             for p in (0,len(components_preds)-1):
-                if components_preds[p] in attributes:
-                    for operation in operationsArr:
-                        if operation in components_preds[p-1] :
-                            left_component=components_preds[p-1].split(operation)
-                            new_pred="possible_table.attr_name= '"+components_preds[p]+"' AND " + "possible_table.attr_val"+operation+left_component[1]+"."+components_preds[p]
-                            break
-                    for k in range(0,len(list_preds)):
-                        if k!=i:
-                            new_pred=new_pred+" AND "+list_preds[k]
-                            new_pred_list.append(new_pred)
-                            break
+                comp=components_preds[p].split("_")
+                if len(comp)>1:
+                    if comp[1] in attributes:
+                        for operation in operationsArr:
+                            if operation in components_preds[p-1] :
+                                left_component=components_preds[p-1].split(operation)
+                                comp=components_preds[p].split("_")
+                                self.attributes_list.append("possible_table.attr_name= '"+comp[1]+"'")
+                                new_pred="possible_table.attr_val"+operation+left_component[1]+"."+components_preds[p]
+                                break
+                        for k in range(0,len(list_preds)):
+                            if k!=i:
+                              #  new_pred=new_pred+" AND "+list_preds[k]
+                                if first!=1:
+                                    new_pred1=new_pred1+list_preds[k]
+                                    first=1
+                                else:
+                                    new_pred1=new_pred1+" AND "+list_preds[k]
+                        self.change_pred.append(new_pred1)
+                        new_pred_list.append(new_pred)
+                            #break
         new_dc=""
+        new_dcs=[]
         new_dc=new_dc+"("+new_pred_list[0]+")"
+        new_dcs.append("("+new_pred_list[0]+")")
         for i in range (1,len(new_pred_list)):
-            new_dc=new_dc+" OR "+"("+new_pred_list[i]+")"
-        return new_dc
+            new_dcs.append("("+new_pred_list[i]+")")
+        return new_dcs
 
     def _find_predicates(self,cond):
 
@@ -119,7 +140,6 @@ class Signal_Init(Featurizer):
         """
         query_for_featurization=""
         query_for_featurization+=""" (SELECT  @p := @p + 1 as var_index,   possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat('Init=',possible_table.attr_val ) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.possible_table_name+ """ as possible_table where possible_table.observed='1') UNION"""
-        # query_for_featurization+=""" (SELECT possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat('Init=',possible_table.attr_val ) as feature,'init' AS TYPE,'      ' as weight_id   from """+ self.possible_table_name+ """ as possible_table where possible_table.observed='1') UNION"""
         query_for_featurization=query_for_featurization[:-5]
         return query_for_featurization
 
@@ -141,7 +161,7 @@ class Signal_cooccur(Featurizer):
         This method creates a query for the featurization table for the cooccurances
         """
         self.table_name1=self.dataset.table_specific_name('Possible_values')
-        query_for_featurization = """ (SELECT  @p := @p + 1 as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from """ + self.table_name1 + """ as table1, """ + self.possible_table_name + """ as possible_table  where (table1.attr_name != possible_table.attr_name and table1.tid = possible_table.tid  and table1.observed='1'))"""
+        query_for_featurization = """ (SELECT  @p := @p + 1 as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat (table1.attr_name,'=',table1.attr_val ) as feature,'cooccur' AS TYPE,'        ' as weight_id  from (select * from """ + self.table_name1 + """ as table1 where table1.observed='1') as table1, """ + self.possible_table_name + """ as possible_table  where (table1.attr_name != possible_table.attr_name and table1.tid = possible_table.tid ))"""
         return query_for_featurization
 
 
@@ -163,18 +183,26 @@ class Signal_dc(Featurizer):
         This method creates a query for the featurization table for the dc"
         """
         dcp=DCParser(self.denial_constraints)
-        dc_sql_parts=dcp.get_anded_string(conditionInd = 'all')
+        dc_sql_parts=dcp.for_join_condition()
         new_dc=self._create_new_dc()
-        for index_dc in range (0, len(dc_sql_parts)):
+        table_attribute_string=self.dataengine._get_schema(self.dataset,"Init")
+        attributes=table_attribute_string.split(',')
+        join_table_name=self.dataset.table_specific_name('join_init')
+        query1="select "
+        for i in attributes:
+            query1=query1+"table1."+i+" as first_"+i+","+"table2."+i+" as second_"+i+","
+        query1=query1[:-1]
+        query="CREATE TABLE "+join_table_name + " as select * from ("+  query1 +" from "+self.table_name + " as table1," +self.table_name + " as table2 where table1.index!=table2.index) as jointable ;"
+        self.dataengine.query(query)
+        for index_dc in range (0, len(new_dc)):
             new_condition=new_dc[index_dc ]
-            dc="',"+dc_sql_parts[index_dc ]+"'"
             if index_dc ==0:
-                query_for_featurization = """(SELECT  @p := @p + 1 as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (table1.index != table2.index)  and possible_table.tid=table1.index ) )"""
+               query_for_featurization = """(SELECT  @p := @p + 1 as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table1.second_index,""" + self.final_dc[index_dc] + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from  (select * from """+join_table_name +""" as table1 where """+ self.change_pred[index_dc] + """) as table1, (select * from """ + self.possible_table_name + """ as possible_table where """+ self.attributes_list[index_dc]+""" ) as possible_table where (""" + new_condition + """ and possible_table.tid=table1.first_index ) )"""
+
             else:
                 #if you have more than one dc
-                query_for_featurization += """ UNION (SELECT  @p := @p + 1 as var_index, possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table2.index,""" + dc + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from """ + self.table_name + """ as table2, """ + self.table_name + """ as table1, """ + self.possible_table_name + """ as possible_table where ((""" + new_condition + """) AND (table1.index != table2.index) and possible_table.tid=table1.index ) )"""
+                query_for_featurization =query_for_featurization + """union (SELECT  @p := @p + 1 as var_index,  possible_table.tid as rv_index,possible_table.attr_name as rv_attr, possible_table.attr_val as assigned_val, concat ( table1.second_index,""" + self.final_dc[index_dc] + """) as feature,'FD' AS TYPE ,'       ' as weight_id  from  (select * from """+join_table_name +""" as table1  where """+ self.change_pred[index_dc] + """) as table1, (select * from """ + self.possible_table_name + """ as possible_table where """+ self.attributes_list[index_dc]+""" ) as possible_table  where (""" + new_condition + """ and possible_table.tid=table1.first_index ) )"""
 
-        
         return query_for_featurization	
 	   
 

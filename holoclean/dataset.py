@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Dataset:
     attributes = ['id', 'Init', 'C_clean', 'C_dk', 'dc_f_mysql', 'dc_f_dd', 'Feature', 'Domain', 'Labels',
-                  'Possible_values',
+                  'Possible_values','join_init',
                   'Weights', 'Biases', 'Probabilities', 'config', 'Changes', 'Variable', 'Factor', 'Factor_to_var',
                   'Final', 'Correct']
 

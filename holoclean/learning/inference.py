@@ -44,7 +44,6 @@ class inference:
             'Probabilities') + " as table2, " + self.dataset.table_specific_name(
             'C_dk') + " as table3 where table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr and max1=table2.probability and table3.ind=table1.rv_index and table3.attr=table1.rv_attr group by table1.rv_index,table1.rv_attr);"
         self.dataengine.query(query)
-        print query
 
         # We get the number of repairs form the dont know cells
         dataframe1 = self.dataengine._table_to_dataframe("C_dk", self.dataset)
