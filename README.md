@@ -66,3 +66,9 @@ Install the package requirements:
 pip install --requirement python-package-requirement.txt
 
 ```
+### Running
+After installing, just run:
+```
+./run.sh
+
+```
