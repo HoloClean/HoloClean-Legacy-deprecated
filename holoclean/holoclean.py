@@ -122,7 +122,7 @@ class HoloClean:
             setattr(self, arg, kwargs.get(arg, default))
 
         logging.basicConfig(filename="logger.log",
-                            filemode='w',level=logging.INFO)
+                            filemode='w', level=logging.INFO)
         self.logger = logging.getLogger("__main__")
         logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
         # Initialize dataengine and spark session
@@ -158,9 +158,9 @@ class HoloClean:
         return sql_ctxt.sparkSession, sql_ctxt
 
     # Setters
-    def set_dataengine(self, newDataEngine):
+    def set_dataengine(self, new_dataengine):
         """TODO: Manually set Data Engine"""
-        self.dataengine = newDataEngine
+        self.dataengine = new_dataengine
         return
 
     # Getters
@@ -263,17 +263,17 @@ class Session:
         self.holo_env.logger.info('creating dataset with id:' + self.dataset.print_id())
         return
 
-    def add_featurizer(self, newFeaturizer):
+    def add_featurizer(self, new_featurizer):
         """TODO: Add a new featurizer"""
         self.holo_env.logger.info('getting new signal for featurization...')
-        self.featurizers.append(newFeaturizer)
+        self.featurizers.append(new_featurizer)
         self.holo_env.logger.info('getting new signal for featurization is finished')
         return
 
-    def add_error_detector(self, newErrorDetector):
+    def add_error_detector(self, new_error_detector):
         """TODO: Add a new error detector"""
         self.holo_env.logger.info('getting the  for error detection...')
-        self.error_detectors.append(newErrorDetector)
+        self.error_detectors.append(new_error_detector)
         self.holo_env.logger.info('getting new for error detection')
         return
 
@@ -282,7 +282,6 @@ class Session:
         dc_file = open(filepath, 'r')
         for line in dc_file:
             self.Denial_constraints.append(line[:-1])
-        
 
     # Getters
 
@@ -319,27 +318,27 @@ class Session:
  
         return
 
-    def ds_domain_pruning(self,pruning_threshold=0):
-        self.holo_env.logger.info('starting domain pruning with threshold %s',pruning_threshold)
+    def ds_domain_pruning(self, pruning_threshold=0):
+        self.holo_env.logger.info('starting domain pruning with threshold %s', pruning_threshold)
         Pruning(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session, pruning_threshold
                 )
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
-    def     ds_featurize(self):
+    def ds_featurize(self):
         """TODO: Extract dataset features"""
 
-        query_for_featurization = "CREATE TABLE "+self.dataset.table_specific_name('Feature')\
-             +"(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT, feature TEXT,TYPE TEXT, weight_id TEXT);"
+        query_for_featurization = "CREATE TABLE " + self.dataset.table_specific_name('Feature') \
+                                  + "(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT," \
+                                    " feature TEXT,TYPE TEXT, weight_id TEXT);"
         self.holo_env.dataengine.query(query_for_featurization)
-        global_counter = "select @p:=0;"
+        global_counter = "SELECT @p:=0;"
         self.holo_env.dataengine.query(global_counter)
 
-        counter=0
-        insert_signal_query = ""
+        counter = 0
         for feature in self.featurizers:
-            insert_signal_query ="INSERT INTO "+self.dataset.table_specific_name('Feature')\
-                +" SELECT * FROM( " + feature.get_query() + ")as T_"+str(counter)+";"
+            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature') \
+                                  + " SELECT * FROM( " + feature.get_query() + ")as T_" + str(counter) + ";"
             counter += 1
             self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
             self.holo_env.dataengine.query(insert_signal_query)
