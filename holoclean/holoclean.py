@@ -144,9 +144,6 @@ class HoloClean:
 
     def _init_spark(self):
         """TODO: Initialize Spark Session"""
-        # if self.spark_session and self.spark_sql_ctxt:
-        # return
-
         # Set spark configuration
         conf = SparkConf()
         # Link MySQL driver to Spark Engine
