@@ -1,3 +1,0 @@
-from .script import main
-
-
