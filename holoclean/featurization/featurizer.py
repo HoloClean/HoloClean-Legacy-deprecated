@@ -131,6 +131,7 @@ class SignalInit(Featurizer):
         parameter: denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
+        self.id="SignalInit"
     
     def get_query(self):
         """
@@ -164,6 +165,7 @@ class SignalCooccur(Featurizer):
                 parameter: denial_constraints,dataengine,dataset
                 """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
+        self.id="SignalCooccur"
 
     def get_query(self):
         """
@@ -199,6 +201,7 @@ class SignalDC(Featurizer):
         parameter: denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
+        self.id="SignalDC"
 
     def get_query(self):
         """
@@ -215,40 +218,41 @@ class SignalDC(Featurizer):
         query = "CREATE TABLE " + join_table_name + " AS SELECT * FROM (" + query1 + " FROM " + self.table_name + \
                 " AS table1," + self.table_name + """ AS table2 WHERE table1.index!=table2.index) AS jointable ;"""
         self.dataengine.query(query)
+        dc_queries=[]
         for index_dc in range(0, len(new_dc)):
             new_condition = new_dc[index_dc]
-            if index_dc == 0:
-                query_for_featurization = """(SELECT  @p := @p + 1 AS var_index, \
-                    possible_table.tid AS rv_index,\
-                    possible_table.attr_name AS rv_attr,\
-                    possible_table.attr_val AS assigned_val,\
-                    concat ( table1.second_index,""" + \
-                    self.final_dc[index_dc] + \
-                    """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM  \
-                    (SELECT * FROM """ + join_table_name + \
-                    """ AS table1 WHERE """ + \
-                    self.change_pred[index_dc] + \
-                    """) AS table1, (SELECT * FROM """ + self.possible_table_name \
-                    + """ AS possible_table WHERE """ + \
-                    self.attributes_list[index_dc] + \
-                    """ ) AS possible_table WHERE (""" + new_condition + \
-                    """ AND possible_table.tid=table1.first_index ) )"""
-                print query_for_featurization
-            else:
-                query_for_featurization += """UNION (SELECT  @p := @p + 1 AS var_index, \
-                    possible_table.tid AS rv_index, \
-                    possible_table.attr_name AS rv_attr,\
-                    possible_table.attr_val AS assigned_val,\
-                    concat ( table1.second_index,""" + \
-                    self.final_dc[index_dc] + \
-                    """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM (SELECT * FROM """ \
-                    + join_table_name + """ AS table1  WHERE """ + \
-                    self.change_pred[index_dc] +\
-                    """) AS table1, (SELECT * FROM """ + \
-                    self.possible_table_name \
-                    + """ AS possible_table WHERE """ + \
-                    self.attributes_list[index_dc] + \
-                    """ ) AS possible_table  WHERE (""" + new_condition + """ AND \
-                    possible_table.tid=table1.first_index ) )"""
+            #if index_dc == 0:
+            query_for_featurization = """(SELECT  @p := @p + 1 AS var_index, \
+                possible_table.tid AS rv_index,\
+                possible_table.attr_name AS rv_attr,\
+                possible_table.attr_val AS assigned_val,\
+                concat ( table1.second_index,'""" + \
+                self.final_dc[index_dc] + \
+                """') AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM  \
+                (SELECT * FROM """ + join_table_name + \
+                """ AS table1 WHERE """ + \
+                self.change_pred[index_dc] + \
+                """) AS table1, (SELECT * FROM """ + self.possible_table_name \
+                + """ AS possible_table WHERE """ + \
+                self.attributes_list[index_dc] + \
+                """ ) AS possible_table WHERE (""" + new_condition + \
+                """ AND possible_table.tid=table1.first_index ) )"""
+            dc_queries.append(query_for_featurization)
+            '''  else:
+            query_for_featurization += """UNION (SELECT  @p := @p + 1 AS var_index, \
+                possible_table.tid AS rv_index, \
+                possible_table.attr_name AS rv_attr,\
+                possible_table.attr_val AS assigned_val,\
+                concat ( table1.second_index,""" + \
+                self.final_dc[index_dc] + \
+                """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM (SELECT * FROM """ \
+                + join_table_name + """ AS table1  WHERE """ + \
+                self.change_pred[index_dc] +\
+                """) AS table1, (SELECT * FROM """ + \
+                self.possible_table_name \
+                + """ AS possible_table WHERE """ + \
+                self.attributes_list[index_dc] + \
+                """ ) AS possible_table  WHERE (""" + new_condition + """ AND \
+                possible_table.tid=table1.first_index ) )"""'''
 
-        return query_for_featurization
+        return dc_queries
