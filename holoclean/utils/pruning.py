@@ -214,11 +214,15 @@ class Pruning:
                 """
         list_to_dataframe_possible_values = []
         list_to_dataframe__domain = []
+        list_to_dataframe_init = []
 
         for i in self.cell_domain:
             list_to_dataframe_possible_values.append(
                 [(self.all_cells_temp[i].tupleid + 1), self.all_cells_temp[i].columnname,
                  self.all_cells_temp[i].value, "1"])
+            list_to_dataframe_init.append(
+                [(self.all_cells_temp[i].tupleid + 1), self.all_cells_temp[i].columnname,
+                 self.all_cells_temp[i].value])
             for j in self.cell_domain[i]:
                 if j != self.all_cells_temp[i].value:
                     list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid + 1), self.
@@ -229,8 +233,12 @@ class Pruning:
                                                              ['tid', 'attr_name', 'attr_val', 'observed'])
         new_df_domain = self.spark_session.createDataFrame(list_to_dataframe__domain,
                                                            ['attr_name', 'attr_val'])
+        new_df_init = self.spark_session.createDataFrame(list_to_dataframe_init,
+                                                           ['tid','attr_name', 'attr_val'])
         self.dataengine.add_db_table('Domain',
                                      new_df_domain, self.dataset)
         self.dataengine.add_db_table('Possible_values',
                                      new_df_possible, self.dataset)
+        self.dataengine.add_db_table('Init_new',
+                                     new_df_init, self.dataset)
         return
