@@ -182,7 +182,7 @@ class SignalCooccur(Featurizer):
             possible_table.attr_val AS assigned_val,\
             concat (table1.attr_name,'=',table1.attr_val ) AS feature,\
             'cooccur' AS TYPE,'        ' AS weight_id \
-            FROM""" + self.table_name1 +  """ AS table1,\
+            FROM """ + self.table_name1 +  """ AS table1,\
             """ + self.possible_table_name + """ AS possible_table\
             WHERE (table1.attr_name != possible_table.attr_name\
             AND\
