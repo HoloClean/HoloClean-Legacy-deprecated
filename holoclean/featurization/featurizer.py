@@ -5,7 +5,7 @@ class Featurizer:
     """TODO.
         parent class for all the signals
         """
-    
+
     def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
                 Parameters
@@ -15,15 +15,17 @@ class Featurizer:
         self.denial_constraints = denial_constraints
         self.dataengine = dataengine
         self.dataset = dataset
-        self.possible_table_name = self.dataset.table_specific_name('Possible_values')
+        self.possible_table_name = self.dataset.table_specific_name(
+            'Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
-            
+
     # Internal Method
     def _create_new_dc(self):
         """
-        For each dc we change the predicates, and return the new type of dc 
+        For each dc we change the predicates, and return the new type of dc
         """
-        table_attribute_string = self.dataengine._get_schema(self.dataset, "Init")
+        table_attribute_string = self.dataengine._get_schema(
+            self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         dcp = DCParser(self.denial_constraints)
         dc_sql_parts = dcp.for_join_condition()
@@ -40,7 +42,6 @@ class Featurizer:
         return new_dcs
 
     def _change_predicates_for_query(self, list_preds, attributes):
-
         """
                 For each predicats we change it to the form that we need for the query to create the featurization table
                 Parameters
@@ -63,11 +64,13 @@ class Featurizer:
                     if comp[1] in attributes:
                         for operation in operationsarr:
                             if operation in components_preds[p - 1]:
-                                left_component = components_preds[p - 1].split(operation)
+                                left_component = components_preds[p - 1].split(
+                                    operation)
                                 comp = components_preds[p].split("_")
-                                self.attributes_list.append("possible_table.attr_name= '" + comp[1] + "'")
-                                new_pred = "possible_table.attr_val" + operation + left_component[1] + "." + \
-                                           components_preds[p]
+                                self.attributes_list.append(
+                                    "possible_table.attr_name= '" + comp[1] + "'")
+                                new_pred = "possible_table.attr_val" + operation + \
+                                    left_component[1] + "." + components_preds[p]
                                 break
                         for k in range(0, len(list_preds)):
                             if k != i:
@@ -76,7 +79,8 @@ class Featurizer:
                                     new_pred1 = new_pred1 + list_preds[k]
                                     first = 1
                                 else:
-                                    new_pred1 = new_pred1 + " AND " + list_preds[k]
+                                    new_pred1 = new_pred1 + \
+                                        " AND " + list_preds[k]
                         self.change_pred.append(new_pred1)
                         new_pred_list.append(new_pred)
         new_dc = ""
@@ -88,7 +92,6 @@ class Featurizer:
         return new_dcs
 
     def _find_predicates(self, cond):
-
         """
         This method finds the predicates of dc"
         :param cond: a denial constrain
@@ -100,18 +103,19 @@ class Featurizer:
 
     # Setters
     def add_weights(self):
-        
         """
         This method updates the values of weights for the featurization table"
         """
 
-        dataframe = self.dataengine._table_to_dataframe("Feature", self.dataset)
+        dataframe = self.dataengine._table_to_dataframe(
+            "Feature", self.dataset)
         groups = []
         for c in dataframe.collect():
             temp = [c['rv_attr'], c['feature']]
             if temp not in groups:
                 groups.append(temp)
-        query = "UPDATE " + self.dataset.table_specific_name('Feature') + " SET weight_id= CASE"
+        query = "UPDATE " + \
+            self.dataset.table_specific_name('Feature') + " SET weight_id= CASE"
         for weight_id in range(0, len(groups)):
             query += " WHEN  rv_attr='" + groups[weight_id][0] + "'AND feature='" + groups[weight_id][
                 1] + "' THEN " + str(weight_id)
@@ -123,7 +127,7 @@ class SignalInit(Featurizer):
     """TODO.
     Signal for initial values
     """
-    
+
     def __init__(self, denial_constraints, dataengine, dataset):
         """TODO.
         Parameters
@@ -131,8 +135,8 @@ class SignalInit(Featurizer):
         parameter: denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
-        self.id="SignalInit"
-    
+        self.id = "SignalInit"
+
     def get_query(self):
         """
         This method creates a query for the featurization table for the initial values"
@@ -165,22 +169,20 @@ class SignalCooccur(Featurizer):
                 parameter: denial_constraints,dataengine,dataset
                 """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
-        self.id="SignalCooccur"
+        self.id = "SignalCooccur"
 
     def get_query(self):
         """
                 This method creates a query for the featurization table for the cooccurances
                 """
-        self.table_name1 = self.dataset.table_specific_name('Possible_values')
+        self.table_name1 = self.dataset.table_specific_name('Init_new')
         query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
             possible_table.tid AS rv_index,\
             possible_table.attr_name AS rv_attr,\
             possible_table.attr_val AS assigned_val,\
             concat (table1.attr_name,'=',table1.attr_val ) AS feature,\
             'cooccur' AS TYPE,'        ' AS weight_id \
-            FROM (\
-            SELECT * FROM """ + self.table_name1 + """ AS table1\
-            WHERE table1.observed='1') AS table1,\
+            FROM""" + self.table_name1 +  """AS table1,\
             """ + self.possible_table_name + """ AS possible_table\
             WHERE (table1.attr_name != possible_table.attr_name\
             AND\
@@ -201,27 +203,29 @@ class SignalDC(Featurizer):
         parameter: denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
-        self.id="SignalDC"
+        self.id = "SignalDC"
 
     def get_query(self):
         """
                 This method creates a query for the featurization table for the dc"
                 """
         new_dc = self._create_new_dc()
-        table_attribute_string = self.dataengine._get_schema(self.dataset, "Init")
+        table_attribute_string = self.dataengine._get_schema(
+            self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         join_table_name = self.dataset.table_specific_name('join_init')
         query1 = "SELECT "
         for i in attributes:
-            query1 = query1 + "table1." + i + " AS first_" + i + "," + "table2." + i + " AS second_" + i + ","
+            query1 = query1 + "table1." + i + " AS first_" + \
+                i + "," + "table2." + i + " AS second_" + i + ","
         query1 = query1[:-1]
         query = "CREATE TABLE " + join_table_name + " AS SELECT * FROM (" + query1 + " FROM " + self.table_name + \
                 " AS table1," + self.table_name + """ AS table2 WHERE table1.index!=table2.index) AS jointable ;"""
         self.dataengine.query(query)
-        dc_queries=[]
+        dc_queries = []
         for index_dc in range(0, len(new_dc)):
             new_condition = new_dc[index_dc]
-            #if index_dc == 0:
+            # if index_dc == 0:
             query_for_featurization = """(SELECT  @p := @p + 1 AS var_index, \
                 possible_table.tid AS rv_index,\
                 possible_table.attr_name AS rv_attr,\

@@ -119,7 +119,8 @@ class Pruning:
             if attr in self.nb_cache:
                 if attr_val in self.nb_cache[attr]:
                     if trgt_attr in self.nb_cache[attr][attr_val]:
-                        cell_values |= set(self.nb_cache[attr][attr_val][trgt_attr].keys())
+                        cell_values |= set(
+                            self.nb_cache[attr][attr_val][trgt_attr].keys())
 
         return cell_values
 
@@ -177,13 +178,15 @@ class Pruning:
             self.nb_cache[col] = {}
             for tgt_col in self.domain_pair_stats[col]:
                 for assgn_tuple in self.domain_pair_stats[col][tgt_col]:
-                    nb = self._compute_nb(col, assgn_tuple[0], tgt_col, assgn_tuple[1])
+                    nb = self._compute_nb(
+                        col, assgn_tuple[0], tgt_col, assgn_tuple[1])
                     if nb > self.threshold:
                         if assgn_tuple[0] not in self.nb_cache[col]:
                             self.nb_cache[col][assgn_tuple[0]] = {}
                         if tgt_col not in self.nb_cache[col][assgn_tuple[0]]:
                             self.nb_cache[col][assgn_tuple[0]][tgt_col] = {}
-                        self.nb_cache[col][assgn_tuple[0]][tgt_col][assgn_tuple[1]] = nb
+                        self.nb_cache[col][assgn_tuple[0]
+                                           ][tgt_col][assgn_tuple[1]] = nb
 
     def _generate_assignments(self):
         """
@@ -205,8 +208,8 @@ class Pruning:
                 find_cell_domain finds the domain for each cell
                 """
         for cellid in self.assignments:
-            self.cell_domain[cellid] = self._find_domain(self.assignments[cellid],
-                                                         self.trgt_attr[cellid])
+            self.cell_domain[cellid] = self._find_domain(
+                self.assignments[cellid], self.trgt_attr[cellid])
 
     def _create_dataframe(self):
         """
@@ -226,15 +229,18 @@ class Pruning:
             for j in self.cell_domain[i]:
                 if j != self.all_cells_temp[i].value:
                     list_to_dataframe_possible_values.append([(self.all_cells_temp[i].tupleid + 1), self.
-                                                             all_cells_temp[i].columnname, j, "0"])
-                if not ([self.all_cells_temp[i].columnname, j] in list_to_dataframe__domain):
-                    list_to_dataframe__domain.append([self.all_cells_temp[i].columnname, j])
-        new_df_possible = self.spark_session.createDataFrame(list_to_dataframe_possible_values,
-                                                             ['tid', 'attr_name', 'attr_val', 'observed'])
-        new_df_domain = self.spark_session.createDataFrame(list_to_dataframe__domain,
-                                                           ['attr_name', 'attr_val'])
-        new_df_init = self.spark_session.createDataFrame(list_to_dataframe_init,
-                                                           ['tid','attr_name', 'attr_val'])
+                                                              all_cells_temp[i].columnname, j, "0"])
+                if not ([self.all_cells_temp[i].columnname, j]
+                        in list_to_dataframe__domain):
+                    list_to_dataframe__domain.append(
+                        [self.all_cells_temp[i].columnname, j])
+        new_df_possible = self.spark_session.createDataFrame(
+            list_to_dataframe_possible_values, [
+                'tid', 'attr_name', 'attr_val', 'observed'])
+        new_df_domain = self.spark_session.createDataFrame(
+            list_to_dataframe__domain, ['attr_name', 'attr_val'])
+        new_df_init = self.spark_session.createDataFrame(
+            list_to_dataframe_init, ['tid', 'attr_name', 'attr_val'])
         self.dataengine.add_db_table('Domain',
                                      new_df_domain, self.dataset)
         self.dataengine.add_db_table('Possible_values',

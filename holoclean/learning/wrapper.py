@@ -19,7 +19,8 @@ class Wrapper:
 
                 """
 
-        domain_dataframe = self.dataengine._table_to_dataframe("Domain", self.dataset)
+        domain_dataframe = self.dataengine._table_to_dataframe(
+            "Domain", self.dataset)
         temp = domain_dataframe.select("attr_name", "attr_val").collect()
         self.dictionary = {}
         dic_list = []
@@ -35,7 +36,8 @@ class Wrapper:
             result.update({a: domain_dict})
         element_id = [0] * len(attr_set)
         for element in dic_list:
-            result[element["attr_name"]].update({element["attr_val"]: element_id[attr_set.index(element["attr_name"])]})
+            result[element["attr_name"]].update(
+                {element["attr_val"]: element_id[attr_set.index(element["attr_name"])]})
             element_id[attr_set.index(element["attr_name"])] += 1
         self.dictionary = result
 
@@ -74,7 +76,8 @@ class Wrapper:
 
                 """
 
-        mysql_query = 'CREATE TABLE ' + self.dataset.table_specific_name('Variable') + ' AS'
+        mysql_query = 'CREATE TABLE ' + \
+            self.dataset.table_specific_name('Variable') + ' AS'
         mysql_query += "(SELECT distinct NULL AS variable_index," \
                        " table1.tid AS rv_ind," \
                        "table1.attr_name AS rv_attr," \
@@ -97,7 +100,8 @@ class Wrapper:
                        " AND " \
                        "counting.attr_name=table1.attr_name)"
 
-        table_attribute_string = self.dataengine._get_schema(self.dataset, "Init")
+        table_attribute_string = self.dataengine._get_schema(
+            self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         for attribute in attributes:
             if attribute != "index":
@@ -146,7 +150,8 @@ class Wrapper:
                 This method creates a query for factor_to_variable table for numbskull
 
                 """
-        mysql_query = 'CREATE TABLE ' + self.dataset.table_specific_name('Factor_to_var') + ' AS'
+        mysql_query = 'CREATE TABLE ' + \
+            self.dataset.table_specific_name('Factor_to_var') + ' AS'
         mysql_query += "(SELECT (@n := @n + 1 ) AS factor_to_var_index," \
                        " variable_index AS vid," \
                        "attr_val," \
@@ -166,7 +171,8 @@ class Wrapper:
                 This method creates a query for factor table for numbskull"
 
                 """
-        mysql_query = 'CREATE TABLE ' + self.dataset.table_specific_name('Factor') + ' AS'
+        mysql_query = 'CREATE TABLE ' + \
+            self.dataset.table_specific_name('Factor') + ' AS'
         mysql_query += "(SELECT distinct (@n := @n + 1 ) AS factor_index," \
                        "var_index," \
                        " '4' AS FactorFunction," \
@@ -195,12 +201,14 @@ class Wrapper:
                 This method creates list of weights for numbskull
 
                 """
-        weight_dataframe = self.dataengine._table_to_dataframe("Weights", self.dataset)
+        weight_dataframe = self.dataengine._table_to_dataframe(
+            "Weights", self.dataset)
         temp = weight_dataframe.select("Is_fixed", "init_val").collect()
         weight_list = []
         for row in temp:
             tempdictionary = row.asDict()
-            weight_list.append([(tempdictionary["Is_fixed"]), tempdictionary["init_val"]])
+            weight_list.append(
+                [(tempdictionary["Is_fixed"]), tempdictionary["init_val"]])
         weight = np.zeros(len(weight_list), Weight)
         count = 0
         for w in weight:
@@ -215,23 +223,30 @@ class Wrapper:
                 This method creates list of variables for numbskull
 
                 """
-        variable_dataframe = self.dataengine._table_to_dataframe("Variable", self.dataset)
-        temp = variable_dataframe.select("rv_attr", "is_Evidence", "initial_value", "Datatype", "Cardinality",
-                                 "vtf_offset").collect()
+        variable_dataframe = self.dataengine._table_to_dataframe(
+            "Variable", self.dataset)
+        temp = variable_dataframe.select(
+            "rv_attr",
+            "is_Evidence",
+            "initial_value",
+            "Datatype",
+            "Cardinality",
+            "vtf_offset").collect()
         variable_list = []
         for row in temp:
             tempdictionary = row.asDict()
             if int(tempdictionary["is_Evidence"]) == 0:
-                variable_list.append([np.int8(int(tempdictionary["is_Evidence"])), np.int64((int(0))),
+                variable_list.append([np.int8(int(tempdictionary["is_Evidence"])),
+                                      np.int64((int(0))),
                                       np.int16(int(tempdictionary["Datatype"])),
                                       np.int64(int(tempdictionary["Cardinality"])),
                                       np.int64(int(tempdictionary["vtf_offset"]))])
             else:
                 variable_list.append([np.int8(int(tempdictionary["is_Evidence"])), np.int64(
                     (int(self.dictionary[tempdictionary["rv_attr"]][tempdictionary["initial_value"]]))),
-                                      np.int16(int(tempdictionary["Datatype"])),
-                                      np.int64(int(tempdictionary["Cardinality"])),
-                                      np.int64(int(tempdictionary["vtf_offset"]))])
+                    np.int16(int(tempdictionary["Datatype"])),
+                    np.int64(int(tempdictionary["Cardinality"])),
+                    np.int64(int(tempdictionary["vtf_offset"]))])
             variable = np.zeros(len(variable_list), Variable)
         count = 0
         for var in variable:
@@ -239,7 +254,7 @@ class Wrapper:
             var["initialValue"] = variable_list[count][1]
             var["dataType"] = variable_list[count][2]
             var["cardinality"] = variable_list[count][3]
-            var["vtf_offset"] = (variable_list[count][4]-1)
+            var["vtf_offset"] = (variable_list[count][4] - 1)
             count += 1
         return variable
 
@@ -248,8 +263,10 @@ class Wrapper:
                 This method creates list of fmap for numbskull
 
                 """
-        factor_to_var_dataframe = self.dataengine._table_to_dataframe("Factor_to_var", self.dataset)
-        temp = factor_to_var_dataframe.select("vid", "attr_val", "attr_name").collect()
+        factor_to_var_dataframe = self.dataengine._table_to_dataframe(
+            "Factor_to_var", self.dataset)
+        temp = factor_to_var_dataframe.select(
+            "vid", "attr_val", "attr_name").collect()
         factor_to_var_list = []
         for row in temp:
             tempdictionary = row.asDict()
@@ -268,16 +285,27 @@ class Wrapper:
                 This method creates list of factors for numbskull
 
                 """
-        factor_dataframe = self.dataengine._table_to_dataframe("Factor", self.dataset)
-        temp = factor_dataframe.select("FactorFunction", "weightID", "Feature_Value", "arity", "ftv_offest").collect()
+        factor_dataframe = self.dataengine._table_to_dataframe(
+            "Factor", self.dataset)
+        temp = factor_dataframe.select(
+            "FactorFunction",
+            "weightID",
+            "Feature_Value",
+            "arity",
+            "ftv_offest").collect()
         factor_list = [0] * len(temp)
 
         counter = 0
         for row in temp:
             tempdictionary = row.asDict()
-            factor_list[counter] = [np.int16(tempdictionary["FactorFunction"]), np.int64(tempdictionary["weightID"]),
-                                    np.float64(tempdictionary["Feature_Value"]), np.int64(tempdictionary["arity"]),
-                                    np.int64((int(tempdictionary["ftv_offest"]) - 1))]
+            factor_list[counter] = [
+                np.int16(
+                    tempdictionary["FactorFunction"]), np.int64(
+                    tempdictionary["weightID"]), np.float64(
+                    tempdictionary["Feature_Value"]), np.int64(
+                    tempdictionary["arity"]), np.int64(
+                        (int(
+                            tempdictionary["ftv_offest"]) - 1))]
             counter += 1
 
         factor = np.zeros(len(factor_list), Factor)

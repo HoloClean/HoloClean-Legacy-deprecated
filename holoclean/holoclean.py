@@ -122,11 +122,11 @@ class HoloClean:
             setattr(self, arg, kwargs.get(arg, default))
 
         logging.basicConfig(filename="logger.log",
-                            filemode='w', level=logging.INFO)
+                            filemode='a', level=logging.INFO)
         self.logger = logging.getLogger("__main__")
         logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
         # Initialize dataengine and spark session
-        
+
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
         self.dataengine = self._init_dataengine()
 
@@ -174,7 +174,7 @@ class HoloClean:
 
     def start_new_session(self, name='session'):
         """TODO: Get new HoloClean Session"""
-        newSession = Session(name+str(self.session_id))
+        newSession = Session(name + str(self.session_id))
         self.section_id += 1
         return newSession
 
@@ -182,7 +182,7 @@ class HoloClean:
         if name in self.session:
             return self.session[name]
         else:
-            self.log.warn("No HoloClean session named "+name)
+            self.log.warn("No HoloClean session named " + name)
             return
 
 
@@ -192,7 +192,7 @@ class Session:
     def __init__(self, name, holo_env):
         logging.basicConfig()
         """TODO.
-        
+
 
         Parameters
         ----------
@@ -214,6 +214,8 @@ class Session:
 
     # Internal methods
     def _numbskull_fg_lists(self):
+        self.holo_env.logger.info('wrapper is starting')
+        print "wrapper is starting"
         wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
         wrapper_obj.set_variable()
         wrapper_obj.set_weight()
@@ -225,11 +227,15 @@ class Session:
         factor = wrapper_obj.get_list_factor()
         edges = wrapper_obj.get_edge(factor)
         domain_mask = wrapper_obj.get_mask(variable)
+        print "wrapper is finished"
+        self.holo_env.logger.info('wrapper is finished')
 
         return weight, variable, factor, fmap, domain_mask, edges
 
     def _numskull(self):
         learn = 100
+        self.holo_env.logger.info('numbskull is starting')
+        print "numbskull is starting"
         ns = numbskull.NumbSkull(n_inference_epoch=100,
                                  n_learning_epoch=learn,
                                  quiet=True,
@@ -244,15 +250,22 @@ class Session:
 
         ns.loadFactorGraph(*fg)
         ns.learning()
+        self.holo_env.logger.info('numbskull is finished')
+        print "numbskull is finished"
         list_weight_value = []
         list_temp = ns.factorGraphs[0].weight_value[0]
         for i in range(0, len(list_temp)):
             list_weight_value.append([i, float(list_temp[i])])
 
-        new_df_weights = self.holo_env.spark_session.createDataFrame(list_weight_value, ['weight_id', 'weight_val'])
-        delete_table_query = 'drop table ' + self.dataset.table_specific_name('Weights') + ";"
+        new_df_weights = self.holo_env.spark_session.createDataFrame(
+            list_weight_value, ['weight_id', 'weight_val'])
+        delete_table_query = 'drop table ' + \
+            self.dataset.table_specific_name('Weights') + ";"
         self.holo_env.dataengine.query(delete_table_query)
-        self.holo_env.dataengine.add_db_table('Weights', new_df_weights, self.dataset)
+        self.holo_env.dataengine.add_db_table(
+            'Weights', new_df_weights, self.dataset)
+        self.holo_env.logger.info('adding weight is finished')
+        print "adding weight is finished is finished"
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -260,14 +273,17 @@ class Session:
         self.holo_env.logger.info('ingesting file:' + src_path)
         self.dataset = Dataset()
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
-        self.holo_env.logger.info('creating dataset with id:' + self.dataset.print_id())
+        self.holo_env.logger.info(
+            'creating dataset with id:' +
+            self.dataset.print_id())
         return
 
     def add_featurizer(self, new_featurizer):
         """TODO: Add a new featurizer"""
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
-        self.holo_env.logger.info('getting new signal for featurization is finished')
+        self.holo_env.logger.info(
+            'getting new signal for featurization is finished')
         return
 
     def add_error_detector(self, new_error_detector):
@@ -301,7 +317,9 @@ class Session:
 
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
-            temp = err_detector.get_noisy_dknow_dataframe(self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
+            temp = err_detector.get_noisy_dknow_dataframe(
+                self.holo_env.dataengine._table_to_dataframe(
+                    'Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -309,63 +327,92 @@ class Session:
         intersect_dk_cells = dk_cells[0]
         union_clean_cells = clean_cells[0]
         for detector_counter in range(1, num_of_error_detectors):
-            intersect_dk_cells = intersect_dk_cells.intersect(dk_cells[detector_counter])
-            union_clean_cells = union_clean_cells.unionAll(clean_cells[detector_counter])
+            intersect_dk_cells = intersect_dk_cells.intersect(
+                dk_cells[detector_counter])
+            union_clean_cells = union_clean_cells.unionAll(
+                clean_cells[detector_counter])
 
-        self.holo_env.dataengine.add_db_table('C_clean', union_clean_cells, self.dataset)
-        self.holo_env.dataengine.add_db_table('C_dk', intersect_dk_cells, self.dataset)
+        self.holo_env.dataengine.add_db_table(
+            'C_clean', union_clean_cells, self.dataset)
+        self.holo_env.dataengine.add_db_table(
+            'C_dk', intersect_dk_cells, self.dataset)
         self.holo_env.logger.info('error detection is finished')
- 
+
         return
 
     def ds_domain_pruning(self, pruning_threshold=0):
-        self.holo_env.logger.info('starting domain pruning with threshold %s', pruning_threshold)
-        Pruning(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session, pruning_threshold
-                )
+        self.holo_env.logger.info(
+            'starting domain pruning with threshold %s',
+            pruning_threshold)
+        Pruning(
+            self.holo_env.dataengine,
+            self.dataset,
+            self.holo_env.spark_session,
+            pruning_threshold)
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
     def ds_featurize(self):
         """TODO: Extract dataset features"""
-        
+
         global_counter = "set @p:=0;"
         self.holo_env.dataengine.query(global_counter)
 
-        query_for_featurization = "CREATE TABLE " + self.dataset.table_specific_name('Feature') \
-                                  + "(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT," \
-                                    " feature TEXT,TYPE TEXT, weight_id TEXT);"
+        query_for_featurization = "CREATE TABLE \
+            " + self.dataset.table_specific_name('Feature') \
+            + "(var_index INT,rv_index TEXT , rv_attr TEXT,\
+            assigned_val TEXT," \
+            " feature TEXT,TYPE TEXT, weight_id TEXT);"
         self.holo_env.dataengine.query(query_for_featurization)
-        
 
         counter = 0
         for feature in self.featurizers:
-            if feature.id!="SignalDC":
-                insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature') \
-                                      + " SELECT * FROM( " + feature.get_query() + ")as T_" + str(counter) + ";"
+            if feature.id != "SignalDC":
+                insert_signal_query = "INSERT INTO \
+                " + self.dataset.table_specific_name(
+                    'Feature') + " SELECT * FROM \
+                ( " + feature.get_query() + ")as T_" + str(counter) + ";"
                 counter += 1
-                self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
+                self.holo_env.logger.info(
+                    'the query that will be executed is:' +
+                    insert_signal_query)
                 self.holo_env.dataengine.query(insert_signal_query)
-                self.holo_env.logger.info('the query was executed is:'+insert_signal_query)
-                global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
+                self.holo_env.logger.info(
+                    'the query was executed is:' + insert_signal_query)
+                print insert_signal_query
+                global_counter = "select max(var_index) into @p from " + \
+                    self.dataset.table_specific_name('Feature') + ";"
                 self.holo_env.dataengine.query(global_counter)
             else:
-                dc_queries=feature.get_query()
+                dc_queries = feature.get_query()
                 for dc_query in dc_queries:
-                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature') \
-                                          + " SELECT * FROM( " + dc_query + ")as T_" + str(counter) + ";"
+                    insert_signal_query = "INSERT INTO \
+                        " + self.dataset.table_specific_name(
+                        'Feature') + " SELECT * FROM( \
+                        " + dc_query + ")as T_" + str(counter) + ";"
                     counter += 1
-                    self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
+                    self.holo_env.logger.info(
+                        'the query that will be executed is:\
+                        ' + insert_signal_query)
                     self.holo_env.dataengine.query(insert_signal_query)
-                    self.holo_env.logger.info('the query was executed is:'+insert_signal_query)
-                    global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
+                    self.holo_env.logger.info(
+                        'the query was executed is:' + insert_signal_query)
+                    print insert_signal_query
+                    global_counter = "select max(var_index) into @p from " + \
+                        self.dataset.table_specific_name('Feature') + ";"
                     self.holo_env.dataengine.query(global_counter)
-                    
 
+        print ('adding weight_id to feature table...')
         self.holo_env.logger.info('adding weight_id to feature table...')
-        featurizer = Featurizer(self.Denial_constraints, self.holo_env.dataengine, self.dataset)
+        featurizer = Featurizer(
+            self.Denial_constraints,
+            self.holo_env.dataengine,
+            self.dataset)
         featurizer.add_weights()
-        self.holo_env.logger.info('adding weight_id to feature table is finished')
-
+        self.holo_env.logger.info(
+            'adding weight_id to feature table is finished')
+        print (
+            'adding weight_id to feature table is finished')
         return
 
     def ds_learn_repair_model(self):
@@ -374,9 +421,13 @@ class Session:
 
     def ds_repair(self):
         """TODO: Returns suggested repair"""
-        learning_obj = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
+        self.holo_env.logger.info('starting repairs')
+        print "starting repairs"
+        learning_obj = inference(
+            self.holo_env.dataengine,
+            self.dataset,
+            self.holo_env.spark_session)
         learning_obj.learning()
+        self.holo_env.logger.info('repairs are finished')
+        print "repairs are finished"
         return
-
-
-
