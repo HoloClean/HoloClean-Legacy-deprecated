@@ -112,6 +112,19 @@ class DataEngine:
 
         return self.query(table_get, useSpark)
 
+    def _table_column_to_dataframe(self, table_name, columns_name_list, dataset):
+        """
+        This method get table general name and return it as spark dataframe
+        """
+        columns_string=""
+        for c in columns_name_list:
+            columns_string += c + ","
+        columns_string = columns_string[:-1]
+        table_get = "Select " + columns_string + " from " + dataset.dataset_tables_specific_name[
+            dataset.attributes.index(table_name)]
+        useSpark = 1
+        return self.query(table_get, useSpark)
+
     def _dataframe_to_table(self, spec_table_name, dataframe):
         """Add spark dataframe df with specific name table name_table in the data database
         with spark session

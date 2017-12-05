@@ -107,8 +107,8 @@ class Featurizer:
         This method updates the values of weights for the featurization table"
         """
 
-        dataframe = self.dataengine._table_to_dataframe(
-            "Feature", self.dataset)
+        dataframe = self.dataengine._table_column_to_dataframe("Feature",['rv_attr','feature'], self.dataset)
+
         groups = []
         for c in dataframe.collect():
             temp = [c['rv_attr'], c['feature']]
@@ -120,7 +120,26 @@ class Featurizer:
             query += " WHEN  rv_attr='" + groups[weight_id][0] + "'AND feature='" + groups[weight_id][
                 1] + "' THEN " + str(weight_id)
         query += " END;"
-        self.dataengine.query(query)
+
+        # Making list of queries for updating weghted_id based on relaxed version
+
+        list_update_query = []
+        for weight_id in range(0, len(groups)):
+            query = "UPDATE " + self.dataset.table_specific_name('Feature') +\
+                    " SET weight_id = " + str(weight_id) +\
+                    " WHEN " \
+                    " rv_attr='" + groups[weight_id][0] +\
+                    "'AND" \
+                    " feature='" + groups[weight_id][1]
+            list_update_query.append(query)
+
+
+        # Execution loop
+
+        for q in list_update_query:
+            self.dataengine.query(q)
+
+
 
 
 class SignalInit(Featurizer):

@@ -318,8 +318,7 @@ class Session:
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
             temp = err_detector.get_noisy_dknow_dataframe(
-                self.holo_env.dataengine._table_to_dataframe(
-                    'Init', self.dataset))
+                self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -368,10 +367,8 @@ class Session:
         counter = 0
         for feature in self.featurizers:
             if feature.id != "SignalDC":
-                insert_signal_query = "INSERT INTO \
-                " + self.dataset.table_specific_name(
-                    'Feature') + " SELECT * FROM \
-                ( " + feature.get_query() + ")as T_" + str(counter) + ";"
+                insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+                    'Feature') + " SELECT * FROM ( " + feature.get_query() + ")as T_" + str(counter) + ";"
                 counter += 1
                 self.holo_env.logger.info(
                     'the query that will be executed is:' +
@@ -386,17 +383,12 @@ class Session:
             else:
                 dc_queries = feature.get_query()
                 for dc_query in dc_queries:
-                    insert_signal_query = "INSERT INTO \
-                        " + self.dataset.table_specific_name(
-                        'Feature') + " SELECT * FROM( \
-                        " + dc_query + ")as T_" + str(counter) + ";"
+                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature') +\
+                                          " SELECT * FROM( " + dc_query + ")as T_" + str(counter) + ";"
                     counter += 1
-                    self.holo_env.logger.info(
-                        'the query that will be executed is:\
-                        ' + insert_signal_query)
+                    self.holo_env.logger.info('the query that will be executed is:' + insert_signal_query)
                     self.holo_env.dataengine.query(insert_signal_query)
-                    self.holo_env.logger.info(
-                        'the query was executed is:' + insert_signal_query)
+                    self.holo_env.logger.info('the query was executed is:' + insert_signal_query)
                     print insert_signal_query
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature') + ";"
