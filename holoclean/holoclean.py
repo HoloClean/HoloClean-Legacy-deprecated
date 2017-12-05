@@ -327,13 +327,15 @@ class Session:
 
     def ds_featurize(self):
         """TODO: Extract dataset features"""
+        
+        global_counter = "set @p:=0;"
+        self.holo_env.dataengine.query(global_counter)
 
         query_for_featurization = "CREATE TABLE " + self.dataset.table_specific_name('Feature') \
                                   + "(var_index INT,rv_index TEXT , rv_attr TEXT, assigned_val TEXT," \
                                     " feature TEXT,TYPE TEXT, weight_id TEXT);"
         self.holo_env.dataengine.query(query_for_featurization)
-        global_counter = "set @p:=0;"
-        self.holo_env.dataengine.query(global_counter)
+        
 
         counter = 0
         for feature in self.featurizers:
@@ -344,8 +346,8 @@ class Session:
                 self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
                 self.holo_env.dataengine.query(insert_signal_query)
                 self.holo_env.logger.info('the query was executed is:'+insert_signal_query)
-               # global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
-               # self.holo_env.dataengine.query(global_counter)
+                global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
+                self.holo_env.dataengine.query(global_counter)
             else:
                 dc_queries=feature.get_query()
                 for dc_query in dc_queries:
@@ -355,8 +357,8 @@ class Session:
                     self.holo_env.logger.info('the query that will be executed is:'+insert_signal_query)
                     self.holo_env.dataengine.query(insert_signal_query)
                     self.holo_env.logger.info('the query was executed is:'+insert_signal_query)
-                #    global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
-                 #   self.holo_env.dataengine.query(global_counter)
+                    global_counter = "select max(var_index) into @p from "+ self.dataset.table_specific_name('Feature')+";" 
+                    self.holo_env.dataengine.query(global_counter)
                     
 
         self.holo_env.logger.info('adding weight_id to feature table...')
