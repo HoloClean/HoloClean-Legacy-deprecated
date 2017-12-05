@@ -238,21 +238,5 @@ class SignalDC(Featurizer):
                 """ ) AS possible_table WHERE (""" + new_condition + \
                 """ AND possible_table.tid=table1.first_index ) )"""
             dc_queries.append(query_for_featurization)
-            '''  else:
-            query_for_featurization += """UNION (SELECT  @p := @p + 1 AS var_index, \
-                possible_table.tid AS rv_index, \
-                possible_table.attr_name AS rv_attr,\
-                possible_table.attr_val AS assigned_val,\
-                concat ( table1.second_index,""" + \
-                self.final_dc[index_dc] + \
-                """) AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM (SELECT * FROM """ \
-                + join_table_name + """ AS table1  WHERE """ + \
-                self.change_pred[index_dc] +\
-                """) AS table1, (SELECT * FROM """ + \
-                self.possible_table_name \
-                + """ AS possible_table WHERE """ + \
-                self.attributes_list[index_dc] + \
-                """ ) AS possible_table  WHERE (""" + new_condition + """ AND \
-                possible_table.tid=table1.first_index ) )"""'''
 
         return dc_queries
