@@ -114,12 +114,6 @@ class Featurizer:
             temp = [c['rv_attr'], c['feature']]
             if temp not in groups:
                 groups.append(temp)
-        query = "UPDATE " + \
-            self.dataset.table_specific_name('Feature') + " SET weight_id= CASE"
-        for weight_id in range(0, len(groups)):
-            query += " WHEN  rv_attr='" + groups[weight_id][0] + "'AND feature='" + groups[weight_id][
-                1] + "' THEN " + str(weight_id)
-        query += " END;"
 
         # Making list of queries for updating weghted_id based on relaxed version
 
@@ -127,10 +121,11 @@ class Featurizer:
         for weight_id in range(0, len(groups)):
             query = "UPDATE " + self.dataset.table_specific_name('Feature') +\
                     " SET weight_id = " + str(weight_id) +\
-                    " WHEN " \
+                    " WHERE " \
                     " rv_attr='" + groups[weight_id][0] +\
-                    "'AND" \
-                    " feature='" + groups[weight_id][1]
+                    "' AND" \
+                    " feature='" + groups[weight_id][1] + "';"
+
             list_update_query.append(query)
 
 

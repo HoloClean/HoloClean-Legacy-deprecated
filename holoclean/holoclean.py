@@ -154,6 +154,8 @@ class HoloClean:
 
         # Get Spark context
         sc = SparkContext(conf=conf)
+        sc.setSystemProperty('spark.executor.memory', '6g')
+
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
