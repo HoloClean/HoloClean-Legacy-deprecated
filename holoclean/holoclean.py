@@ -149,12 +149,19 @@ class HoloClean:
         # Link MySQL driver to Spark Engine
         conf.set("spark.executor.extraClassPath", self.mysql_driver)
         conf.set("spark.driver.extraClassPath", self.mysql_driver)
+        conf.set('spark.driver.memory', '6g')
+        conf.set('spark.executor.memory', '6g')
+        conf.set("spark.network.timeout", "6000")
+        conf.set("spark.akka.askTimeout", "6000")
+        conf.set("spark.akka.timeout", "6000")
+        conf.set("spark.worker.timeout", "6000")
+
         if self.spark_cluster:
             conf.set("spark.master", self.spark_cluster)
 
         # Get Spark context
         sc = SparkContext(conf=conf)
-        sc.setSystemProperty('spark.executor.memory', '6g')
+
 
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt

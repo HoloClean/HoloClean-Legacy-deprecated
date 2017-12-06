@@ -48,6 +48,7 @@ class Wrapper:
 
                 """
         # All the weights that are  fixed
+
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT (0 + table1.weight_id) AS weight_id ," \
@@ -56,18 +57,18 @@ class Wrapper:
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" \
                                                                     " WHERE TYPE='init'" \
-                                                                    " GROUP BY table1.weight_id  )"
+                                                                    " GROUP BY table1.weight_id);"
+        self.dataengine.query(mysql_query)
         # All the weights that are not fixed
-        mysql_query += "UNION " \
-                       "(SELECT (" \
+        mysql_query = "INSERT INTO  " + self.dataset.table_specific_name('Weights') +\
+                       " (SELECT (" \
                        "0 + table2.weight_id) AS weight_id ," \
                        "0 AS Is_fixed, 0 AS init_val" \
                        " FROM " + \
                        self.dataset.table_specific_name('Feature') + \
                        " AS table2 " \
                        "WHERE TYPE!='init' " \
-                       "GROUP BY table2.weight_id ) " \
-                       "ORDER BY weight_id;"
+                       "GROUP BY table2.weight_id); "
         self.dataengine.query(mysql_query)
 
     def set_variable(self):
@@ -78,7 +79,7 @@ class Wrapper:
 
         mysql_query = 'CREATE TABLE ' + \
             self.dataset.table_specific_name('Variable') + ' AS'
-        mysql_query += "(SELECT distinct NULL AS variable_index," \
+        mysql_query += "(SELECT NULL AS variable_index," \
                        " table1.tid AS rv_ind," \
                        "table1.attr_name AS rv_attr," \
                        "'0' AS is_Evidence," \
@@ -99,16 +100,18 @@ class Wrapper:
                        " table1.attr_name=table2.attr" \
                        " AND " \
                        "counting.attr_name=table1.attr_name)"
+        print mysql_query
 
         table_attribute_string = self.dataengine._get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
+
         for attribute in attributes:
             if attribute != "index":
                 # Query for each attribute
                 mysql_query += "UNION " \
                                "(SELECT NULL AS variable_index," \
-                               " table1.index AS rv_ind," \
+                               "table1.index AS rv_ind," \
                                "table2.attr AS rv_attr," \
                                "'1' AS is_Evidence ," + \
                                attribute + " AS initial_value," \
