@@ -107,33 +107,25 @@ class Featurizer:
         This method updates the values of weights for the featurization table"
         """
 
-        dataframe = self.dataengine._table_column_to_dataframe("Feature",['rv_attr','feature'], self.dataset)
+        query_for_weights = "CREATE TABLE \
+            " + self.dataset.table_specific_name('weight_init') \
+            + "(weight_id INT PRIMARY KEY AUTO_INCREMENT,rv_attr TEXT, feature TEXT);"
+        self.dataengine.query( query_for_weights)
+        query="INSERT INTO  " + self.dataset.table_specific_name('weight_init') +\
+            " (SELECT * FROM (SELECT distinct NULL, rv_attr,feature from "+\
+            self.dataset.table_specific_name('Feature_init') +") AS TABLE1);"
+             
 
-        groups = []
-        for c in dataframe.collect():
-            temp = [c['rv_attr'], c['feature']]
-            if temp not in groups:
-                groups.append(temp)
+        self.dataengine.query( query)
 
-        # Making list of queries for updating weghted_id based on relaxed version
+        query_featurization="CREATE TABLE " + self.dataset.table_specific_name('Feature') +\
+             " AS " +\
+             " (SELECT table1.var_index , table1.rv_index , table1.rv_attr , table1.assigned_val , table1.feature , table1.TYPE ,  table2.weight_id" \
+             " FROM " + self.dataset.table_specific_name('Feature_init') +" as table1, " + self.dataset.table_specific_name('weight_init') +" as table2 " \
+             " WHERE table1.feature=table2.feature and table1.rv_attr=table2.rv_attr) ;"
 
-        list_update_query = []
-        for weight_id in range(0, len(groups)):
-            query = "UPDATE " + self.dataset.table_specific_name('Feature') +\
-                    " SET weight_id = " + str(weight_id) +\
-                    " WHERE " \
-                    " rv_attr='" + groups[weight_id][0] +\
-                    "' AND" \
-                    " feature='" + groups[weight_id][1] + "';"
-
-            list_update_query.append(query)
-
-
-        # Execution loop
-
-        for q in list_update_query:
-            self.dataengine.query(q)
-
+        self.dataengine.query( query_featurization)
+   
 
 
 
