@@ -107,10 +107,14 @@ class Featurizer:
         This method updates the values of weights for the featurization table"
         """
 
+        # Create internal weight table for join to calculated weights
         query_for_weights = "CREATE TABLE \
             " + self.dataset.table_specific_name('weight_init') \
             + "(weight_id INT PRIMARY KEY AUTO_INCREMENT,rv_attr TEXT, feature TEXT);"
+
         self.dataengine.query( query_for_weights)
+
+
         query="INSERT INTO  " + self.dataset.table_specific_name('weight_init') +\
             " (SELECT * FROM (SELECT distinct NULL, rv_attr,feature from "+\
             self.dataset.table_specific_name('Feature_init') +") AS TABLE1);"
