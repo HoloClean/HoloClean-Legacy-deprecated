@@ -11,6 +11,8 @@ class Dataset:
         'dc_f_mysql',
         'dc_f_dd',
         'Feature',
+        'Feature_init',
+        'weight_init',
         'Domain',
         'Labels',
         'Init_new',
