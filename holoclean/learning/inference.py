@@ -22,7 +22,6 @@ class inference:
         dataset and checks the accuracy
         """
 
-
         query_Feature = "CREATE TABLE " + self.dataset.table_specific_name('Feature_gb_accur') +\
             " AS ( SELECT exp(sum(0+weight_val)) AS sum_probabilities  , rv_attr , rv_index , assigned_val from " + self.dataset.table_specific_name(
             'Weights') + " as table1, " + self.dataset.table_specific_name('Feature') + " as table2 where table1.weight_id=table2.weight_id \
@@ -40,10 +39,8 @@ class inference:
             "(select sum(sum_probabilities) as total_sum ,rv_index, rv_attr from  " + self.dataset.table_specific_name('Feature_gb_accur') +\
             " group by rv_attr, rv_index)" +\
             " as table2 where table1.rv_attr=table2.rv_attr and  table1.rv_index=table2.rv_index);"
-        
- 
-        raw_input("asd") 
 
+        raw_input("asd")
 
         self.dataengine.query(query_probability)
 

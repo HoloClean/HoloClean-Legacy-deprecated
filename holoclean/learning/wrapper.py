@@ -77,13 +77,7 @@ class Wrapper:
 
                 """
 
-        #Set global counter query
-
-        # set_global_counter_query = "SELECT @c:=0;"
-        # self.dataengine.query(set_global_counter_query)
-
-
-        # Create Variable table query
+        # Set global counter query and Creating Variable table query
 
         mysql_query = 'CREATE TABLE ' + \
             self.dataset.table_specific_name('Variable_tmp') + ' AS'
@@ -106,32 +100,30 @@ class Wrapper:
                        "WHERE " \
                        "counting.attr_name=table2.attr);"
         self.dataengine.query(mysql_query)
-        table_attribute_string = self.dataengine._get_schema(
-            self.dataset, "Init")
 
-        mysql_query = "INSERT INTO " +\
-                      self.dataset.table_specific_name('Variable_tmp')+ \
+        mysql_query = "INSERT INTO " + \
+                      self.dataset.table_specific_name('Variable_tmp') + \
                       "(SELECT @c := @c + 1 AS variable_index," \
-                       "table1.tid AS rv_ind," \
-                       "table2.attr AS rv_attr," \
-                       "'1' AS is_Evidence ,"  \
-                       "table1.attr_val AS initial_value," \
-                                   "'1' AS Datatype," \
-                                   "count1 AS Cardinality," \
-                                   " '       ' AS vtf_offset" \
-                                   "  FROM " + self.dataset.table_specific_name('Init_new') + " AS table1, " \
-                       + self.dataset.table_specific_name('C_clean') + " AS table2," \
-                                                                       " (SELECT count(*) AS count1," \
-                                                                       "attr_name " \
-                                                                       "FROM " \
-                       + self.dataset.table_specific_name('Domain') \
-                       + " GROUP BY(attr_name)) AS counting" \
-                         " WHERE" \
-                         " table2.ind = table1.tid " \
-                         "AND " \
-                         "table2.attr = table1.attr_name" \
-                                                       " AND" \
-                                                       " counting.attr_name = table1.attr_name);"
+                      "table1.tid AS rv_ind," \
+                      "table2.attr AS rv_attr," \
+                      "'1' AS is_Evidence ," \
+                      "table1.attr_val AS initial_value," \
+                      "'1' AS Datatype," \
+                      "count1 AS Cardinality," \
+                      " '       ' AS vtf_offset" \
+                      "  FROM " + self.dataset.table_specific_name('Init_new') + " AS table1, " \
+                      + self.dataset.table_specific_name('C_clean') + " AS table2," \
+                                                                      " (SELECT count(*) AS count1," \
+                                                                      "attr_name " \
+                                                                      "FROM " \
+                      + self.dataset.table_specific_name('Domain') \
+                      + " GROUP BY(attr_name)) AS counting" \
+                        " WHERE" \
+                        " table2.ind = table1.tid " \
+                        "AND " \
+                        "table2.attr = table1.attr_name" \
+                        " AND" \
+                        " counting.attr_name = table1.attr_name);"
         self.dataengine.query(mysql_query)
 
         # Create Feature groupBy
@@ -142,7 +134,7 @@ class Wrapper:
                       " GROUP BY rv_index,rv_attr);"
         self.dataengine.query(mysql_query)
 
-        # Create tmp table
+        # Create tmp table and update attribute vtf_offset
         mysql_query = 'CREATE TABLE ' + \
                       self.dataset.table_specific_name('Variable') + ' AS'
         mysql_query += "(SELECT table2.variable_index," \
@@ -152,31 +144,15 @@ class Wrapper:
                        "table2.initial_value," \
                        "table2.Datatype," \
                        "table2.Cardinality," \
-                       "table1.smallest AS vtf_offset FROM  " + self.dataset.table_specific_name('Feature_gb') + " AS table1" \
-                       " , "+self.dataset.table_specific_name('Variable_tmp')+\
-                       " AS table2 " \
-                       "WHERE " \
-                       "table1.rv_index = table2.rv_ind " \
-                       "AND " \
-                       "table1.rv_attr = table2.rv_attr" \
-                       ");"
+                       "table1.smallest AS vtf_offset FROM  " \
+                       + self.dataset.table_specific_name('Feature_gb') + " AS table1 , " \
+                       + self.dataset.table_specific_name('Variable_tmp') + " AS table2 " \
+                                                                            "WHERE " \
+                                                                            "table1.rv_index = table2.rv_ind " \
+                                                                            "AND " \
+                                                                            "table1.rv_attr = table2.rv_attr" \
+                                                                            ");"
         self.dataengine.query(mysql_query)
-        # # Update attribute vtf_offset
-        # mysql_query = "ORDER BY rv_ind,rv_attr;" \
-        #                "ALTER TABLE " + self.dataset.table_specific_name('Variable') + " MODIFY variable_index" \
-        #                                                                                " INT AUTO_INCREMENT PRIMARY KEY;" \
-        #                                                                                "UPDATE " \
-        #                + self.dataset.table_specific_name('Variable') + \
-        #                " SET vtf_offset = " \
-        #                "(SELECT min(var_index) AS offset" \
-        #                " FROM " + self.dataset.table_specific_name('Feature') + " AS table1" \
-        #                                                                         " WHERE  " + \
-        #                self.dataset.table_specific_name('Variable') + ".rv_ind=table1.rv_index" \
-        #                                                               " AND " \
-        #                + self.dataset.table_specific_name('Variable') \
-        #                + ".rv_attr= table1.rv_attr " \
-        #                  "GROUP BY rv_index,rv_attr) ;"
-        # self.dataengine.query(mysql_query)
 
     def set_factor_to_var(self):
         """
@@ -354,7 +330,8 @@ class Wrapper:
 
         return factor
 
-    def get_edge(self, factor_list):
+    @staticmethod
+    def get_edge(factor_list):
         """
                 This method returns the number of edges for numbskull
 
@@ -362,7 +339,8 @@ class Wrapper:
         edges = len(factor_list)
         return edges
 
-    def get_mask(self, variable_list):
+    @staticmethod
+    def get_mask(variable_list):
         """
                 This method returns the domain mask for numbskull
 

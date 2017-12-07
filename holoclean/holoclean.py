@@ -139,8 +139,8 @@ class HoloClean:
         """TODO: Initialize HoloClean's Data Engine"""
         # if self.dataengine:
         #    return
-        dataEngine = DataEngine(self)
-        return dataEngine
+        data_engine = DataEngine(self)
+        return data_engine
 
     def _init_spark(self):
         """TODO: Initialize Spark Session"""
@@ -234,8 +234,8 @@ class Session:
         variable = wrapper_obj.get_list_variable()
         fmap = wrapper_obj.get_list_factor_to_var()
         factor = wrapper_obj.get_list_factor()
-        edges = wrapper_obj.get_edge(factor)
-        domain_mask = wrapper_obj.get_mask(variable)
+        edges = Wrapper.get_edge(factor)
+        domain_mask = Wrapper.get_mask(variable)
         print "wrapper is finished"
         self.holo_env.logger.info('wrapper is finished')
 

@@ -13,6 +13,7 @@ class Dataset:
         'Feature',
         'Feature_init',
         'Feature_gb',
+        'Feature_gb_accur',
         'weight_init',
         'Domain',
         'Labels',

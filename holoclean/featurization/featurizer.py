@@ -213,13 +213,19 @@ class SignalCooccur(Featurizer):
         # Create coocure table
 
         table_name_cooccur = self.dataset.table_specific_name('Init_cooccur')
-        cooccur_query = "CREATE TABLE "+table_name_cooccur+" AS (SELECT DISTINCT init1.attr_name as attr_name,init1.attr_val as attr_val,concat (   init2.attr_name , '=' , init2.attr_val ) AS feature" \
-                                          " FROM "+self.table_name1+" init1, "+self.table_name1+" init2 " \
-                                          "WHERE " \
-                                                                                                "init1.tid = init2.tid " \
-                                                                                                "AND " \
-                                                                                                "init1.attr_name != init2.attr_name" \
-                                                                                       ");"
+        cooccur_query = "CREATE TABLE " + table_name_cooccur + " AS " \
+                        "(SELECT DISTINCT " \
+                        "init1.attr_name AS attr_name," \
+                        "init1.attr_val AS attr_val," \
+                        "CONCAT (   init2.attr_name , '=' , init2.attr_val ) AS feature" \
+                        " FROM " + \
+                        self.table_name1 + " init1, " + \
+                        self.table_name1 + " init2 " \
+                                           "WHERE " \
+                                           "init1.tid = init2.tid " \
+                                           "AND " \
+                                           "init1.attr_name != init2.attr_name" \
+                                           ");"
         self.dataengine.query(cooccur_query)
 
         # Create coocure feature
@@ -285,22 +291,25 @@ class SignalDC(Featurizer):
         for index_dc in range(0, len(new_dc)):
             new_condition = new_dc[index_dc]
             # if index_dc == 0:
-            query_for_featurization = """(SELECT  
-                @p := @p + 1 AS var_index, \
-                possible_table.tid AS rv_index,\
-                possible_table.attr_name AS rv_attr,\
-                possible_table.attr_val AS assigned_val,\
-                concat ( table1.second_index,'""" + \
-                self.final_dc[index_dc] + \
-                """') AS feature,'FD' AS TYPE ,'       ' AS weight_id  FROM  \
-                (SELECT * FROM """ + join_table_name + \
-                """ AS table1 WHERE """ + \
-                self.change_pred[index_dc] + \
-                """) AS table1, (SELECT * FROM """ + self.possible_table_name \
-                + """ AS possible_table WHERE """ + \
-                self.attributes_list[index_dc] + \
-                """ ) AS possible_table WHERE (""" + new_condition + \
-                """ AND possible_table.tid=table1.first_index ) )"""
+            query_for_featurization = "(SELECT" \
+                                      " @p := @p + 1 AS var_index," \
+                                      "possible_table.tid AS rv_index," \
+                                      "possible_table.attr_name AS rv_attr," \
+                                      "possible_table.attr_val AS assigned_val," \
+                                      "CONCAT ( table1.second_index,'" + self.final_dc[index_dc] + "') AS feature," \
+                                      "'FD' AS TYPE," \
+                                      "'       ' AS weight_id" \
+                                      "  FROM " \
+                                      "(SELECT * FROM " + \
+                                      join_table_name + " AS table1 " \
+                                      "WHERE " + self.change_pred[index_dc] + ") AS table1," \
+                                      " (SELECT * FROM " + self.possible_table_name + " AS possible_table" \
+                                      " WHERE " + \
+                                      self.attributes_list[index_dc] + " ) AS possible_table " \
+                                      "WHERE (" + \
+                                      new_condition + " AND" \
+                                                      " possible_table.tid=table1.first_index" \
+                                                      "))"
             dc_queries.append(query_for_featurization)
 
         return dc_queries
