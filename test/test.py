@@ -17,13 +17,16 @@ class Testing:
         self.session.ingest_dataset("test/inputDatabase.csv")
         # self.session.ingest_dataset("test/test.csv")
         d = t()-start_time
+
         self.holo_obj.logger.info('ingest csv time: '+str(d)+'\n')
+        self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
         start_time = t()
         self.session.denial_constraints("test/inputConstraint.txt")
         # self.session.denial_constraints("test/dc1.txt")
         d = t() - start_time
         self.holo_obj.logger.info('read denial constraints time: '+str(d)+'\n')
+        self.fx.write('read denial constraints time: '+str(d)+'\n')
         print 'read denial constraints time: '+str(d)+'\n'
         start_time = t()
         err_detector = ErrorDetectors(self.session.Denial_constraints, self.holo_obj.dataengine,
@@ -32,12 +35,14 @@ class Testing:
         self.session.ds_detect_errors()
         d = t() - start_time
         self.holo_obj.logger.info('error dectection time: '+str(d)+'\n')
+        self.fx.write('error dectection time: '+str(d)+'\n')
         print 'error dectection time: '+str(d)+'\n'
         start_time = t()
         pruning_threshold=0
         self.session.ds_domain_pruning(pruning_threshold)
         d = t() - start_time
         self.holo_obj.logger.info('domain pruning time: '+str(d)+'\n')
+        self.fx.write('domain pruning time: '+str(d)+'\n')
         print 'domain pruning time: '+str(d)+'\n'
         start_time = t()
         start_time1 = t()
@@ -45,6 +50,7 @@ class Testing:
                                           self.session.dataset)
         d = t() - start_time
         self.holo_obj.logger.info('init signal time: '+str(d)+'\n')
+        self.fx.write('init signal time: '+str(d)+'\n')
         print 'init signal time: '+str(d)+'\n'
         start_time = t()
         self.session.add_featurizer(initial_value_signal)
@@ -52,31 +58,37 @@ class Testing:
                                           self.session.dataset)
         d = t() - start_time
         self.holo_obj.logger.info('cooccur signal time: '+str(d)+'\n')
+        self.fx.write('cooccur signal time: '+str(d)+'\n')
         print 'cooccur signal time: '+str(d)+'\n'
         start_time = t()
         self.session.add_featurizer(statistics_signal)
         d = t() - start_time
         self.holo_obj.logger.info('dc signal time: '+str(d)+'\n')
+        self.fx.write('dc signal time: '+str(d)+'\n')
         print 'dc signal time: '+str(d)+'\n'
         start_time = t()
         dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset)
         d = t() - start_time
         self.holo_obj.logger.info('dc featurize time: '+str(d)+'\n')
+        self.fx.write('dc featurize time: '+str(d)+'\n')
         print 'dc featurize time: '+str(d)+'\n'
         self.session.add_featurizer(dc_signal)
         self.session.ds_featurize()
         d = t() - start_time
         self.holo_obj.logger.info('total featurization time: '+str(d)+'\n')
+        self.fx.write('total featurization time: '+str(d)+'\n')
         print 'total featurization time: '+str(d)+'\n'
         start_time = t()
         self.session._numskull()
         d = t() - start_time
         self.holo_obj.logger.info('numbskull time: '+str(d)+'\n')
+        self.fx.write('numbskull time: '+str(d)+'\n')
         print 'numbskull time: '+str(d)+'\n'
         start_time = t()
         self.session.ds_repair()
         d = t() - start_time
         self.holo_obj.logger.info('repair time: '+str(d)+'\n')
+        self.fx.write('repair time: '+str(d)+'\n')
         print 'repair time: '+str(d)+'\n'
         # acc = Accuracy(self.holo_obj.dataengine, "test/gt.csv", self.session.dataset, self.holo_obj.spark_session)
         # acc.accuracy_calculation()

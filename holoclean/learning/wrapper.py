@@ -77,76 +77,106 @@ class Wrapper:
 
                 """
 
+        #Set global counter query
+
+        # set_global_counter_query = "SELECT @c:=0;"
+        # self.dataengine.query(set_global_counter_query)
+
+
+        # Create Variable table query
+
         mysql_query = 'CREATE TABLE ' + \
-            self.dataset.table_specific_name('Variable') + ' AS'
-        mysql_query += "(SELECT NULL AS variable_index," \
-                       " table1.tid AS rv_ind," \
-                       "table1.attr_name AS rv_attr," \
+            self.dataset.table_specific_name('Variable_tmp') + ' AS'
+        mysql_query += "(SELECT (@c := @c + 1) AS variable_index," \
+                       " table2.ind AS rv_ind," \
+                       "table2.attr AS rv_attr," \
                        "'0' AS is_Evidence," \
-                       "0 AS initial_value," \
-                       "'1' AS Datatype" \
-                       ",count1 AS Cardinality" \
-                       ", '       ' AS vtf_offset" \
-                       " FROM " + self.dataset.table_specific_name('Possible_values') + " AS table1," \
+                       "'0' AS initial_value," \
+                       "'1' AS Datatype," \
+                       "count1 AS Cardinality," \
+                       "'       ' AS vtf_offset" \
+                       " FROM " \
                        + self.dataset.table_specific_name('C_dk') + " AS table2," \
                                                                     "(SELECT count(*) AS count1," \
                                                                     "attr_name " \
                                                                     "FROM " \
                        + self.dataset.table_specific_name('Domain') + \
-                       " GROUP BY(attr_name)) AS counting" \
-                       " WHERE" \
-                       " table1.tid=table2.ind " \
-                       "AND" \
-                       " table1.attr_name=table2.attr" \
-                       " AND " \
-                       "counting.attr_name=table1.attr_name)"
-        print mysql_query
-
+                       " GROUP BY(attr_name)) AS counting," \
+                       "(SELECT @c:=0) m "\
+                       "WHERE " \
+                       "counting.attr_name=table2.attr);"
+        self.dataengine.query(mysql_query)
         table_attribute_string = self.dataengine._get_schema(
             self.dataset, "Init")
-        attributes = table_attribute_string.split(',')
 
-        for attribute in attributes:
-            if attribute != "index":
-                # Query for each attribute
-                mysql_query += "UNION " \
-                               "(SELECT NULL AS variable_index," \
-                               "table1.index AS rv_ind," \
-                               "table2.attr AS rv_attr," \
-                               "'1' AS is_Evidence ," + \
-                               attribute + " AS initial_value," \
-                                           "'1' AS Datatype," \
-                                           "count1 AS Cardinality," \
-                                           " '       ' AS vtf_offset" \
-                                           "  FROM " + self.dataset.table_specific_name('Init') + " AS table1, " \
-                               + self.dataset.table_specific_name('C_clean') + " AS table2," \
-                                                                               " (SELECT count(*) AS count1," \
-                                                                               "attr_name " \
-                                                                               "FROM " \
-                               + self.dataset.table_specific_name('Domain') \
-                               + " GROUP BY(attr_name)) AS counting" \
-                                 " WHERE" \
-                                 " table2.ind=table1.index " \
-                                 "AND " \
-                                 "table2.attr='" + attribute + "'" \
-                                                               " AND" \
-                                                               " counting.attr_name='" + attribute + "')"
-        # Update attribute vtf_offset
-        mysql_query += "ORDER BY rv_ind,rv_attr;" \
-                       "ALTER TABLE " + self.dataset.table_specific_name('Variable') + " MODIFY variable_index" \
-                                                                                       " INT AUTO_INCREMENT PRIMARY KEY;" \
-                                                                                       "UPDATE " \
-                       + self.dataset.table_specific_name('Variable') + \
-                       " SET vtf_offset = " \
-                       "(SELECT min(var_index) AS offset" \
-                       " FROM " + self.dataset.table_specific_name('Feature') + " AS table1" \
-                                                                                " WHERE  " + \
-                       self.dataset.table_specific_name('Variable') + ".rv_ind=table1.rv_index" \
-                                                                      " AND " \
-                       + self.dataset.table_specific_name('Variable') \
-                       + ".rv_attr= table1.rv_attr " \
-                         "GROUP BY rv_index,rv_attr) ;"
+        mysql_query = "INSERT INTO " +\
+                      self.dataset.table_specific_name('Variable_tmp')+ \
+                      "(SELECT @c := @c + 1 AS variable_index," \
+                       "table1.tid AS rv_ind," \
+                       "table2.attr AS rv_attr," \
+                       "'1' AS is_Evidence ,"  \
+                       "table1.attr_val AS initial_value," \
+                                   "'1' AS Datatype," \
+                                   "count1 AS Cardinality," \
+                                   " '       ' AS vtf_offset" \
+                                   "  FROM " + self.dataset.table_specific_name('Init_new') + " AS table1, " \
+                       + self.dataset.table_specific_name('C_clean') + " AS table2," \
+                                                                       " (SELECT count(*) AS count1," \
+                                                                       "attr_name " \
+                                                                       "FROM " \
+                       + self.dataset.table_specific_name('Domain') \
+                       + " GROUP BY(attr_name)) AS counting" \
+                         " WHERE" \
+                         " table2.ind = table1.tid " \
+                         "AND " \
+                         "table2.attr = table1.attr_name" \
+                                                       " AND" \
+                                                       " counting.attr_name = table1.attr_name);"
         self.dataengine.query(mysql_query)
+
+        # Create Feature groupBy
+        mysql_query = 'CREATE TABLE ' + \
+                      self.dataset.table_specific_name('Feature_gb') + " AS" \
+                      "(SELECT MIN(var_index) AS smallest, rv_index,rv_attr " \
+                      " FROM " + self.dataset.table_specific_name('Feature') +\
+                      " GROUP BY rv_index,rv_attr);"
+        self.dataengine.query(mysql_query)
+
+        # Create tmp table
+        mysql_query = 'CREATE TABLE ' + \
+                      self.dataset.table_specific_name('Variable') + ' AS'
+        mysql_query += "(SELECT table2.variable_index," \
+                       "table2.rv_ind," \
+                       "table2.rv_attr," \
+                       "table2.is_Evidence," \
+                       "table2.initial_value," \
+                       "table2.Datatype," \
+                       "table2.Cardinality," \
+                       "table1.smallest AS vtf_offset FROM  " + self.dataset.table_specific_name('Feature_gb') + " AS table1" \
+                       " , "+self.dataset.table_specific_name('Variable_tmp')+\
+                       " AS table2 " \
+                       "WHERE " \
+                       "table1.rv_index = table2.rv_ind " \
+                       "AND " \
+                       "table1.rv_attr = table2.rv_attr" \
+                       ");"
+        self.dataengine.query(mysql_query)
+        # # Update attribute vtf_offset
+        # mysql_query = "ORDER BY rv_ind,rv_attr;" \
+        #                "ALTER TABLE " + self.dataset.table_specific_name('Variable') + " MODIFY variable_index" \
+        #                                                                                " INT AUTO_INCREMENT PRIMARY KEY;" \
+        #                                                                                "UPDATE " \
+        #                + self.dataset.table_specific_name('Variable') + \
+        #                " SET vtf_offset = " \
+        #                "(SELECT min(var_index) AS offset" \
+        #                " FROM " + self.dataset.table_specific_name('Feature') + " AS table1" \
+        #                                                                         " WHERE  " + \
+        #                self.dataset.table_specific_name('Variable') + ".rv_ind=table1.rv_index" \
+        #                                                               " AND " \
+        #                + self.dataset.table_specific_name('Variable') \
+        #                + ".rv_attr= table1.rv_attr " \
+        #                  "GROUP BY rv_index,rv_attr) ;"
+        # self.dataengine.query(mysql_query)
 
     def set_factor_to_var(self):
         """
