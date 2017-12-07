@@ -100,6 +100,8 @@ class Wrapper:
                        "WHERE " \
                        "counting.attr_name=table2.attr);"
         self.dataengine.query(mysql_query)
+        table_attribute_string = self.dataengine._get_schema(
+            self.dataset, "Init")
 
         mysql_query = "INSERT INTO " + \
                       self.dataset.table_specific_name('Variable_tmp') + \

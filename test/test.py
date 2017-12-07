@@ -38,7 +38,7 @@ class Testing:
         self.fx.write('error dectection time: '+str(d)+'\n')
         print 'error dectection time: '+str(d)+'\n'
         start_time = t()
-        pruning_threshold=0
+        pruning_threshold=0.3
         self.session.ds_domain_pruning(pruning_threshold)
         d = t() - start_time
         self.holo_obj.logger.info('domain pruning time: '+str(d)+'\n')
