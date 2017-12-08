@@ -154,6 +154,7 @@ class HoloClean:
         conf.set("spark.network.timeout", "6000")
         conf.set("spark.rpc.askTimeout", "99999")
         conf.set("spark.worker.timeout", "60000")
+        conf.set("spark.driver.maxResultSize", '70g')
 
 
         if self.spark_cluster:

@@ -130,12 +130,25 @@ class Featurizer:
 
         self.dataengine.query(query)
 
+        create_feature_table_query =  "CREATE TABLE " + self.dataset.table_specific_name('Feature') +\
+                                      "(" \
+                                      "var_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                      "rv_index TEXT," \
+                                      "rv_attr TEXT," \
+                                      "assigned_val TEXT," \
+                                      "feature TEXT," \
+                                      "TYPE TEXT," \
+                                      "weight_id INT" \
+                                      ");"
+
+        self.dataengine.query(create_feature_table_query)
+
+
         # Creat new weight table by joining the initial table and calculated weights
-        query_featurization = "CREATE TABLE " + self.dataset.table_specific_name('Feature') + \
-                              " AS " + \
+        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('Feature') + \
                               " (" \
-                              "SELECT" \
-                              " table1.var_index" \
+                              "SELECT * FROM ( SELECT " \
+                              "NULL AS var_index" \
                               " , table1.rv_index" \
                               " , table1.rv_attr" \
                               " , table1.assigned_val" \
@@ -148,13 +161,11 @@ class Featurizer:
                                                                                   " WHERE" \
                                                                                   " table1.feature=table2.feature" \
                                                                                   " AND " \
-                                                                                  "table1.rv_attr=table2.rv_attr" \
-                                                                                  ") ;"
+                                                                                  "table1.rv_attr=table2.rv_attr " \
+                                                                                  "ORDER BY rv_index,rv_attr) AS ftmp);"
 
         self.dataengine.query( query_featurization)
    
-
-
 
 class SignalInit(Featurizer):
     """TODO.
