@@ -113,7 +113,7 @@ class Wrapper:
                       "'1' AS Datatype," \
                       "count1 AS Cardinality," \
                       " '       ' AS vtf_offset" \
-                      "  FROM " + self.dataset.table_specific_name('Init_new') + " AS table1, " \
+                      "  FROM " + self.dataset.table_specific_name('Init_flat') + " AS table1, " \
                       + self.dataset.table_specific_name('C_clean') + " AS table2," \
                                                                       " (SELECT count(*) AS count1," \
                                                                       "attr_name " \
@@ -134,6 +134,7 @@ class Wrapper:
                       "(SELECT MIN(var_index) AS smallest, rv_index,rv_attr " \
                       " FROM " + self.dataset.table_specific_name('Feature') +\
                       " GROUP BY rv_index,rv_attr);"
+        print 
         self.dataengine.query(mysql_query)
 
         # Create tmp table and update attribute vtf_offset

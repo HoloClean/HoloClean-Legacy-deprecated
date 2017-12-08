@@ -245,6 +245,6 @@ class Pruning:
                                      new_df_domain, self.dataset)
         self.dataengine.add_db_table('Possible_values',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table('Init_new',
+        self.dataengine.add_db_table('Init_flat',
                                      new_df_init, self.dataset)
         return

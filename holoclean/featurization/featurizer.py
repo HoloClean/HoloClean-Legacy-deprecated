@@ -109,7 +109,7 @@ class Featurizer:
 
         # Create internal weight table for join to calculated weights
         query_for_weights = "CREATE TABLE " \
-                            + self.dataset.table_specific_name('weight_init') \
+                            + self.dataset.table_specific_name('weight_temp') \
                             + "(" \
                               "weight_id INT PRIMARY KEY AUTO_INCREMENT," \
                               "rv_attr TEXT," \
@@ -120,11 +120,11 @@ class Featurizer:
 
         # Insert initial weights to the table
         query = "INSERT INTO  " \
-                + self.dataset.table_specific_name('weight_init') + \
+                + self.dataset.table_specific_name('weight_temp') + \
                 " (" \
                 "SELECT * FROM (" \
                 "SELECT distinct NULL, rv_attr,feature FROM " + \
-                self.dataset.table_specific_name('Feature_init') + "" \
+                self.dataset.table_specific_name('Feature_temp') + "" \
                                                                    ") AS TABLE1);"
              
 
@@ -156,8 +156,8 @@ class Featurizer:
                               " , table1.TYPE" \
                               " ,  table2.weight_id" \
                               " FROM "\
-                              + self.dataset.table_specific_name('Feature_init') + " AS table1, " \
-                              + self.dataset.table_specific_name('weight_init') + " AS table2 " \
+                              + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
+                              + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                                                                                   " WHERE" \
                                                                                   " table1.feature=table2.feature" \
                                                                                   " AND " \
@@ -187,16 +187,16 @@ class SignalInit(Featurizer):
         """
         query_for_featurization = ""
         query_for_featurization += """ (SELECT  @p := @p + 1 AS var_index,\
-            possible_table.tid AS rv_index,\
-            possible_table.attr_name AS rv_attr,\
-            possible_table.attr_val AS assigned_val,\
-            concat('Init=',possible_table.attr_val ) AS feature,\
+            init_flat.tid AS rv_index,\
+            init_flat.attr_name AS rv_attr,\
+            init_flat.attr_val AS assigned_val,\
+            concat('Init=',init_flat.attr_val ) AS feature,\
             'init' AS TYPE,\
             '      ' AS weight_id\
             FROM """ +\
-            self.possible_table_name +\
-            """ AS possible_table\
-            WHERE possible_table.observed='1') UNION"""
+            self.dataset.table_specific_name('Init_flat') +\
+            """ AS init_flat\
+            ) """
         query_for_featurization = query_for_featurization[:-5]
         return query_for_featurization
 
@@ -219,7 +219,7 @@ class SignalCooccur(Featurizer):
         """
                 This method creates a query for the featurization table for the cooccurances
                 """
-        self.table_name1 = self.dataset.table_specific_name('Init_new')
+        self.table_name1 = self.dataset.table_specific_name('Init_flat')
 
         # Create coocure table
 
@@ -254,7 +254,7 @@ class SignalCooccur(Featurizer):
                                              "WHERE (" \
                                              "possible_table.attr_name = initco.attr_name " \
                                              "AND " \
-                                             "initco.attr_val = possible_table.attr_val ))"  # End of FROM
+                                             "initco.attr_val = possible_table.attr_val )"  # End of FROM
         return query_for_featurization
 
 
@@ -280,7 +280,7 @@ class SignalDC(Featurizer):
         table_attribute_string = self.dataengine._get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        join_table_name = self.dataset.table_specific_name('join_init')
+        join_table_name = self.dataset.table_specific_name('Init_join')
         query1 = "SELECT "
         for i in attributes:
             query1 = query1 + "table1." + i + " AS first_" + \
@@ -320,7 +320,7 @@ class SignalDC(Featurizer):
                                       "WHERE (" + \
                                       new_condition + " AND" \
                                                       " possible_table.tid=table1.first_index" \
-                                                      "))"
+                                                      ")"
             dc_queries.append(query_for_featurization)
 
         return dc_queries
