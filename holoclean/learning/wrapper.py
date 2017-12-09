@@ -20,15 +20,15 @@ class Wrapper:
                 """
 
         domain_dataframe = self.dataengine._table_to_dataframe(
-            "Domain", self.dataset)
-        temp = domain_dataframe.select("attr_name", "attr_val").collect()
+            "Possible_values", self.dataset)
+        temp = domain_dataframe.select("tid", "attr_name", "attr_val").collect()
         self.dictionary = {}
         dic_list = []
         for row in temp:
             dic_list.append(row.asDict())
         attr_set = set()
         for element in dic_list:
-            attr_set.add(element["attr_name"])
+            attr_set.add((element["tid"],element["attr_name"]))
         attr_set = list(attr_set)
         result = {}
         for a in attr_set:
@@ -36,9 +36,9 @@ class Wrapper:
             result.update({a: domain_dict})
         element_id = [0] * len(attr_set)
         for element in dic_list:
-            result[element["attr_name"]].update(
-                {element["attr_val"]: element_id[attr_set.index(element["attr_name"])]})
-            element_id[attr_set.index(element["attr_name"])] += 1
+            result[(element["tid"],element["attr_name"])].update(
+                {(element["attr_val"]): element_id[attr_set.index((element["tid"],element["attr_name"]))]})
+            element_id[attr_set.index((element["tid"],element["attr_name"]))] += 1
         self.dictionary = result
 
     # Setters
@@ -79,9 +79,23 @@ class Wrapper:
 
         # Set global counter query and Creating Variable table query
 
-        mysql_query = 'CREATE TABLE ' + \
-            self.dataset.table_specific_name('Variable_tmp') + ' AS'
-        mysql_query += "(SELECT (@c := @c + 1) AS variable_index," \
+        create_variabletmp_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Variable_tmp') + \
+                                      "(" \
+                                      "variable_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                      "rv_ind TEXT," \
+                                      "rv_attr TEXT," \
+                                      "is_Evidence TEXT," \
+                                      "initial_value TEXT," \
+                                      "Datatype TEXT," \
+                                      "Cardinality TEXT," \
+                                      "vtf_offset TEXT" \
+                                      ");"
+        self.dataengine.query(create_variabletmp_table_query)
+
+
+        mysql_query = 'INSERT INTO ' + \
+            self.dataset.table_specific_name('Variable_tmp') + \
+                      " SELECT * FROM ((SELECT NULL AS variable_index," \
                        " table2.ind AS rv_ind," \
                        "table2.attr AS rv_attr," \
                        "'0' AS is_Evidence," \
@@ -92,20 +106,22 @@ class Wrapper:
                        " FROM " \
                        + self.dataset.table_specific_name('C_dk') + " AS table2," \
                                                                     "(SELECT count(*) AS count1," \
-                                                                    "attr_name " \
+                                                                    "attr_name,tid " \
                                                                     "FROM " \
-                       + self.dataset.table_specific_name('Domain') + \
-                       " GROUP BY(attr_name)) AS counting," \
+                       + self.dataset.table_specific_name('Possible_values') + \
+                       " GROUP BY tid,attr_name) AS counting," \
                        "(SELECT @c:=0) m "\
                        "WHERE " \
-                       "counting.attr_name=table2.attr);"
+                       "counting.attr_name=table2.attr " \
+                       "AND " \
+                       "counting.tid=table2.ind)) AS vtmp;"
         self.dataengine.query(mysql_query)
         table_attribute_string = self.dataengine._get_schema(
             self.dataset, "Init")
 
         mysql_query = "INSERT INTO " + \
                       self.dataset.table_specific_name('Variable_tmp') + \
-                      "(SELECT @c := @c + 1 AS variable_index," \
+                      " SELECT * FROM ((SELECT NULL AS variable_index," \
                       "table1.tid AS rv_ind," \
                       "table2.attr AS rv_attr," \
                       "'1' AS is_Evidence ," \
@@ -116,16 +132,19 @@ class Wrapper:
                       "  FROM " + self.dataset.table_specific_name('Init_flat') + " AS table1, " \
                       + self.dataset.table_specific_name('C_clean') + " AS table2," \
                                                                       " (SELECT count(*) AS count1," \
-                                                                      "attr_name " \
+                                                                      "attr_name,tid " \
                                                                       "FROM " \
-                      + self.dataset.table_specific_name('Domain') \
-                      + " GROUP BY(attr_name)) AS counting" \
+                      + self.dataset.table_specific_name('Possible_values') \
+                      + " GROUP BY tid,attr_name) AS counting" \
                         " WHERE" \
                         " table2.ind = table1.tid " \
                         "AND " \
                         "table2.attr = table1.attr_name" \
                         " AND" \
-                        " counting.attr_name = table1.attr_name);"
+                        " counting.attr_name = table1.attr_name " \
+                        "AND " \
+                        "counting.tid=table2.ind)) AS vtmp;"
+
         self.dataengine.query(mysql_query)
 
         # Create Feature groupBy
@@ -134,13 +153,27 @@ class Wrapper:
                       "(SELECT MIN(var_index) AS smallest, rv_index,rv_attr " \
                       " FROM " + self.dataset.table_specific_name('Feature') +\
                       " GROUP BY rv_index,rv_attr);"
-        print 
+        print
         self.dataengine.query(mysql_query)
 
         # Create tmp table and update attribute vtf_offset
-        mysql_query = 'CREATE TABLE ' + \
-                      self.dataset.table_specific_name('Variable') + ' AS'
-        mysql_query += "(SELECT table2.variable_index," \
+
+        create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Variable') + \
+                                     "(" \
+                                     "variable_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                     "rv_ind TEXT," \
+                                     "rv_attr TEXT," \
+                                     "is_Evidence TEXT," \
+                                     "initial_value TEXT," \
+                                     "Datatype TEXT," \
+                                     "Cardinality TEXT," \
+                                     "vtf_offset TEXT" \
+                                     ");"
+        self.dataengine.query(create_variable_table_query)
+
+        mysql_query = 'INSERT INTO ' + \
+                      self.dataset.table_specific_name('Variable') + \
+                      " SELECT * FROM (SELECT NULL AS variable_index," \
                        "table2.rv_ind," \
                        "table2.rv_attr," \
                        "table2.is_Evidence," \
@@ -154,7 +187,7 @@ class Wrapper:
                                                                             "table1.rv_index = table2.rv_ind " \
                                                                             "AND " \
                                                                             "table1.rv_attr = table2.rv_attr" \
-                                                                            ");"
+                                                                            ") AS vtmp ORDER BY vtf_offset;"
         self.dataengine.query(mysql_query)
 
     def set_factor_to_var(self):
@@ -162,10 +195,22 @@ class Wrapper:
                 This method creates a query for factor_to_variable table for numbskull
 
                 """
-        mysql_query = 'CREATE TABLE ' + \
-            self.dataset.table_specific_name('Factor_to_var') + ' AS'
-        mysql_query += "(SELECT (@n := @n + 1 ) AS factor_to_var_index," \
-                       " variable_index AS vid," \
+
+        create_ftv_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Factor_to_var') + \
+                                      "(" \
+                                      "factor_to_var_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                      "vid TEXT," \
+                                      "rv_ind TEXT," \
+                                      "attr_val TEXT," \
+                                      "attr_name TEXT" \
+                                      ");"
+        self.dataengine.query(create_ftv_table_query)
+
+        mysql_query = 'INSERT INTO ' + \
+                      self.dataset.table_specific_name('Factor_to_var') + \
+                      " SELECT * FROM ((SELECT NULL AS factor_to_var_index," \
+                       "variable_index AS vid," \
+                       "rv_ind," \
                        "attr_val," \
                        "table1.attr_name" \
                        " FROM  " \
@@ -175,7 +220,7 @@ class Wrapper:
                                                                         "WHERE " \
                                                                         "table1.tid=rv_ind " \
                                                                         "AND" \
-                                                                        " table1.attr_name=table2.rv_attr);"
+                                                                        " table1.attr_name=table2.rv_attr)) AS ftvtmp;"
         self.dataengine.query(mysql_query)
 
     def set_factor(self):
@@ -183,9 +228,21 @@ class Wrapper:
                 This method creates a query for factor table for numbskull"
 
                 """
-        mysql_query = 'CREATE TABLE ' + \
-            self.dataset.table_specific_name('Factor') + ' AS'
-        mysql_query += "(SELECT distinct (@n := @n + 1 ) AS factor_index," \
+        create_factor_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Factor') + \
+                                 "(" \
+                                 "factor_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                 "var_index TEXT," \
+                                 "FactorFunction TEXT," \
+                                 "weightID TEXT," \
+                                 "Feature_Value TEXT," \
+                                 "arity TEXT," \
+                                 "ftv_offest TEXT" \
+                                 ");"
+        self.dataengine.query(create_factor_table_query)
+
+        mysql_query = 'INSERT INTO ' + \
+            self.dataset.table_specific_name('Factor') + \
+                      " SELECT * FROM ((SELECT distinct NULL AS factor_index," \
                        "var_index," \
                        " '4' AS FactorFunction," \
                        " table1.weight_id AS weightID," \
@@ -204,7 +261,7 @@ class Wrapper:
                                                                              "table3.vid=table2.variable_index " \
                                                                              "AND " \
                                                                              "table3.attr_val=table1.assigned_val " \
-                                                                             "ORDER BY var_index);"
+                                                                             ")ORDER BY var_index) AS ftmp ;"
         self.dataengine.query(mysql_query)
 
     # Getters
@@ -238,6 +295,7 @@ class Wrapper:
         variable_dataframe = self.dataengine._table_to_dataframe(
             "Variable", self.dataset)
         temp = variable_dataframe.select(
+            "rv_ind",
             "rv_attr",
             "is_Evidence",
             "initial_value",
@@ -255,7 +313,7 @@ class Wrapper:
                                       np.int64(int(tempdictionary["vtf_offset"]))])
             else:
                 variable_list.append([np.int8(int(tempdictionary["is_Evidence"])), np.int64(
-                    (int(self.dictionary[tempdictionary["rv_attr"]][tempdictionary["initial_value"]]))),
+                    (int(self.dictionary[(int(tempdictionary["rv_ind"]),tempdictionary["rv_attr"])][tempdictionary["initial_value"]]))),
                     np.int16(int(tempdictionary["Datatype"])),
                     np.int64(int(tempdictionary["Cardinality"])),
                     np.int64(int(tempdictionary["vtf_offset"]))])
@@ -278,12 +336,12 @@ class Wrapper:
         factor_to_var_dataframe = self.dataengine._table_to_dataframe(
             "Factor_to_var", self.dataset)
         temp = factor_to_var_dataframe.select(
-            "vid", "attr_val", "attr_name").collect()
+            "vid", "rv_ind", "attr_val", "attr_name").collect()
         factor_to_var_list = []
         for row in temp:
             tempdictionary = row.asDict()
             factor_to_var_list.append([np.int64(tempdictionary["vid"]), np.int64(
-                self.dictionary[tempdictionary["attr_name"]][tempdictionary["attr_val"]])])
+                self.dictionary[(int(tempdictionary["rv_ind"]),tempdictionary["attr_name"])][tempdictionary["attr_val"]])])
         fmap = np.zeros(len(factor_to_var_list), FactorToVar)
         count = 0
         for f in fmap:

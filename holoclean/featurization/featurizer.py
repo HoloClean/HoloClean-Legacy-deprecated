@@ -161,8 +161,8 @@ class Featurizer:
                                                                                   " WHERE" \
                                                                                   " table1.feature=table2.feature" \
                                                                                   " AND " \
-                                                                                  "table1.rv_attr=table2.rv_attr " \
-                                                                                  "ORDER BY rv_index,rv_attr) AS ftmp);"
+                                                                                  "table1.rv_attr=table2.rv_attr) AS ftmp " \
+                                                                                  "ORDER BY rv_index,rv_attr);"
 
         self.dataengine.query( query_featurization)
    
