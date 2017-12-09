@@ -102,8 +102,8 @@ class DCErrorDetection:
         dataframe.createOrReplaceTempView("df")
         query = "SELECT table1.index as ind FROM df table1"
         index_set = self.spark_session.sql(query)
-        all_attr = self.dataengine._get_schema(self.dataset,"Init").split(',')
-	all_attr.remove('index')
+        all_attr = self.dataengine._get_schema(self.dataset, "Init").split(',')
+        all_attr.remove('index')
         rev_attr_list = []
         for attribute in all_attr:
             rev_attr_list.append([attribute])

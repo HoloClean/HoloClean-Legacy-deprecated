@@ -247,17 +247,22 @@ class Pruning:
                 list_to_dataframe_init.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
                                                self.cellvalues[tuple_id][cell_index].columnname,
                                                self.cellvalues[tuple_id][cell_index].value])
-                list_to_dataframe_possible_values.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
-                                               self.cellvalues[tuple_id][cell_index].columnname,
-                                               self.cellvalues[tuple_id][cell_index].value, "1"])
+                # list_to_dataframe_possible_values.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
+                #                                self.cellvalues[tuple_id][cell_index].columnname,
+                #                                self.cellvalues[tuple_id][cell_index].value, "1"])
 
                 # IF the value is in the id of cell in the involve attribute we put as not observed
                 tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                 if tmp_cell_index in self.cell_domain:
                     for j in self.cell_domain[tmp_cell_index]:
                         if j != self.all_cells_temp[tmp_cell_index].value:
-                            list_to_dataframe_possible_values.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1), self.
-                                                                     all_cells_temp[tmp_cell_index].columnname, j, "0"])
+                            list_to_dataframe_possible_values.append(
+                                [(self.all_cells_temp[tmp_cell_index].tupleid + 1), self.
+                                all_cells_temp[tmp_cell_index].columnname, j, "0"])
+                        else:
+                            list_to_dataframe_possible_values.append(
+                                [(self.all_cells_temp[tmp_cell_index].tupleid + 1), self.
+                                all_cells_temp[tmp_cell_index].columnname, j, "1"])
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
             list_to_dataframe_possible_values, [
