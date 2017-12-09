@@ -403,7 +403,7 @@ class Session:
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature_temp') + ";"
                     self.holo_env.dataengine.query(global_counter)
-                    raw_input("Count the Feature table")
+        raw_input("Count the Feature table")
 
         print ('adding weight_id to feature table...')
         self.holo_env.logger.info('adding weight_id to feature table...')
