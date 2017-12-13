@@ -18,6 +18,20 @@ class Featurizer:
         self.possible_table_name = self.dataset.table_specific_name(
             'Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
+        self.dcp = DCParser(self.denial_constraints)
+
+    def get_constraint_attibute(self, table_name, attr_column_name):
+        attr_costrained = self.dcp.get_constrainted_attributes(self.dataengine, self.dataset)
+
+        specific_features = "("
+
+        for const in attr_costrained:
+            specific_features += table_name + "." + attr_column_name + " = '" + const + "' OR "
+
+        specific_features = specific_features[:-4]
+        specific_features += ")"
+
+        return specific_features
 
     # Internal Method
     def _create_new_dc(self):
@@ -27,8 +41,7 @@ class Featurizer:
         table_attribute_string = self.dataengine._get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        dcp = DCParser(self.denial_constraints)
-        dc_sql_parts = dcp.for_join_condition()
+        dc_sql_parts = self.dcp.for_join_condition()
         new_dcs = []
         self.final_dc = []
         self.change_pred = []
@@ -112,11 +125,11 @@ class Featurizer:
                             + self.dataset.table_specific_name('weight_temp') \
                             + "(" \
                               "weight_id INT PRIMARY KEY AUTO_INCREMENT," \
-                              "rv_attr TEXT," \
-                              "feature TEXT" \
+                              "rv_attr LONGTEXT," \
+                              "feature LONGTEXT" \
                               ");"
 
-        self.dataengine.query( query_for_weights)
+        self.dataengine.query(query_for_weights)
 
         # Insert initial weights to the table
         query = "INSERT INTO  " \
@@ -126,25 +139,23 @@ class Featurizer:
                 "SELECT distinct NULL, rv_attr,feature FROM " + \
                 self.dataset.table_specific_name('Feature_temp') + "" \
                                                                    ") AS TABLE1);"
-             
 
         self.dataengine.query(query)
 
-        create_feature_table_query =  "CREATE TABLE " + self.dataset.table_specific_name('Feature') +\
-                                      "(" \
-                                      "var_index INT PRIMARY KEY AUTO_INCREMENT," \
-                                      "rv_index TEXT," \
-                                      "rv_attr TEXT," \
-                                      "assigned_val TEXT," \
-                                      "feature TEXT," \
-                                      "TYPE TEXT," \
-                                      "weight_id INT" \
-                                      ");"
+        create_feature_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Feature') + \
+                                     "(" \
+                                     "var_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                     "rv_index LONGTEXT," \
+                                     "rv_attr LONGTEXT," \
+                                     "assigned_val LONGTEXT," \
+                                     "feature LONGTEXT," \
+                                     "TYPE LONGTEXT," \
+                                     "weight_id INT" \
+                                     ");"
 
         self.dataengine.query(create_feature_table_query)
 
-
-        # Creat new weight table by joining the initial table and calculated weights
+        # Creating new weight table by joining the initial table and calculated weights
         query_featurization = "INSERT INTO " + self.dataset.table_specific_name('Feature') + \
                               " (" \
                               "SELECT * FROM ( SELECT " \
@@ -155,17 +166,42 @@ class Featurizer:
                               " , table1.feature" \
                               " , table1.TYPE" \
                               " ,  table2.weight_id" \
-                              " FROM "\
+                              " FROM " \
                               + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                                                                                   " WHERE" \
                                                                                   " table1.feature=table2.feature" \
                                                                                   " AND " \
-                                                                                  "table1.rv_attr=table2.rv_attr) AS ftmp " \
+                                                                                  "table1.rv_attr=table2.rv_attr) " \
+                                                                                  "AS ftmp " \
                                                                                   "ORDER BY rv_index,rv_attr);"
 
-        self.dataengine.query( query_featurization)
-   
+        self.dataengine.query(query_featurization)
+
+    def get_domain_count(self):
+        """
+        This method creates Domain table which is the size of the each attribute
+        :return:
+        """
+        create_domain_table = "CREATE TABLE " + self.dataset.table_specific_name('Domain') + \
+                              " (" \
+                              "attr_name LONGTEXT," \
+                              "cardinal LONGTEXT" \
+                              ");"
+        self.dataengine.query(create_domain_table)
+
+        all_attributes_list = self.dcp.get_all_attribute(self.dataengine, self.dataset)
+
+        for attr in all_attributes_list:
+            insert_attr_count_query = "INSERT INTO  " +\
+                                      self.dataset.table_specific_name('Domain') + \
+                                      " SELECT '" + attr + \
+                                      "' AS attr_name,(SELECT COUNT(DISTINCT " + attr + \
+                                      ") AS cardinal FROM " + \
+                                      self.dataset.table_specific_name('Init') + \
+                                      ") AS cardinal;"
+            self.dataengine.query(insert_attr_count_query)
+
 
 class SignalInit(Featurizer):
     """TODO.
@@ -185,8 +221,7 @@ class SignalInit(Featurizer):
         """
         This method creates a query for the featurization table for the initial values"
         """
-        query_for_featurization = ""
-        query_for_featurization += """ (SELECT  @p := @p + 1 AS var_index,\
+        query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
             init_flat.tid AS rv_index,\
             init_flat.attr_name AS rv_attr,\
             init_flat.attr_val AS assigned_val,\
@@ -195,9 +230,9 @@ class SignalInit(Featurizer):
             '      ' AS weight_id\
             FROM """ +\
             self.dataset.table_specific_name('Init_flat') +\
-            """ AS init_flat\
-            ) """
-        query_for_featurization = query_for_featurization[:-5]
+            " AS init_flat " \
+            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name')
+        # query_for_featurization = query_for_featurization[:-5]
         return query_for_featurization
 
 
@@ -220,41 +255,48 @@ class SignalCooccur(Featurizer):
                 This method creates a query for the featurization table for the cooccurances
                 """
         self.table_name1 = self.dataset.table_specific_name('Init_flat')
+        self.table_name2 = self.dataset.table_specific_name('Possible_values')
 
-        # Create coocure table
+        # Create cooccure table
 
-        table_name_cooccur = self.dataset.table_specific_name('Init_cooccur')
-        cooccur_query = "CREATE TABLE " + table_name_cooccur + " AS " \
-                        "(SELECT DISTINCT " \
-                        "init1.attr_name AS attr_name," \
-                        "init1.attr_val AS attr_val," \
-                        "CONCAT (   init2.attr_name , '=' , init2.attr_val ) AS feature" \
-                        " FROM " + \
-                        self.table_name1 + " init1, " + \
-                        self.table_name1 + " init2 " \
-                                           "WHERE " \
-                                           "init1.tid = init2.tid " \
-                                           "AND " \
-                                           "init1.attr_name != init2.attr_name" \
-                                           ");"
-        self.dataengine.query(cooccur_query)
+        query_init_flat_join = "CREATE TABLE " + \
+                               self.dataset.table_specific_name('Init_flat_join') + \
+                               " SELECT * FROM ( " \
+                               "SELECT DISTINCT " \
+                               "t1.tid AS tid_first," \
+                               "t1.attr_name AS attr_first," \
+                               "t1.attr_val AS val_first," \
+                               "t2.tid AS tid_second," \
+                               "t2.attr_name AS attr_second," \
+                               "t2.attr_val AS val_second " \
+                               "FROM " + \
+                               self.dataset.table_specific_name('Init_flat') + " t1," + \
+                               self.dataset.table_specific_name('C_clean') + " clean," + \
+                               self.dataset.table_specific_name('Init_flat') + " t2 " \
+                                                                               "WHERE " \
+                                                                               "t1.tid = t2.tid " \
+                                                                               "AND " \
+                                                                               "t2.attr_name = clean.attr " \
+                                                                               "AND " \
+                                                                               "t2.tid = clean.ind " \
+                                                                               "AND " \
+                                                                               "t1.attr_name != t2.attr_name) " \
+                                                                               "AS ifjtmp;"
+        self.dataengine.query(query_init_flat_join)
 
-        # Create coocure feature
+        # Create co-occur feature
 
         query_for_featurization = " (SELECT DISTINCT @p := @p + 1 AS var_index," \
-                                  "possible_table.tid AS rv_index," \
-                                  "possible_table.attr_name AS rv_attr," \
-                                  "possible_table.attr_val AS assigned_val," \
-                                  "initco.feature AS feature," \
+                                  "cooccur.tid_first AS rv_index," \
+                                  "cooccur.attr_first AS rv_attr," \
+                                  "cooccur.val_first AS assigned_val," \
+                                  "CONCAT (cooccur.attr_second , '=' , cooccur.val_second ) AS feature," \
                                   "'cooccur' AS TYPE," \
                                   "'        ' AS weight_id " \
                                   "FROM " \
-                                  + table_name_cooccur +  " AS initco,"\
-                                  + self.possible_table_name + " AS possible_table " \
-                                             "WHERE (" \
-                                             "possible_table.attr_name = initco.attr_name " \
-                                             "AND " \
-                                             "initco.attr_val = possible_table.attr_val )"  # End of FROM
+                                  + self.dataset.table_specific_name('Init_flat_join') + \
+                                  " AS cooccur " \
+                                  "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first')
         return query_for_featurization
 
 
@@ -307,7 +349,8 @@ class SignalDC(Featurizer):
                                       "possible_table.tid AS rv_index," \
                                       "possible_table.attr_name AS rv_attr," \
                                       "possible_table.attr_val AS assigned_val," \
-                                      "CONCAT ( table1.second_index,'" + self.final_dc[index_dc] + "') AS feature," \
+                                      "CONCAT ( table1.second_index ,':', '" + self.final_dc[index_dc] + "') " \
+                                                                                                         "AS feature," \
                                       "'FD' AS TYPE," \
                                       "'       ' AS weight_id" \
                                       "  FROM " \

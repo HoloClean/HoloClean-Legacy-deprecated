@@ -8,7 +8,8 @@ class DCErrorDetection:
     cells based on the
     denial constraint
     """
-    def __init__(self, DenialConstraints, dataengine,dataset, spark_session):
+
+    def __init__(self, DenialConstraints, dataengine, dataset, spark_session):
 
         """
         This constructor at first convert all denial constraints
@@ -41,7 +42,7 @@ class DCErrorDetection:
         :rtype: spark_dataframe
         """
 
-        all_list = self.dataengine._get_schema(self.dataset,"Init")
+        all_list = self.dataengine._get_schema(self.dataset, "Init")
         all_list = all_list.split(',')
         attr_list = DCParser.get_attribute(cond, all_list)
         index_data = tuples_dataframe.select('ind')\
@@ -113,3 +114,5 @@ class DCErrorDetection:
 
         result = all_cell.subtract(noisy_cells)
         return result
+
+

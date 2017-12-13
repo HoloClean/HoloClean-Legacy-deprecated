@@ -97,11 +97,10 @@ class DCParser:
         result = []
         dcs = self.get_anded_string(conditionInd='all')
         for dc in dcs:
-            tmp = dc.replace('table1.','table1.first_')
-            tmp = tmp.replace('table2.','table1.second_')
+            tmp = dc.replace('table1.', 'table1.first_')
+            tmp = tmp.replace('table2.', 'table1.second_')
             result.append(tmp)
         return result
-
 
     def get_anded_string(self, conditionInd='all'):
 
@@ -147,3 +146,49 @@ class DCParser:
                 attributes.add(attribute)
 
         return list(attributes)
+
+    def get_all_attribute(self, dataengine, dataset):
+        """
+        This method return all attributes in the initial table
+        :param dataengine:
+        :param dataset:
+        :return: list of all attributes
+        """
+        all_list = dataengine._get_schema(dataset, "Init")
+        all_attributes = all_list.split(',')
+        all_attributes.remove('index')
+        return all_attributes
+
+    def get_constraint_free_attributes(self, dataengine, dataset):
+        """
+        This function return all attributes that is not appeared in any constraints
+        :param dataengine:
+        :param dataset:
+        :return: list of attributes
+        """
+        all_attributes = self.get_all_attribute(dataengine, dataset)
+        and_of_preds = self.get_anded_string('all')
+        result = set({'index'})
+        for cond in and_of_preds:
+            tmp_list = self.get_attribute(cond, all_attributes)
+            result = result.union(set(tmp_list))
+
+        result = set(all_attributes).difference(result)
+
+        return list(result)
+
+    def get_constrainted_attributes(self, dataengine, dataset):
+        """
+        This function return all attributes that is appeared at least in one constraint
+        :param dataengine:
+        :param dataset:
+        :return: list of attributes
+        """
+        result = set(self.get_all_attribute(dataengine, dataset))
+        free_attributes = self.get_constraint_free_attributes(dataengine, dataset)
+
+        result = result.difference(set(free_attributes))
+
+        return list(result)
+
+

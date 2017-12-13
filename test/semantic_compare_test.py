@@ -10,7 +10,7 @@ class SemanticCompare:
         --------
         parameter: dataengine,dataset
         """
-        self.test=Testing()
+        self.test = Testing()
         self.dataengine = self.test.holo_obj.dataengine
         self.dataset = self.test.session.dataset
 
@@ -33,13 +33,13 @@ class SemanticCompare:
             feature_to_fg_edges.add((variable.index([str(c[1]), c[2]]), factor_index))
             factor_index = factor_index + 1
 
-        self.feature_to_fg_edges=feature_to_fg_edges
+        self.feature_to_fg_edges = feature_to_fg_edges
 
     def numbskull_to_factor_graph(self):
 
         wrapper_obj = Wrapper(self.dataengine, self.dataset)
-        factor_to_var=list(wrapper_obj.get_list_factor_to_var())
-        factors=list(wrapper_obj.get_list_factor())
+        factor_to_var = list(wrapper_obj.get_list_factor_to_var())
+        factors = list(wrapper_obj.get_list_factor())
         numbskull_to_fg_edges = set()
         for factor in factors:
             numbskull_to_fg_edges.add((factor_to_var[factor[4]][0], factors.index(factor)))
@@ -50,9 +50,8 @@ class CompareUnittest():
 
     def runTest(self):
         compare = SemanticCompare()
-        if len(compare.feature_to_fg_edges-compare.numbskull_to_fg_edges)+len(compare.numbskull_to_fg_edges-compare.feature_to_fg_edges)==0:
-            print 'The graphs is semanticly related'
+        if len(compare.feature_to_fg_edges - compare.numbskull_to_fg_edges) + \
+                len(compare.numbskull_to_fg_edges - compare.feature_to_fg_edges) == 0:
+            print 'The graphs is semantically related'
         else:
-            print 'The graphs is not semanticly related'
-
-
+            print 'The graphs is not semantically related'

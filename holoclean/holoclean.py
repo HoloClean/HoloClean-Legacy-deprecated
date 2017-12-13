@@ -156,13 +156,11 @@ class HoloClean:
         conf.set("spark.worker.timeout", "60000")
         conf.set("spark.driver.maxResultSize", '70g')
 
-
         if self.spark_cluster:
             conf.set("spark.master", self.spark_cluster)
 
         # Get Spark context
         sc = SparkContext(conf=conf)
-
 
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
@@ -239,7 +237,6 @@ class Session:
         domain_mask = Wrapper.get_mask(variable)
         print "wrapper is finished"
         self.holo_env.logger.info('wrapper is finished')
-
         return weight, variable, factor, fmap, domain_mask, edges
 
     def _numskull(self):
@@ -257,9 +254,9 @@ class Session:
                                  reg_param=0.01)
 
         fg = self._numbskull_fg_lists()
-
         ns.loadFactorGraph(*fg)
         ns.learning()
+        print "1"
         self.holo_env.logger.info('numbskull is finished')
         print "numbskull is finished"
         list_weight_value = []
@@ -394,7 +391,7 @@ class Session:
                 dc_queries = feature.get_query()
                 for dc_query in dc_queries:
                     insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') +\
-                                          " SELECT * FROM " + dc_query + ")as T_" + str(counter) + ";"
+                                          " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
                     counter += 1
                     self.holo_env.logger.info('the query that will be executed is:' + insert_signal_query)
                     self.holo_env.dataengine.query(insert_signal_query)
@@ -403,7 +400,7 @@ class Session:
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature_temp') + ";"
                     self.holo_env.dataengine.query(global_counter)
-        raw_input("Count the Feature table")
+        # raw_input("Count the Feature table")
 
         print ('adding weight_id to feature table...')
         self.holo_env.logger.info('adding weight_id to feature table...')
