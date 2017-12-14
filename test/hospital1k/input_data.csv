@@ -14,7 +14,7 @@ ind,attr,val
 1,EmergencyService,Yes
 1,Condition,Surgical Infection Prevention
 1,MeasureCode,SCIP-CARD-2
-1,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
+1,MeasureName,surgery patients who were taking heart drugs caxxed beta bxockers before coming to the hospitax who were kept on the beta bxockers during the period just before and after their surgery
 1,Score,Empty
 1,Sample,Empty
 1,Stateavg,AL_SCIP-CARD-2
@@ -61,7 +61,7 @@ ind,attr,val
 4,Address1,1720 UNIVERSITY BLVD
 4,Address2,Empty
 4,Address3,Empty
-4,City,BIRMINGHAM
+4,City,BIRMINGHxM
 4,State,AL
 4,ZipCode,35233
 4,CountyName,JEFFERSON
@@ -109,7 +109,7 @@ ind,attr,val
 6,EmergencyService,Yes
 6,Condition,Surgical Infection Prevention
 6,MeasureCode,SCIP-INF-6
-6,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+6,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 6,Score,Empty
 6,Sample,Empty
 6,Stateavg,AL_SCIP-INF-6
@@ -137,7 +137,7 @@ ind,attr,val
 8,Address1,1720 UNIVERSITY BLVD
 8,Address2,Empty
 8,Address3,Empty
-8,City,BIRMINGHAM
+8,City,BIRMINGxAM
 8,State,AL
 8,ZipCode,35233
 8,CountyName,JEFFERSON
@@ -194,7 +194,7 @@ ind,attr,val
 11,Address1,1300 SOUTH MONTGOMERY AVENUE
 11,Address2,Empty
 11,Address3,Empty
-11,City,SHEFFIELD
+11,City,SHEFFxELD
 11,State,AL
 11,ZipCode,35660
 11,CountyName,JEFFERSON
@@ -246,7 +246,7 @@ ind,attr,val
 13,Score,86%
 13,Sample,14 patients
 13,Stateavg,AL_AMI-5
-14,ProviderNumber,10019
+14,ProviderNumber,1xx19
 14,HospitalName,HELEN KELLER MEMORIAL HOSPITAL
 14,Address1,1300 SOUTH MONTGOMERY AVENUE
 14,Address2,Empty
@@ -313,7 +313,7 @@ ind,attr,val
 17,ZipCode,35660
 17,CountyName,JEFFERSON
 17,PhoneNumber,2563864556
-17,HospitalType,Acute Care Hospitals
+17,HospitalType,Acuxe Care Hospixals
 17,HospitalOwner,Government - Hospital District or Authority
 17,EmergencyService,Yes
 17,Condition,Heart Failure
@@ -339,7 +339,7 @@ ind,attr,val
 18,MeasureCode,HF-3
 18,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
 18,Score,92%
-18,Sample,37 patients
+18,Sample,3x patients
 18,Stateavg,AL_HF-3
 19,ProviderNumber,10019
 19,HospitalName,HELEN KELLER MEMORIAL HOSPITAL
@@ -411,7 +411,7 @@ ind,attr,val
 22,HospitalType,Acute Care Hospitals
 22,HospitalOwner,Government - Hospital District or Authority
 22,EmergencyService,Yes
-22,Condition,Heart Attack
+22,Condition,Heart Attaxk
 22,MeasureCode,AMI-3
 22,MeasureName,Heart Attack Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
 22,Score,96%
@@ -428,9 +428,9 @@ ind,attr,val
 23,CountyName,HOUSTON
 23,PhoneNumber,3347938701
 23,HospitalType,Acute Care Hospitals
-23,HospitalOwner,Government - Hospital District or Authority
+23,HospitalOwner,Government - Hospxtal Dxstrxct or Authorxty
 23,EmergencyService,Yes
-23,Condition,Heart Attack
+23,Condition,Hearx Axxack
 23,MeasureCode,AMI-4
 23,MeasureName,Heart Attack Patients Given Smoking Cessation Advice/Counseling
 23,Score,100%
@@ -464,10 +464,10 @@ ind,attr,val
 25,State,AL
 25,ZipCode,36302
 25,CountyName,HOUSTON
-25,PhoneNumber,3347938701
+25,PhoneNumber,334793870x
 25,HospitalType,Acute Care Hospitals
 25,HospitalOwner,Government - Hospital District or Authority
-25,EmergencyService,Yes
+25,EmergencyService,Yxs
 25,Condition,Heart Attack
 25,MeasureCode,AMI-7A
 25,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
@@ -494,7 +494,7 @@ ind,attr,val
 26,Sample,40 patients
 26,Stateavg,AL_AMI-8A
 27,ProviderNumber,10001
-27,HospitalName,SOUTHEAST ALABAMA MEDICAL CENTER
+27,HospitalName,SOUTHEAST ALABAMA MEDxCAL CENTER
 27,Address1,1108 ROSS CLARK CIRCLE
 27,Address2,Empty
 27,Address3,Empty
@@ -523,7 +523,7 @@ ind,attr,val
 28,CountyName,HOUSTON
 28,PhoneNumber,3347938701
 28,HospitalType,Acute Care Hospitals
-28,HospitalOwner,Government - Hospital District or Authority
+28,HospitalOwner,Government - Hospital xistrict or Authority
 28,EmergencyService,Yes
 28,Condition,Heart Failure
 28,MeasureCode,HF-2
@@ -599,7 +599,7 @@ ind,attr,val
 32,CountyName,HOUSTON
 32,PhoneNumber,3347938701
 32,HospitalType,Acute Care Hospitals
-32,HospitalOwner,Government - Hospital District or Authority
+32,HospitalOwner,Governmenx - Hospixal Disxricx or Auxhorixy
 32,EmergencyService,Yes
 32,Condition,Pneumonia
 32,MeasureCode,PN-3B
@@ -692,7 +692,7 @@ ind,attr,val
 37,State,AL
 37,ZipCode,36302
 37,CountyName,HOUSTON
-37,PhoneNumber,3347938701
+37,PhoneNumber,xx479x8701
 37,HospitalType,Acute Care Hospitals
 37,HospitalOwner,Government - Hospital District or Authority
 37,EmergencyService,Yes
@@ -750,7 +750,7 @@ ind,attr,val
 40,ZipCode,36302
 40,CountyName,HOUSTON
 40,PhoneNumber,3347938701
-40,HospitalType,Acute Care Hospitals
+40,HospitalType,Acxte Care Hospitals
 40,HospitalOwner,Government - Hospital District or Authority
 40,EmergencyService,Yes
 40,Condition,Surgical Infection Prevention
@@ -793,7 +793,7 @@ ind,attr,val
 42,EmergencyService,Yes
 42,Condition,Surgical Infection Prevention
 42,MeasureCode,SCIP-INF-6
-42,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+42,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 42,Score,90%
 42,Sample,537 patients
 42,Stateavg,AL_SCIP-INF-6
@@ -803,12 +803,12 @@ ind,attr,val
 43,Address2,Empty
 43,Address3,Empty
 43,City,DOTHAN
-43,State,AL
+43,State,xL
 43,ZipCode,36302
 43,CountyName,HOUSTON
 43,PhoneNumber,3347938701
 43,HospitalType,Acute Care Hospitals
-43,HospitalOwner,Government - Hospital District or Authority
+43,HospitalOwner,Gxvernment - Hxspital District xr Authxrity
 43,EmergencyService,Yes
 43,Condition,Surgical Infection Prevention
 43,MeasureCode,SCIP-VTE-1
@@ -828,7 +828,7 @@ ind,attr,val
 44,PhoneNumber,3347938701
 44,HospitalType,Acute Care Hospitals
 44,HospitalOwner,Government - Hospital District or Authority
-44,EmergencyService,Yes
+44,EmergencyService,Yex
 44,Condition,Surgical Infection Prevention
 44,MeasureCode,SCIP-VTE-2
 44,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
@@ -842,7 +842,7 @@ ind,attr,val
 45,Address3,Empty
 45,City,BOAZ
 45,State,AL
-45,ZipCode,35957
+45,ZipCode,x5957
 45,CountyName,MARSHALL
 45,PhoneNumber,2565938310
 45,HospitalType,Acute Care Hospitals
@@ -854,7 +854,7 @@ ind,attr,val
 45,Score,80%
 45,Sample,20 patients
 45,Stateavg,AL_AMI-1
-46,ProviderNumber,10005
+46,ProviderNumber,x0005
 46,HospitalName,MARSHALL MEDICAL CENTER SOUTH
 46,Address1,2505 U S HIGHWAY 431 NORTH
 46,Address2,Empty
@@ -879,7 +879,7 @@ ind,attr,val
 47,Address2,Empty
 47,Address3,Empty
 47,City,BOAZ
-47,State,AL
+47,State,xL
 47,ZipCode,35957
 47,CountyName,MARSHALL
 47,PhoneNumber,2565938310
@@ -955,7 +955,7 @@ ind,attr,val
 51,Address2,Empty
 51,Address3,Empty
 51,City,BOAZ
-51,State,AL
+51,State,xL
 51,ZipCode,35957
 51,CountyName,MARSHALL
 51,PhoneNumber,2565938310
@@ -980,7 +980,7 @@ ind,attr,val
 52,PhoneNumber,2565938310
 52,HospitalType,Acute Care Hospitals
 52,HospitalOwner,Government - Hospital District or Authority
-52,EmergencyService,Yes
+52,EmergencyService,Yxs
 52,Condition,Heart Failure
 52,MeasureCode,HF-1
 52,MeasureName,Heart Failure Patients Given Discharge Instructions
@@ -1068,7 +1068,7 @@ ind,attr,val
 57,Address1,2505 U S HIGHWAY 431 NORTH
 57,Address2,Empty
 57,Address3,Empty
-57,City,BOAZ
+57,City,BOxZ
 57,State,AL
 57,ZipCode,35957
 57,CountyName,MARSHALL
@@ -1081,17 +1081,17 @@ ind,attr,val
 57,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
 57,Score,97%
 57,Sample,120 patients
-57,Stateavg,AL_PN-3B
+57,Stateavg,AL_PN-xB
 58,ProviderNumber,10005
 58,HospitalName,MARSHALL MEDICAL CENTER SOUTH
-58,Address1,2505 U S HIGHWAY 431 NORTH
+58,Address1,2505xUxSxHIGHWAYx431xNORTH
 58,Address2,Empty
 58,Address3,Empty
 58,City,BOAZ
 58,State,AL
 58,ZipCode,35957
 58,CountyName,MARSHALL
-58,PhoneNumber,2565938310
+58,PhoneNumber,2x6x938310
 58,HospitalType,Acute Care Hospitals
 58,HospitalOwner,Government - Hospital District or Authority
 58,EmergencyService,Yes
@@ -1148,7 +1148,7 @@ ind,attr,val
 61,State,AL
 61,ZipCode,35957
 61,CountyName,MARSHALL
-61,PhoneNumber,2565938310
+61,PhoneNumber,2x6x938310
 61,HospitalType,Acute Care Hospitals
 61,HospitalOwner,Government - Hospital District or Authority
 61,EmergencyService,Yes
@@ -1203,7 +1203,7 @@ ind,attr,val
 64,Address3,Empty
 64,City,BOAZ
 64,State,AL
-64,ZipCode,35957
+64,ZipCode,3595x
 64,CountyName,MARSHALL
 64,PhoneNumber,2565938310
 64,HospitalType,Acute Care Hospitals
@@ -1243,7 +1243,7 @@ ind,attr,val
 66,State,AL
 66,ZipCode,35957
 66,CountyName,MARSHALL
-66,PhoneNumber,2565938310
+66,PhoneNumber,2565x38310
 66,HospitalType,Acute Care Hospitals
 66,HospitalOwner,Government - Hospital District or Authority
 66,EmergencyService,Yes
@@ -1268,7 +1268,7 @@ ind,attr,val
 67,EmergencyService,Yes
 67,Condition,Surgical Infection Prevention
 67,MeasureCode,SCIP-INF-6
-67,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+67,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 67,Score,100%
 67,Sample,237 patients
 67,Stateavg,AL_SCIP-INF-6
@@ -1280,7 +1280,7 @@ ind,attr,val
 68,City,BOAZ
 68,State,AL
 68,ZipCode,35957
-68,CountyName,MARSHALL
+68,CountyName,MxRSHxLL
 68,PhoneNumber,2565938310
 68,HospitalType,Acute Care Hospitals
 68,HospitalOwner,Government - Hospital District or Authority
@@ -1328,7 +1328,7 @@ ind,attr,val
 70,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 70,Score,97%
 70,Sample,159 patients
-70,Stateavg,AL_AMI-1
+70,Stateavg,AL_AMx-1
 71,ProviderNumber,10006
 71,HospitalName,ELIZA COFFEE MEMORIAL HOSPITAL
 71,Address1,205 MARENGO STREET
@@ -1336,7 +1336,7 @@ ind,attr,val
 71,Address3,Empty
 71,City,FLORENCE
 71,State,AL
-71,ZipCode,35631
+71,ZipCode,3563x
 71,CountyName,LAUDERDALE
 71,PhoneNumber,2567688400
 71,HospitalType,Acute Care Hospitals
@@ -1375,7 +1375,7 @@ ind,attr,val
 73,City,FLORENCE
 73,State,AL
 73,ZipCode,35631
-73,CountyName,LAUDERDALE
+73,CountyName,LAUDxRDALx
 73,PhoneNumber,2567688400
 73,HospitalType,Acute Care Hospitals
 73,HospitalOwner,Voluntary non-profit - Other
@@ -1399,7 +1399,7 @@ ind,attr,val
 74,HospitalType,Acute Care Hospitals
 74,HospitalOwner,Voluntary non-profit - Other
 74,EmergencyService,Yes
-74,Condition,Heart Attack
+74,Condition,Hearx Axxack
 74,MeasureCode,AMI-5
 74,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
 74,Score,96%
@@ -1470,7 +1470,7 @@ ind,attr,val
 78,City,FLORENCE
 78,State,AL
 78,ZipCode,35631
-78,CountyName,LAUDERDALE
+78,CountyName,LAUDExDALE
 78,PhoneNumber,2567688400
 78,HospitalType,Acute Care Hospitals
 78,HospitalOwner,Voluntary non-profit - Other
@@ -1505,7 +1505,7 @@ ind,attr,val
 80,Address1,205 MARENGO STREET
 80,Address2,Empty
 80,Address3,Empty
-80,City,FLORENCE
+80,City,FxORENCE
 80,State,AL
 80,ZipCode,35631
 80,CountyName,LAUDERDALE
@@ -1538,7 +1538,7 @@ ind,attr,val
 81,Score,90%
 81,Sample,174 patients
 81,Stateavg,AL_PN-2
-82,ProviderNumber,10006
+82,ProviderNumber,1000x
 82,HospitalName,ELIZA COFFEE MEMORIAL HOSPITAL
 82,Address1,205 MARENGO STREET
 82,Address2,Empty
@@ -1582,7 +1582,7 @@ ind,attr,val
 84,Address2,Empty
 84,Address3,Empty
 84,City,FLORENCE
-84,State,AL
+84,State,xL
 84,ZipCode,35631
 84,CountyName,LAUDERDALE
 84,PhoneNumber,2567688400
@@ -1676,7 +1676,7 @@ ind,attr,val
 89,Address1,205 MARENGO STREET
 89,Address2,Empty
 89,Address3,Empty
-89,City,FLORENCE
+89,City,FLORxNCx
 89,State,AL
 89,ZipCode,35631
 89,CountyName,LAUDERDALE
@@ -1743,9 +1743,9 @@ ind,attr,val
 92,EmergencyService,Yes
 92,Condition,Surgical Infection Prevention
 92,MeasureCode,SCIP-INF-6
-92,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+92,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 92,Score,100%
-92,Sample,619 patients
+92,Sample,619 paxienxs
 92,Stateavg,AL_SCIP-INF-6
 93,ProviderNumber,10006
 93,HospitalName,ELIZA COFFEE MEMORIAL HOSPITAL
@@ -1771,9 +1771,9 @@ ind,attr,val
 94,Address1,205 MARENGO STREET
 94,Address2,Empty
 94,Address3,Empty
-94,City,FLORENCE
+94,City,FLxRENCE
 94,State,AL
-94,ZipCode,35631
+94,ZipCode,3563x
 94,CountyName,LAUDERDALE
 94,PhoneNumber,2567688400
 94,HospitalType,Acute Care Hospitals
@@ -1787,7 +1787,7 @@ ind,attr,val
 94,Stateavg,AL_SCIP-VTE-2
 95,ProviderNumber,10007
 95,HospitalName,MIZELL MEMORIAL HOSPITAL
-95,Address1,702 N MAIN ST
+95,Address1,702xNxMAINxST
 95,Address2,Empty
 95,Address3,Empty
 95,City,OPP
@@ -1800,7 +1800,7 @@ ind,attr,val
 95,EmergencyService,No
 95,Condition,Heart Attack
 95,MeasureCode,AMI-1
-95,MeasureName,Heart Attack Patients Given Aspirin at Arrival
+95,MeasureName,xeart Attack Patients Given Aspirin at Arrival
 95,Score,60%
 95,Sample,5 patients
 95,Stateavg,AL_AMI-1
@@ -1856,7 +1856,7 @@ ind,attr,val
 98,HospitalOwner,Voluntary non-profit - Private
 98,EmergencyService,No
 98,Condition,Heart Attack
-98,MeasureCode,AMI-4
+98,MeasureCode,AxI-4
 98,MeasureName,Heart Attack Patients Given Smoking Cessation Advice/Counseling
 98,Score,Empty
 98,Sample,0 patients
@@ -1867,11 +1867,11 @@ ind,attr,val
 99,Address2,Empty
 99,Address3,Empty
 99,City,OPP
-99,State,AL
+99,State,xL
 99,ZipCode,36467
 99,CountyName,COVINGTON
 99,PhoneNumber,3344933541
-99,HospitalType,Acute Care Hospitals
+99,HospitalType,Acute Care Hosxitals
 99,HospitalOwner,Voluntary non-profit - Private
 99,EmergencyService,No
 99,Condition,Heart Attack
@@ -1927,12 +1927,12 @@ ind,attr,val
 102,State,AL
 102,ZipCode,36467
 102,CountyName,COVINGTON
-102,PhoneNumber,3344933541
+102,PhoneNumber,3344x33541
 102,HospitalType,Acute Care Hospitals
 102,HospitalOwner,Voluntary non-profit - Private
 102,EmergencyService,No
 102,Condition,Heart Failure
-102,MeasureCode,HF-1
+102,MeasureCode,HFx1
 102,MeasureName,Heart Failure Patients Given Discharge Instructions
 102,Score,98%
 102,Sample,59 patients
@@ -2015,7 +2015,7 @@ ind,attr,val
 106,Stateavg,AL_PN-2
 107,ProviderNumber,10007
 107,HospitalName,MIZELL MEMORIAL HOSPITAL
-107,Address1,702 N MAIN ST
+107,Address1,702 x MAIx ST
 107,Address2,Empty
 107,Address3,Empty
 107,City,OPP
@@ -2065,7 +2065,7 @@ ind,attr,val
 109,HospitalOwner,Voluntary non-profit - Private
 109,EmergencyService,No
 109,Condition,Pneumonia
-109,MeasureCode,PN-5C
+109,MeasureCode,PNx5C
 109,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
 109,Score,95%
 109,Sample,87 patients
@@ -2123,7 +2123,7 @@ ind,attr,val
 112,EmergencyService,No
 112,Condition,Surgical Infection Prevention
 112,MeasureCode,SCIP-CARD-2
-112,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
+112,MeasureName,surgery patiexts who were takixg heart drugs called beta blockers before comixg to the hospital who were kept ox the beta blockers durixg the period just before axd after their surgery
 112,Score,91%
 112,Sample,11 patients
 112,Stateavg,AL_SCIP-CARD-2
@@ -2157,7 +2157,7 @@ ind,attr,val
 114,CountyName,COVINGTON
 114,PhoneNumber,3344933541
 114,HospitalType,Acute Care Hospitals
-114,HospitalOwner,Voluntary non-profit - Private
+114,HospitalOwner,Volunxary non-profix - Privaxe
 114,EmergencyService,No
 114,Condition,Surgical Infection Prevention
 114,MeasureCode,SCIP-INF-2
@@ -2201,7 +2201,7 @@ ind,attr,val
 116,MeasureCode,SCIP-INF-4
 116,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
 116,Score,Empty
-116,Sample,0 patients
+116,Sample,0 patixnts
 116,Stateavg,AL_SCIP-INF-4
 117,ProviderNumber,10007
 117,HospitalName,MIZELL MEMORIAL HOSPITAL
@@ -2218,7 +2218,7 @@ ind,attr,val
 117,EmergencyService,No
 117,Condition,Surgical Infection Prevention
 117,MeasureCode,SCIP-INF-6
-117,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+117,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 117,Score,100%
 117,Sample,123 patients
 117,Stateavg,AL_SCIP-INF-6
@@ -2266,7 +2266,7 @@ ind,attr,val
 120,Address2,Empty
 120,Address3,Empty
 120,City,LUVERNE
-120,State,AL
+120,State,Ax
 120,ZipCode,36049
 120,CountyName,CRENSHAW
 120,PhoneNumber,3343353374
@@ -2275,7 +2275,7 @@ ind,attr,val
 120,EmergencyService,Yes
 120,Condition,Heart Attack
 120,MeasureCode,AMI-1
-120,MeasureName,Heart Attack Patients Given Aspirin at Arrival
+120,MeasureName,Heart Attack Patients Given Aspirin at Arrivax
 120,Score,0%
 120,Sample,1 patients
 120,Stateavg,AL_AMI-1
@@ -2293,9 +2293,9 @@ ind,attr,val
 121,HospitalOwner,Government - Federal
 121,EmergencyService,Yes
 121,Condition,Heart Attack
-121,MeasureCode,AMI-2
+121,MeasureCode,AxI-2
 121,MeasureName,Heart Attack Patients Given Aspirin at Discharge
-121,Score,100%
+121,Score,x00%
 121,Sample,1 patients
 121,Stateavg,AL_AMI-2
 122,ProviderNumber,10008
@@ -2425,7 +2425,7 @@ ind,attr,val
 128,HospitalType,Acute Care Hospitals
 128,HospitalOwner,Government - Federal
 128,EmergencyService,Yes
-128,Condition,Heart Failure
+128,Condition,Heaxt Failuxe
 128,MeasureCode,HF-2
 128,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
 128,Score,72%
@@ -2489,7 +2489,7 @@ ind,attr,val
 131,Sample,16 patients
 131,Stateavg,AL_PN-2
 132,ProviderNumber,10008
-132,HospitalName,CRENSHAW COMMUNITY HOSPITAL
+132,HospitalName,CRENSHAW CxMMUNITY HxSPITAL
 132,Address1,101 HOSPITAL CIRCLE
 132,Address2,Empty
 132,Address3,Empty
@@ -2543,7 +2543,7 @@ ind,attr,val
 134,MeasureCode,PN-5C
 134,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
 134,Score,95%
-134,Sample,21 patients
+134,Sample,21 pxtients
 134,Stateavg,AL_PN-5C
 135,ProviderNumber,10008
 135,HospitalName,CRENSHAW COMMUNITY HOSPITAL
@@ -2591,7 +2591,7 @@ ind,attr,val
 137,City,LUVERNE
 137,State,AL
 137,ZipCode,36049
-137,CountyName,CRENSHAW
+137,CountyName,CRxNSHAW
 137,PhoneNumber,3343353374
 137,HospitalType,Acute Care Hospitals
 137,HospitalOwner,Government - Federal
@@ -2609,7 +2609,7 @@ ind,attr,val
 138,Address3,Empty
 138,City,LUVERNE
 138,State,AL
-138,ZipCode,36049
+138,ZipCode,36x49
 138,CountyName,CRENSHAW
 138,PhoneNumber,3343353374
 138,HospitalType,Acute Care Hospitals
@@ -2647,7 +2647,7 @@ ind,attr,val
 140,Address3,Empty
 140,City,LUVERNE
 140,State,AL
-140,ZipCode,36049
+140,ZipCode,360x9
 140,CountyName,CRENSHAW
 140,PhoneNumber,3343353374
 140,HospitalType,Acute Care Hospitals
@@ -2665,7 +2665,7 @@ ind,attr,val
 141,Address2,Empty
 141,Address3,Empty
 141,City,LUVERNE
-141,State,AL
+141,State,Ax
 141,ZipCode,36049
 141,CountyName,CRENSHAW
 141,PhoneNumber,3343353374
@@ -2693,7 +2693,7 @@ ind,attr,val
 142,EmergencyService,Yes
 142,Condition,Surgical Infection Prevention
 142,MeasureCode,SCIP-INF-6
-142,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+142,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 142,Score,100%
 142,Sample,4 patients
 142,Stateavg,AL_SCIP-INF-6
@@ -2769,7 +2769,7 @@ ind,attr,val
 146,EmergencyService,Yes
 146,Condition,Heart Attack
 146,MeasureCode,AMI-2
-146,MeasureName,Heart Attack Patients Given Aspirin at Discharge
+146,MeasureName,Heart Attaxk Patients Given Aspirin at Disxharge
 146,Score,100%
 146,Sample,1 patients
 146,Stateavg,AL_AMI-2
@@ -2837,7 +2837,7 @@ ind,attr,val
 150,Address3,Empty
 150,City,HARTSELLE
 150,State,AL
-150,ZipCode,35640
+150,ZipCode,3x640
 150,CountyName,MORGAN
 150,PhoneNumber,2567736511
 150,HospitalType,Acute Care Hospitals
@@ -2989,12 +2989,12 @@ ind,attr,val
 158,Address3,Empty
 158,City,HARTSELLE
 158,State,AL
-158,ZipCode,35640
+158,ZipCode,3x640
 158,CountyName,MORGAN
 158,PhoneNumber,2567736511
 158,HospitalType,Acute Care Hospitals
-158,HospitalOwner,Proprietary
-158,EmergencyService,Yes
+158,HospitalOwner,Pxopxietaxy
+158,EmergencyService,Yxs
 158,Condition,Pneumonia
 158,MeasureCode,PN-4
 158,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
@@ -3017,7 +3017,7 @@ ind,attr,val
 159,Condition,Pneumonia
 159,MeasureCode,PN-5C
 159,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
-159,Score,98%
+159,Score,9x%
 159,Sample,51 patients
 159,Stateavg,AL_PN-5C
 160,ProviderNumber,10009
@@ -3031,7 +3031,7 @@ ind,attr,val
 160,CountyName,MORGAN
 160,PhoneNumber,2567736511
 160,HospitalType,Acute Care Hospitals
-160,HospitalOwner,Proprietary
+160,HospitalOwner,Proxrietary
 160,EmergencyService,Yes
 160,Condition,Pneumonia
 160,MeasureCode,PN-6
@@ -3060,7 +3060,7 @@ ind,attr,val
 161,Stateavg,AL_PN-7
 162,ProviderNumber,10009
 162,HospitalName,HARTSELLE MEDICAL CENTER
-162,Address1,201 PINE STREET NORTHWEST
+162,Address1,201 PINE SxREEx NORxHWESx
 162,Address2,Empty
 162,Address3,Empty
 162,City,HARTSELLE
@@ -3088,7 +3088,7 @@ ind,attr,val
 163,CountyName,MORGAN
 163,PhoneNumber,2567736511
 163,HospitalType,Acute Care Hospitals
-163,HospitalOwner,Proprietary
+163,HospitalOwner,xroprietary
 163,EmergencyService,Yes
 163,Condition,Surgical Infection Prevention
 163,MeasureCode,SCIP-INF-1
@@ -3112,7 +3112,7 @@ ind,attr,val
 164,Condition,Surgical Infection Prevention
 164,MeasureCode,SCIP-INF-2
 164,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
-164,Score,57%
+164,Score,x7%
 164,Sample,7 patients
 164,Stateavg,AL_SCIP-INF-2
 165,ProviderNumber,10009
@@ -3126,7 +3126,7 @@ ind,attr,val
 165,CountyName,MORGAN
 165,PhoneNumber,2567736511
 165,HospitalType,Acute Care Hospitals
-165,HospitalOwner,Proprietary
+165,HospitalOwner,Pxopxietaxy
 165,EmergencyService,Yes
 165,Condition,Surgical Infection Prevention
 165,MeasureCode,SCIP-INF-3
@@ -3140,7 +3140,7 @@ ind,attr,val
 166,Address2,Empty
 166,Address3,Empty
 166,City,HARTSELLE
-166,State,AL
+166,State,Ax
 166,ZipCode,35640
 166,CountyName,MORGAN
 166,PhoneNumber,2567736511
@@ -3168,9 +3168,9 @@ ind,attr,val
 167,EmergencyService,Yes
 167,Condition,Surgical Infection Prevention
 167,MeasureCode,SCIP-INF-6
-167,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+167,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 167,Score,100%
-167,Sample,11 patients
+167,Sample,xx patients
 167,Stateavg,AL_SCIP-INF-6
 168,ProviderNumber,10009
 168,HospitalName,HARTSELLE MEDICAL CENTER
@@ -3246,10 +3246,10 @@ ind,attr,val
 171,MeasureCode,AMI-2
 171,MeasureName,Heart Attack Patients Given Aspirin at Discharge
 171,Score,100%
-171,Sample,6 patients
+171,Sample,6xpatients
 171,Stateavg,AL_AMI-2
 172,ProviderNumber,10010
-172,HospitalName,MARSHALL MEDICAL CENTER NORTH
+172,HospitalName,MARSHALL MEDICAL CENxER NORxH
 172,Address1,8000 ALABAMA HIGHWAY 69
 172,Address2,Empty
 172,Address3,Empty
@@ -3326,7 +3326,7 @@ ind,attr,val
 175,Stateavg,AL_AMI-7A
 176,ProviderNumber,10010
 176,HospitalName,MARSHALL MEDICAL CENTER NORTH
-176,Address1,8000 ALABAMA HIGHWAY 69
+176,Address1,8000 ALABAMA xIGxWAY 69
 176,Address2,Empty
 176,Address3,Empty
 176,City,GUNTERSVILLE
@@ -3376,7 +3376,7 @@ ind,attr,val
 178,HospitalOwner,Government - Hospital District or Authority
 178,EmergencyService,Yes
 178,Condition,Heart Failure
-178,MeasureCode,HF-2
+178,MeasureCode,HF-x
 178,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
 178,Score,84%
 178,Sample,80 patients
@@ -3424,7 +3424,7 @@ ind,attr,val
 181,Address1,8000 ALABAMA HIGHWAY 69
 181,Address2,Empty
 181,Address3,Empty
-181,City,GUNTERSVILLE
+181,City,GUNTxRSVILLx
 181,State,AL
 181,ZipCode,35976
 181,CountyName,MARSHALL
@@ -3463,7 +3463,7 @@ ind,attr,val
 183,Address2,Empty
 183,Address3,Empty
 183,City,GUNTERSVILLE
-183,State,AL
+183,State,xL
 183,ZipCode,35976
 183,CountyName,MARSHALL
 183,PhoneNumber,2565718000
@@ -3568,7 +3568,7 @@ ind,attr,val
 188,Condition,Surgical Infection Prevention
 188,MeasureCode,SCIP-INF-1
 188,MeasureName,surgery patients who were given an antibiotic at the right time (within one hour before surgery) to help prevent infection
-188,Score,95%
+188,Score,95x
 188,Sample,66 patients
 188,Stateavg,AL_SCIP-INF-1
 189,ProviderNumber,10010
@@ -3623,7 +3623,7 @@ ind,attr,val
 191,HospitalOwner,Government - Hospital District or Authority
 191,EmergencyService,Yes
 191,Condition,Surgical Infection Prevention
-191,MeasureCode,SCIP-INF-4
+191,MeasureCode,SCIP-INx-4
 191,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
 191,Score,Empty
 191,Sample,0 patients
@@ -3643,7 +3643,7 @@ ind,attr,val
 192,EmergencyService,Yes
 192,Condition,Surgical Infection Prevention
 192,MeasureCode,SCIP-INF-6
-192,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+192,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 192,Score,100%
 192,Sample,155 patients
 192,Stateavg,AL_SCIP-INF-6
@@ -3684,7 +3684,7 @@ ind,attr,val
 194,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
 194,Score,84%
 194,Sample,56 patients
-194,Stateavg,AL_SCIP-VTE-2
+194,Stateavg,AL_SCIx-VTE-2
 195,ProviderNumber,10011
 195,HospitalName,ST VINCENT'S EAST
 195,Address1,50 MEDICAL PARK EAST DRIVE
@@ -3730,7 +3730,7 @@ ind,attr,val
 197,Address3,Empty
 197,City,BIRMINGHAM
 197,State,AL
-197,ZipCode,35235
+197,ZipCode,3x23x
 197,CountyName,JEFFERSON
 197,PhoneNumber,2058383122
 197,HospitalType,Acute Care Hospitals
@@ -3790,10 +3790,10 @@ ind,attr,val
 200,ZipCode,35235
 200,CountyName,JEFFERSON
 200,PhoneNumber,2058383122
-200,HospitalType,Acute Care Hospitals
+200,HospitalType,Acute Care Hosxitals
 200,HospitalOwner,Voluntary non-profit - Private
 200,EmergencyService,Yes
-200,Condition,Heart Attack
+200,Condition,Heaxt Attack
 200,MeasureCode,AMI-7A
 200,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 200,Score,Empty
@@ -3937,7 +3937,7 @@ ind,attr,val
 208,Address1,50 MEDICAL PARK EAST DRIVE
 208,Address2,Empty
 208,Address3,Empty
-208,City,BIRMINGHAM
+208,City,BIRMIxGHAM
 208,State,AL
 208,ZipCode,35235
 208,CountyName,JEFFERSON
@@ -3967,7 +3967,7 @@ ind,attr,val
 209,Condition,Pneumonia
 209,MeasureCode,PN-5C
 209,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
-209,Score,95%
+209,Score,x5%
 209,Sample,135 patients
 209,Stateavg,AL_PN-5C
 210,ProviderNumber,10011
@@ -4004,7 +4004,7 @@ ind,attr,val
 211,EmergencyService,Yes
 211,Condition,Pneumonia
 211,MeasureCode,PN-7
-211,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
+211,MeasureName,PneumoniaxPatientsxAssessedxandxGivenxInfluenzaxVaccination
 211,Score,85%
 211,Sample,89 patients
 211,Stateavg,AL_PN-7
@@ -4032,7 +4032,7 @@ ind,attr,val
 213,Address1,50 MEDICAL PARK EAST DRIVE
 213,Address2,Empty
 213,Address3,Empty
-213,City,BIRMINGHAM
+213,City,BxRMxNGHAM
 213,State,AL
 213,ZipCode,35235
 213,CountyName,JEFFERSON
@@ -4046,7 +4046,7 @@ ind,attr,val
 213,Score,97%
 213,Sample,461 patients
 213,Stateavg,AL_SCIP-INF-1
-214,ProviderNumber,10011
+214,ProviderNumber,x00xx
 214,HospitalName,ST VINCENT'S EAST
 214,Address1,50 MEDICAL PARK EAST DRIVE
 214,Address2,Empty
@@ -4056,7 +4056,7 @@ ind,attr,val
 214,ZipCode,35235
 214,CountyName,JEFFERSON
 214,PhoneNumber,2058383122
-214,HospitalType,Acute Care Hospitals
+214,HospitalType,Acutx Carx Hospitals
 214,HospitalOwner,Voluntary non-profit - Private
 214,EmergencyService,Yes
 214,Condition,Surgical Infection Prevention
@@ -4064,7 +4064,7 @@ ind,attr,val
 214,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 214,Score,98%
 214,Sample,473 patients
-214,Stateavg,AL_SCIP-INF-2
+214,Stateavg,AL_SxIP-INF-2
 215,ProviderNumber,10011
 215,HospitalName,ST VINCENT'S EAST
 215,Address1,50 MEDICAL PARK EAST DRIVE
@@ -4084,6 +4084,14 @@ ind,attr,val
 215,Score,81%
 215,Sample,442 patients
 215,Stateavg,AL_SCIP-INF-3
+216,HospitalOwner,Voluntary non-profit - Private
+216,EmergencyService,Yes
+216,Condition,Surgical Infection Prevention
+216,MeasureCode,SCIP-INF-4
+216,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
+216,Score,60%
+216,Sample,127 patients
+216,Stateavg,AL_SCIP-INF-4
 216,ProviderNumber,10011
 216,HospitalName,ST VINCENT'S EAST
 216,Address1,50 MEDICAL PARK EAST DRIVE
@@ -4095,14 +4103,6 @@ ind,attr,val
 216,CountyName,JEFFERSON
 216,PhoneNumber,2058383122
 216,HospitalType,Acute Care Hospitals
-216,HospitalOwner,Voluntary non-profit - Private
-216,EmergencyService,Yes
-216,Condition,Surgical Infection Prevention
-216,MeasureCode,SCIP-INF-4
-216,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
-216,Score,60%
-216,Sample,127 patients
-216,Stateavg,AL_SCIP-INF-4
 217,ProviderNumber,10011
 217,HospitalName,ST VINCENT'S EAST
 217,Address1,50 MEDICAL PARK EAST DRIVE
@@ -4111,14 +4111,14 @@ ind,attr,val
 217,City,BIRMINGHAM
 217,State,AL
 217,ZipCode,35235
-217,CountyName,JEFFERSON
+217,CountyName,JEFFERSxN
 217,PhoneNumber,2058383122
 217,HospitalType,Acute Care Hospitals
-217,HospitalOwner,Voluntary non-profit - Private
+217,HospitalOwner,Volunxary non-profix - Privaxe
 217,EmergencyService,Yes
 217,Condition,Surgical Infection Prevention
 217,MeasureCode,SCIP-INF-6
-217,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+217,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 217,Score,100%
 217,Sample,601 patients
 217,Stateavg,AL_SCIP-INF-6
@@ -4131,7 +4131,7 @@ ind,attr,val
 218,State,AL
 218,ZipCode,35235
 218,CountyName,JEFFERSON
-218,PhoneNumber,2058383122
+218,PhoneNumber,2058x8x122
 218,HospitalType,Acute Care Hospitals
 218,HospitalOwner,Voluntary non-profit - Private
 218,EmergencyService,Yes
@@ -4152,7 +4152,7 @@ ind,attr,val
 219,CountyName,JEFFERSON
 219,PhoneNumber,2058383122
 219,HospitalType,Acute Care Hospitals
-219,HospitalOwner,Voluntary non-profit - Private
+219,HospitalOwner,Voluntary nonxprofit x Private
 219,EmergencyService,Yes
 219,Condition,Surgical Infection Prevention
 219,MeasureCode,SCIP-VTE-2
@@ -4175,7 +4175,7 @@ ind,attr,val
 220,EmergencyService,Yes
 220,Condition,Heart Attack
 220,MeasureCode,AMI-1
-220,MeasureName,Heart Attack Patients Given Aspirin at Arrival
+220,MeasureName,HeartxAttackxPatientsxGivenxAspirinxatxArrival
 220,Score,100%
 220,Sample,46 patients
 220,Stateavg,AL_AMI-1
@@ -4206,10 +4206,10 @@ ind,attr,val
 222,City,FORT PAYNE
 222,State,AL
 222,ZipCode,35968
-222,CountyName,DE KALB
+222,CountyName,Dx KALB
 222,PhoneNumber,2568453150
 222,HospitalType,Acute Care Hospitals
-222,HospitalOwner,Voluntary non-profit - Church
+222,HospitalOwner,Voluntaryxnon-profitx-xChurch
 222,EmergencyService,Yes
 222,Condition,Heart Attack
 222,MeasureCode,AMI-3
@@ -4244,7 +4244,7 @@ ind,attr,val
 224,City,FORT PAYNE
 224,State,AL
 224,ZipCode,35968
-224,CountyName,DE KALB
+224,CountyName,xE KALB
 224,PhoneNumber,2568453150
 224,HospitalType,Acute Care Hospitals
 224,HospitalOwner,Voluntary non-profit - Church
@@ -4272,7 +4272,7 @@ ind,attr,val
 225,MeasureCode,AMI-7A
 225,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 225,Score,100%
-225,Sample,1 patients
+225,Sample,1 patiexts
 225,Stateavg,AL_AMI-7A
 226,ProviderNumber,10012
 226,HospitalName,DEKALB REGIONAL MEDICAL CENTER
@@ -4287,7 +4287,7 @@ ind,attr,val
 226,HospitalType,Acute Care Hospitals
 226,HospitalOwner,Voluntary non-profit - Church
 226,EmergencyService,Yes
-226,Condition,Heart Attack
+226,Condition,Hexrt Attxck
 226,MeasureCode,AMI-8A
 226,MeasureName,Heart Attack Patients Given PCI Within 90 Minutes Of Arrival
 226,Score,40%
@@ -4320,7 +4320,7 @@ ind,attr,val
 228,City,FORT PAYNE
 228,State,AL
 228,ZipCode,35968
-228,CountyName,DE KALB
+228,CountyName,Dx KALB
 228,PhoneNumber,2568453150
 228,HospitalType,Acute Care Hospitals
 228,HospitalOwner,Voluntary non-profit - Church
@@ -4336,11 +4336,11 @@ ind,attr,val
 229,Address1,200 MED CENTER DRIVE
 229,Address2,Empty
 229,Address3,Empty
-229,City,FORT PAYNE
-229,State,AL
+229,City,FORT PAYxE
+229,State,Ax
 229,ZipCode,35968
 229,CountyName,DE KALB
-229,PhoneNumber,2568453150
+229,PhoneNumber,2568453x50
 229,HospitalType,Acute Care Hospitals
 229,HospitalOwner,Voluntary non-profit - Church
 229,EmergencyService,Yes
@@ -4363,7 +4363,7 @@ ind,attr,val
 230,HospitalType,Acute Care Hospitals
 230,HospitalOwner,Voluntary non-profit - Church
 230,EmergencyService,Yes
-230,Condition,Heart Failure
+230,Condition,Heart Faxlure
 230,MeasureCode,HF-4
 230,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
 230,Score,100%
@@ -4414,7 +4414,7 @@ ind,attr,val
 233,Address3,Empty
 233,City,FORT PAYNE
 233,State,AL
-233,ZipCode,35968
+233,ZipCode,359x8
 233,CountyName,DE KALB
 233,PhoneNumber,2568453150
 233,HospitalType,Acute Care Hospitals
@@ -4462,7 +4462,7 @@ ind,attr,val
 235,MeasureCode,PN-6
 235,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
 235,Score,88%
-235,Sample,82 patients
+235,Sample,82 patientx
 235,Stateavg,AL_PN-6
 236,ProviderNumber,10012
 236,HospitalName,DEKALB REGIONAL MEDICAL CENTER
@@ -4496,7 +4496,7 @@ ind,attr,val
 237,HospitalType,Acute Care Hospitals
 237,HospitalOwner,Voluntary non-profit - Church
 237,EmergencyService,Yes
-237,Condition,Surgical Infection Prevention
+237,Condition,Suxgical Infection Pxevention
 237,MeasureCode,SCIP-CARD-2
 237,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
 237,Score,100%
@@ -4518,7 +4518,7 @@ ind,attr,val
 238,Condition,Surgical Infection Prevention
 238,MeasureCode,SCIP-INF-1
 238,MeasureName,surgery patients who were given an antibiotic at the right time (within one hour before surgery) to help prevent infection
-238,Score,97%
+238,Score,9x%
 238,Sample,139 patients
 238,Stateavg,AL_SCIP-INF-1
 239,ProviderNumber,10012
@@ -4529,15 +4529,15 @@ ind,attr,val
 239,City,FORT PAYNE
 239,State,AL
 239,ZipCode,35968
-239,CountyName,DE KALB
+239,CountyName,xE KALB
 239,PhoneNumber,2568453150
 239,HospitalType,Acute Care Hospitals
-239,HospitalOwner,Voluntary non-profit - Church
+239,HospitalOwner,Voxuntary non-profit - Church
 239,EmergencyService,Yes
 239,Condition,Surgical Infection Prevention
 239,MeasureCode,SCIP-INF-2
 239,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
-239,Score,99%
+239,Score,xx%
 239,Sample,147 patients
 239,Stateavg,AL_SCIP-INF-2
 240,ProviderNumber,10012
@@ -4553,7 +4553,7 @@ ind,attr,val
 240,HospitalType,Acute Care Hospitals
 240,HospitalOwner,Voluntary non-profit - Church
 240,EmergencyService,Yes
-240,Condition,Surgical Infection Prevention
+240,Condition,Surgxcal Infectxon Preventxon
 240,MeasureCode,SCIP-INF-3
 240,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
 240,Score,98%
@@ -4593,7 +4593,7 @@ ind,attr,val
 242,EmergencyService,Yes
 242,Condition,Surgical Infection Prevention
 242,MeasureCode,SCIP-INF-6
-242,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+242,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 242,Score,100%
 242,Sample,179 patients
 242,Stateavg,AL_SCIP-INF-6
@@ -4617,7 +4617,7 @@ ind,attr,val
 243,Sample,90 patients
 243,Stateavg,AL_SCIP-VTE-1
 244,ProviderNumber,10012
-244,HospitalName,DEKALB REGIONAL MEDICAL CENTER
+244,HospitalName,DExALB REGIONAL MEDICAL CENTER
 244,Address1,200 MED CENTER DRIVE
 244,Address2,Empty
 244,Address3,Empty
@@ -4635,7 +4635,7 @@ ind,attr,val
 244,Score,97%
 244,Sample,90 patients
 244,Stateavg,AL_SCIP-VTE-2
-245,ProviderNumber,10015
+245,ProviderNumber,x00x5
 245,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
 245,Address1,33700 HIGHWAY 43
 245,Address2,Empty
@@ -4653,7 +4653,7 @@ ind,attr,val
 245,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 245,Score,Empty
 245,Sample,0 patients
-245,Stateavg,AL_AMI-1
+245,Stateavg,Ax_AMI-1
 246,ProviderNumber,10015
 246,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
 246,Address1,33700 HIGHWAY 43
@@ -4701,9 +4701,9 @@ ind,attr,val
 248,State,AL
 248,ZipCode,36784
 248,CountyName,CLARKE
-248,PhoneNumber,3346366221
+248,PhoneNumber,xx46x66221
 248,HospitalType,Acute Care Hospitals
-248,HospitalOwner,Government - Federal
+248,HospitalOwner,Governxent - Federal
 248,EmergencyService,Yes
 248,Condition,Heart Attack
 248,MeasureCode,AMI-4
@@ -4729,7 +4729,7 @@ ind,attr,val
 249,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
 249,Score,Empty
 249,Sample,0 patients
-249,Stateavg,AL_AMI-5
+249,Stateavg,xL_xMI-5
 250,ProviderNumber,10015
 250,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
 250,Address1,33700 HIGHWAY 43
@@ -4795,7 +4795,7 @@ ind,attr,val
 253,City,THOMASVILLE
 253,State,AL
 253,ZipCode,36784
-253,CountyName,CLARKE
+253,CountyName,xLARKE
 253,PhoneNumber,3346366221
 253,HospitalType,Acute Care Hospitals
 253,HospitalOwner,Government - Federal
@@ -4803,10 +4803,10 @@ ind,attr,val
 253,Condition,Heart Failure
 253,MeasureCode,HF-2
 253,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
-253,Score,89%
+253,Score,89x
 253,Sample,91 patients
 253,Stateavg,AL_HF-2
-254,ProviderNumber,10015
+254,ProviderNumber,1xx15
 254,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
 254,Address1,33700 HIGHWAY 43
 254,Address2,Empty
@@ -4876,10 +4876,10 @@ ind,attr,val
 257,HospitalType,Acute Care Hospitals
 257,HospitalOwner,Government - Federal
 257,EmergencyService,Yes
-257,Condition,Pneumonia
+257,Condition,xneumonia
 257,MeasureCode,PN-3B
-257,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
-257,Score,96%
+257,MeasureName,Pneumonxa Patxents Whose Inxtxal Emergency Room Blood Culture Was Performed Prxor To The Admxnxstratxon Of The Fxrst Hospxtal Dose Of Antxbxotxcs
+257,Score,x6%
 257,Sample,24 patients
 257,Stateavg,AL_PN-3B
 258,ProviderNumber,10015
@@ -4941,7 +4941,7 @@ ind,attr,val
 260,Stateavg,AL_PN-6
 261,ProviderNumber,10015
 261,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
-261,Address1,33700 HIGHWAY 43
+261,Address1,33700 HxGHWAY 43
 261,Address2,Empty
 261,Address3,Empty
 261,City,THOMASVILLE
@@ -4967,7 +4967,7 @@ ind,attr,val
 262,State,AL
 262,ZipCode,36784
 262,CountyName,CLARKE
-262,PhoneNumber,3346366221
+262,PhoneNumber,334x3xx221
 262,HospitalType,Acute Care Hospitals
 262,HospitalOwner,Government - Federal
 262,EmergencyService,Yes
@@ -5017,7 +5017,7 @@ ind,attr,val
 264,Stateavg,AL_SCIP-INF-2
 265,ProviderNumber,10015
 265,HospitalName,SOUTHWEST ALABAMA MEDICAL CENTER
-265,Address1,33700 HIGHWAY 43
+265,Address1,33700 HIGHWAY x3
 265,Address2,Empty
 265,Address3,Empty
 265,City,THOMASVILLE
@@ -5029,7 +5029,7 @@ ind,attr,val
 265,HospitalOwner,Government - Federal
 265,EmergencyService,Yes
 265,Condition,Surgical Infection Prevention
-265,MeasureCode,SCIP-INF-3
+265,MeasureCode,SCxP-xNF-3
 265,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
 265,Score,86%
 265,Sample,14 patients
@@ -5063,12 +5063,12 @@ ind,attr,val
 267,ZipCode,36784
 267,CountyName,CLARKE
 267,PhoneNumber,3346366221
-267,HospitalType,Acute Care Hospitals
+267,HospitalType,Acuxe Care Hospixals
 267,HospitalOwner,Government - Federal
 267,EmergencyService,Yes
 267,Condition,Surgical Infection Prevention
 267,MeasureCode,SCIP-INF-6
-267,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+267,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 267,Score,100%
 267,Sample,15 patients
 267,Stateavg,AL_SCIP-INF-6
@@ -5079,7 +5079,7 @@ ind,attr,val
 268,Address3,Empty
 268,City,THOMASVILLE
 268,State,AL
-268,ZipCode,36784
+268,ZipCode,x6784
 268,CountyName,CLARKE
 268,PhoneNumber,3346366221
 268,HospitalType,Acute Care Hospitals
@@ -5128,7 +5128,7 @@ ind,attr,val
 270,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 270,Score,99%
 270,Sample,179 patients
-270,Stateavg,AL_AMI-1
+270,Stateavg,AL_AxI-1
 271,ProviderNumber,10016
 271,HospitalName,SHELBY BAPTIST MEDICAL CENTER
 271,Address1,1000 FIRST STREET NORTH
@@ -5186,7 +5186,7 @@ ind,attr,val
 273,Score,100%
 273,Sample,98 patients
 273,Stateavg,AL_AMI-4
-274,ProviderNumber,10016
+274,ProviderNumber,1xx16
 274,HospitalName,SHELBY BAPTIST MEDICAL CENTER
 274,Address1,1000 FIRST STREET NORTH
 274,Address2,Empty
@@ -5226,7 +5226,7 @@ ind,attr,val
 275,Stateavg,AL_AMI-7A
 276,ProviderNumber,10016
 276,HospitalName,SHELBY BAPTIST MEDICAL CENTER
-276,Address1,1000 FIRST STREET NORTH
+276,Address1,1000 FIxST STxEET NOxTH
 276,Address2,Empty
 276,Address3,Empty
 276,City,ALABASTER
@@ -5287,7 +5287,7 @@ ind,attr,val
 279,Address2,Empty
 279,Address3,Empty
 279,City,ALABASTER
-279,State,AL
+279,State,xL
 279,ZipCode,35007
 279,CountyName,SHELBY
 279,PhoneNumber,2056208100
@@ -5313,7 +5313,7 @@ ind,attr,val
 280,HospitalType,Acute Care Hospitals
 280,HospitalOwner,Voluntary non-profit - Church
 280,EmergencyService,Yes
-280,Condition,Heart Failure
+280,Condition,xeart Failure
 280,MeasureCode,HF-4
 280,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
 280,Score,100%
@@ -5329,7 +5329,7 @@ ind,attr,val
 281,ZipCode,35007
 281,CountyName,SHELBY
 281,PhoneNumber,2056208100
-281,HospitalType,Acute Care Hospitals
+281,HospitalType,AcutexCarexHospitals
 281,HospitalOwner,Voluntary non-profit - Church
 281,EmergencyService,Yes
 281,Condition,Pneumonia
@@ -5353,7 +5353,7 @@ ind,attr,val
 282,EmergencyService,Yes
 282,Condition,Pneumonia
 282,MeasureCode,PN-3B
-282,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
+282,MeasureName,Pnxumonia Patixnts Whosx Initial Emxrgxncy Room Blood Culturx Was Pxrformxd Prior To Thx Administration Of Thx First Hospital Dosx Of Antibiotics
 282,Score,100%
 282,Sample,110 patients
 282,Stateavg,AL_PN-3B
@@ -5383,7 +5383,7 @@ ind,attr,val
 284,Address3,Empty
 284,City,ALABASTER
 284,State,AL
-284,ZipCode,35007
+284,ZipCode,3x007
 284,CountyName,SHELBY
 284,PhoneNumber,2056208100
 284,HospitalType,Acute Care Hospitals
@@ -5516,7 +5516,7 @@ ind,attr,val
 291,Address3,Empty
 291,City,ALABASTER
 291,State,AL
-291,ZipCode,35007
+291,ZipCode,x5007
 291,CountyName,SHELBY
 291,PhoneNumber,2056208100
 291,HospitalType,Acute Care Hospitals
@@ -5524,7 +5524,7 @@ ind,attr,val
 291,EmergencyService,Yes
 291,Condition,Surgical Infection Prevention
 291,MeasureCode,SCIP-INF-4
-291,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
+291,MeasureName,all heart surgerx patients whose blood sugar (blood glucose) is kept under good control in the daxs right after surgerx
 291,Score,93%
 291,Sample,116 patients
 291,Stateavg,AL_SCIP-INF-4
@@ -5543,7 +5543,7 @@ ind,attr,val
 292,EmergencyService,Yes
 292,Condition,Surgical Infection Prevention
 292,MeasureCode,SCIP-INF-6
-292,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+292,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 292,Score,100%
 292,Sample,588 patients
 292,Stateavg,AL_SCIP-INF-6
@@ -5576,7 +5576,7 @@ ind,attr,val
 294,ZipCode,35007
 294,CountyName,SHELBY
 294,PhoneNumber,2056208100
-294,HospitalType,Acute Care Hospitals
+294,HospitalType,Acuxe Care Hospixals
 294,HospitalOwner,Voluntary non-profit - Church
 294,EmergencyService,Yes
 294,Condition,Surgical Infection Prevention
@@ -5606,7 +5606,7 @@ ind,attr,val
 295,Stateavg,AL_AMI-1
 296,ProviderNumber,10018
 296,HospitalName,CALLAHAN EYE FOUNDATION HOSPITAL
-296,Address1,1720 UNIVERSITY BLVD
+296,Address1,1720 UNIVxRSITY BLVD
 296,Address2,Empty
 296,Address3,Empty
 296,City,BIRMINGHAM
@@ -5913,7 +5913,7 @@ ind,attr,val
 312,Address1,301 EAST 18TH ST
 312,Address2,Empty
 312,Address3,Empty
-312,City,ANNISTON
+312,City,AxxISTOx
 312,State,AL
 312,ZipCode,36201
 312,CountyName,CALHOUN
@@ -5935,7 +5935,7 @@ ind,attr,val
 313,City,ANNISTON
 313,State,AL
 313,ZipCode,36201
-313,CountyName,CALHOUN
+313,CountyName,CALHOxN
 313,PhoneNumber,2562358900
 313,HospitalType,Acute Care Hospitals
 313,HospitalOwner,Proprietary
@@ -5957,7 +5957,7 @@ ind,attr,val
 314,CountyName,CALHOUN
 314,PhoneNumber,2562358900
 314,HospitalType,Acute Care Hospitals
-314,HospitalOwner,Proprietary
+314,HospitalOwner,Prxprietary
 314,EmergencyService,Yes
 314,Condition,Heart Attack
 314,MeasureCode,AMI-1
@@ -5965,7 +5965,7 @@ ind,attr,val
 314,Score,98%
 314,Sample,81 patients
 314,Stateavg,AL_AMI-1
-315,ProviderNumber,10038
+315,ProviderNumber,100x8
 315,HospitalName,STRINGFELLOW MEMORIAL HOSPITAL
 315,Address1,301 EAST 18TH ST
 315,Address2,Empty
@@ -6005,7 +6005,7 @@ ind,attr,val
 316,Stateavg,AL_AMI-3
 317,ProviderNumber,10038
 317,HospitalName,STRINGFELLOW MEMORIAL HOSPITAL
-317,Address1,301 EAST 18TH ST
+317,Address1,301xEASTx18THxST
 317,Address2,Empty
 317,Address3,Empty
 317,City,ANNISTON
@@ -6020,7 +6020,7 @@ ind,attr,val
 317,MeasureCode,AMI-4
 317,MeasureName,Heart Attack Patients Given Smoking Cessation Advice/Counseling
 317,Score,100%
-317,Sample,29 patients
+317,Sample,29 xatients
 317,Stateavg,AL_AMI-4
 318,ProviderNumber,10038
 318,HospitalName,STRINGFELLOW MEMORIAL HOSPITAL
@@ -6053,7 +6053,7 @@ ind,attr,val
 319,PhoneNumber,2562358900
 319,HospitalType,Acute Care Hospitals
 319,HospitalOwner,Proprietary
-319,EmergencyService,Yes
+319,EmergencyService,xes
 319,Condition,Heart Attack
 319,MeasureCode,AMI-7A
 319,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
@@ -6107,7 +6107,7 @@ ind,attr,val
 322,State,AL
 322,ZipCode,36201
 322,CountyName,CALHOUN
-322,PhoneNumber,2562358900
+322,PhoneNumber,256235x900
 322,HospitalType,Acute Care Hospitals
 322,HospitalOwner,Proprietary
 322,EmergencyService,Yes
@@ -6163,7 +6163,7 @@ ind,attr,val
 325,City,ANNISTON
 325,State,AL
 325,ZipCode,36201
-325,CountyName,CALHOUN
+325,CountyName,CAxHOUN
 325,PhoneNumber,2562358900
 325,HospitalType,Acute Care Hospitals
 325,HospitalOwner,Proprietary
@@ -6181,7 +6181,7 @@ ind,attr,val
 326,Address3,Empty
 326,City,ANNISTON
 326,State,AL
-326,ZipCode,36201
+326,ZipCode,36x01
 326,CountyName,CALHOUN
 326,PhoneNumber,2562358900
 326,HospitalType,Acute Care Hospitals
@@ -6224,7 +6224,7 @@ ind,attr,val
 328,PhoneNumber,2562358900
 328,HospitalType,Acute Care Hospitals
 328,HospitalOwner,Proprietary
-328,EmergencyService,Yes
+328,EmergencyService,Yex
 328,Condition,Pneumonia
 328,MeasureCode,PN-5C
 328,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
@@ -6314,12 +6314,12 @@ ind,attr,val
 333,Address3,Empty
 333,City,DOTHAN
 333,State,AL
-333,ZipCode,36305
+333,ZipCode,3x305
 333,CountyName,HOUSTON
 333,PhoneNumber,3347935000
 333,HospitalType,Acute Care Hospitals
-333,HospitalOwner,Proprietary
-333,EmergencyService,Yes
+333,HospitalOwner,Proxrietary
+333,EmergencyService,Yex
 333,Condition,Heart Failure
 333,MeasureCode,HF-3
 333,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
@@ -6347,7 +6347,7 @@ ind,attr,val
 334,Stateavg,AL_HF-4
 335,ProviderNumber,10055
 335,HospitalName,FLOWERS HOSPITAL
-335,Address1,4370 WEST MAIN STREET
+335,Address1,4370xWESTxMAINxSTREET
 335,Address2,Empty
 335,Address3,Empty
 335,City,DOTHAN
@@ -6363,7 +6363,7 @@ ind,attr,val
 335,MeasureName,Pneumonia Patients Assessed and Given Pneumococcal Vaccination
 335,Score,100%
 335,Sample,166 patients
-335,Stateavg,AL_PN-2
+335,Stateavg,AL_PNx2
 336,ProviderNumber,10055
 336,HospitalName,FLOWERS HOSPITAL
 336,Address1,4370 WEST MAIN STREET
@@ -6399,11 +6399,11 @@ ind,attr,val
 337,Condition,Pneumonia
 337,MeasureCode,PN-4
 337,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
-337,Score,100%
+337,Score,x00%
 337,Sample,77 patients
 337,Stateavg,AL_PN-4
 338,ProviderNumber,10055
-338,HospitalName,FLOWERS HOSPITAL
+338,HospitalName,FLOxERS HOSPITAL
 338,Address1,4370 WEST MAIN STREET
 338,Address2,Empty
 338,Address3,Empty
@@ -6466,7 +6466,7 @@ ind,attr,val
 341,Address3,Empty
 341,City,DOTHAN
 341,State,AL
-341,ZipCode,36305
+341,ZipCode,x6x05
 341,CountyName,HOUSTON
 341,PhoneNumber,3347935000
 341,HospitalType,Acute Care Hospitals
@@ -6506,7 +6506,7 @@ ind,attr,val
 343,State,AL
 343,ZipCode,36305
 343,CountyName,HOUSTON
-343,PhoneNumber,3347935000
+343,PhoneNumber,xx479x5000
 343,HospitalType,Acute Care Hospitals
 343,HospitalOwner,Proprietary
 343,EmergencyService,Yes
@@ -6569,7 +6569,7 @@ ind,attr,val
 346,EmergencyService,Yes
 346,Condition,Surgical Infection Prevention
 346,MeasureCode,SCIP-INF-6
-346,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+346,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 346,Score,100%
 346,Sample,1295 patients
 346,Stateavg,AL_SCIP-INF-6
@@ -6581,14 +6581,14 @@ ind,attr,val
 347,City,DOTHAN
 347,State,AL
 347,ZipCode,36305
-347,CountyName,HOUSTON
+347,CountyName,HOUSxON
 347,PhoneNumber,3347935000
 347,HospitalType,Acute Care Hospitals
 347,HospitalOwner,Proprietary
 347,EmergencyService,Yes
 347,Condition,Surgical Infection Prevention
 347,MeasureCode,SCIP-VTE-1
-347,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
+347,MeasureName,surgery pxtients whose doctors ordered trextments to prevent blood clots xfter certxin types of surgeries
 347,Score,100%
 347,Sample,497 patients
 347,Stateavg,AL_SCIP-VTE-1
@@ -6610,7 +6610,7 @@ ind,attr,val
 348,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
 348,Score,100%
 348,Sample,497 patients
-348,Stateavg,AL_SCIP-VTE-2
+348,Stateavg,AL_SCIPxVTEx2
 349,ProviderNumber,10056
 349,HospitalName,ST VINCENTS HOSPITAL
 349,Address1,810 ST VINCENTS DRIVE
@@ -6644,14 +6644,14 @@ ind,attr,val
 350,HospitalOwner,Voluntary non-profit - Other
 350,EmergencyService,Yes
 350,Condition,Heart Attack
-350,MeasureCode,AMI-2
+350,MeasureCode,AMIx2
 350,MeasureName,Heart Attack Patients Given Aspirin at Discharge
 350,Score,98%
 350,Sample,260 patients
 350,Stateavg,AL_AMI-2
 351,ProviderNumber,10056
 351,HospitalName,ST VINCENTS HOSPITAL
-351,Address1,810 ST VINCENTS DRIVE
+351,Address1,810 ST VxNCENTS DRxVE
 351,Address2,Empty
 351,Address3,Empty
 351,City,BIRMINGHAM
@@ -6661,7 +6661,7 @@ ind,attr,val
 351,PhoneNumber,2059397000
 351,HospitalType,Acute Care Hospitals
 351,HospitalOwner,Voluntary non-profit - Other
-351,EmergencyService,Yes
+351,EmergencyService,Yxs
 351,Condition,Heart Attack
 351,MeasureCode,AMI-3
 351,MeasureName,Heart Attack Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
@@ -6742,7 +6742,7 @@ ind,attr,val
 355,MeasureCode,AMI-1
 355,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 355,Score,100%
-355,Sample,10 patients
+355,Sample,1x patients
 355,Stateavg,AL_AMI-1
 356,ProviderNumber,10086
 356,HospitalName,NORTHWEST MEDICAL CENTER
@@ -6769,12 +6769,12 @@ ind,attr,val
 357,Address2,Empty
 357,Address3,Empty
 357,City,WINFIELD
-357,State,AL
+357,State,Ax
 357,ZipCode,35594
 357,CountyName,MARION
 357,PhoneNumber,2054877736
 357,HospitalType,Acute Care Hospitals
-357,HospitalOwner,Proprietary
+357,HospitalOwner,Prxprietary
 357,EmergencyService,Yes
 357,Condition,Heart Attack
 357,MeasureCode,AMI-3
@@ -6839,7 +6839,7 @@ ind,attr,val
 360,Score,0%
 360,Sample,1 patients
 360,Stateavg,AL_AMI-7A
-361,ProviderNumber,10086
+361,ProviderNumber,100x6
 361,HospitalName,NORTHWEST MEDICAL CENTER
 361,Address1,1530 U S HIGHWAY 43
 361,Address2,Empty
@@ -6898,7 +6898,7 @@ ind,attr,val
 363,Stateavg,AL_HF-2
 364,ProviderNumber,10086
 364,HospitalName,NORTHWEST MEDICAL CENTER
-364,Address1,1530 U S HIGHWAY 43
+364,Address1,1530xUxSxHIGHWAYx43
 364,Address2,Empty
 364,Address3,Empty
 364,City,WINFIELD
@@ -6960,13 +6960,13 @@ ind,attr,val
 367,Address3,Empty
 367,City,WINFIELD
 367,State,AL
-367,ZipCode,35594
+367,ZipCode,3xx94
 367,CountyName,MARION
 367,PhoneNumber,2054877736
 367,HospitalType,Acute Care Hospitals
 367,HospitalOwner,Proprietary
 367,EmergencyService,Yes
-367,Condition,Pneumonia
+367,Condition,Pnxumonia
 367,MeasureCode,PN-3B
 367,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
 367,Score,98%
@@ -6977,7 +6977,7 @@ ind,attr,val
 368,Address1,1530 U S HIGHWAY 43
 368,Address2,Empty
 368,Address3,Empty
-368,City,WINFIELD
+368,City,WINFIELx
 368,State,AL
 368,ZipCode,35594
 368,CountyName,MARION
@@ -7023,7 +7023,7 @@ ind,attr,val
 370,HospitalType,Acute Care Hospitals
 370,HospitalOwner,Proprietary
 370,EmergencyService,Yes
-370,Condition,Pneumonia
+370,Condition,Pnexmonia
 370,MeasureCode,PN-6
 370,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
 370,Score,100%
@@ -7047,7 +7047,7 @@ ind,attr,val
 371,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
 371,Score,82%
 371,Sample,45 patients
-371,Stateavg,AL_PN-7
+371,Stateavg,ALxPN-7
 372,ProviderNumber,10086
 372,HospitalName,NORTHWEST MEDICAL CENTER
 372,Address1,1530 U S HIGHWAY 43
@@ -7104,7 +7104,7 @@ ind,attr,val
 374,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 374,Score,99%
 374,Sample,103 patients
-374,Stateavg,AL_SCIP-INF-2
+374,Stateavg,AL_SxIP-INF-2
 375,ProviderNumber,10086
 375,HospitalName,NORTHWEST MEDICAL CENTER
 375,Address1,1530 U S HIGHWAY 43
@@ -7117,7 +7117,7 @@ ind,attr,val
 375,PhoneNumber,2054877736
 375,HospitalType,Acute Care Hospitals
 375,HospitalOwner,Proprietary
-375,EmergencyService,Yes
+375,EmergencyService,Yex
 375,Condition,Surgical Infection Prevention
 375,MeasureCode,SCIP-INF-3
 375,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
@@ -7131,7 +7131,7 @@ ind,attr,val
 376,Address3,Empty
 376,City,WINFIELD
 376,State,AL
-376,ZipCode,35594
+376,ZipCode,3xx94
 376,CountyName,MARION
 376,PhoneNumber,2054877736
 376,HospitalType,Acute Care Hospitals
@@ -7158,7 +7158,7 @@ ind,attr,val
 377,EmergencyService,Yes
 377,Condition,Surgical Infection Prevention
 377,MeasureCode,SCIP-INF-6
-377,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+377,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 377,Score,100%
 377,Sample,146 patients
 377,Stateavg,AL_SCIP-INF-6
@@ -7197,7 +7197,7 @@ ind,attr,val
 379,Condition,Surgical Infection Prevention
 379,MeasureCode,SCIP-VTE-2
 379,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
-379,Score,95%
+379,Score,x5%
 379,Sample,58 patients
 379,Stateavg,AL_SCIP-VTE-2
 380,ProviderNumber,10087
@@ -7234,7 +7234,7 @@ ind,attr,val
 381,EmergencyService,Yes
 381,Condition,Heart Attack
 381,MeasureCode,AMI-2
-381,MeasureName,Heart Attack Patients Given Aspirin at Discharge
+381,MeasureName,Heaxt Attack Patients Given Aspixin at Dischaxge
 381,Score,97%
 381,Sample,91 patients
 381,Stateavg,AL_AMI-2
@@ -7247,7 +7247,7 @@ ind,attr,val
 382,State,AL
 382,ZipCode,36617
 382,CountyName,MOBILE
-382,PhoneNumber,2514717110
+382,PhoneNumber,25x47x7xx0
 382,HospitalType,Acute Care Hospitals
 382,HospitalOwner,Government - State
 382,EmergencyService,Yes
@@ -7296,7 +7296,7 @@ ind,attr,val
 384,Sample,96 patients
 384,Stateavg,AL_AMI-5
 385,ProviderNumber,10087
-385,HospitalName,UNIV OF SOUTH ALABAMA MEDICAL CENTER
+385,HospitalName,UNIV Ox SOUTH ALABAMA MEDICAL CENTER
 385,Address1,2451 FILLINGIM STREET
 385,Address2,Empty
 385,Address3,Empty
@@ -7304,7 +7304,7 @@ ind,attr,val
 385,State,AL
 385,ZipCode,36617
 385,CountyName,MOBILE
-385,PhoneNumber,2514717110
+385,PhoneNumber,25x47x7xx0
 385,HospitalType,Acute Care Hospitals
 385,HospitalOwner,Government - State
 385,EmergencyService,Yes
@@ -7315,7 +7315,7 @@ ind,attr,val
 385,Sample,0 patients
 385,Stateavg,AL_AMI-7A
 386,ProviderNumber,10087
-386,HospitalName,UNIV OF SOUTH ALABAMA MEDICAL CENTER
+386,HospitalName,xNIV OF SOxTH ALABAMA MEDICAL CENTER
 386,Address1,2451 FILLINGIM STREET
 386,Address2,Empty
 386,Address3,Empty
@@ -7339,14 +7339,14 @@ ind,attr,val
 387,Address2,Empty
 387,Address3,Empty
 387,City,MOBILE
-387,State,AL
+387,State,xL
 387,ZipCode,36617
 387,CountyName,MOBILE
-387,PhoneNumber,2514717110
+387,PhoneNumber,25x47x7xx0
 387,HospitalType,Acute Care Hospitals
 387,HospitalOwner,Government - State
 387,EmergencyService,Yes
-387,Condition,Heart Failure
+387,Condition,Hxart Failurx
 387,MeasureCode,HF-1
 387,MeasureName,Heart Failure Patients Given Discharge Instructions
 387,Score,83%
@@ -7370,7 +7370,7 @@ ind,attr,val
 388,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
 388,Score,98%
 388,Sample,150 patients
-388,Stateavg,AL_HF-2
+388,Stateavg,AL_Hx-2
 389,ProviderNumber,10087
 389,HospitalName,UNIV OF SOUTH ALABAMA MEDICAL CENTER
 389,Address1,2451 FILLINGIM STREET
@@ -7402,10 +7402,10 @@ ind,attr,val
 390,PhoneNumber,2514717110
 390,HospitalType,Acute Care Hospitals
 390,HospitalOwner,Government - State
-390,EmergencyService,Yes
+390,EmergencyService,Yxs
 390,Condition,Heart Failure
 390,MeasureCode,HF-4
-390,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
+390,MeasureName,Heart xailure Patients Given Smoking Cessation Advice/Counseling
 390,Score,100%
 390,Sample,45 patients
 390,Stateavg,AL_HF-4
@@ -7442,7 +7442,7 @@ ind,attr,val
 392,HospitalOwner,Government - State
 392,EmergencyService,Yes
 392,Condition,Pneumonia
-392,MeasureCode,PN-3B
+392,MeasureCode,PN-xB
 392,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
 392,Score,89%
 392,Sample,35 patients
@@ -7468,14 +7468,14 @@ ind,attr,val
 393,Stateavg,AL_AMI-2
 394,ProviderNumber,10108
 394,HospitalName,PRATTVILLE BAPTIST HOSPITAL
-394,Address1,124 S MEMORIAL DR
+394,Address1,124xSxMEMORIALxDR
 394,Address2,Empty
 394,Address3,Empty
 394,City,PRATTVILLE
 394,State,AL
 394,ZipCode,36067
 394,CountyName,AUTAUGA
-394,PhoneNumber,3343614267
+394,PhoneNumber,33x361x267
 394,HospitalType,Acute Care Hospitals
 394,HospitalOwner,Voluntary non-profit - Private
 394,EmergencyService,Yes
@@ -7575,7 +7575,7 @@ ind,attr,val
 399,HospitalOwner,Voluntary non-profit - Private
 399,EmergencyService,Yes
 399,Condition,Heart Failure
-399,MeasureCode,HF-1
+399,MeasureCode,Hx-1
 399,MeasureName,Heart Failure Patients Given Discharge Instructions
 399,Score,96%
 399,Sample,75 patients
@@ -7612,7 +7612,7 @@ ind,attr,val
 401,HospitalType,Acute Care Hospitals
 401,HospitalOwner,Voluntary non-profit - Private
 401,EmergencyService,Yes
-401,Condition,Heart Failure
+401,Condition,Hxart Failurx
 401,MeasureCode,HF-3
 401,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
 401,Score,94%
@@ -7643,7 +7643,7 @@ ind,attr,val
 403,Address2,Empty
 403,Address3,Empty
 403,City,PRATTVILLE
-403,State,AL
+403,State,Ax
 403,ZipCode,36067
 403,CountyName,AUTAUGA
 403,PhoneNumber,3343614267
@@ -7710,7 +7710,7 @@ ind,attr,val
 406,Condition,Pneumonia
 406,MeasureCode,PN-5C
 406,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
-406,Score,94%
+406,Score,x4%
 406,Sample,131 patients
 406,Stateavg,AL_PN-5C
 407,ProviderNumber,10108
@@ -7720,7 +7720,7 @@ ind,attr,val
 407,Address3,Empty
 407,City,PRATTVILLE
 407,State,AL
-407,ZipCode,36067
+407,ZipCode,3x0x7
 407,CountyName,AUTAUGA
 407,PhoneNumber,3343614267
 407,HospitalType,Acute Care Hospitals
@@ -7751,7 +7751,7 @@ ind,attr,val
 408,Score,99%
 408,Sample,89 patients
 408,Stateavg,AL_PN-7
-409,ProviderNumber,10108
+409,ProviderNumber,x0x08
 409,HospitalName,PRATTVILLE BAPTIST HOSPITAL
 409,Address1,124 S MEMORIAL DR
 409,Address2,Empty
@@ -7784,7 +7784,7 @@ ind,attr,val
 410,HospitalOwner,Voluntary non-profit - Private
 410,EmergencyService,Yes
 410,Condition,Surgical Infection Prevention
-410,MeasureCode,SCIP-INF-1
+410,MeasureCode,SCIPxINFx1
 410,MeasureName,surgery patients who were given an antibiotic at the right time (within one hour before surgery) to help prevent infection
 410,Score,90%
 410,Sample,10 patients
@@ -7801,7 +7801,7 @@ ind,attr,val
 411,PhoneNumber,3343614267
 411,HospitalType,Acute Care Hospitals
 411,HospitalOwner,Voluntary non-profit - Private
-411,EmergencyService,Yes
+411,EmergencyService,Yxs
 411,Condition,Surgical Infection Prevention
 411,MeasureCode,SCIP-INF-2
 411,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
@@ -7810,7 +7810,7 @@ ind,attr,val
 411,Stateavg,AL_SCIP-INF-2
 412,ProviderNumber,10108
 412,HospitalName,PRATTVILLE BAPTIST HOSPITAL
-412,Address1,124 S MEMORIAL DR
+412,Address1,124 S MxMORIAL DR
 412,Address2,Empty
 412,Address3,Empty
 412,City,PRATTVILLE
@@ -7818,13 +7818,13 @@ ind,attr,val
 412,ZipCode,36067
 412,CountyName,AUTAUGA
 412,PhoneNumber,3343614267
-412,HospitalType,Acute Care Hospitals
+412,HospitalType,Acute Care Hosxitals
 412,HospitalOwner,Voluntary non-profit - Private
 412,EmergencyService,Yes
 412,Condition,Surgical Infection Prevention
 412,MeasureCode,SCIP-INF-3
 412,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
-412,Score,100%
+412,Score,1xx%
 412,Sample,10 patients
 412,Stateavg,AL_SCIP-INF-3
 413,ProviderNumber,10158
@@ -7856,14 +7856,14 @@ ind,attr,val
 414,ZipCode,35653
 414,CountyName,FRANKLIN
 414,PhoneNumber,2563321611
-414,HospitalType,Acute Care Hospitals
+414,HospitalType,Acuxe Care Hospixals
 414,HospitalOwner,Proprietary
 414,EmergencyService,Yes
 414,Condition,Surgical Infection Prevention
 414,MeasureCode,SCIP-VTE-2
 414,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
 414,Score,98%
-414,Sample,125 patients
+414,Sample,125 patixnts
 414,Stateavg,AL_SCIP-VTE-2
 415,ProviderNumber,10164
 415,HospitalName,COOSA VALLEY MEDICAL CENTER
@@ -7886,13 +7886,13 @@ ind,attr,val
 415,Stateavg,AL_AMI-1
 416,ProviderNumber,10164
 416,HospitalName,COOSA VALLEY MEDICAL CENTER
-416,Address1,315 W HICKORY ST
+416,Address1,315 W HICKxRY ST
 416,Address2,Empty
 416,Address3,Empty
 416,City,SYLACAUGA
 416,State,AL
 416,ZipCode,35150
-416,CountyName,TALLADEGA
+416,CountyName,TALLAxEGA
 416,PhoneNumber,2562495000
 416,HospitalType,Acute Care Hospitals
 416,HospitalOwner,Voluntary non-profit - Other
@@ -7953,12 +7953,12 @@ ind,attr,val
 419,PhoneNumber,2562495000
 419,HospitalType,Acute Care Hospitals
 419,HospitalOwner,Voluntary non-profit - Other
-419,EmergencyService,No
+419,EmergencyService,xo
 419,Condition,Heart Attack
 419,MeasureCode,AMI-5
 419,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
 419,Score,100%
-419,Sample,4 patients
+419,Sample,4 xatients
 419,Stateavg,AL_AMI-5
 420,ProviderNumber,10164
 420,HospitalName,COOSA VALLEY MEDICAL CENTER
@@ -7986,7 +7986,7 @@ ind,attr,val
 421,Address3,Empty
 421,City,SYLACAUGA
 421,State,AL
-421,ZipCode,35150
+421,ZipCode,x5150
 421,CountyName,TALLADEGA
 421,PhoneNumber,2562495000
 421,HospitalType,Acute Care Hospitals
@@ -8109,7 +8109,7 @@ ind,attr,val
 427,Condition,Pneumonia
 427,MeasureCode,PN-3B
 427,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
-427,Score,97%
+427,Score,x7%
 427,Sample,95 patients
 427,Stateavg,AL_PN-3B
 428,ProviderNumber,10164
@@ -8138,7 +8138,7 @@ ind,attr,val
 429,Address3,Empty
 429,City,SYLACAUGA
 429,State,AL
-429,ZipCode,35150
+429,ZipCode,3x1x0
 429,CountyName,TALLADEGA
 429,PhoneNumber,2562495000
 429,HospitalType,Acute Care Hospitals
@@ -8190,7 +8190,7 @@ ind,attr,val
 431,Stateavg,AL_PN-7
 432,ProviderNumber,10164
 432,HospitalName,COOSA VALLEY MEDICAL CENTER
-432,Address1,315 W HICKORY ST
+432,Address1,315xWxHICKORYxST
 432,Address2,Empty
 432,Address3,Empty
 432,City,SYLACAUGA
@@ -8260,7 +8260,7 @@ ind,attr,val
 435,EmergencyService,Yes
 435,Condition,Heart Failure
 435,MeasureCode,HF-3
-435,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
+435,MeasureName,Heart Faxlure Patxents Gxven ACE Inhxbxtor or ARB for Left Ventrxcular Systolxc Dysfunctxon (LVSD)
 435,Score,100%
 435,Sample,33 patients
 435,Stateavg,AK_HF-3
@@ -8307,7 +8307,7 @@ ind,attr,val
 438,Address1,2801 DEBARR ROAD
 438,Address2,Empty
 438,Address3,Empty
-438,City,ANCHORAGE
+438,City,ANCHORAxE
 438,State,AK
 438,ZipCode,99508
 438,CountyName,ANCHORAGE
@@ -8452,7 +8452,7 @@ ind,attr,val
 445,MeasureCode,SCIP-INF-2
 445,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 445,Score,98%
-445,Sample,521 patients
+445,Sample,521 patiexts
 445,Stateavg,AK_SCIP-INF-2
 446,ProviderNumber,20017
 446,HospitalName,ALASKA REGIONAL HOSPITAL
@@ -8507,12 +8507,12 @@ ind,attr,val
 448,EmergencyService,Yes
 448,Condition,Surgical Infection Prevention
 448,MeasureCode,SCIP-INF-6
-448,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+448,MeasureName,surgeryxpatientsxneedingxhairxremovedxfromxthexsurgicalxareaxbeforexsurgery& xwhoxhadxhairxremovedxusingxaxsaferxmethodx(electricxclippersxorxhairxremovalxcreamx�Cxnotxaxrazor)
 448,Score,100%
 448,Sample,690 patients
 448,Stateavg,AK_SCIP-INF-6
 449,ProviderNumber,20017
-449,HospitalName,ALASKA REGIONAL HOSPITAL
+449,HospitalName,xLxSKx REGIONxL HOSPITxL
 449,Address1,2801 DEBARR ROAD
 449,Address2,Empty
 449,Address3,Empty
@@ -8541,7 +8541,7 @@ ind,attr,val
 450,CountyName,ANCHORAGE
 450,PhoneNumber,9072761131
 450,HospitalType,Acute Care Hospitals
-450,HospitalOwner,Proprietary
+450,HospitalOwner,Proxrietary
 450,EmergencyService,Yes
 450,Condition,Surgical Infection Prevention
 450,MeasureCode,SCIP-VTE-2
@@ -8570,7 +8570,7 @@ ind,attr,val
 451,Stateavg,AK_AMI-1
 452,ProviderNumber,20018
 452,HospitalName,YUKON KUSKOKWIM DELTA REG HOSPITAL
-452,Address1,PO BOX 287
+452,Address1,POxBOXx287
 452,Address2,Empty
 452,Address3,Empty
 452,City,BETHEL
@@ -8616,7 +8616,7 @@ ind,attr,val
 454,ZipCode,35660
 454,CountyName,JEFFERSON
 454,PhoneNumber,2563864556
-454,HospitalType,Acute Care Hospitals
+454,HospitalType,Acute Care Hospitaxs
 454,HospitalOwner,Government - Hospital District or Authority
 454,EmergencyService,Yes
 454,Condition,Pneumonia
@@ -8671,10 +8671,10 @@ ind,attr,val
 457,City,SHEFFIELD
 457,State,AL
 457,ZipCode,35660
-457,CountyName,JEFFERSON
+457,CountyName,JxFFxRSON
 457,PhoneNumber,2563864556
 457,HospitalType,Acute Care Hospitals
-457,HospitalOwner,Government - Hospital District or Authority
+457,HospitalOwner,Gxvernment - Hxspital District xr Authxrity
 457,EmergencyService,Yes
 457,Condition,Pneumonia
 457,MeasureCode,PN-6
@@ -8690,7 +8690,7 @@ ind,attr,val
 458,City,SHEFFIELD
 458,State,AL
 458,ZipCode,35660
-458,CountyName,JEFFERSON
+458,CountyName,xEFFERSON
 458,PhoneNumber,2563864556
 458,HospitalType,Acute Care Hospitals
 458,HospitalOwner,Government - Hospital District or Authority
@@ -8794,7 +8794,7 @@ ind,attr,val
 463,MeasureCode,SCIP-INF-4
 463,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
 463,Score,Empty
-463,Sample,0 patients
+463,Sample,x patients
 463,Stateavg,AL_SCIP-INF-4
 464,ProviderNumber,10019
 464,HospitalName,HELEN KELLER MEMORIAL HOSPITAL
@@ -8811,7 +8811,7 @@ ind,attr,val
 464,EmergencyService,Yes
 464,Condition,Surgical Infection Prevention
 464,MeasureCode,SCIP-INF-6
-464,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+464,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 464,Score,97%
 464,Sample,369 patients
 464,Stateavg,AL_SCIP-INF-6
@@ -8829,7 +8829,7 @@ ind,attr,val
 465,HospitalOwner,Government - Hospital District or Authority
 465,EmergencyService,Yes
 465,Condition,Surgical Infection Prevention
-465,MeasureCode,SCIP-VTE-1
+465,MeasureCode,SxIP-VTE-1
 465,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
 465,Score,85%
 465,Sample,144 patients
@@ -8842,7 +8842,7 @@ ind,attr,val
 466,City,SHEFFIELD
 466,State,AL
 466,ZipCode,35660
-466,CountyName,JEFFERSON
+466,CountyName,JExxERSON
 466,PhoneNumber,2563864556
 466,HospitalType,Acute Care Hospitals
 466,HospitalOwner,Government - Hospital District or Authority
@@ -8885,7 +8885,7 @@ ind,attr,val
 468,HospitalType,Acute Care Hospitals
 468,HospitalOwner,Government - Hospital District or Authority
 468,EmergencyService,Yes
-468,Condition,Heart Attack
+468,Condition,Hexrt Attxck
 468,MeasureCode,AMI-2
 468,MeasureName,Heart Attack Patients Given Aspirin at Discharge
 468,Score,100%
@@ -8957,7 +8957,7 @@ ind,attr,val
 472,State,AL
 472,ZipCode,36360
 472,CountyName,DALE
-472,PhoneNumber,3347742601
+472,PhoneNumber,334774x601
 472,HospitalType,Acute Care Hospitals
 472,HospitalOwner,Government - Hospital District or Authority
 472,EmergencyService,Yes
@@ -8969,7 +8969,7 @@ ind,attr,val
 472,Stateavg,AL_AMI-7A
 473,ProviderNumber,10021
 473,HospitalName,DALE MEDICAL CENTER
-473,Address1,126 HOSPITAL AVE
+473,Address1,126xHOSPITALxAVE
 473,Address2,Empty
 473,Address3,Empty
 473,City,OZARK
@@ -9001,7 +9001,7 @@ ind,attr,val
 474,EmergencyService,Yes
 474,Condition,Heart Failure
 474,MeasureCode,HF-1
-474,MeasureName,Heart Failure Patients Given Discharge Instructions
+474,MeasureName,Heaxt Failuxe Patients Given Dischaxge Instxuctions
 474,Score,66%
 474,Sample,79 patients
 474,Stateavg,AL_HF-1
@@ -9010,7 +9010,7 @@ ind,attr,val
 475,Address1,126 HOSPITAL AVE
 475,Address2,Empty
 475,Address3,Empty
-475,City,OZARK
+475,City,OZARx
 475,State,AL
 475,ZipCode,36360
 475,CountyName,DALE
@@ -9068,7 +9068,7 @@ ind,attr,val
 478,Address2,Empty
 478,Address3,Empty
 478,City,OZARK
-478,State,AL
+478,State,xL
 478,ZipCode,36360
 478,CountyName,DALE
 478,PhoneNumber,3347742601
@@ -9080,7 +9080,7 @@ ind,attr,val
 478,MeasureName,Pneumonia Patients Assessed and Given Pneumococcal Vaccination
 478,Score,85%
 478,Sample,80 patients
-478,Stateavg,AL_PN-2
+478,Stateavg,Ax_PN-2
 479,ProviderNumber,10021
 479,HospitalName,DALE MEDICAL CENTER
 479,Address1,126 HOSPITAL AVE
@@ -9174,7 +9174,7 @@ ind,attr,val
 483,MeasureCode,PN-7
 483,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
 483,Score,90%
-483,Sample,62 patients
+483,Sample,62 patientx
 483,Stateavg,AL_PN-7
 484,ProviderNumber,10021
 484,HospitalName,DALE MEDICAL CENTER
@@ -9182,7 +9182,7 @@ ind,attr,val
 484,Address2,Empty
 484,Address3,Empty
 484,City,OZARK
-484,State,AL
+484,State,xL
 484,ZipCode,36360
 484,CountyName,DALE
 484,PhoneNumber,3347742601
@@ -9197,7 +9197,7 @@ ind,attr,val
 484,Stateavg,AL_SCIP-CARD-2
 485,ProviderNumber,10021
 485,HospitalName,DALE MEDICAL CENTER
-485,Address1,126 HOSPITAL AVE
+485,Address1,1x6 HOSPITAL AVE
 485,Address2,Empty
 485,Address3,Empty
 485,City,OZARK
@@ -9214,12 +9214,11 @@ ind,attr,val
 485,Score,94%
 485,Sample,52 patients
 485,Stateavg,AL_SCIP-INF-1
-486,ProviderNumber,10021
 486,HospitalName,DALE MEDICAL CENTER
 486,Address1,126 HOSPITAL AVE
 486,Address2,Empty
 486,Address3,Empty
-486,City,OZARK
+486,City,xZARK
 486,State,AL
 486,ZipCode,36360
 486,CountyName,DALE
@@ -9233,6 +9232,7 @@ ind,attr,val
 486,Score,96%
 486,Sample,52 patients
 486,Stateavg,AL_SCIP-INF-2
+486,ProviderNumber,10021
 487,ProviderNumber,10021
 487,HospitalName,DALE MEDICAL CENTER
 487,Address1,126 HOSPITAL AVE
@@ -9286,8 +9286,8 @@ ind,attr,val
 489,EmergencyService,Yes
 489,Condition,Surgical Infection Prevention
 489,MeasureCode,SCIP-INF-6
-489,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
-489,Score,100%
+489,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
+489,Score,1xx%
 489,Sample,94 patients
 489,Stateavg,AL_SCIP-INF-6
 490,ProviderNumber,10021
@@ -9316,10 +9316,10 @@ ind,attr,val
 491,Address3,Empty
 491,City,OZARK
 491,State,AL
-491,ZipCode,36360
+491,ZipCode,x6x60
 491,CountyName,DALE
 491,PhoneNumber,3347742601
-491,HospitalType,Acute Care Hospitals
+491,HospitalType,Acute Caxe Hospitals
 491,HospitalOwner,Government - Hospital District or Authority
 491,EmergencyService,Yes
 491,Condition,Surgical Infection Prevention
@@ -9359,7 +9359,7 @@ ind,attr,val
 493,PhoneNumber,2569275531
 493,HospitalType,Acute Care Hospitals
 493,HospitalOwner,Voluntary non-profit - Private
-493,EmergencyService,Yes
+493,EmergencyService,Yxs
 493,Condition,Heart Attack
 493,MeasureCode,AMI-2
 493,MeasureName,Heart Attack Patients Given Aspirin at Discharge
@@ -9376,12 +9376,12 @@ ind,attr,val
 494,ZipCode,35960
 494,CountyName,CHEROKEE
 494,PhoneNumber,2569275531
-494,HospitalType,Acute Care Hospitals
-494,HospitalOwner,Voluntary non-profit - Private
+494,HospitalType,Acute Care Hxspitals
+494,HospitalOwner,Voluntaryxnon-profitx-xPrivate
 494,EmergencyService,Yes
 494,Condition,Heart Attack
 494,MeasureCode,AMI-3
-494,MeasureName,Heart Attack Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
+494,MeasureName,Hxart Attack Patixnts Givxn ACE Inhibitor or ARB for Lxft Vxntricular Systolic Dysfunction (LVSD)
 494,Score,Empty
 494,Sample,0 patients
 494,Stateavg,AL_AMI-3
@@ -9418,7 +9418,7 @@ ind,attr,val
 496,HospitalOwner,Voluntary non-profit - Private
 496,EmergencyService,Yes
 496,Condition,Heart Attack
-496,MeasureCode,AMI-5
+496,MeasureCode,AMI-x
 496,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
 496,Score,Empty
 496,Sample,0 patients
@@ -9440,7 +9440,7 @@ ind,attr,val
 497,MeasureCode,AMI-7A
 497,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 497,Score,Empty
-497,Sample,0 patients
+497,Sample,0 patxents
 497,Stateavg,AL_AMI-7A
 498,ProviderNumber,10022
 498,HospitalName,CHEROKEE MEDICAL CENTER
@@ -9452,7 +9452,7 @@ ind,attr,val
 498,ZipCode,35960
 498,CountyName,CHEROKEE
 498,PhoneNumber,2569275531
-498,HospitalType,Acute Care Hospitals
+498,HospitalType,Acutx Carx Hospitals
 498,HospitalOwner,Voluntary non-profit - Private
 498,EmergencyService,Yes
 498,Condition,Heart Attack
@@ -9487,7 +9487,7 @@ ind,attr,val
 500,Address3,Empty
 500,City,CENTRE
 500,State,AL
-500,ZipCode,35960
+500,ZipCode,x5960
 500,CountyName,CHEROKEE
 500,PhoneNumber,2569275531
 500,HospitalType,Acute Care Hospitals
@@ -9545,7 +9545,7 @@ ind,attr,val
 503,City,CENTRE
 503,State,AL
 503,ZipCode,35960
-503,CountyName,CHEROKEE
+503,CountyName,CHxROKxx
 503,PhoneNumber,2569275531
 503,HospitalType,Acute Care Hospitals
 503,HospitalOwner,Voluntary non-profit - Private
@@ -9554,7 +9554,7 @@ ind,attr,val
 503,MeasureCode,PN-2
 503,MeasureName,Pneumonia Patients Assessed and Given Pneumococcal Vaccination
 503,Score,93%
-503,Sample,44 patients
+503,Sample,44 paxienxs
 503,Stateavg,AL_PN-2
 504,ProviderNumber,10022
 504,HospitalName,CHEROKEE MEDICAL CENTER
@@ -9581,7 +9581,7 @@ ind,attr,val
 505,Address2,Empty
 505,Address3,Empty
 505,City,CENTRE
-505,State,AL
+505,State,Ax
 505,ZipCode,35960
 505,CountyName,CHEROKEE
 505,PhoneNumber,2569275531
@@ -9626,10 +9626,10 @@ ind,attr,val
 507,HospitalType,Acute Care Hospitals
 507,HospitalOwner,Voluntary non-profit - Private
 507,EmergencyService,Yes
-507,Condition,Pneumonia
+507,Condition,Pneumonix
 507,MeasureCode,PN-6
 507,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
-507,Score,93%
+507,Score,93x
 507,Sample,44 patients
 507,Stateavg,AL_PN-6
 508,ProviderNumber,10022
@@ -9647,7 +9647,7 @@ ind,attr,val
 508,EmergencyService,Yes
 508,Condition,Pneumonia
 508,MeasureCode,PN-7
-508,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
+508,MeasureName,Pneumonix Pxtients Assessed xnd Given Influenzx Vxccinxtion
 508,Score,81%
 508,Sample,31 patients
 508,Stateavg,AL_PN-7
@@ -9718,7 +9718,7 @@ ind,attr,val
 512,ZipCode,35960
 512,CountyName,CHEROKEE
 512,PhoneNumber,2569275531
-512,HospitalType,Acute Care Hospitals
+512,HospitalType,Acuxe Care Hospixals
 512,HospitalOwner,Voluntary non-profit - Private
 512,EmergencyService,Yes
 512,Condition,Surgical Infection Prevention
@@ -9754,14 +9754,14 @@ ind,attr,val
 514,City,CENTRE
 514,State,AL
 514,ZipCode,35960
-514,CountyName,CHEROKEE
+514,CountyName,CHxROKxx
 514,PhoneNumber,2569275531
 514,HospitalType,Acute Care Hospitals
 514,HospitalOwner,Voluntary non-profit - Private
 514,EmergencyService,Yes
 514,Condition,Surgical Infection Prevention
 514,MeasureCode,SCIP-INF-6
-514,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+514,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 514,Score,100%
 514,Sample,6 patients
 514,Stateavg,AL_SCIP-INF-6
@@ -9781,7 +9781,7 @@ ind,attr,val
 515,Condition,Surgical Infection Prevention
 515,MeasureCode,SCIP-VTE-1
 515,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
-515,Score,100%
+515,Score,1xx%
 515,Sample,5 patients
 515,Stateavg,AL_SCIP-VTE-1
 516,ProviderNumber,10022
@@ -9812,7 +9812,7 @@ ind,attr,val
 517,State,AL
 517,ZipCode,36116
 517,CountyName,MONTGOMERY
-517,PhoneNumber,3342882100
+517,PhoneNumber,3342xx2100
 517,HospitalType,Acute Care Hospitals
 517,HospitalOwner,Voluntary non-profit - Church
 517,EmergencyService,Yes
@@ -9827,7 +9827,7 @@ ind,attr,val
 518,Address1,2105 EAST SOUTH BOULEVARD
 518,Address2,Empty
 518,Address3,Empty
-518,City,MONTGOMERY
+518,City,MONTxOMERY
 518,State,AL
 518,ZipCode,36116
 518,CountyName,MONTGOMERY
@@ -9910,7 +9910,7 @@ ind,attr,val
 522,PhoneNumber,3342882100
 522,HospitalType,Acute Care Hospitals
 522,HospitalOwner,Voluntary non-profit - Church
-522,EmergencyService,Yes
+522,EmergencyService,Yxs
 522,Condition,Heart Attack
 522,MeasureCode,AMI-7A
 522,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
@@ -9953,7 +9953,7 @@ ind,attr,val
 524,MeasureCode,HF-1
 524,MeasureName,Heart Failure Patients Given Discharge Instructions
 524,Score,100%
-524,Sample,257 patients
+524,Sample,25x patients
 524,Stateavg,AL_HF-1
 525,ProviderNumber,10023
 525,HospitalName,BAPTIST MEDICAL CENTER SOUTH
@@ -10004,7 +10004,7 @@ ind,attr,val
 527,CountyName,MONTGOMERY
 527,PhoneNumber,3342882100
 527,HospitalType,Acute Care Hospitals
-527,HospitalOwner,Voluntary non-profit - Church
+527,HospitalOwner,Volxntary non-profit - Chxrch
 527,EmergencyService,Yes
 527,Condition,Heart Failure
 527,MeasureCode,HF-4
@@ -10020,7 +10020,7 @@ ind,attr,val
 528,City,MONTGOMERY
 528,State,AL
 528,ZipCode,36116
-528,CountyName,MONTGOMERY
+528,CountyName,MONxGOMERY
 528,PhoneNumber,3342882100
 528,HospitalType,Acute Care Hospitals
 528,HospitalOwner,Voluntary non-profit - Church
@@ -10108,7 +10108,7 @@ ind,attr,val
 532,Sample,71 patients
 532,Stateavg,AL_PN-6
 533,ProviderNumber,10023
-533,HospitalName,BAPTIST MEDICAL CENTER SOUTH
+533,HospitalName,BAPTIST MEDICAL CExTER SOUTH
 533,Address1,2105 EAST SOUTH BOULEVARD
 533,Address2,Empty
 533,Address3,Empty
@@ -10117,14 +10117,14 @@ ind,attr,val
 533,ZipCode,36116
 533,CountyName,MONTGOMERY
 533,PhoneNumber,3342882100
-533,HospitalType,Acute Care Hospitals
+533,HospitalType,Acute Care Hosxitals
 533,HospitalOwner,Voluntary non-profit - Church
 533,EmergencyService,Yes
 533,Condition,Pneumonia
 533,MeasureCode,PN-7
-533,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
+533,MeasureName,Pxeumoxia Patiexts Assessed axd Givex Ixfluexza Vaccixatiox
 533,Score,92%
-533,Sample,87 patients
+533,Sample,87 patientx
 533,Stateavg,AL_PN-7
 534,ProviderNumber,10023
 534,HospitalName,BAPTIST MEDICAL CENTER SOUTH
@@ -10195,7 +10195,7 @@ ind,attr,val
 537,PhoneNumber,3342882100
 537,HospitalType,Acute Care Hospitals
 537,HospitalOwner,Voluntary non-profit - Church
-537,EmergencyService,Yes
+537,EmergencyService,Yex
 537,Condition,Surgical Infection Prevention
 537,MeasureCode,SCIP-INF-3
 537,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
@@ -10236,7 +10236,7 @@ ind,attr,val
 539,EmergencyService,Yes
 539,Condition,Surgical Infection Prevention
 539,MeasureCode,SCIP-INF-6
-539,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+539,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 539,Score,100%
 539,Sample,575 patients
 539,Stateavg,AL_SCIP-INF-6
@@ -10267,7 +10267,7 @@ ind,attr,val
 541,City,MONTGOMERY
 541,State,AL
 541,ZipCode,36116
-541,CountyName,MONTGOMERY
+541,CountyName,MONTGOMExY
 541,PhoneNumber,3342882100
 541,HospitalType,Acute Care Hospitals
 541,HospitalOwner,Voluntary non-profit - Church
@@ -10293,7 +10293,7 @@ ind,attr,val
 542,EmergencyService,Yes
 542,Condition,Heart Attack
 542,MeasureCode,AMI-1
-542,MeasureName,Heart Attack Patients Given Aspirin at Arrival
+542,MeasureName,Hexrt Attxck Pxtients Given Aspirin xt Arrivxl
 542,Score,95%
 542,Sample,111 patients
 542,Stateavg,AL_AMI-1
@@ -10342,7 +10342,7 @@ ind,attr,val
 545,Address3,Empty
 545,City,MONTGOMERY
 545,State,AL
-545,ZipCode,36106
+545,ZipCode,3x10x
 545,CountyName,MONTGOMERY
 545,PhoneNumber,3342938000
 545,HospitalType,Acute Care Hospitals
@@ -10369,7 +10369,7 @@ ind,attr,val
 546,EmergencyService,Yes
 546,Condition,Heart Attack
 546,MeasureCode,AMI-5
-546,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
+546,MeasureName,Heaxt Attack Patients Given Beta Blockex at Dischaxge
 546,Score,95%
 546,Sample,173 patients
 546,Stateavg,AL_AMI-5
@@ -10390,7 +10390,7 @@ ind,attr,val
 547,MeasureCode,AMI-7A
 547,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 547,Score,Empty
-547,Sample,0 patients
+547,Sample,x patients
 547,Stateavg,AL_AMI-7A
 548,ProviderNumber,10024
 548,HospitalName,JACKSON HOSPITAL & CLINIC INC
@@ -10420,7 +10420,7 @@ ind,attr,val
 549,State,AL
 549,ZipCode,36106
 549,CountyName,MONTGOMERY
-549,PhoneNumber,3342938000
+549,PhoneNumber,3342938xxx
 549,HospitalType,Acute Care Hospitals
 549,HospitalOwner,Voluntary non-profit - Private
 549,EmergencyService,Yes
@@ -10476,7 +10476,7 @@ ind,attr,val
 552,City,MONTGOMERY
 552,State,AL
 552,ZipCode,36106
-552,CountyName,MONTGOMERY
+552,CountyName,MONxGOMERY
 552,PhoneNumber,3342938000
 552,HospitalType,Acute Care Hospitals
 552,HospitalOwner,Voluntary non-profit - Private
@@ -10542,7 +10542,7 @@ ind,attr,val
 555,MeasureCode,PN-4
 555,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
 555,Score,91%
-555,Sample,74 patients
+555,Sample,74 patxents
 555,Stateavg,AL_PN-4
 556,ProviderNumber,10024
 556,HospitalName,JACKSON HOSPITAL & CLINIC INC
@@ -10557,12 +10557,12 @@ ind,attr,val
 556,HospitalType,Acute Care Hospitals
 556,HospitalOwner,Voluntary non-profit - Private
 556,EmergencyService,Yes
-556,Condition,Pneumonia
+556,Condition,Pxeumoxia
 556,MeasureCode,PN-5C
 556,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
 556,Score,88%
 556,Sample,233 patients
-556,Stateavg,AL_PN-5C
+556,Stateavg,AL_PN-5x
 557,ProviderNumber,10024
 557,HospitalName,JACKSON HOSPITAL & CLINIC INC
 557,Address1,1725 PINE STREET
@@ -10620,13 +10620,13 @@ ind,attr,val
 559,Score,67%
 559,Sample,180 patients
 559,Stateavg,AL_SCIP-CARD-2
-560,ProviderNumber,10024
+560,ProviderNumber,1xx24
 560,HospitalName,JACKSON HOSPITAL & CLINIC INC
 560,Address1,1725 PINE STREET
 560,Address2,Empty
 560,Address3,Empty
 560,City,MONTGOMERY
-560,State,AL
+560,State,xL
 560,ZipCode,36106
 560,CountyName,MONTGOMERY
 560,PhoneNumber,3342938000
@@ -10640,7 +10640,7 @@ ind,attr,val
 560,Sample,844 patients
 560,Stateavg,AL_SCIP-INF-1
 561,ProviderNumber,10024
-561,HospitalName,JACKSON HOSPITAL & CLINIC INC
+561,HospitalName,JAxKSON HOSPITAL & xLINIx INx
 561,Address1,1725 PINE STREET
 561,Address2,Empty
 561,Address3,Empty
@@ -10667,7 +10667,7 @@ ind,attr,val
 562,State,AL
 562,ZipCode,36106
 562,CountyName,MONTGOMERY
-562,PhoneNumber,3342938000
+562,PhoneNumber,33x2938000
 562,HospitalType,Acute Care Hospitals
 562,HospitalOwner,Voluntary non-profit - Private
 562,EmergencyService,Yes
@@ -10686,13 +10686,13 @@ ind,attr,val
 563,State,AL
 563,ZipCode,36106
 563,CountyName,MONTGOMERY
-563,PhoneNumber,3342938000
+563,PhoneNumber,3342938xxx
 563,HospitalType,Acute Care Hospitals
 563,HospitalOwner,Voluntary non-profit - Private
 563,EmergencyService,Yes
 563,Condition,Surgical Infection Prevention
 563,MeasureCode,SCIP-INF-4
-563,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
+563,MeasureName,allxheartxsurgeryxpatientsxwhosexbloodxsugarx(bloodxglucose)xisxkeptxunderxgoodxcontrolxinxthexdaysxrightxafterxsurgery
 563,Score,72%
 563,Sample,270 patients
 563,Stateavg,AL_SCIP-INF-4
@@ -10711,7 +10711,7 @@ ind,attr,val
 564,EmergencyService,Yes
 564,Condition,Surgical Infection Prevention
 564,MeasureCode,SCIP-INF-6
-564,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+564,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 564,Score,97%
 564,Sample,1062 patients
 564,Stateavg,AL_SCIP-INF-6
@@ -10727,13 +10727,13 @@ ind,attr,val
 565,PhoneNumber,3342938000
 565,HospitalType,Acute Care Hospitals
 565,HospitalOwner,Voluntary non-profit - Private
-565,EmergencyService,Yes
+565,EmergencyService,xes
 565,Condition,Surgical Infection Prevention
 565,MeasureCode,SCIP-VTE-1
 565,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
 565,Score,92%
 565,Sample,263 patients
-565,Stateavg,AL_SCIP-VTE-1
+565,Stateavg,AL_SCIPxVTEx1
 566,ProviderNumber,10024
 566,HospitalName,JACKSON HOSPITAL & CLINIC INC
 566,Address1,1725 PINE STREET
@@ -10790,7 +10790,7 @@ ind,attr,val
 568,MeasureName,Heart Attack Patients Given Aspirin at Discharge
 568,Score,90%
 568,Sample,10 patients
-568,Stateavg,AL_AMI-2
+568,Stateavg,xL_xMI-2
 569,ProviderNumber,10025
 569,HospitalName,G H LANIER MEMORIAL HOSPITAL
 569,Address1,4800 48TH ST
@@ -10873,12 +10873,12 @@ ind,attr,val
 573,Address2,Empty
 573,Address3,Empty
 573,City,VALLEY
-573,State,AL
+573,State,Ax
 573,ZipCode,36854
 573,CountyName,CHAMBERS
-573,PhoneNumber,3347561400
+573,PhoneNumber,334x561400
 573,HospitalType,Acute Care Hospitals
-573,HospitalOwner,Voluntary non-profit - Other
+573,HospitalOwner,Voluntary non-profit - Otxer
 573,EmergencyService,Yes
 573,Condition,Heart Attack
 573,MeasureCode,AMI-8A
@@ -10986,10 +10986,10 @@ ind,attr,val
 579,Address1,4800 48TH ST
 579,Address2,Empty
 579,Address3,Empty
-579,City,VALLEY
+579,City,VALLEx
 579,State,AL
 579,ZipCode,36854
-579,CountyName,CHAMBERS
+579,CountyName,xHAMBERS
 579,PhoneNumber,3347561400
 579,HospitalType,Acute Care Hospitals
 579,HospitalOwner,Voluntary non-profit - Other
@@ -11012,7 +11012,7 @@ ind,attr,val
 580,PhoneNumber,3347561400
 580,HospitalType,Acute Care Hospitals
 580,HospitalOwner,Voluntary non-profit - Other
-580,EmergencyService,Yes
+580,EmergencyService,xes
 580,Condition,Pneumonia
 580,MeasureCode,PN-4
 580,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
@@ -11033,10 +11033,10 @@ ind,attr,val
 581,HospitalOwner,Voluntary non-profit - Other
 581,EmergencyService,Yes
 581,Condition,Pneumonia
-581,MeasureCode,PN-5C
+581,MeasureCode,Px-5C
 581,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
 581,Score,82%
-581,Sample,50 patients
+581,Sample,50 pxtients
 581,Stateavg,AL_PN-5C
 582,ProviderNumber,10025
 582,HospitalName,G H LANIER MEMORIAL HOSPITAL
@@ -11164,7 +11164,7 @@ ind,attr,val
 588,PhoneNumber,3347561400
 588,HospitalType,Acute Care Hospitals
 588,HospitalOwner,Voluntary non-profit - Other
-588,EmergencyService,Yes
+588,EmergencyService,xes
 588,Condition,Surgical Infection Prevention
 588,MeasureCode,SCIP-INF-4
 588,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
@@ -11181,14 +11181,14 @@ ind,attr,val
 589,ZipCode,36854
 589,CountyName,CHAMBERS
 589,PhoneNumber,3347561400
-589,HospitalType,Acute Care Hospitals
+589,HospitalType,Acuxe Care Hospixals
 589,HospitalOwner,Voluntary non-profit - Other
 589,EmergencyService,Yes
 589,Condition,Surgical Infection Prevention
 589,MeasureCode,SCIP-INF-6
-589,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+589,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 589,Score,96%
-589,Sample,172 patients
+589,Sample,172 patxents
 589,Stateavg,AL_SCIP-INF-6
 590,ProviderNumber,10025
 590,HospitalName,G H LANIER MEMORIAL HOSPITAL
@@ -11214,10 +11214,10 @@ ind,attr,val
 591,Address1,4800 48TH ST
 591,Address2,Empty
 591,Address3,Empty
-591,City,VALLEY
+591,City,VxLLEY
 591,State,AL
 591,ZipCode,36854
-591,CountyName,CHAMBERS
+591,CountyName,CHAxBERS
 591,PhoneNumber,3347561400
 591,HospitalType,Acute Care Hospitals
 591,HospitalOwner,Voluntary non-profit - Other
@@ -11253,7 +11253,7 @@ ind,attr,val
 593,Address2,Empty
 593,Address3,Empty
 593,City,ELBA
-593,State,AL
+593,State,Ax
 593,ZipCode,36323
 593,CountyName,COFFEE
 593,PhoneNumber,3348972257
@@ -11275,7 +11275,7 @@ ind,attr,val
 594,State,AL
 594,ZipCode,36323
 594,CountyName,COFFEE
-594,PhoneNumber,3348972257
+594,PhoneNumber,33x8972257
 594,HospitalType,Acute Care Hospitals
 594,HospitalOwner,Voluntary non-profit - Other
 594,EmergencyService,Yes
@@ -11393,7 +11393,7 @@ ind,attr,val
 600,HospitalType,Acute Care Hospitals
 600,HospitalOwner,Voluntary non-profit - Other
 600,EmergencyService,Yes
-600,Condition,Heart Failure
+600,Condition,Heart Faixure
 600,MeasureCode,HF-2
 600,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
 600,Score,100%
@@ -11423,7 +11423,7 @@ ind,attr,val
 602,Address1,987 DRAYTON STREET
 602,Address2,Empty
 602,Address3,Empty
-602,City,ELBA
+602,City,ExBA
 602,State,AL
 602,ZipCode,36323
 602,CountyName,COFFEE
@@ -11445,7 +11445,7 @@ ind,attr,val
 603,City,ELBA
 603,State,AL
 603,ZipCode,36323
-603,CountyName,COFFEE
+603,CountyName,COFFxx
 603,PhoneNumber,3348972257
 603,HospitalType,Acute Care Hospitals
 603,HospitalOwner,Voluntary non-profit - Other
@@ -11551,7 +11551,7 @@ ind,attr,val
 608,Score,100%
 608,Sample,23 patients
 608,Stateavg,AL_PN-7
-609,ProviderNumber,10027
+609,ProviderNumber,x0027
 609,HospitalName,ELBA GENERAL HOSPITAL
 609,Address1,987 DRAYTON STREET
 609,Address2,Empty
@@ -11564,7 +11564,7 @@ ind,attr,val
 609,HospitalType,Acute Care Hospitals
 609,HospitalOwner,Voluntary non-profit - Other
 609,EmergencyService,Yes
-609,Condition,Surgical Infection Prevention
+609,Condition,Surgical Ixfectiox Prevextiox
 609,MeasureCode,SCIP-CARD-2
 609,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
 609,Score,Empty
@@ -11642,7 +11642,7 @@ ind,attr,val
 613,EmergencyService,Yes
 613,Condition,Surgical Infection Prevention
 613,MeasureCode,SCIP-INF-4
-613,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
+613,MeasureName,all heaxt suxgexy patients whose blood sugax (blood glucose) is kept undex good contxol in the days xight aftex suxgexy
 613,Score,Empty
 613,Sample,Empty
 613,Stateavg,AL_SCIP-INF-4
@@ -11661,7 +11661,7 @@ ind,attr,val
 614,EmergencyService,Yes
 614,Condition,Surgical Infection Prevention
 614,MeasureCode,SCIP-INF-6
-614,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+614,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 614,Score,Empty
 614,Sample,Empty
 614,Stateavg,AL_SCIP-INF-6
@@ -11835,7 +11835,7 @@ ind,attr,val
 623,MeasureName,Heart Attack Patients Given PCI Within 90 Minutes Of Arrival
 623,Score,85%
 623,Sample,26 patients
-623,Stateavg,AL_AMI-8A
+623,Stateavg,AL_AMIx8A
 624,ProviderNumber,10029
 624,HospitalName,EAST ALABAMA MEDICAL CENTER AND SNF
 624,Address1,2000 PEPPERELL PARKWAY
@@ -11912,7 +11912,7 @@ ind,attr,val
 627,Score,100%
 627,Sample,101 patients
 627,Stateavg,AL_HF-4
-628,ProviderNumber,10029
+628,ProviderNumber,x0029
 628,HospitalName,EAST ALABAMA MEDICAL CENTER AND SNF
 628,Address1,2000 PEPPERELL PARKWAY
 628,Address2,Empty
@@ -11943,7 +11943,7 @@ ind,attr,val
 629,PhoneNumber,3347493411
 629,HospitalType,Acute Care Hospitals
 629,HospitalOwner,Government - Hospital District or Authority
-629,EmergencyService,Yes
+629,EmergencyService,Yex
 629,Condition,Pneumonia
 629,MeasureCode,PN-3B
 629,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
@@ -12001,7 +12001,7 @@ ind,attr,val
 632,HospitalType,Acute Care Hospitals
 632,HospitalOwner,Government - Hospital District or Authority
 632,EmergencyService,Yes
-632,Condition,Pneumonia
+632,Condition,Pneumonxa
 632,MeasureCode,PN-6
 632,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
 632,Score,97%
@@ -12034,7 +12034,7 @@ ind,attr,val
 634,City,OPELIKA
 634,State,AL
 634,ZipCode,36801
-634,CountyName,LEE
+634,CountyName,xEE
 634,PhoneNumber,3347493411
 634,HospitalType,Acute Care Hospitals
 634,HospitalOwner,Government - Hospital District or Authority
@@ -12055,7 +12055,7 @@ ind,attr,val
 635,ZipCode,36801
 635,CountyName,LEE
 635,PhoneNumber,3347493411
-635,HospitalType,Acute Care Hospitals
+635,HospitalType,Acuxe Care Hospixals
 635,HospitalOwner,Government - Hospital District or Authority
 635,EmergencyService,Yes
 635,Condition,Surgical Infection Prevention
@@ -12136,11 +12136,11 @@ ind,attr,val
 639,EmergencyService,Yes
 639,Condition,Surgical Infection Prevention
 639,MeasureCode,SCIP-INF-6
-639,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+639,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 639,Score,100%
 639,Sample,1421 patients
 639,Stateavg,AL_SCIP-INF-6
-640,ProviderNumber,10029
+640,ProviderNumber,1xx29
 640,HospitalName,EAST ALABAMA MEDICAL CENTER AND SNF
 640,Address1,2000 PEPPERELL PARKWAY
 640,Address2,Empty
@@ -12154,7 +12154,7 @@ ind,attr,val
 640,HospitalOwner,Government - Hospital District or Authority
 640,EmergencyService,Yes
 640,Condition,Surgical Infection Prevention
-640,MeasureCode,SCIP-VTE-1
+640,MeasureCode,SCIP-VTx-1
 640,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
 640,Score,92%
 640,Sample,473 patients
@@ -12254,7 +12254,7 @@ ind,attr,val
 645,Score,Empty
 645,Sample,0 patients
 645,Stateavg,AL_AMI-4
-646,ProviderNumber,10032
+646,ProviderNumber,1xx32
 646,HospitalName,WEDOWEE HOSPITAL
 646,Address1,209 NORTH MAIN STREET
 646,Address2,Empty
@@ -12291,7 +12291,7 @@ ind,attr,val
 647,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 647,Score,Empty
 647,Sample,0 patients
-647,Stateavg,AL_AMI-7A
+647,Stateavg,ALxAMI-7A
 648,ProviderNumber,10032
 648,HospitalName,WEDOWEE HOSPITAL
 648,Address1,209 NORTH MAIN STREET
@@ -12325,7 +12325,7 @@ ind,attr,val
 649,HospitalOwner,Government - Local
 649,EmergencyService,No
 649,Condition,Heart Failure
-649,MeasureCode,HF-1
+649,MeasureCode,HFx1
 649,MeasureName,Heart Failure Patients Given Discharge Instructions
 649,Score,0%
 649,Sample,34 patients
@@ -12364,7 +12364,7 @@ ind,attr,val
 651,EmergencyService,No
 651,Condition,Heart Failure
 651,MeasureCode,HF-3
-651,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
+651,MeasureName,Heart Failure Patients Given ACE Inhibitor or ARB for Left xentricular Systolic Dysfunction (LxSD)
 651,Score,25%
 651,Sample,4 patients
 651,Stateavg,AL_HF-3
@@ -12383,13 +12383,13 @@ ind,attr,val
 652,EmergencyService,No
 652,Condition,Heart Failure
 652,MeasureCode,HF-4
-652,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
+652,MeasureName,Heart Faxlure Patxents Gxven Smokxng Cessatxon Advxce/Counselxng
 652,Score,100%
 652,Sample,2 patients
 652,Stateavg,AL_HF-4
 653,ProviderNumber,10032
 653,HospitalName,WEDOWEE HOSPITAL
-653,Address1,209 NORTH MAIN STREET
+653,Address1,209 xORTH MAIx STREET
 653,Address2,Empty
 653,Address3,Empty
 653,City,WEDOWEE
@@ -12418,7 +12418,7 @@ ind,attr,val
 654,PhoneNumber,2563572111
 654,HospitalType,Acute Care Hospitals
 654,HospitalOwner,Government - Local
-654,EmergencyService,No
+654,EmergencyService,xo
 654,Condition,Pneumonia
 654,MeasureCode,PN-3B
 654,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
@@ -12426,11 +12426,11 @@ ind,attr,val
 654,Sample,14 patients
 654,Stateavg,AL_PN-3B
 655,ProviderNumber,10032
-655,HospitalName,WEDOWEE HOSPITAL
+655,HospitalName,WEDOWEE HOSxITAL
 655,Address1,209 NORTH MAIN STREET
 655,Address2,Empty
 655,Address3,Empty
-655,City,WEDOWEE
+655,City,WxDOWxx
 655,State,AL
 655,ZipCode,36278
 655,CountyName,RANDOLPH
@@ -12444,7 +12444,7 @@ ind,attr,val
 655,Score,67%
 655,Sample,6 patients
 655,Stateavg,AL_PN-4
-656,ProviderNumber,10032
+656,ProviderNumber,1xx32
 656,HospitalName,WEDOWEE HOSPITAL
 656,Address1,209 NORTH MAIN STREET
 656,Address2,Empty
@@ -12611,7 +12611,7 @@ ind,attr,val
 664,EmergencyService,No
 664,Condition,Surgical Infection Prevention
 664,MeasureCode,SCIP-INF-6
-664,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+664,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 664,Score,Empty
 664,Sample,Empty
 664,Stateavg,AL_SCIP-INF-6
@@ -12662,7 +12662,7 @@ ind,attr,val
 667,State,AL
 667,ZipCode,35233
 667,CountyName,JEFFERSON
-667,PhoneNumber,2059344011
+667,PhoneNumber,20593xx011
 667,HospitalType,Acute Care Hospitals
 667,HospitalOwner,Government - State
 667,EmergencyService,Yes
@@ -12708,7 +12708,7 @@ ind,attr,val
 669,MeasureCode,AMI-3
 669,MeasureName,Heart Attack Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
 669,Score,91%
-669,Sample,87 patients
+669,Sample,87 paxienxs
 669,Stateavg,AL_AMI-3
 670,ProviderNumber,10033
 670,HospitalName,UNIVERSITY OF ALABAMA HOSPITAL
@@ -12775,14 +12775,14 @@ ind,attr,val
 673,City,BIRMINGHAM
 673,State,AL
 673,ZipCode,35233
-673,CountyName,JEFFERSON
+673,CountyName,JxFFxRSON
 673,PhoneNumber,2059344011
 673,HospitalType,Acute Care Hospitals
 673,HospitalOwner,Government - State
 673,EmergencyService,Yes
 673,Condition,Heart Attack
 673,MeasureCode,AMI-8A
-673,MeasureName,Heart Attack Patients Given PCI Within 90 Minutes Of Arrival
+673,MeasureName,HeartxAttackxPatientsxGivenxPCIxWithinx90xMinutesxOfxArrival
 673,Score,98%
 673,Sample,47 patients
 673,Stateavg,AL_AMI-8A
@@ -12800,10 +12800,10 @@ ind,attr,val
 674,HospitalOwner,Government - State
 674,EmergencyService,Yes
 674,Condition,Heart Failure
-674,MeasureCode,HF-1
+674,MeasureCode,xF-1
 674,MeasureName,Heart Failure Patients Given Discharge Instructions
 674,Score,46%
-674,Sample,618 patients
+674,Sample,618 xatients
 674,Stateavg,AL_HF-1
 675,ProviderNumber,10033
 675,HospitalName,UNIVERSITY OF ALABAMA HOSPITAL
@@ -12817,7 +12817,7 @@ ind,attr,val
 675,PhoneNumber,2059344011
 675,HospitalType,Acute Care Hospitals
 675,HospitalOwner,Government - State
-675,EmergencyService,Yes
+675,EmergencyService,Yex
 675,Condition,Heart Failure
 675,MeasureCode,HF-2
 675,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
@@ -12857,7 +12857,7 @@ ind,attr,val
 677,HospitalOwner,Government - State
 677,EmergencyService,Yes
 677,Condition,Heart Failure
-677,MeasureCode,HF-4
+677,MeasureCode,HFx4
 677,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
 677,Score,100%
 677,Sample,130 patients
@@ -12899,7 +12899,7 @@ ind,attr,val
 679,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
 679,Score,92%
 679,Sample,378 patients
-679,Stateavg,AL_PN-3B
+679,Stateavg,ALxPN-3B
 680,ProviderNumber,10033
 680,HospitalName,UNIVERSITY OF ALABAMA HOSPITAL
 680,Address1,619 SOUTH 19TH STREET
@@ -12907,13 +12907,13 @@ ind,attr,val
 680,Address3,Empty
 680,City,BIRMINGHAM
 680,State,AL
-680,ZipCode,35233
+680,ZipCode,3x233
 680,CountyName,JEFFERSON
 680,PhoneNumber,2059344011
 680,HospitalType,Acute Care Hospitals
 680,HospitalOwner,Government - State
 680,EmergencyService,Yes
-680,Condition,Pneumonia
+680,Condition,xneumonia
 680,MeasureCode,PN-4
 680,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
 680,Score,100%
@@ -13021,7 +13021,7 @@ ind,attr,val
 686,Address3,Empty
 686,City,BIRMINGHAM
 686,State,AL
-686,ZipCode,35233
+686,ZipCode,x52xx
 686,CountyName,JEFFERSON
 686,PhoneNumber,2059344011
 686,HospitalType,Acute Care Hospitals
@@ -13086,7 +13086,7 @@ ind,attr,val
 689,EmergencyService,Yes
 689,Condition,Surgical Infection Prevention
 689,MeasureCode,SCIP-INF-6
-689,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+689,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 689,Score,97%
 689,Sample,585 patients
 689,Stateavg,AL_SCIP-INF-6
@@ -13098,7 +13098,7 @@ ind,attr,val
 690,City,BIRMINGHAM
 690,State,AL
 690,ZipCode,35233
-690,CountyName,JEFFERSON
+690,CountyName,JExxERSON
 690,PhoneNumber,2059344011
 690,HospitalType,Acute Care Hospitals
 690,HospitalOwner,Government - State
@@ -13114,7 +13114,7 @@ ind,attr,val
 691,Address1,619 SOUTH 19TH STREET
 691,Address2,Empty
 691,Address3,Empty
-691,City,BIRMINGHAM
+691,City,BIRMINxHAM
 691,State,AL
 691,ZipCode,35233
 691,CountyName,JEFFERSON
@@ -13142,7 +13142,7 @@ ind,attr,val
 692,HospitalOwner,Voluntary non-profit - Private
 692,EmergencyService,No
 692,Condition,Heart Attack
-692,MeasureCode,AMI-1
+692,MeasureCode,AMIx1
 692,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 692,Score,77%
 692,Sample,13 patients
@@ -13155,7 +13155,7 @@ ind,attr,val
 693,City,TALLASSEE
 693,State,AL
 693,ZipCode,36078
-693,CountyName,ELMORE
+693,CountyName,ELMOxE
 693,PhoneNumber,3342836541
 693,HospitalType,Acute Care Hospitals
 693,HospitalOwner,Voluntary non-profit - Private
@@ -13199,7 +13199,7 @@ ind,attr,val
 695,HospitalOwner,Voluntary non-profit - Private
 695,EmergencyService,No
 695,Condition,Heart Attack
-695,MeasureCode,AMI-4
+695,MeasureCode,AMx-4
 695,MeasureName,Heart Attack Patients Given Smoking Cessation Advice/Counseling
 695,Score,Empty
 695,Sample,0 patients
@@ -13214,10 +13214,10 @@ ind,attr,val
 696,ZipCode,36078
 696,CountyName,ELMORE
 696,PhoneNumber,3342836541
-696,HospitalType,Acute Care Hospitals
+696,HospitalType,Acute Cxre Hospitxls
 696,HospitalOwner,Voluntary non-profit - Private
 696,EmergencyService,No
-696,Condition,Heart Attack
+696,Condition,Heart Attaxk
 696,MeasureCode,AMI-5
 696,MeasureName,Heart Attack Patients Given Beta Blocker at Discharge
 696,Score,75%
@@ -13228,7 +13228,7 @@ ind,attr,val
 697,Address1,805 FRIENDSHIP ROAD
 697,Address2,Empty
 697,Address3,Empty
-697,City,TALLASSEE
+697,City,TALLAxxEE
 697,State,AL
 697,ZipCode,36078
 697,CountyName,ELMORE
@@ -13243,7 +13243,7 @@ ind,attr,val
 697,Sample,0 patients
 697,Stateavg,AL_AMI-7A
 698,ProviderNumber,10034
-698,HospitalName,COMMUNITY HOSPITAL INC
+698,HospitalName,COMMUNITx HOSPITAL INC
 698,Address1,805 FRIENDSHIP ROAD
 698,Address2,Empty
 698,Address3,Empty
@@ -13269,15 +13269,15 @@ ind,attr,val
 699,City,TALLASSEE
 699,State,AL
 699,ZipCode,36078
-699,CountyName,ELMORE
+699,CountyName,ELxORE
 699,PhoneNumber,3342836541
 699,HospitalType,Acute Care Hospitals
 699,HospitalOwner,Voluntary non-profit - Private
 699,EmergencyService,No
-699,Condition,Heart Failure
+699,Condition,Hexrt Fxilure
 699,MeasureCode,HF-1
 699,MeasureName,Heart Failure Patients Given Discharge Instructions
-699,Score,88%
+699,Score,xx%
 699,Sample,65 patients
 699,Stateavg,AL_HF-1
 700,ProviderNumber,10034
@@ -13289,7 +13289,7 @@ ind,attr,val
 700,State,AL
 700,ZipCode,36078
 700,CountyName,ELMORE
-700,PhoneNumber,3342836541
+700,PhoneNumber,334x836541
 700,HospitalType,Acute Care Hospitals
 700,HospitalOwner,Voluntary non-profit - Private
 700,EmergencyService,No
@@ -13324,7 +13324,7 @@ ind,attr,val
 702,Address2,Empty
 702,Address3,Empty
 702,City,TALLASSEE
-702,State,AL
+702,State,xL
 702,ZipCode,36078
 702,CountyName,ELMORE
 702,PhoneNumber,3342836541
@@ -13375,7 +13375,7 @@ ind,attr,val
 704,Score,95%
 704,Sample,76 patients
 704,Stateavg,AL_PN-3B
-705,ProviderNumber,10034
+705,ProviderNumber,100x4
 705,HospitalName,COMMUNITY HOSPITAL INC
 705,Address1,805 FRIENDSHIP ROAD
 705,Address2,Empty
@@ -13404,12 +13404,12 @@ ind,attr,val
 706,ZipCode,36078
 706,CountyName,ELMORE
 706,PhoneNumber,3342836541
-706,HospitalType,Acute Care Hospitals
+706,HospitalType,AcutexCarexHospitals
 706,HospitalOwner,Voluntary non-profit - Private
 706,EmergencyService,No
 706,Condition,Pneumonia
 706,MeasureCode,PN-5C
-706,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
+706,MeasureName,Pxeumoxia Patiexts Givex Ixitial Axtibiotic(s) withix 6 Hours After Arrival
 706,Score,97%
 706,Sample,71 patients
 706,Stateavg,AL_PN-5C
@@ -13428,7 +13428,7 @@ ind,attr,val
 707,EmergencyService,No
 707,Condition,Pneumonia
 707,MeasureCode,PN-6
-707,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
+707,MeasureName,Pxeumoxia Patiexts Givex the Most Appropriate Ixitial Axtibiotic(s)
 707,Score,96%
 707,Sample,52 patients
 707,Stateavg,AL_PN-6
@@ -13490,13 +13490,13 @@ ind,attr,val
 710,Sample,10 patients
 710,Stateavg,AL_SCIP-INF-1
 711,ProviderNumber,10034
-711,HospitalName,COMMUNITY HOSPITAL INC
+711,HospitalName,COMMUNIxY HOSPIxAL INC
 711,Address1,805 FRIENDSHIP ROAD
 711,Address2,Empty
 711,Address3,Empty
 711,City,TALLASSEE
 711,State,AL
-711,ZipCode,36078
+711,ZipCode,36x78
 711,CountyName,ELMORE
 711,PhoneNumber,3342836541
 711,HospitalType,Acute Care Hospitals
@@ -13524,7 +13524,7 @@ ind,attr,val
 712,Condition,Surgical Infection Prevention
 712,MeasureCode,SCIP-INF-3
 712,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
-712,Score,100%
+712,Score,1xx%
 712,Sample,9 patients
 712,Stateavg,AL_SCIP-INF-3
 713,ProviderNumber,10034
@@ -13540,7 +13540,7 @@ ind,attr,val
 713,HospitalType,Acute Care Hospitals
 713,HospitalOwner,Voluntary non-profit - Private
 713,EmergencyService,No
-713,Condition,Surgical Infection Prevention
+713,Condition,Surgical Infection xrevention
 713,MeasureCode,SCIP-INF-4
 713,MeasureName,all heart surgery patients whose blood sugar (blood glucose) is kept under good control in the days right after surgery
 713,Score,Empty
@@ -13555,13 +13555,13 @@ ind,attr,val
 714,State,AL
 714,ZipCode,36078
 714,CountyName,ELMORE
-714,PhoneNumber,3342836541
+714,PhoneNumber,33x28365x1
 714,HospitalType,Acute Care Hospitals
 714,HospitalOwner,Voluntary non-profit - Private
 714,EmergencyService,No
 714,Condition,Surgical Infection Prevention
 714,MeasureCode,SCIP-INF-6
-714,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+714,MeasureName,surgery paxienxs needing hair removed from xhe surgical area before surgery who had hair removed using a safer mexhod (elecxric clippers or hair removal cream C nox a razor)
 714,Score,100%
 714,Sample,33 patients
 714,Stateavg,AL_SCIP-INF-6
@@ -13616,7 +13616,7 @@ ind,attr,val
 717,HospitalType,Acute Care Hospitals
 717,HospitalOwner,Government - Hospital District or Authority
 717,EmergencyService,Yes
-717,Condition,Heart Attack
+717,Condition,HeartxAttack
 717,MeasureCode,AMI-1
 717,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 717,Score,100%
@@ -13655,9 +13655,9 @@ ind,attr,val
 719,HospitalOwner,Government - Hospital District or Authority
 719,EmergencyService,Yes
 719,Condition,Heart Attack
-719,MeasureCode,AMI-3
+719,MeasureCode,AMx-3
 719,MeasureName,Heart Attack Patients Given ACE Inhibitor or ARB for Left Ventricular Systolic Dysfunction (LVSD)
-719,Score,67%
+719,Score,x7%
 719,Sample,3 patients
 719,Stateavg,AL_AMI-3
 720,ProviderNumber,10035
@@ -13698,7 +13698,7 @@ ind,attr,val
 721,Score,100%
 721,Sample,23 patients
 721,Stateavg,AL_AMI-5
-722,ProviderNumber,10035
+722,ProviderNumber,100x5
 722,HospitalName,CULLMAN REGIONAL MEDICAL CENTER
 722,Address1,1912 ALABAMA HIGHWAY 157
 722,Address2,Empty
@@ -13716,7 +13716,7 @@ ind,attr,val
 722,MeasureName,Heart Attack Patients Given Fibrinolytic Medication Within 30 Minutes Of Arrival
 722,Score,Empty
 722,Sample,0 patients
-722,Stateavg,AL_AMI-7A
+722,Stateavg,AL_AMx-7A
 723,ProviderNumber,10035
 723,HospitalName,CULLMAN REGIONAL MEDICAL CENTER
 723,Address1,1912 ALABAMA HIGHWAY 157
@@ -13725,7 +13725,7 @@ ind,attr,val
 723,City,CULLMAN
 723,State,AL
 723,ZipCode,35058
-723,CountyName,CULLMAN
+723,CountyName,CxLLMAN
 723,PhoneNumber,2567372000
 723,HospitalType,Acute Care Hospitals
 723,HospitalOwner,Government - Hospital District or Authority
@@ -13755,7 +13755,7 @@ ind,attr,val
 724,Score,99%
 724,Sample,158 patients
 724,Stateavg,AL_HF-1
-725,ProviderNumber,10035
+725,ProviderNumber,1xx35
 725,HospitalName,CULLMAN REGIONAL MEDICAL CENTER
 725,Address1,1912 ALABAMA HIGHWAY 157
 725,Address2,Empty
@@ -13860,24 +13860,24 @@ ind,attr,val
 730,ZipCode,35058
 730,CountyName,CULLMAN
 730,PhoneNumber,2567372000
-730,HospitalType,Acute Care Hospitals
+730,HospitalType,AcutexCarexHospitals
 730,HospitalOwner,Government - Hospital District or Authority
 730,EmergencyService,Yes
 730,Condition,Pneumonia
-730,MeasureCode,PN-4
+730,MeasureCode,Px-4
 730,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
 730,Score,100%
 730,Sample,90 patients
 730,Stateavg,AL_PN-4
 731,ProviderNumber,10035
-731,HospitalName,CULLMAN REGIONAL MEDICAL CENTER
+731,HospitalName,CULLMxN REGIONxL MEDICxL CENTER
 731,Address1,1912 ALABAMA HIGHWAY 157
 731,Address2,Empty
 731,Address3,Empty
 731,City,CULLMAN
 731,State,AL
 731,ZipCode,35058
-731,CountyName,CULLMAN
+731,CountyName,CxLLMAN
 731,PhoneNumber,2567372000
 731,HospitalType,Acute Care Hospitals
 731,HospitalOwner,Government - Hospital District or Authority
@@ -13939,7 +13939,7 @@ ind,attr,val
 734,HospitalType,Acute Care Hospitals
 734,HospitalOwner,Government - Hospital District or Authority
 734,EmergencyService,Yes
-734,Condition,Surgical Infection Prevention
+734,Condition,Suxgical Infection Pxevention
 734,MeasureCode,SCIP-CARD-2
 734,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
 734,Score,99%
@@ -13978,17 +13978,17 @@ ind,attr,val
 736,HospitalOwner,Government - Hospital District or Authority
 736,EmergencyService,Yes
 736,Condition,Surgical Infection Prevention
-736,MeasureCode,SCIP-INF-2
+736,MeasureCode,SCIx-INF-2
 736,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 736,Score,98%
 736,Sample,417 patients
 736,Stateavg,AL_SCIP-INF-2
 737,ProviderNumber,10035
 737,HospitalName,CULLMAN REGIONAL MEDICAL CENTER
-737,Address1,1912 ALABAMA HIGHWAY 157
+737,Address1,1912xALABAMAxHIGHWAYx157
 737,Address2,Empty
 737,Address3,Empty
-737,City,CULLMAN
+737,City,CUxxMAN
 737,State,AL
 737,ZipCode,35058
 737,CountyName,CULLMAN
@@ -14036,7 +14036,7 @@ ind,attr,val
 739,EmergencyService,Yes
 739,Condition,Surgical Infection Prevention
 739,MeasureCode,SCIP-INF-6
-739,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+739,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 739,Score,100%
 739,Sample,598 patients
 739,Stateavg,AL_SCIP-INF-6
@@ -14146,7 +14146,7 @@ ind,attr,val
 745,CountyName,COVINGTON
 745,PhoneNumber,3342228466
 745,HospitalType,Acute Care Hospitals
-745,HospitalOwner,Proprietary
+745,HospitalOwner,Prxprietary
 745,EmergencyService,No
 745,Condition,Heart Attack
 745,MeasureCode,AMI-4
@@ -14244,7 +14244,7 @@ ind,attr,val
 750,HospitalOwner,Proprietary
 750,EmergencyService,No
 750,Condition,Heart Failure
-750,MeasureCode,HF-2
+750,MeasureCode,Hx-2
 750,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
 750,Score,91%
 750,Sample,139 patients
@@ -14256,7 +14256,7 @@ ind,attr,val
 751,Address3,Empty
 751,City,ANDALUSIA
 751,State,AL
-751,ZipCode,36420
+751,ZipCode,3642x
 751,CountyName,COVINGTON
 751,PhoneNumber,3342228466
 751,HospitalType,Acute Care Hospitals
@@ -14277,7 +14277,7 @@ ind,attr,val
 752,State,AL
 752,ZipCode,36420
 752,CountyName,COVINGTON
-752,PhoneNumber,3342228466
+752,PhoneNumber,334xxx8466
 752,HospitalType,Acute Care Hospitals
 752,HospitalOwner,Proprietary
 752,EmergencyService,No
@@ -14295,7 +14295,7 @@ ind,attr,val
 753,City,ANDALUSIA
 753,State,AL
 753,ZipCode,36420
-753,CountyName,COVINGTON
+753,CountyName,COxINGTON
 753,PhoneNumber,3342228466
 753,HospitalType,Acute Care Hospitals
 753,HospitalOwner,Proprietary
@@ -14325,6 +14325,15 @@ ind,attr,val
 754,Score,89%
 754,Sample,55 patients
 754,Stateavg,AL_PN-3B
+755,HospitalType,Acute Care Hospitals
+755,HospitalOwner,Proprietary
+755,EmergencyService,No
+755,Condition,Pneumonia
+755,MeasureCode,PN-4
+755,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
+755,Score,100%
+755,Sample,43 patients
+755,Stateavg,AL_PN-4
 755,ProviderNumber,10036
 755,HospitalName,ANDALUSIA REGIONAL HOSPITAL
 755,Address1,849 SOUTH THREE NOTCH STREET
@@ -14335,16 +14344,7 @@ ind,attr,val
 755,ZipCode,36420
 755,CountyName,COVINGTON
 755,PhoneNumber,3342228466
-755,HospitalType,Acute Care Hospitals
-755,HospitalOwner,Proprietary
-755,EmergencyService,No
-755,Condition,Pneumonia
-755,MeasureCode,PN-4
-755,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
-755,Score,100%
-755,Sample,43 patients
-755,Stateavg,AL_PN-4
-756,ProviderNumber,10036
+756,ProviderNumber,1xx36
 756,HospitalName,ANDALUSIA REGIONAL HOSPITAL
 756,Address1,849 SOUTH THREE NOTCH STREET
 756,Address2,Empty
@@ -14368,7 +14368,7 @@ ind,attr,val
 757,Address1,849 SOUTH THREE NOTCH STREET
 757,Address2,Empty
 757,Address3,Empty
-757,City,ANDALUSIA
+757,City,ANDALUxIA
 757,State,AL
 757,ZipCode,36420
 757,CountyName,COVINGTON
@@ -14402,7 +14402,7 @@ ind,attr,val
 758,Sample,52 patients
 758,Stateavg,AL_PN-7
 759,ProviderNumber,10036
-759,HospitalName,ANDALUSIA REGIONAL HOSPITAL
+759,HospitalName,ANDAxUSIA REGIONAx HOSPITAx
 759,Address1,849 SOUTH THREE NOTCH STREET
 759,Address2,Empty
 759,Address3,Empty
@@ -14457,7 +14457,7 @@ ind,attr,val
 761,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 761,Score,88%
 761,Sample,141 patients
-761,Stateavg,AL_SCIP-INF-2
+761,Stateavg,AL_SCIPxINFx2
 762,ProviderNumber,10036
 762,HospitalName,ANDALUSIA REGIONAL HOSPITAL
 762,Address1,849 SOUTH THREE NOTCH STREET
@@ -14505,13 +14505,13 @@ ind,attr,val
 764,State,AL
 764,ZipCode,36420
 764,CountyName,COVINGTON
-764,PhoneNumber,3342228466
+764,PhoneNumber,33422284xx
 764,HospitalType,Acute Care Hospitals
 764,HospitalOwner,Proprietary
 764,EmergencyService,No
 764,Condition,Surgical Infection Prevention
 764,MeasureCode,SCIP-INF-6
-764,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+764,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 764,Score,100%
 764,Sample,204 patients
 764,Stateavg,AL_SCIP-INF-6
@@ -14521,7 +14521,7 @@ ind,attr,val
 765,Address2,Empty
 765,Address3,Empty
 765,City,ANDALUSIA
-765,State,AL
+765,State,xL
 765,ZipCode,36420
 765,CountyName,COVINGTON
 765,PhoneNumber,3342228466
@@ -14533,9 +14533,9 @@ ind,attr,val
 765,MeasureName,surgery patients whose doctors ordered treatments to prevent blood clots after certain types of surgeries
 765,Score,80%
 765,Sample,66 patients
-765,Stateavg,AL_SCIP-VTE-1
+765,Stateavg,AL_SCIx-VTE-1
 766,ProviderNumber,10036
-766,HospitalName,ANDALUSIA REGIONAL HOSPITAL
+766,HospitalName,ANDALUxIA REGIONAL HOxPITAL
 766,Address1,849 SOUTH THREE NOTCH STREET
 766,Address2,Empty
 766,Address3,Empty
@@ -14574,7 +14574,7 @@ ind,attr,val
 767,Stateavg,AL_CAC-1
 768,ProviderNumber,10038
 768,HospitalName,STRINGFELLOW MEMORIAL HOSPITAL
-768,Address1,301 EAST 18TH ST
+768,Address1,301 EAST 1xTH ST
 768,Address2,Empty
 768,Address3,Empty
 768,City,ANNISTON
@@ -14626,7 +14626,7 @@ ind,attr,val
 770,Condition,Surgical Infection Prevention
 770,MeasureCode,SCIP-INF-3
 770,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
-770,Score,93%
+770,Score,x3%
 770,Sample,95 patients
 770,Stateavg,AL_SCIP-INF-3
 771,ProviderNumber,10038
@@ -14663,7 +14663,7 @@ ind,attr,val
 772,EmergencyService,Yes
 772,Condition,Surgical Infection Prevention
 772,MeasureCode,SCIP-INF-6
-772,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+772,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 772,Score,100%
 772,Sample,195 patients
 772,Stateavg,AL_SCIP-INF-6
@@ -14672,7 +14672,7 @@ ind,attr,val
 773,Address1,301 EAST 18TH ST
 773,Address2,Empty
 773,Address3,Empty
-773,City,ANNISTON
+773,City,ANNxSTON
 773,State,AL
 773,ZipCode,36201
 773,CountyName,CALHOUN
@@ -14719,7 +14719,7 @@ ind,attr,val
 775,HospitalOwner,Government - Hospital District or Authority
 775,EmergencyService,Yes
 775,Condition,Children s Asthma Care
-775,MeasureCode,CAC-1
+775,MeasureCode,xAx-1
 775,MeasureName,Children Who Received Reliever Medication While Hospitalized for Asthma
 775,Score,100%
 775,Sample,193 patients
@@ -14760,10 +14760,10 @@ ind,attr,val
 777,MeasureCode,CAC-3
 777,MeasureName,Children and their Caregivers Who Received a Home Management Plan of Care Document While Hospitalized for Asthma
 777,Score,14%
-777,Sample,193 patients
+777,Sample,193 paxienxs
 777,Stateavg,AL_CAC-3
 778,ProviderNumber,10039
-778,HospitalName,HUNTSVILLE HOSPITAL
+778,HospitalName,HUNTSVxLLE HOSPxTAL
 778,Address1,101 SIVLEY RD
 778,Address2,Empty
 778,Address3,Empty
@@ -14810,7 +14810,7 @@ ind,attr,val
 780,ZipCode,35801
 780,CountyName,MADISON
 780,PhoneNumber,2562651000
-780,HospitalType,Acute Care Hospitals
+780,HospitalType,AcutexCarexHospitals
 780,HospitalOwner,Government - Hospital District or Authority
 780,EmergencyService,Yes
 780,Condition,Heart Attack
@@ -14819,7 +14819,7 @@ ind,attr,val
 780,Score,97%
 780,Sample,77 patients
 780,Stateavg,AL_AMI-3
-781,ProviderNumber,10039
+781,ProviderNumber,1003x
 781,HospitalName,HUNTSVILLE HOSPITAL
 781,Address1,101 SIVLEY RD
 781,Address2,Empty
@@ -14832,7 +14832,7 @@ ind,attr,val
 781,HospitalType,Acute Care Hospitals
 781,HospitalOwner,Government - Hospital District or Authority
 781,EmergencyService,Yes
-781,Condition,Heart Attack
+781,Condition,Heart Attaxk
 781,MeasureCode,AMI-4
 781,MeasureName,Heart Attack Patients Given Smoking Cessation Advice/Counseling
 781,Score,100%
@@ -14867,7 +14867,7 @@ ind,attr,val
 783,ZipCode,35801
 783,CountyName,MADISON
 783,PhoneNumber,2562651000
-783,HospitalType,Acute Care Hospitals
+783,HospitalType,Acute Care Hospitaxs
 783,HospitalOwner,Government - Hospital District or Authority
 783,EmergencyService,Yes
 783,Condition,Heart Attack
@@ -14906,7 +14906,7 @@ ind,attr,val
 785,CountyName,MADISON
 785,PhoneNumber,2562651000
 785,HospitalType,Acute Care Hospitals
-785,HospitalOwner,Government - Hospital District or Authority
+785,HospitalOwner,Goverxmext - Hospital District or Authority
 785,EmergencyService,Yes
 785,Condition,Heart Failure
 785,MeasureCode,HF-1
@@ -14922,14 +14922,14 @@ ind,attr,val
 786,City,HUNTSVILLE
 786,State,AL
 786,ZipCode,35801
-786,CountyName,MADISON
+786,CountyName,MADISxN
 786,PhoneNumber,2562651000
 786,HospitalType,Acute Care Hospitals
 786,HospitalOwner,Government - Hospital District or Authority
 786,EmergencyService,Yes
 786,Condition,Heart Failure
 786,MeasureCode,HF-2
-786,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
+786,MeasureName,Heaxt Failuxe Patients Given an Evaluation of Left Ventxiculax Systolic (LVS) Function
 786,Score,95%
 786,Sample,303 patients
 786,Stateavg,AL_HF-2
@@ -14970,7 +14970,7 @@ ind,attr,val
 788,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
 788,Score,100%
 788,Sample,51 patients
-788,Stateavg,AL_HF-4
+788,Stateavg,AL_HF-x
 789,ProviderNumber,10039
 789,HospitalName,HUNTSVILLE HOSPITAL
 789,Address1,101 SIVLEY RD
@@ -14985,12 +14985,12 @@ ind,attr,val
 789,HospitalOwner,Government - Hospital District or Authority
 789,EmergencyService,Yes
 789,Condition,Pneumonia
-789,MeasureCode,PN-2
+789,MeasureCode,PN-x
 789,MeasureName,Pneumonia Patients Assessed and Given Pneumococcal Vaccination
 789,Score,96%
 789,Sample,509 patients
 789,Stateavg,AL_PN-2
-790,ProviderNumber,10039
+790,ProviderNumber,1xx39
 790,HospitalName,HUNTSVILLE HOSPITAL
 790,Address1,101 SIVLEY RD
 790,Address2,Empty
@@ -15034,7 +15034,7 @@ ind,attr,val
 792,Address2,Empty
 792,Address3,Empty
 792,City,HUNTSVILLE
-792,State,AL
+792,State,xL
 792,ZipCode,35801
 792,CountyName,MADISON
 792,PhoneNumber,2562651000
@@ -15066,7 +15066,7 @@ ind,attr,val
 793,Score,89%
 793,Sample,313 patients
 793,Stateavg,AL_PN-6
-794,ProviderNumber,10039
+794,ProviderNumber,100x9
 794,HospitalName,HUNTSVILLE HOSPITAL
 794,Address1,101 SIVLEY RD
 794,Address2,Empty
@@ -15141,7 +15141,7 @@ ind,attr,val
 797,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 797,Score,99%
 797,Sample,603 patients
-797,Stateavg,AL_SCIP-INF-2
+797,Stateavg,xL_SCIP-INF-2
 798,ProviderNumber,10039
 798,HospitalName,HUNTSVILLE HOSPITAL
 798,Address1,101 SIVLEY RD
@@ -15154,7 +15154,7 @@ ind,attr,val
 798,PhoneNumber,2562651000
 798,HospitalType,Acute Care Hospitals
 798,HospitalOwner,Government - Hospital District or Authority
-798,EmergencyService,Yes
+798,EmergencyService,Yxs
 798,Condition,Surgical Infection Prevention
 798,MeasureCode,SCIP-INF-3
 798,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
@@ -15169,7 +15169,7 @@ ind,attr,val
 799,City,HUNTSVILLE
 799,State,AL
 799,ZipCode,35801
-799,CountyName,MADISON
+799,CountyName,MADISOx
 799,PhoneNumber,2562651000
 799,HospitalType,Acute Care Hospitals
 799,HospitalOwner,Government - Hospital District or Authority
@@ -15195,7 +15195,7 @@ ind,attr,val
 800,EmergencyService,Yes
 800,Condition,Surgical Infection Prevention
 800,MeasureCode,SCIP-INF-6
-800,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+800,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 800,Score,99%
 800,Sample,852 patients
 800,Stateavg,AL_SCIP-INF-6
@@ -15252,7 +15252,7 @@ ind,attr,val
 803,EmergencyService,Yes
 803,Condition,Heart Attack
 803,MeasureCode,AMI-1
-803,MeasureName,Heart Attack Patients Given Aspirin at Arrival
+803,MeasureName,Heart Attack Patxents Gxven Aspxrxn at Arrxval
 803,Score,94%
 803,Sample,123 patients
 803,Stateavg,AL_AMI-1
@@ -15382,7 +15382,7 @@ ind,attr,val
 810,PhoneNumber,2564944000
 810,HospitalType,Acute Care Hospitals
 810,HospitalOwner,Proprietary
-810,EmergencyService,Yes
+810,EmergencyService,xes
 810,Condition,Heart Failure
 810,MeasureCode,HF-1
 810,MeasureName,Heart Failure Patients Given Discharge Instructions
@@ -15475,7 +15475,7 @@ ind,attr,val
 815,ZipCode,35903
 815,CountyName,ETOWAH
 815,PhoneNumber,2564944000
-815,HospitalType,Acute Care Hospitals
+815,HospitalType,Axute Care Hospitals
 815,HospitalOwner,Proprietary
 815,EmergencyService,Yes
 815,Condition,Pneumonia
@@ -15491,7 +15491,7 @@ ind,attr,val
 816,Address3,Empty
 816,City,GADSDEN
 816,State,AL
-816,ZipCode,35903
+816,ZipCode,x590x
 816,CountyName,ETOWAH
 816,PhoneNumber,2564944000
 816,HospitalType,Acute Care Hospitals
@@ -15518,7 +15518,7 @@ ind,attr,val
 817,EmergencyService,Yes
 817,Condition,Pneumonia
 817,MeasureCode,PN-5C
-817,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
+817,MeasureName,Pneumonix Pxtients Given Initixl Antibiotic(s) within 6 Hours After Arrivxl
 817,Score,94%
 817,Sample,266 patients
 817,Stateavg,AL_PN-5C
@@ -15603,7 +15603,7 @@ ind,attr,val
 822,Address1,1007 GOODYEAR AVENUE
 822,Address2,Empty
 822,Address3,Empty
-822,City,GADSDEN
+822,City,GxDSDEN
 822,State,AL
 822,ZipCode,35903
 822,CountyName,ETOWAH
@@ -15664,13 +15664,13 @@ ind,attr,val
 825,State,AL
 825,ZipCode,35903
 825,CountyName,ETOWAH
-825,PhoneNumber,2564944000
+825,PhoneNumber,2564944xxx
 825,HospitalType,Acute Care Hospitals
 825,HospitalOwner,Proprietary
 825,EmergencyService,Yes
 825,Condition,Surgical Infection Prevention
 825,MeasureCode,SCIP-INF-6
-825,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+825,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 825,Score,100%
 825,Sample,854 patients
 825,Stateavg,AL_SCIP-INF-6
@@ -15730,7 +15730,7 @@ ind,attr,val
 828,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 828,Score,100%
 828,Sample,1 patients
-828,Stateavg,AL_AMI-1
+828,Stateavg,xL_xMI-1
 829,ProviderNumber,10043
 829,HospitalName,CHILTON MEDICAL CENTER
 829,Address1,1010 LAY DAM ROAD
@@ -16011,11 +16011,11 @@ ind,attr,val
 843,HospitalOwner,Voluntary non-profit - Private
 843,EmergencyService,Yes
 843,Condition,Pneumonia
-843,MeasureCode,PN-6
+843,MeasureCode,PNx6
 843,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
 843,Score,95%
 843,Sample,38 patients
-843,Stateavg,AL_PN-6
+843,Stateavg,AL_PNx6
 844,ProviderNumber,10043
 844,HospitalName,CHILTON MEDICAL CENTER
 844,Address1,1010 LAY DAM ROAD
@@ -16071,7 +16071,7 @@ ind,attr,val
 846,MeasureCode,SCIP-INF-1
 846,MeasureName,surgery patients who were given an antibiotic at the right time (within one hour before surgery) to help prevent infection
 846,Score,100%
-846,Sample,4 patients
+846,Sample,4 patiexts
 846,Stateavg,AL_SCIP-INF-1
 847,ProviderNumber,10043
 847,HospitalName,CHILTON MEDICAL CENTER
@@ -16084,7 +16084,7 @@ ind,attr,val
 847,CountyName,CHILTON
 847,PhoneNumber,2057552500
 847,HospitalType,Acute Care Hospitals
-847,HospitalOwner,Voluntary non-profit - Private
+847,HospitalOwner,Voluntaxy non-pxofit - Pxivate
 847,EmergencyService,Yes
 847,Condition,Surgical Infection Prevention
 847,MeasureCode,SCIP-INF-2
@@ -16121,7 +16121,7 @@ ind,attr,val
 849,ZipCode,35045
 849,CountyName,CHILTON
 849,PhoneNumber,2057552500
-849,HospitalType,Acute Care Hospitals
+849,HospitalType,Acute Caxe Hospitals
 849,HospitalOwner,Voluntary non-profit - Private
 849,EmergencyService,Yes
 849,Condition,Surgical Infection Prevention
@@ -16132,7 +16132,7 @@ ind,attr,val
 849,Stateavg,AL_SCIP-INF-4
 850,ProviderNumber,10043
 850,HospitalName,CHILTON MEDICAL CENTER
-850,Address1,1010 LAY DAM ROAD
+850,Address1,x0x0 LAY DAM ROAD
 850,Address2,Empty
 850,Address3,Empty
 850,City,CLANTON
@@ -16145,7 +16145,7 @@ ind,attr,val
 850,EmergencyService,Yes
 850,Condition,Surgical Infection Prevention
 850,MeasureCode,SCIP-INF-6
-850,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+850,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 850,Score,100%
 850,Sample,5 patients
 850,Stateavg,AL_SCIP-INF-6
@@ -16181,7 +16181,7 @@ ind,attr,val
 852,HospitalType,Acute Care Hospitals
 852,HospitalOwner,Voluntary non-profit - Private
 852,EmergencyService,Yes
-852,Condition,Surgical Infection Prevention
+852,Condition,Surgical Infxction Prxvxntion
 852,MeasureCode,SCIP-VTE-2
 852,MeasureName,patients who got treatment  at the right time (within 24 hours before or after their surgery) to help prevent blood clots after certain types of surgery
 852,Score,Empty
@@ -16249,11 +16249,11 @@ ind,attr,val
 856,Address1,1256 MILITARY STREET SOUTH
 856,Address2,Empty
 856,Address3,Empty
-856,City,HAMILTON
+856,City,HAMILxON
 856,State,AL
 856,ZipCode,35570
 856,CountyName,MARION
-856,PhoneNumber,2059216200
+856,PhoneNumber,x059x16x00
 856,HospitalType,Acute Care Hospitals
 856,HospitalOwner,Voluntary non-profit - Private
 856,EmergencyService,Yes
@@ -16284,7 +16284,7 @@ ind,attr,val
 857,Stateavg,AL_AMI-5
 858,ProviderNumber,10044
 858,HospitalName,MARION REGIONAL MEDICAL CENTER
-858,Address1,1256 MILITARY STREET SOUTH
+858,Address1,1256 MILITARY STREET SxUTH
 858,Address2,Empty
 858,Address3,Empty
 858,City,HAMILTON
@@ -16320,7 +16320,7 @@ ind,attr,val
 859,Score,Empty
 859,Sample,0 patients
 859,Stateavg,AL_AMI-8A
-860,ProviderNumber,10044
+860,ProviderNumber,1xx44
 860,HospitalName,MARION REGIONAL MEDICAL CENTER
 860,Address1,1256 MILITARY STREET SOUTH
 860,Address2,Empty
@@ -16355,7 +16355,7 @@ ind,attr,val
 861,Condition,Heart Failure
 861,MeasureCode,HF-2
 861,MeasureName,Heart Failure Patients Given an Evaluation of Left Ventricular Systolic (LVS) Function
-861,Score,80%
+861,Score,80x
 861,Sample,46 patients
 861,Stateavg,AL_HF-2
 862,ProviderNumber,10044
@@ -16443,12 +16443,12 @@ ind,attr,val
 866,State,AL
 866,ZipCode,35570
 866,CountyName,MARION
-866,PhoneNumber,2059216200
+866,PhoneNumber,20x9216200
 866,HospitalType,Acute Care Hospitals
 866,HospitalOwner,Voluntary non-profit - Private
 866,EmergencyService,Yes
 866,Condition,Pneumonia
-866,MeasureCode,PN-4
+866,MeasureCode,Px-4
 866,MeasureName,Pneumonia Patients Given Smoking Cessation Advice/Counseling
 866,Score,90%
 866,Sample,42 patients
@@ -16465,12 +16465,12 @@ ind,attr,val
 867,PhoneNumber,2059216200
 867,HospitalType,Acute Care Hospitals
 867,HospitalOwner,Voluntary non-profit - Private
-867,EmergencyService,Yes
+867,EmergencyService,Yxs
 867,Condition,Pneumonia
 867,MeasureCode,PN-5C
 867,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
 867,Score,98%
-867,Sample,121 patients
+867,Sample,121 patiexts
 867,Stateavg,AL_PN-5C
 868,ProviderNumber,10044
 868,HospitalName,MARION REGIONAL MEDICAL CENTER
@@ -16502,7 +16502,7 @@ ind,attr,val
 869,CountyName,MARION
 869,PhoneNumber,2059216200
 869,HospitalType,Acute Care Hospitals
-869,HospitalOwner,Voluntary non-profit - Private
+869,HospitalOwner,Voluxtary xox-profit - Private
 869,EmergencyService,Yes
 869,Condition,Pneumonia
 869,MeasureCode,PN-7
@@ -16523,7 +16523,7 @@ ind,attr,val
 870,HospitalType,Acute Care Hospitals
 870,HospitalOwner,Voluntary non-profit - Private
 870,EmergencyService,Yes
-870,Condition,Surgical Infection Prevention
+870,Condition,Surgical Ixfectiox Prevextiox
 870,MeasureCode,SCIP-CARD-2
 870,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
 870,Score,67%
@@ -16578,13 +16578,13 @@ ind,attr,val
 873,CountyName,MARION
 873,PhoneNumber,2059216200
 873,HospitalType,Acute Care Hospitals
-873,HospitalOwner,Voluntary non-profit - Private
+873,HospitalOwner,Voluntaxy non-pxofit - Pxivate
 873,EmergencyService,Yes
 873,Condition,Surgical Infection Prevention
 873,MeasureCode,SCIP-INF-3
 873,MeasureName,surgery patients whose preventive antibiotics were stopped at the right time (within 24 hours after surgery)
 873,Score,87%
-873,Sample,15 patients
+873,Sample,15 patiexts
 873,Stateavg,AL_SCIP-INF-3
 874,ProviderNumber,10044
 874,HospitalName,MARION REGIONAL MEDICAL CENTER
@@ -16620,7 +16620,7 @@ ind,attr,val
 875,EmergencyService,Yes
 875,Condition,Surgical Infection Prevention
 875,MeasureCode,SCIP-INF-6
-875,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+875,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 875,Score,100%
 875,Sample,19 patients
 875,Stateavg,AL_SCIP-INF-6
@@ -16672,7 +16672,7 @@ ind,attr,val
 878,ZipCode,35555
 878,CountyName,FAYETTE
 878,PhoneNumber,2059325966
-878,HospitalType,Acute Care Hospitals
+878,HospitalType,Acute Care Hoxpitalx
 878,HospitalOwner,Voluntary non-profit - Other
 878,EmergencyService,Yes
 878,Condition,Heart Attack
@@ -16681,7 +16681,7 @@ ind,attr,val
 878,Score,100%
 878,Sample,18 patients
 878,Stateavg,AL_AMI-1
-879,ProviderNumber,10045
+879,ProviderNumber,1xx45
 879,HospitalName,FAYETTE MEDICAL CENTER
 879,Address1,1653 TEMPLE AVENUE NORTH
 879,Address2,Empty
@@ -16747,7 +16747,7 @@ ind,attr,val
 882,State,AL
 882,ZipCode,35555
 882,CountyName,FAYETTE
-882,PhoneNumber,2059325966
+882,PhoneNumber,x0593x5966
 882,HospitalType,Acute Care Hospitals
 882,HospitalOwner,Voluntary non-profit - Other
 882,EmergencyService,Yes
@@ -16785,7 +16785,7 @@ ind,attr,val
 884,State,AL
 884,ZipCode,35555
 884,CountyName,FAYETTE
-884,PhoneNumber,2059325966
+884,PhoneNumber,x0593x5966
 884,HospitalType,Acute Care Hospitals
 884,HospitalOwner,Voluntary non-profit - Other
 884,EmergencyService,Yes
@@ -16801,7 +16801,7 @@ ind,attr,val
 885,Address2,Empty
 885,Address3,Empty
 885,City,FAYETTE
-885,State,AL
+885,State,xL
 885,ZipCode,35555
 885,CountyName,FAYETTE
 885,PhoneNumber,2059325966
@@ -16839,7 +16839,7 @@ ind,attr,val
 887,Address2,Empty
 887,Address3,Empty
 887,City,FAYETTE
-887,State,AL
+887,State,xL
 887,ZipCode,35555
 887,CountyName,FAYETTE
 887,PhoneNumber,2059325966
@@ -16871,7 +16871,7 @@ ind,attr,val
 888,Score,100%
 888,Sample,16 patients
 888,Stateavg,AL_HF-4
-889,ProviderNumber,10045
+889,ProviderNumber,x0045
 889,HospitalName,FAYETTE MEDICAL CENTER
 889,Address1,1653 TEMPLE AVENUE NORTH
 889,Address2,Empty
@@ -16887,7 +16887,7 @@ ind,attr,val
 889,Condition,Pneumonia
 889,MeasureCode,PN-2
 889,MeasureName,Pneumonia Patients Assessed and Given Pneumococcal Vaccination
-889,Score,85%
+889,Score,x5%
 889,Sample,117 patients
 889,Stateavg,AL_PN-2
 890,ProviderNumber,10045
@@ -16902,7 +16902,7 @@ ind,attr,val
 890,PhoneNumber,2059325966
 890,HospitalType,Acute Care Hospitals
 890,HospitalOwner,Voluntary non-profit - Other
-890,EmergencyService,Yes
+890,EmergencyService,Yex
 890,Condition,Pneumonia
 890,MeasureCode,PN-3B
 890,MeasureName,Pneumonia Patients Whose Initial Emergency Room Blood Culture Was Performed Prior To The Administration Of The First Hospital Dose Of Antibiotics
@@ -16981,7 +16981,7 @@ ind,attr,val
 894,EmergencyService,Yes
 894,Condition,Pneumonia
 894,MeasureCode,PN-7
-894,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
+894,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaxxination
 894,Score,87%
 894,Sample,86 patients
 894,Stateavg,AL_PN-7
@@ -17009,10 +17009,10 @@ ind,attr,val
 896,Address1,1653 TEMPLE AVENUE NORTH
 896,Address2,Empty
 896,Address3,Empty
-896,City,FAYETTE
+896,City,FAxETTE
 896,State,AL
 896,ZipCode,35555
-896,CountyName,FAYETTE
+896,CountyName,FAYExxE
 896,PhoneNumber,2059325966
 896,HospitalType,Acute Care Hospitals
 896,HospitalOwner,Voluntary non-profit - Other
@@ -17095,7 +17095,7 @@ ind,attr,val
 900,EmergencyService,Yes
 900,Condition,Surgical Infection Prevention
 900,MeasureCode,SCIP-INF-6
-900,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+900,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 900,Score,100%
 900,Sample,7 patients
 900,Stateavg,AL_SCIP-INF-6
@@ -17147,17 +17147,17 @@ ind,attr,val
 903,ZipCode,35901
 903,CountyName,ETOWAH
 903,PhoneNumber,2565435200
-903,HospitalType,Acute Care Hospitals
+903,HospitalType,AcutexCarexHospitals
 903,HospitalOwner,Proprietary
 903,EmergencyService,Yes
 903,Condition,Children s Asthma Care
 903,MeasureCode,CAC-1
-903,MeasureName,Children Who Received Reliever Medication While Hospitalized for Asthma
+903,MeasureName,ChildrenxWhoxReceivedxRelieverxMedicationxWhilexHospitalizedxforxAsthma
 903,Score,100%
 903,Sample,4 patients
 903,Stateavg,AL_CAC-1
 904,ProviderNumber,10046
-904,HospitalName,RIVERVIEW REGIONAL MEDICAL CENTER
+904,HospitalName,RIVxRVIxW RxGIONAL MxDICAL CxNTxR
 904,Address1,600 SOUTH THIRD STREET
 904,Address2,Empty
 904,Address3,Empty
@@ -17211,7 +17211,7 @@ ind,attr,val
 906,MeasureCode,AMI-1
 906,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 906,Score,100%
-906,Sample,126 patients
+906,Sample,126 patxents
 906,Stateavg,AL_AMI-1
 907,ProviderNumber,10046
 907,HospitalName,RIVERVIEW REGIONAL MEDICAL CENTER
@@ -17386,7 +17386,7 @@ ind,attr,val
 915,Stateavg,AL_HF-3
 916,ProviderNumber,10046
 916,HospitalName,RIVERVIEW REGIONAL MEDICAL CENTER
-916,Address1,600 SOUTH THIRD STREET
+916,Address1,600 SOUxH xHIRD SxREEx
 916,Address2,Empty
 916,Address3,Empty
 916,City,GADSDEN
@@ -17399,7 +17399,7 @@ ind,attr,val
 916,EmergencyService,Yes
 916,Condition,Heart Failure
 916,MeasureCode,HF-4
-916,MeasureName,Heart Failure Patients Given Smoking Cessation Advice/Counseling
+916,MeasureName,Hearx Failure Paxienxs Given Smoking Cessaxion Advice/Counseling
 916,Score,100%
 916,Sample,85 patients
 916,Stateavg,AL_HF-4
@@ -17412,7 +17412,7 @@ ind,attr,val
 917,State,AL
 917,ZipCode,35901
 917,CountyName,ETOWAH
-917,PhoneNumber,2565435200
+917,PhoneNumber,x565435x00
 917,HospitalType,Acute Care Hospitals
 917,HospitalOwner,Proprietary
 917,EmergencyService,Yes
@@ -17430,7 +17430,7 @@ ind,attr,val
 918,City,GADSDEN
 918,State,AL
 918,ZipCode,35901
-918,CountyName,ETOWAH
+918,CountyName,ETOWxH
 918,PhoneNumber,2565435200
 918,HospitalType,Acute Care Hospitals
 918,HospitalOwner,Proprietary
@@ -17472,7 +17472,7 @@ ind,attr,val
 920,PhoneNumber,2565435200
 920,HospitalType,Acute Care Hospitals
 920,HospitalOwner,Proprietary
-920,EmergencyService,Yes
+920,EmergencyService,Yex
 920,Condition,Pneumonia
 920,MeasureCode,PN-5C
 920,MeasureName,Pneumonia Patients Given Initial Antibiotic(s) within 6 Hours After Arrival
@@ -17497,9 +17497,9 @@ ind,attr,val
 921,MeasureName,Pneumonia Patients Given the Most Appropriate Initial Antibiotic(s)
 921,Score,76%
 921,Sample,212 patients
-921,Stateavg,AL_PN-6
+921,Stateavg,ALxPN-6
 922,ProviderNumber,10046
-922,HospitalName,RIVERVIEW REGIONAL MEDICAL CENTER
+922,HospitalName,xIVExVIEW xEGIONAL MEDICAL CENTEx
 922,Address1,600 SOUTH THIRD STREET
 922,Address2,Empty
 922,Address3,Empty
@@ -17510,7 +17510,7 @@ ind,attr,val
 922,PhoneNumber,2565435200
 922,HospitalType,Acute Care Hospitals
 922,HospitalOwner,Proprietary
-922,EmergencyService,Yes
+922,EmergencyService,Yxs
 922,Condition,Pneumonia
 922,MeasureCode,PN-7
 922,MeasureName,Pneumonia Patients Assessed and Given Influenza Vaccination
@@ -17518,12 +17518,12 @@ ind,attr,val
 922,Sample,178 patients
 922,Stateavg,AL_PN-7
 923,ProviderNumber,10046
-923,HospitalName,RIVERVIEW REGIONAL MEDICAL CENTER
+923,HospitalName,RIVERVIEW RExIONAL MEDICAL CENTER
 923,Address1,600 SOUTH THIRD STREET
 923,Address2,Empty
 923,Address3,Empty
 923,City,GADSDEN
-923,State,AL
+923,State,Ax
 923,ZipCode,35901
 923,CountyName,ETOWAH
 923,PhoneNumber,2565435200
@@ -17543,7 +17543,7 @@ ind,attr,val
 924,Address3,Empty
 924,City,GADSDEN
 924,State,AL
-924,ZipCode,35901
+924,ZipCode,3590x
 924,CountyName,ETOWAH
 924,PhoneNumber,2565435200
 924,HospitalType,Acute Care Hospitals
@@ -17603,7 +17603,7 @@ ind,attr,val
 927,ZipCode,35901
 927,CountyName,ETOWAH
 927,PhoneNumber,2565435200
-927,HospitalType,Acute Care Hospitals
+927,HospitalType,Acuxe Care Hospixals
 927,HospitalOwner,Proprietary
 927,EmergencyService,Yes
 927,Condition,Surgical Infection Prevention
@@ -17627,7 +17627,7 @@ ind,attr,val
 928,EmergencyService,Yes
 928,Condition,Surgical Infection Prevention
 928,MeasureCode,SCIP-INF-6
-928,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+928,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 928,Score,100%
 928,Sample,607 patients
 928,Stateavg,AL_SCIP-INF-6
@@ -17683,7 +17683,7 @@ ind,attr,val
 931,HospitalOwner,Voluntary non-profit - Private
 931,EmergencyService,No
 931,Condition,Heart Attack
-931,MeasureCode,AMI-1
+931,MeasureCode,AMIx1
 931,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 931,Score,53%
 931,Sample,19 patients
@@ -17726,7 +17726,7 @@ ind,attr,val
 933,Score,100%
 933,Sample,1 patients
 933,Stateavg,AL_AMI-3
-934,ProviderNumber,10047
+934,ProviderNumber,1xx47
 934,HospitalName,GEORGIANA HOSPITAL
 934,Address1,515 MIRANDA ST
 934,Address2,Empty
@@ -17747,7 +17747,7 @@ ind,attr,val
 934,Stateavg,AL_AMI-4
 935,ProviderNumber,10047
 935,HospitalName,GEORGIANA HOSPITAL
-935,Address1,515 MIRANDA ST
+935,Address1,515 MIRANDA Sx
 935,Address2,Empty
 935,Address3,Empty
 935,City,GEORGIANA
@@ -17766,7 +17766,7 @@ ind,attr,val
 935,Stateavg,AL_AMI-5
 936,ProviderNumber,10047
 936,HospitalName,GEORGIANA HOSPITAL
-936,Address1,515 MIRANDA ST
+936,Address1,515 MIRANxA ST
 936,Address2,Empty
 936,Address3,Empty
 936,City,GEORGIANA
@@ -17822,7 +17822,7 @@ ind,attr,val
 938,Sample,51 patients
 938,Stateavg,AL_HF-1
 939,ProviderNumber,10047
-939,HospitalName,GEORGIANA HOSPITAL
+939,HospitalName,GEORGIAxA HOSPITAL
 939,Address1,515 MIRANDA ST
 939,Address2,Empty
 939,Address3,Empty
@@ -17924,7 +17924,7 @@ ind,attr,val
 944,City,GEORGIANA
 944,State,AL
 944,ZipCode,36033
-944,CountyName,BUTLER
+944,CountyName,BUTxER
 944,PhoneNumber,3343762205
 944,HospitalType,Acute Care Hospitals
 944,HospitalOwner,Voluntary non-profit - Private
@@ -17956,7 +17956,7 @@ ind,attr,val
 945,Stateavg,AL_PN-5C
 946,ProviderNumber,10047
 946,HospitalName,GEORGIANA HOSPITAL
-946,Address1,515 MIRANDA ST
+946,Address1,515 MIRxNDx ST
 946,Address2,Empty
 946,Address3,Empty
 946,City,GEORGIANA
@@ -18035,12 +18035,12 @@ ind,attr,val
 950,Address1,515 MIRANDA ST
 950,Address2,Empty
 950,Address3,Empty
-950,City,GEORGIANA
+950,City,GEOxGIANA
 950,State,AL
 950,ZipCode,36033
 950,CountyName,BUTLER
 950,PhoneNumber,3343762205
-950,HospitalType,Acute Care Hospitals
+950,HospitalType,Acute Care Hosxitals
 950,HospitalOwner,Voluntary non-profit - Private
 950,EmergencyService,No
 950,Condition,Surgical Infection Prevention
@@ -18102,7 +18102,7 @@ ind,attr,val
 953,EmergencyService,No
 953,Condition,Surgical Infection Prevention
 953,MeasureCode,SCIP-INF-6
-953,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+953,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 953,Score,Empty
 953,Sample,Empty
 953,Stateavg,AL_SCIP-INF-6
@@ -18144,7 +18144,7 @@ ind,attr,val
 955,Score,Empty
 955,Sample,Empty
 955,Stateavg,AL_SCIP-VTE-2
-956,ProviderNumber,10049
+956,ProviderNumber,1004x
 956,HospitalName,MEDICAL CENTER ENTERPRISE
 956,Address1,400 N EDWARDS STREET
 956,Address2,Empty
@@ -18157,15 +18157,15 @@ ind,attr,val
 956,HospitalType,Acute Care Hospitals
 956,HospitalOwner,Proprietary
 956,EmergencyService,Yes
-956,Condition,Heart Attack
+956,Condition,Hexrt Attxck
 956,MeasureCode,AMI-1
 956,MeasureName,Heart Attack Patients Given Aspirin at Arrival
 956,Score,100%
 956,Sample,4 patients
 956,Stateavg,AL_AMI-1
 957,ProviderNumber,10049
-957,HospitalName,MEDICAL CENTER ENTERPRISE
-957,Address1,400 N EDWARDS STREET
+957,HospitalName,MEDIxAL xENTER ENTERPRISE
+957,Address1,400xNxEDWARDSxSTREET
 957,Address2,Empty
 957,Address3,Empty
 957,City,ENTERPRISE
@@ -18173,7 +18173,7 @@ ind,attr,val
 957,ZipCode,36330
 957,CountyName,COFFEE
 957,PhoneNumber,3343470584
-957,HospitalType,Acute Care Hospitals
+957,HospitalType,Acute xare Hospitals
 957,HospitalOwner,Proprietary
 957,EmergencyService,Yes
 957,Condition,Heart Attack
@@ -18244,7 +18244,7 @@ ind,attr,val
 961,Address1,400 N EDWARDS STREET
 961,Address2,Empty
 961,Address3,Empty
-961,City,ENTERPRISE
+961,City,ENTERPRxSE
 961,State,AL
 961,ZipCode,36330
 961,CountyName,COFFEE
@@ -18278,7 +18278,7 @@ ind,attr,val
 962,Sample,0 patients
 962,Stateavg,AL_AMI-8A
 963,ProviderNumber,10049
-963,HospitalName,MEDICAL CENTER ENTERPRISE
+963,HospitalName,MEDxCAL CENTER ENTERPRxSE
 963,Address1,400 N EDWARDS STREET
 963,Address2,Empty
 963,Address3,Empty
@@ -18325,7 +18325,7 @@ ind,attr,val
 965,ZipCode,36330
 965,CountyName,COFFEE
 965,PhoneNumber,3343470584
-965,HospitalType,Acute Care Hospitals
+965,HospitalType,AcutexCarexHospitals
 965,HospitalOwner,Proprietary
 965,EmergencyService,Yes
 965,Condition,Heart Failure
@@ -18361,7 +18361,7 @@ ind,attr,val
 967,City,ENTERPRISE
 967,State,AL
 967,ZipCode,36330
-967,CountyName,COFFEE
+967,CountyName,CxFFEE
 967,PhoneNumber,3343470584
 967,HospitalType,Acute Care Hospitals
 967,HospitalOwner,Proprietary
@@ -18396,7 +18396,7 @@ ind,attr,val
 969,Address1,400 N EDWARDS STREET
 969,Address2,Empty
 969,Address3,Empty
-969,City,ENTERPRISE
+969,City,xNTxRPRISx
 969,State,AL
 969,ZipCode,36330
 969,CountyName,COFFEE
@@ -18484,7 +18484,7 @@ ind,attr,val
 973,MeasureCode,SCIP-CARD-2
 973,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
 973,Score,100%
-973,Sample,27 patients
+973,Sample,27 paxienxs
 973,Stateavg,AL_SCIP-CARD-2
 974,ProviderNumber,10049
 974,HospitalName,MEDICAL CENTER ENTERPRISE
@@ -18518,7 +18518,7 @@ ind,attr,val
 975,HospitalType,Acute Care Hospitals
 975,HospitalOwner,Proprietary
 975,EmergencyService,Yes
-975,Condition,Surgical Infection Prevention
+975,Condition,Surgical xnfection Prevention
 975,MeasureCode,SCIP-INF-2
 975,MeasureName,surgery patients who were given the  right kind  of antibiotic to help prevent infection
 975,Score,100%
@@ -18553,7 +18553,7 @@ ind,attr,val
 977,ZipCode,36330
 977,CountyName,COFFEE
 977,PhoneNumber,3343470584
-977,HospitalType,Acute Care Hospitals
+977,HospitalType,AcutexCarexHospitals
 977,HospitalOwner,Proprietary
 977,EmergencyService,Yes
 977,Condition,Surgical Infection Prevention
@@ -18577,7 +18577,7 @@ ind,attr,val
 978,EmergencyService,Yes
 978,Condition,Surgical Infection Prevention
 978,MeasureCode,SCIP-INF-6
-978,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream �C not a razor)
+978,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 978,Score,100%
 978,Sample,485 patients
 978,Stateavg,AL_SCIP-INF-6
@@ -18719,7 +18719,7 @@ ind,attr,val
 986,Address1,150 GILBREATH DRIVE
 986,Address2,Empty
 986,Address3,Empty
-986,City,ONEONTA
+986,City,ONxONTA
 986,State,AL
 986,ZipCode,35121
 986,CountyName,BLOUNT
@@ -18735,7 +18735,7 @@ ind,attr,val
 986,Stateavg,AL_AMI-7A
 987,ProviderNumber,10050
 987,HospitalName,ST VINCENTS BLOUNT
-987,Address1,150 GILBREATH DRIVE
+987,Address1,150 GILxREATH DRIVE
 987,Address2,Empty
 987,Address3,Empty
 987,City,ONEONTA
@@ -18753,7 +18753,7 @@ ind,attr,val
 987,Sample,0 patients
 987,Stateavg,AL_AMI-8A
 988,ProviderNumber,10050
-988,HospitalName,ST VINCENTS BLOUNT
+988,HospitalName,ST VINCENTS BxOUNT
 988,Address1,150 GILBREATH DRIVE
 988,Address2,Empty
 988,Address3,Empty
@@ -18957,7 +18957,7 @@ ind,attr,val
 998,EmergencyService,Yes
 998,Condition,Surgical Infection Prevention
 998,MeasureCode,SCIP-CARD-2
-998,MeasureName,surgery patients who were taking heart drugs called beta blockers before coming to the hospital who were kept on the beta blockers during the period just before and after their surgery
+998,MeasureName,surgery pxtients who were txking hexrt drugs cxlled betx blockers before coming to the hospitxl who were kept on the betx blockers during the period just before xnd xfter their surgery
 998,Score,25%
 998,Sample,8 patients
 998,Stateavg,AL_SCIP-CARD-2
