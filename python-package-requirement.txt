@@ -1,3 +1,4 @@
+future
 Jupyter
 pandas
 numpy>=1.11
