@@ -49,7 +49,7 @@ class Pruning:
         """
                 Create noisy_cell list from the C_dk table
         """
-        dataframe_dont_know = self.dataengine._table_to_dataframe("C_dk", self.dataset)
+        dataframe_dont_know = self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
         noisy_cells = []
         self.noisy_list = []
         for cell in dataframe_dont_know.collect():
@@ -63,7 +63,7 @@ class Pruning:
         """
                 Create c_value list from the init table
         """
-        dataframe_init = self.dataengine._table_to_dataframe("Init", self.dataset)
+        dataframe_init = self.dataengine.get_table_to_dataframe("Init", self.dataset)
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
@@ -112,7 +112,7 @@ class Pruning:
                 assignment: attributes with value
                 trgt_attr: the name of attribute
         """
-        cell_values = set([assignment[trgt_attr]])
+        cell_values = {(assignment[trgt_attr])}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -193,8 +193,9 @@ class Pruning:
         """
         for original_attribute in self.domain_pair_stats:  # For each column in the cooccurences
             self.cooocurance_for_first_attribute[original_attribute] = {}  # It creates a dictionary
-            for cooccured_attribute in self.domain_pair_stats[original_attribute]:  # For second column in the
-                # cooccurences Over pair of values that happend with eachother
+            for cooccured_attribute in self.domain_pair_stats[original_attribute]:
+                # For second column in the cooccurences Over
+                # Pair of values that happend with each other
                 # (original_attribute value , cooccured_attribute value)
                 for assgn_tuple in self.domain_pair_stats[original_attribute][cooccured_attribute]:
                     cooccure_number = self._compute_number_of_coocurences(
