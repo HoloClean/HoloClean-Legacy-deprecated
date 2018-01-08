@@ -15,6 +15,10 @@ class DCErrorDetection:
         This constructor at first convert all denial constraints
         to the form of SQL constraints
         and it get dataengine to connect to the database
+        :param DenialConstraints: list of denial constraints that use
+        :param dataengine: a connector to database
+        :param dataset: list of tables name
+        :param spark_session: spark session configuration
         """
         self.and_of_preds = DCParser(DenialConstraints)\
             .get_anded_string('all')
@@ -38,8 +42,8 @@ class DCErrorDetection:
         """
         This method create cell based on dataframe it get
         :param tuples_dataframe: spark_dataframe
-        :param cond: list[String]
-        :rtype: spark_dataframe
+        :param cond: list[String] of conditions
+        :return: spark_dataframe
         """
 
         all_list = self.dataengine._get_schema(self.dataset, "Init")
@@ -57,11 +61,11 @@ class DCErrorDetection:
         return result
 
     def _violation_tuples(self, dataset):
-
         """
         Return a list of two column dataframe that consist
         indices that create violation w.r.t. dc
-        :rtype: list[spark_dataframe]
+        :param dataset: dataset of tables name
+        :return: list[spark_dataframe] list of violations tuples
         """
 
         dataset.createOrReplaceTempView("df")
@@ -77,10 +81,10 @@ class DCErrorDetection:
     # Getters
 
     def get_noisy_cells(self, dataset):
-
         """
         Return a dataframe that consist of index of noisy cells index,attribute
-        :rtype: spark_dataframe
+        :param dataset: list od dataset names
+        :return: spark_dataframe
         """
 
         num_of_constarints = len(self.and_of_preds)
@@ -94,10 +98,11 @@ class DCErrorDetection:
         return result.distinct()
 
     def get_clean_cells(self, dataframe, noisy_cells):
-
         """
         Return a dataframe that consist of index of clean cells index,attribute
-        :rtype: spark_dataframe
+        :param dataframe: spark dataframe
+        :param noisy_cells: list of noisy cells
+        :return:
         """
 
         dataframe.createOrReplaceTempView("df")
