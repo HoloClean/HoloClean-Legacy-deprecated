@@ -59,10 +59,10 @@ class DataEngine:
         """Connect to MySQL database"""
         try:
             self.db_backend.connect()
-           # self.holoEnv.log.info("Connection established to data database")
+            self.holoEnv.logger.info("Connection established to data database")
         except BaseException:
+            self.holoEnv.logger.warn("No connection to data database")
             pass
-            #self.holoEnv.log.warn("No connection to data database")
 
     def _add_info_to_meta(self, table_name, table_schema, dataset):
         """

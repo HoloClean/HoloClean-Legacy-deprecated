@@ -117,12 +117,15 @@ class HoloClean:
         for arg, opts in flags:
             arg_defaults[opts['dest']] = opts['default']
 
+        for key in kwargs:
+            arg_defaults[key] = kwargs[key]
+
         # Initialize additional arguments
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
         logging.basicConfig(filename="logger.log",
-                            filemode='a', level=logging.INFO)
+                            filemode='w', level=logging.INFO)
         self.logger = logging.getLogger("__main__")
         logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
         # Initialize dataengine and spark session
