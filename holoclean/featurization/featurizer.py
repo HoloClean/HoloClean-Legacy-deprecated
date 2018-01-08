@@ -10,7 +10,7 @@ class Featurizer:
         """TODO.
                 Parameters
                 --------
-                parameter: denial_constraints,dataengine,dataset
+                denial_constraints,dataengine,dataset
                 """
         self.denial_constraints = denial_constraints
         self.dataengine = dataengine
@@ -38,7 +38,7 @@ class Featurizer:
         """
         For each dc we change the predicates, and return the new type of dc
         """
-        table_attribute_string = self.dataengine._get_schema(
+        table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         dc_sql_parts = self.dcp.for_join_condition()
@@ -96,13 +96,14 @@ class Featurizer:
                                         " AND " + list_preds[index_pred]
                         self.change_pred.append(rest_new_pred)
                         new_pred_list.append(new_pred)
-        new_dcs = []
+        new_dcs = list([])
         new_dcs.append("(" + new_pred_list[0] + ")")
         for pred_index in range(1, len(new_pred_list)):
             new_dcs.append("(" + new_pred_list[pred_index] + ")")
         return new_dcs
 
-    def _find_predicates(self, cond):
+    @staticmethod
+    def _find_predicates(cond):
         """
         This method finds the predicates of dc"
         :param cond: a denial constrain
@@ -210,7 +211,7 @@ class SignalInit(Featurizer):
         """TODO.
         Parameters
         --------
-        parameter: denial_constraints,dataengine,dataset
+        denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalInit"
@@ -242,7 +243,7 @@ class SignalCooccur(Featurizer):
         """TODO.
                 Parameters
                 --------
-                parameter: denial_constraints,dataengine,dataset
+                denial_constraints,dataengine,dataset
                 """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
@@ -251,9 +252,6 @@ class SignalCooccur(Featurizer):
         """
                 This method creates a query for the featurization table for the cooccurances
         """
-        self.table_name1 = self.dataset.table_specific_name('Init_flat')
-        self.table_name2 = self.dataset.table_specific_name('Possible_values')
-
         # Create cooccure table
 
         query_init_flat_join = "CREATE TABLE " + \
@@ -306,7 +304,7 @@ class SignalDC(Featurizer):
         """TODO.
         Parameters
         --------
-        parameter: denial_constraints,dataengine,dataset
+        denial_constraints,dataengine,dataset
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
@@ -316,7 +314,7 @@ class SignalDC(Featurizer):
                 This method creates a query for the featurization table for the dc"
                 """
         new_dc = self._create_new_dc()
-        table_attribute_string = self.dataengine._get_schema(
+        table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         join_table_name = self.dataset.table_specific_name('Init_join')
