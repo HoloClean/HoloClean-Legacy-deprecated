@@ -6,7 +6,7 @@ class Wrapper:
         """TODO.
                 Parameters
                 --------
-                parameter: denial_constraints, dataengine
+                dataset, dataengine
                 """
         self.dataset = dataset
         self.dataengine = dataengine
@@ -19,7 +19,7 @@ class Wrapper:
 
                 """
 
-        domain_dataframe = self.dataengine._table_to_dataframe(
+        domain_dataframe = self.dataengine.get_table_to_dataframe(
             "Possible_values", self.dataset)
         temp = domain_dataframe.select("tid", "attr_name", "attr_val").collect()
         self.dictionary = {}
@@ -126,8 +126,6 @@ class Wrapper:
                       "AND " \
                       "counting.tid=table2.ind);"
         self.dataengine.query(mysql_query)
-        table_attribute_string = self.dataengine._get_schema(
-            self.dataset, "Init")
 
         mysql_query = "INSERT INTO " + \
                       self.dataset.table_specific_name('Variable_tmp') + \
@@ -282,7 +280,7 @@ class Wrapper:
                 This method creates list of weights for numbskull
 
                 """
-        weight_dataframe = self.dataengine._table_to_dataframe(
+        weight_dataframe = self.dataengine.get_table_to_dataframe(
             "Weights", self.dataset)
         temp = weight_dataframe.select("Is_fixed", "init_val").collect()
         weight_list = []
@@ -304,7 +302,7 @@ class Wrapper:
                 This method creates list of variables for numbskull
 
                 """
-        variable_dataframe = self.dataengine._table_to_dataframe(
+        variable_dataframe = self.dataengine.get_table_to_dataframe(
             "Variable", self.dataset)
         temp = variable_dataframe.select(
             "rv_ind",
@@ -330,7 +328,7 @@ class Wrapper:
                                       np.int16(int(tempdictionary["Datatype"])),
                                       np.int64(int(tempdictionary["Cardinality"])),
                                       np.int64(int(tempdictionary["vtf_offset"]))])
-            variable = np.zeros(len(variable_list), Variable)
+        variable = np.zeros(len(variable_list), Variable)
         count = 0
         for var in variable:
             var["isEvidence"] = variable_list[count][0]
@@ -346,7 +344,7 @@ class Wrapper:
                 This method creates list of fmap for numbskull
 
                 """
-        factor_to_var_dataframe = self.dataengine._table_to_dataframe(
+        factor_to_var_dataframe = self.dataengine.get_table_to_dataframe(
             "Factor_to_var", self.dataset)
         temp = factor_to_var_dataframe.select(
             "vid", "rv_ind", "attr_val", "attr_name").collect()
@@ -369,7 +367,7 @@ class Wrapper:
                 This method creates list of factors for numbskull
 
                 """
-        factor_dataframe = self.dataengine._table_to_dataframe(
+        factor_dataframe = self.dataengine.get_table_to_dataframe(
             "Factor", self.dataset)
         temp = factor_dataframe.select(
             "FactorFunction",
