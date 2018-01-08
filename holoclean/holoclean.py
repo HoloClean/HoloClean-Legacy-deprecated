@@ -328,7 +328,7 @@ class Session:
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
             temp = err_detector.get_noisy_dknow_dataframe(
-                self.holo_env.dataengine._table_to_dataframe('Init', self.dataset))
+                self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 

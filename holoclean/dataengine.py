@@ -100,18 +100,6 @@ class DataEngine:
             self.db_backend.execute(create_table)
             self.db_backend.execute(add_row)
 
-    def _table_to_dataframe(self, table_name, dataset):
-        """
-        This method get table general name and return it as spark dataframe
-        """
-
-        table_get = "Select * from " + \
-            dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
-
-        useSpark = 1
-
-        return self.query(table_get, useSpark)
-
     def _table_column_to_dataframe(self, table_name, columns_name_list, dataset):
         """
         This method get table general name and return it as spark dataframe
@@ -152,7 +140,9 @@ class DataEngine:
             dbtable="(" + sqlQuery + ") as tablename").load()
         return dataframe
 
-    def _get_schema(self, dataset, table_general_name):
+
+    # Getters
+    def get_schema(self, dataset, table_general_name):
 
         sql_query = "SELECT schem FROM metatable Where dataset_id = '" + \
             dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
@@ -166,7 +156,17 @@ class DataEngine:
         except BaseException:
             return "Not such element"
 
-    # Getters
+    def get_table_to_dataframe(self, table_name, dataset):
+        """
+        This method get table general name and return it as spark dataframe
+        """
+
+        table_get = "Select * from " + \
+                    dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
+
+        useSpark = 1
+
+        return self.query(table_get, useSpark)
 
     def get_db_backend(self):
         """Return MySQL database"""
