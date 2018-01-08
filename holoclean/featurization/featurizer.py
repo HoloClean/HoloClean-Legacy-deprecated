@@ -46,12 +46,12 @@ class Featurizer:
         self.final_dc = []
         self.change_pred = []
         self.attributes_list = []
-        for c in dc_sql_parts:
-            list_preds = self._find_predicates(c)
-            temp = self._change_predicates_for_query(list_preds, attributes)
-            for dc in temp:
+        for dc_part in dc_sql_parts:
+            list_preds = self._find_predicates(dc_part)
+            new_dc = self._change_predicates_for_query(list_preds, attributes)
+            for dc in new_dc:
                 new_dcs.append(dc)
-                self.final_dc.append(c)
+                self.final_dc.append(dc_part)
         return new_dcs
 
     def _change_predicates_for_query(self, list_preds, attributes):
@@ -66,42 +66,40 @@ class Featurizer:
         operationsarr = ['<>', '<=', '>=', '=', '<', '>']
         new_pred_list = []
 
-        for i in range(0, len(list_preds)):
-            components_preds = list_preds[i].split('.')
+        for list_pred_index in range(0, len(list_preds)):
+            components_preds = list_preds[list_pred_index].split('.')
             new_pred = ""
-            new_pred1 = ""
+            rest_new_pred = ""
             first = 0
-            for p in (0, len(components_preds) - 1):
-                comp = components_preds[p].split("_")
+            for components_index in (0, len(components_preds) - 1):
+                comp = components_preds[components_index].split("_")
                 if len(comp) > 1:
                     if comp[1] in attributes:
                         for operation in operationsarr:
-                            if operation in components_preds[p - 1]:
-                                left_component = components_preds[p - 1].split(
+                            if operation in components_preds[components_index - 1]:
+                                left_component = components_preds[components_index - 1].split(
                                     operation)
-                                comp = components_preds[p].split("_")
+                                comp = components_preds[components_index].split("_")
                                 self.attributes_list.append(
                                     "possible_table.attr_name= '" + comp[1] + "'")
                                 new_pred = "possible_table.attr_val" + operation + \
-                                    left_component[1] + "." + components_preds[p]
+                                    left_component[1] + "." + components_preds[components_index]
                                 break
-                        for k in range(0, len(list_preds)):
-                            if k != i:
+                        for index_pred in range(0, len(list_preds)):
+                            if index_pred != list_pred_index:
                                 #  new_pred=new_pred+" AND "+list_preds[k]
                                 if first != 1:
-                                    new_pred1 = new_pred1 + list_preds[k]
+                                    rest_new_pred = rest_new_pred + list_preds[index_pred]
                                     first = 1
                                 else:
-                                    new_pred1 = new_pred1 + \
-                                        " AND " + list_preds[k]
-                        self.change_pred.append(new_pred1)
+                                    rest_new_pred = rest_new_pred + \
+                                        " AND " + list_preds[index_pred]
+                        self.change_pred.append(rest_new_pred)
                         new_pred_list.append(new_pred)
-        new_dc = ""
         new_dcs = []
-        new_dc = new_dc + "(" + new_pred_list[0] + ")"
         new_dcs.append("(" + new_pred_list[0] + ")")
-        for i in range(1, len(new_pred_list)):
-            new_dcs.append("(" + new_pred_list[i] + ")")
+        for pred_index in range(1, len(new_pred_list)):
+            new_dcs.append("(" + new_pred_list[pred_index] + ")")
         return new_dcs
 
     def _find_predicates(self, cond):
@@ -232,7 +230,6 @@ class SignalInit(Featurizer):
             self.dataset.table_specific_name('Init_flat') +\
             " AS init_flat " \
             "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name')
-        # query_for_featurization = query_for_featurization[:-5]
         return query_for_featurization
 
 
@@ -253,7 +250,7 @@ class SignalCooccur(Featurizer):
     def get_query(self):
         """
                 This method creates a query for the featurization table for the cooccurances
-                """
+        """
         self.table_name1 = self.dataset.table_specific_name('Init_flat')
         self.table_name2 = self.dataset.table_specific_name('Possible_values')
 
@@ -281,7 +278,7 @@ class SignalCooccur(Featurizer):
                                                                                "t2.tid = clean.ind " \
                                                                                "AND " \
                                                                                "t1.attr_name != t2.attr_name) " \
-                                                                               "AS ifjtmp;"
+                                                                               "AS table1;"
         self.dataengine.query(query_init_flat_join)
 
         # Create co-occur feature
@@ -324,10 +321,13 @@ class SignalDC(Featurizer):
         attributes = table_attribute_string.split(',')
         join_table_name = self.dataset.table_specific_name('Init_join')
         query1 = "SELECT "
-        for i in attributes:
-            query1 = query1 + "table1." + i + " AS first_" + \
-                i + "," + "table2." + i + " AS second_" + i + ","
+
+        for attribute in attributes:
+
+            query1 = query1 + "table1." + attribute + " AS first_" + \
+                attribute + "," + "table2." + attribute + " AS second_" + attribute + ","
         query1 = query1[:-1]
+
         query = "CREATE TABLE " \
                 + join_table_name + \
                 " AS " \
@@ -341,9 +341,9 @@ class SignalDC(Featurizer):
                                   ") AS jointable ;"
         self.dataengine.query(query)
         dc_queries = []
+
         for index_dc in range(0, len(new_dc)):
             new_condition = new_dc[index_dc]
-            # if index_dc == 0:
             query_for_featurization = "(SELECT" \
                                       " @p := @p + 1 AS var_index," \
                                       "possible_table.tid AS rv_index," \
