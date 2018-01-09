@@ -174,6 +174,12 @@ class DataEngine:
 
     # Setters
 
+    # Will set the column datatype of column_name to INTEGER using a MySQL statement
+    def altar_column(self, dataset, column_name):
+        sql_statement="ALTER TABLE " + dataset.table_specific_name('Init') \
+                  + " MODIFY COLUMN " + column_name + " INT;"
+        self.db_backend.execute(sql_statement)
+
     def add_db_table(self, table_name, spark_dataframe, dataset):
         """
         This method get spark dataframe and a table_name and creates a table.

@@ -18,7 +18,7 @@ class Featurizer:
         self.possible_table_name = self.dataset.table_specific_name(
             'Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
-        self.dcp = DCParser(self.denial_constraints)
+        self.dcp = DCParser(self.denial_constraints,dataengine,dataset)
 
     def get_constraint_attibute(self, table_name, attr_column_name):
         attr_costrained = self.dcp.get_constrainted_attributes(self.dataengine, self.dataset)

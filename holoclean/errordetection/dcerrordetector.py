@@ -20,7 +20,7 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds = DCParser(DenialConstraints)\
+        self.and_of_preds = DCParser(DenialConstraints, dataengine, dataset)\
             .get_anded_string('all')
         self.dataengine = dataengine
         self.dataset = dataset

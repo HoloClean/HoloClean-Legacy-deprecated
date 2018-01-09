@@ -9,10 +9,11 @@ class DCParser:
 
     operationsArr = ['=', '<', '>', '<>', '<=', '>=']
     operationSign = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
+    nonsymmetricOperations = ['LT','GT','LTE','GTE'];
 
-    def __init__(self, denial_constraints):
+    def __init__(self, denial_constraints, dataengine, dataset):
         self.denial_constraints = denial_constraints
-
+        self.contains_nonsymmetric_operator(dataengine, dataset)
     # Private methods:
 
     def _dc_to_sql_condition(self):
@@ -190,5 +191,46 @@ class DCParser:
         result = result.difference(set(free_attributes))
 
         return list(result)
+
+    # Given ONE denial constraint will return array of corresponding operators
+    # Example: 't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
+    # will output ['EQ', 'EQ', 'IQ']
+    @staticmethod
+    def get_operators(denial_constraint):
+        operators = denial_constraint.split('&')
+        operators = operators[2:]
+        for i in range(0, len(operators)):
+            dc = operators[i].split('.')
+            operators[i] = operators[i].partition('(')[0]
+        return operators
+
+    # Given ONE denial constraint will return array of column names
+    # Example: 't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
+    # will output [['State', 'State'], ['MeasureCode', 'MeasureCode'], ['Stateavg', 'Stateavg']]
+    @staticmethod
+    def get_columns(denial_constraint):
+        operators = denial_constraint.split('&')
+        operators = operators[2:]
+        columns = [];
+        for i in range(0, len(operators)):
+            dc = operators[i].split('.')
+            operators[i] = operators[i].partition('(')[0]
+            columns.append([])
+            for j in range(1, len(dc)):
+                columns[i].append(dc[j].partition(',')[0].partition(')')[0])
+        return columns
+
+    # Checks through all denial constraints to see if it contains a non-symmetric operator
+    # If a denial constraint does contain a non-symmetric operator then it will altar
+    # the corresponding columns to be of type INTEGER
+    def contains_nonsymmetric_operator(self, dataengine, dataset):
+        for dc in self.denial_constraints:
+            operators = DCParser.get_operators(dc)
+            columns = DCParser.get_columns(dc)
+            for index in range(0, len(operators)):
+                operator = operators[index]
+                if self.nonsymmetricOperations.count(operator) != 0:
+                    for column in columns[index]:
+                        dataengine.altar_column(dataset, column)
 
 
