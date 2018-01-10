@@ -53,6 +53,18 @@ arguments = [
          'default': None,
          'type': str,
          'help': 'Spark cluster address'}),
+    (('-t', '--threshold'),
+     {'metavar': 'THRESHOLD',
+      'dest': 'threshold',
+      'default': 0,
+      'type': float,
+      'help': 'The threshold of the probabilities which are shown in the results'}),
+    (('-k', '--first_k'),
+     {'metavar': 'FIRST_K',
+      'dest': 'first_k',
+      'default': 1,
+      'type': int,
+      'help': 'The final output will show the k-first results (if it is 0 it will show everything)'}),
 ]
 
 
@@ -429,8 +441,10 @@ class Session:
         learning_obj = inference(
             self.holo_env.dataengine,
             self.dataset,
-            self.holo_env.spark_session)
+            self.holo_env.spark_session
+        )
         learning_obj.learning()
         self.holo_env.logger.info('repairs are finished')
         print "repairs are finished"
+        learning_obj.printing_results(self.holo_env.threshold, self.holo_env.first_k)
         return
