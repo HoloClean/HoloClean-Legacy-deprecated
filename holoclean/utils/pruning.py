@@ -263,16 +263,16 @@ class Pruning:
                             list_to_dataframe_possible_values.append(
                                                                      [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                                                       self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      str(value), "0"])
+                                                                      str(value), "0", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
                         else:
                             list_to_dataframe_possible_values.append(
                                                                      [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                                                       self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      str(value), "1"])
+                                                                      str(value), "1", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
             list_to_dataframe_possible_values, [
-                'tid', 'attr_name', 'attr_val', 'observed'])
+                'tid', 'attr_name', 'attr_val', 'observed', 'data_type'])
         self.dataengine.add_db_table('Possible_values',
                                      new_df_possible, self.dataset)
 
