@@ -52,7 +52,7 @@ class DataEngine:
         host = self.holoEnv.db_host
         dbname = self.holoEnv.db_name
         jdbcUrl = "jdbc:mysql://" + host + "/" + \
-            dbname + "?user=" + user + "&password=" + pwd
+            dbname + "?user=" + user + "&password=" + pwd + "&useSSL=false"
         return jdbcUrl
 
     def _db_connect(self):

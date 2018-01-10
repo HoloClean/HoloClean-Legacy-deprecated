@@ -15,6 +15,7 @@ from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 
+
 # Define arguments for HoloClean
 arguments = [
     (('-u', '--db_user'),
@@ -170,13 +171,14 @@ class HoloClean:
         conf.set("spark.rpc.askTimeout", "99999")
         conf.set("spark.worker.timeout", "60000")
         conf.set("spark.driver.maxResultSize", '70g')
+        conf.set("spark.ui.showConsoleProgress", "false")
 
         if self.spark_cluster:
             conf.set("spark.master", self.spark_cluster)
 
         # Get Spark context
         sc = SparkContext(conf=conf)
-
+        sc.setLogLevel("ERROR")
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
