@@ -60,6 +60,11 @@ In order to install Mysql use the command:
 ```
 sudo apt-get install mysql-server
 ```
+
+In order to create the database and the user that will be used by Holoclean,from the Holoclean folder run the script:
+```
+./mysql_script.sh 
+```
 ### Installing dependencies
 Install the package requirements:
 ```
