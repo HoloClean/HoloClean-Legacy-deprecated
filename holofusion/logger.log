@@ -1,0 +1,65 @@
+INFO:sqlalchemy.engine.base.Engine:SHOW VARIABLES LIKE 'sql_mode'
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT DATABASE()
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:show collation where `Charset` = 'utf8' and `Collation` = 'utf8_bin'
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:__main__:Connection established to data database
+INFO:__main__:ingesting file:book-data/book.csv
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('69358413233','Init','Source,ISBN,Title,Author_list');
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:creating dataset with id:69358413233
+INFO:__main__:ingest csv time: 23.3444361687
+
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '69358413233' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '69358413233' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:set @p:=0;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE             69358413233_Feature_temp(var_index INT,Source_id TEXT , object TEXT,            source_observation TEXT, weight_id TEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 69358413233_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          CONCAT ( init.ISBN,'_','Title' )                                            AS feature,                                           init.Title AS source_observation ,                                          ' 'AS weight_id                                          FROM 69358413233_Init AS init )as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 69358413233_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 69358413233_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          CONCAT ( init.ISBN,'_','Author_list' )                                            AS feature,                                           init.Author_list AS source_observation ,                                          ' 'AS weight_id                                          FROM 69358413233_Init AS init )as T_1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 69358413233_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:__main__:adding weight_id to feature table...
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 69358413233_weight_temp(weight_id INT PRIMARY KEY AUTO_INCREMENT,Source_id LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO  69358413233_weight_temp (SELECT * FROM (SELECT distinct NULL, Source_id FROM 69358413233_Feature_temp) AS TABLE1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                      69358413233_Feature(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , object TEXT,	                                   source_observation TEXT, weight_id TEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 69358413233_Feature (SELECT * FROM ( SELECT NULL AS var_index , table1.Source_id , table1.object , table1.source_observation ,  table2.weight_id FROM 69358413233_Feature_temp AS table1, 69358413233_weight_temp AS table2  WHERE table1.Source_id=table2.Source_id) AS ftmp  );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:adding weight_id to feature table is finished
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 69358413233_Weights AS (SELECT DISTINCT (0 + table1.weight_id) AS weight_id ,1  AS weight_val FROM 69358413233_Feature AS table1 GROUP BY table1.weight_id);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 69358413233_Feature_gb_accur AS (SELECT EXP(SUM(0+weight_val)) AS sum_probabilities,table2.object,table2.source_observation FROM 69358413233_Weights AS table1,69358413233_Feature AS table2 WHERE table1.weight_id=table2.weight_id GROUP BY table2.object,table2.source_observation);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 69358413233_Probabilities AS (SELECT table1.object,table1.source_observation,table1.sum_probabilities/total_sum AS probability FROM 69358413233_Feature_gb_accur AS table1,(SELECT SUM(sum_probabilities) AS total_sum,object FROM 69358413233_Feature_gb_accur GROUP BY object) AS table2 WHERE table1.object=table2.object);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 69358413233_Final AS (SELECT table1.object,MAX(table2.source_observation) AS assigned_val FROM (SELECT MAX(probability) AS max1,object FROM 69358413233_Probabilities GROUP BY object) AS table1 , 69358413233_Probabilities AS table2 WHERE table1.object = table2.object AND max1 = table2.probability GROUP BY table1.object);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
