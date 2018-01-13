@@ -1,9 +1,9 @@
 #!/bin/bash
-echo "Index,Source,ISBN,Title,Author_list" > book.csv
+echo "Index,ISBN,Author_list" > book_golden.csv
 counter=0
 while read p; do
 	S="$(echo  "$p" | tr ',' '\@')"
-	echo "$counter,$S" | tr '\t' ',' | tr ' ' '_' >> book.csv
+	echo "$counter,$S" | tr '\t' ','  >> book_golden.csv
 	
 	counter=$((counter+1))
-done < book.txt
+done < book_golden.txt
