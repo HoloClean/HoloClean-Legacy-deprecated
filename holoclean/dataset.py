@@ -22,6 +22,7 @@ class Dataset:
         'Possible_values',
         'Weights',
         'Biases',
+        'k_Probabilities',
         'Probabilities',
         'config',
         'Changes',
@@ -52,6 +53,7 @@ class Dataset:
             Labels : is the set of label for the cell in the Init
             biases : is the table that contains the biases that generated in learning part
             Probabilities : is the table of probabilities for don't know cells
+            k_Probabilities: it holds the k values with the biggest probability
             Variable : using Variable_temp and fill offset column
             Variable_temp : is the table for the wrapper of variables for numbskull
             Factor: is the table for the wrapper of factor for numbskull
