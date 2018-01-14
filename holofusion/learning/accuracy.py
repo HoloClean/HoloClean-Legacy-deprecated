@@ -5,6 +5,7 @@ class Accuracy:
         self.dataset = dataset
         self.path_to_grand_truth = path_to_grand_truth
         self.spark_session = spark_session
+        self.key=""
 
     def accuracy_calculation(self):
         # precision=0
@@ -56,9 +57,63 @@ class Accuracy:
         print ("The recall that we have is :" + str(recall))
         print ("The F1 score that we have is :" + str(f1_score))
 
+    def book_accuracy(self):
+        final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
+        final.show()
+        self.grand_truth2.show()
+        incorrect = final.subtract(self.grand_truth2)
+        incorrect.show()
+        incorrect_values = incorrect.count()
+        repair = final.count()
+        return
+
     def read(self):
         """Create a dataframe from the csv file
 
         Takes as argument the full path name of the csv file and the spark_session
         """
         self.grand_truth = self.spark_session.read.csv(self.path_to_grand_truth, header=True)
+        self.dataengine.add_db_table('Correct', self.grand_truth, self.dataset)
+        self.grand_truth1 = self.grand_truth.drop('Index')
+        return
+
+    def flatting(self):
+
+        table_attribute_string = self.dataengine.get_schema(
+            self.dataset, "Correct")
+        attributes = table_attribute_string.split(',')
+        print attributes
+        self.key = 'ISBN'
+        #self.key = raw_input("give the attribute that distinguis the objects:")
+
+        while self.key not in attributes:
+            self.key = raw_input("give the attribute that distinguis the objects:")
+        table_attribute_string = self.dataengine.get_schema(
+            self.dataset, "Correct")
+        attributes = table_attribute_string.split(',')
+        counter = 0
+
+        query_for_featurization = "CREATE TABLE \
+                    " + self.dataset.table_specific_name('Correct_flat') \
+                                  + "( key_id TEXT, \
+                    attribute TEXT, source_observation TEXT);"
+        self.dataengine.query(query_for_featurization)
+
+        insert_signal_query = ""
+        for attribute in attributes:
+            if attribute != self.key and attribute != "Source" and attribute != "Index":
+                query_for_featurization = """ (SELECT \
+                                                  init.""" + self.key + """ as key_id,'""" + attribute + """'  \
+                                                  AS attribute, \
+                                                  init.""" + attribute + """ AS source_observation \
+                                                  FROM """ + \
+                                          self.dataset.table_specific_name('Correct') + \
+                                          " AS init )"
+                insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Correct_flat') + \
+                                      " SELECT * FROM ( " + query_for_featurization + \
+                                      "as T_" + str(counter) + ");"
+                counter += 1
+                print insert_signal_query
+                self.dataengine.query(insert_signal_query)
+
+        self.grand_truth2=self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)

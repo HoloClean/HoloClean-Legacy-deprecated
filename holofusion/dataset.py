@@ -21,6 +21,7 @@ class Dataset:
         'Factor',
         'Factor_to_var',
         'Final',
+        'Correct_flat',
         'Correct']
 
     """
@@ -43,7 +44,7 @@ class Dataset:
             Factor_to_var: table of factor_to_var for numbskull
             Final: table with final results in order to check the accuracy
             Correct: table with the correct values for our dataset
-
+            Correct_flat: table with the correct values with the form key, attribute, value
         """
 
     def __init__(self):

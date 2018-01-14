@@ -36,7 +36,7 @@ class inference:
         query_Feature = "CREATE TABLE " + self.dataset.table_specific_name('Feature_gb_accur') +\
             " AS (" \
             "SELECT EXP(SUM(0+weight_val)) AS sum_probabilities," \
-            "table2.object," \
+            "table2.key_id, table2.attribute," \
             "table2.source_observation " \
             "FROM " + \
                         self.dataset.table_specific_name('Weights') + " AS table1," +\
@@ -44,14 +44,15 @@ class inference:
                                                                       "WHERE " \
                                                                       "table1.weight_id=table2.weight_id " \
                                                                       "GROUP BY " \
-                                                                      "table2.object,table2.source_observation);"
+                                                                      "table2.key_id,table2.attribute," \
+                                                                      "table2.source_observation);"
 
         self.dataengine.query(query_Feature)
         
         query_probability = "CREATE TABLE " + self.dataset.table_specific_name('Probabilities') + \
                             " AS " \
                             "(SELECT " \
-                            "table1.object," \
+                            "table1.key_id,table1.attribute," \
                             "table1.source_observation," \
                             "table1.sum_probabilities/total_sum AS probability " \
                             "FROM " + \
@@ -59,14 +60,14 @@ class inference:
                                                                                    "(SELECT " \
                                                                                    "SUM(sum_probabilities) " \
                                                                                    "AS total_sum," \
-                                                                                   "object " \
+                                                                                   "key_id, attribute " \
                                                                                    "FROM " + \
                             self.dataset.table_specific_name('Feature_gb_accur') + \
                             " GROUP BY " \
-                            "object) " \
+                            "key_id,attribute) " \
                             "AS table2 " \
                             "WHERE " \
-                            "table1.object=table2.object);"
+                            "table1.key_id=table2.key_id and table1.attribute=table2.attribute);"
 
         self.dataengine.query(query_probability)
 
@@ -74,22 +75,24 @@ class inference:
         query = "CREATE TABLE " + self.dataset.table_specific_name('Final') + \
                 " AS (" \
                 "SELECT " \
-                "table1.object," \
+                "table1.key_id, table2.attribute, " \
                 "MAX(table2.source_observation) AS assigned_val " \
                 "FROM (" \
                 "SELECT " \
                 "MAX(probability) AS max1," \
-                "object " \
+                "key_id, attribute " \
                 "FROM " + \
                 self.dataset.table_specific_name('Probabilities') + \
-                " GROUP BY object) AS table1 , " +\
+                " GROUP BY key_id, attribute) AS table1 , " +\
                 self.dataset.table_specific_name('Probabilities') + " AS table2 " + \
                                                                     "WHERE " \
-                                                                    "table1.object = table2.object " \
+                                                                    "table1.key_id = table2.key_id " \
+                                                                    "AND " \
+                                                                    "table1.attribute = table2.attribute " \
                                                                     "AND " \
                                                                     "max1 = table2.probability " \
                                                                     "GROUP BY " \
-                                                                    "table1.object" \
+                                                                    "table1.key_id,table2.attribute" \
                                                                     ");"
             
         self.dataengine.query(query)

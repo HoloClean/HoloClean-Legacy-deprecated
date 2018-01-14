@@ -49,8 +49,8 @@ class Featurizer:
 
         create_feature_table_query = "CREATE TABLE \
                                      " + self.dataset.table_specific_name('Feature') \
-                                     + "(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , object TEXT,\
-	                                   source_observation TEXT," \
+                                     + "(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , key_id TEXT,\
+	                                   attribute TEXT, source_observation TEXT," \
                                        " weight_id TEXT);"
 
         self.dataengine.query(create_feature_table_query)
@@ -60,7 +60,8 @@ class Featurizer:
                               "SELECT * FROM ( SELECT " \
                               "NULL AS var_index" \
                               " , table1.Source_id" \
-                              " , table1.object" \
+                              " , table1.key_id" \
+                              ", table1.attribute" \
                               " , table1.source_observation" \
                               " ,  table2.weight_id" \
                               " FROM " \
@@ -83,18 +84,18 @@ class Featurizer:
 
         query_for_featurization = "CREATE TABLE \
             " + self.dataset.table_specific_name('Feature_temp') \
-            + "(var_index INT,Source_id TEXT , object TEXT,\
-            source_observation TEXT," \
+            + "(var_index INT,Source_id TEXT, key_id TEXT, \
+            attribute TEXT, source_observation TEXT," \
             " weight_id TEXT);"
         self.dataengine.query(query_for_featurization)
 
         insert_signal_query = ""
         for attribute in attributes:
-            if attribute != self.key and attribute != "Source":
+            if attribute != self.key and attribute != "Source" and attribute != "Index":
                 query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
                                           Source AS Source_id,\
-                                          CONCAT ( init."""+self.key + """,'_','""" + attribute+"""' )  \
-                                          AS feature, \
+                                          init."""+self.key + """ as key_id,'""" + attribute+"""'  \
+                                          AS attribute, \
                                           init."""+attribute+""" AS source_observation ,\
                                           ' 'AS weight_id\
                                           FROM """ +\
@@ -109,3 +110,4 @@ class Featurizer:
                 global_counter = "select max(var_index) into @p from " + \
                          self.dataset.table_specific_name('Feature_temp') + ";"
                 self.dataengine.query(global_counter)
+        return

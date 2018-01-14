@@ -12,9 +12,8 @@ from dataengine import DataEngine
 from dataset import Dataset
 from featurization.featurizer import Featurizer
 from learning.inference import inference
+from learning.accuracy import Accuracy
 #from learning.wrapper import Wrapper
-#from utils.pruning import Pruning
-
 
 # Define arguments for Holofusion
 arguments = [
@@ -273,3 +272,11 @@ class HoloFusionSession:
         infe=inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
         infe.testing()
         infe.learning()
+        return
+
+    def accuracy(self,path_to_ground_truth):
+        accuracy=Accuracy(self.holo_env.dataengine, path_to_ground_truth, self.dataset, self.holo_env.spark_session)
+        accuracy.read()
+        accuracy.flatting()
+        accuracy.book_accuracy()
+        return
