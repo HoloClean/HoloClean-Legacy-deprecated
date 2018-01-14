@@ -1,203 +1,102 @@
 Index,ISBN,Author_list
-0,9780073516677,o'leary@ timothy j.;  o'leary@ linda i.;
-1,
-2,9780072999389,yacht@ carol ;  crosson@ susan ;
-3,
-4,9780072922363,hutton@ david v.;
-5,
-6,9780072843996,haag@ stephen ;  perry@ james t.;  sosinsky@ barrie ;  estevez@ efren ;
-7,
-8,9780072466850,reddy@ j. n. ;
-9,
-10,9780072255096,conklin@ wm. arthur;  white@ gregory b.;  cothren@ chuck ;  williams@ dwayne ;  davis@ roger l.;
-11,
-12,9780072232172,suhanovs@ dennis ;
-13,
-14,9780072230611,scambray@ joel ;  mcclure@ stuart ;
-15,
-16,9780072226331,white@ gregory ;
-17,
-18,9780071357814,xiang@ zhigang ;  plastock@ roy a.;
-19,
-20,1576761061,meadors@ todd ;  schmidt@ cheryl a.;
-21,
-22,1558609350,courage@ catherine ;  baxter@ kathy ;
-23,
-24,1558609342,kumar@ c bala;  kline@ paul j.;  thompson@ tim j.;
-25,
-26,1558609199,halpin@ terry ;  evans@ ken ;  hallock@ pat ;  maclean@ bill ;
-27,
-28,1558609016,han@ jiawei ;  kamber@ micheline ;
-29,
-30,1558608893,goldman@ ron ;  gabriel@ richard p.;
-31,
-32,1558608729,hoos@ holger h.;   stutzle@ thomas;
-33,
-34,1558608591,strassner@ john c.;
-35,
-36,155860846X,makofske@ david ;  almeroth@ kevin ;
-37,
-38,155860829X,lacroix@ zoe ;  critchlow@ terence;
-39,
-40,1558608109,loshin@ pete ;
-41,
-42,1558607870,strothotte@ thomas ;  schlechtweg@ stefan ;
-43,
-44,1558607587,harmon@ paul ;
-45,
-46,1558606971,chisholm@ malcolm ;
-47,
-48,1558606483,puder@ arno ;  romer@ kay ;  pilhofer@ frank ;
-49,
-50,155860636X,harris@ david ;
-51,
-52,1558605959,kennedy@ james ;  eberhart@ russell c.;
-53,
-54,1558605711,hegering@ heinz-gerd ;  neumair@ bernhard;  abeck@ sebastian;
-55,
-56,1558605150,muller@ robert j.;
-57,
-58,1558604545,jones@ karen sparck;  willett@ peter ;
-59,
-60,1558603751,stollnitz@ eric j.;  derose@ tony d.;  salesin@ david h.;
-61,
-62,1558603042,widom@ jennifer ;  ceri@ stefano;
-63,
-64,1558601368,przybylski@ steven a.;
-65,
-66,155558327X,erbschloe@ michael ;
-67,
-68,1555582990,lissoir@ alain ;
-69,
-70,1555582796,duffy@ michael d.;
-71,
-72,1555582605,fortier@ paul j.;  michel@ howard e.;
-73,
-74,1555582184,etzel@ michael ;  dickinson@ karen ;
-75,
-76,1555580416,steele@ guy l.;
-77,
-78,0750699388,shaw@ paul d.;
-79,
-80,0750694998,pease@ robert a.;
-81,
-82,0750677953,jones@ andy ;  ashenden@ debi ;
-83,
-84,0750673273,boyce@ joseph g.;  jennings@ dan w.;
-85,
-86,075066455X,mcmanus@ john ;
-87,
-88,0750656832,pooley@ rob ;  wilcox@ pauline ;
-89,
-90,0672323435,mcmanus@ jeffrey p.;  goldstein@ jackie ;
-91,
-92,044450673X,jenssen@ c. b.;  kvamdal@ t. ;  andersson@ h. i.;  Ecer@ A.;  Periaux@ J.;  Satofuka@ N.;  Fox@ P.;
-93,
-94,0321444426,dowd@ mark ;  mcdonald@ john ;  schuh@ justin ;
-95,
-96,0321418700,mcgraw@ gary ;  viega@ john ;  hoglund@ greg ;
-97,
-98,0321397975,woody@ buck ;
-99,
-100,0321356411,conry-murray@ andrew ;  weafer@ vincent ;
-101,
-102,0321335724,seacord@ robert c.;
-103,
-104,0321322215,sudkamp@ thomas a.;
-105,
-106,032131283X,ben-ari@ m. ;
-107,
-108,0321304292,adams@ tyrone ;  scollard@ sharon ;
-109,
-110,0321287509,henderson@ ken ;
-111,
-112,0321263545,coulouris@ george ;  dollimore@ jean ;  kindberg@ tim ;
-113,
-114,032124544X,snader@ jon c.;
-115,
-116,0321228103,nantz@ brian ;
-117,
-118,0321219767,filman@ robert e.;  elrad@ tzilla ;  clarke@ siobhan ;  aksit@ mehmet ;
-119,
-120,0321205219,singh@ inderjeet ;  brydon@ sean ;  murray@ greg ;  ramachandran@ vijay ;  violleau@ thierry ;  stearns@ beth ;
-121,
-122,0321194985,sunderraman@ rajshekhar ;
-123,
-124,0321181433,lauesen@ soren ;
-125,
-126,0321165810,brundage@ michael ;
-127,
-128,0321150406,harold@ elliotte rusty;
-129,
-130,032112698X,naik@ dilip c.;
-131,
-132,0321112296,rozanski@ nick ;  woods@ eoin ;
-133,
-134,0201889544,stroustrup@ bjarne ;
-135,
-136,0201823764,abrahams@ paul w.;  larson@ bruce r.;
-137,
-138,0201776316,stevens@ w. richard;  wright@ gary r. ;
-139,
-140,0201767910,rucker@ rudy ;
-141,
-142,0201749602,park@ jack ;  hunting@ sam ;
-143,
-144,0201734958,pattison@ ted ;  hummel@ joe ;
-145,
-146,0201722291,smith@ connie u.;  williams@ lloyd g.;
-147,
-148,0201715848,lewis@ jonathan ;
-149,
-150,0201704471,carroll@ john m.;
-151,
-152,0201699710,huston@ stephen d.;  johnson@ james ce;  syyid@ umar ;
-153,
-154,0201634929,rector@ brent e.;  newcomer@ joseph m.;
-155,
-156,0201633582,feuer@ alan r.;
-157,
-158,0201615924,armour@ frank ;  miller@ granville ;
-159,
-160,0201580438,winston@ patrick henry;
-161,
-162,0201543303,stroustrup@ bjarne ;
-163,
-164,0201489163,campbell@ dave ;  campbell@ mary ;
-165,
-166,020140009X,sedgewick@ robert ;  flajolet@ philippe ;
-167,
-168,0201379236,musser@ david r.;  derge@ gillmer j.;  saini@ atul ;
-169,
-170,0201310058,bloch@ joshua ;
-171,
-172,0201137445,maclennan@ bruce j.;
-173,
-174,0131872893,dann@ wanda p.;  cooper@ stephen ;  pausch@ randy ;
-175,
-176,0131463055,geary@ david ;  horstmann@ cay ;
-177,
-178,0131227068,rubinstein@ moshe f.;  firstenberg@ iris r.;
-179,
-180,0130494984,bohl@ marilyn ;  rynn@ maria ;
-181,
-182,0130284467,shaffer@ clifford a.;
-183,
-184,0126445516,simsion@ graeme c.;  witt@ graham c.;
-185,
-186,0124499759,lientz@ bennet p.;  rea@ kathryn p.;
-187,
-188,0123704529,hornick@ mark f.;  marcade@ erik ;  venkayala@ sunil ;
-189,
-190,0122290631,eberly@ david h.;
-191,
-192,0120887975,celko@ joe ;
-193,
-194,0120455994,aiken@ peter ;  allen@ m. david;
-195,
-196,1555581994,cheek@ matthew ;
-197,
-198,1555582745,moore@ martin ;  hancock@ steven ;
-199,
-200,
-201,
+0,9780073516677,o'leary@_timothy_j.,o'leary@_linda_i.;
+1,9780072999389,yacht@_carol,crosson@_susan;
+2,9780072922363,hutton@_david_v.;
+3,9780072843996,haag@_stephen,perry@_james_t.,sosinsky@_barrie,estevez@_efren;
+4,9780072466850,reddy@_j._n.;
+5,9780072255096,conklin@_wm._arthur,white@_gregory_b.,cothren@_chuck,williams@_dwayne,davis@_roger_l.;
+6,9780072232172,suhanovs@_dennis;
+7,9780072230611,scambray@_joel,mcclure@_stuart;
+8,9780072226331,white@_gregory;
+9,9780071357814,xiang@_zhigang,plastock@_roy_a.;
+10,1576761061,meadors@_todd,schmidt@_cheryl_a.;
+11,1558609350,courage@_catherine,baxter@_kathy;
+12,1558609342,kumar@_c_bala,kline@_paul_j.,thompson@_tim_j.;
+13,1558609199,halpin@_terry,evans@_ken,hallock@_pat,maclean@_bill;
+14,1558609016,han@_jiawei,kamber@_micheline;
+15,1558608893,goldman@_ron,gabriel@_richard_p.;
+16,1558608729,hoos@_holger_h.,_stutzle@_thomas;
+17,1558608591,strassner@_john_c.;
+18,155860846X,makofske@_david,almeroth@_kevin;
+19,155860829X,lacroix@_zoe,critchlow@_terence;
+20,1558608109,loshin@_pete;
+21,1558607870,strothotte@_thomas,schlechtweg@_stefan;
+22,1558607587,harmon@_paul;
+23,1558606971,chisholm@_malcolm;
+24,1558606483,puder@_arno,romer@_kay,pilhofer@_frank;
+25,155860636X,harris@_david;
+26,1558605959,kennedy@_james,eberhart@_russell_c.;
+27,1558605711,hegering@_heinz-gerd,neumair@_bernhard,abeck@_sebastian;
+28,1558605150,muller@_robert_j.;
+29,1558604545,jones@_karen_sparck,willett@_peter;
+30,1558603751,stollnitz@_eric_j.,derose@_tony_d.,salesin@_david_h.;
+31,1558603042,widom@_jennifer,ceri@_stefano;
+32,1558601368,przybylski@_steven_a.;
+33,155558327X,erbschloe@_michael;
+34,1555582990,lissoir@_alain;
+35,1555582796,duffy@_michael_d.;
+36,1555582605,fortier@_paul_j.,michel@_howard_e.;
+37,1555582184,etzel@_michael,dickinson@_karen;
+38,1555580416,steele@_guy_l.;
+39,0750699388,shaw@_paul_d.;
+40,0750694998,pease@_robert_a.;
+41,0750677953,jones@_andy,ashenden@_debi;
+42,0750673273,boyce@_joseph_g.,jennings@_dan_w.;
+43,075066455X,mcmanus@_john;
+44,0750656832,pooley@_rob,wilcox@_pauline;
+45,0672323435,mcmanus@_jeffrey_p.,goldstein@_jackie;
+46,044450673X,jenssen@_c._b.,kvamdal@_t.,andersson@_h._i.,Ecer@_A.,Periaux@_J.,Satofuka@_N.,Fox@_P.;
+47,0321444426,dowd@_mark,mcdonald@_john,schuh@_justin;
+48,0321418700,mcgraw@_gary,viega@_john,hoglund@_greg;
+49,0321397975,woody@_buck;
+50,0321356411,conry-murray@_andrew,weafer@_vincent;
+51,0321335724,seacord@_robert_c.;
+52,0321322215,sudkamp@_thomas_a.;
+53,032131283X,ben-ari@_m.;
+54,0321304292,adams@_tyrone,scollard@_sharon;
+55,0321287509,henderson@_ken;
+56,0321263545,coulouris@_george,dollimore@_jean,kindberg@_tim;
+57,032124544X,snader@_jon_c.;
+58,0321228103,nantz@_brian;
+59,0321219767,filman@_robert_e.,elrad@_tzilla,clarke@_siobhan,aksit@_mehmet;
+60,0321205219,singh@_inderjeet,brydon@_sean,murray@_greg,ramachandran@_vijay,violleau@_thierry,stearns@_beth;
+61,0321194985,sunderraman@_rajshekhar;
+62,0321181433,lauesen@_soren;
+63,0321165810,brundage@_michael;
+64,0321150406,harold@_elliotte_rusty;
+65,032112698X,naik@_dilip_c.;
+66,0321112296,rozanski@_nick,woods@_eoin;
+67,0201889544,stroustrup@_bjarne;
+68,0201823764,abrahams@_paul_w.,larson@_bruce_r.;
+69,0201776316,stevens@_w._richard,wright@_gary_r.;
+70,0201767910,rucker@_rudy;
+71,0201749602,park@_jack,hunting@_sam;
+72,0201734958,pattison@_ted,hummel@_joe;
+73,0201722291,smith@_connie_u.,williams@_lloyd_g.;
+74,0201715848,lewis@_jonathan;
+75,0201704471,carroll@_john_m.;
+76,0201699710,huston@_stephen_d.,johnson@_james_ce,syyid@_umar;
+77,0201634929,rector@_brent_e.,newcomer@_joseph_m.;
+78,0201633582,feuer@_alan_r.;
+79,0201615924,armour@_frank,miller@_granville;
+80,0201580438,winston@_patrick_henry;
+81,0201543303,stroustrup@_bjarne;
+82,0201489163,campbell@_dave,campbell@_mary;
+83,020140009X,sedgewick@_robert,flajolet@_philippe;
+84,0201379236,musser@_david_r.,derge@_gillmer_j.,saini@_atul;
+85,0201310058,bloch@_joshua;
+86,0201137445,maclennan@_bruce_j.;
+87,0131872893,dann@_wanda_p.,cooper@_stephen,pausch@_randy;
+88,0131463055,geary@_david,horstmann@_cay;
+89,0131227068,rubinstein@_moshe_f.,firstenberg@_iris_r.;
+90,0130494984,bohl@_marilyn,rynn@_maria;
+91,0130284467,shaffer@_clifford_a.;
+92,0126445516,simsion@_graeme_c.,witt@_graham_c.;
+93,0124499759,lientz@_bennet_p.,rea@_kathryn_p.;
+94,0123704529,hornick@_mark_f.,marcade@_erik,venkayala@_sunil;
+95,0122290631,eberly@_david_h.;
+96,0120887975,celko@_joe;
+97,0120455994,aiken@_peter,allen@_m._david;
+98,1555581994,cheek@_matthew;
+99,1555582745,moore@_martin,hancock@_steven;
+100,

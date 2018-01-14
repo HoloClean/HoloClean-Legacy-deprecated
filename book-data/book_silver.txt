@@ -1,0 +1,1265 @@
+9780321356413	andrew conry-murray; vincent weafer
+9781558608597	john c strassner
+9780201325812	alan dickman
+9781558608306	ashley friedlein
+9781555582906	michael erbschloe
+9780750670630	chris schroeder
+9780130286529	suzanne w dietrich
+9780201700732	bjarne stroustrup
+9781558602533	geoffrey fox; roy d williams; paul c messina
+9781558606586	tom brinck; darren gergle; scott wood
+9780750667319	colin combe
+9780201433364	michael j hernandez; john l viescas
+9781555582517	thomas c redman
+9780321427229	marcel gagne
+9780073660967	laura saret
+9781558605718	heinz-gerd hegering; sebastian abeck; bernhard neumair
+9781558609075	james bean
+9780321356406	marcel gagne
+9780072944815	triad interactive
+9780201489293	john f lescher
+9780750670623	jim williams
+9780321304865	chris wysopal; lucas nelson; dino dai zovi; elfriede dustin
+9781558608313	barbara mirel
+9780201700534	james carlson
+9780201703931	mary campione; kathy walrath; alison huml
+9780072337389	timothy j o'leary; linda i o'leary
+9780130319951	hector garcia-molina; jeffrey d ullman; jennifer d widom
+9781558605930	david h eberly
+9780321168795	jeff doyle
+9780139194245	mark allen weiss
+9780321122445	aviva garrett; gary drenan; cris morris; juniper networks
+9780072259605	peter koletzke; duncan mills
+9780201517972	brenda laurel
+9780321197849	c j date
+9780201701036	dick hamlet; joe maybee
+9780321200983	harlan carvey
+9780131401600	sandeep chatterjee; james webber
+9781558604469	joe warren; henrik weimer
+9781558606593	tom mcreynolds; david blythe
+9780321129475	wendy g lehnert
+9780321269676	perdita stevens
+9781558605701	ian h witten; alistair moffat; timothy c bell
+9780028056005	deborah hinkle; carole tobias; sharon anne fisher-larson; margaret marple; kathleen stewart
+9780321399830	dharma shukla; bob schmidt
+9780321246776	richard bejtlich
+9780201029888	john e hopcroft
+9780321336781	joshua bloch; neal gafter
+9781558605961	john l hennessy; david a patterson
+9780201703290	zhiqun chen
+9780201604641	douglas c schmidt; stephen d huston
+9780071374736	zainalabedin navabi
+9780072226324	michael meyers
+9780125250955	katsunari okamoto
+9780201523744	george pajari
+9780201310153	scott meyers
+9780201563177	w richard stevens
+9780124660519	david b makofske; michael j donahoo; kenneth l calvert
+9780072834345	glen coulthard; sarah hutchinson-clifford
+9780131426603	harvey m deitel; paul j deitel
+9781558601062	norman l badler; brian a barksy; david zeltzer
+9780126567557	sue spielman
+9780072231915	steve bain
+9780321382184	bob beauchemin; dan sullivan
+9781558608566	malik ghallab; dana nau; paolo traverso
+9781558605954	james kennedy; russell c eberhart
+9780321320735	kevin kenan
+9780321263186	george f luger
+9780201787337	ira pohl
+9780750661416	kim viborg andersen; morten thanning vendelo
+9780120959709	hossein bidgoli
+9780444888143	claude brezinski; michela redivo zaglia
+9780201824674	james o coplien
+9781558605947	philip j schneider; david h eberly
+9780321197863	ben shneiderman; catherine plaisant
+9780130481900	thomas pittman; james peters
+9780131453494	david megginson
+9780072944822	triad interactive
+9780072223194	dennis suhanovs
+9780124499683	bennet p lientz; kathryn p rea
+9781558604445	mark maybury; wolfgang wahlster
+9781558609068	douglas k barry
+9780321262202	christian d buckley; darren w pulsipher
+9780127887746	peter wayner
+9780321335708	donald e knuth
+9780201433319	jessica burdman
+9780321133540	bjorn karlsson
+9780124438675	cornelius t leondes
+9780072834321	glen j coulthard; sarah hutchinson-clifford
+9780321263544	george coulouris; jean dollimore; tim kindberg
+9781558602168	ahmed k elmagarmid; marek rusinkiewicz; amit sheth
+9780321304292	tyrone adams; sharon scollard
+9780321245458	bob schneider
+9780201619188	george coulouris; jean dollimore; tim kindberg
+9780072999389	carol yacht; susan v crosson
+9780073131122	carol yacht; susan crosson
+9780201719628	steven john metsker
+9780072263350	regis j "bud" bates; donald w gregory
+9780120121618	marvin v zelkowitz
+9780750699389	paul d shaw
+9780122384523	herbert b enderton
+9780750661409	wendy currie
+9780321159830	gary nutt
+9780321334619	jeff mcaffer; jean-michel lemieux
+9780321159625	christopher tavares; kirk fertitta; brent rector; chris sells
+9780131420441	robert britton
+9780321227355	james f kurose; keith w ross
+9780123694041	borja sotomayor; lisa childers
+9780120121632	marvin zelkowitz
+9780124438668	cornelius t leondes
+9780750697002	chris schroeder
+9780120121625	marvin v zelkowitz
+9780201563184	stephen a rago
+9780201379457	jason pritchard
+9780750695107	john d lenk
+9780072944846	triad interactive
+9780072225754	brian culp
+9781558606555	rajiv ramaswami; kumar sivarajan
+9780201725957	syed mansoor sarwar; robert koretsky; syed aqeel sarwar
+9780072922363	david v hutton
+9780201753066	stuart dabbs halloway
+9780120884773	george varghese
+9780124438651	cornelius t leondes
+9780201657586	rob weltman; tony dahbura
+9780201773446	gary j nutt
+9780321206749	ramez elmasri; shamkant b navathe
+9780201773637	richard earp; sikha bagui
+9781558602144	ahmed k elmagarmid
+9780321486813	alfred v aho; monica s lam; ravi sethi; jeffrey d ullman
+9780072478808	john hirschbuhl; dwight bishop
+9781558609297	jochen schiller; agnes voisard
+9781558606364	david harris
+9780201633627	john lakos
+9780127427515	jason weiss
+9780072255607	mike meyers
+9780072834307	glen coulthard; sarah hutchinson-clifford
+9781558609013	jiawei han; micheline kamber
+9780201514599	margaret a ellis; bjarne stroustrup
+9780073131146	donna ulmer
+9780201379617	jeff rule
+9780201773453	sarwar; al-saqabi
+9780201183955	angelika langer; klaus kreft
+9780072231182	michael meyers; lloyd jeffries
+9780073528328	paul de palma
+9780072835595	timothy j o'leary; linda i o'leary
+9780201770049	hiroshi maruyama; kent tamura; naohiko uramoto; makoto murata; andy clark; yuichi nakamura; ryo neyama; kazuya kosaka; satoshi hada
+9780125062305	katharina morik
+9780028044071	peter norton
+9780120884766	patrick crowley; mark a franklin; haldun hadimioglu; peter z onufryk
+9780321334886	eric carter; eric lippert
+9780124438644	cornelius t leondes
+9780321322210	thomas a sudkamp
+9781558606371	christian jacob
+9780750697019	charles m savage
+9780321263582	fred halsall
+9780750663519	margi levy; philip powell
+9780201379433	rebecca wirfs-brock; alan mckean
+9780750679299	gerald l kovacich; andy jones
+9780201604610	alan r feuer
+9780321334879	scott meyers
+9780120121601	marvin v zelkowitz
+9780321205216	inderjeet singh; sean brydon; greg murray; vijay ramachandran; thierry violleau; beth stearns
+9780072231199	michael meyers; scott jernigan
+9780130457974	bernard kolman; robert c busby; sharon cutler ross
+9780131482395	jeff langr
+9780131986190	sesh venugopal
+9780072255881	colin smith
+9780071409278	mark balch
+9780131857575	harvey m deitel; Paul Deitel
+9780201615630	carlton egremont
+9780201612738	timothy budd
+9780201485189	stanley b lippman
+9780201761764	stuart mcclure; saumil shah; shreeraj shah
+9780750698580	edn
+9780130132499	harvey m deitel; paul j deitel; tem nieto; edward strassberger
+9780072830767	stephen haag; james t perry
+9781558606791	didier h besset
+9781558608108	pete loshin
+9780122007514	william james dally; brian towles
+9780201776416	frank p coyle
+9780321462251	john e hopcroft; rajeev motwani; jeffrey d ullman
+9780321303325	robert w sebesta
+9780321118875	patrick chan; rosanna lee
+9780201309560	matthew h austern
+9780121631031	eoghan casey
+9780127323503	david wall
+9781576760352	art gittleman
+9780201737349	wendy g lehnert
+9781558608382	david luebke
+9781555582982	tim speed; juanita ellis
+9780321423436	marcel gagne
+9781555582272	steve m hancock
+9780028043760	peter norton
+9780120421718	emad aboelela
+9780070004849	harold abelson; gerald jay sussman; julie sussman
+9780321426420	linda mccarthy
+9780750696401	jim williams
+9780201563337	craig partridge
+9780201485523	patrick chan; rosanna lee; douglas kramer; doug kramer
+9780124438620	cornelius t leondes
+9781558605794	rick parent
+9781558606395	serge demeyer; stephane ducasse; oscar nierstrasz
+9780028055879	carole tobias
+9781555582999	alain lissoir
+9780321227317	syed mansoor sarwar; robert koretsky; syed aqeel sarwar
+9780121631048	eoghan casey
+9780124841406	roger mchaney
+9780072833430	stephen haag; james perry; barrie sosinsky; efren estevez
+9780201309447	rohan coelho; maher hawash
+9780130257864	david a watt; deryck f brown
+9780201419795	paul w abrahams; bruce r larson
+9780321237620	edward angel
+9780201485554	fabian pascal
+9780672324086	heather kreger; ward harold; leigh williamson
+9780321245441	jon c snader
+9780120828104	barr e bauer
+9781558608368	robert brunner
+9780201325645	john d mcgregor; david a sykes
+9780201634921	brent e rector; joseph m newcomer
+9780123694737	david gelphman; bunny laden
+9780131496705	francis s hill; stephen m kelley
+9780072552584	mcgraw-hill
+9780201709148	don box; aaron skonnard; john lam
+9780750673549	craig peacock
+9780321228475	eric clayberg; dan rubel
+9780123540515	karen holtzblatt; jessamyn burns wendell; shelley wood
+9780340700143	william buchanan
+9781558601901	jim gray; andreas reuter
+9781558608764	jan l harrington
+9780201725933	patrick henry winston; sundar narasimhan
+9780072257045	joseph phillips
+9780201734843	david vandevoorde; nicolai m josuttis
+9780805325478	thomas dean
+9780201612530	john d carpinelli
+9780201775754	bud porter-roth
+9780321335722	robert c seacord
+9780201709155	david carlson
+9780201714999	bo leuf; ward cunningham
+9781558608900	rina dechter
+9780750658553	mary attenborough
+9780201737332	xiaoping jia
+9781558601918	peter norvig
+9780750660754	hong zhu
+9780201754544	pierre n robillard; philippe kruchten; patrick d'astous
+9780201615869	brian w kernighan; rob pike
+9780123735850	tim weilkiens; bernd oestereich 
+9780201596182	rick f lans; van der
+9780201721843	paul bramble; alistair cockburn; andy pols; steve adolph
+9780122090486	michael j demler
+9780321119049	sikha bagui; richard earp
+9780122374715	juanita ellis; tim speed
+9781555582975	john r vacca; scott r ellis
+9780201675160	jeff crume
+9781555582746	martin moore; steven hancock
+9781558608757	patrick crowley
+9780123695123	joe celko
+9780201580426	patrick henry winston
+9781558605978	allison druin; james hendler
+9780138569235	franklin kuo; wolfgang effelsberg; j.j. garcia-luna-aceves
+9781555582036	patrick holmay
+9780201734850	karl e wiegers
+9781558607873	thomas strothotte; stefan schlechtweg
+9780079136787	h h tan; tim d'orazio
+9781558608344	markus hofmann; leland r beaumont
+9780201834543	stanley b lippman
+9780201608359	geoff chappell
+9780201485585	mary campione; kathy walrath; alison huml; tutorial team
+9780201741292	craig s mullins
+9780201398557	alan h watt
+9780127150512	jean-philippe vasseur; mario pickavet; piet demeester
+9781558608924	james bean
+9781558608740	andrew sloss; dominic symes; chris wright
+9781558605749	jean walrand; pravin varaiya
+9780201580433	patrick henry winston
+9780130457912	james a anderson
+9781555582029	alpha architecture committee
+9780124558403	david loshin
+9780340645888	brian d hahn; ray kemp
+9780072226331	gregory white
+9781555582951	william wheeler
+9780321228482	sakari kouti; mika seitsonen
+9780321213822	patrick chan; rosanna lee
+9781555583187	jun-ichiro itojun hagino
+9780201741285	richard roiger; michael geatz
+9781558608351	david a.d gould
+9780201722291	connie u smith; lloyd g williams
+9780132221580	y daniel liang
+9781576760598	art gittleman
+9780121604523	charles carrington; timothy speed; juanita ellis; steffano korper
+9781558608917	jack e olson
+9781558605756	dennis fowler
+9780321246783	james gosling; bill joy; guy steele; gilad bracha
+9780321369574	ramez elmasri; shamkant b navathe
+9780201533774	patrick henry winston
+9780201634952	w richard stevens
+9781558609099	michael sikora
+9780321268389	john arthorne; chris laffra
+9780750660983	kenneth a barclay; john savage
+9780131482111	peter linden; van der
+9780201608373	robert s lai
+9780120455997	peter aiken; m david allen
+9780201775785	robert sedgewick
+9780130353009	jeffrey d ullman; jennifer d widom
+9780444520876	michel-marie deza; elena deza
+9780201795257	douglas c schmidt; stephen d huston
+9780201407099	ron fosner
+9781558607699	peter wayner
+9780201615890	jon c snader
+9780201258288	bernard m moret
+9781558608535	ron fosner
+9781558608320	larry l peterson; bruce s davie
+9780028055886	carole tobias
+9780131735798	mike parr; douglas bell
+9780121028206	john black
+9780121631055	monique ferraro; eoghan casey
+9780321118899	marco pistoia; nataraj nagaratnam; larry koved; anthony nadalin
+9780126208627	khalid sayood
+9780321160775	mahesh chand
+9780201615623	herb sutter
+9781555582739	mike gancarz
+9780130914262	joel adams; larry nyhoff
+9780201749625	scott meyers
+9780070137783	l. richard carley; pradeep khosla
+9780201309799	c kenneth miller
+9781558608726	holger h hoos; thomas stutzle
+9780131485211	andrew s tanenbaum
+9780321268778	jean tabaka
+9780073101569	steven chapra; raymond canale
+9780201632187	al williams
+9780028055893	kathleen stewart
+9781558608719	jack dongarra; ian foster; geoffrey fox; william gropp; ken kennedy; linda torczon; andy white
+9780131872899	wanda p dann; stephen cooper; randy pausch
+9781558608528	jose duato; sudhakar yalamanchili; lionel ni
+9780130484406	vincent p heuring; harry f jordan
+9780321321282	ryan c barnett
+9780201634976	dan farmer; wietse venema
+9780121981570	mark a franklin
+9780070087149	george r buchanan
+9781558604582	robert cahn
+9780122290633	david h eberly
+9780201440997	matt bishop
+9780028055916	deborah hinkle
+9780131483989	harvey m deitel; paul j deitel
+9780672321313	jeffrey p mcmanus; chris kinsman
+9780321268280	peter blackburn; william r vaughn
+9780201771862	elliotte rusty harold
+9781558608702	carolyn snyder
+9780321116291	david benyon; phil turner; susan turner
+9781555582395	pierre bijaoui
+9780201760439	jim highsmith
+9780127425030	pawel plaszczak; richard wellner
+9780131018600	andrew staugaard
+9781555581268	joginder sethi
+9780130174802	shashi shekhar; sanjay chawla
+9780072845501	ellen pearlman; eileen mullin
+9780072224986	alan simpson
+9781558607835	david b fogel
+9780201711028	kirk chen; li gong
+9781555582791	michael d duffy
+9781558607453	berthold daum; udo merten
+9780073132907	steven c chapra
+9780072560312	larry randles lagerstrom
+9780201357424	mani subramanian
+9780201379266	nicolai m josuttis
+9781558607828	pete loshin
+9780201705027	rosanna lee; scott seligman
+9780072254280	matthew hart; scott jesse
+9780201760422	herb sutter
+9780201750768	p k yuen; v lau
+9780028055909	deborah hinkle
+9780321412997	pete becker
+9781555581237	mike gancarz
+9780121942755	earl cox
+9781555583286	edward haletky
+9780750678483	michael erbschloe
+9780201848403	james d foley; van dam andries; steven k feiner; john f hughes
+9780321136190	enricos manassis
+9780201422191	thomas boutell
+9781558604568	jim melton; alan r simon
+9781555582777	duane sharp
+9780750649445	bill hutchinson; matt warren
+9780072227840	mike shema
+9781558605572	ivan sutherland; bob sproull; david harris
+9781555583279	michael erbschloe
+9780123695130	frank cohen
+9780131739024	james faure walker
+9780321294012	thomas m connolly; carolyn e begg
+9780201729146	jeremy g siek; lie-quan lee; andrew lumsdaine
+9781558606722	terry halpin
+9781878707963	george l stefanek
+9780130411617	daniel d mccracken; rosalee j wolfe
+9780201774221	john m slatin; sharron rush
+9780120885602	pei zheng; lionel ni
+9780072320862	carl hamacher; zvonko vranesic; safwat zaky
+9780131856455	brian durney
+9780321146182	richard monson-haefel
+9780124383807	robert laurini; derek thompson
+9780072930962	barrie sosinsky
+9780131525238	deitel
+9780201100884	alfred v aho; ravi sethi; jeffrey d ullman
+9780120887934	mark r wilkins; chris kazmier
+9780072226973	mark rhodes-ousley; roberta bragg; keith strassberg
+9780132320498	y daniel liang
+9781555582760	philip e bourne; richard holstein; joseph mcmullen
+9780201742039	buck woody
+9780321428905	alfred v aho; ravi sethi; jeffrey d ullman
+9781558606180	anthony a apodaca; larry gritz
+9780028048918	robert goldhamer
+9780072227857	michael o'dea
+9781558604964	john r levine
+9781558607019	mark jason dominus
+9781558604544	karen sparck jones; peter willett
+9780201719758	michael beck; harald bohme; mirko dziadzka; ulrich kunitz; robert magnus; claus schroter; dirk verworner
+9780137689958	robert l kruse; alexander j ryba
+9780321287502	ken henderson
+9780131856448	william stallings
+9780201657968	daniel k appelquist
+9780321205612	rebecca m riordan
+9780072230932	eric maiwald
+9781558604032	sholom m weiss; nitin indurkhya
+9781558606739	peter j bentley; david w corne
+9780321136176	neil bradley
+9780750677561	aubrey kagan
+9780201730463	darrel ince
+9780321398666	kip irvine; tony gaddis
+9780201544350	ivar jacobson
+9781558601697	francois bancilhon; claude delobel; paris kanellakis
+9780120884360	debbie stone; caroline jarrett; mark woodroffe; shailey minocha
+9780072227864	nitesh dhanjani
+9780131176553	mark guzdial
+9780201728286	khalid a mughal; rolf w rasmussen
+9780201379235	david r musser; gillmer j derge; atul saini
+9780072254648	timothy j o'leary; linda l o'leary
+9780201548556	james o coplien
+9781558604537	joe celko
+9781558603691	jerry d gibson; toby berger; tom lookabaugh; dave lindbergh; richard l baker
+9780321240699	keith j jones; richard bejtlich; curtis w rose
+9781558604551	jim blinn
+9780672323430	jeffrey p mcmanus; jackie goldstein
+9780201702798	tomasz muldner
+9780073288512	carol yacht
+9780123725011	mark utting; bruno legeard
+9780201548563	joseph jaja
+9781558608023	clif flynt
+9780072254631	triad interactive
+9780131821064	jimmy holmes
+9780028048970	robert goldhamer
+9780201616262	pankaj jalote
+9780321154897	brad abrams
+9780672323423	david fox; roman verhovsek
+9780201722314	tomasz muldner
+9780321482754	alistair cockburn
+9780321193124	hakon wium lie; bert bos
+9780130467096	david reed
+9780131486607	harvey m deitel; paul j deitel
+9780321205636	kackie cohen; andrew daniels
+9780201512847	martin d carroll; margaret a ellis
+9780201740950	aaron skonnard; martin gudgin
+9780201729931	albert n badre
+9781558608290	zoe lacroix; terence critchlow
+9780321267962	chris sells; michael weinhardt
+9780123704528	mark f hornick; erik marcade; sunil venkayala
+9780072256758	chris davis; aaron philipp; david cowen
+9780201309836	marshall p cline; greg lomow; mike girou
+9781558607606	ian watson
+9780321210265	ian sommerville
+9781558604001	richard h bartels; john c beatty; brian a barsky
+9781558608283	walter ciciora; james farmer; david large; michael adams
+9780321166463	the honeynet project
+9781558606975	malcolm chisholm
+9780028055923	deborah hinkle
+9780123695314	sergios theodoridis; konstantinos koutroumbas
+9780072830583	stephen haag; james perry; merrill wells
+9780070089853	richard g budynas
+9780201721485	stanley b lippman; josee lajoie; barbara e moo
+9780201709063	dustin r callaway
+9780201895025	thomas j bergin; richard g gibson 
+9780078204616	joyce gleason
+9781558606777	jim melton
+9780134999975	oliver jones
+9780672322167	gilbert held
+9780120121489	marvin v zelkowitz
+9780130486233	barbara johnston
+9780201395198	ira pohl
+9780123694461	hanan samet
+9780201379242	brian tung
+9781558608085	john m carroll
+9780201634501	chris sells
+9780201563658	tom cargill
+9780072354676	edward rubin; cliff i davidson
+9780321243621	william r vaughn; peter blackburn
+9780130853752	barbara johnston
+9781558602977	erin farquhar; philip bunce
+9780750661317	tony grimer
+9780130654878	henry hamburger; dana richards
+9780201751581	ira pohl; charlie mcdowell
+9780201633467	w richard stevens
+9780120121670	marvin v zelkowitz
+9781555582593	scott fafrak; jim lola; dennis o'brien; gregory yates; brad nichols
+9781558609327	ronald j brachman; hector j levesque
+9780750665070	tom gilb
+9780201775808	rahul sharma; beth stearns; tony ng
+9780072225662	rory mccaw; kenneth lind
+9780080439976	tarek m khalil; louis a lefebvre; robert m mason
+9781558605398	mark d hill
+9780201309805	jalal feghhi; peter williams
+9780750696913	james l schaub; toni ames
+9780321133458	chris wolf
+9780750677950	andy jones; debi ashenden
+9781576761069	todd meadors; cheryl a schmidt
+9780750658959	geoffrey sampson
+9780201799408	diomidis spinellis
+9780120121656	marvin v zelkowitz
+9780201616217	sakari kouti; mika seitsonen
+9780120121663	marvin v zelkowitz
+9780201498370	bruce powel douglass
+9780120887996	ralf hartmut guting; markus schneider
+9780123706096	ian h witten; marco gori; teresa numerico
+9780321155726	glenn rowe
+9781578702763	todd w mathers
+9781558606531	dorian pyle
+9781558609105	jim smith; ravi nair
+9780321197672	ajay gupta; scott laliberte
+9780072958706	triad interactive
+9781555582562	charles breakfield; roxanne burkey
+9781555583002	pierre bijaoui
+9780120121649	marvin v zelkowitz
+9780201343045	judith bishop; nigel bishop
+9780201433173	thomas a wadlow
+9780321444424	mark dowd; john mcdonald; justin schuh
+9780201752847	michael j hernandez
+9780201733860	pete mcbreen
+9780127347608	dongming wang; xiao-shan gao
+9780123705921	michael guttman; john parodi
+9781558603431	david e culler; jaswinder pal singh; anoop gupta 
+9780321290939	rebecca m riordan
+9780201809381	robert v binder
+9780131496989	mark guzdial; barbara ericson
+9780201498387	randy chow; theodore johnson
+9781558605107	wolfgang banzhaf; peter nordin; robert e keller; frank d francone
+9780201703092	judith s bowman; sandra l emerson; marcy darnovsky
+9780201847604	steven miller
+9781555583200	paul kavanagh
+9780750673273	joseph g boyce; dan w jennings
+9780201702385	everett n mckay; mike woodring
+9781558605374	david g messerschmitt
+9780201734409	matt j crouch
+9780072958713	triad interactive
+9780072225648	brian hatch; james lee; george kurtz
+9780201824704	stanley b lippman; josee lajoie
+9780321349804	ken arnold; james gosling; david holmes
+9780201713749	al kelley; ira pohl
+9780321256638	steve northover; mike wilson
+9781555583408	jan de clercq; guido grillenmeier
+9780201432947	tim lindholm; frank yellin
+9781558606517	kevin jeffay; hongjiang zhang
+9780123705938	charles t betz
+9781558607231	laszlo boszormenyi; jurg gutknecht; gustav pomberger
+9780130460998	aura ganz; zvi ganz; kitti wongthavarawat
+9780321197887	dan fox; jon box
+9780321166074	diomidis spinellis
+9780028005942	albert malvino; jerald brown
+9780201433197	j scott haugdahl
+9780201648669	george f luger
+9780072232172	dennis suhanovs
+9780131411555	w richard stevens; bill fenner; andrew m rudoff; richard w stevens
+9780072978476	peter norton
+9781558609365	rich ling
+9780023606922	richard johnsonbaugh; marcus schaefer
+9780201407211	george shepherd; scot wingo
+9780071345545	pauline cushman; ramon mata-toledo
+9780201619102	olivier hersent
+9781555582555	matthew cheek; scott fafrak; steven hancock; martin moore; gregory yates
+9780750673297	marty brown
+9780120884827	david a d gould
+9780201844542	stacy joines; ruth willenborg; ken hygh
+9780201477085	gary nutt
+9780201726275	michael j laszlo
+9780201308204	dorothy e denning; peter j denning
+9780321194046	david chappell
+9781558609358	catherine courage; kathy baxter
+9780201710885	balachander krishnamurthy; jennifer rexford
+9780201622171	matt pietrek
+9780078227813	jeffrey r stewart; nancy m melesco
+9781558605152	robert j muller
+9780321341389	guy smith-ferrier
+9780444506733	c b jenssen; t kvamdal; h i andersson; b pettersen; a ecer; j periaux; n satofuka; p fox
+9780126445510	graeme c simsion; graham c witt
+9781558602762	andrew s glassner
+9781576761052	david galles
+9780070259409	robert s pindyck; daniel l rubinfeld; bronwyn h hall; sergio l schmukler
+9780201634563	jonni kanerva
+9780201704471	john m carroll
+9780321166098	per kroll; philippe kruchten
+9780321194459	brad abrams; tamara abrams
+9781576761427	jennifer golbeck
+9780120887989	david c hay
+9780201752809	patrick chan
+9780201844528	akmal b chaudhri; awais rashid; roberto zicari
+9780201708523	richard grimes
+9780072232196	diana huggins
+9780321218735	steven branigan
+9781558609341	c bala kumar; paul j kline; tim j thompson
+9780072227413	trevor kay
+9780130284464	clifford a shaffer
+9780201699692	alistair cockburn
+9781555582531	gary mauler
+9781558603875	jim blinn
+9780321194442	bill english; olga londer; shawn shell; todd bleeker; stephen cawood
+9780201563450	michael a schoonover; john s bowie; william r arnold
+9780201498349	alistair cockburn
+9781555581671	richard f walters
+9780124477513	qing li; tatuya jinmei; keiichi shima
+9781558603202	steven s muchnick
+9780201699470	alistair cockburn
+9780321245755	stephanie bodoff; eric armstrong; jennifer ball; debbie bode carson
+9781558605336	stuart k card; jock d mackinlay; ben shneiderman
+9781555583446	xypro technology corp
+9780321410139	christopher fox
+9781558603486	nancy a lynch
+9780321197696	brian noyes
+9780321466754	david s platt
+9781558609334	ian foster; carl kesselman
+9780321224095	j c cannon
+9780201895490	mark g sobell
+9780120887972	joe celko
+9780201483260	jim kyle
+9780120121687	chau-wen tseng
+9781576760185	forest lin
+9780750670739	nihal kularatna
+9780201361209	robert sedgewick
+9780201745764	laurie williams; robert kessler
+9780321262516	tom clark
+9780072985559	vicki f sharp
+9780125662512	john pruitt; tamara adlin
+9780072255539	adrian kingsley-hughes
+9781558609136	adrian farrel
+9780201616477	h x mel; doris baker
+9780240807942	magan h arthur
+9780321305015	roberta bragg
+9780321304513	mark egan; tim mather
+9780201379501	dov bulka; david mayhew
+9780321427618	lillian goleniewski
+9780201674729	david tansley
+9780130888921	margaret h dunham
+9780201725889	sun microsystems inc
+9780072253603	kathy sierra; bert bates
+9780750690898	clive maxfield
+9781558606456	ralph wittmann; martina zitterbart
+9781558609143	feng zhao; leonidas guibas
+9780125852630	erik reinhard; greg ward; sumanta pattanaik; paul debevec
+9780201633719	scott meyers
+9780201616460	peter haggar
+9780201741957	addison-wesley
+9780072397024	behrouz a forouzan
+9780132212113	jeffrey a hoffer; mary b prescott; fred r mcfadden
+9780131463059	david geary; cay horstmann
+9781576760246	forest lin
+9780321304520	tom patterson; scott gleeson blue
+9780201674712	peter ryan; steve schneider; michael goldsmith; gavin lowe; bill roscoe
+9780321113559	lisa crispin; tip house
+9780120884070	ian h witten; eibe frank
+9781558604322	joe celko
+9780201550603	brenda laurel
+9781558601369	steven a przybylski
+9780201700473	ken henderson
+9781555582609	paul j fortier; howard e michel
+9780201896831	donald e knuth
+9780201707199	warren g kruse; jay g heiser
+9780750674744	joseph m firestone
+9781558605824	jeff johnson
+9781576760963	art gittleman
+9780201543308	bjarne stroustrup
+9781558606425	klaus r dittrich; andreas geppert
+9780201179286	andrew koenig
+9780750698214	john d lenk
+9780122937859	karen e goulekas
+9781555583064	john w rittinghouse; william m hancock
+9780201379518	john w stewart
+9780072472509	timothy j o'leary; linda i o'leary; linda o'leary
+9781576760284	john avila
+9780201700466	ken henderson
+9781558609150	benjamin b bederson; ben shneiderman
+9780123693792	joe celko
+9780321180599	bob beauchemin; niels berglund; dan sullivan
+9781555582630	jeffrey peel
+9780201787900	inderjeet singh; beth stearns; mark johnson
+9780201796445	m.l liu
+9780321418494	james f kurose; keith w ross
+9780072231243	michael meyers
+9780201563825	robert b murray
+9780130186614	todd feil; joan krone
+9780321113580	herb sutter; andrei alexandrescu
+9781558606432	b j fogg
+9780201896848	donald e knuth
+9780750696548	john d lenk
+9781558609167	david loshin
+9780201741179	stephen p berczuk; brad appleton
+9781558608436	stefano ceri; piero fraternali; aldo bongio; marco brambilla; sara comai; maristella matera
+9781555583071	robert charles metzger
+9780201379532	darryl p black
+9780321304544	peter szor
+9781558604346	clement t yu; weiyi meng
+9780131426412	harvey m deitel; paul j deitel; tim hoey; cheryl h yaeger
+9780201770612	james lee; brent ware
+9780750696555	john d lenk
+9780321194336	james a whittaker; herbert h thompson
+9780321313799	ian sommerville
+9780201889543	bjarne stroustrup
+9780321219763	robert e filman; tzilla elrad; siobhan clarke; mehmet aksit
+9780321136503	tom clark
+9780131857582	harvey m deitel; paul j deitel
+9781558609174	dave mccomb
+9780201734959	ted pattison; joe hummel
+9780321397973	buck woody
+9780131426481	deitel; deitel; listfield; yaeger; zhang
+9781555580896	marshall brain
+9780130369970	yedidyah langsam; moshe j augenstein; aaron m tenenbaum
+9781558606487	arno puder; kay romer; frank pilhofer
+9780735711921	ted harwood
+9780444505569	k futatsugi; a t nakagawa; t tamai
+9780131491793	douglas e comer
+9780124438958	cornelius t leondes
+9780201787924	brian arkills
+9780201325713	christine hofmeister; robert nord; dilip soni
+9780131427815	ann ford; toby teorey; sandy bartlett; gary tyson
+9780321268631	michael juntao yuan; kevin sharp
+9780135012062	winfried karl grassmann; jean-paul tremblay
+9780130153906	donald hearn; m pauline baker
+9780321227256	david abrahams; aleksey gurtovoy
+9780321349965	richard bejtlich
+9780131238039	douglas a young
+9780750696524	john d lenk
+9780126290400	guus schreiber; bob wielinga; joost breuker
+9780130602398	dan robinson
+9780201634600	richard mitchell; jim mckim
+9780201787917	li gong; gary ellison; mary dageforde
+9780321197702	philippe kruchten
+9780321312839	m ben-ari
+9780750661577	cima publishing
+9780072253658	michael jang
+9780072941494	glenn d blank; robert barnes; edwin j kay
+9780321349958	himanshu dwivedi
+9781558606692	david f rogers
+9780201716238	patrick chan; rosanna lee 
+9780201548877	michael kifer; scott a smolka
+9780201615937	dean leffingwell; don widrig
+9781558609181	malcolm chisholm
+9781558603042	jennifer widom; stefano ceri
+9780201632088	andrew binstock; john rex
+9781558604117	hugh beyer; karen holtzblatt
+9780131400856	thomas w miller
+9780805375657	mark g sobell
+9780321154200	albert endres; dieter rombach
+9781558609198	terry halpin; ken evans; patrick hallock; bill maclean
+9780131453203	jeffrey a hoffer; mary b prescott; fred r mcfadden
+9780131679955	edgar g goodaire; michael m parmenter
+9780201731149	gene korienek; tom wrensch; doug dechow
+9780072390841	ralph s polimeni; frank j fabozzi; arthur h adelberg; jacqueline a burke
+9780201726848	robert sedgewick
+F	john hirschbuhl
+9780201183993	al kelley; ira pohl
+9780321399427	c j date; hugh darwen
+9780340613986	jim haigh
+9780201612431	gary j nutt
+9780321169518	paul vick
+9780201157673	david e goldberg
+9780201379563	andrew f ward
+9780201612943	c j date
+9780121674519	michel de champlain; brian g patrick
+9780750664554	john mcmanus
+9780805375664	mark g sobell
+9781558606470	r g g cattell; douglas barry; mark berler; jeff eastman; david jordan; craig russell; olaf schadow; torsten stanienda; fernando velez
+9780071362856	ed tittel
+9780130313980	k r rao; zoran s bojkovic; dragorad a milovanovic
+9780072232332	rory mccaw; kenneth lind
+9780201615920	frank armour; granville miller
+9780201361216	robert sedgewick
+9781576760741	art gittleman
+9780201616408	ken auer; roy miller
+9780321304780	patrick chan; rosanna lee
+9780321227232	michael shinn; scott shinn
+9780130920652	jay singelmann
+9780321350176	joe kaplan; ryan dunn
+9780072261943	ron hardman; michael mclaughlin
+9780072500172	kenneth laudon
+9780120121502	marvin zelkowitz
+9780201489804	thomas j smedinghoff
+9780201325706	brent callaghan
+9781555582807	anura guruge
+9781558608207	jan l harrington
+9780137903955	stuart j russell; peter norvig
+9780321204660	michael negnevitsky
+9780124343702	parag k lala
+9781558608894	ron goldman; richard p gabriel
+9780201310085	bill joy; guy steele; james gosling; gilad bracha
+9780125184069	jakob nielsen
+9781558608610	reinhard klette; azriel rosenfeld
+9781558608481	david s ebert; f kenton musgrave; darwyn peachey; ken perlin; steven worley
+9780321228352	keith brown
+9780201309669	john t moy
+9780072232325	anil desai
+9780072944792	triad interactive
+9780201781342	jorg liebeherr; magda el zarki
+9780201710120	robert g clark
+9780131410794	y daniel liang
+9780750672818	norman dye; helge granberg; larry leighton
+9780072231465	michael meyers; scott jernigan
+9780132681520	william h ford; william r topp
+9780750678032	carl roper; lynn fischer; joseph a grau
+9780078216770	susan sanderson
+9781555582814	david donald miller
+9781558608214	jakob nielsen
+9780124499751	bennet p lientz; kathryn p rea
+9780321213341	don jones
+9780131409095	larry r nyhoff
+9780750658676	john mcmanus
+9780130351180	hong zhang; y daniel liang
+9780201442342	jim beveridge; robert wiener
+9780130340740	randal e bryant; david r o'hallaron
+9780750676564	gerald l kovacich
+9780125184083	jakob nielsen
+9780072371925	ferris ritchey
+9781558608603	jim blinn
+9780201657609	david ginsburg
+9780201615982	eric rescorla
+9780201325775	sheng liang
+9780201549799	marshall kirk mckusick; keith bostic; michael j karels; john s quarterman
+9780201563245	barry rosenberg
+9780201791662	peter eeles; kelli houston; wojtek kozaczynski
+9780321305497	watts s humphrey
+9780123490407	c neville dean; michael g hinchey
+9780201657821	russell nakano
+9780131474345	ralph morelli; ralph walde
+9780201615753	raffaele piemonte; scott jamison
+9780072255096	wm arthur conklin; gregory b white; chuck cothren; dwayne williams; roger l davis
+9781558608221	markus knasmuller
+9780201794274	doug wallace; isobel raggett; joel aufgang
+9780201895506	ira pohl
+9780201657647	vivek sharma; rajiv sharma
+9780201758207	lars mathiassen; jan pries-heje; ojelanki ngwenyama
+9780131424159	kim bruce; andrea danyluk; thomas murtagh
+9780201853926	donald e knuth
+9780072226225	robert j shimonski
+9780072966237	triad interactive
+9780124438750	cornelius t leondes
+9780672323911	carlisle adams; steve lloyd
+9780805327304	michael wolfe
+9780201325744	james morle
+9780750664714	rob williams
+9781555582838	jan de clercq
+9780201823769	paul w abrahams; bruce r larson
+9780072255089	vincent j nestler; wm arthur conklin; gregory b white; matthew p hirsch
+9780335216369	len unsworth; angela thomas; alyson m simpson; jennifer l asha
+9780201703108	johnson m hart
+9780072300413	donna thompson
+9780201711615	yun-tung lau
+9780321268457	michael kifer; arthur bernstein; philip m lewis
+9780072565089	rosenberg
+9780201710373	david reilly; michael reilly
+9780201615760	ken henderson
+9780201853933	donald e knuth
+9780321126986	dilip c naik
+9780130304186	michael r blaha
+9780072254914	julia case bradley; anita c millspaugh
+9780201310054	joshua bloch
+9780123116338	jan l harrington
+9780201729207	dov jacobson; jesse jacobson
+9780201895513	grady booch; robert a maksimchuk; michael w engle; bobbi j young; jim conallen; kelli a houston 
+9780201612462	timothy budd
+9781558608627	sue spielman
+9780750670296	william c boni; gerald l kovacich
+9780201853940	donald e knuth
+9780028055992	sharon anne fisher-larson; margaret marple
+9780321336439	jesper m johansson; steve riley
+9780125571890	michal pioro; deepankar medhi
+9780120958115	randolph g bias; deborah j mayhew
+9780321397966	michael raheem; dima sonkin; thierry d'hers; kami lemonds
+9780321256195	johnson m hart
+9780201734096	daniel j paulish
+9781555582180	michael etzel; karen dickinson
+9780805301434	j glenn brookshear
+9780072223224	anil desai
+9780123735966	joe celko
+9780321197986	roger riggs
+9781558605619	deborah j mayhew
+9780750676137	jesus mena
+9780805316704	david r hanson; christopher w fraser
+9780321202178	andrew vladimirov; konstantin v gavrilenko; andrei a mikhailovsky
+9780072551877	triad interactive
+9780201896855	donald e knuth
+9781558605886	philippe rigaux; michel scholl; agnes voisard
+9780072966213	triad interactive
+9780750695084	john lenk
+9780072466850	j n reddy
+9780321490292	eric jendrock; jennifer ball; debbie carson; ian evans; scott fordin; kim haase
+9780201722192	david budgen
+9781558602458	jim melton; alan r simon
+9780201310030	patrick chan; rosanna lee
+9780201423396	andrew koenig; barbara moo
+9780201771688	dwight peltzer
+9781555582852	nigel stanley
+9780201590654	ravi sethi
+9780321426727	eric clayberg; dan rubel
+9780072231236	michael meyers; lloyd jeffries
+9780130652478	kenneth a ross; charles r wright
+9780201407877	jeff kovel; kent quirk; jay gabin
+9780124650305	carmel maguire
+9780123735775	mamdouh refaat
+9780750695091	john d lenk
+9780072830613	stephen haag; james t perry; merrill wells
+9780340600344	brian d hahn
+9780321228383	michael kifer; arthur bernstein; philip m lewis
+9780750670067	technical marketing staff of gates energy products
+9781558607798	monique morrow; kateel vijayananda
+9780201547771	peter h salus
+9780124730519	john g clement; murray k marks
+9781558608870	james d mccabe
+9780131194595	maureen sprankle
+9780201615715	lincoln d stein
+9780201398441	darrel ince; adam freeman
+9781558608269	michael j donahoo; kenneth l calvert
+9780073273273	carol yacht; susan crosson
+9780201615999	richard e smith
+9780201702712	thomas a limoncelli; christine hogan
+9780201710144	kevin meltzer; brent michalski
+9781558608467	david makofske; kevin almeroth
+9780132237383	y daniel liang
+9780321369444	mike andrews; james a whittaker
+9780131492028	walter savitch
+9780201707120	matthew j curland
+9780201742251	evelyn stiller; cathie leblanc
+9780122661709	valery j frants; jacob shapiro; vladimir g voiskunskli
+9780321165817	michael brundage
+9780072223255	diana huggins
+9780750679992	robert l pearson
+9780321136206	jon edney; william a arbaugh
+9780321136497	jayson falkner; kevin r jones
+9780124499775	bennet p lientz; kathryn p rea
+9780201737233	julia h allen
+9780201558029	ronald l graham; donald e knuth; oren patashnik
+9780121339609	ron brinkmann
+9780072467505	yale patt; sanjay j patel
+9780321349798	eric l brown
+9780131436978	carl albing; michael schwarz
+9780073273266	carol yacht; susan crosson
+9780123694591	wayne wolf
+9780072226966	kevin mandia; chris prosise; matt pepe 
+9780201758672	doug a bowman; ernst kruijff; joseph j laviola; ivan poupyrev
+9780321321367	pang-ning tan; michael steinbach; vipin kumar
+9781558607989	milos d ercegovac; tomas lang
+9780026648172	mcgraw-hill
+9781555582494	norman lawrence
+9780201609219	james d foley; andries van dam; steven k feiner; john f hughes; richard l phillips
+9781558606845	paul westerman
+9780321112552	thomas j shelford; gregory a remillard
+9781558608177	peter braun; wilhelm rossak
+9780028049212	peter norton
+9780201738278	roderick w smith
+9780321150400	elliotte rusty harold
+9781558608160	berthold daum
+9780321321374	edward angel
+9780134373775	harvey m deitel; paul j deitel
+9781555582890	drew wigodsky
+9780072226959	john muster
+9781558607972	gary b fogel
+9780123951717	ivan p kaminow; thomas l koch
+9780672323577	paul d sheriff; ken getz
+9780072337488	timothy j o'leary; linda i o'leary
+9780201703597	kenneth b sall
+9780073516677	timothy j o'leary; linda i o'leary
+9780321174048	paul yao; david durant
+9781558605466	sharon k black
+9780321418708	gary mcgraw; john viega; greg hoglund
+9781558606852	kenneth l calvert; michael j donahoo
+9780321185563	greg riccardi
+9780130669483	eric gossett
+9780130858504	william ford; william topp
+9780072978902	peter norton
+9781558607552	r wieringa
+9780201357523	gregory r andrews
+9781555582883	murali vallath
+9780072456103	kenneth c laudon
+9780131414631	jitae shin; daniel c lee; c c jay kuo
+9781558608191	colin ware
+9781555583385	john w rittinghouse; james f ransome
+9780201758658	joel henry
+9780201398151	ian sommerville
+9780073195995	ralph m ford; chris s coulston
+9780072229240	christopher allen; simon chatwin; catherine a creary
+9780321334206	sharon zakhour; scott hommel; jacob royal; isaac rabinovitch; tom risser; mark hoeber
+9781558605084	gerhard weikum; gottfried vossen
+9780321181435	soren lauesen
+9780201752793	fred chris smith; rebecca gurley bace
+9780201760316	timothy budd
+9780201749601	jack park; sam hunting
+9781558607583	paul harmon
+9780321356703	gary mcgraw
+9780201738261	patricia l ferdinandi
+9781555583392	john w rittinghouse; james f ransome
+9780673999863	kenneth a reek
+9780201609998	allan leinwand; karen fang
+9780120510405	bryce allen
+9780201309720	joshua engel
+9780321267511	william s davis; t m rajkumar
+9780071357814	zhigang xiang; roy a plastock
+9780123951700	ivan p kaminow; thomas l koch
+9781558606043	david a patterson; john l hennessy
+9780130494986	marilyn bohl; maria rynn
+9780321268174	brian carrier
+9780072939200	timothy j o'leary; linda i o'leary
+9780672323546	casey kochmer; erica frandsen
+9781558605695	jared spool; tara scanlon; carolyn snyder; terri deangelo
+9780750677462	praphul chandra
+9780131410800	y daniel liang
+9780201786958	greg hoglund; gary mcgraw
+9780201702095	ruixi yuan; w timothy strayer
+9780120884223	adrian farrel; igor bryskin
+9780201704310	andrei alexandrescu
+9780201634488	radia perlman
+9781558607118	jim melton; stephen buxton
+9780126565614	tim speed; juanita ellis; steffano korper
+9780072976779	steven c chapra
+9780073212227	ferdinand p beer; e russell johnston
+9780201634891	lincoln d stein
+9780750681896	peter mcbride
+9781558607521	susan fowler; victor stanwick
+9780127748603	taiichi yuasa; masami hagiya
+9780126853520	toby j teorey; sam lightstone; tom nadeau
+9781558606883	henry lieberman
+9780201379372	jef raskin
+9780122861604	andrew s glassner
+9780321340795	rob williams
+9780201767919	rudy rucker
+9780201752779	tom clark
+9780072229233	carey holzman
+9780124499836	bennet p lientz; kathryn p rea
+9780201398182	fred halsall
+9781558607125	mary beth rosson; john m carroll
+9780131541573	harvey m deitel; paul j deitel
+9780672321467	edward whalen; mitchell schroeter
+9781558605299	dorian pyle
+9781558607927	charles poynton
+9781558606890	usama fayyad; georges g grinstein; andreas wierse
+9780201379365	aaron skonnard
+9780201400090	robert sedgewick; philippe flajolet
+9780201309942	david a taylor
+9780321330239	walter savitch
+9780201760323	lillian goleniewski
+9780122513411	jesse feiler
+9780201776317	w richard stevens; gary r wright
+9781558607514	thomas d nadeau
+9780201441246	john e hopcroft; rajeev motwani; jeffrey d ullman
+9780201657883	jon bentley
+9780201436648	miles murdocca; vincent p heuring
+9781558607132	alan r simon; steven l shaffer
+9780124499805	bennet p lientz; kathryn p rea
+9780121403102	david r bull
+9780321330253	robert w sebesta
+9780072903621	l richard carley; pradeep khosla
+9780073304274	julia bradley; anita millspaugh
+9781558607347	worthy n martin; william m spears
+9780201309775	krzysztof czarnecki; ulrich w eisenecker
+9780201483598	mark j kilgard
+9780321228109	brian nantz
+9780201699715	stephen d huston; james ce johnson; umar syyid
+9780201634464	don box
+9781558603530	william r sherman; alan b craig
+9780201616163	richard hightower
+9780072976755	yunus a cengel; robert h turner
+9780321330246	walter savitch
+9780201845198	steve summit
+9781558607545	soumen chakrabarti
+9780122941511	manish govil; jean-marie proth
+9780201788914	stephen j mellor; kendall scott; axel uhl; dirk weise
+9780201703535	andrew koenig; barbara e moo
+9781558606081	zheng wang
+9781558607149	ingemar cox; matthew miller; jeffrey bloom; mathew miller
+9780131227064	moshe f rubinstein; iris r firstenberg
+9780321321350	jonathan lazar
+9780126443752	dan a simovici; richard l tenney
+9781558604674	nils j nilsson
+9781555583347	ron ben natan
+9781558607903	ian h witten; david bainbridge
+9781558606876	heinz zullighoven
+9781558607538	dennis shasha; philippe bonnet
+9780321213358	joshua kerievsky
+9780201711141	aviel d rubin
+9780122205316	michael j donahoo; gregory speegle
+9780072844528	david mercer
+9780321174031	paul yao; david durant
+9780321293534	scott w ambler; pramodkumar j sadalage
+9780072263848	herbert schildt
+9780321180605	howard katz; don chamberlin; denise draper; mary fernandez; michael kay; jonathan robie; michael rys; jerome simeon; jim tivy; philip wadler
+9780120121526	marvin v zelkowitz
+9780201734102	bruce e wampler
+9781555583125	michael erbschloe
+9780750681858	stephen morris
+9780321193674	steve mcconnell
+F	ron goldman
+9780072565850	harry knight
+9780072872156	triad interactive
+9781558607361	gregory d speegle
+9780131018570	nilesh shah
+9780750672573	william c boni; gerald l kovacich
+9780072499544	timothy j o'leary; linda i o'leary; timothy o'leary
+9780131976290	david barnes; michael kolling
+9780321436757	terry felke-morris
+9781555582401	micky balladelli; jan de clercq
+9780072374162	timothy j o'leary; linda i o'leary
+9780321411754	eric carter; eric lippert
+9781555583132	john w rittinghouse
+9780201489163	dave campbell; mary campbell
+9780131013766	cameron hughes; tracey hughes
+9781555583118	greg schulz
+9780201184617	oliver c ibe
+9780321180612	dameon d welch-abernathy
+9780072227765	michael otey
+9780120121519	marvin v zelkowitz
+9780750681865	moira stephen
+9780201530674	peter j denning
+9780201719567	t j klevinsky; scott laliberte; ajay gupta
+9780201622072	ted landau
+9780071362078	nick carter
+9781555583323	james f ransome; john r rittinghouse
+9780201713060	michael h brackett
+9780124287518	anurag kumar; d manjunath; joy kuri
+9780750674034	ron schmitt
+9780321219145	michael k johnson; erik w troan
+9780201695878	ira pohl
+9780201719369	elfriede dustin; jeff rashka; douglas mcdiarmid
+9780201634457	carrie anderson; david wendelken
+9780072861983	john p hayes
+9781558607354	anant agarwal; jeffrey lang
+9780321440303	raymond chen
+9781555581558	richard holstein
+9781558603752	eric j stollnitz; tony d derose; david h salesin
+9781558606227	serge abiteboul; peter buneman; dan suciu
+9780750681872	keith brindley
+9781558609006	james mcgovern; sameer tyagi; michael e stevens; sunil mathew
+9780201634624	lincoln d stein
+9780321294326	patrick chan; rosanna lee
+9780201309935	clovis l tondo; bruce p leung
+9780132141710	fred s roberts
+9780201695892	brent rector; chris sells
+9780201634426	srinivasan keshav
+9781558609204	joe celko
+9780321127006	russ white; danny mcpherson; srihari sangli
+9780201633580	alan r feuer
+9780072843996	stephen haag; james t perry; barrie sosinsky; efren estevez
+9780201924800	richard e smith
+9780201704334	ken arnold; james gosling; david holmes
+9780201539219	david m skapura
+9780201633375	john k ousterhout
+9780201433036	dorothy e denning
+9780126542615	dagobert soergel
+9780321437297	luke hohmann
+9780321349941	nik alston; mike chapple; kirk hausman
+9780321356987	john c hancock; roger toren
+9780201775921	thomas m thomas; rajah chowbay; doris pavlichek; wayne w downing; lawrence h dwyer; james sonderegger
+9780321154996	t v raman
+9781576760826	john c day; craig van slyke
+9780201784725	mark hapner; rich burridge; rahul sharma; joseph fialli; kim haase
+9780750681889	moira stephen
+9780072230666	scott urman; ron hardman; michael mclaughlin
+9780130649348	harvey m deitel; paul j deitel
+9780072232066	jon juarez; john carter; kathleen stewart
+9780672322266	craig hollabaugh
+9780321294319	greg hoglund; jamie butler
+9780321305961	rick f van der lans
+9780201734119	don box
+9780201770186	damien watkins; mark hammond; brad abrams
+9780131176867	richard johnsonbaugh
+9780130142511	joel adams; larry r nyhoff; jeffrey nyhoff; joel c adams; jeffrey l nyhoff
+9781558604629	ian watson
+9780201719543	daryl wilding-mcbride
+9780321321305	per kroll; bruce macisaac
+9781555581572	david donald miller
+9780201483543	joseph j lazzaro
+9781558606241	alberto del bimbo
+9780201719345	marcel gagne
+9780201704341	herb sutter
+9781558604827	don chamberlin
+9780321447746	ken henderson
+9780321321312	joe marasco
+9780750698009	p k mcbride
+9780321245663	bill wagner
+9781555582432	lawrence baldwin; stephen hoffman
+9780201633382	curt schimmel
+9781558604155	philip a bernstein; eric newcomer
+9780120121540	marvin zelkowitz
+9781558607378	gerald farin
+9780201715842	jonathan lewis
+9780201768107	patrick chan
+9781555582647	alan winston
+9780750694995	robert a pease
+9780131429017	eric s raymond
+9780120121571	marvin zelkowitz
+9780201746129	brian m edwards; leonard a giuliano; brian r wright
+9781555583170	john w rittinghouse; james f ransome
+9780123264282	jan l harrington
+9780321154934	james s miller; susann ragsdale
+9780750656832	robert pooley; pauline wilcox
+9780201648560	douglas bell
+9780321247445	matt bishop
+9780072263206	tom carpenter; grant moerschel; richard dreger
+9780201876741	peter h salus
+9780201593884	andreas siegert
+9780201756081	robert sedgewick
+9781558604377	robert j muller
+9780120121557	marvin v zelkowitz
+9780321108944	philip romanik; amy muntz
+9780131003125	edward m schwalb
+9780201721522	john viega; gary mcgraw
+9781555583156	fiach reid
+9780805321661	charles n fischer; richard j leblanc
+9780750661232	carol britton; jill doake
+9780131853546	janet valade
+9780120121564	marvin v zelkowitz
+9780072971293	triad interactive
+9781555581596	ruth e goldenberg
+9781558604384	patrick o'neil; elizabeth o'neil
+9780201634662	william r cheswick; steven m bellovin; aviel d rubin
+9780072967791	stephen haag; maeve cummings; alan i rea
+9781555582661	alain lissoir
+9780321108951	lance spitzner
+9780132222204	deitel; deitel
+9780072230611	joel scambray; stuart mcclure
+9781555583149	xypro technology corp
+9780201752946	john adolph palinski
+9781576761151	terry felke-morris
+9780133350685	gilles brassard; paul bratley
+9781558609242	michael lesk
+9780201633542	wright r gary; w richard stevens 
+9780120121595	marvin w zelkowitz
+9781558604186	dan r olsen
+9780321194985	rajshekhar sunderraman
+9780201633955	scott o bradner; allison mankin
+9781558602717	johann christoph freytag; david maier; gottfried vossen
+9780201695847	j scott marcus
+9780201137446	bruce j maclennan
+9780750696005	john m carroll
+9780132438629	harvey; paul) deitel; associates
+9780123229809	jim handy
+9781576761366	felke
+9780072835564	timothy j o'leary; linda i o'leary
+9780672325311	steve holzner
+9781555580414	guy l steele
+9780131869004	deitel; associates
+9780131972599	gadi taubenfeld
+9781555581992	matthew cheek
+9780201604429	keith brown
+9781558606005	eric bergman
+9780750681841	p k mcbride
+9781555582678	john robert wisniewski
+9780201608427	bruce tognazzini
+9780120121588	marvin v zelkowitz
+9780321112293	nick rozanski; eoin woods
+9780070379909	seymour lipschutz
+9780131498624	steven holzner
+9780201758818	henning hansen
+9780131452541	steve cunningham
+9780130166388	kevin chu; eric brower
+9781576761359	felke
+9780072847154	john hirschbuhl
+9781558603547	ron goldman
