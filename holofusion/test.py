@@ -22,6 +22,7 @@ class Testing:
         self.fx.close()
         self.session.feature()
         self.session.inference()
+        self.session.accuracy("book-data/book_golden.csv")
 
 
 test = Testing()
