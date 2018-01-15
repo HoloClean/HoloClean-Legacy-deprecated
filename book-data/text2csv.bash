@@ -1,16 +1,16 @@
 #!/bin/bash
-echo "Index,ISBN,Author_list" > book_golden.csv
+echo "Index,Source,ISBN,Title,Author_list" > book.csv
 counter=0
 while read p; do
-	odd=$((counter % 2))
-	if [ $odd -eq 0 ]
-	then
-		S="$(echo  "$p" | tr ',' '\@')"
+#	odd=$((counter % 2))
+#	if [ $odd -eq 0 ]
+#	then
+		S="$(echo  "$p" | tr ',' '\@'| tr A-Z a-z)"
 		S="$(echo "$((counter/2)),$S" | tr '\t' ',')"
-		S=${S//';  '/','}
-		S=${S//' ,'/','}
 		S=${S//' ;'/';'}
-		echo "$S" | tr ' ' '_'  >> book_golden.csv
-	fi
+		S=${S//'  '/' '}
+		S=${S//';  '/'; '}
+		echo "$S" | tr ' ' '_'   >> book.csv
+#	fi
 	counter=$((counter+1))
-done < book_golden.txt
+done < book.txt
