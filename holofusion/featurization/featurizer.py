@@ -49,9 +49,9 @@ class Featurizer:
 
         create_feature_table_query = "CREATE TABLE \
                                      " + self.dataset.table_specific_name('Feature') \
-                                     + "(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , key_id TEXT,\
-	                                   attribute TEXT, source_observation TEXT," \
-                                       " weight_id TEXT);"
+                                     + "(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , rv_index TEXT,\
+	                                   rv_attr TEXT,assigned_val   TEXT," \
+                                       " weight_id TEXT );"
 
         self.dataengine.query(create_feature_table_query)
 
@@ -60,16 +60,16 @@ class Featurizer:
                               "SELECT * FROM ( SELECT " \
                               "NULL AS var_index" \
                               " , table1.Source_id" \
-                              " , table1.key_id" \
-                              ", table1.attribute" \
-                              " , table1.source_observation" \
+                              " , table1.key_id as rv_index" \
+                              ", table1.attribute as rv_attr" \
+                              " , table1.source_observation as assigned_val" \
                               " ,  table2.weight_id" \
                               " FROM " \
                               + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                               " WHERE" \
-                              " table1.Source_id=table2.Source_id) " \
-                              "AS ftmp " \
+                              " table1.Source_id=table2.Source_id ) " \
+                              "AS ftmp  order by key_id,attribute" \
                               " );"
 
         self.dataengine.query(query_featurization)

@@ -13,7 +13,7 @@ from dataset import Dataset
 from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.accuracy import Accuracy
-#from learning.wrapper import Wrapper
+from learning.wrapper import Wrapper
 
 # Define arguments for Holofusion
 arguments = [
@@ -234,7 +234,23 @@ class HoloFusionSession:
         self.error_detectors = []
 
     # Internal methods
-
+    def _numbskull_fg_lists(self):
+        self.holo_env.logger.info('wrapper is starting')
+        print "wrapper is starting"
+        wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
+        wrapper_obj.set_variable()
+        wrapper_obj.set_weight()
+        wrapper_obj.set_factor_to_var()
+        wrapper_obj.set_factor()
+       # weight = wrapper_obj.get_list_weight()
+       # variable = wrapper_obj.get_list_variable()
+       # fmap = wrapper_obj.get_list_factor_to_var()
+       # factor = wrapper_obj.get_list_factor()
+       # edges = Wrapper.get_edge(factor)
+       # domain_mask = Wrapper.get_mask(variable)
+        print "wrapper is finished"
+        #self.holo_env.logger.info('wrapper is finished')
+        #return weight, variable, factor, fmap, domain_mask, edges
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
@@ -267,6 +283,10 @@ class HoloFusionSession:
         print (
             'adding weight_id to feature table is finished')
         return
+
+    def wrapper(self):
+        self._numbskull_fg_lists()
+
 
     def inference(self):
         infe=inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)

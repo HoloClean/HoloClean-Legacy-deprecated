@@ -14,17 +14,19 @@ class Accuracy:
         final_authors.show()
         final_authors.write.format("com.databricks.spark.csv").option("header", "true").save("file1.csv")
         print ("show ground_truth")
-        self.grand_truth2.show()
-        self.grand_truth2.write.format("com.databricks.spark.csv").option("header", "true").save("file.csv")
-        incorrect = final_authors.subtract(self.grand_truth2)
+        self.grand_truth_flat.show()
+        self.grand_truth_flat.write.format("com.databricks.spark.csv").option("header", "true").save("file.csv")
+        incorrect = self.grand_truth_flat.subtract(final_authors)
         print("show incorrect values")
         incorrect.show()
         incorrect.write.format("com.databricks.spark.csv").option("header", "true").save("file3.csv")
+        all_values = self.grand_truth_flat.count()
+        print ("the number of tuples for the ground truth is :")
+        print (all_values)
         incorrect_values = incorrect.count()
         print("the incorrect values are:")
         print(incorrect_values)
         print ("the accuracy is:")
-        all_values=final_authors.count()
         accuracy=(1.0)*(all_values-incorrect_values)/all_values
         print accuracy
         return
@@ -78,4 +80,4 @@ class Accuracy:
                 print insert_signal_query
                 self.dataengine.query(insert_signal_query)
 
-        self.grand_truth2 = self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)
+        self.grand_truth_flat = self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)

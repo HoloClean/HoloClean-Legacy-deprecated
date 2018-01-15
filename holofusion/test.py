@@ -21,6 +21,7 @@ class Testing:
         start_time = t()
         self.fx.close()
         self.session.feature()
+        self.session.wrapper()
         self.session.inference()
         self.session.accuracy("book-data/book_golden.csv")
 
