@@ -24,6 +24,7 @@ class Testing:
         self.session.wrapper()
         self.session.inference()
         self.session.accuracy("book-data/book_golden.csv")
+        return
 
 
 test = Testing()

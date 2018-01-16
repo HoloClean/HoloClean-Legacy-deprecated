@@ -12,76 +12,108 @@ INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test collated returns' AS CHAR C
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:__main__:Connection established to data database
 INFO:__main__:ingesting file:book-data/book.csv
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('254436570144','Init','Index,Source,ISBN,Title,Author_list');
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('83862759897','Init','Index,Source,ISBN,Title,Author_list');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:__main__:creating dataset with id:254436570144
-INFO:__main__:ingest csv time: 13.3633811474
+INFO:__main__:creating dataset with id:83862759897
+INFO:__main__:ingest csv time: 23.4978849888
 
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '254436570144' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '83862759897' AND  tablename = 'Init';
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '254436570144' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '83862759897' AND  tablename = 'Init';
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:set @p:=0;
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE             254436570144_Feature_temp(var_index INT,Source_id TEXT, key_id TEXT,             attribute TEXT, source_observation TEXT, weight_id TEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE             83862759897_Feature_temp(var_index INT,Source_id TEXT, key_id TEXT,             attribute TEXT, source_observation TEXT, weight_id TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.ISBN as key_id,'Title'                                            AS attribute,                                           init.Title AS source_observation ,                                          ' 'AS weight_id                                          FROM 254436570144_Init AS init )as T_0);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.ISBN as key_id,'Title'                                            AS attribute,                                           init.Title AS source_observation ,                                          ' 'AS weight_id                                          FROM 83862759897_Init AS init )as T_0);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 254436570144_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 83862759897_Feature_temp;
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.ISBN as key_id,'Author_list'                                            AS attribute,                                           init.Author_list AS source_observation ,                                          ' 'AS weight_id                                          FROM 254436570144_Init AS init )as T_1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.ISBN as key_id,'Author_list'                                            AS attribute,                                           init.Author_list AS source_observation ,                                          ' 'AS weight_id                                          FROM 83862759897_Init AS init )as T_1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 254436570144_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 83862759897_Feature_temp;
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:__main__:adding weight_id to feature table...
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_weight_temp(weight_id INT PRIMARY KEY AUTO_INCREMENT,Source_id LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_weight_temp(weight_id INT PRIMARY KEY AUTO_INCREMENT,Source_id LONGTEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO  254436570144_weight_temp (SELECT * FROM (SELECT distinct NULL, Source_id FROM 254436570144_Feature_temp) AS TABLE1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO  83862759897_weight_temp (SELECT * FROM (SELECT distinct NULL, Source_id FROM 83862759897_Feature_temp) AS TABLE1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                      254436570144_Feature(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , key_id TEXT,	                                   attribute TEXT, source_observation TEXT, weight_id TEXT );
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                      83862759897_Feature(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , rv_index TEXT,	                                   rv_attr TEXT,assigned_val   TEXT, weight_id TEXT );
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Feature (SELECT * FROM ( SELECT NULL AS var_index , table1.Source_id , table1.key_id, table1.attribute , table1.source_observation ,  table2.weight_id FROM 254436570144_Feature_temp AS table1, 254436570144_weight_temp AS table2  WHERE table1.Source_id=table2.Source_id ) AS ftmp  order by key_id,attribute );
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Feature (SELECT * FROM ( SELECT NULL AS var_index , table1.Source_id , table1.key_id as rv_index, table1.attribute as rv_attr , table1.source_observation as assigned_val ,  table2.weight_id FROM 83862759897_Feature_temp AS table1, 83862759897_weight_temp AS table2  WHERE table1.Source_id=table2.Source_id ) AS ftmp  order by rv_index,rv_attr );
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
 INFO:__main__:adding weight_id to feature table is finished
+INFO:__main__:numbskull is starting
 INFO:__main__:wrapper is starting
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Possible_values AS (SELECT DISTINCT key_id,attribute,source_observation  FROM 254436570144_Feature);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Possible_values AS (SELECT DISTINCT rv_index as tid,rv_attr as attr_name,assigned_val  as attr_val  FROM 83862759897_Feature);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Variable_tmp(variable_index INT,key_id LONGTEXT,attribute LONGTEXT,is_Evidence LONGTEXT,initial_value LONGTEXT,Datatype LONGTEXT,Cardinality INT,vtf_offset TEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Variable_tmp(variable_index INT,rv_ind LONGTEXT,rv_attr LONGTEXT,is_Evidence LONGTEXT,initial_value LONGTEXT,Datatype LONGTEXT,Cardinality INT,vtf_offset TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Variable_tmp(SELECT (@c := @c + 1) AS variable_index, table2.key_id AS key_id,table2.attribute AS attribute,'0' AS is_Evidence,'0' AS initial_value,'1' AS Datatype,count1 AS Cardinality,'       ' AS vtf_offset FROM (select key_id,attribute from 254436570144_Feature group by key_id,attribute) AS table2,(SELECT count(*) AS count1,attribute,key_id FROM 254436570144_Possible_values GROUP BY key_id,attribute) AS counting,(SELECT @c:=0) m WHERE counting.attribute=table2.attribute AND counting.key_id=table2.key_id);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Variable_tmp(SELECT (@c := @c + 1) AS variable_index, table2.rv_index AS rv_ind,table2.rv_attr AS rv_attr,'0' AS is_Evidence,'0' AS initial_value,'1' AS Datatype,count1 AS Cardinality,'       ' AS vtf_offset FROM ( SELECT  rv_index , rv_attr FROM 83862759897_Feature group by rv_index,rv_attr) AS table2,(SELECT count(*) AS count1,attr_name,tid FROM 83862759897_Possible_values GROUP BY attr_name,tid) AS counting,(SELECT @c:=0) m WHERE counting.attr_name=table2.rv_attr AND counting.tid=table2.rv_index);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Feature_gb AS(SELECT MIN(var_index) AS smallest, key_id,attribute  FROM 254436570144_Feature GROUP BY key_id,attribute );
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Feature_gb AS(SELECT MIN(var_index) AS smallest, rv_index, rv_attr  FROM 83862759897_Feature GROUP BY rv_index, rv_attr);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Variable(variable_index INT PRIMARY KEY AUTO_INCREMENT,key_id LONGTEXT,attribute LONGTEXT,is_Evidence LONGTEXT,initial_value LONGTEXT,Datatype LONGTEXT,Cardinality LONGTEXT,vtf_offset LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Variable(variable_index INT PRIMARY KEY AUTO_INCREMENT,rv_ind LONGTEXT,rv_attr LONGTEXT,is_Evidence LONGTEXT,initial_value LONGTEXT,Datatype LONGTEXT,Cardinality LONGTEXT,vtf_offset LONGTEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Variable SELECT * FROM (SELECT NULL AS variable_index,table2.key_id,table2.attribute,table2.is_Evidence,table2.initial_value,table2.Datatype,table2.Cardinality,table1.smallest AS vtf_offset FROM  254436570144_Feature_gb AS table1 , 254436570144_Variable_tmp AS table2 WHERE table1.key_id = table2.key_id AND table1.attribute = table2.attribute) AS vtmp ORDER BY vtf_offset;
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Variable SELECT * FROM (SELECT NULL AS variable_index,table2.rv_ind as rv_ind,table2.rv_attr,table2.is_Evidence,table2.initial_value,table2.Datatype,table2.Cardinality,table1.smallest AS vtf_offset FROM  83862759897_Feature_gb AS table1 , 83862759897_Variable_tmp AS table2 WHERE table1.rv_index = table2.rv_ind AND table1.rv_attr = table2.rv_attr) AS vtmp ORDER BY vtf_offset;
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Weights AS (SELECT DISTINCT (0 + table1.weight_id) AS weight_id ,0 AS Is_fixed,0  AS init_val FROM 254436570144_Feature AS table1 GROUP BY table1.weight_id);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Weights AS (SELECT DISTINCT (0 + table1.weight_id) AS weight_id ,0 AS Is_fixed,0  AS init_val FROM 83862759897_Feature AS table1 GROUP BY table1.weight_id);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Factor_to_var(factor_to_var_index INT PRIMARY KEY AUTO_INCREMENT,vid LONGTEXT,key_id LONGTEXT,attr_val LONGTEXT,attribute LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Factor_to_var(factor_to_var_index INT PRIMARY KEY AUTO_INCREMENT,vid LONGTEXT,rv_ind LONGTEXT,attr_val LONGTEXT,attr_name LONGTEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Factor_to_var SELECT * FROM ((SELECT NULL AS factor_to_var_index,variable_index AS vid,table1.key_id,source_observation,table1.attribute FROM  254436570144_Possible_values AS table1,254436570144_Variable AS table2, (SELECT @n:=0) m WHERE table1.key_id=table2.key_id AND table1.attribute=table2.attribute)) AS ftvtmp;
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Factor_to_var SELECT * FROM ((SELECT NULL AS factor_to_var_index,variable_index AS vid,rv_ind,attr_val,table1.attr_name FROM  83862759897_Possible_values AS table1,83862759897_Variable AS table2, (SELECT @n:=0) m WHERE table1.tid=rv_ind AND table1.attr_name=table2.rv_attr)) AS ftvtmp;
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 254436570144_Factor(factor_index INT PRIMARY KEY AUTO_INCREMENT,var_index LONGTEXT,FactorFunction LONGTEXT,weightID LONGTEXT,Feature_Value LONGTEXT,arity LONGTEXT,ftv_offest LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Factor(factor_index INT PRIMARY KEY AUTO_INCREMENT,var_index LONGTEXT,FactorFunction LONGTEXT,weightID LONGTEXT,Feature_Value LONGTEXT,arity LONGTEXT,ftv_offest LONGTEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 254436570144_Factor SELECT * FROM ((SELECT distinct NULL AS factor_index,var_index, '4' AS FactorFunction, table1.weight_id AS weightID, '1' AS Feature_Value, '1' AS arity, table3.factor_to_var_index AS ftv_offest FROM 254436570144_Feature AS table1,254436570144_Variable AS table2,254436570144_Factor_to_var AS table3 , (SELECT @n:=0) m WHERE table1.key_id=table2.key_id AND table1.attribute= table2.attribute AND table3.vid=table2.variable_index AND table3.source_observation=table1.source_observation )ORDER BY var_index) AS ftmp ;
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Factor SELECT * FROM ((SELECT distinct NULL AS factor_index,var_index, '4' AS FactorFunction, table1.weight_id AS weightID, '1' AS Feature_Value, '1' AS arity, table3.factor_to_var_index AS ftv_offest FROM 83862759897_Feature AS table1,83862759897_Variable AS table2,83862759897_Factor_to_var AS table3 , (SELECT @n:=0) m WHERE table1.rv_index=table2.rv_ind AND table1.rv_attr= table2.rv_attr AND table3.vid=table2.variable_index AND table3.attr_val=table1.assigned_val )ORDER BY var_index) AS ftmp ;
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:ROLLBACK
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:wrapper is finished
+INFO:__main__:numbskull is finished
+INFO:sqlalchemy.engine.base.Engine:drop table 83862759897_Weights;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('83862759897','Weights','weight_id,weight_val');
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:adding weight is finished
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Feature_gb_accur AS (SELECT EXP(SUM(0+weight_val)) AS sum_probabilities,table2.rv_index, table2.rv_attr,table2.assigned_val FROM 83862759897_Weights AS table1,83862759897_Feature AS table2 WHERE table1.weight_id=table2.weight_id GROUP BY table2.rv_index,table2.rv_attr,table2.assigned_val);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Probabilities AS (SELECT table1.rv_index,table1.rv_attr,table1.assigned_val,table1.sum_probabilities/total_sum AS probability FROM 83862759897_Feature_gb_accur AS table1,(SELECT SUM(sum_probabilities) AS total_sum,rv_index, rv_attr FROM 83862759897_Feature_gb_accur GROUP BY rv_index,rv_attr) AS table2 WHERE table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 83862759897_Final AS (SELECT table1.rv_index, table2.rv_attr, MAX(table2.assigned_val) AS assigned_val FROM (SELECT MAX(probability) AS max1,rv_index, rv_attr FROM 83862759897_Probabilities GROUP BY rv_index, rv_attr) AS table1 , 83862759897_Probabilities AS table2 WHERE table1.rv_index = table2.rv_index AND table1.rv_attr = table2.rv_attr AND max1 = table2.probability GROUP BY table1.rv_index,table2.rv_attr);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('83862759897','Correct','Index,ISBN,Author_list');
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '83862759897' AND  tablename = 'Correct';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '83862759897' AND  tablename = 'Correct';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                     83862759897_Correct_flat( rv_index TEXT,                     rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 83862759897_Correct_flat SELECT * FROM (  (SELECT                                                   init.ISBN as rv_index,'Author_list'                                                    AS rv_attr,                                                   init.Author_list AS assigned_val                                                   FROM 83862759897_Correct AS init )as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT

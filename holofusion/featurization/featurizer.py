@@ -69,10 +69,11 @@ class Featurizer:
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                               " WHERE" \
                               " table1.Source_id=table2.Source_id ) " \
-                              "AS ftmp  order by key_id,attribute" \
+                              "AS ftmp  order by rv_index,rv_attr" \
                               " );"
 
         self.dataengine.query(query_featurization)
+        return
 
     def create_feature(self):
         table_attribute_string = self.dataengine.get_schema(

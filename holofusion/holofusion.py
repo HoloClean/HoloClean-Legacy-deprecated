@@ -242,15 +242,52 @@ class HoloFusionSession:
         wrapper_obj.set_weight()
         wrapper_obj.set_factor_to_var()
         wrapper_obj.set_factor()
-       # weight = wrapper_obj.get_list_weight()
-       # variable = wrapper_obj.get_list_variable()
-       # fmap = wrapper_obj.get_list_factor_to_var()
-       # factor = wrapper_obj.get_list_factor()
-       # edges = Wrapper.get_edge(factor)
-       # domain_mask = Wrapper.get_mask(variable)
+        weight = wrapper_obj.get_list_weight()
+        variable = wrapper_obj.get_list_variable()
+        fmap = wrapper_obj.get_list_factor_to_var()
+        factor = wrapper_obj.get_list_factor()
+        edges = Wrapper.get_edge(factor)
+        domain_mask = Wrapper.get_mask(variable)
         print "wrapper is finished"
-        #self.holo_env.logger.info('wrapper is finished')
-        #return weight, variable, factor, fmap, domain_mask, edges
+        self.holo_env.logger.info('wrapper is finished')
+        return weight, variable, factor, fmap, domain_mask, edges
+
+    def _numskull(self):
+        learn = 100
+        self.holo_env.logger.info('numbskull is starting')
+        print "numbskull is starting"
+        ns = numbskull.NumbSkull(n_inference_epoch=100,
+                                 n_learning_epoch=learn,
+                                 quiet=True,
+                                 learn_non_evidence=True,
+                                 stepsize=0.0001,
+                                 burn_in=100,
+                                 decay=0.001 ** (1.0 / learn),
+                                 regularization=1,
+                                 reg_param=0.01)
+
+        fg = self._numbskull_fg_lists()
+        ns.loadFactorGraph(*fg)
+        ns.learning()
+        self.holo_env.logger.info('numbskull is finished')
+        print "numbskull is finished"
+        list_weight_value = []
+        list_temp = ns.factorGraphs[0].weight_value[0]
+        for i in range(0, len(list_temp)):
+            list_weight_value.append([i, float(list_temp[i])])
+
+        new_df_weights = self.holo_env.spark_session.createDataFrame(
+            list_weight_value, ['weight_id', 'weight_val'])
+        delete_table_query = 'drop table ' + \
+                             self.dataset.table_specific_name('Weights') + ";"
+        self.holo_env.dataengine.query(delete_table_query)
+        self.holo_env.dataengine.add_db_table(
+            'Weights', new_df_weights, self.dataset)
+        self.holo_env.logger.info('adding weight is finished')
+        print "adding weight is finished is finished"
+
+
+
     # Setters
     def ingest_dataset(self, src_path):
         """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
@@ -285,17 +322,17 @@ class HoloFusionSession:
         return
 
     def wrapper(self):
-        self._numbskull_fg_lists()
+        self._numskull()
 
 
     def inference(self):
         infe=inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-        infe.testing()
+        #infe.testing()
         infe.learning()
         return
 
-    def accuracy(self,path_to_ground_truth):
-        accuracy=Accuracy(self.holo_env.dataengine, path_to_ground_truth, self.dataset, self.holo_env.spark_session)
+    def accuracy(self, path_to_ground_truth):
+        accuracy = Accuracy(self.holo_env.dataengine, path_to_ground_truth, self.dataset, self.holo_env.spark_session)
         accuracy.read()
         accuracy.flatting()
         accuracy.book_accuracy()
