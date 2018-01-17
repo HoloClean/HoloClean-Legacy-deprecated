@@ -1,7 +1,6 @@
 from holofusion import HoloFusion, HoloFusionSession
 from time import time as t
-
-
+import sys
 class Testing:
     def __init__(self):
         self.holo_obj = HoloFusion()
@@ -27,5 +26,6 @@ class Testing:
         return
 
 
+arg = sys.argv[1]
 test = Testing()
 test.test()
