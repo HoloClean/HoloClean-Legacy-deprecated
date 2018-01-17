@@ -18,7 +18,7 @@ class Featurizer:
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         print attributes
-        self.key = 'ISBN'
+        self.key = 'Flight_Num'
         #self.key = raw_input("give the attribute that distinguis the objects:")
         while self.key not in attributes:
             self.key = raw_input("give the attribute that distinguis the objects:")
@@ -101,7 +101,7 @@ class Featurizer:
                                           ' 'AS weight_id\
                                           FROM """ +\
                                           self.dataset.table_specific_name('Init') +\
-                                          " AS init )"
+                                          " AS init where init."+attribute+" IS NOT NULL)"
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') + \
                                       " SELECT * FROM ( " + query_for_featurization + \
                                       "as T_" + str(counter) + ");"
