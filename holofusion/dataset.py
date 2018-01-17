@@ -6,6 +6,8 @@ class Dataset:
     attributes = [
         'id',
         'Init',
+        'C_clean',
+        'C_dk',
         'Feature',
         'Feature_temp',
         'Feature_gb',
@@ -21,6 +23,7 @@ class Dataset:
         'Factor',
         'Factor_to_var',
         'Final',
+        'Training',
         'Correct_flat',
         'Correct']
 

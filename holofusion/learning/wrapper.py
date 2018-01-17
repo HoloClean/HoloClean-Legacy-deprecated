@@ -58,13 +58,13 @@ class Wrapper:
         """
                 This method creates a query for weight table for the factor
 
-                """
+        """
 
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
                       "0 AS Is_fixed," \
-                      "0  AS init_val" \
+                      "RAND()*(1+1)-1 AS init_val" \
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
                                                                     " GROUP BY table1.weight_id);"

@@ -19,7 +19,7 @@ class inference:
         """
         delete_table_query = 'drop table ' + \
                              self.dataset.table_specific_name('Weights') + ";"
-        # self.dataengine.query(adelete_table_query)
+        # self.dataengine.query(delete_table_query)
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \

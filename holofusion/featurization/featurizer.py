@@ -19,9 +19,9 @@ class Featurizer:
         attributes = table_attribute_string.split(',')
         print attributes
         self.key = 'Flight_Num'
-        # self.key = raw_input("give the attribute that distinguis the objects:")
+        # self.key = raw_input("give the attribute that distinguish the objects:")
         while self.key not in attributes:
-            self.key = raw_input("give the attribute that distinguis the objects:")
+            self.key = raw_input("give the attribute that distinguish the objects:")
         return
 
     def add_weights(self):

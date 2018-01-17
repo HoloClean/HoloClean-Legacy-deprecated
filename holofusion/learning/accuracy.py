@@ -7,7 +7,7 @@ class Accuracy:
         self.spark_session = spark_session
         self.key = ""
 
-    def book_accuracy(self):
+    def fusion_accuracy(self):
         rv_attr = "Dept_Gate"
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
         final_authors = final.filter(final.rv_attr == rv_attr)

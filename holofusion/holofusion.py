@@ -14,6 +14,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.accuracy import Accuracy
 from learning.wrapper import Wrapper
+from preprocessing.preprocessing import Preprocessing
 
 # Define arguments for Holofusion
 arguments = [
@@ -71,6 +72,12 @@ arguments = [
       'default': 1,
       'type': int,
       'help': 'If it is 1 all the weights are one. If it is 0 we use numbskull to learn them'}),
+    (('-tr', '--training_data'),
+     {'metavar': 'TRAINING DATA',
+      'dest': 'training_data',
+      'default': 0,
+      'type': int,
+      'help': 'If it is 1 we have a ground truth that we will use as training data'}),
 ]
 
 
@@ -248,15 +255,17 @@ class HoloFusionSession:
         learn = 100
         self.holo_env.logger.info('numbskull is starting')
         print "numbskull is starting"
-        ns = numbskull.NumbSkull(n_inference_epoch=100,
+        ns = numbskull.NumbSkull(n_inference_epoch=0,
                                  n_learning_epoch=learn,
-                                 quiet=True,
-                                 learn_non_evidence=True,
                                  stepsize=0.0001,
-                                 burn_in=100,
                                  decay=0.001 ** (1.0 / learn),
+                                 reg_param=0.01,
                                  regularization=1,
-                                 reg_param=0.01)
+                                 quiet=True,
+                                 verbose=False,
+                                 learn_non_evidence=True,
+                                 burn_in=100,
+                                 nthreads=1)
 
         fg = self._numbskull_fg_lists()
         ns.loadFactorGraph(*fg)
@@ -282,7 +291,9 @@ class HoloFusionSession:
 
     # Setters
     def ingest_dataset(self, src_path):
-        """TODO: Load, Ingest, and Analyze a dataset from a src_path"""
+        """TODO:        self.holo_env.logger.info('ingesting file:' + src_path)
+        self.dataset = Dataset()
+        self.hLoad, Ingest, and Analyze a dataset from a src_path"""
         self.holo_env.logger.info('ingesting file:' + src_path)
         self.dataset = Dataset()
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
@@ -290,6 +301,24 @@ class HoloFusionSession:
             'creating dataset with id:' +
             self.dataset.print_id())
         return
+
+    def adding_training_data(self,src_path):
+        """TODO:        self.holo_env.logger.info('ingesting file:' + src_path)
+         self.dataset = Dataset()
+         self.hLoad, Ingest, and Analyze a dataset from a src_path"""
+
+
+        preprocessing = Preprocessing(self.holo_env.spark_session, self.holo_env.dataengine, self.dataset, src_path)
+        if self.holo_env.training_data:
+            preprocessing.key_attribute()
+            preprocessing.adding_training_data()
+            preprocessing.creating_c_clean_table()
+            preprocessing.creating_c_dk()
+        else:
+            preprocessing.creating_tables()
+
+        return
+
 
     # Getters
     def get_name(self):
@@ -329,5 +358,5 @@ class HoloFusionSession:
         accuracy = Accuracy(self.holo_env.dataengine, path_to_ground_truth, self.dataset, self.holo_env.spark_session)
         accuracy.read()
         accuracy.flatting()
-        accuracy.book_accuracy()
+        accuracy.fusion_accuracy()
         return
