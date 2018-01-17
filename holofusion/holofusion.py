@@ -327,7 +327,7 @@ class HoloFusionSession:
 
     def inference(self):
         infe=inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-        #infe.testing()
+        infe.testing()
         infe.learning()
         return
 

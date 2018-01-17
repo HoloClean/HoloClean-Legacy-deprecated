@@ -12,7 +12,7 @@ class Testing:
         self.fx = open('execution_time.txt', 'w')
         list_time = []
         start_time = t()
-        self.session.ingest_dataset("book-data/book.csv")
+        self.session.ingest_dataset("flight-data/flight-data.csv")
         d = t()-start_time
         list_time.append(d)
         self.holo_obj.logger.info('ingest csv time: '+str(d)+'\n')
@@ -23,7 +23,7 @@ class Testing:
         self.session.feature()
         self.session.wrapper()
         self.session.inference()
-        self.session.accuracy("book-data/book_golden.csv")
+        self.session.accuracy("flight-data/flight-data_truth.csv")
         return
 
 

@@ -8,8 +8,9 @@ class Accuracy:
         self.key = ""
 
     def book_accuracy(self):
+        rv_attr = "Dept_Gate"
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
-        final_authors = final.filter(final.rv_attr == "Author_list")
+        final_authors = final.filter(final.rv_attr == rv_attr)
         print("show only authors")
         final_authors.show()
         final_authors_list=final_authors.collect()
@@ -19,15 +20,16 @@ class Accuracy:
         f.close()
         #final_authors.write.format("com.databricks.spark.csv").option("header", "true").save("file1.csv")
         print ("show ground_truth")
-        self.ground_truth_flat.show()
-        ground_truth_list=self.ground_truth_flat.collect()
+        ground_truth_specific = self.ground_truth_flat.filter(self.ground_truth_flat.rv_attr == rv_attr)
+        ground_truth_specific.show()
+        ground_truth_list=ground_truth_specific.collect()
         f = open('results/ground_truth.txt', 'w')
         for ele in ground_truth_list:
             f.write(str(ele) + '\n')
 
         f.close()
         #self.ground_truth_flat.write.format("com.databricks.spark.csv").option("header", "true").save("file.csv")
-        incorrect = self.ground_truth_flat.subtract(final_authors)
+        incorrect = ground_truth_specific.subtract(final_authors)
         print("show incorrect values")
         incorrect.show()
         incorrect_list=incorrect.collect()
@@ -37,7 +39,7 @@ class Accuracy:
 
         f.close()
         #incorrect.write.format("com.databricks.spark.csv").option("header", "true").save("file3.csv")
-        all_values = self.ground_truth_flat.count()
+        all_values = ground_truth_specific.count()
         print ("the number of tuples for the ground truth is :")
         print (all_values)
         incorrect_values = incorrect.count()
@@ -63,7 +65,7 @@ class Accuracy:
             self.dataset, "Correct")
         rv_attrs = table_rv_attr_string.split(',')
         print rv_attrs
-        self.key = 'ISBN'
+        self.key = 'Flight_Num'
         #self.key = raw_input("give the rv_attr that distinguis the objects:")
 
         while self.key not in rv_attrs:
