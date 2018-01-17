@@ -19,7 +19,7 @@ class Featurizer:
         attributes = table_attribute_string.split(',')
         print attributes
         self.key = 'Flight_Num'
-        #self.key = raw_input("give the attribute that distinguis the objects:")
+        # self.key = raw_input("give the attribute that distinguis the objects:")
         while self.key not in attributes:
             self.key = raw_input("give the attribute that distinguis the objects:")
         return
@@ -90,7 +90,6 @@ class Featurizer:
             " weight_id TEXT);"
         self.dataengine.query(query_for_featurization)
 
-        insert_signal_query = ""
         for attribute in attributes:
             if attribute != self.key and attribute != "Source" and attribute != "Index":
                 query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
@@ -109,6 +108,6 @@ class Featurizer:
                 print insert_signal_query
                 self.dataengine.query(insert_signal_query)
                 global_counter = "select max(var_index) into @p from " + \
-                         self.dataset.table_specific_name('Feature_temp') + ";"
+                                 self.dataset.table_specific_name('Feature_temp') + ";"
                 self.dataengine.query(global_counter)
         return

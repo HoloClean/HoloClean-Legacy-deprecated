@@ -13,32 +13,29 @@ class Accuracy:
         final_authors = final.filter(final.rv_attr == rv_attr)
         print("show only authors")
         final_authors.show()
-        final_authors_list=final_authors.collect()
+        final_authors_list = final_authors.collect()
         f = open('results/fusion.txt', 'w')
         for ele in final_authors_list:
             f.write(str(ele) + '\n')
         f.close()
-        #final_authors.write.format("com.databricks.spark.csv").option("header", "true").save("file1.csv")
         print ("show ground_truth")
         ground_truth_specific = self.ground_truth_flat.filter(self.ground_truth_flat.rv_attr == rv_attr)
         ground_truth_specific.show()
-        ground_truth_list=ground_truth_specific.collect()
+        ground_truth_list = ground_truth_specific.collect()
         f = open('results/ground_truth.txt', 'w')
         for ele in ground_truth_list:
             f.write(str(ele) + '\n')
-
         f.close()
-        #self.ground_truth_flat.write.format("com.databricks.spark.csv").option("header", "true").save("file.csv")
+
         incorrect = ground_truth_specific.subtract(final_authors)
         print("show incorrect values")
         incorrect.show()
-        incorrect_list=incorrect.collect()
+        incorrect_list = incorrect.collect()
         f = open('results/incorrect.txt', 'w')
         for ele in incorrect_list:
             f.write(str(ele) + '\n')
-
         f.close()
-        #incorrect.write.format("com.databricks.spark.csv").option("header", "true").save("file3.csv")
+
         all_values = ground_truth_specific.count()
         print ("the number of tuples for the ground truth is :")
         print (all_values)
@@ -46,9 +43,8 @@ class Accuracy:
         print("the incorrect values are:")
         print(incorrect_values)
         print ("the accuracy is:")
-        accuracy=(1.0)*(all_values-incorrect_values)/all_values
+        accuracy = (1.0)*(all_values-incorrect_values)/all_values
         print accuracy
-
 
     def read(self):
         """Create a dataframe from the csv file
@@ -66,7 +62,7 @@ class Accuracy:
         rv_attrs = table_rv_attr_string.split(',')
         print rv_attrs
         self.key = 'Flight_Num'
-        #self.key = raw_input("give the rv_attr that distinguis the objects:")
+        # self.key = raw_input("give the rv_attr that distinguis the objects:")
 
         while self.key not in rv_attrs:
             self.key = raw_input("give the rv_attr that distinguis the objects:")

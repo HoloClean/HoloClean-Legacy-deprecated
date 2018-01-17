@@ -3,7 +3,7 @@ from time import time as t
 import sys
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloFusion()
+        self.holo_obj = HoloFusion(majority_vote = 1)
         self.session = HoloFusionSession("Session", self.holo_obj)
 
     def test(self):
@@ -20,12 +20,9 @@ class Testing:
         start_time = t()
         self.fx.close()
         self.session.feature()
-        self.session.wrapper()
         self.session.inference()
         self.session.accuracy("flight-data/flight-data_truth.csv")
         return
 
-
-arg = sys.argv[1]
 test = Testing()
 test.test()

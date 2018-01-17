@@ -1,1 +1,1 @@
-ingest csv time: 23.4978849888
+ingest csv time: 10.3333518505

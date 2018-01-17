@@ -161,8 +161,6 @@ class Wrapper:
 
         self.dataengine.query(mysql_query)
 
-
-
     def set_factor_to_var(self):
         """
                 This method creates a query for factor_to_variable table for numbskull

@@ -13,13 +13,13 @@ class inference:
         self.dataset = dataset
         self.spark_session = spark_session
 
-    def testing(self):
+    def majority_vote(self):
         """
         without numbskull we use this function to just put 1 on all the weights
         """
         delete_table_query = 'drop table ' + \
                              self.dataset.table_specific_name('Weights') + ";"
-        self.dataengine.query(delete_table_query)
+        # self.dataengine.query(adelete_table_query)
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \

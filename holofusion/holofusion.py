@@ -65,20 +65,12 @@ arguments = [
       'default': 1,
       'type': int,
       'help': 'The final output will show the k-first results (if it is 0 it will show everything)'}),
-]
-
-
-flags = [
-    (('-q', '--quiet'),
-        {'default': False,
-         'dest': 'quiet',
-         'action': 'store_true',
-         'help': 'quiet'}),
-    (tuple(['--verbose']),
-        {'default': False,
-         'dest': 'verbose',
-         'action': 'store_true',
-         'help': 'verbose'})
+    (('-mj', '--majority_vote'),
+     {'metavar': 'MAJORITY_VOTE',
+      'dest': 'majority_vote',
+      'default': 1,
+      'type': int,
+      'help': 'If it is 1 all the weights are one. If it is 0 we use numbskull to learn them'}),
 ]
 
 
@@ -324,12 +316,12 @@ class HoloFusionSession:
     def wrapper(self):
         self._numskull()
 
-
     def inference(self):
-        infe=inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-        global arg
-        if arg == "1":
-            infe.testing()
+        infe = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
+        if self.holo_env.majority_vote == 1:
+            infe.majority_vote()
+        else:
+            self._numskull()
         infe.learning()
         return
 
