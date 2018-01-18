@@ -13,7 +13,7 @@ class Preprocessing:
         self.dataengine = dataengine
         self.dataset = dataset
         self.path_to_training_data = path
-        self.key = ""
+        self.key = dataengine.holoEnv.key
         self.attribute_to_check = ""
 
     def key_attribute(self):
@@ -21,7 +21,6 @@ class Preprocessing:
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         print attributes
-        self.key = 'Flight_Num'
         # self.key = raw_input("give the attribute that distinguish the objects:")
         while self.key not in attributes:
             self.key = raw_input("give the attribute that distinguish the objects:")
@@ -33,7 +32,7 @@ class Preprocessing:
         return
 
     def creating_c_clean_table(self):
-        self.attribute_to_check = "Dept_Gate"
+        self.attribute_to_check = "percent_change"
 
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('C_clean') + \
                       " AS " \

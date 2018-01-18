@@ -4,7 +4,7 @@ from time import time as t
 
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloFusion(majority_vote=1, training_data=0)
+        self.holo_obj = HoloFusion(majority_vote=1, training_data=1)
         self.session = HoloFusionSession("Session", self.holo_obj)
         self.fx = open('execution_time.txt', 'w')
 
@@ -13,14 +13,14 @@ class Testing:
         list_time = []
         start_time = t()
 
-        self.session.ingest_dataset("data/flight-data/flight-data.csv")
+        self.session.ingest_dataset("data/stock-data/stock-data.csv")
         d = t()-start_time
         list_time.append(d)
         self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
 
         start_time = t()
-        self.session.adding_training_data("data/flight-data/flight-data_training.csv")
+        self.session.adding_training_data("data/stock-data/stock-data_training.csv")
         d = t() - start_time
         list_time.append(d)
         self.fx.write('adding training data: ' + str(d) + '\n')
@@ -42,7 +42,7 @@ class Testing:
         print 'inference time: ' + str(d) + '\n'
         start_time = t()
 
-        self.session.accuracy("data/flight-data/flight-data_truth.csv")
+        self.session.accuracy("data/stock-data/stock-data_truth.csv")
         d = t() - start_time
         list_time.append(d)
         self.fx.write('time to calculate accuracy: ' + str(d) + '\n')

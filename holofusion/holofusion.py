@@ -116,6 +116,7 @@ class HoloFusion:
             Explanation
         """
 
+        self.key = "date_symbol"
         # Initialize default execution arguments
         arg_defaults = {}
         for arg, opts in arguments:

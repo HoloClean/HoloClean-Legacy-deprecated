@@ -5,10 +5,10 @@ class Accuracy:
         self.dataset = dataset
         self.path_to_ground_truth = path_to_ground_truth
         self.spark_session = spark_session
-        self.key = ""
+        self.key = dataengine.holoEnv.key
 
     def fusion_accuracy(self):
-        rv_attr = "Dept_Gate"
+        rv_attr = "percent_change"
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
         final_authors = final.filter(final.rv_attr == rv_attr)
         print("show only authors")
@@ -61,7 +61,6 @@ class Accuracy:
             self.dataset, "Correct")
         rv_attrs = table_rv_attr_string.split(',')
         print rv_attrs
-        self.key = 'Flight_Num'
         # self.key = raw_input("give the rv_attr that distinguis the objects:")
 
         while self.key not in rv_attrs:
