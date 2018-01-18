@@ -12,6 +12,64 @@ INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test collated returns' AS CHAR C
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:__main__:Connection established to data database
 INFO:__main__:ingesting file:data/flight-data/flight-data.csv
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('926866688696','Init','Source,Flight_Num,Scheduled_Dept,Actual_Dept,Dept_Gate,Scheduled_Arrival,Actual_Arrival,Arrival_Gate,Fixed');
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('551509735983','Init','Index,Source,Flight_Num,Scheduled_Dept,Actual_Dept,Dept_Gate,Scheduled_Arrival,Actual_Arrival,Arrival_Gate');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:creating dataset with id:551509735983
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 551509735983_C_dk AS (SELECT table1.* FROM 551509735983_Init AS table1 );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 551509735983_C_clean LIKE 551509735983_Init ;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '551509735983' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '551509735983' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:set @p:=0;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE             551509735983_Feature_temp(var_index INT,Source_id TEXT, key_id TEXT,             attribute TEXT, source_observation TEXT, weight_id TEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Scheduled_Dept'                                            AS attribute,                                           init.Scheduled_Dept AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Scheduled_Dept IS NOT NULL)as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Actual_Dept'                                            AS attribute,                                           init.Actual_Dept AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Actual_Dept IS NOT NULL)as T_1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Dept_Gate'                                            AS attribute,                                           init.Dept_Gate AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Dept_Gate IS NOT NULL)as T_2);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Scheduled_Arrival'                                            AS attribute,                                           init.Scheduled_Arrival AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Scheduled_Arrival IS NOT NULL)as T_3);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Actual_Arrival'                                            AS attribute,                                           init.Actual_Arrival AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Actual_Arrival IS NOT NULL)as T_4);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                          Source AS Source_id,                                          init.Flight_Num as key_id,'Arrival_Gate'                                            AS attribute,                                           init.Arrival_Gate AS source_observation ,                                          ' 'AS weight_id                                          FROM 551509735983_Init AS init where init.Arrival_Gate IS NOT NULL)as T_5);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 551509735983_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:__main__:adding weight_id to feature table...
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 551509735983_weight_temp(weight_id INT PRIMARY KEY AUTO_INCREMENT,Source_id LONGTEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO  551509735983_weight_temp (SELECT * FROM (SELECT distinct NULL, Source_id FROM 551509735983_Feature_temp) AS TABLE1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                      551509735983_Feature(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , rv_index TEXT,	                                   rv_attr TEXT,assigned_val   TEXT, weight_id TEXT );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 551509735983_Feature (SELECT * FROM ( SELECT NULL AS var_index , table1.Source_id , table1.key_id as rv_index, table1.attribute as rv_attr , table1.source_observation as assigned_val ,  table2.weight_id FROM 551509735983_Feature_temp AS table1, 551509735983_weight_temp AS table2  WHERE table1.Source_id=table2.Source_id ) AS ftmp  order by rv_index,rv_attr );
+INFO:sqlalchemy.engine.base.Engine:()
