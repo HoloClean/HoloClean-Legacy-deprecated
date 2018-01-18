@@ -91,7 +91,8 @@ class Featurizer:
         self.dataengine.query(query_for_featurization)
 
         for attribute in attributes:
-            if attribute != self.key and attribute != "Source" and attribute != "Index" and attribute != 'index':
+            if attribute != self.key and attribute != "Source" and attribute != "source" \
+                    and attribute != "Index" and attribute != 'index':
                 # INSERT statement for training data
                 query_for_featurization_clean = """ (SELECT  @p := @p + 1 AS var_index,\
                                           Source AS Source_id,\
