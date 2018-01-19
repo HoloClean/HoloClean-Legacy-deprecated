@@ -60,14 +60,24 @@ class Wrapper:
 
         """
 
-        mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
+        if self.dataengine.holoEnv.training_data:
+            mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
+                      " AS " \
+                      "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
+                      "max(fixed) AS Is_fixed," \
+                      "max(fixed) AS init_val" \
+                      " FROM " + \
+                      self.dataset.table_specific_name('Feature') + " AS table1" + \
+                                                                    " GROUP BY table1.weight_id);"
+        else:
+            mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
                       "0 AS Is_fixed," \
                       "RAND()*(1+1)-1 AS init_val" \
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
-                                                                    " GROUP BY table1.weight_id);"
+                      " GROUP BY table1.weight_id);"
 
         self.dataengine.query(mysql_query)
         return

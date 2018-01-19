@@ -8,7 +8,7 @@ class Accuracy:
         self.key = dataengine.holoEnv.key
 
     def fusion_accuracy(self):
-        rv_attr = "last"
+        rv_attr = self.dataengine.holoEnv.attribute_to_check
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
         final_authors = final.filter(final.rv_attr == rv_attr)
         print("show only authors")
@@ -94,5 +94,4 @@ class Accuracy:
                 counter += 1
 
                 self.dataengine.query(insert_signal_query)
-
         self.ground_truth_flat = self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)

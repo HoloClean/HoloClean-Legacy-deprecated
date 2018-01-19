@@ -14,7 +14,7 @@ class Preprocessing:
         self.dataset = dataset
         self.path_to_training_data = path
         self.key = dataengine.holoEnv.key
-        self.attribute_to_check = ""
+        self.attribute_to_check = dataengine.holoEnv.attribute_to_check
 
     def key_attribute(self):
         table_attribute_string = self.dataengine.get_schema(
@@ -32,7 +32,6 @@ class Preprocessing:
         return
 
     def creating_c_clean_table(self):
-        self.attribute_to_check = "last"
 
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('C_clean') + \
                       " AS " \
