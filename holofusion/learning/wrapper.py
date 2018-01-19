@@ -311,7 +311,7 @@ class Wrapper:
                                       np.int64(int(tempdictionary["vtf_offset"]))])
             else:
                 variable_list.append([np.int8(int(tempdictionary["is_Evidence"])), np.int64(
-                    int(self.dictionary[(int(tempdictionary["rv_ind"]), tempdictionary["rv_attr"])][
+                    int(self.dictionary[(tempdictionary["rv_ind"], tempdictionary["rv_attr"])][
                             tempdictionary["initial_value"]])),
                                       np.int16(int(tempdictionary["Datatype"])),
                                       np.int64(int(tempdictionary["Cardinality"])),
