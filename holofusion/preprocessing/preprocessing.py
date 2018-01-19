@@ -32,7 +32,7 @@ class Preprocessing:
         return
 
     def creating_c_clean_table(self):
-        self.attribute_to_check = "percent_change"
+        self.attribute_to_check = "last"
 
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('C_clean') + \
                       " AS " \

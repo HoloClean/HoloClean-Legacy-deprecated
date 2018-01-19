@@ -8,7 +8,7 @@ class Accuracy:
         self.key = dataengine.holoEnv.key
 
     def fusion_accuracy(self):
-        rv_attr = "percent_change"
+        rv_attr = "last"
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
         final_authors = final.filter(final.rv_attr == rv_attr)
         print("show only authors")
