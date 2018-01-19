@@ -80,17 +80,19 @@ class Accuracy:
         for rv_attr in rv_attrs:
             if rv_attr != self.key and rv_attr != "Source" and rv_attr != "Index":
                 query_for_featurization = """ (SELECT \
-                                                  init.""" + self.key + """ as rv_index,'""" + rv_attr + """'  \
+                                                  table1.""" + self.key + """ as rv_index,'""" + \
+                                                  rv_attr + """'  \
                                                   AS rv_attr, \
-                                                  init.""" + rv_attr + """ AS assigned_val \
+                                                  table1.""" + rv_attr + """ AS assigned_val \
                                                   FROM """ + \
                                           self.dataset.table_specific_name('Correct') + \
-                                          " AS init )"
+                                          " AS table1," + self.dataset.table_specific_name('Final') +\
+                                          " AS table2 where table1." + self.key + "=table2.rv_index)"
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Correct_flat') + \
                                       " SELECT * FROM ( " + query_for_featurization + \
                                       "as T_" + str(counter) + ");"
                 counter += 1
-                print insert_signal_query
+
                 self.dataengine.query(insert_signal_query)
 
         self.ground_truth_flat = self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)

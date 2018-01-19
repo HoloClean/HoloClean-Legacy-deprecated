@@ -117,6 +117,7 @@ class HoloFusion:
         """
 
         self.key = "date_symbol"
+        self.attribute_to_check = "percent_change"
         # Initialize default execution arguments
         arg_defaults = {}
         for arg, opts in arguments:
@@ -256,21 +257,37 @@ class HoloFusionSession:
         learn = 100
         self.holo_env.logger.info('numbskull is starting')
         print "numbskull is starting"
-        ns = numbskull.NumbSkull(n_inference_epoch=0,
-                                 n_learning_epoch=learn,
-                                 stepsize=0.0001,
-                                 decay=0.001 ** (1.0 / learn),
-                                 reg_param=0.01,
-                                 regularization=1,
-                                 quiet=True,
-                                 verbose=False,
-                                 learn_non_evidence=True,
-                                 burn_in=100,
-                                 nthreads=1)
+        if self.holo_env.training_data:
+            ns = numbskull.NumbSkull(n_inference_epoch=100,
+                                     n_learning_epoch=learn,
+                                     quiet=True,
+                                     learn_non_evidence=True,
+                                     stepsize=0.0001,
+                                     burn_in=100,
+                                     decay=0.001 ** (1.0 / learn),
+                                     regularization=1,
+                                     reg_param=0.01)
 
-        fg = self._numbskull_fg_lists()
-        ns.loadFactorGraph(*fg)
-        ns.learning()
+            fg = self._numbskull_fg_lists()
+            ns.loadFactorGraph(*fg)
+            ns.learning()
+
+        else:
+            ns = numbskull.NumbSkull(n_inference_epoch=0,
+                                     n_learning_epoch=learn,
+                                     stepsize=0.0001,
+                                     decay=0.001 ** (1.0 / learn),
+                                     reg_param=0.01,
+                                     regularization=1,
+                                     quiet=True,
+                                     verbose=False,
+                                     learn_non_evidence=True,
+                                     burn_in=100,
+                                     nthreads=1)
+
+            fg = self._numbskull_fg_lists()
+            ns.loadFactorGraph(*fg)
+            ns.learning()
         self.holo_env.logger.info('numbskull is finished')
         print "numbskull is finished"
         list_weight_value = []
@@ -307,7 +324,6 @@ class HoloFusionSession:
         """TODO:        self.holo_env.logger.info('ingesting file:' + src_path)
          self.dataset = Dataset()
          self.hLoad, Ingest, and Analyze a dataset from a src_path"""
-
 
         preprocessing = Preprocessing(self.holo_env.spark_session, self.holo_env.dataengine, self.dataset, src_path)
         if self.holo_env.training_data:

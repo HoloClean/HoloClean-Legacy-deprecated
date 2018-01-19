@@ -105,7 +105,7 @@ class Wrapper:
                       "count1 AS Cardinality," \
                       "'       ' AS vtf_offset" \
                       " FROM " \
-                      + "( SELECT  rv_index , rv_attr FROM " + self.dataset.table_specific_name('Feature') +\
+                      + "( SELECT  rv_index , rv_attr , min(fixed) as fixed FROM " + self.dataset.table_specific_name('Feature') +\
                         " group by rv_index,rv_attr)" + " AS table2," \
                         "(SELECT count(*) AS count1," \
                         "attr_name,tid " \
@@ -116,7 +116,32 @@ class Wrapper:
                       "WHERE " \
                       "counting.attr_name=table2.rv_attr " \
                       "AND " \
-                      "counting.tid=table2.rv_index);"
+                      "counting.tid=table2.rv_index and fixed=0);"
+        self.dataengine.query(mysql_query)
+
+        mysql_query = "INSERT INTO " + \
+                      self.dataset.table_specific_name('Variable_tmp') + \
+                      "(SELECT (@c := @c + 1) AS variable_index," \
+                      " table2.rv_index AS rv_ind," \
+                      "table2.rv_attr AS rv_attr," \
+                      "'1' AS is_Evidence," \
+                      "assigned_val AS initial_value," \
+                      "'1' AS Datatype," \
+                      "count1 AS Cardinality," \
+                      "'       ' AS vtf_offset" \
+                      " FROM " \
+                      + "( SELECT  rv_index , rv_attr ,min(assigned_val) as assigned_val,min(fixed) as fixed FROM " +\
+                      self.dataset.table_specific_name('Feature') + \
+                      " group by rv_index,rv_attr )" + " AS table2," \
+                      "(SELECT count(*) AS count1," \
+                      "attr_name,tid " \
+                      "FROM " \
+                      + self.dataset.table_specific_name('Possible_values') + \
+                      " GROUP BY attr_name,tid) AS counting" \
+                      " WHERE " \
+                      "counting.attr_name=table2.rv_attr " \
+                      "AND " \
+                      "counting.tid=table2.rv_index and table2.fixed=1 );"
         self.dataengine.query(mysql_query)
 
         mysql_query = 'CREATE TABLE ' + \

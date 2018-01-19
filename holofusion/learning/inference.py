@@ -28,6 +28,7 @@ class inference:
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
                       " GROUP BY table1.weight_id);"
         self.dataengine.query(mysql_query)
+
         return
 
     def learning(self):
@@ -51,7 +52,7 @@ class inference:
                                                                       "table2.assigned_val);"
 
         self.dataengine.query(query_Feature)
-        
+
         query_probability = "CREATE TABLE " + self.dataset.table_specific_name('Probabilities') + \
                             " AS " \
                             "(SELECT " \
@@ -73,7 +74,6 @@ class inference:
                             "table1.rv_index=table2.rv_index and table1.rv_attr=table2.rv_attr);"
 
         self.dataengine.query(query_probability)
-
         # Query to find the repair for each cell
         query = "CREATE TABLE " + self.dataset.table_specific_name('Final') + \
                 " AS (" \
