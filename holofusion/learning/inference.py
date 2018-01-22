@@ -31,7 +31,7 @@ class inference:
 
         return
 
-    def learning(self):
+    def set_probabilities(self):
         """
         To do: creates the probability table for our
         dataset and checks the accuracy
