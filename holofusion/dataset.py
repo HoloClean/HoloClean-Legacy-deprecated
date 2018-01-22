@@ -25,7 +25,9 @@ class Dataset:
         'Final',
         'Training',
         'Correct_flat',
-        'Correct']
+        'Correct',
+        'Fact',
+        'Sources']
 
     """
 

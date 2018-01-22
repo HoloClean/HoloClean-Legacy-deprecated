@@ -146,3 +146,41 @@ class Featurizer:
                                      self.dataset.table_specific_name('Feature_temp') + ";"
                     self.dataengine.query(global_counter)
         return
+
+    def create_source_table(self):
+        mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources') + \
+            " AS " + "(SELECT DISTINCT " + self.key + ", count(source) FROM " + self.dataset.table_specific_name('C_dk') \
+                      + " GROUP BY "+ self.key + ")"
+        self.dataengine.query(mysql_query)
+
+    def create_fact_table(self):
+        counter = 0
+        table_attribute_string = self.dataengine.get_schema(
+            self.dataset, "Init")
+        attributes = table_attribute_string.split(',')
+        query_for_fact_table = "CREATE TABLE \
+            " + self.dataset.table_specific_name('Fact') \
+            + "(RID INT,key_id TEXT, \
+            attribute TEXT, source_observation TEXT);"
+        self.dataengine.query(query_for_fact_table)
+        global_counter = "set @p:=0;"
+        self.dataengine.query(global_counter)
+        for attribute in attributes:
+            if attribute != self.key and attribute != "Source" and attribute != "source" \
+                    and attribute != "Index" and attribute != 'index':
+                if attribute == self.attribute_to_check:
+                    # INSERT statement for training data
+                    query_for_fact = """ (SELECT  DISTINCT  @p := @p + 1 AS RID,\
+        		                        init.""" + self.key + """ as key_id,'""" + attribute + """' AS attribute, \
+        		                        init.""" + attribute + """ AS source_observation \
+                                        FROM """ + \
+                                        self.dataset.table_specific_name('C_dk') + \
+                                        " AS init) "
+                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Fact') + \
+                                          " SELECT * FROM ( " + query_for_fact + " as T_" + str(counter) + ");"
+                    counter += 1
+                    print insert_signal_query
+                    self.dataengine.query(insert_signal_query)
+                    global_counter = "select max(RID) into @p from " + \
+                                     self.dataset.table_specific_name('Fact') + ";"
+                    self.dataengine.query(global_counter)

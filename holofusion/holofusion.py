@@ -358,6 +358,8 @@ class HoloFusionSession:
         featurizer = Featurizer(self.holo_env.dataengine, self.dataset)
         featurizer.key_attribute()
         featurizer.create_feature()
+        featurizer.create_fact_table()
+        featurizer.create_source_table()
         print ('adding weight_id to feature table...')
         self.holo_env.logger.info('adding weight_id to feature table...')
         featurizer.add_weights()
