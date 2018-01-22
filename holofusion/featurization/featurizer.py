@@ -13,6 +13,7 @@ class Featurizer:
         self.dataset = dataset
         self.key = dataengine.holoEnv.key
         self.attribute_to_check = dataengine.holoEnv.attribute_to_check
+        self.multiple_weights = dataengine.holoEnv.multiple_weights
 
     def key_attribute(self):
         table_attribute_string = self.dataengine.get_schema(
@@ -28,12 +29,23 @@ class Featurizer:
         """
         This method updates the values of weights for the featurization table"
         """
+
+        one_attribute = 1
+        if self.multiple_weights:
+            query_weight = " Source_id LONGTEXT, attribute LONGTEXT "
+            query_select = " SELECT distinct NULL, Source_id, attribute FROM "
+            query_where = " table1.Source_id=table2.Source_id and table1.attribute=table2.attribute )"
+        else:
+            query_weight = " Source_id LONGTEXT "
+            query_select = " SELECT distinct NULL, Source_id  FROM "
+            query_where = " table1.Source_id=table2.Source_id  )"
+
         print('creating weight table')
         query_for_weights = "CREATE TABLE " \
                             + self.dataset.table_specific_name('weight_temp') \
                             + "(" \
                               "weight_id INT PRIMARY KEY AUTO_INCREMENT," \
-                              "Source_id LONGTEXT" \
+                            + query_weight + \
                               ");"
 
         self.dataengine.query(query_for_weights)
@@ -42,7 +54,7 @@ class Featurizer:
                 + self.dataset.table_specific_name('weight_temp') + \
                 " (" \
                 "SELECT * FROM (" \
-                "SELECT distinct NULL, Source_id FROM " + \
+                + query_select +\
                 self.dataset.table_specific_name('Feature_temp') + "" \
                 ") AS TABLE1);"
 
@@ -69,7 +81,7 @@ class Featurizer:
                               + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                               " WHERE" \
-                              " table1.Source_id=table2.Source_id ) " \
+                              + query_where +\
                               "AS ftmp  order by rv_index,rv_attr" \
                               " );"
 
@@ -94,8 +106,7 @@ class Featurizer:
         for attribute in attributes:
             if attribute != self.key and attribute != "Source" and attribute != "source" \
                     and attribute != "Index" and attribute != 'index':
-                if attribute == self.attribute_to_check:
-
+                # if attribute == self.attribute_to_check:
                     # INSERT statement for training data
                     query_for_featurization_clean = """ (SELECT  @p := @p + 1 AS var_index,\
                                                     Source AS Source_id,\

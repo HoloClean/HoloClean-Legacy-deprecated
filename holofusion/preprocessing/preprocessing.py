@@ -32,6 +32,14 @@ class Preprocessing:
         return
 
     def creating_c_clean_table(self):
+        table_attribute_string = self.dataengine.get_schema(
+            self.dataset, "Init")
+        attributes = table_attribute_string.split(',')
+        where_clause = ""
+        for attribute in attributes:
+            if attribute != self.key and attribute != "Source" and attribute != "source" \
+                    and attribute != "Index" and attribute != 'index':
+                     where_clause = where_clause + " and table1." + attribute + "=table2."+ attribute
 
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('C_clean') + \
                       " AS " \
@@ -39,8 +47,8 @@ class Preprocessing:
                       " FROM " + \
                       self.dataset.table_specific_name('Init') + " AS table1, " + \
                       self.dataset.table_specific_name('Training') + " AS table2 " \
-                      "WHERE table1."+self.key + "=table2." + self.key + \
-                      " and table1."+self.attribute_to_check + "=table2."+self.attribute_to_check + ");"
+                      "WHERE table1."+self.key + "=table2." + self.key +  \
+                       where_clause + ");"
         self.dataengine.query(mysql_query)
         return
 

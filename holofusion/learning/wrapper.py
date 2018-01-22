@@ -54,7 +54,7 @@ class Wrapper:
         self.dictionary = result
 
     # Setters
-    def set_weight(self):
+    def set_weight(self, seed=271828):
         """
                 This method creates a query for weight table for the factor
 
@@ -74,7 +74,7 @@ class Wrapper:
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
                       "0 AS Is_fixed," \
-                      "RAND()*(1+1)-1 AS init_val" \
+                      "RAND("+str(seed)+")*(1+1)-1 AS init_val" \
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
                       " GROUP BY table1.weight_id);"
@@ -115,7 +115,8 @@ class Wrapper:
                       "count1 AS Cardinality," \
                       "'       ' AS vtf_offset" \
                       " FROM " \
-                      + "( SELECT  rv_index , rv_attr , min(fixed) as fixed FROM " + self.dataset.table_specific_name('Feature') +\
+                      + "( SELECT  rv_index , rv_attr , min(fixed) as fixed FROM " + \
+                      self.dataset.table_specific_name('Feature') +\
                         " group by rv_index,rv_attr)" + " AS table2," \
                         "(SELECT count(*) AS count1," \
                         "attr_name,tid " \

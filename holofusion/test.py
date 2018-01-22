@@ -4,7 +4,7 @@ from time import time as t
 
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloFusion(majority_vote=1, training_data=1)
+        self.holo_obj = HoloFusion(majority_vote=0, training_data=1, multiple_weights=1)
         self.session = HoloFusionSession("Session", self.holo_obj)
         self.fx = open('execution_time.txt', 'w')
 
@@ -13,7 +13,7 @@ class Testing:
         list_time = []
         start_time = t()
 
-        self.session.ingest_dataset("data/stock-data/stock-data-test.csv")
+        self.session.ingest_dataset("data/stock-data/stock-data-test80.csv")
         d = t()-start_time
         list_time.append(d)
         self.fx.write('ingest csv time: '+str(d)+'\n')

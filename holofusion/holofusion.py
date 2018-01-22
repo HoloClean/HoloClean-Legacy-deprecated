@@ -78,6 +78,13 @@ arguments = [
       'default': 0,
       'type': int,
       'help': 'If it is 1 we have a ground truth that we will use as training data'}),
+    (('-si', '--multiple_weight'),
+     {'metavar': 'MULTIPLE WEIGHT',
+      'dest': 'mutliple_weight',
+      'default': 0,
+      'type': int,
+      'help': 'If it is 1 we have multiple weight for each source id'}),
+
 ]
 
 
@@ -274,15 +281,16 @@ class HoloFusionSession:
 
         else:
             ns = numbskull.NumbSkull(n_inference_epoch=0,
-                                     n_learning_epoch=learn,
+                                     n_learning_epoch=30,
                                      stepsize=0.0001,
-                                     decay=0.001 ** (1.0 / learn),
-                                     reg_param=0.01,
-                                     regularization=1,
+                                     decay=1.0,
+                                     reg_param=0.1,
+                                     regularization=2,
                                      quiet=True,
+                                     truncation=10,
                                      verbose=False,
                                      learn_non_evidence=True,
-                                     burn_in=100,
+                                     burn_in=5,
                                      nthreads=1)
 
             fg = self._numbskull_fg_lists()

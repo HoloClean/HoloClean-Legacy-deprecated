@@ -10,7 +10,13 @@ class Accuracy:
     def fusion_accuracy(self):
         rv_attr = self.dataengine.holoEnv.attribute_to_check
         final = self.dataengine.get_table_to_dataframe("Final", self.dataset)
-        final_authors = final.filter(final.rv_attr == rv_attr)
+        one_attribute = 0
+        if one_attribute:
+            final_authors = final.filter(final.rv_attr == rv_attr)
+            ground_truth_specific = self.ground_truth_flat.filter(self.ground_truth_flat.rv_attr == rv_attr)
+        else:
+            final_authors = final
+            ground_truth_specific = self.ground_truth_flat
         print("show only authors")
         final_authors.show()
         final_authors_list = final_authors.collect()
@@ -19,7 +25,7 @@ class Accuracy:
             f.write(str(ele) + '\n')
         f.close()
         print ("show ground_truth")
-        ground_truth_specific = self.ground_truth_flat.filter(self.ground_truth_flat.rv_attr == rv_attr)
+
         ground_truth_specific.show()
         ground_truth_list = ground_truth_specific.collect()
         f = open('results/ground_truth.txt', 'w')
