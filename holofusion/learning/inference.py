@@ -100,3 +100,14 @@ class inference:
             
         self.dataengine.query(query)
 
+
+    def add_truth(self):
+        mysql_add_truth_column = "ALTER TABLE " + self.dataset.table_specific_name('Feature') + \
+                                 " ADD truth_value INT DEFAULT 0"
+        self.dataengine.query(mysql_add_truth_column)
+        mysql_update_truth = "UPDATE " + self.dataset.table_specific_name('Feature') + " feature "\
+                             "SET feature.truth_value = 1 " + \
+                             "WHERE feature.assigned_val IN ( SELECT final.assigned_val FROM " + \
+                             self.dataset.table_specific_name('Final') + " final WHERE " + \
+                             "final.rv_index = feature.rv_index and final.rv_attr = feature.rv_attr )"
+        self.dataengine.query(mysql_update_truth)

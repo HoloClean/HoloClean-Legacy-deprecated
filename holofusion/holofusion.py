@@ -379,6 +379,7 @@ class HoloFusionSession:
         else:
             self._numskull()
         infe.learning()
+        infe.add_truth()
         return
 
     def accuracy(self, path_to_ground_truth):
