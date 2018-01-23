@@ -151,7 +151,7 @@ class Featurizer:
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources') + \
             " AS " + "(SELECT DISTINCT " + self.key + ", count(source) FROM " \
                       + self.dataset.table_specific_name('C_dk') \
-                      + " GROUP BY "+ self.key + ")"
+                      + " GROUP BY " + self.key + ")"
         self.dataengine.query(mysql_query)
 
     def create_fact_table(self):

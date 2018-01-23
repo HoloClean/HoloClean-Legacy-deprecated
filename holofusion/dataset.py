@@ -27,7 +27,8 @@ class Dataset:
         'Correct_flat',
         'Correct',
         'Fact',
-        'Sources']
+        'Sources',
+        'Truth']
 
     """
 

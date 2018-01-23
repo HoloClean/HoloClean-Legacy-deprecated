@@ -100,14 +100,12 @@ class inference:
             
         self.dataengine.query(query)
 
-
     def add_truth(self):
-        mysql_add_truth_column = "ALTER TABLE " + self.dataset.table_specific_name('Feature') + \
-                                 " ADD truth_value INT DEFAULT 0"
-        self.dataengine.query(mysql_add_truth_column)
-        mysql_update_truth = "UPDATE " + self.dataset.table_specific_name('Feature') + " feature "\
-                             "SET feature.truth_value = 1 " + \
-                             "WHERE feature.assigned_val IN ( SELECT final.assigned_val FROM " + \
-                             self.dataset.table_specific_name('Final') + " final WHERE " + \
-                             "final.rv_index = feature.rv_index and final.rv_attr = feature.rv_attr )"
-        self.dataengine.query(mysql_update_truth)
+        mysql_truth_query = "(SELECT f.var_index, f.Source_Id, f.rv_index, f.rv_attr, f.assigned_val, " \
+                            "CASE WHEN f.assigned_val = final.assigned_val THEN 1 ELSE 0 END as truth_value FROM " + \
+                             self.dataset.table_specific_name('Feature') + " f "\
+                            "LEFT JOIN " + self.dataset.table_specific_name('Final') + " final " + \
+                            "ON f.rv_index = final.rv_index and f.rv_attr = final.rv_attr ) "
+        mysql_create_truth_table = "CREATE TABLE " + self.dataset.table_specific_name('Truth') + \
+                                   " AS " + mysql_truth_query + " ; "
+        self.dataengine.query(mysql_create_truth_table)
