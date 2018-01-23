@@ -8,14 +8,14 @@ class Featurizer:
                 Parameters
                 --------
                 dataengine,dataset
-                """
+         """
         self.dataengine = dataengine
         self.dataset = dataset
         self.key = dataengine.holoEnv.key
         self.attribute_to_check = dataengine.holoEnv.attribute_to_check
         self.multiple_weights = dataengine.holoEnv.multiple_weights
 
-    def key_attribute(self):
+    def _key_attribute(self):
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
@@ -25,6 +25,7 @@ class Featurizer:
             self.key = raw_input("give the attribute that distinguish the objects:")
         return
 
+    # Setters
     def add_weights(self):
         """
         This method updates the values of weights for the featurization table"
@@ -89,6 +90,7 @@ class Featurizer:
         return
 
     def create_feature(self):
+        self._key_attribute()
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
@@ -102,49 +104,44 @@ class Featurizer:
             attribute TEXT, source_observation TEXT," \
             " weight_id TEXT, fixed INT);"
         self.dataengine.query(query_for_featurization)
+        query_for_featurization_clean = """ (SELECT  @p := @p + 1 AS var_index,\
+                                                            table1.source AS Source_id,\
+                                                            table1.rv_index  as key_id,table1.rv_attr  \
+                                                            AS attribute, \
+                                                            table1.assigned_val AS source_observation ,\
+                                                            ' 'AS weight_id, 1 AS fixed\
+                                                            FROM """ + \
+                                        self.dataset.table_specific_name('C_clean_flat') + \
+                                        " AS table1 where table1.assigned_val IS NOT NULL)"
+        
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') + \
+                              " SELECT * FROM ( " + query_for_featurization_clean + \
+                              "as T_" + str(counter) + ");"
+        counter += 1
+        self.dataengine.query(insert_signal_query)
+        global_counter = "select max(var_index) into @p from " + \
+                         self.dataset.table_specific_name('Feature_temp') + ";"
+        self.dataengine.query(global_counter)
 
-        for attribute in attributes:
-            if attribute != self.key and attribute != "Source" and attribute != "source" \
-                    and attribute != "Index" and attribute != 'index':
-                # if attribute == self.attribute_to_check:
-                    # INSERT statement for training data
-                    query_for_featurization_clean = """ (SELECT  @p := @p + 1 AS var_index,\
-                                                    Source AS Source_id,\
-		                                            init."""+self.key + """ as key_id,'""" + attribute+"""'  \
-                                                    AS attribute, \
-		                                            init."""+attribute+""" AS source_observation ,\
-                                                    ' 'AS weight_id, 1 AS fixed\
-                                                    FROM """ +\
-                                                    self.dataset.table_specific_name('C_clean') +\
-                                                    " AS init where init."+attribute+" IS NOT NULL)"
-                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') + \
-                                          " SELECT * FROM ( " + query_for_featurization_clean + \
-                                          "as T_" + str(counter) + ");"
-                    counter += 1
-                    print insert_signal_query
-                    self.dataengine.query(insert_signal_query)
-                    global_counter = "select max(var_index) into @p from " + \
-                                     self.dataset.table_specific_name('Feature_temp') + ";"
-                    self.dataengine.query(global_counter)
+        query_for_featurization_clean = """ (SELECT  @p := @p + 1 AS var_index,\
+                                                            table1.source AS Source_id,\
+                                                            table1.rv_index  as key_id,table1.rv_attr  \
+                                                            AS attribute, \
+                                                            table1.assigned_val AS source_observation ,\
+                                                            ' 'AS weight_id, 0 AS fixed\
+                                                            FROM """ + \
+                                        self.dataset.table_specific_name('C_dk_flat') + \
+                                        " AS table1 where table1.assigned_val IS NOT NULL)"
+        
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') + \
+                              " SELECT * FROM ( " + query_for_featurization_clean + \
+                              "as T_" + str(counter) + ");"
 
-                    query_for_featurization_dk = """ (SELECT  @p := @p + 1 AS var_index,\
-                                                 Source AS Source_id,\
-		                                         init.""" + self.key + """ as key_id,'""" + attribute + """'  \
-                                                 AS attribute, \
-		                                         init.""" + attribute + """ AS source_observation ,\
-                                                 ' 'AS weight_id, 0 AS fixed\
-                                                 FROM """ + \
-                                                 self.dataset.table_specific_name('C_dk') + \
-                                                 " AS init where init." + attribute + " IS NOT NULL)"
-                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_temp') + \
-                                          " SELECT * FROM ( " + query_for_featurization_dk + \
-                                          "as T_" + str(counter) + ");"
-                    counter += 1
-                    print insert_signal_query
-                    self.dataengine.query(insert_signal_query)
-                    global_counter = "select max(var_index) into @p from " + \
-                                     self.dataset.table_specific_name('Feature_temp') + ";"
-                    self.dataengine.query(global_counter)
+        counter += 1
+        self.dataengine.query(insert_signal_query)
+        global_counter = "select max(var_index) into @p from " + \
+                         self.dataset.table_specific_name('Feature_temp') + ";"
+        self.dataengine.query(global_counter)
         return
 
     def create_source_table(self):

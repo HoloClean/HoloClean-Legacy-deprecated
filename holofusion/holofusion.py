@@ -335,7 +335,6 @@ class HoloFusionSession:
 
         preprocessing = Preprocessing(self.holo_env.spark_session, self.holo_env.dataengine, self.dataset, src_path)
         if self.holo_env.training_data:
-            preprocessing.key_attribute()
             preprocessing.adding_training_data()
             preprocessing.creating_c_clean_table()
             preprocessing.creating_c_dk()
@@ -356,10 +355,7 @@ class HoloFusionSession:
     # Methodsdata
     def feature(self):
         featurizer = Featurizer(self.holo_env.dataengine, self.dataset)
-        featurizer.key_attribute()
         featurizer.create_feature()
-        featurizer.create_fact_table()
-        featurizer.create_source_table()
         print ('adding weight_id to feature table...')
         self.holo_env.logger.info('adding weight_id to feature table...')
         featurizer.add_weights()
@@ -378,13 +374,12 @@ class HoloFusionSession:
             infe.majority_vote()
         else:
             self._numskull()
-        infe.learning()
-        infe.add_truth()
+        infe.set_probabilities()
+        #infe.add_truth()
         return
 
     def accuracy(self, path_to_ground_truth):
         accuracy = Accuracy(self.holo_env.dataengine, path_to_ground_truth, self.dataset, self.holo_env.spark_session)
-        accuracy.read()
-        accuracy.flatting()
+        accuracy.create_correct_table()
         accuracy.fusion_accuracy()
         return
