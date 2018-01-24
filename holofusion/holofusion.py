@@ -14,6 +14,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.accuracy import Accuracy
 from learning.wrapper import Wrapper
+from learning.accu import  Accu
 from preprocessing.preprocessing import Preprocessing
 
 # Define arguments for Holofusion
@@ -365,7 +366,7 @@ class HoloFusionSession:
             print (
             'adding weight_id to feature table is finished')
         else:
-            featurizer.create_dictionaries()
+           self.src_observations = featurizer.create_dictionaries()
         return
 
     def wrapper(self):
@@ -375,9 +376,16 @@ class HoloFusionSession:
         infe = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
         if self.holo_env.majority_vote == 1:
             infe.majority_vote()
-        else:
+            infe.set_probabilities()
+        elif self.holo_env.majority_vote == 0:
             self._numskull()
-        infe.set_probabilities()
+            infe.set_probabilities()
+        else:
+         labelled={}
+         accu=Accu(labelled, self.src_observations,self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
+         accu.solve(iterations=100)
+
+
         #infe.add_truth()
         return
 

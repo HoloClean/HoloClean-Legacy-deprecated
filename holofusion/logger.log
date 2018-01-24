@@ -12,43 +12,62 @@ INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test collated returns' AS CHAR C
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:__main__:Connection established to data database
 INFO:__main__:ingesting file:data/stock-data/stock-data-test80.csv
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('718083184261','Init','index,source,date_symbol,percent_change,last');
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Init','index,source,date_symbol,percent_change,last');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:__main__:creating dataset with id:718083184261
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 718083184261_C_dk AS (SELECT table1.* FROM 718083184261_Init AS table1 );
+INFO:__main__:creating dataset with id:107176099002
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 107176099002_C_dk AS (SELECT table1.* FROM 107176099002_Init AS table1 );
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 718083184261_C_clean LIKE 718083184261_Init ;
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 107176099002_C_clean LIKE 107176099002_Init ;
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '718083184261' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Init';
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('718083184261','C_dk','index,source,date_symbol,percent_change,last');
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '718083184261' AND  tablename = 'C_dk';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 718083184261_C_dk_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','C_dk','index,source,date_symbol,percent_change,last');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 718083184261_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 718083184261_C_dk AS table1)as T_0);
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'C_dk';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 107176099002_C_dk_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 718083184261_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 718083184261_C_dk AS table1)as T_1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 107176099002_C_dk AS table1)as T_0);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('718083184261','C_clean','index,source,date_symbol,percent_change,last');
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 107176099002_C_dk AS table1)as T_1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '718083184261' AND  tablename = 'C_clean';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 718083184261_C_clean_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','C_clean','index,source,date_symbol,percent_change,last');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 718083184261_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 718083184261_C_clean AS table1)as T_0);
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'C_clean';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 107176099002_C_clean_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 718083184261_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 718083184261_C_clean AS table1)as T_1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 107176099002_C_clean AS table1)as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 107176099002_C_clean AS table1)as T_1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Final','rv_index,rv_attr,assigned_val');
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Correct','date_symbol,percent_change,last');
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Correct';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Correct';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                     107176099002_Correct_flat( rv_index TEXT,                     rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_Correct_flat SELECT * FROM (  (SELECT                                                   table1.date_symbol as rv_index,'percent_change'                                                    AS rv_attr,                                                   table1.percent_change AS assigned_val                                                   FROM 107176099002_Correct AS table1,107176099002_Final AS table2 where table1.date_symbol=table2.rv_index)as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_Correct_flat SELECT * FROM (  (SELECT                                                   table1.date_symbol as rv_index,'last'                                                    AS rv_attr,                                                   table1.last AS assigned_val                                                   FROM 107176099002_Correct AS table1,107176099002_Final AS table2 where table1.date_symbol=table2.rv_index)as T_1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
