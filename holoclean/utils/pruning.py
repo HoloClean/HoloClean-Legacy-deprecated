@@ -253,7 +253,7 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 list_to_dataframe_init.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
                                                self.cellvalues[tuple_id][cell_index].columnname,
-                                               str(self.cellvalues[tuple_id][cell_index].value)])
+                                               unicode(self.cellvalues[tuple_id][cell_index].value)])
 
                 # If the value is in the id of cell in the involve attribute we put as not observed
                 tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
@@ -263,12 +263,12 @@ class Pruning:
                             list_to_dataframe_possible_values.append(
                                                                      [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                                                       self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      str(value), "0", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
+                                                                      unicode(value), "0", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
                         else:
                             list_to_dataframe_possible_values.append(
                                                                      [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                                                       self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      str(value), "1", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
+                                                                      unicode(value), "1", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
             list_to_dataframe_possible_values, [
