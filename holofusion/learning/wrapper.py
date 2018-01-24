@@ -70,11 +70,12 @@ class Wrapper:
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
                                                                     " GROUP BY table1.weight_id);"
         else:
+            #  "RAND("+str(seed)+")*(1+1)-1 AS init_val" \
             mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
                       "0 AS Is_fixed," \
-                      "RAND("+str(seed)+")*(1+1)-1 AS init_val" \
+                      "1 as init_val" \
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
                       " GROUP BY table1.weight_id);"

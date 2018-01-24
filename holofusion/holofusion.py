@@ -281,8 +281,8 @@ class HoloFusionSession:
 
         else:
             ns = numbskull.NumbSkull(n_inference_epoch=0,
-                                     n_learning_epoch=30,
-                                     stepsize=0.0001,
+                                     n_learning_epoch=1000,
+                                     stepsize=0.1,
                                      decay=1.0,
                                      reg_param=0.1,
                                      regularization=2,
@@ -355,14 +355,17 @@ class HoloFusionSession:
     # Methodsdata
     def feature(self):
         featurizer = Featurizer(self.holo_env.dataengine, self.dataset)
-        featurizer.create_feature()
-        print ('adding weight_id to feature table...')
-        self.holo_env.logger.info('adding weight_id to feature table...')
-        featurizer.add_weights()
-        self.holo_env.logger.info(
+        if self.holo_env.majority_vote != 2:
+            featurizer.create_feature()
+            print ('adding weight_id to feature table...')
+            self.holo_env.logger.info('adding weight_id to feature table...')
+            featurizer.add_weights()
+            self.holo_env.logger.info(
             'adding weight_id to feature table is finished')
-        print (
+            print (
             'adding weight_id to feature table is finished')
+        else:
+            featurizer.create_dictionaries()
         return
 
     def wrapper(self):

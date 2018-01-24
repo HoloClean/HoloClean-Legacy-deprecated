@@ -144,6 +144,30 @@ class Featurizer:
         self.dataengine.query(global_counter)
         return
 
+    def create_dictionaries(self):
+        c_clean_dataframe = self.dataengine.get_table_to_dataframe("C_dk_flat", self.dataset)
+        object_truth = {}
+        src_observations = {}
+        act_sources = []
+
+        c_clean_list = c_clean_dataframe.collect()
+        for row in c_clean_list:
+            source_id = row[0]
+            oid= row[1] + "_" + row[2]
+            value= row[3]
+            if source_id not in src_observations:
+                src_observations[source_id] = {}
+            src_observations[source_id][oid] = value
+        return
+
+
+
+
+
+
+
+
+
     def create_source_table(self):
         mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources') + \
             " AS " + "(SELECT DISTINCT " + self.key + ", count(source) FROM " \
