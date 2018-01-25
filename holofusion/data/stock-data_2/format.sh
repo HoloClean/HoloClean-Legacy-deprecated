@@ -1,7 +1,7 @@
  > stock-data-test.csv
 mode='read'
-readlines=10000
-skiplines=65000
+readlines=10
+skiplines=65
 counter=0
 globalcounter=0
 while read -r line
