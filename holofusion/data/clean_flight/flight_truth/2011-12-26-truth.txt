@@ -1,0 +1,99 @@
+AA-1221-MCO-ORD	December 26, 2011               08:00 PM    	December 26, 2011               08:21 PM    	 15	December 26, 2011               09:50 PM    	December 26, 2011               09:57 PM    	 H12    
+AA-4307-ORD-DTW	December 26, 2011               06:45 PM    	December 26, 2011               07:32 PM    	 G7	December 26, 2011               09:10 PM    	December 26, 2011               09:46 PM    	 D28    
+AA-616-DFW-DTW	December 26, 2011               09:05 AM    	December 26, 2011               09:05 AM    	 D37	December 26, 2011               12:35 PM    	December 26, 2011               12:29 PM    	 D32    
+AA-431-MIA-SFO	December 26, 2011               08:35 AM    	December 26, 2011               08:32 AM    	 D11	December 26, 2011               11:50 AM    	December 26, 2011               11:35 AM    	 57    
+AA-3756-ORD-SLC	December 26, 2011               12:15 PM    	December 26, 2011               12:15 PM    	 G19	December 26, 2011               02:45 PM    	December 26, 2011               02:33 PM    	 A3    
+AA-2050-ORD-MIA	December 26, 2011               10:40 AM    	December 26, 2011               11:01 AM    	 K13	December 26, 2011               02:45 PM    	December 26, 2011               02:53 PM    	 D40    
+AA-3804-PHL-ORD	December 26, 2011               02:35 PM    	December 26, 2011               02:27 PM    	 A7	December 26, 2011               04:05 PM    	December 26, 2011               03:36 PM    	 H5    
+AA-1664-MIA-ATL	December 26, 2011               10:15 AM    	December 26, 2011               10:17 AM    	 D6	December 26, 2011               12:10 PM    	December 26, 2011               12:12 PM    	 T11    
+AA-789-ORD-DEN	December 26, 2011               01:05 PM    	December 26, 2011               01:03 PM    	 H11B	December 26, 2011               02:35 PM    	December 26, 2011               02:30 PM    	 A49    
+AA-1733-ORD-PHX	December 26, 2011               07:45 PM    	December 26, 2011               07:49 PM    	 K12	December 26, 2011               10:30 PM    	December 26, 2011     	 6    
+AA-1733-ORD-PHX	December 26, 2011               07:45 PM    	December 26, 2011               07:49 PM    	 K12	December 26, 2011               10:30 PM    	December 26, 2011     	 6    
+AA-4277-CVG-JFK	December 26, 2011               12:10 PM    	December 26, 2011               12:03 PM    	 1	December 26, 2011               02:15 PM    	December 26, 2011               01:55 PM    	 31C    
+AA-2312-DFW-DTW	December 26, 2011               08:25 PM    	December 26, 2011     	 A36	December 26, 2011               11:50 PM    	December 26, 2011     	 D32    
+AA-85-JFK-SFO	December 26, 2011               03:05 PM    	December 26, 2011               02:59 PM    	 12	December 26, 2011               06:30 PM    	December 26, 2011               06:21 PM    	 58B    
+AA-404-MIA-MCO	December 26, 2011               06:45 AM    	December 26, 2011               06:38 AM    	 E5	December 26, 2011               07:45 AM    	December 26, 2011               07:49 AM    	 15    
+AA-446-DFW-PHL	December 26, 2011               11:50 AM    	December 26, 2011               11:48 AM    	 A36	December 26, 2011               03:50 PM    	December 26, 2011               03:44 PM    	 A9    
+AA-2268-PHX-ORD	December 26, 2011               07:15 AM    	December 26, 2011               07:09 AM    	 6	December 26, 2011               11:35 AM    	December 26, 2011               11:15 AM    	 K13    
+AA-4344-ORD-DTW	December 26, 2011               11:45 AM    	December 26, 2011               11:45 AM    	 G3	December 26, 2011               02:00 PM    	December 26, 2011               01:53 PM    	 D28    
+AA-484-DFW-MIA	December 26, 2011               04:15 PM    	December 26, 2011               04:16 PM    	 D17	December 26, 2011               07:55 PM    	December 26, 2011               07:56 PM    	 D38    
+AA-3979-CVG-ORD	December 26, 2011               07:30 AM    	December 26, 2011               07:28 AM    	 5	December 26, 2011               08:00 AM    	December 26, 2011               07:59 AM    	 G12    
+AA-3063-SLC-LAX	December 26, 2011               08:20 PM    	December 26, 2011               08:08 PM    	 A3	December 26, 2011               09:20 PM    	December 26, 2011     	 44F    
+AA-3859-IAH-ORD	December 26, 2011               07:10 AM    	December 26, 2011               07:06 AM    	 A30	December 26, 2011               09:40 AM    	December 26, 2011               09:42 AM    	 H1A    
+AA-3842-MSP-ORD	December 26, 2011               06:00 AM    	December 26, 2011               06:00 AM    	 E14	December 26, 2011               07:30 AM    	December 26, 2011               07:35 AM    	 G19    
+AA-1544-SAN-ORD	December 26, 2011               11:25 AM    	December 26, 2011               11:22 AM    	 27	December 26, 2011               05:25 PM    	December 26, 2011               05:29 PM    	 H6    
+AA-649-ORD-SNA	December 26, 2011               01:30 PM    	December 26, 2011     	 H10	December 26, 2011               03:50 PM    	December 26, 2011     	 7    
+AA-1640-MIA-MCO	December 26, 2011               06:30 PM    	December 26, 2011     	 D49	December 26, 2011               07:25 PM    	December 26, 2011     	 14    
+AA-518-MIA-JFK	December 26, 2011               06:30 AM    	December 26, 2011               06:30 AM    	 D16	December 26, 2011               09:15 AM    	December 26, 2011               09:19 AM    	 4    
+AA-2525-DFW-MIA	December 26, 2011               07:25 AM    	December 26, 2011               07:19 AM    	 A24	December 26, 2011               11:10 AM    	December 26, 2011               10:56 AM    	 D14    
+AA-1279-DFW-PHX	December 26, 2011               01:00 PM    	December 26, 2011               01:01 PM    	 C39	December 26, 2011               02:35 PM    	December 26, 2011               02:37 PM    	 4    
+AA-1522-SFO-ORD	December 26, 2011               11:55 PM    	December 26, 2011     	 57	December 27, 2011               05:50 AM    	December 27, 2011     	 H10    
+AA-1434-DFW-MCO	December 26, 2011               07:15 AM    	December 26, 2011               07:10 AM    	 D38	December 26, 2011               10:35 AM    	December 26, 2011               10:48 AM    	 17    
+AA-59-JFK-SFO	December 26, 2011               07:10 AM    	December 26, 2011               07:03 AM    	 36	December 26, 2011               10:45 AM    	December 26, 2011               10:36 AM    	 58B    
+AA-415-BOS-ORD	December 26, 2011               08:35 AM    	December 26, 2011               08:32 AM    	 B29	December 26, 2011               10:40 AM    	December 26, 2011               10:08 AM    	 K18    
+AA-222-LAX-BOS	December 26, 2011               07:10 AM    	December 26, 2011               07:01 AM    	 40	December 26, 2011               03:30 PM    	December 26, 2011               03:18 PM    	 B28    
+AA-3823-LAX-DEN	December 26, 2011               09:00 PM    	December 26, 2011     	 44J	December 27, 2011               12:15 AM    	December 27, 2011     	 A49    
+AA-1165-JFK-MIA	December 26, 2011               06:59 AM    	December 26, 2011               06:51 AM    	 12	December 26, 2011               10:34 AM    	December 26, 2011               09:44 AM    	 D50    
+AA-3786-IAH-ORD	December 26, 2011               04:00 PM    	December 26, 2011               04:05 PM    	 A29	December 26, 2011               06:40 PM    	December 26, 2011               06:36 PM    	 H2    
+AA-4330-CVG-ORD	December 26, 2011               03:35 PM    	December 26, 2011               03:28 PM    	 5	December 26, 2011               04:00 PM    	December 26, 2011               03:31 PM    	 G1B    
+AA-3468-CVG-MIA	December 26, 2011               07:00 AM    	December 26, 2011               06:55 AM    	 3	December 26, 2011               09:55 AM    	December 26, 2011               09:36 AM    	 D55    
+AA-204-LAX-MCO	December 26, 2011               11:25 PM    	December 26, 2011     	 42A	December 27, 2011               06:55 AM    	December 27, 2011     	 16    
+AA-466-IAH-MIA	December 26, 2011               06:00 AM    	December 26, 2011               05:58 AM    	 A27	December 26, 2011               09:20 AM    	December 26, 2011               09:12 AM    	 D39    
+AA-3-JFK-LAX	December 26, 2011               12:00 PM    	December 26, 2011               11:56 AM    	 36	December 26, 2011               03:15 PM    	December 26, 2011               03:09 PM    	 46A    
+AA-1007-MIA-PHX	December 26, 2011               04:55 PM    	December 26, 2011               04:50 PM    	 D30	December 26, 2011               08:05 PM    	December 26, 2011               07:42 PM    	 6    
+AA-271-MIA-LAX	December 26, 2011               11:35 AM    	December 26, 2011               11:36 AM    	 D12	December 26, 2011               02:25 PM    	December 26, 2011               02:08 PM    	 42A    
+AA-643-MIA-ORD	December 26, 2011               07:10 AM    	December 26, 2011               07:06 AM    	 D3	December 26, 2011               09:35 AM    	December 26, 2011               09:21 AM    	 H15    
+AA-4198-ORD-CLE	December 26, 2011               10:40 AM    	December 26, 2011               10:34 AM    	 G9	December 26, 2011               12:55 PM    	December 26, 2011               12:43 PM    	 A1    
+AA-400-DFW-JFK	December 26, 2011               10:40 AM    	December 26, 2011               10:45 AM    	 C14	December 26, 2011               02:59 PM    	December 26, 2011               02:48 PM    	 42    
+AA-1886-BOS-MIA	December 26, 2011               10:45 AM    	December 26, 2011               10:44 AM    	 B28	December 26, 2011               02:20 PM    	December 26, 2011               01:48 PM    	 D4    
+AA-1917-JFK-MCO	December 26, 2011               02:55 PM    	December 26, 2011               03:13 PM    	 3	December 26, 2011               05:55 PM    	December 26, 2011               05:46 PM    	 16    
+AA-3809-PHX-LAX	December 26, 2011               06:00 AM    	December 26, 2011               06:00 AM    	 2	December 26, 2011               06:40 AM    	December 26, 2011               06:28 AM    	 44I    
+AA-2957-DFW-CVG	December 26, 2011               07:55 AM    	December 26, 2011               07:49 AM    	 B22	December 26, 2011               11:05 AM    	December 26, 2011               10:49 AM    	 3    
+UA-1500-IAH-GUA	Mon, Dec 26 8:50 AM	Mon, Dec 26 8:50 AM            On Time	E2	Mon, Dec 26 11:43 AM	Mon, Dec 26 11:36 AM	15
+UA-3515-IAD-MSP	Mon, Dec 26 8:19 AM	Mon, Dec 26 8:26 AM	D18	Mon, Dec 26 10:09 AM	Mon, Dec 26 10:19 AM	E10
+UA-664-ORD-PHL	Mon, Dec 26 1:35 PM	Mon, Dec 26 1:38 PM	C25	Mon, Dec 26 4:38 PM	Mon, Dec 26 4:23 PM	D9
+UA-414-LAX-SFO	Mon, Dec 26 6:00 AM	Mon, Dec 26 5:57 AM	75A	Mon, Dec 26 7:26 AM	Mon, Dec 26 7:22 AM	72
+UA-257-JFK-SFO	Mon, Dec 26 2:30 PM	Mon, Dec 26 2:25 PM	10	Mon, Dec 26 6:14 PM	Mon, Dec 26 6:02 PM	94
+UA-62-IAH-EWR	Mon, Dec 26 2:30 PM	Mon, Dec 26 2:27 PM	C-37	Mon, Dec 26 7:03 PM	Mon, Dec 26 6:45 PM	C81
+UA-843-LAX-ORD	Mon, Dec 26 2:10 PM	Mon, Dec 26 2:20 PM	70A	Mon, Dec 26 8:12 PM	Mon, Dec 26 8:13 PM	C25
+UA-248-PHX-ORD	Mon, Dec 26 12:52 PM	Mon, Dec 26 12:52 PM            On Time	5	Mon, Dec 26 5:13 PM	Mon, Dec 26 5:13 PM	B11
+UA-248-PHX-ORD	Mon, Dec 26 12:52 PM	Mon, Dec 26 12:50 PM            On Time	5	Mon, Dec 26 5:13 PM	Mon, Dec 26 5:13 PM	B11
+UA-397-JFK-SFO	Mon, Dec 26 8:25 AM	Mon, Dec 26 8:25 AM	9	Mon, Dec 26 12:14 PM	Mon, Dec 26 11:48 AM	83
+UA-2704-DTW-PHX	Mon, Dec 26 11:15 AM	Mon, Dec 26 11:23 AM	D14	Mon, Dec 26 1:40 PM	Mon, Dec 26 1:30 PM	A8
+UA-2515-DFW-CLT	Mon, Dec 26 7:00 AM	Mon, Dec 26 7:00 AM	E35	Mon, Dec 26 10:26 AM	Mon, Dec 26 10:07 AM	B9
+UA-3373-IAD-PHL	Mon, Dec 26 8:30 AM	Mon, Dec 26 8:51 AM	A5D	Mon, Dec 26 9:25 AM	Mon, Dec 26 9:46 AM	D7
+UA-2906-PHL-MCO	Mon, Dec 26 3:50 PM	Mon, Dec 26 3:50 PM            Delayed	B13	Mon, Dec 26 6:23 PM	Mon, Dec 26 5:59 PM	58
+UA-938-DEN-ORD	Mon, Dec 26 3:54 PM	Mon, Dec 26 3:48 PM	B45	Mon, Dec 26 7:17 PM	Mon, Dec 26 7:01 PM	C9
+UA-3099-PHX-PHL	Mon, Dec 26 11:55 AM	Mon, Dec 26 11:55 AM	A14	Mon, Dec 26 6:17 PM	Mon, Dec 26 6:08 PM	A10
+UA-3925-IAD-ORF	Mon, Dec 26 8:42 AM	Mon, Dec 26 8:43 AM	A2G	Mon, Dec 26 9:55 AM	Mon, Dec 26 9:44 AM	--
+UA-5487-SFO-MRY	Mon, Dec 26 10:37 AM	Mon, Dec 26 12:26 PM	76A	Mon, Dec 26 11:24 AM	Mon, Dec 26 1:18 PM	--
+UA-3050-PHX-CLT	Mon, Dec 26 11:05 AM	Mon, Dec 26 11:05 AM	A7	Mon, Dec 26 4:57 PM	Mon, Dec 26 4:54 PM	B6
+UA-828-SFO-ORD	Mon, Dec 26 11:13 PM	Mon, Dec 26 11:13 PM            On Time	84	Tue, Dec 27 5:15 AM	Tue, Dec 27 5:15 AM	B16
+UA-2830-MCO-CLT	Mon, Dec 26 3:27 PM	Mon, Dec 26 3:27 PM	58	Mon, Dec 26 5:05 PM	Mon, Dec 26 5:04 PM	C10
+UA-37-EWR-MCO	Mon, Dec 26 1:29 PM	Mon, Dec 26 1:29 PM	C136	Mon, Dec 26 4:22 PM	Mon, Dec 26 4:13 PM	39
+UA-2708-EWR-CLT	Mon, Dec 26 2:55 PM	Mon, Dec 26 2:55 PM	A37	Mon, Dec 26 4:53 PM	Mon, Dec 26 4:37 PM	C13
+UA-233-LAX-JFK	Mon, Dec 26 4:25 PM	Mon, Dec 26 4:25 PM	73	Tue, Dec 27 12:44 AM	Tue, Dec 27 12:44 AM	5
+UA-2726-FLL-PHL	Mon, Dec 26 4:00 PM	Mon, Dec 26 4:00 PM	E3	Mon, Dec 26 6:46 PM	Mon, Dec 26 6:34 PM	C17
+UA-2945-PHL-CLT	Mon, Dec 26 12:00 AM	Mon, Dec 26 10:11 AM	C21	Mon, Dec 26 1:45 PM	Mon, Dec 26 1:24 PM	C12
+UA-6273-YYC-SFO	Mon, Dec 26 7:45 AM	Mon, Dec 26 7:47 AM	--	Mon, Dec 26 9:53 AM	Mon, Dec 26 10:56 AM	77A
+UA-2314-ATL-PHL	Mon, Dec 26 2:55 PM	Mon, Dec 26 2:55 PM	D23	Mon, Dec 26 5:00 PM	Mon, Dec 26 4:53 PM	C31
+UA-382-IAD-LAX	Mon, Dec 26 12:20 PM	Mon, Dec 26 12:19 PM            On Time	C27	Mon, Dec 26 3:08 PM	Mon, Dec 26 2:37 PM	70A
+UA-382-IAD-LAX	Mon, Dec 26 12:20 PM	Mon, Dec 26 12:19 PM            On Time	C27	Mon, Dec 26 3:08 PM	Mon, Dec 26 2:51 PM	70A
+UA-854-SFO-IAH	Mon, Dec 26 7:35 AM	Mon, Dec 26 7:37 AM	100	Mon, Dec 26 1:30 PM	Mon, Dec 26 1:26 PM	--
+CO-1586-IAH-MCO	Mon., Dec.26, 2011 7:00 p.m.	Mon., Dec.26, 2011 7:15 p.m.		Mon., Dec.26, 2011 10:12 p.m.	Mon., Dec.26, 2011 10:26 p.m.	
+CO-1694-LAX-IAH	Mon., Dec.26, 2011 7:41 p.m.	Mon., Dec.26, 2011 7:41 p.m.		Mon., Dec.26, 2011 12:44 a.m.	Mon., Dec.26, 2011 12:44 a.m.	
+CO-1088-CLE-IAH	Mon., Dec.26, 2011 8:35 a.m.	Mon., Dec.26, 2011 8:30 a.m.		Mon., Dec.26, 2011 10:55 a.m.	Mon., Dec.26, 2011 10:47 a.m.	
+CO-16-LAX-EWR	Mon., Dec.26, 2011 10:25 a.m.	Mon., Dec.26, 2011 10:22 a.m.		Mon., Dec.26, 2011 6:39 p.m.	Mon., Dec.26, 2011 6:36 p.m.	
+CO-58-DEN-IAH	Mon., Dec.26, 2011 11:30 a.m.	Mon., Dec.26, 2011 11:29 a.m.		Mon., Dec.26, 2011 2:56 p.m.	Mon., Dec.26, 2011 2:48 p.m.	
+CO-1193-EWR-MCO	Mon., Dec.26, 2011 9:10 a.m.	Mon., Dec.26, 2011 9:04 a.m.		Mon., Dec.26, 2011 12:11 p.m.	Mon., Dec.26, 2011 12:06 p.m.	
+CO-1023-IAH-DEN	Mon., Dec.26, 2011 11:40 a.m.	Mon., Dec.26, 2011 11:39 a.m.		Mon., Dec.26, 2011 1:20 p.m.	Mon., Dec.26, 2011 1:10 p.m.	
+CO-1250-MIA-IAH	Mon., Dec.26, 2011 2:49 p.m.	Mon., Dec.26, 2011 2:53 p.m.		Mon., Dec.26, 2011 4:50 p.m.	Mon., Dec.26, 2011 4:46 p.m.	
+CO-62-IAH-EWR	Mon., Dec.26, 2011 2:30 p.m.	Mon., Dec.26, 2011 2:27 p.m.		Mon., Dec.26, 2011 7:03 p.m.	Mon., Dec.26, 2011 6:45 p.m.	
+CO-1614-LAX-IAH	Mon., Dec.26, 2011 12:30 a.m.	Mon., Dec.26, 2011 12:34 a.m.		Mon., Dec.26, 2011 5:36 a.m.	Mon., Dec.26, 2011 5:27 a.m.	
+CO-89-IAH-EWR	Mon., Dec.26, 2011 6:00 a.m.	Mon., Dec.26, 2011 5:58 a.m.		Mon., Dec.26, 2011 10:20 a.m.	Mon., Dec.26, 2011 10:26 a.m.	
+CO-1090-BOS-IAH	Mon., Dec.26, 2011 9:50 a.m.	Mon., Dec.26, 2011 10:22 a.m.		Mon., Dec.26, 2011 1:20 p.m.	Mon., Dec.26, 2011 1:23 p.m.	
+CO-45-EWR-MIA	Mon., Dec.26, 2011 3:50 p.m.	Mon., Dec.26, 2011 3:56 p.m.		Mon., Dec.26, 2011 7:05 p.m.	Mon., Dec.26, 2011 6:51 p.m.	
+CO-63-EWR-IAH	Mon., Dec.26, 2011 5:25 p.m.	Mon., Dec.26, 2011 5:23 p.m.		Mon., Dec.26, 2011 8:30 p.m.	Mon., Dec.26, 2011 8:31 p.m.	
+CO-50-CLE-EWR	Mon., Dec.26, 2011 2:55 p.m.	Mon., Dec.26, 2011 2:55 p.m.		Mon., Dec.26, 2011 4:53 p.m.	Mon., Dec.26, 2011 4:40 p.m.	
+CO-1561-PHX-IAH	Mon., Dec.26, 2011 8:05 a.m.	Mon., Dec.26, 2011 8:05 a.m.		Mon., Dec.26, 2011 11:37 a.m.	Mon., Dec.26, 2011 11:52 a.m.	
+CO-47-IAH-LAX	Mon., Dec.26, 2011 7:10 p.m.	Mon., Dec.26, 2011 7:11 p.m.		Mon., Dec.26, 2011 9:06 p.m.	Mon., Dec.26, 2011 9:02 p.m.	

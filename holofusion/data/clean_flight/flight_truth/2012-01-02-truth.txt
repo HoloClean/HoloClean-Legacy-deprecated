@@ -1,0 +1,100 @@
+AA-1221-MCO-ORD	January 2, 2012               08:00 PM    	January 2, 2012               08:10 PM    	 14	January 2, 2012               09:50 PM    	January 2, 2012               09:45 PM    	 H11B    
+AA-4307-ORD-DTW	January 2, 2012               06:45 PM    	January 2, 2012               08:08 PM    	 G3	January 2, 2012               09:10 PM    	January 2, 2012               10:45 PM    	 D32    
+AA-616-DFW-DTW	January 2, 2012               09:05 AM    	January 2, 2012               09:02 AM    	 C17	January 2, 2012               12:35 PM    	January 2, 2012               12:44 PM    	 D32    
+AA-431-MIA-SFO	January 2, 2012               08:35 AM    	January 2, 2012               08:51 AM    	 D40	January 2, 2012               11:50 AM    	January 2, 2012               11:46 AM    	 57    
+AA-3756-ORD-SLC	January 2, 2012               12:15 PM    	January 2, 2012               12:17 PM    	 G13	January 2, 2012               02:45 PM    	January 2, 2012               02:27 PM    	 A3    
+AA-2050-ORD-MIA	January 2, 2012               10:40 AM    	January 2, 2012               02:49 PM    	 H15	January 2, 2012               02:45 PM    	January 2, 2012     	 D22    
+AA-3804-PHL-ORD	January 2, 2012               02:35 PM    	January 2, 2012               02:53 PM    	 A7	January 2, 2012               04:05 PM    	January 2, 2012               04:17 PM    	 H1B    
+AA-789-ORD-DEN	January 2, 2012               01:05 PM    	January 2, 2012               01:06 PM    	 K9	January 2, 2012               02:35 PM    	January 2, 2012               02:30 PM    	 A47    
+AA-1733-ORD-PHX	January 2, 2012               07:45 PM    	January 2, 2012               08:26 PM    	 H14	January 2, 2012               10:30 PM    	January 2, 2012     	 6    
+AA-1733-ORD-PHX	January 2, 2012               07:45 PM    	January 2, 2012               08:26 PM    	 H14	January 2, 2012               10:30 PM    	January 2, 2012     	 6    
+AA-4277-CVG-JFK	January 2, 2012               12:10 PM    	January 2, 2012               12:03 PM    	 1	January 2, 2012               02:15 PM    	January 2, 2012               02:32 PM    	 32H    
+AA-2312-DFW-DTW	January 2, 2012               08:25 PM    	January 2, 2012     	 C24	January 2, 2012               11:50 PM    	January 2, 2012     	 D32    
+AA-85-JFK-SFO	January 2, 2012               03:05 PM    	January 2, 2012               03:00 PM    	 6	January 2, 2012               06:30 PM    	January 2, 2012               06:03 PM    	 58B    
+AA-404-MIA-MCO	January 2, 2012               06:45 AM    	January 2, 2012               06:56 AM    	 E5	January 2, 2012               07:45 AM    	January 2, 2012               07:57 AM    	 14    
+AA-446-DFW-PHL	January 2, 2012               11:50 AM    	January 2, 2012               11:43 AM    	 D40	January 2, 2012               03:50 PM    	January 2, 2012               03:54 PM    	 A9    
+AA-2268-PHX-ORD	January 2, 2012               07:15 AM    	January 2, 2012               07:09 AM    	 6	January 2, 2012               11:35 AM    	January 2, 2012               11:40 AM    	 H11B    
+AA-4344-ORD-DTW	January 2, 2012               11:45 AM    	January 2, 2012               12:15 PM    	 G10	January 2, 2012               02:00 PM    	January 2, 2012               02:32 PM    	 D28    
+AA-484-DFW-MIA	January 2, 2012               04:15 PM    	January 2, 2012               04:14 PM    	 D21	January 2, 2012               07:55 PM    	January 2, 2012               07:46 PM    	 D50    
+AA-3979-CVG-ORD	January 2, 2012               07:30 AM    	January 2, 2012               08:34 AM    	 5	January 2, 2012               08:00 AM    	January 2, 2012               09:40 AM    	 G2B    
+AA-3063-SLC-LAX	January 2, 2012               08:20 PM    	January 2, 2012               08:13 PM    	 A3	January 2, 2012               09:20 PM    	January 2, 2012     	 44B    
+AA-3859-IAH-ORD	January 2, 2012               07:10 AM    	January 2, 2012               07:11 AM    	 A30	January 2, 2012               09:40 AM    	January 2, 2012               10:26 AM    	 G1B    
+AA-3842-MSP-ORD	January 2, 2012               06:00 AM    	January 2, 2012               06:00 AM    	 E14	January 2, 2012               07:30 AM    	January 2, 2012               07:45 AM    	 G17    
+AA-1544-SAN-ORD	January 2, 2012               11:25 AM    	January 2, 2012               11:23 AM    	 27	January 2, 2012               05:25 PM    	January 2, 2012               05:42 PM    	 H6    
+AA-649-ORD-SNA	January 2, 2012               01:30 PM    	January 2, 2012     	 K16	January 2, 2012               03:50 PM    	January 2, 2012     	 7    
+AA-1640-MIA-MCO	January 2, 2012               06:30 PM    	January 2, 2012     	 D40	January 2, 2012               07:25 PM    	January 2, 2012     	 14    
+AA-518-MIA-JFK	January 2, 2012               06:30 AM    	January 2, 2012               06:32 AM    	 D40	January 2, 2012               09:15 AM    	January 2, 2012               08:54 AM    	 42    
+AA-2525-DFW-MIA	January 2, 2012               07:25 AM    	January 2, 2012               07:23 AM    	 D33	January 2, 2012               11:10 AM    	January 2, 2012               11:00 AM    	 E6    
+AA-1279-DFW-PHX	January 2, 2012               01:00 PM    	January 2, 2012               01:06 PM    	 C2	January 2, 2012               02:35 PM    	January 2, 2012     	 4    
+AA-1522-SFO-ORD	January 2, 2012               11:55 PM    	January 2, 2012     	 57	January 3, 2012               05:50 AM    	January 3, 2012     	 H10    
+AA-1434-DFW-MCO	January 2, 2012               07:15 AM    	January 2, 2012               07:11 AM    	 A17	January 2, 2012               10:35 AM    	January 2, 2012               10:36 AM    	 16    
+AA-59-JFK-SFO	January 2, 2012               07:10 AM    	January 2, 2012               07:19 AM    	 36	January 2, 2012               10:45 AM    	January 2, 2012               10:22 AM    	 58B    
+AA-415-BOS-ORD	January 2, 2012               08:35 AM    	January 2, 2012               08:26 AM    	 B34	January 2, 2012               10:40 AM    	January 2, 2012               09:58 AM    	 H11A    
+AA-222-LAX-BOS	January 2, 2012               07:10 AM    	January 2, 2012               07:38 AM    	 43	January 2, 2012               03:30 PM    	January 2, 2012               03:57 PM    	 B28    
+AA-3823-LAX-DEN	January 2, 2012               09:00 PM    	January 2, 2012     	 44E	January 3, 2012               12:15 AM    	January 3, 2012     	 A49    
+AA-1165-JFK-MIA	January 2, 2012               06:59 AM    	January 2, 2012               07:10 AM    	 5	January 2, 2012               10:34 AM    	January 2, 2012               10:28 AM    	 D3    
+AA-3786-IAH-ORD	January 2, 2012               04:00 PM    	January 2, 2012               03:52 PM    	 A29	January 2, 2012               06:40 PM    	January 2, 2012               06:37 PM    	 G13    
+AA-4330-CVG-ORD	January 2, 2012               03:35 PM    	January 2, 2012               04:05 PM    	 5	January 2, 2012               04:00 PM    	January 2, 2012               04:35 PM    	 G10    
+AA-3468-CVG-MIA	January 2, 2012               07:00 AM    	January 2, 2012               06:52 AM    	 1	January 2, 2012               09:55 AM    	January 2, 2012               09:43 AM    	 D60M    
+AA-204-LAX-MCO	January 2, 2012               11:25 PM    	January 2, 2012     	 42B	January 3, 2012               06:55 AM    	January 3, 2012     	 TBA    
+AA-466-IAH-MIA	January 2, 2012               06:00 AM    	January 2, 2012               05:54 AM    	 A27	January 2, 2012               09:20 AM    	January 2, 2012               09:09 AM    	 D45    
+AA-3-JFK-LAX	January 2, 2012               12:00 PM    	January 2, 2012               11:55 AM    	 35	January 2, 2012               03:15 PM    	January 2, 2012               02:54 PM    	 42B    
+AA-1007-MIA-PHX	January 2, 2012               04:55 PM    	January 2, 2012               04:47 PM    	 D30	January 2, 2012               08:05 PM    	January 2, 2012               07:50 PM    	 6    
+AA-271-MIA-LAX	January 2, 2012               11:35 AM    	January 2, 2012               11:37 AM    	 D4	January 2, 2012               02:25 PM    	January 2, 2012               02:06 PM    	 48A    
+AA-643-MIA-ORD	January 2, 2012               07:10 AM    	January 2, 2012               11:51 AM    	 D44	January 2, 2012               09:35 AM    	January 2, 2012     	 K15    
+AA-400-DFW-JFK	January 2, 2012               10:40 AM    	January 2, 2012               10:36 AM    	 C7	January 2, 2012               02:59 PM    	January 2, 2012               02:52 PM    	 34    
+AA-1886-BOS-MIA	January 2, 2012               10:45 AM    	January 2, 2012               10:42 AM    	 B33	January 2, 2012               02:20 PM    	January 2, 2012               02:15 PM    	 D51    
+AA-1917-JFK-MCO	January 2, 2012               02:55 PM    	January 2, 2012               03:03 PM    	 7	January 2, 2012               05:55 PM    	January 2, 2012               06:30 PM    	 16    
+AA-3809-PHX-LAX		January 2, 2012     			January 2, 2012     	 44F    
+AA-2957-DFW-CVG	January 2, 2012               07:55 AM    	January 2, 2012               08:22 AM    	 B24	January 2, 2012               11:05 AM    	January 2, 2012               11:38 AM    	 3    
+UA-1500-IAH-GUA	Mon, Jan 2 8:50 AM	Mon, Jan 2 8:56 AM            Delayed	E15	Mon, Jan 2 11:43 AM	Mon, Jan 2 11:43 AM	15
+UA-3515-IAD-MSP	Mon, Jan 2 8:21 AM	Mon, Jan 2 8:20 AM	D18	Mon, Jan 2 10:11 AM	Mon, Jan 2 10:03 AM	E6
+UA-664-ORD-PHL	Mon, Jan 2 1:35 PM	Mon, Jan 2 1:47 PM            Delayed	B9	Mon, Jan 2 4:38 PM	Mon, Jan 2 4:43 PM	D9
+UA-414-LAX-SFO	Mon, Jan 2 6:00 AM	Mon, Jan 2 5:59 AM	84	Mon, Jan 2 7:26 AM	Mon, Jan 2 7:10 AM	75
+UA-257-JFK-SFO	Mon, Jan 2 2:30 PM	Mon, Jan 2 4:49 PM	7	Mon, Jan 2 6:14 PM	Mon, Jan 2 8:08 PM	86
+UA-62-IAH-EWR	Mon, Jan 2 2:30 PM	Mon, Jan 2 2:38 PM	C-39	Mon, Jan 2 7:03 PM	Mon, Jan 2 7:17 PM	C125
+UA-843-LAX-ORD	Mon, Jan 2 2:10 PM	Mon, Jan 2 3:07 PM	73	Mon, Jan 2 8:12 PM	Mon, Jan 2 9:08 PM	C25
+UA-248-PHX-ORD	Mon, Jan 2 12:52 PM	Mon, Jan 2 12:52 PM            On Time	3	Mon, Jan 2 5:13 PM	Mon, Jan 2 5:25 PM	C27
+UA-248-PHX-ORD	Mon, Jan 2 12:52 PM	Mon, Jan 2 12:44 PM            On Time	3	Mon, Jan 2 5:13 PM	Mon, Jan 2 5:33 PM	C22
+UA-397-JFK-SFO	Mon, Jan 2 8:25 AM	Mon, Jan 2 8:22 AM	7	Mon, Jan 2 12:14 PM	Mon, Jan 2 11:42 AM	83
+UA-2704-DTW-PHX	Mon, Jan 2 11:15 AM	Mon, Jan 2 11:15 AM	D25	Mon, Jan 2 1:40 PM	Mon, Jan 2 1:22 PM	B4
+UA-2515-DFW-CLT	Mon, Jan 2 7:00 AM	Mon, Jan 2 7:00 AM	E36	Mon, Jan 2 10:26 AM	Mon, Jan 2 10:02 AM	B10
+UA-3373-IAD-PHL	Mon, Jan 2 8:30 AM	Mon, Jan 2 8:29 AM	A5C	Mon, Jan 2 9:25 AM	Mon, Jan 2 9:24 AM	D7
+UA-2906-PHL-MCO	Mon, Jan 2 3:50 PM	Mon, Jan 2 3:50 PM            Delayed	B13	Mon, Jan 2 6:23 PM	Mon, Jan 2 6:49 PM	58
+UA-938-DEN-ORD	Mon, Jan 2 3:54 PM	Mon, Jan 2 3:56 PM	B38	Mon, Jan 2 7:17 PM	Mon, Jan 2 7:29 PM	C25
+UA-3099-PHX-PHL	Mon, Jan 2 11:55 AM		A7	Mon, Jan 2 6:17 PM		B11
+UA-3925-IAD-ORF	Mon, Jan 2 8:42 AM	Mon, Jan 2 9:03 AM	A2G	Mon, Jan 2 9:55 AM	Mon, Jan 2 9:59 AM	--
+UA-5487-SFO-MRY	Mon, Jan 2 10:37 AM	Mon, Jan 2 10:31 AM	87A	Mon, Jan 2 11:24 AM	Mon, Jan 2 11:18 AM	--
+UA-3050-PHX-CLT	Mon, Jan 2 11:05 AM	Mon, Jan 2 11:05 AM	A22	Mon, Jan 2 4:57 PM	Mon, Jan 2 5:26 PM	B6
+UA-828-SFO-ORD	Mon, Jan 2 11:03 PM	Mon, Jan 2 11:03 PM            On Time	81	Tue, Jan 3 5:06 AM	Tue, Jan 3 5:06 AM	B14
+UA-2830-MCO-CLT	Mon, Jan 2 3:27 PM	Mon, Jan 2 3:55 PM	58	Mon, Jan 2 5:05 PM	Mon, Jan 2 5:27 PM	B12
+UA-37-EWR-MCO	Mon, Jan 2 1:29 PM	Mon, Jan 2 2:08 PM            Delayed	C134	Mon, Jan 2 4:22 PM	Mon, Jan 2 5:02 PM	39
+UA-37-EDI-EWR	Mon, Jan 2 9:05 AM	Mon, Jan 2 9:28 AM	--	Mon, Jan 2 11:53 AM	Mon, Jan 2 12:29 PM	B56
+UA-2708-EWR-CLT	Mon, Jan 2 2:55 PM	Mon, Jan 2 2:55 PM	A37	Mon, Jan 2 4:53 PM	Mon, Jan 2 5:04 PM	C13
+UA-233-LAX-JFK	Mon, Jan 2 4:25 PM	Mon, Jan 2 4:25 PM	70B	Tue, Jan 3 12:44 AM	Tue, Jan 3 12:44 AM	10
+UA-2726-FLL-PHL	Mon, Jan 2 4:00 PM	Mon, Jan 2 4:00 PM	E3	Mon, Jan 2 6:46 PM	Mon, Jan 2 6:39 PM	C17
+UA-2945-PHL-CLT	Mon, Jan 2 12:00 AM	Mon, Jan 2 8:11 AM	C30	Mon, Jan 2 1:45 PM	Mon, Jan 2 1:38 PM	C17
+UA-6273-YYC-SFO	Mon, Jan 2 7:35 AM	Mon, Jan 2 7:39 AM	--	Mon, Jan 2 9:43 AM	Mon, Jan 2 9:28 AM	79
+UA-2314-ATL-PHL	Mon, Jan 2 2:55 PM	Mon, Jan 2 3:03 PM	D23	Mon, Jan 2 5:00 PM	Mon, Jan 2 5:03 PM	C26
+UA-382-IAD-LAX	Mon, Jan 2 12:20 PM	Mon, Jan 2 12:19 PM            On Time	C27	Mon, Jan 2 3:08 PM	Mon, Jan 2 2:35 PM	75B
+UA-382-IAD-LAX	Mon, Jan 2 12:20 PM	Mon, Jan 2 12:19 PM            On Time	C27	Mon, Jan 2 3:08 PM	Mon, Jan 2 2:31 PM	75B
+UA-858-PVG-SFO	Mon, Jan 2 1:45 PM	Mon, Jan 2 1:37 PM	71	Mon, Jan 2 8:27 AM	Mon, Jan 2 7:54 AM	96
+UA-854-SFO-IAH	Mon, Jan 2 7:35 AM	Mon, Jan 2 7:42 AM	86	Mon, Jan 2 1:30 PM	Mon, Jan 2 1:33 PM	C16
+CO-1586-IAH-MCO	Mon., Jan.02, 2012 7:00 p.m.	Mon., Jan.02, 2012 7:05 p.m.		Mon., Jan.02, 2012 10:12 p.m.	Mon., Jan.02, 2012 10:10 p.m.	
+CO-1694-LAX-IAH	Mon., Jan.02, 2012 7:41 p.m.	Mon., Jan.02, 2012 7:41 p.m.		Mon., Jan.02, 2012 12:44 a.m.	Mon., Jan.02, 2012 12:44 a.m.	
+CO-1088-CLE-IAH	Mon., Jan.02, 2012 8:35 a.m.	Mon., Jan.02, 2012 8:32 a.m.		Mon., Jan.02, 2012 10:55 a.m.	Mon., Jan.02, 2012 10:31 a.m.	
+CO-16-LAX-EWR	Mon., Jan.02, 2012 10:25 a.m.	Mon., Jan.02, 2012 10:38 a.m.		Mon., Jan.02, 2012 6:39 p.m.	Mon., Jan.02, 2012 7:20 p.m.	
+CO-58-DEN-IAH	Mon., Jan.02, 2012 11:30 a.m.	Mon., Jan.02, 2012 11:28 a.m.		Mon., Jan.02, 2012 2:56 p.m.	Mon., Jan.02, 2012 2:45 p.m.	
+CO-1193-EWR-MCO	Mon., Jan.02, 2012 9:15 a.m.	Mon., Jan.02, 2012 9:14 a.m.		Mon., Jan.02, 2012 12:16 p.m.	Mon., Jan.02, 2012 12:51 p.m.	
+CO-1023-IAH-DEN	Mon., Jan.02, 2012 11:40 a.m.	Mon., Jan.02, 2012 11:52 a.m.		Mon., Jan.02, 2012 1:20 p.m.	Mon., Jan.02, 2012 1:33 p.m.	
+CO-1250-MIA-IAH	Mon., Jan.02, 2012 2:50 p.m.	Mon., Jan.02, 2012 2:55 p.m.		Mon., Jan.02, 2012 4:48 p.m.	Mon., Jan.02, 2012 4:36 p.m.	
+CO-62-IAH-EWR	Mon., Jan.02, 2012 2:30 p.m.	Mon., Jan.02, 2012 2:38 p.m.		Mon., Jan.02, 2012 7:03 p.m.	Mon., Jan.02, 2012 7:17 p.m.	
+CO-52-IAH-LAX	Mon., Jan.02, 2012 7:35 a.m.	Mon., Jan.02, 2012 7:34 a.m.		Mon., Jan.02, 2012 9:30 a.m.	Mon., Jan.02, 2012 9:13 a.m.	
+CO-1614-LAX-IAH	Mon., Jan.02, 2012 12:30 a.m.	Mon., Jan.02, 2012 1:41 a.m.		Mon., Jan.02, 2012 5:36 a.m.	Mon., Jan.02, 2012 6:41 a.m.	
+CO-89-IAH-EWR	Mon., Jan.02, 2012 6:00 a.m.	Mon., Jan.02, 2012 5:57 a.m.		Mon., Jan.02, 2012 10:20 a.m.	Mon., Jan.02, 2012 10:07 a.m.	
+CO-1090-BOS-IAH	Mon., Jan.02, 2012 9:50 a.m.	Mon., Jan.02, 2012 9:50 a.m.		Mon., Jan.02, 2012 1:20 p.m.	Mon., Jan.02, 2012 1:00 p.m.	
+CO-45-EWR-MIA	Mon., Jan.02, 2012 3:50 p.m.	Mon., Jan.02, 2012 4:12 p.m.		Mon., Jan.02, 2012 7:05 p.m.	Mon., Jan.02, 2012 7:25 p.m.	
+CO-63-EWR-IAH	Mon., Jan.02, 2012 5:25 p.m.	Mon., Jan.02, 2012 5:43 p.m.		Mon., Jan.02, 2012 8:30 p.m.	Mon., Jan.02, 2012 8:22 p.m.	
+CO-50-CLE-EWR	Mon., Jan.02, 2012 2:55 p.m.	Mon., Jan.02, 2012 3:57 p.m.		Mon., Jan.02, 2012 4:53 p.m.	Mon., Jan.02, 2012 5:49 p.m.	
+CO-1561-PHX-IAH	Mon., Jan.02, 2012 8:05 a.m.	Mon., Jan.02, 2012 8:02 a.m.		Mon., Jan.02, 2012 11:37 a.m.	Mon., Jan.02, 2012 11:39 a.m.	
+CO-47-IAH-LAX	Mon., Jan.02, 2012 7:10 p.m.	Mon., Jan.02, 2012 7:16 p.m.		Mon., Jan.02, 2012 9:06 p.m.	Mon., Jan.02, 2012 8:44 p.m.	
