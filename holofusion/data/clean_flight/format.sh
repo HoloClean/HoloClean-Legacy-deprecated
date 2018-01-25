@@ -1,6 +1,6 @@
 mode='read'
 readlines=10
-skiplines=65
+skiplines=130
 counter=0
 globalcounter=0
 filename=flight-data

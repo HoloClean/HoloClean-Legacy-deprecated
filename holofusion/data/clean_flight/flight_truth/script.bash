@@ -6,7 +6,12 @@ for f in $FILES
 do
   #echo "Processing $f file..."
   # take action on each file. $f store current file name
-  cat $f |tr ',' ';' | tr '\t' ',' >> $filename.tmp
+  cat $f |tr ',' ';' | tr '\t' ',' >> $f.tmp
+  
+  date=${f:2:11}
+  sed -i "s|^|$date|1" ${f}.tmp
+  cat $f.tmp >> $filename.tmp
+  rm $f.tmp
 done
 sed 's/, /,/g' $filename.tmp > $filename
 rm $filename.tmp

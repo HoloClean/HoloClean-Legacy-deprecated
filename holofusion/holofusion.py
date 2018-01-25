@@ -124,8 +124,8 @@ class HoloFusion:
             Explanation
         """
 
-        self.key = "date_symbol"
-        self.attribute_to_check = "flat_change"
+        self.key = "Flight_Num"
+        self.attribute_to_check = "Scheduled_Dept"
         # Initialize default execution arguments
         arg_defaults = {}
         for arg, opts in arguments:
