@@ -125,7 +125,7 @@ class HoloFusion:
         """
 
         self.key = "date_symbol"
-        self.attribute_to_check = "percent_change"
+        self.attribute_to_check = "flat_change"
         # Initialize default execution arguments
         arg_defaults = {}
         for arg, opts in arguments:
@@ -270,7 +270,7 @@ class HoloFusionSession:
                                      n_learning_epoch=learn,
                                      quiet=True,
                                      learn_non_evidence=True,
-                                     stepsize=0.0001,
+                                     stepsize=0.01,
                                      burn_in=100,
                                      decay=0.001 ** (1.0 / learn),
                                      regularization=1,
@@ -281,7 +281,7 @@ class HoloFusionSession:
             ns.learning()
 
         else:
-            ns = numbskull.NumbSkull(n_inference_epoch=0,
+            ns = numbskull.NumbSkull(n_inference_epoch=1000,
                                      n_learning_epoch=1000,
                                      stepsize=0.1,
                                      decay=1.0,
@@ -381,9 +381,10 @@ class HoloFusionSession:
             self._numskull()
             infe.set_probabilities()
         else:
-         labelled={}
-         accu=Accu(labelled, self.src_observations,self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-         accu.solve(iterations=100)
+            labelled = {}
+            accu = Accu(labelled, self.src_observations,
+                        self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
+            accu.solve(iterations=100)
 
 
         #infe.add_truth()
