@@ -16,6 +16,6 @@ do
 done
 sed -i 's/,[^,]*//7' ${filename}
 sed -i 's/,[^,]*//4' ${filename}
-sed -i 's/.[0-9]:[0-9][0-9] ?(PM|AM|pm|am)/asdfga/g' $filename
-
-
+perl -pi -e 's/,[^,]*(?=([^,][0-9]:[0-9]{2}))/,/g' $filename
+perl -pi -e 's/(?<=[0-9]:[0-9]{2})[^,\n]*//g' $filename
+perl -pi -e 's/[\ 0](?=[0-9]:[0-9]{2})//g' $filename
