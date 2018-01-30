@@ -74,7 +74,7 @@ class Wrapper:
             mysql_query = "CREATE TABLE " + self.dataset.table_specific_name('Weights') + \
                       " AS " \
                       "(SELECT DISTINCT (0 + table1.weight_id) AS weight_id ," \
-                      "0 AS Is_fixed," \
+                      "1 AS Is_fixed," \
                       "1 as init_val" \
                       " FROM " + \
                       self.dataset.table_specific_name('Feature') + " AS table1" + \
