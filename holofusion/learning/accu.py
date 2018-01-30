@@ -102,6 +102,13 @@ class Accu:
 
     def create_dataframe(self):
         object_list = []
+        i=0
+        print "Print weight_accuracy for the first 10 sources:"
+        for accu in self.source_accuracy:
+            print accu,self.source_accuracy[accu]
+            i = i+1
+            if i == 10:
+                break
         for object in self.object_inferred_truth:
             object_name = object.split('!_!')
             assigned_val = self.object_inferred_truth[object]

@@ -70,7 +70,7 @@ class Accuracy:
         else:
             final_authors = final
             ground_truth_specific = self.ground_truth_flat
-        print("show only authors")
+        print("show the final table")
         final_authors.show()
         final_authors_list = final_authors.collect()
         f = open('results/fusion.txt', 'w')

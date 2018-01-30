@@ -11,63 +11,103 @@ INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:__main__:Connection established to data database
-INFO:__main__:ingesting file:data/stock-data/stock-data-test80.csv
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Init','index,source,date_symbol,percent_change,last');
+INFO:__main__:ingesting file:data/clean_flight/flight-data-test.csv
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('693783233539','Init','Source,Flight_Num,Scheduled_Dept,Actual_Dept,Scheduled_Arrival,Actual_Arrival');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:__main__:creating dataset with id:107176099002
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 107176099002_C_dk AS (SELECT table1.* FROM 107176099002_Init AS table1 );
+INFO:__main__:creating dataset with id:693783233539
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('693783233539','Training','Flight_Num,Scheduled_Dept,Actual_Dept,Scheduled_Arrival,Actual_Arrival,source');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 107176099002_C_clean LIKE 107176099002_Init ;
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 693783233539_C_clean AS (SELECT table1.* FROM 693783233539_Init AS table1, 693783233539_Training AS table2 WHERE table1.Flight_Num=table2.Flight_Num and table1.Scheduled_Dept=table2.Scheduled_Dept and table1.Actual_Dept=table2.Actual_Dept and table1.Scheduled_Arrival=table2.Scheduled_Arrival and table1.Actual_Arrival=table2.Actual_Arrival);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','C_dk','index,source,date_symbol,percent_change,last');
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'C_dk';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 107176099002_C_dk_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('693783233539','C_clean','Source,Flight_Num,Scheduled_Dept,Actual_Dept,Scheduled_Arrival,Actual_Arrival');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 107176099002_C_dk AS table1)as T_0);
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'C_clean';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 693783233539_C_clean_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 107176099002_C_dk AS table1)as T_1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Scheduled_Dept'                                                                AS rv_attr,                                                               table1.Scheduled_Dept AS assigned_val                                                               FROM 693783233539_C_clean AS table1)as T_0);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','C_clean','index,source,date_symbol,percent_change,last');
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Actual_Dept'                                                                AS rv_attr,                                                               table1.Actual_Dept AS assigned_val                                                               FROM 693783233539_C_clean AS table1)as T_1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'C_clean';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 107176099002_C_clean_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Scheduled_Arrival'                                                                AS rv_attr,                                                               table1.Scheduled_Arrival AS assigned_val                                                               FROM 693783233539_C_clean AS table1)as T_2);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'percent_change'                                                                AS rv_attr,                                                               table1.percent_change AS assigned_val                                                               FROM 107176099002_C_clean AS table1)as T_0);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Actual_Arrival'                                                                AS rv_attr,                                                               table1.Actual_Arrival AS assigned_val                                                               FROM 693783233539_C_clean AS table1)as T_3);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_C_clean_flat SELECT * FROM (  (SELECT                                            table1.source, table1.date_symbol as rv_index,'last'                                                                AS rv_attr,                                                               table1.last AS assigned_val                                                               FROM 107176099002_C_clean AS table1)as T_1);
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('693783233539','C_dk','Source,Flight_Num,Scheduled_Dept,Actual_Dept,Scheduled_Arrival,Actual_Arrival');
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Final','rv_index,rv_attr,assigned_val');
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 693783233539_C_dk AS (SELECT table1.* FROM 693783233539_Init AS table1 LEFT JOIN 693783233539_Training AS table2 on table1.Flight_Num=table2.Flight_Num where table2.Flight_Num is NULL);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO metatable (dataset_id,tablename,schem) VALUES('107176099002','Correct','date_symbol,percent_change,last');
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'C_dk';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                 693783233539_C_dk_flat(source TEXT, rv_index TEXT,                                 rv_attr TEXT, assigned_val TEXT);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Correct';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '107176099002' AND  tablename = 'Correct';
-INFO:sqlalchemy.engine.base.Engine:()
-INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                     107176099002_Correct_flat( rv_index TEXT,                     rv_attr TEXT, assigned_val TEXT);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Scheduled_Dept'                                                                AS rv_attr,                                                               table1.Scheduled_Dept AS assigned_val                                                               FROM 693783233539_C_dk AS table1)as T_0);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_Correct_flat SELECT * FROM (  (SELECT                                                   table1.date_symbol as rv_index,'percent_change'                                                    AS rv_attr,                                                   table1.percent_change AS assigned_val                                                   FROM 107176099002_Correct AS table1,107176099002_Final AS table2 where table1.date_symbol=table2.rv_index)as T_0);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Actual_Dept'                                                                AS rv_attr,                                                               table1.Actual_Dept AS assigned_val                                                               FROM 693783233539_C_dk AS table1)as T_1);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT
-INFO:sqlalchemy.engine.base.Engine:INSERT INTO 107176099002_Correct_flat SELECT * FROM (  (SELECT                                                   table1.date_symbol as rv_index,'last'                                                    AS rv_attr,                                                   table1.last AS assigned_val                                                   FROM 107176099002_Correct AS table1,107176099002_Final AS table2 where table1.date_symbol=table2.rv_index)as T_1);
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Scheduled_Arrival'                                                                AS rv_attr,                                                               table1.Scheduled_Arrival AS assigned_val                                                               FROM 693783233539_C_dk AS table1)as T_2);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_C_dk_flat SELECT * FROM (  (SELECT                                            table1.source, table1.Flight_Num as rv_index,'Actual_Arrival'                                                                AS rv_attr,                                                               table1.Actual_Arrival AS assigned_val                                                               FROM 693783233539_C_dk AS table1)as T_3);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT schem FROM metatable Where dataset_id = '693783233539' AND  tablename = 'Init';
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:set @p:=0;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE             693783233539_Feature_temp(var_index INT,Source_id TEXT, key_id TEXT,             attribute TEXT, source_observation TEXT, weight_id TEXT, fixed INT);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                                            table1.source AS Source_id,                                                            table1.rv_index  as key_id,table1.rv_attr                                                              AS attribute,                                                             table1.assigned_val AS source_observation ,                                                            ' 'AS weight_id, 1 AS fixed                                                            FROM 693783233539_C_clean_flat AS table1 where table1.assigned_val IS NOT NULL)as T_0);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 693783233539_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_Feature_temp SELECT * FROM (  (SELECT  @p := @p + 1 AS var_index,                                                            table1.source AS Source_id,                                                            table1.rv_index  as key_id,table1.rv_attr                                                              AS attribute,                                                             table1.assigned_val AS source_observation ,                                                            ' 'AS weight_id, 0 AS fixed                                                            FROM 693783233539_C_dk_flat AS table1 where table1.assigned_val IS NOT NULL)as T_1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:select max(var_index) into @p from 693783233539_Feature_temp;
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:__main__:adding weight_id to feature table...
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 693783233539_weight_temp(weight_id INT PRIMARY KEY AUTO_INCREMENT, Source_id LONGTEXT );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO  693783233539_weight_temp (SELECT * FROM ( SELECT distinct NULL, Source_id  FROM 693783233539_Feature_temp) AS TABLE1);
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE                                      693783233539_Feature(var_index INT PRIMARY KEY AUTO_INCREMENT,Source_id TEXT , rv_index TEXT,	                                   rv_attr TEXT,assigned_val   TEXT, weight_id TEXT, fixed INT );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO 693783233539_Feature (SELECT * FROM ( SELECT NULL AS var_index , table1.Source_id , table1.key_id as rv_index, table1.attribute as rv_attr , table1.source_observation as assigned_val ,  table2.weight_id, table1.fixed as fixed FROM 693783233539_Feature_temp AS table1, 693783233539_weight_temp AS table2  WHERE table1.Source_id=table2.Source_id  )AS ftmp  order by rv_index,rv_attr );
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:__main__:adding weight_id to feature table is finished
+INFO:__main__:numbskull is starting
+INFO:__main__:wrapper is starting
+INFO:sqlalchemy.engine.base.Engine:CREATE TABLE 693783233539_Possible_values AS (SELECT DISTINCT rv_index as tid,rv_attr as attr_name,assigned_val  as attr_val  FROM 693783233539_Feature);
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:COMMIT

@@ -19,7 +19,7 @@ class Featurizer:
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        print attributes
+       # print attributes
         # self.key = raw_input("give the attribute that distinguish the objects:")
         while self.key not in attributes:
             self.key = raw_input("give the attribute that distinguish the objects:")
@@ -213,7 +213,7 @@ class Featurizer:
                     insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Fact') + \
                                           " SELECT * FROM ( " + query_for_fact + " as T_" + str(counter) + ");"
                     counter += 1
-                    print insert_signal_query
+                   # print insert_signal_query
                     self.dataengine.query(insert_signal_query)
                     global_counter = "select max(RID) into @p from " + \
                                      self.dataset.table_specific_name('Fact') + ";"

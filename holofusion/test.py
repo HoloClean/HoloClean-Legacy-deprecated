@@ -4,7 +4,7 @@ from time import time as t
 
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloFusion(majority_vote=0, training_data=1, multiple_weights=1)
+        self.holo_obj = HoloFusion(algorithm=1, training_data=1, multiple_weights=1)
         self.session = HoloFusionSession("Session", self.holo_obj)
         self.fx = open('execution_time.txt', 'w')
 

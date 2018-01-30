@@ -69,10 +69,10 @@ arguments = [
       'help': 'The final output will show the k-first results (if it is 0 it will show everything)'}),
     (('-mj', '--majority_vote'),
      {'metavar': 'MAJORITY_VOTE',
-      'dest': 'majority_vote',
+      'dest': 'algorithm',
       'default': 1,
       'type': int,
-      'help': 'If it is 1 all the weights are one. If it is 0 we use numbskull to learn them'}),
+      'help': 'If it is 1 all the weights are one. If it is 0 we use numbskull to learn them. If it is 2 is accu'}),
     (('-tr', '--training_data'),
      {'metavar': 'TRAINING DATA',
       'dest': 'training_data',
@@ -356,7 +356,7 @@ class HoloFusionSession:
     # Methodsdata
     def feature(self):
         featurizer = Featurizer(self.holo_env.dataengine, self.dataset)
-        if self.holo_env.majority_vote != 2:
+        if self.holo_env.algorithm != 2:
             featurizer.create_feature()
             print ('adding weight_id to feature table...')
             self.holo_env.logger.info('adding weight_id to feature table...')
@@ -372,19 +372,19 @@ class HoloFusionSession:
     def wrapper(self):
         self._numskull()
 
-    def inference(self):
+    def inference(self, iterations = 100):
         infe = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-        if self.holo_env.majority_vote == 1:
+        if self.holo_env.algorithm == 1:
             infe.majority_vote()
             infe.set_probabilities()
-        elif self.holo_env.majority_vote == 0:
+        elif self.holo_env.algorithm == 0:
             self._numskull()
             infe.set_probabilities()
         else:
             labelled = {}
             accu = Accu(labelled, self.src_observations,
                         self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
-            accu.solve(iterations=100)
+            accu.solve(iterations)
 
 
         #infe.add_truth()
