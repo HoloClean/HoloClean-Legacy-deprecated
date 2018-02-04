@@ -149,7 +149,8 @@ class Featurizer:
                                      "assigned_val LONGTEXT," \
                                      "feature LONGTEXT," \
                                      "TYPE LONGTEXT," \
-                                     "weight_id INT" \
+                                     "weight_id INT," \
+                                     "count INT" \
                                      ");"
 
         self.dataengine.query(create_feature_table_query)
@@ -165,6 +166,7 @@ class Featurizer:
                               " , table1.feature" \
                               " , table1.TYPE" \
                               " ,  table2.weight_id" \
+                              " , table1.count" \
                               " FROM " \
                               + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
@@ -226,7 +228,7 @@ class SignalInit(Featurizer):
             init_flat.attr_val AS assigned_val,\
             concat('Init=',init_flat.attr_val ) AS feature,\
             'init' AS TYPE,\
-            '      ' AS weight_id\
+            '      ' AS weight_id , 1 as count\
             FROM """ +\
             self.dataset.table_specific_name('Init_flat') +\
             " AS init_flat " \
@@ -287,7 +289,7 @@ class SignalCooccur(Featurizer):
                                   "cooccur.val_first AS assigned_val," \
                                   "CONCAT (cooccur.attr_second , '=' , cooccur.val_second ) AS feature," \
                                   "'cooccur' AS TYPE," \
-                                  "'        ' AS weight_id " \
+                                  "'        ' AS weight_id, 1 as count " \
                                   "FROM " \
                                   + self.dataset.table_specific_name('Init_flat_join') + \
                                   " AS cooccur " \
@@ -347,10 +349,10 @@ class SignalDC(Featurizer):
                                       "possible_table.tid AS rv_index," \
                                       "possible_table.attr_name AS rv_attr," \
                                       "possible_table.attr_val AS assigned_val," \
-                                      "CONCAT ( table1.second_index ,':', '" + self.final_dc[index_dc] + "') " \
+                                      "CONCAT ( '" + self.final_dc[index_dc] + "') " \
                                                                                                          "AS feature," \
                                       "'FD' AS TYPE," \
-                                      "'       ' AS weight_id" \
+                                      "'       ' AS weight_id ,  count(table1.second_index) as count " \
                                       "  FROM " \
                                       "(SELECT * FROM " + \
                                       join_table_name + " AS table1 " \
@@ -361,7 +363,8 @@ class SignalDC(Featurizer):
                                       "WHERE (" + \
                                       new_condition + " AND" \
                                                       " possible_table.tid=table1.first_index" \
-                                                      ")"
+                                                      ") group by possible_table.tid,possible_table.attr_name , " \
+                                                      "possible_table.attr_val"
             dc_queries.append(query_for_featurization)
 
         return dc_queries

@@ -385,7 +385,7 @@ class Session:
             " + self.dataset.table_specific_name('Feature_temp') \
             + "(var_index INT,rv_index TEXT , rv_attr TEXT,\
             assigned_val TEXT," \
-            " feature TEXT,TYPE TEXT, weight_id TEXT);"
+            " feature TEXT,TYPE TEXT, weight_id TEXT,count Int);"
         self.holo_env.dataengine.query(query_for_featurization)
 
         counter = 0
@@ -400,7 +400,7 @@ class Session:
                 self.holo_env.dataengine.query(insert_signal_query)
                 self.holo_env.logger.info(
                     'the query was executed is:' + insert_signal_query)
-                #print insert_signal_query
+                print insert_signal_query
                 global_counter = "select max(var_index) into @p from " + \
                     self.dataset.table_specific_name('Feature_temp') + ";"
                 self.holo_env.dataengine.query(global_counter)
@@ -413,7 +413,7 @@ class Session:
                     self.holo_env.logger.info('the query that will be executed is:' + insert_signal_query)
                     self.holo_env.dataengine.query(insert_signal_query)
                     self.holo_env.logger.info('the query was executed is:' + insert_signal_query)
-                    #print insert_signal_query
+                    print insert_signal_query
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature_temp') + ";"
                     self.holo_env.dataengine.query(global_counter)
