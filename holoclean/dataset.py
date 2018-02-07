@@ -4,6 +4,8 @@ from datetime import datetime
 
 class Dataset:
     attributes = [
+        'Map_dc',
+        'Map_schema',
         'id',
         'Init',
         'Init_flat',

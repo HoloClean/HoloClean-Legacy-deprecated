@@ -202,6 +202,21 @@ class DataEngine:
         schema = df.schema.names
         name_table = self._add_info_to_meta('Init', schema, dataset)
         self._dataframe_to_table(name_table, df)
+        table_attribute_string = self.get_schema(
+            dataset, "Init")
+        count = 0
+        map_schema = []
+        attributes = table_attribute_string.split(',')
+        for attribute in attributes:
+            if attribute != "index":
+                count = count + 1
+                map_schema.append([str(count), attribute])
+
+
+        dataframe_map_schema = self.holoEnv.spark_session.createDataFrame(
+        map_schema, ['index', 'attribute'])
+        self.add_db_table('Map_schema', dataframe_map_schema, dataset)
+
         return
 
     def query(self, sqlQuery, spark_flag=0):
