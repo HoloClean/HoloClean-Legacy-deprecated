@@ -232,8 +232,8 @@ class SignalInit(Featurizer):
             FROM """ +\
             self.dataset.table_specific_name('Init_flat') +\
             " AS init_flat, " +\
-            self.dataset.table_specific_name('Domain_Map') + "as Domain, " +\
-            self.dataset.table_specific_name('Map_schema') + "as map, " \
+            self.dataset.table_specific_name('Domain_Map') + " as Domain, " +\
+            self.dataset.table_specific_name('Map_schema') + " as map " \
             "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name') + \
             "and (Domain.value = init_flat.attr_val)" \
             "and (Domain.attr_index = map.index) and (map.attribute = init_flat.attr_name) "
