@@ -304,7 +304,7 @@ class Pruning:
         for attribute in domain_dict:
             value_index = 1
             for value in domain_dict[attribute]:
-                list_domain_map.append([index, str(attribute), value_index, str(value)])
+                list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
                 value_index = value_index + 1
                 index = index + 1
 
@@ -312,7 +312,7 @@ class Pruning:
         df_domain_map = self.spark_session.createDataFrame(
             list_domain_map, StructType([
                 StructField("index", IntegerType(), False),
-                StructField("attr_index", StringType(), True),
+                StructField("attr_index", IntegerType(), True),
                 StructField("val_index", IntegerType(), True),
                 StructField("value", StringType(), True),
             ]))

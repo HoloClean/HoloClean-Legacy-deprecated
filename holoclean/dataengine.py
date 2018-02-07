@@ -3,6 +3,7 @@ import sqlalchemy as sqla
 import mysql.connector
 from dataset import *
 import pandas as pd
+from pyspark.sql.types import *
 from utils.reader import Reader
 
 
@@ -34,6 +35,9 @@ class DataEngine:
 
         # Init spark dataframe store
         self.spark_dataframes = {}
+
+        # Init Mappings
+        self.attribute_map = {}
 
     # Internal methods
     def _start_db(self):
@@ -210,13 +214,18 @@ class DataEngine:
         for attribute in attributes:
             if attribute != "index":
                 count = count + 1
-                map_schema.append([str(count), attribute])
+                map_schema.append([count, attribute])
 
 
         dataframe_map_schema = self.holoEnv.spark_session.createDataFrame(
-        map_schema, ['index', 'attribute'])
+        map_schema, StructType([
+                StructField("index", IntegerType(), False),
+                StructField("attribute", StringType(), True)
+            ]))
         self.add_db_table('Map_schema', dataframe_map_schema, dataset)
 
+        for tuple in map_schema:
+            self.attribute_map[tuple[1]] = tuple[0]
         return
 
     def query(self, sqlQuery, spark_flag=0):
@@ -229,6 +238,4 @@ class DataEngine:
         else:
             return self.db_backend.execute(sqlQuery)
 
-    def executemany(self, sqlQuery):
-        return self.db_backend.executemany(sqlQuery)
 
