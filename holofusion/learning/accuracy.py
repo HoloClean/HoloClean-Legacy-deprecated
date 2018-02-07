@@ -40,7 +40,7 @@ class Accuracy:
         for rv_attr in rv_attrs:
             if rv_attr != self.key and rv_attr != "Source" and rv_attr != "Index":
                 query_for_flattening = """ (SELECT \
-                                                  table1.""" + self.key + """ as rv_index,'""" + \
+                                                  DISTINCT table1.""" + self.key + """ as rv_index,'""" + \
                                                   rv_attr + """'  \
                                                   AS rv_attr, \
                                                   table1.""" + rv_attr + """ AS assigned_val \

@@ -36,7 +36,7 @@ class inference:
         To do: creates the probability table for our
         dataset and checks the accuracy
         """
-
+        print('Creating Group by Accur')
         query_Feature = "CREATE TABLE " + self.dataset.table_specific_name('Feature_gb_accur') +\
             " AS (" \
             "SELECT EXP(SUM(0+weight_val)) AS sum_probabilities," \
@@ -52,7 +52,7 @@ class inference:
                                                                       "table2.assigned_val);"
 
         self.dataengine.query(query_Feature)
-
+        print('Creating Probability table')
         query_probability = "CREATE TABLE " + self.dataset.table_specific_name('Probabilities') + \
                             " AS " \
                             "(SELECT " \
@@ -75,6 +75,7 @@ class inference:
 
         self.dataengine.query(query_probability)
         # Query to find the repair for each cell
+        print('Creating Final table')
         query = "CREATE TABLE " + self.dataset.table_specific_name('Final') + \
                 " AS (" \
                 "SELECT " \

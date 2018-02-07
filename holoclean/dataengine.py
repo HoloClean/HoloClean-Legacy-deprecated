@@ -228,3 +228,7 @@ class DataEngine:
             return self._query_spark(sqlQuery)
         else:
             return self.db_backend.execute(sqlQuery)
+
+    def executemany(self, sqlQuery):
+        return self.db_backend.executemany(sqlQuery)
+

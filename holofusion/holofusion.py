@@ -247,9 +247,13 @@ class HoloFusionSession:
         self.holo_env.logger.info('wrapper is starting')
         print "wrapper is starting"
         wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
+        print 'making variables'
         wrapper_obj.set_variable()
+        print 'making weights'
         wrapper_obj.set_weight()
+        print 'making factor to var'
         wrapper_obj.set_factor_to_var()
+        print 'making factor'
         wrapper_obj.set_factor()
         weight = wrapper_obj.get_list_weight()
         variable = wrapper_obj.get_list_variable()
@@ -266,7 +270,7 @@ class HoloFusionSession:
         self.holo_env.logger.info('numbskull is starting')
         print "numbskull is starting"
         if self.holo_env.training_data:
-            ns = numbskull.NumbSkull(n_inference_epoch=100,
+            ns = numbskull.NumbSkull(n_inference_epoch=learn,
                                      n_learning_epoch=learn,
                                      quiet=True,
                                      learn_non_evidence=True,
@@ -372,7 +376,7 @@ class HoloFusionSession:
     def wrapper(self):
         self._numskull()
 
-    def inference(self, iterations = 100):
+    def inference(self, iterations = 100000):
         infe = inference(self.holo_env.dataengine, self.dataset, self.holo_env.spark_session)
         if self.holo_env.algorithm == 1:
             infe.majority_vote()

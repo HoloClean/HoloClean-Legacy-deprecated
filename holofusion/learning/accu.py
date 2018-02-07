@@ -95,6 +95,8 @@ class Accu:
 
     def solve(self, iterations=10):
         for i in range(iterations):
+            if i % 1000 == 0:
+                print i
             self.update_object_assignment()
             self.update_source_accuracy()
         self.create_dataframe()

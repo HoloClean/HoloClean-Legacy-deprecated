@@ -1,4 +1,4 @@
-
+from pyspark.sql.types import *
 
 class RandomVar:
     """TODO:RandomVar class: class for random variable"""
@@ -247,10 +247,20 @@ class Pruning:
         creates a spark dataframe from cell_domain for all the cells
         :return:
         """
+        attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',');
+        domain_dict={}
+        for attribute in attributes:
+            if attribute != 'index' and attribute != 'Index':
+                domain_dict[attribute] = set([])
+
         list_to_dataframe_possible_values = []
         list_to_dataframe_init = []
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
+                attribute = self.cellvalues[tuple_id][cell_index].columnname
+                value = self.cellvalues[tuple_id][cell_index].value
+                domain_dict[attribute].add(value)
+
                 list_to_dataframe_init.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
                                                self.cellvalues[tuple_id][cell_index].columnname,
                                                unicode(self.cellvalues[tuple_id][cell_index].value)])
@@ -281,4 +291,31 @@ class Pruning:
             list_to_dataframe_init, ['tid', 'attr_name', 'attr_val'])
         self.dataengine.add_db_table('Init_flat',
                                      new_df_init, self.dataset)
+
+        # Create dataframe for Domain Map
+        max_domain = 0
+        for attribute in domain_dict:
+            max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
+        for attribute in domain_dict:
+            while len(domain_dict[attribute]) < max_domain:
+                domain_dict[attribute].add('*')
+        list_domain_map = []
+        index = 1
+        for attribute in domain_dict:
+            value_index = 1
+            for value in domain_dict[attribute]:
+                list_domain_map.append([index, str(attribute), value_index, str(value)])
+                value_index = value_index + 1
+                index = index + 1
+
+        # Send dataframe to Domain_Map Table
+        df_domain_map = self.spark_session.createDataFrame(
+            list_domain_map, StructType([
+                StructField("index", IntegerType(), False),
+                StructField("attr_index", StringType(), True),
+                StructField("val_index", IntegerType(), True),
+                StructField("value", StringType(), True),
+            ]))
+        self.dataengine.add_db_table('Domain_Map',
+                                     df_domain_map, self.dataset)
         return

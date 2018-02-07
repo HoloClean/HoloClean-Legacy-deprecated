@@ -33,7 +33,8 @@ class Dataset:
         'Factor',
         'Factor_to_var',
         'Final',
-        'Correct']
+        'Correct',
+        'Domain_Map']
 
     """
 

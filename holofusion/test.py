@@ -4,7 +4,7 @@ from time import time as t
 
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloFusion(algorithm=1, training_data=1, multiple_weights=1)
+        self.holo_obj = HoloFusion(algorithm=0, training_data=1, multiple_weights=1)
         self.session = HoloFusionSession("Session", self.holo_obj)
         self.fx = open('execution_time.txt', 'w')
 
@@ -13,14 +13,14 @@ class Testing:
         list_time = []
         start_time = t()
 
-        self.session.ingest_dataset("data/clean_flight/flight-data-test.csv")
+        self.session.ingest_dataset("data/clean_flight2/flight-data-test.csv")
         d = t()-start_time
         list_time.append(d)
         self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
 
         start_time = t()
-        self.session.adding_training_data("data/clean_flight/flight-data_training.csv")
+        self.session.adding_training_data("data/clean_flight2/flight-data_training.csv")
         d = t() - start_time
         list_time.append(d)
         self.fx.write('adding training data: ' + str(d) + '\n')
@@ -41,7 +41,7 @@ class Testing:
         print 'inference time: ' + str(d) + '\n'
         start_time = t()
 
-        self.session.accuracy("data/clean_flight/flight-data_truth.csv")
+        self.session.accuracy("data/clean_flight2/flight-data_truth.csv")
         d = t() - start_time
         list_time.append(d)
         self.fx.write('time to calculate accuracy: ' + str(d) + '\n')

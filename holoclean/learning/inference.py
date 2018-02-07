@@ -96,7 +96,7 @@ class inference:
 
     def printing_results(self, threshold, k_first):
         if k_first != 0:
-            query = "set @type = '';set @num  = 1;set @type = '';"
+            query = "set @type = '';set @num  = 1;set @type2 = '';"
             self.dataengine.query(query)
             query = "CREATE TABLE " + self.dataset.table_specific_name('k_Probabilities') + \
                     " AS (" \
@@ -104,7 +104,8 @@ class inference:
                     "rv_attr,rv_index ,assigned_val, probability, " \
                     "@num := if(@type = rv_attr and @type2 = rv_index, @num + 1, 1) as row_number," \
                     "@type := rv_attr as dummy, @type2 :=rv_index as dummy2 from " + \
-                    self.dataset.table_specific_name('Probabilities') + ");"
+                    self.dataset.table_specific_name('Probabilities') + \
+                    " ORDER BY rv_index, rv_attr, probability desc);"
             self.dataengine.query(query)
             final = self.dataengine.get_table_to_dataframe("k_Probabilities", self.dataset)
             final.createOrReplaceTempView("probabilities")
@@ -115,4 +116,4 @@ class inference:
             final = self.dataengine.get_table_to_dataframe("Probabilities", self.dataset)
             final.createOrReplaceTempView("probabilities")
             sql = self.spark_session.sql("SELECT * FROM probabilities where probability>="+str(threshold))
-        sql.select("rv_attr", "rv_attr", "rv_index", "assigned_val", "probability").show()
+        sql.select("row_number", "rv_index", "rv_attr", "assigned_val", "probability").show()

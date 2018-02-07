@@ -14,7 +14,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
-
+from threading import Thread, Lock
 
 # Define arguments for HoloClean
 arguments = [
@@ -374,6 +374,15 @@ class Session:
             pruning_threshold)
         self.holo_env.logger.info('Domain pruning is finished')
         return
+
+    class FeatureWorker(Thread):
+        def __init__(self, dataengine, query):
+            self.dataengine = dataengine
+            self.query = query
+
+        def run(self):
+            self.connection = self.dataengine._start_db()
+            self.connection.execute(self.query)
 
     def ds_featurize(self):
         """TODO: Extract dataset features"""
