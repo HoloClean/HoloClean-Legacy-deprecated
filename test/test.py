@@ -62,7 +62,7 @@ class Testing:
         start_time = t()
         self.session.add_featurizer(initial_value_signal)
         statistics_signal = SignalCooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
-                                          self.session.dataset)
+                                          self.session.dataset )
         d = t() - start_time
         list_time.append(d)
         self.holo_obj.logger.info('cooccur signal time: '+str(d)+'\n')
@@ -76,7 +76,8 @@ class Testing:
         self.fx.write('dc signal time: '+str(d)+'\n')
         print 'dc signal time: '+str(d)+'\n'
         start_time = t()
-        dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset)
+        dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
+                             self.holo_obj.spark_session)
         d = t() - start_time
         list_time.append(d)
         self.holo_obj.logger.info('dc featurize time: '+str(d)+'\n')
