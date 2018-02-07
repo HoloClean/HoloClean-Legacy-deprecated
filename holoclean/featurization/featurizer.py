@@ -357,8 +357,8 @@ class SignalDC(Featurizer):
             query_for_featurization = "(SELECT" \
                                       " @p := @p + 1 AS var_index," \
                                       "possible_table.tid AS rv_index," \
-                                      "possible_table.attr_name AS rv_attr," \
-                                      "possible_table.attr_val AS assigned_val," + \
+                                      "map.index AS rv_attr,"\
+                                      "Domain.val_index AS assigned_val,"+\
                                       str(count) + " AS feature," \
                                       "'FD' AS TYPE," \
                                       "'       ' AS weight_id ,  count(table1.second_index) as count " \
@@ -368,12 +368,16 @@ class SignalDC(Featurizer):
                                       "WHERE " + self.change_pred[index_dc] + ") AS table1," \
                                       " (SELECT * FROM " + self.possible_table_name + " AS possible_table" \
                                       " WHERE " + \
-                                      self.attributes_list[index_dc] + " ) AS possible_table " \
+                                      self.attributes_list[index_dc] + " ) AS possible_table, " +\
+                                      self.dataset.table_specific_name('Domain_Map') + " as Domain, " +\
+                                      self.dataset.table_specific_name('Map_schema') + " as map " \
                                       "WHERE (" + \
-                                      new_condition + " AND" \
+                                      new_condition +\
+                                      "and (Domain.value = possible_table.attr_val)" \
+                                      "and (Domain.attr_index = map.index) and (map.attribute = possible_table.attr_name) and "\
                                                       " possible_table.tid=table1.first_index" \
-                                                      ") group by possible_table.tid,possible_table.attr_name , " \
-                                                      "possible_table.attr_val"
+                                                      ") group by possible_table.tid,map.index , " \
+                                                      "Domain.val_index"
             dc_queries.append(query_for_featurization)
 
         dataframe_map_dc = self.spark_session.createDataFrame(map_dc, ['index', 'relaxed_version', 'actual_DC'])
