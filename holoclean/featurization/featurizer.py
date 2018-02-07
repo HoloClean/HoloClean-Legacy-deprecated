@@ -224,15 +224,19 @@ class SignalInit(Featurizer):
         """
         query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
             init_flat.tid AS rv_index,\
-            init_flat.attr_name AS rv_attr,\
-            init_flat.attr_val AS assigned_val,\
-            concat('Init=',init_flat.attr_val ) AS feature,\
+            map.index AS rv_attr,\
+            Domain.val_index AS assigned_val,\
+            '1' AS feature,\
             'init' AS TYPE,\
             '      ' AS weight_id , 1 as count\
             FROM """ +\
             self.dataset.table_specific_name('Init_flat') +\
-            " AS init_flat " \
-            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name')
+            " AS init_flat, " +\
+            self.dataset.table_specific_name('Domain_Map') + "as Domain, " +\
+            self.dataset.table_specific_name('Map_schema') + "as map, " \
+            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name') + \
+            "and (Domain.value = init_flat.attr_val)" \
+            "and (Domain.attr_index = map.index) and (map.attribute = init_flat.attr_name) "
         return query_for_featurization
 
 
@@ -302,12 +306,13 @@ class SignalDC(Featurizer):
         Signal for dc
         """
 
-    def __init__(self, denial_constraints, dataengine, dataset):
+    def __init__(self, denial_constraints, dataengine, dataset, spark_session):
         """TODO.
         Parameters
         --------
         denial_constraints,dataengine,dataset
         """
+        self.spark_session = spark_session
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
@@ -342,15 +347,19 @@ class SignalDC(Featurizer):
         self.dataengine.query(query)
         dc_queries = []
 
+        map_dc = []
+        count = 0
         for index_dc in range(0, len(new_dc)):
+            count = count + 1
+            relax_dc = new_dc[index_dc] + self.attributes_list[index_dc]
+            map_dc.append([str(count), relax_dc, self.final_dc[index_dc]])
             new_condition = new_dc[index_dc]
             query_for_featurization = "(SELECT" \
                                       " @p := @p + 1 AS var_index," \
                                       "possible_table.tid AS rv_index," \
                                       "possible_table.attr_name AS rv_attr," \
-                                      "possible_table.attr_val AS assigned_val," \
-                                      "CONCAT ( '" + self.final_dc[index_dc] + "') " \
-                                                                                                         "AS feature," \
+                                      "possible_table.attr_val AS assigned_val," + \
+                                      str(count) + " AS feature," \
                                       "'FD' AS TYPE," \
                                       "'       ' AS weight_id ,  count(table1.second_index) as count " \
                                       "  FROM " \
@@ -367,4 +376,7 @@ class SignalDC(Featurizer):
                                                       "possible_table.attr_val"
             dc_queries.append(query_for_featurization)
 
+        dataframe_map_dc = self.spark_session.createDataFrame(map_dc, ['index', 'relaxed_version', 'actual_DC'])
+        dataframe_map_dc.show()
+        self.dataengine.add_db_table('Map_dc', dataframe_map_dc, self.dataset)
         return dc_queries
