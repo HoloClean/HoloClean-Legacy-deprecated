@@ -4,9 +4,9 @@ from datetime import datetime
 
 class Dataset:
     attributes = [
-        'Map_dc',
-        'Map_schema',
         'id',
+        'Map_schema',
+        'Map_dc',
         'Init',
         'Init_flat',
         'Init_join',
