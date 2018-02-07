@@ -391,4 +391,8 @@ class SignalDC(Featurizer):
         dataframe_map_dc = self.spark_session.createDataFrame(map_dc, ['index', 'relaxed_version', 'actual_DC'])
         dataframe_map_dc.show()
         self.dataengine.add_db_table('Map_dc', dataframe_map_dc, self.dataset)
+
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'offset') + " (Feature, offset) Values ('Dc'," + str(count) + ");"
+        self.dataengine.query(insert_signal_query)
         return dc_queries
