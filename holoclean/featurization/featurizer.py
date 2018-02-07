@@ -289,15 +289,23 @@ class SignalCooccur(Featurizer):
 
         query_for_featurization = " (SELECT DISTINCT @p := @p + 1 AS var_index," \
                                   "cooccur.tid_first AS rv_index," \
-                                  "cooccur.attr_first AS rv_attr," \
-                                  "cooccur.val_first AS assigned_val," \
-                                  "CONCAT (cooccur.attr_second , '=' , cooccur.val_second ) AS feature," \
+                                  "map.index AS rv_attr," \
+                                  "Domain.val_index AS assigned_val," \
+                                  "Domain1.index AS feature," \
                                   "'cooccur' AS TYPE," \
                                   "'        ' AS weight_id, 1 as count " \
                                   "FROM " \
                                   + self.dataset.table_specific_name('Init_flat_join') + \
-                                  " AS cooccur " \
-                                  "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first')
+                                  " AS cooccur, " +\
+                                  self.dataset.table_specific_name('Domain_Map') + " as Domain, " + \
+                                  self.dataset.table_specific_name('Map_schema') + " as map1, " +\
+                                  self.dataset.table_specific_name('Domain_Map') + " as Domain1, " + \
+                                  self.dataset.table_specific_name('Map_schema') + " as map " \
+                                  "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first') +\
+                                  "and (Domain.value = cooccur.val_first)" \
+                                  " and (Domain.attr_index = map.index) and (map.attribute = cooccur.attr_first) " \
+                                  "and (Domain1.value = cooccur.val_second)" \
+                                  " and (Domain1.attr_index = map1.index) and (map1.attribute = cooccur.attr_second) "
         return query_for_featurization
 
 
