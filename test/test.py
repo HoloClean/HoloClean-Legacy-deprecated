@@ -1,6 +1,7 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import SignalInit, SignalCooccur, SignalDC
+from holoclean.learning.softmax import SoftMax
 from holoclean.learning.accuracy import Accuracy
 from time import time as t
 
@@ -90,7 +91,11 @@ class Testing:
         self.holo_obj.logger.info('total featurization time: '+str(d)+'\n')
         self.fx.write('total featurization time: '+str(d)+'\n')
         print 'total featurization time: '+str(d)+'\n'
-        start_time = t()
+
+
+        soft = SoftMax(self.holo_env.dataengine,self.dataset)
+
+        '''start_time = t()
         self.session._numskull()
         d = t() - start_time
         list_time.append(d)
@@ -106,7 +111,7 @@ class Testing:
         print 'repair time: '+str(d)+'\n'
         # acc = Accuracy(self.holo_obj.dataengine, "test/gt.csv", self.session.dataset, self.holo_obj.spark_session)
         # acc.accuracy_calculation()
-
+        '''
         self.holo_obj.logger.info('Total time: ' + str(sum(list_time)) + '\n')
         self.fx.write('Total time: ' + str(sum(list_time)) + '\n')
         print 'Total time: ' + str(sum(list_time)) + '\n'
