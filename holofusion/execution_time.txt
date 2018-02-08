@@ -1,0 +1,5 @@
+ingest csv time: 8.88689398766
+adding training data: 12.3805298805
+creating feature table time: 10.6601247787
+inference time: 1733.26631188
+time to calculate accuracy: 29.0385458469
