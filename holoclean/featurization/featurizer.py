@@ -175,6 +175,16 @@ class Featurizer:
 
         self.dataengine.query(query_featurization)
 
+        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('offset') + \
+                              " (" \
+                              "SELECT * FROM ( SELECT " \
+                              " 'n' as Feature" \
+                              " , max(var_index)" \
+                              " FROM " \
+                              + self.dataset.table_specific_name('Feature') + " AS table1) " \
+                                                                                  "AS f);"
+        self.dataengine.query(query_featurization)
+
 
     # Setters
     def add_weights(self):
@@ -458,4 +468,8 @@ class SignalDC(Featurizer):
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             'offset') + " (Feature, offset) Values ('Dc'," + str(count) + ");"
         self.dataengine.query(insert_signal_query)
+
+
+
+
         return dc_queries
