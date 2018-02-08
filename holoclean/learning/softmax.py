@@ -58,8 +58,8 @@ class SoftMax:
         non_DC_W = torch.randn(self.M - self.DC_count, self.L).type(torch.LongTensor)
 
         # set up weight matrix for DCs with weights tied along the columns
-        DC_row = torch.randn(self.DC_count).type(torch.LongTensor)
-        DC_W = DC_row.repeat(self.L, 0)
+        DC_col = torch.randn(self.DC_count).type(torch.LongTensor)
+        DC_W = DC_col.repeat(self.L, 0)
 
         self.W = torch.cat((DC_W, non_DC_W), 0)
 
