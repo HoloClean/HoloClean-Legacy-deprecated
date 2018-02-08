@@ -178,8 +178,8 @@ class Featurizer:
         query_featurization = "INSERT INTO " + self.dataset.table_specific_name('offset') + \
                               " (" \
                               "SELECT * FROM ( SELECT " \
-                              " 'n' as Feature" \
-                              " , max(var_index)" \
+                              " 'N' as offset_type" \
+                              " , max(var_index) as offset" \
                               " FROM " \
                               + self.dataset.table_specific_name('Feature') + " AS table1) " \
                                                                                   "AS f);"

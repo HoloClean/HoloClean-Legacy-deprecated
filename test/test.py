@@ -93,7 +93,7 @@ class Testing:
         print 'total featurization time: '+str(d)+'\n'
 
 
-        soft = SoftMax(self.holo_env.dataengine,self.dataset)
+        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset)
 
         '''start_time = t()
         self.session._numskull()

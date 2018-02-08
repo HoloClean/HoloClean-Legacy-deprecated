@@ -6,14 +6,19 @@ class SoftMax:
         self.dataengine = dataengine
         self.dataset = dataset
         dataframe_offset = self.dataengine.get_table_to_dataframe("offset", self.dataset)
-        list = dataframe_offset.select('offset').collect()
-        self.init_count=list[0].offset
-        self.cooccur_count = list[1].offset
-        self.DC_count =list[2].offset
+        list = dataframe_offset.collect()
+        offset_dict = {}
+        for offset in list:
+            offset_dict[offset['offset_type']] = offset['offset']
+
+        self.init_count = offset_dict['Init']
+        self.cooccur_count = offset_dict['Cooccur']
+        self.DC_count = offset_dict['Dc']
 
         # X Tensor Dimensions (N * M * L)
         self.M = self.init_count+self.cooccur_count + self.DC_count
-
+        self.N = offset_dict['N']
+        self.L = offset_dict['max_domain']
 
         # pytorch tensors
         self.X = None
@@ -39,6 +44,6 @@ class SoftMax:
             coordinates = torch.cat((coordinates, coordinate), 1)
             value = factor['count']
             values = torch.cat((values, torch.LongTensor([value])), 0)
-        self.X = torch.sparse.LongTensor(coordinates, values)
-        print(self.X.to_dense())
+        self.X = torch.sparse.LongTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
+        #print(self.X.to_dense())
         return

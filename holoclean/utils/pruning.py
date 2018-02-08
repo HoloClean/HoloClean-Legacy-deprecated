@@ -248,10 +248,10 @@ class Pruning:
         :return:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',');
-        domain_dict={}
+        domain_dict = {}
         for attribute in attributes:
             if attribute != 'index' and attribute != 'Index':
-                domain_dict[attribute] = set([])
+                domain_dict[attribute] = []
 
         list_to_dataframe_possible_values = []
         list_to_dataframe_init = []
@@ -259,7 +259,8 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-                domain_dict[attribute].add(value)
+                if value not in domain_dict[attribute]:
+                    domain_dict[attribute].append(value)
 
                 list_to_dataframe_init.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
                                                self.cellvalues[tuple_id][cell_index].columnname,
@@ -298,7 +299,7 @@ class Pruning:
             max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
         for attribute in domain_dict:
             while len(domain_dict[attribute]) < max_domain:
-                domain_dict[attribute].add('*')
+                domain_dict[attribute].append('*')
         list_domain_map = []
         index = 1
         for attribute in domain_dict:
@@ -329,11 +330,11 @@ class Pruning:
         self.dataengine.query(insert_signal_query)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('Coocur',"+str(len(list_domain_map)) +");"
+            'offset') + " (offset_type, offset) Values ('Cooccur',"+str(len(list_domain_map)) +");"
         self.dataengine.query(insert_signal_query)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('max_domain', "+ max_domain +");"
+            'offset') + " (offset_type, offset) Values ('max_domain', "+ str(max_domain) +");"
         self.dataengine.query(insert_signal_query)
 
         return
