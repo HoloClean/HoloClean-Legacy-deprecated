@@ -23,6 +23,10 @@ class SoftMax:
         # pytorch tensors
         self.X = None
         self._setupX()
+
+        self.W = None
+        self._setupW()
+        
         return
 
     # Will create the X-value tensor of size nxmxl
@@ -46,4 +50,17 @@ class SoftMax:
             values = torch.cat((values, torch.LongTensor([value])), 0)
         self.X = torch.sparse.LongTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
         #print(self.X.to_dense())
+        return
+
+    def _setupW(self):
+
+        # set up weight matrix for non DC cols. These weights are not tied
+        non_DC_W = torch.randn(self.N, self.M - self.DC_count).type(torch.LongTensor)
+
+        # set up weight matrix for DCs with weights tied along the columns
+        DC_row = torch.randn(self.DC_count).type(torch.LongTensor)
+        DC_W = DC_row.repeat(N, 1)
+
+        self.W = torch.cat((non_DC_W, DC_w), 1)
+
         return
