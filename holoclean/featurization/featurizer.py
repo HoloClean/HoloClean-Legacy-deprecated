@@ -122,14 +122,10 @@ class Featurizer:
         self.dataengine.query(create_variable_table_query)
         mysql_query = 'INSERT INTO ' + \
                       self.dataset.table_specific_name('Random_index') + \
-                      " SELECT * FROM (SELECT NULL AS variable_index," \
-                      "table1.tid," \
-                      "table2.index from " \
-                      + self.dataset.table_specific_name('Init_flat') + " AS table1 , " \
-                      + self.dataset.table_specific_name('Map_schema') + " AS table2 " \
-                                                                           "WHERE " \
-                                                                           "table1.attr_name = table2.attribute " \
-                                                                           ") AS T0;"
+                      " SELECT * FROM (SELECT DISTINCT NULL AS variable_index," \
+                      "table1.rv_index," \
+                      "table1.rv_attr from " \
+                      + self.dataset.table_specific_name('Feature_temp') + " AS table1) AS T0;"
 
         self.dataengine.query(mysql_query)
 
