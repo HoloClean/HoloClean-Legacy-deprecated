@@ -13,7 +13,6 @@ class SoftMax:
 
         # X Tensor Dimensions (N * M * L)
         self.M = self.init_count+self.cooccur_count + self.DC_count
-        self.L =
 
 
         # pytorch tensors
