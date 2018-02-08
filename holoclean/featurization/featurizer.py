@@ -126,9 +126,12 @@ class Featurizer:
                       "table1.tid," \
                       "table2.index from " \
                       + self.dataset.table_specific_name('Init_flat') + " AS table1 , " \
-                      + self.dataset.table_specific_name('Map_schema') + " AS table2 " \
-                                                                           "WHERE " \
-                                                                           "table1.attr_name = table2.attribute " \
+                      + self.dataset.table_specific_name('Map_schema') + " AS table2, " \
+                      + self.dataset.table_specific_name('C_clean') + " AS table2 " \
+                                                                         "WHERE " \
+                                                                         "table1.attr_name = table2.attribute " \
+                                                                         " and table3.attr =table1.attr_name and" \
+                                                                         " table3.ind = table1.tid  " \
                                                                            ") AS T0;"
 
         self.dataengine.query(mysql_query)
