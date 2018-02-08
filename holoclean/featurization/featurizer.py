@@ -113,6 +113,65 @@ class Featurizer:
         list_preds = cond.split(' AND ')
         return list_preds
 
+    def pointers(self):
+        create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Random_index') + \
+                                      "(" \
+                                      "variable_index INT PRIMARY KEY AUTO_INCREMENT," \
+                                      "rv_ind LONGTEXT," \
+                                      "rv_attr LONGTEXT);"
+        self.dataengine.query(create_variable_table_query)
+        mysql_query = 'INSERT INTO ' + \
+                      self.dataset.table_specific_name('Random_index') + \
+                      " SELECT * FROM (SELECT NULL AS variable_index," \
+                      "table1.tid," \
+                      "table2.index from " \
+                      + self.dataset.table_specific_name('Init_flat') + " AS table1 , " \
+                      + self.dataset.table_specific_name('Map_schema') + " AS table2 " \
+                                                                           "WHERE " \
+                                                                           "table1.attr_name = table2.attribute " \
+                                                                           ") AS T0;"
+
+        self.dataengine.query(mysql_query)
+
+        create_feature_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Feature') + \
+                                     "(" \
+                                     "var_index INT," \
+                                     "rv_index LONGTEXT," \
+                                     "rv_attr LONGTEXT," \
+                                     "assigned_val LONGTEXT," \
+                                     "feature LONGTEXT," \
+                                     "TYPE LONGTEXT," \
+                                     "weight_id TEXT," \
+                                     "count INT" \
+                                     ");"
+
+        self.dataengine.query(create_feature_table_query)
+
+        # Creating new weight table by joining the initial table and calculated weights
+        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('Feature') + \
+                              " (" \
+                              "SELECT * FROM ( SELECT " \
+                              " variable_index AS var_index" \
+                              " , table1.rv_index" \
+                              " , table1.rv_attr" \
+                              " , table1.assigned_val" \
+                              " , table1.feature" \
+                              " , table1.TYPE" \
+                              " ,  table1.weight_id" \
+                              " , table1.count" \
+                              " FROM " \
+                              + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
+                              + self.dataset.table_specific_name('Random_index') + " AS table2 " \
+                                                                                  " WHERE " \
+                                                                                  " table1.rv_index=table2.rv_ind" \
+                                                                                  " AND " \
+                                                                                  "table1.rv_attr=table2.rv_attr) " \
+                                                                                  "AS ftmp " \
+                                                                                  ");"
+
+        self.dataengine.query(query_featurization)
+
+
     # Setters
     def add_weights(self):
         """

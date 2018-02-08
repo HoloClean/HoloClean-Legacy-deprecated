@@ -14,6 +14,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
+from learning.softmax import SoftMax
 from threading import Thread, Lock
 
 # Define arguments for HoloClean
@@ -434,11 +435,13 @@ class Session:
             self.Denial_constraints,
             self.holo_env.dataengine,
             self.dataset)
-        featurizer.add_weights()
+#        featurizer.add_weights()
         self.holo_env.logger.info(
             'adding weight_id to feature table is finished')
         print (
             'adding weight_id to feature table is finished')
+        featurizer.pointers()
+        soft = SoftMax(self.holo_env.dataengine,self.dataset)
         return
 
     def ds_learn_repair_model(self):
