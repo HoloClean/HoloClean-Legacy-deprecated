@@ -441,7 +441,6 @@ class Session:
         print (
             'adding weight_id to feature table is finished')
         featurizer.pointers()
-        soft = SoftMax(self.holo_env.dataengine,self.dataset)
         return
 
     def ds_learn_repair_model(self):

@@ -142,8 +142,8 @@ class Featurizer:
                                      "var_index INT," \
                                      "rv_index LONGTEXT," \
                                      "rv_attr LONGTEXT," \
-                                     "assigned_val LONGTEXT," \
-                                     "feature LONGTEXT," \
+                                     "assigned_val INT," \
+                                     "feature INT," \
                                      "TYPE LONGTEXT," \
                                      "weight_id TEXT," \
                                      "count INT" \
