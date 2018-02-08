@@ -466,7 +466,7 @@ class SignalDC(Featurizer):
         self.dataengine.add_db_table('Map_dc', dataframe_map_dc, self.dataset)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (Feature, offset) Values ('Dc'," + str(count) + ");"
+            'offset') + " (offset_type, offset) Values ('Dc'," + str(count) + ");"
         self.dataengine.query(insert_signal_query)
 
 

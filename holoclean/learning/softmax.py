@@ -11,6 +11,10 @@ class SoftMax:
         self.cooccur_count = list[1].offset
         self.DC_count =list[2].offset
 
+        # X Tensor Dimensions (N * M * L)
+        self.M = self.init_count+self.cooccur_count + self.DC_count
+
+
         # pytorch tensors
         self.X = None
         self._setupX()
