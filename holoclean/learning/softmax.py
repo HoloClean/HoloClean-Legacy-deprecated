@@ -61,6 +61,6 @@ class SoftMax:
         DC_col = torch.randn(self.DC_count).type(torch.LongTensor)
         DC_W = DC_col.repeat(self.L, 0)
 
-        self.W = torch.cat((DC_W, non_DC_W), 0)
+        self.W = torch.cat((non_DC_W, DC_W), 0)
 
         return
