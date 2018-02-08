@@ -129,7 +129,8 @@ class Featurizer:
                       + self.dataset.table_specific_name('Map_schema') + " AS table2, " \
                       + self.dataset.table_specific_name('C_clean') + " AS table3 " \
                                                                          "WHERE " \
-                                                                         "table1.attr_name = table2.attribute " \
+                      + self.get_constraint_attibute('table1', 'attr_name') +\
+                                                                         " and table1.attr_name = table2.attribute " \
                                                                          " and table3.attr =table1.attr_name and" \
                                                                          " table3.ind = table1.tid  " \
                                                                            ") AS T0;"
