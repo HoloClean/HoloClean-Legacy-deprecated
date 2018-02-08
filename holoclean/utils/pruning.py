@@ -319,17 +319,21 @@ class Pruning:
         self.dataengine.add_db_table('Domain_Map',
                                      df_domain_map, self.dataset)
 
-
         query_for_create_offset = "CREATE TABLE \
             " + self.dataset.table_specific_name('offset') \
-            + "(Feature Text,offset INT);"
+            + "(offset_type Text,offset INT);"
         self.dataengine.query(query_for_create_offset)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (Feature, offset) Values ('Init',1);"
+            'offset') + " (offset_type, offset) Values ('Init',1);"
         self.dataengine.query(insert_signal_query)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (Feature, offset) Values ('Coocur',"+str(len(list_domain_map)) +");"
+            'offset') + " (offset_type, offset) Values ('Coocur',"+str(len(list_domain_map)) +");"
         self.dataengine.query(insert_signal_query)
+
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'offset') + " (offset_type, offset) Values ('max_domain', "+ max_domain +");"
+        self.dataengine.query(insert_signal_query)
+
         return
