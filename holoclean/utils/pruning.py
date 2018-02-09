@@ -384,7 +384,7 @@ class Pruning:
         # Send dataframe to Feature id map Table
         df_domain_map = self.spark_session.createDataFrame(
             list_domain_map, StructType([
-                StructField("index", IntegerType(), False),
+                StructField("feature_ind", IntegerType(), False),
                 StructField("attribute", StringType(), True),
                 StructField("value", StringType(), True),
             ]))
