@@ -4,7 +4,6 @@
 import logging
 import sys
 
-import numbskull
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
 
