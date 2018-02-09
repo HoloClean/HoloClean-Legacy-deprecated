@@ -1,14 +1,28 @@
 import torch.sparse
 class CustomLogReg(torch.nn.Module):
-    def __init__(self, input_dim, output_dim):
+    def __init__(self, input_dim, output_dim, Weights):
         ## don't need softmax here since cross entropy loss does it for us
         super(CustomLogReg, self).__init__()
         self.linear = torch.nn.Linear(input_dim, output_dim, bias=False)
+        self.input_dim = input_dim
+        self.W = Weights
 
     def forward(self, X):
-        ## do weights times X. need to mask classes when less than L for this domain
-        pass
+        return TensorProducts.apply(X, self.W, self.input_dim) 
 
+class TensorScores(Function):
+    def forward(ctx, X, W, input_dim):
+        ## do weights times X. need to mask classes when less than L for this domain
+        ##we go down the n indices, computing scores as we go along
+        ret = torch.zeros(0,self.input_dim)
+        for i in range(X.size()[0]):
+            #grab a slice of the tensor
+            torch.cat([ret, self.W.mul(X[i]).t().mm(torch.ones(input_dim, 1))], 0)
+        return ret
+    def backward(ctx, grad_ouput):
+        
+        grad_W = 0
+        return None, grad_W, None
 
 class SoftMax:
 
