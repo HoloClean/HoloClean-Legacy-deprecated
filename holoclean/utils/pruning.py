@@ -311,7 +311,7 @@ class Pruning:
                 StructField("attr_name", StringType(), False),
                 StructField("attr_val", StringType(), False),
                 StructField("observed", IntegerType(), False),
-                StructField("id", IntegerType(), False),
+                StructField("domain_id", IntegerType(), False),
             ])
         )
         self.dataengine.add_db_table('Possible_values_clean',
@@ -324,7 +324,7 @@ class Pruning:
                 StructField("attr_name", StringType(), False),
                 StructField("attr_val", StringType(), False),
                 StructField("observed", IntegerType(), False),
-                StructField("id", IntegerType(), False),
+                StructField("domain_id", IntegerType(), False),
             ])
         )
         self.dataengine.add_db_table('Possible_values_dk',
