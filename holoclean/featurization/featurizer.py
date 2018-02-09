@@ -291,7 +291,7 @@ class SignalInit(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalInit"
 
-    def get_query(self, name = "Possible_values_dk"):
+    def get_query(self, name = "Possible_values_clean"):
         """
         This method creates a query for the featurization table for the initial values"
         """
@@ -324,7 +324,7 @@ class SignalCooccur(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
 
-    def get_query(self , name = "Possible_values_dk"):
+    def get_query(self , name = "Possible_values_clean"):
         """
                 This method creates a query for the featurization table for the cooccurances
         """
@@ -391,7 +391,7 @@ class SignalDC(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
-    def get_query(self, name= "Possible_values_dk"):
+    def get_query(self, name= "Possible_values_clean"):
         """
                 This method creates a query for the featurization table for the dc"
                 """
@@ -425,7 +425,9 @@ class SignalDC(Featurizer):
         self.dataengine.query(query)
         dc_queries = []
 
-        maximum= 3 
+        maximum = self.dataengine.query(
+            "SELECT MAX(feature_ind) as max FROM " + self.dataset.table_specific_name("Feature_id_map"), 1
+        ).collect()[0]['max']
 
         map_dc = []
         count = maximum
@@ -459,7 +461,7 @@ class SignalDC(Featurizer):
 
 
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Feature_id_map') + ' (feature_ind, attribute,value) Values ('+str(id)+',"' + self.attributes_list[index_dc] \
+            'Feature_id_map') + ' (feature_ind, attribute,value) Values ('+str(count)+',"' + self.attributes_list[index_dc] \
                                   +'","'+self.final_dc[index_dc]+'");'
             self.dataengine.query(insert_signal_query)
 
