@@ -1,4 +1,5 @@
 import torch.sparse
+
 class CustomLogReg(torch.nn.Module):
     def __init__(self, input_dim, output_dim):
         ## don't need softmax here since cross entropy loss does it for us
@@ -72,8 +73,11 @@ class SoftMax:
 
         # set up weight matrix for DCs with weights tied along the row
         DC_col = torch.randn(self.DC_count).type(torch.LongTensor)
-        DC_W = DC_col.repeat(self.L, 0)
+        DC_W = DC_col.repeat(self.L, 1).t()
 
+        print non_DC_W.size()
+        print DC_W.size()
+        
         self.W = torch.cat((non_DC_W, DC_W), 0)
 
         return
@@ -101,6 +105,8 @@ class SoftMax:
 
     def main():
 
+        clean_table = self.dataengine.get_table_to_dataframe("C_clean", self.dataset).collect()
+        
         n_samples = self.N
         n_features = self.M
         n_classes = self.L
