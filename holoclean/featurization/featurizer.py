@@ -291,25 +291,22 @@ class SignalInit(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalInit"
 
-    def get_query(self):
+    def get_query(self, name = "Possible_values_dk"):
         """
         This method creates a query for the featurization table for the initial values"
         """
         query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
+            init_flat.vid as vid,
             init_flat.tid AS rv_index,\
-            map.index AS rv_attr,\
-            Domain.val_index AS assigned_val,\
+            init_flat.attr_name AS rv_attr,\
+            init_flat.domain_id AS assigned_val,\
             '1' AS feature,\
             'init' AS TYPE,\
             '      ' AS weight_id , 1 as count\
             FROM """ +\
-            self.dataset.table_specific_name('Init_flat') +\
-            " AS init_flat, " +\
-            self.dataset.table_specific_name('Domain_Map') + " as Domain, " +\
-            self.dataset.table_specific_name('Map_schema') + " as map " \
-            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name') + \
-            "and (Domain.value = init_flat.attr_val)" \
-            "and (Domain.attr_index = map.index) and (map.attribute = init_flat.attr_name) "
+            self.dataset.table_specific_name(name) +\
+            " AS init_flat " +\
+            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name') +" and init_flat.observed=1"
         return query_for_featurization
 
 
@@ -327,7 +324,7 @@ class SignalCooccur(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
 
-    def get_query(self):
+    def get_query(self , name = "Possible_values_dk"):
         """
                 This method creates a query for the featurization table for the cooccurances
         """
@@ -337,48 +334,45 @@ class SignalCooccur(Featurizer):
                                self.dataset.table_specific_name('Init_flat_join') + \
                                " SELECT * FROM ( " \
                                "SELECT DISTINCT " \
-                               "t1.tid AS tid_first," \
-                               "t1.attr_name AS attr_first," \
-                               "t1.attr_val AS val_first," \
-                               "t2.tid AS tid_second," \
-                               "t2.attr_name AS attr_second," \
-                               "t2.attr_val AS val_second " \
+                               "t1.vid as vid_first, " \
+                               "t1.tid AS tid_first, " \
+                               "t1.attr_name AS attr_first, " \
+                               "t1.domain_id AS val_first," \
+                               "t2.tid AS tid_second, " \
+                               "t2.attribute AS attr_second, " \
+                               "t2.value AS val_second, " \
+                               "t3.feature_ind as feature_ind " \
                                "FROM " + \
-                               self.dataset.table_specific_name('Init_flat') + " t1," + \
-                               self.dataset.table_specific_name('C_clean') + " clean," + \
-                               self.dataset.table_specific_name('Init_flat') + " t2 " \
-                                                                               "WHERE " \
+                               self.dataset.table_specific_name(name) + " t1, " + \
+                               self.dataset.table_specific_name('C_clean_flat') + " t2, "+ \
+                               self.dataset.table_specific_name('Feature_id_map') + " as t3 " \
+                                                                               " WHERE " \
                                                                                "t1.tid = t2.tid " \
                                                                                "AND " \
-                                                                               "t2.attr_name = clean.attr " \
-                                                                               "AND " \
-                                                                               "t2.tid = clean.ind " \
-                                                                               "AND " \
-                                                                               "t1.attr_name != t2.attr_name) " \
+                                                                               "t1.attr_name != t2.attribute " \
+                                                                                  " AND " \
+                                                                                  " t3.attribute=t2.attribute " \
+                                                                                  " AND " \
+                                                                                  " t3.value=t2.value" \
+                                                                                    " AND" \
+                                                                                    " t1.observed=1 ) " \
                                                                                "AS table1;"
         self.dataengine.query(query_init_flat_join)
 
         # Create co-occur feature
 
         query_for_featurization = " (SELECT DISTINCT @p := @p + 1 AS var_index," \
+                                  "cooccur.vid_first as vid, " \
                                   "cooccur.tid_first AS rv_index," \
-                                  "map.index AS rv_attr," \
-                                  "Domain.val_index AS assigned_val," \
-                                  "Domain1.index AS feature," \
+                                  "cooccur.attr_first AS rv_attr," \
+                                  "cooccur.val_first AS assigned_val," \
+                                  " feature_ind AS feature," \
                                   "'cooccur' AS TYPE," \
                                   "'        ' AS weight_id, 1 as count " \
                                   "FROM " \
                                   + self.dataset.table_specific_name('Init_flat_join') + \
-                                  " AS cooccur, " +\
-                                  self.dataset.table_specific_name('Domain_Map') + " as Domain, " + \
-                                  self.dataset.table_specific_name('Map_schema') + " as map1, " +\
-                                  self.dataset.table_specific_name('Domain_Map') + " as Domain1, " + \
-                                  self.dataset.table_specific_name('Map_schema') + " as map " \
-                                  "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first') +\
-                                  "and (Domain.value = cooccur.val_first)" \
-                                  " and (Domain.attr_index = map.index) and (map.attribute = cooccur.attr_first) " \
-                                  "and (Domain1.value = cooccur.val_second)" \
-                                  " and (Domain1.attr_index = map1.index) and (map1.attribute = cooccur.attr_second) "
+                                  " AS cooccur  " +\
+                                  "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first')
         return query_for_featurization
 
 
@@ -397,19 +391,22 @@ class SignalDC(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
-    def get_query(self):
+    def get_query(self, name= "Possible_values_dk"):
         """
                 This method creates a query for the featurization table for the dc"
                 """
+
+        self.possible_table_name = self.dataset.table_specific_name(name)
+
         new_dc = self._create_new_dc()
         table_attribute_string = self.dataengine.get_schema(
-            self.dataset, "Init")
+            self.dataset, 'Init')
         attributes = table_attribute_string.split(',')
         join_table_name = self.dataset.table_specific_name('Init_join')
         query1 = "SELECT "
 
-        for attribute in attributes:
 
+        for attribute in attributes:
             query1 = query1 + "table1." + attribute + " AS first_" + \
                 attribute + "," + "table2." + attribute + " AS second_" + attribute + ","
         query1 = query1[:-1]
@@ -428,8 +425,10 @@ class SignalDC(Featurizer):
         self.dataengine.query(query)
         dc_queries = []
 
+        maximum= 3 
+
         map_dc = []
-        count = 0
+        count = maximum
         for index_dc in range(0, len(new_dc)):
             count = count + 1
             relax_dc = new_dc[index_dc] + self.attributes_list[index_dc]
@@ -437,9 +436,10 @@ class SignalDC(Featurizer):
             new_condition = new_dc[index_dc]
             query_for_featurization = "(SELECT" \
                                       " @p := @p + 1 AS var_index," \
+                                      "possible_table.vid as vid," \
                                       "possible_table.tid AS rv_index," \
-                                      "map.index AS rv_attr,"\
-                                      "Domain.val_index AS assigned_val,"+\
+                                      "possible_table.attr_name AS rv_attr,"\
+                                      "possible_table.domain_id AS assigned_val,"+\
                                       str(count) + " AS feature," \
                                       "'FD' AS TYPE," \
                                       "'       ' AS weight_id ,  count(table1.second_index) as count " \
@@ -449,25 +449,19 @@ class SignalDC(Featurizer):
                                       "WHERE " + self.change_pred[index_dc] + ") AS table1," \
                                       " (SELECT * FROM " + self.possible_table_name + " AS possible_table" \
                                       " WHERE " + \
-                                      self.attributes_list[index_dc] + " ) AS possible_table, " +\
-                                      self.dataset.table_specific_name('Domain_Map') + " as Domain, " +\
-                                      self.dataset.table_specific_name('Map_schema') + " as map " \
+                                      self.attributes_list[index_dc] + " ) AS possible_table " +\
                                       "WHERE (" + \
                                       new_condition +\
-                                      "and (Domain.value = possible_table.attr_val)" \
-                                      "and (Domain.attr_index = map.index) and (map.attribute = possible_table.attr_name) and "\
-                                                      " possible_table.tid=table1.first_index" \
-                                                      ") group by possible_table.tid,map.index , " \
-                                                      "Domain.val_index"
+                                      " and possible_table.tid=table1.first_index" \
+                                      ") group by possible_table.vid,possible_table.tid,possible_table.attr_name," \
+                                      " possible_table.domain_id"
             dc_queries.append(query_for_featurization)
 
-        dataframe_map_dc = self.spark_session.createDataFrame(map_dc, ['index', 'relaxed_version', 'actual_DC'])
-        dataframe_map_dc.show()
-        self.dataengine.add_db_table('Map_dc', dataframe_map_dc, self.dataset)
 
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('Dc'," + str(count) + ");"
-        self.dataengine.query(insert_signal_query)
+            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'Feature_id_map') + ' (feature_ind, attribute,value) Values ('+str(id)+',"' + self.attributes_list[index_dc] \
+                                  +'","'+self.final_dc[index_dc]+'");'
+            self.dataengine.query(insert_signal_query)
 
 
 
