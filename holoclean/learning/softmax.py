@@ -1,7 +1,6 @@
 import torch.sparse
 
 class SoftMax:
-
     def __init__(self, dataengine, dataset):
         self.dataengine = dataengine
         self.dataset = dataset
@@ -74,6 +73,7 @@ class CustomLogReg(torch.nn.Module):
 
     def forward(self, X):
         ## do weights times X. need to mask classes when less than L for this domain
+        pass
 
 
 class SoftMax:
@@ -182,5 +182,5 @@ class SoftMax:
             num_batches = n_samples // batch_size
             for k in range(num_batches):
                 start, end = k * batch_size, (k + 1) * batch_size
-                cost += train(model, loss, optimizer, X[start:end, :, :], I don't know what to put here')
+                cost += train(model, loss, optimizer, X[start:end, :, :], 'I dont know what to put here')
             
