@@ -14,7 +14,9 @@ class Dataset:
         'Init_join',
         'Init_flat_join',
         'C_clean',
+        'C_clean_flat',
         'C_dk',
+        'C_dk_flat',
         'Feature',
         'Feature_temp',
         'Feature_gb',
@@ -36,7 +38,10 @@ class Dataset:
         'Factor_to_var',
         'Final',
         'Correct',
-        'Domain_Map']
+        'Feature_id_map',
+        'Possible_values_clean',
+        'Possible_values_dk',
+        'Kij_lookup']
 
     """
 

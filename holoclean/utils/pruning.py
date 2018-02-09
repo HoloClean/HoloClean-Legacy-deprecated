@@ -34,6 +34,7 @@ class Pruning:
         self.cell_domain = {}
         self.all_cells = []
         self.all_cells_temp = {}
+        self.index = 0
 
         self.noisycells = self._d_cell()
         self.cellvalues = self._c_values()
@@ -242,6 +243,19 @@ class Pruning:
                 self.assignments[cell_index], self.attribute_to_be_pruned[cell_index])
         return
 
+    def _append_possible(self, value, dataframe, cell_index,k_ij):
+        if value != self.all_cells_temp[cell_index].value:
+            dataframe.append(
+                [(self.all_cells_temp[cell_index].tupleid + 1),
+                 self.all_cells_temp[cell_index].columnname,
+                 unicode(value), 0, k_ij])
+        else:
+            dataframe.append(
+                [(self.all_cells_temp[cell_index].tupleid + 1),
+                 self.all_cells_temp[cell_index].columnname,
+                 unicode(value), 1, k_ij])
+
+
     def _create_dataframe(self):
         """
         creates a spark dataframe from cell_domain for all the cells
@@ -254,8 +268,11 @@ class Pruning:
             if attribute != 'index' and attribute != 'Index':
                 domain_dict[attribute] = []
 
-        list_to_dataframe_possible_values = []
-        list_to_dataframe_init = []
+        possible_values_clean = []
+        possible_values_dirty = []
+        c_clean = []
+        c_dk = []
+        v_id_clean = v_id_dk = 1
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
@@ -263,72 +280,113 @@ class Pruning:
                 if value not in domain_dict[attribute]:
                     domain_dict[attribute].append(value)
 
-                list_to_dataframe_init.append([(self.cellvalues[tuple_id][cell_index].tupleid + 1),
-                                               self.cellvalues[tuple_id][cell_index].columnname,
-                                               unicode(self.cellvalues[tuple_id][cell_index].value)])
+                if [attribute, tuple_id + 1] in self.noisy_list:
+                    c_dk.append([v_id_dk, tuple_id + 1, attribute, value])
+                    v_id_dk = v_id_dk + 1
+                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+                    if tmp_cell_index in self.cell_domain:
+                        k_ij = 0
+                        for value in self.cell_domain[tmp_cell_index]:
+                            k_ij = k_ij + 1
+                            self._append_possible(value,possible_values_dirty,tmp_cell_index,k_ij)
+                        domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                          self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                elif [attribute, tuple_id + 1] not in self.noisy_list:
+                    c_clean.append([v_id_clean, tuple_id + 1, attribute, value])
+                    v_id_clean = v_id_clean + 1
+                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+                    if tmp_cell_index in self.cell_domain:
+                        k_ij = 0
+                        for value in self.cell_domain[tmp_cell_index]:
+                            k_ij = k_ij + 1
+                            self._append_possible(value, possible_values_clean, tmp_cell_index, k_ij)
+                        domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                          self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
-                # If the value is in the id of cell in the involve attribute we put as not observed
-                tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
-                if tmp_cell_index in self.cell_domain:
-                    k_ij = 0
-                    for value in self.cell_domain[tmp_cell_index]:
-                        k_ij = k_ij +1
-                        if value != self.all_cells_temp[tmp_cell_index].value:
-                            list_to_dataframe_possible_values.append(
-                                 [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                 self.all_cells_temp[tmp_cell_index].columnname,
-                                 unicode(value), "0", k_ij])
-                        else:
-                            list_to_dataframe_possible_values.append(
-                                [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                self.all_cells_temp[tmp_cell_index].columnname,
-                                unicode(value), "1", k_ij])
-
-                    domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                       self.all_cells_temp[tmp_cell_index].columnname, k_ij])
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
-            list_to_dataframe_possible_values, [
-                'tid', 'attr_name', 'attr_val', 'observed', 'id'])
-        self.dataengine.add_db_table('Possible_values',
+            possible_values_clean,StructType([
+                StructField("tid", IntegerType(), True),
+                StructField("attr_name", StringType(), False),
+                StructField("attr_val", StringType(), False),
+                StructField("observed", IntegerType(), False),
+                StructField("id", IntegerType(), False),
+            ])
+        )
+        self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(domain_kj, ['tid', 'attr_name', 'kij'])
+        new_df_possible = self.spark_session.createDataFrame(
+            possible_values_dirty, StructType([
+                StructField("tid", IntegerType(), True),
+                StructField("attr_name", StringType(), False),
+                StructField("attr_val", StringType(), False),
+                StructField("observed", IntegerType(), False),
+                StructField("id", IntegerType(), False),
+            ])
+        )
+        self.dataengine.add_db_table('Possible_values_dk',
+                                     new_df_possible, self.dataset)
+
+        # Create Clean and DK flats
+        new_df_clean = self.spark_session.createDataFrame(
+            c_clean, StructType([
+                StructField("vid", IntegerType(), True),
+                StructField("tid", IntegerType(), False),
+                StructField("attribute", StringType(), False),
+                StructField("value", StringType(), False)
+            ])
+        )
+        self.dataengine.add_db_table('C_clean_flat',
+                                     new_df_clean, self.dataset)
+
+        new_df_dk = self.spark_session.createDataFrame(
+            c_dk, StructType([
+                StructField("vid", IntegerType(), True),
+                StructField("tid", IntegerType(), False),
+                StructField("attribute", StringType(), False),
+                StructField("value", StringType(), False)
+            ])
+        )
+        self.dataengine.add_db_table('C_dk_flat',
+                                     new_df_dk, self.dataset)
+
+        new_df_kij = self.spark_session.createDataFrame(domain_kj, StructType([
+            StructField("tid", IntegerType(), True),
+            StructField("attr_name", StringType(), False),
+            StructField("k_ij", IntegerType(), False),
+        ]))
         self.dataengine.add_db_table('Kij_lookup',
                                      new_df_kij, self.dataset)
 
 
-        # Create Initial table in flatted view
-        new_df_init = self.spark_session.createDataFrame(
-            list_to_dataframe_init, ['tid', 'attr_name', 'attr_val'])
-        self.dataengine.add_db_table('Init_flat',
-                                     new_df_init, self.dataset)
-
-        # Create dataframe for Domain Map
+        # Create dataframe for Feature id map
         max_domain = 0
-       # for attribute in domain_dict:
-       #     max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
-       # for attribute in domain_dict:
-        #    while len(domain_dict[attribute]) < max_domain:
-        #        domain_dict[attribute].append('*')
-       # list_domain_map = []
-       # index = 1
-       # for attribute in domain_dict:
-        #    value_index = 1
-         #   for value in domain_dict[attribute]:
-          #      list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
-           #     value_index = value_index + 1
-           #     index = index + 1
+        for attribute in domain_dict:
+            max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
+        '''for attribute in domain_dict:
+            while len(domain_dict[attribute]) < max_domain:
+                domain_dict[attribute].append('*')'''
+        list_domain_map = []
+        self.index = 1
+        list_domain_map.append([self.index, 'Init', 'Init'])
+        self.index = self.index + 1
+        for attribute in domain_dict:
+            value_index = 1
+            for value in domain_dict[attribute]:
+                #list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
+                list_domain_map.append([self.index, attribute, str(value)])
+                value_index = value_index + 1
+                self.index = self.index + 1
 
-        # Send dataframe to Domain_Map Table
+        # Send dataframe to Feature id map Table
         df_domain_map = self.spark_session.createDataFrame(
             list_domain_map, StructType([
                 StructField("index", IntegerType(), False),
-                StructField("attr_index", IntegerType(), True),
-                StructField("val_index", IntegerType(), True),
+                StructField("attribute", StringType(), True),
                 StructField("value", StringType(), True),
             ]))
-        self.dataengine.add_db_table('Domain_Map',
+        self.dataengine.add_db_table('Feature_id_map',
                                      df_domain_map, self.dataset)
 
         query_for_create_offset = "CREATE TABLE \
