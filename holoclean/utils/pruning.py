@@ -243,15 +243,15 @@ class Pruning:
                 self.assignments[cell_index], self.attribute_to_be_pruned[cell_index])
         return
 
-    def _append_possible(self, value, dataframe, cell_index,k_ij):
+    def _append_possible(self, v_id, value, dataframe, cell_index,k_ij):
         if value != self.all_cells_temp[cell_index].value:
             dataframe.append(
-                [(self.all_cells_temp[cell_index].tupleid + 1),
+                [v_id, (self.all_cells_temp[cell_index].tupleid + 1),
                  self.all_cells_temp[cell_index].columnname,
                  unicode(value), 0, k_ij])
         else:
             dataframe.append(
-                [(self.all_cells_temp[cell_index].tupleid + 1),
+                [v_id, (self.all_cells_temp[cell_index].tupleid + 1),
                  self.all_cells_temp[cell_index].columnname,
                  unicode(value), 1, k_ij])
 
@@ -288,7 +288,7 @@ class Pruning:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(value,possible_values_dirty,tmp_cell_index,k_ij)
+                            self._append_possible(v_id_dk, value,possible_values_dirty,tmp_cell_index,k_ij)
                         domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
                 elif [attribute, tuple_id + 1] not in self.noisy_list:
@@ -299,14 +299,15 @@ class Pruning:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(value, possible_values_clean, tmp_cell_index, k_ij)
+                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                         domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_clean,StructType([
-                StructField("tid", IntegerType(), True),
+                StructField("vid", IntegerType(), True),
+                StructField("tid", IntegerType(), False),
                 StructField("attr_name", StringType(), False),
                 StructField("attr_val", StringType(), False),
                 StructField("observed", IntegerType(), False),
@@ -318,7 +319,8 @@ class Pruning:
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
-                StructField("tid", IntegerType(), True),
+                StructField("vid", IntegerType(), True),
+                StructField("tid", IntegerType(), False),
                 StructField("attr_name", StringType(), False),
                 StructField("attr_val", StringType(), False),
                 StructField("observed", IntegerType(), False),
