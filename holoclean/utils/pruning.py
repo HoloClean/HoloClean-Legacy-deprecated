@@ -249,6 +249,7 @@ class Pruning:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',');
         domain_dict = {}
+        domain_kj = []
         for attribute in attributes:
             if attribute != 'index' and attribute != 'Index':
                 domain_dict[attribute] = []
@@ -269,23 +270,33 @@ class Pruning:
                 # If the value is in the id of cell in the involve attribute we put as not observed
                 tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                 if tmp_cell_index in self.cell_domain:
+                    k_ij = 0
                     for value in self.cell_domain[tmp_cell_index]:
+                        k_ij = k_ij +1
                         if value != self.all_cells_temp[tmp_cell_index].value:
                             list_to_dataframe_possible_values.append(
-                                                                     [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                                                      self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      unicode(value), "0", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
+                                 [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                 self.all_cells_temp[tmp_cell_index].columnname,
+                                 unicode(value), "0", k_ij])
                         else:
                             list_to_dataframe_possible_values.append(
-                                                                     [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                                                      self.all_cells_temp[tmp_cell_index].columnname,
-                                                                      unicode(value), "1", 'String' if isinstance(value, unicode) or isinstance(value, str) else 'Number'])
+                                [(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                self.all_cells_temp[tmp_cell_index].columnname,
+                                unicode(value), "1", k_ij])
+
+                    domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                       self.all_cells_temp[tmp_cell_index].columnname, k_ij])
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
             list_to_dataframe_possible_values, [
-                'tid', 'attr_name', 'attr_val', 'observed', 'data_type'])
+                'tid', 'attr_name', 'attr_val', 'observed', 'id'])
         self.dataengine.add_db_table('Possible_values',
                                      new_df_possible, self.dataset)
+
+        new_df_kij = self.spark_session.createDataFrame(domain_kj, ['tid', 'attr_name', 'kij'])
+        self.dataengine.add_db_table('Kij_lookup',
+                                     new_df_kij, self.dataset)
+
 
         # Create Initial table in flatted view
         new_df_init = self.spark_session.createDataFrame(
@@ -295,19 +306,19 @@ class Pruning:
 
         # Create dataframe for Domain Map
         max_domain = 0
-        for attribute in domain_dict:
-            max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
-        for attribute in domain_dict:
-            while len(domain_dict[attribute]) < max_domain:
-                domain_dict[attribute].append('*')
-        list_domain_map = []
-        index = 1
-        for attribute in domain_dict:
-            value_index = 1
-            for value in domain_dict[attribute]:
-                list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
-                value_index = value_index + 1
-                index = index + 1
+       # for attribute in domain_dict:
+       #     max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
+       # for attribute in domain_dict:
+        #    while len(domain_dict[attribute]) < max_domain:
+        #        domain_dict[attribute].append('*')
+       # list_domain_map = []
+       # index = 1
+       # for attribute in domain_dict:
+        #    value_index = 1
+         #   for value in domain_dict[attribute]:
+          #      list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
+           #     value_index = value_index + 1
+           #     index = index + 1
 
         # Send dataframe to Domain_Map Table
         df_domain_map = self.spark_session.createDataFrame(
@@ -334,7 +345,7 @@ class Pruning:
         self.dataengine.query(insert_signal_query)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('max_domain', "+ str(max_domain) +");"
+            'offset') + " (offset_type, offset) Values ('max_domain', " + str(max_domain) +");"
         self.dataengine.query(insert_signal_query)
 
         return
