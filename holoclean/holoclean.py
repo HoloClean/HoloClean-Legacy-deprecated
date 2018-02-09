@@ -357,6 +357,9 @@ class Session:
 
         self.holo_env.dataengine.add_db_table(
             'C_clean', union_clean_cells, self.dataset)
+
+
+
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
         self.holo_env.logger.info('error detection is finished')
@@ -392,9 +395,9 @@ class Session:
 
         query_for_featurization = "CREATE TABLE \
             " + self.dataset.table_specific_name('Feature_temp') \
-            + "(var_index INT,rv_index TEXT , rv_attr TEXT,\
+            + "(var_index INT,vid TEXT, rv_index TEXT , rv_attr TEXT,\
             assigned_val TEXT," \
-            " feature TEXT,TYPE TEXT, weight_id TEXT,count Int);"
+            " feature TEXT,TYPE TEXT, weight_id TEXT,count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
         counter = 0
