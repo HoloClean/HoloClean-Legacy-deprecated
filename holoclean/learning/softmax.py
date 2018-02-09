@@ -1,30 +1,23 @@
 import torch.sparse
 
 class CustomLogReg(torch.nn.Module):
-    def __init__(self, input_dim, output_dim, Weights):
+
+    # don't think we need out_dim as a param since we already have a completed W. think about later
+    def __init__(self, input_dim, output_dim, weights):
         ## don't need softmax here since cross entropy loss does it for us
         super(CustomLogReg, self).__init__()
-        self.linear = torch.nn.Linear(input_dim, output_dim, bias=False)
         self.input_dim = input_dim
-        self.W = Weights
+        self.output_dim = output_dim
+        self.W = weights
 
     def forward(self, X):
-        return TensorProducts.apply(X, self.W, self.input_dim) 
-
-class TensorScores(Function):
-    def forward(ctx, X, W, input_dim):
-        ## do weights times X. need to mask classes when less than L for this domain
-        ##we go down the n indices, computing scores as we go along
+        # need to add masking
         ret = torch.zeros(0,self.input_dim)
         for i in range(X.size()[0]):
             #grab a slice of the tensor
             torch.cat([ret, self.W.mul(X[i]).t().mm(torch.ones(input_dim, 1))], 0)
         return ret
-    def backward(ctx, grad_ouput):
-        
-        grad_W = 0
-        return None, grad_W, None
-
+    
 class SoftMax:
 
     def __init__(self, dataengine, dataset):
@@ -93,6 +86,11 @@ class SoftMax:
 
         return
 
+    def build_model(in_dim, out_dim, weights):
+        model = CustomLogReg(in_dim, out_dim, weights)
+        return model
+    
+    
     def train(model, loss, optimizer, x_val, y_val):
         x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
@@ -116,13 +114,14 @@ class SoftMax:
 
     def main():
 
-        clean_table = self.dataengine.get_table_to_dataframe("C_clean", self.dataset).collect()
         
+        
+
         n_samples = self.N
         n_features = self.M
         n_classes = self.L
         
-        model = CustomLogReg(n_samples, n_classes)
+        model = build_model(n_samples, n_classes, self.W)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
