@@ -13,7 +13,7 @@ from featurization.featurizer import Featurizer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
-#from learning.softmax import SoftMax
+from learning.softmax import SoftMax
 from threading import Thread, Lock
 
 # Define arguments for HoloClean
@@ -429,6 +429,8 @@ class Session:
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature_temp') + ";"
                     self.holo_env.dataengine.query(global_counter)
+
+
         # raw_input("Count the Feature table")
 
         '''print ('adding weight_id to feature table...')
@@ -443,7 +445,33 @@ class Session:
         print (
             'adding weight_id to feature table is finished')
         featurizer.pointers()'''
+        self._create_dimensions()
         return
+
+    def _create_dimensions(self, clean = 1):
+        if clean == 1:
+            query_for_create_offset = "CREATE TABLE \
+                        " + self.dataset.table_specific_name('Dimensions_clean') \
+                                      + "(dimension Text, length INT);"
+            self.holo_env.dataengine.query(query_for_create_offset)
+
+            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+                'Dimensions_clean') + " SELECT 'N' as dimension, (" \
+                " SELECT COUNT(*) FROM " \
+                + self.dataset.table_specific_name("Possible_values_clean") + ") as length;"
+            self.holo_env.dataengine.query(insert_signal_query)
+            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+                'Dimensions_clean') + " SELECT 'M' as dimension, (" \
+                " SELECT COUNT(*) FROM " \
+                + self.dataset.table_specific_name("Feature_id_map") + ") as length;"
+
+            self.holo_env.dataengine.query(insert_signal_query)
+            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+                'Dimensions_clean') + " SELECT 'L' as dimension, (" \
+                " SELECT MAX(k_ij) FROM " \
+                + self.dataset.table_specific_name("Kij_lookup") + ") as length;"
+            self.holo_env.dataengine.query(insert_signal_query)
+
 
     def ds_learn_repair_model(self):
         """TODO: Learn a repair model"""

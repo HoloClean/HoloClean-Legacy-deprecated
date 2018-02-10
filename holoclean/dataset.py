@@ -5,7 +5,7 @@ from datetime import datetime
 class Dataset:
     attributes = [
         'id',
-        'offset',
+        'Dimensions_clean',
         'Random_index',
         'Map_schema',
         'Map_dc',

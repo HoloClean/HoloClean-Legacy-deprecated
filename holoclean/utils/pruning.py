@@ -281,25 +281,25 @@ class Pruning:
                     domain_dict[attribute].append(value)
 
                 if [attribute, tuple_id + 1] in self.noisy_list:
-                    c_dk.append([v_id_dk, tuple_id + 1, attribute, value])
-                    v_id_dk = v_id_dk + 1
+                    c_dk.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if tmp_cell_index in self.cell_domain:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value,possible_values_dirty,tmp_cell_index,k_ij)
+                            self._append_possible(v_id_dk, value,possible_values_dirty,tmp_cell_index, k_ij)
+                            v_id_dk = v_id_dk + 1
                         domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
                 elif [attribute, tuple_id + 1] not in self.noisy_list:
-                    c_clean.append([v_id_clean, tuple_id + 1, attribute, value])
-                    v_id_clean = v_id_clean + 1
+                    c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if tmp_cell_index in self.cell_domain:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
                             self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
+                            v_id_clean = v_id_clean + 1
                         domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
@@ -333,7 +333,6 @@ class Pruning:
         # Create Clean and DK flats
         new_df_clean = self.spark_session.createDataFrame(
             c_clean, StructType([
-                StructField("vid", IntegerType(), True),
                 StructField("tid", IntegerType(), False),
                 StructField("attribute", StringType(), False),
                 StructField("value", StringType(), False)
@@ -344,7 +343,6 @@ class Pruning:
 
         new_df_dk = self.spark_session.createDataFrame(
             c_dk, StructType([
-                StructField("vid", IntegerType(), True),
                 StructField("tid", IntegerType(), False),
                 StructField("attribute", StringType(), False),
                 StructField("value", StringType(), False)
@@ -391,21 +389,5 @@ class Pruning:
         self.dataengine.add_db_table('Feature_id_map',
                                      df_domain_map, self.dataset)
 
-        query_for_create_offset = "CREATE TABLE \
-            " + self.dataset.table_specific_name('offset') \
-            + "(offset_type Text,offset INT);"
-        self.dataengine.query(query_for_create_offset)
-
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('Init',1);"
-        self.dataengine.query(insert_signal_query)
-
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('Cooccur',"+str(len(list_domain_map)) +");"
-        self.dataengine.query(insert_signal_query)
-
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'offset') + " (offset_type, offset) Values ('max_domain', " + str(max_domain) +");"
-        self.dataengine.query(insert_signal_query)
 
         return

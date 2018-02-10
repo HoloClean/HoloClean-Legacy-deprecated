@@ -1,6 +1,6 @@
-import torch.sparse
+import torch
 
-class CustomLogReg(torch.nn.Module):
+'''class CustomLogReg(torch.nn.Module):
     def __init__(self, input_dim, output_dim, Weights):
         ## don't need softmax here since cross entropy loss does it for us
         super(CustomLogReg, self).__init__()
@@ -24,7 +24,7 @@ class TensorScores(Function):
         
         grad_W = 0
         return None, grad_W, None
-
+'''
 class SoftMax:
 
     def __init__(self, dataengine, dataset):
@@ -93,7 +93,7 @@ class SoftMax:
 
         return
 
-    def train(model, loss, optimizer, x_val, y_val):
+    '''def train(model, loss, optimizer, x_val, y_val):
         x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
 
@@ -134,4 +134,4 @@ class SoftMax:
             for k in range(num_batches):
                 start, end = k * batch_size, (k + 1) * batch_size
                 cost += train(model, loss, optimizer, X[start:end, :, :], 'I dont know what to put here')
-            
+'''

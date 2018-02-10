@@ -1,6 +1,7 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import SignalInit, SignalCooccur, SignalDC
+from holoclean.featurization.featurizer import Featurizer
 from holoclean.learning.softmax import SoftMax
 from holoclean.learning.accuracy import Accuracy
 from time import time as t
@@ -93,7 +94,7 @@ class Testing:
         print 'total featurization time: '+str(d)+'\n'
 
 
-        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset)
+        #soft = SoftMax(self.holo_obj.dataengine, self.session.dataset)
 
         '''start_time = t()
         self.session._numskull()
