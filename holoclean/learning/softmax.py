@@ -1,4 +1,9 @@
 import torch
+import torch.nn as nn
+from torch.nn import Parameter
+from torch.autograd import Variable
+import torch.nn.functional as F
+import math
 
 
 class LogReg(torch.nn.Module):
