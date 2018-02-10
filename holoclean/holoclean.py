@@ -401,10 +401,12 @@ class Session:
         self.holo_env.dataengine.query(query_for_featurization)
 
         counter = 0
+
+        table_name = "Possible_values_clean"
         for feature in self.featurizers:
             if feature.id != "SignalDC":
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                    'Feature_clean') + " SELECT * FROM ( " + feature.get_query() + ")as T_" + str(counter) + ");"
+                    'Feature_clean') + " SELECT * FROM ( " + feature.get_query(table_name) + ")as T_" + str(counter) + ");"
                 counter += 1
                 self.holo_env.logger.info(
                     'the query that will be executed is:' +
@@ -417,7 +419,7 @@ class Session:
                     self.dataset.table_specific_name('Feature_clean') + ";"
                 self.holo_env.dataengine.query(global_counter)
             else:
-                dc_queries = feature.get_query()
+                dc_queries = feature.get_query(table_name)
                 for dc_query in dc_queries:
                     insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_clean') +\
                                           " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
