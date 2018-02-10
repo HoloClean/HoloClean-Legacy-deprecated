@@ -301,14 +301,11 @@ class SignalInit(Featurizer):
         else:
             name = "Observed_Possible_values_dk"
 
-        query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
-            init_flat.vid as vid,
-            init_flat.tid AS rv_index,\
-            init_flat.attr_name AS rv_attr,\
-            init_flat.domain_id AS assigned_val,\
-            '1' AS feature,\
-            'init' AS TYPE,\
-            '      ' AS weight_id , 1 as count\
+        query_for_featurization = """ (SELECT  \
+            init_flat.vid as vid, init_flat.domain_id AS assigned_val, \
+            '1' AS feature, \
+            'init' AS TYPE, \
+            1 as count\
             FROM """ +\
             self.dataset.table_specific_name(name) +\
             " AS init_flat " +\
@@ -371,14 +368,12 @@ class SignalCooccur(Featurizer):
 
         # Create co-occur feature
 
-        query_for_featurization = " (SELECT DISTINCT @p := @p + 1 AS var_index," \
+        query_for_featurization = " (SELECT DISTINCT " \
                                   "cooccur.vid_first as vid, " \
-                                  "cooccur.tid_first AS rv_index," \
-                                  "cooccur.attr_first AS rv_attr," \
-                                  "cooccur.val_first AS assigned_val," \
-                                  " feature_ind AS feature," \
+                                  "cooccur.val_first AS assigned_val, " \
+                                  " feature_ind AS feature, " \
                                   "'cooccur' AS TYPE," \
-                                  "'        ' AS weight_id, 1 as count " \
+                                  " 1 as count " \
                                   "FROM " \
                                   + self.dataset.table_specific_name('Init_flat_join') + \
                                   " AS cooccur  " +\
@@ -447,14 +442,11 @@ class SignalDC(Featurizer):
             map_dc.append([str(count), relax_dc, self.final_dc[index_dc]])
             new_condition = new_dc[index_dc]
             query_for_featurization = "(SELECT" \
-                                      " @p := @p + 1 AS var_index," \
-                                      "possible_table.vid as vid," \
-                                      "possible_table.tid AS rv_index," \
-                                      "possible_table.attr_name AS rv_attr,"\
-                                      "possible_table.domain_id AS assigned_val,"+\
-                                      str(count) + " AS feature," \
-                                      "'FD' AS TYPE," \
-                                      "'       ' AS weight_id ,  count(table1.second_index) as count " \
+                                      " possible_table.vid as vid, " \
+                                      "possible_table.domain_id AS assigned_val, "+ \
+                                      str(count) + " AS feature, " \
+                                      "'FD' AS TYPE, " \
+                                      "  count(table1.second_index) as count " \
                                       "  FROM " \
                                       "(SELECT * FROM " + \
                                       join_table_name + " AS table1 " \
