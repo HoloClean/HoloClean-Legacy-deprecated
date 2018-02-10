@@ -1,2 +1,2 @@
 t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)
-t1&t2&EQ(t1.A,t2.A)&GT(t1.Number1,t2.Number1)
+t1&t2&EQ(t1.C,t2.C)&IQ(t1.D,t2.D)
