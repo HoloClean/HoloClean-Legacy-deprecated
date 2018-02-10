@@ -164,7 +164,7 @@ class Featurizer:
                               " ,  table1.weight_id" \
                               " , table1.count" \
                               " FROM " \
-                              + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
+                              + self.dataset.table_specific_name('Feature_clean') + " AS table1, " \
                               + self.dataset.table_specific_name('Random_index') + " AS table2 " \
                                                                                   " WHERE " \
                                                                                   " table1.rv_index=table2.rv_ind" \
@@ -209,7 +209,7 @@ class Featurizer:
                 " (" \
                 "SELECT * FROM (" \
                 "SELECT distinct NULL, rv_attr,feature FROM " + \
-                self.dataset.table_specific_name('Feature_temp') + "" \
+                self.dataset.table_specific_name('Feature_clean') + "" \
                                                                    ") AS TABLE1);"
 
         self.dataengine.query(query)
@@ -241,7 +241,7 @@ class Featurizer:
                               " ,  table2.weight_id" \
                               " , table1.count" \
                               " FROM " \
-                              + self.dataset.table_specific_name('Feature_temp') + " AS table1, " \
+                              + self.dataset.table_specific_name('Feature_clean') + " AS table1, " \
                               + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
                                                                                   " WHERE" \
                                                                                   " table1.feature=table2.feature" \

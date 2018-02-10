@@ -30,20 +30,17 @@ class SoftMax:
     def __init__(self, dataengine, dataset):
         self.dataengine = dataengine
         self.dataset = dataset
-        dataframe_offset = self.dataengine.get_table_to_dataframe("offset", self.dataset)
+        dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
-        offset_dict = {}
-        for offset in list:
-            offset_dict[offset['offset_type']] = offset['offset']
+        dimension_dict = {}
+        for dimension in list:
+            dimension_dict[dimension['dimension']] = dimension['length']
 
-        self.init_count = offset_dict['Init']
-        self.cooccur_count = offset_dict['Cooccur']
-        self.DC_count = offset_dict['Dc']
 
         # X Tensor Dimensions (N * M * L)
-        self.M = self.init_count+self.cooccur_count + self.DC_count
-        self.N = offset_dict['N']
-        self.L = offset_dict['max_domain']
+        self.M = dimension_dict['M']
+        self.N = dimension_dict['N']
+        self.L = dimension_dict['L']
 
         # pytorch tensors
         self.X = None
@@ -58,18 +55,9 @@ class SoftMax:
     def _setupX(self):
         coordinates = torch.LongTensor()
         values = torch.LongTensor([])
-        feature_table = self.dataengine.get_table_to_dataframe("Feature", self.dataset).collect()
+        feature_table = self.dataengine.get_table_to_dataframe("Feature_clean", self.dataset).collect()
         for factor in feature_table:
-            print(factor)
-            feature_index = None
-            if factor.TYPE == 'init':
-                feature_index = 0
-            elif factor.TYPE == 'cooccur':
-                feature_index = self.init_count + factor.feature - 1
-            elif factor.TYPE == 'FD':
-                feature_index = self.init_count + self.cooccur_count + factor.feature - 1
-
-            coordinate = torch.LongTensor([[factor.var_index - 1], [feature_index], [factor.assigned_val - 1]])
+            coordinate = torch.LongTensor([[factor.vid - 1], [factor.var_index - 1], [factor.assigned_val - 1]])
             coordinates = torch.cat((coordinates, coordinate), 1)
             value = factor['count']
             values = torch.cat((values, torch.LongTensor([value])), 0)

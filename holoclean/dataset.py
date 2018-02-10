@@ -18,7 +18,7 @@ class Dataset:
         'C_dk',
         'C_dk_flat',
         'Feature',
-        'Feature_temp',
+        'Feature_clean',
         'Feature_gb',
         'Feature_gb_accur',
         'weight_temp',
