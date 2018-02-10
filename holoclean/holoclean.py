@@ -472,7 +472,7 @@ class Session:
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
                 'Dimensions_clean') + " SELECT 'N' as dimension, (" \
                 " SELECT COUNT(*) FROM " \
-                + self.dataset.table_specific_name("Possible_values_clean") + ") as length;"
+                + self.dataset.table_specific_name("Observed_Possible_values_clean") + ") as length;"
             self.holo_env.dataengine.query(insert_signal_query)
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
                 'Dimensions_clean') + " SELECT 'M' as dimension, (" \

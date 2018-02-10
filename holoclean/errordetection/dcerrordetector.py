@@ -74,6 +74,7 @@ class DCErrorDetection:
             query = "SELECT table1.index as ind,table2.index as\
                 indexT2 FROM df table1,df table2 WHERE ("+cond+")"
             satisfied_tuples_index.append(self.spark_session.sql(query))
+            print query
         return satisfied_tuples_index
 
     # Setters

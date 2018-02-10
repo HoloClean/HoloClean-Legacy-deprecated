@@ -30,6 +30,10 @@ class SoftMax:
     def __init__(self, dataengine, dataset):
         self.dataengine = dataengine
         self.dataset = dataset
+        query = "SELECT COUNT(*) AS dc FROM " + \
+                self.dataset.table_specific_name("Feature_id_map") + \
+                " WHERE Type = 'DC'"
+        self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
         dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}
@@ -47,9 +51,20 @@ class SoftMax:
         self._setupX()
         self.mask = None
         self._setupMask()
+        self.Y = None
+        self._setupY()
+
       #  self.W = None
       #  self._setupW()
         
+        return
+    # Will create the Y tensor of size NxL
+    def _setupY(self):
+        possible_values = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).collect()
+        self.Y = torch.zeros(self.N, self.L)
+        for value in possible_values:
+            self.Y[value.vid - 1, value.domain_id - 1] = 1
+        print(self.Y)
         return
 
     # Will create the X-value tensor of size nxmxl
@@ -74,7 +89,7 @@ class SoftMax:
         self.mask = torch.zeros(self.N, self.L)
         for domain in K_ij_lookup:
             if domain.k_ij < self.L:
-                self.mask[domain.vid, domain.k_ij:] = -10e6;
+                self.mask[domain.vid-1, domain.k_ij:] = -10e6;
         print(self.mask)
         return
 
