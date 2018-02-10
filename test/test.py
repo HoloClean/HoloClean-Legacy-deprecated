@@ -17,8 +17,8 @@ class Testing:
         self.fx = open('execution_time.txt', 'w')
         list_time = []
         start_time = t()
-        #self.session.ingest_dataset("test/inputDatabase.csv")
-        self.session.ingest_dataset("test/test.csv")
+        self.session.ingest_dataset("test/inputDatabase.csv")
+        #self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
         d = t()-start_time
         list_time.append(d)
@@ -26,8 +26,8 @@ class Testing:
         self.fx.write('ingest csv time: '+str(d)+'\n')
         print 'ingest csv time: '+str(d)+'\n'
         start_time = t()
-        #self.session.denial_constraints("test/inputConstraint.txt")
-        self.session.denial_constraints("test/dc1.txt")
+        self.session.denial_constraints("test/inputConstraint.txt")
+        #self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
         d = t() - start_time
         list_time.append(d)
@@ -54,6 +54,8 @@ class Testing:
         print 'domain pruning time: '+str(d)+'\n'
         start_time = t()
         start_time1 = t()
+
+        
         initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
                                           self.session.dataset)
         d = t() - start_time

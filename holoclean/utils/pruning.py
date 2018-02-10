@@ -375,7 +375,7 @@ class Pruning:
             value_index = 1
             for value in domain_dict[attribute]:
                 #list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
-                list_domain_map.append([self.index, attribute, str(value)])
+                list_domain_map.append([self.index, attribute, unicode(value)])
                 value_index = value_index + 1
                 self.index = self.index + 1
 
