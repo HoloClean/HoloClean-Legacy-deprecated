@@ -127,11 +127,11 @@ class SoftMax:
         return
 
 
-    def build_model(input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
+    def build_model(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
         model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC)
         return model
 
-    def train(model, loss, optimizer, x_val, y_val, mask=None):
+    def train(self, model, loss, optimizer, x_val, y_val, mask=None):
         x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
     
@@ -157,12 +157,12 @@ class SoftMax:
 
         return output.data[0]
 
-    def predict(model, x_val):
+    def predict(self, model, x_val):
         x = Variable(x_val, requires_grad=False)
         output = model.forward(x, None, None)     
         return output.data.numpy()
 
-    def logreg():
+    def logreg(self):
 
         # here's where the most changes came in from the isolated notebook version
         # hard for me to test anything related to HC implementation until rest is done
@@ -172,10 +172,10 @@ class SoftMax:
         # fill dc count once we decide where we're getting that from
         # debug
         
-        n_examples, labels, n_features = self.X.size()
+        n_examples, n_features, n_classes = self.X.size()
 
         # need to fill this with dc_count once we decide where to get that from
-        model = build_model(self.M - self.dc_count, self.dc_count, n_classes)
+        model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
