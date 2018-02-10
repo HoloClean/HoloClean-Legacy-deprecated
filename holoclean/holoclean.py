@@ -6,6 +6,7 @@ import sys
 
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
+import time
 
 from dataengine import DataEngine
 from dataset import Dataset
@@ -402,8 +403,10 @@ class Session:
 
         counter = 0
 
+
         table_name = "Possible_values_clean"
         for feature in self.featurizers:
+            t0 = time.time()
             if feature.id != "SignalDC":
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
                     'Feature_clean') + " SELECT * FROM ( " + feature.get_query(table_name) + ")as T_" + str(counter) + ");"
@@ -415,6 +418,10 @@ class Session:
                 self.holo_env.logger.info(
                     'the query was executed is:' + insert_signal_query)
                 print insert_signal_query
+                t1 = time.time()
+
+                total = t1 - t0
+                print "the query took : "+str(total) + " sec to exeute"
                 global_counter = "select max(var_index) into @p from " + \
                     self.dataset.table_specific_name('Feature_clean') + ";"
                 self.holo_env.dataengine.query(global_counter)
@@ -428,6 +435,11 @@ class Session:
                     self.holo_env.dataengine.query(insert_signal_query)
                     self.holo_env.logger.info('the query was executed is:' + insert_signal_query)
                     print insert_signal_query
+
+                    t1 = time.time()
+                    total = t1 - t0
+                    print "the query took : " + str(total) + " sec to exeute"
+
                     global_counter = "select max(var_index) into @p from " + \
                         self.dataset.table_specific_name('Feature_clean') + ";"
                     self.holo_env.dataengine.query(global_counter)
