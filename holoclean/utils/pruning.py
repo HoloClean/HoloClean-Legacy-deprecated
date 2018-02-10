@@ -273,7 +273,7 @@ class Pruning:
         possible_values_dirty = []
         c_clean = []
         c_dk = []
-        v_id_clean = v_id_dk = 1
+        v_id_clean = v_id_dk = 0
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
@@ -288,9 +288,9 @@ class Pruning:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value,possible_values_dirty,tmp_cell_index, k_ij)
                             v_id_dk = v_id_dk + 1
-                        domain_kij_dk.append([v_id_dk,(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                            self._append_possible(v_id_dk, value, possible_values_dirty,tmp_cell_index, k_ij)
+                        domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
                 elif [attribute, tuple_id + 1] not in self.noisy_list:
                     c_clean.append([tuple_id + 1, attribute, value])
@@ -299,8 +299,8 @@ class Pruning:
                         k_ij = 0
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                             v_id_clean = v_id_clean + 1
+                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                         domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
@@ -353,8 +353,8 @@ class Pruning:
                                      new_df_dk, self.dataset)
 
         new_df_kij = self.spark_session.createDataFrame(domain_kij_dk, StructType([
-            StructField("tid", IntegerType(), True),
-            StructField("vid", IntegerType(), False),
+            StructField("vid", IntegerType(), True),
+            StructField("tid", IntegerType(), False),
             StructField("attr_name", StringType(), False),
             StructField("k_ij", IntegerType(), False),
         ]))
@@ -362,8 +362,8 @@ class Pruning:
                                      new_df_kij, self.dataset)
 
         new_df_kij = self.spark_session.createDataFrame(domain_kij_clean, StructType([
-            StructField("tid", IntegerType(), True),
-            StructField("vid", IntegerType(), False),
+            StructField("vid", IntegerType(), True),
+            StructField("tid", IntegerType(), False),
             StructField("attr_name", StringType(), False),
             StructField("k_ij", IntegerType(), False),
         ]))

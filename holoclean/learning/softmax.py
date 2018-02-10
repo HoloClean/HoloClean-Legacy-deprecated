@@ -64,12 +64,19 @@ class SoftMax:
             value = factor['count']
             values = torch.cat((values, torch.LongTensor([value])), 0)
         self.X = torch.sparse.LongTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        #print(self.X.to_dense())
+        print(self.X.to_dense())
         return
 
     def _setupMask(self, clean = 1):
-        possible_values = "Possible_values_clean" if clean else "Possible_values_dk"
-
+        lookup = "Kij_lookup_clean" if clean else "Kij_lookup_clean"
+        K_ij_lookup = self.dataengine.get_table_to_dataframe(
+            lookup, self.dataset).select("vid", "k_ij").collect()
+        self.mask = torch.zeros(self.N, self.L)
+        for domain in K_ij_lookup:
+            if domain.k_ij < self.L:
+                self.mask[domain.vid, domain.k_ij:] = -10e6;
+        print(self.mask)
+        return
 
     # creates the W tensor of size m x l
     def _setupW(self):
