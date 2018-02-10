@@ -396,7 +396,7 @@ class Session:
         query_for_featurization = "CREATE TABLE \
             " + self.dataset.table_specific_name('Feature_clean') \
             + "(var_index INT,vid TEXT, rv_index TEXT , rv_attr TEXT,\
-            assigned_val TEXT," \
+            assigned_val INT," \
             " feature TEXT,TYPE TEXT, weight_id TEXT,count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
