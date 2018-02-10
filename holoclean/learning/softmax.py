@@ -75,7 +75,7 @@ class SoftMax:
 
         # X Tensor Dimensions (N * M * L)
         self.M = dimension_dict['M']
-        self.N = dimension_dict['N']                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+        self.N = dimension_dict['N']                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         self.L = dimension_dict['L']
 
         # pytorch tensors
@@ -114,21 +114,41 @@ class SoftMax:
         print(self.mask)
         return
 
-    # creates the W tensor of size m x l
-    def _setupW(self):
-        # Theo said all weights for one feature should start the same
-        # Not tied for the init/cooccur but should still begin at same point
-        
-        # set up weight matrix for non DC cols. These weights are not tied
-        non_DC_W = torch.randn(self.M - self.DC_count, self.L).type(torch.LongTensor)
 
-        # set up weight matrix for DCs with weights tied along the row
-        DC_col = torch.randn(self.DC_count).type(torch.LongTensor)
-        DC_W = DC_col.repeat(self.L, 1).t()
-        
-        self.W = torch.cat((non_DC_W, DC_W), 0)
+    def build_model(input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
+        model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC)
+        return model
 
-        return
+    def train(model, loss, optimizer, x_val, y_val, mask=None):
+        x = Variable(x_val, requires_grad=False)
+        y = Variable(y_val, requires_grad=False)
+    
+        if mask is not None:
+            mask = Variable(mask, requires_grad=False)
+    
+        index = torch.LongTensor(range(x_val.size()[0]))
+        index = Variable(index, requires_grad=False)
+
+        # Reset gradient
+        optimizer.zero_grad()
+
+        # Forward
+        fx = model.forward(x, index, mask)
+
+        output = loss.forward(fx, y)
+
+        # Backward
+        output.backward()
+        
+        # Update parameters
+        optimizer.step()
+
+        return output.data[0]
+
+    def predict(model, x_val):
+        x = Variable(x_val, requires_grad=False)
+        output = model.forward(x, None, None)     
+        return output.data.numpy()
 
     '''def train(model, loss, optimizer, x_val, y_val):
         x = Variable(x_val, requires_grad=False)
