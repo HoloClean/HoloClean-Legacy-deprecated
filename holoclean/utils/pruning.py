@@ -400,4 +400,30 @@ class Pruning:
         self.dataengine.add_db_table('Feature_id_map',
                                      df_domain_map, self.dataset)
 
+        query_observed = "CREATE TABLE " + \
+                               self.dataset.table_specific_name('Observed_Possible_values_clean') + \
+                               " SELECT * FROM ( " \
+                               "SELECT *  \
+                               FROM " + \
+                               self.dataset.table_specific_name('Possible_values_clean') + " as t1 " + \
+                                                                               " WHERE " \
+                                                                                    " t1.observed=1 ) " \
+                                                                               "AS table1;"
+
+        self.dataengine.query(query_observed)
+
+        query_observed = "CREATE TABLE " + \
+                               self.dataset.table_specific_name('Observed_Possible_values_dk') + \
+                               " SELECT * FROM ( " \
+                               "SELECT *  \
+                               FROM " + \
+                               self.dataset.table_specific_name('Possible_values_dk') + " as t1 " + \
+                               " WHERE " \
+                               " t1.observed=1 ) " \
+                              "AS table1;"
+
+        self.dataengine.query(query_observed)
+
+
+
         return
