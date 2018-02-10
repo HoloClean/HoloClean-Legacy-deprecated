@@ -39,13 +39,14 @@ class SoftMax:
 
         # X Tensor Dimensions (N * M * L)
         self.M = dimension_dict['M']
-        self.N = dimension_dict['N']
+        self.N = dimension_dict['N']                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
         self.L = dimension_dict['L']
 
         # pytorch tensors
         self.X = None
         self._setupX()
-
+        self.mask = None
+        self._setupMask()
       #  self.W = None
       #  self._setupW()
         
@@ -57,7 +58,7 @@ class SoftMax:
         values = torch.LongTensor([])
         feature_table = self.dataengine.get_table_to_dataframe("Feature_clean", self.dataset).collect()
         for factor in feature_table:
-            coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.var_index) - 1],
+            coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
                                            [int(factor.assigned_val) - 1]])
             coordinates = torch.cat((coordinates, coordinate), 1)
             value = factor['count']
@@ -65,6 +66,10 @@ class SoftMax:
         self.X = torch.sparse.LongTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
         #print(self.X.to_dense())
         return
+
+    def _setupMask(self, clean = 1):
+        possible_values = "Possible_values_clean" if clean else "Possible_values_dk"
+
 
     # creates the W tensor of size m x l
     def _setupW(self):

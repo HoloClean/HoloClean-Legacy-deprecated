@@ -471,7 +471,7 @@ class Session:
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
                 'Dimensions_clean') + " SELECT 'L' as dimension, (" \
                 " SELECT MAX(k_ij) FROM " \
-                + self.dataset.table_specific_name("Kij_lookup") + ") as length;"
+                + self.dataset.table_specific_name("Kij_lookup_clean") + ") as length;"
             self.holo_env.dataengine.query(insert_signal_query)
 
 

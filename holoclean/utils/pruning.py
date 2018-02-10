@@ -263,7 +263,8 @@ class Pruning:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',');
         domain_dict = {}
-        domain_kj = []
+        domain_kij_clean = []
+        domain_kij_dk = []
         for attribute in attributes:
             if attribute != 'index' and attribute != 'Index':
                 domain_dict[attribute] = []
@@ -289,7 +290,7 @@ class Pruning:
                             k_ij = k_ij + 1
                             self._append_possible(v_id_dk, value,possible_values_dirty,tmp_cell_index, k_ij)
                             v_id_dk = v_id_dk + 1
-                        domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                        domain_kij_dk.append([v_id_dk,(self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
                 elif [attribute, tuple_id + 1] not in self.noisy_list:
                     c_clean.append([tuple_id + 1, attribute, value])
@@ -300,7 +301,7 @@ class Pruning:
                             k_ij = k_ij + 1
                             self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                             v_id_clean = v_id_clean + 1
-                        domain_kj.append([(self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                        domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
         # Create possible table
@@ -351,14 +352,23 @@ class Pruning:
         self.dataengine.add_db_table('C_dk_flat',
                                      new_df_dk, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(domain_kj, StructType([
+        new_df_kij = self.spark_session.createDataFrame(domain_kij_dk, StructType([
             StructField("tid", IntegerType(), True),
+            StructField("vid", IntegerType(), False),
             StructField("attr_name", StringType(), False),
             StructField("k_ij", IntegerType(), False),
         ]))
-        self.dataengine.add_db_table('Kij_lookup',
+        self.dataengine.add_db_table('Kij_lookup_dk',
                                      new_df_kij, self.dataset)
 
+        new_df_kij = self.spark_session.createDataFrame(domain_kij_clean, StructType([
+            StructField("tid", IntegerType(), True),
+            StructField("vid", IntegerType(), False),
+            StructField("attr_name", StringType(), False),
+            StructField("k_ij", IntegerType(), False),
+        ]))
+        self.dataengine.add_db_table('Kij_lookup_clean',
+                                     new_df_kij, self.dataset)
 
         # Create dataframe for Feature id map
         max_domain = 0
@@ -388,6 +398,5 @@ class Pruning:
             ]))
         self.dataengine.add_db_table('Feature_id_map',
                                      df_domain_map, self.dataset)
-
 
         return
