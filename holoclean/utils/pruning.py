@@ -286,9 +286,9 @@ class Pruning:
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if tmp_cell_index in self.cell_domain:
                         k_ij = 0
+                        v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            v_id_dk = v_id_dk + 1
                             self._append_possible(v_id_dk, value, possible_values_dirty,tmp_cell_index, k_ij)
                         domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
@@ -297,9 +297,9 @@ class Pruning:
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if tmp_cell_index in self.cell_domain:
                         k_ij = 0
+                        v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            v_id_clean = v_id_clean + 1
                             self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                         domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
                                           self.all_cells_temp[tmp_cell_index].columnname, k_ij])
