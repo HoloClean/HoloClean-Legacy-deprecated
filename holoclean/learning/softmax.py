@@ -83,8 +83,6 @@ class SoftMax:
         self._setupX()
         self.mask = None
         self._setupMask()
-      #  self.W = None
-      #  self._setupW()
         
         return
 
@@ -150,45 +148,31 @@ class SoftMax:
         output = model.forward(x, None, None)     
         return output.data.numpy()
 
-    '''def train(model, loss, optimizer, x_val, y_val):
-        x = Variable(x_val, requires_grad=False)
-        y = Variable(y_val, requires_grad=False)
+    def logreg():
 
-        # Reset gradient
-        optimizer.zero_grad()
-
-        fx = model.forward(x)
-        output = loss.forward(fx, y)
-
-        output.backward()
-
-        optimizer.step()
-
-        return output.data[0]
-
-    def predict(model, x_val):
-        x = Variable(x_val, requires_grad=False)
-        output = model.forward(x)
-        return output.data.numpy().argmax(axis=1)
-
-    def main():
-
-        clean_table = self.dataengine.get_table_to_dataframe("C_clean", self.dataset).collect()
+        # here's where the most changes came in from the isolated notebook version
+        # hard for me to test anything related to HC implementation until rest is done
         
-        n_samples = self.N
-        n_features = self.M
-        n_classes = self.L
+        ## TODO:
+        # setup Y
+        # fill dc count once we decide where we're getting that from
+        # debug
         
-        model = CustomLogReg(n_samples, n_classes)
+        n_examples, labels, n_features = self.X.size()
+
+        # need to fill this with dc_count once we decide where to get that from
+        model = build_model(self.M - self.dc_count, self.dc_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
-        batch_size = 100
-
+        # experiment with different batch sizes. no hard rule on this
+        batch_size = n_examples / 100
         for i in range(100):
             cost = 0.
-            num_batches = n_samples // batch_size
+            num_batches = n_examples // batch_size
             for k in range(num_batches):
                 start, end = k * batch_size, (k + 1) * batch_size
-                cost += train(model, loss, optimizer, X[start:end, :, :], 'I dont know what to put here')
-'''
+                cost += train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
+        
+
+        return predict(model, self.X)
