@@ -461,8 +461,8 @@ class SignalDC(Featurizer):
 
 
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Feature_id_map') + ' (feature_ind, attribute,value) Values ('+str(count)+',"' + self.attributes_list[index_dc] \
-                                  +'","'+self.final_dc[index_dc]+'");'
+            'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + self.attributes_list[index_dc] \
+                                  +'","'+self.final_dc[index_dc] + '", "DC");'
             self.dataengine.query(insert_signal_query)
 
 
