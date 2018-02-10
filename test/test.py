@@ -15,10 +15,9 @@ class Testing:
         self.fx = open('execution_time.txt', 'w')
        # list_time = []
        # start_time = t()
-        #self.session.ingest_dataset("test/inputDatabase.csv")
-
         t0 = time.time()
-        self.session.ingest_dataset("test/test.csv")
+        self.session.ingest_dataset("test/inputDatabase.csv")
+        #self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()
@@ -27,8 +26,8 @@ class Testing:
         self.fx.write('time for ingesting file: ' + str(total) + '\n')
         print 'time for ingesting file: ' + str(total) + '\n'
 
-        #self.session.denial_constraints("test/inputConstraint.txt")
-        self.session.denial_constraints("test/dc1.txt")
+        self.session.denial_constraints("test/inputConstraint.txt")
+       # self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
 
         t0 = time.time()
@@ -57,6 +56,7 @@ class Testing:
         t0 = time.time()
         initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
                                           self.session.dataset)
+        self.session.add_featurizer(initial_value_signal )
         statistics_signal = SignalCooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
                                           self.session.dataset )
         self.session.add_featurizer(statistics_signal)

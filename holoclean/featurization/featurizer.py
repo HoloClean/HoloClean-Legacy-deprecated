@@ -295,6 +295,12 @@ class SignalInit(Featurizer):
         """
         This method creates a query for the featurization table for the initial values"
         """
+
+        if name == "Possible_values_clean":
+            name = "Observed_Possible_values_clean"
+        else:
+            name = "Observed_Possible_values_dk"
+
         query_for_featurization = """ (SELECT  @p := @p + 1 AS var_index,\
             init_flat.vid as vid,
             init_flat.tid AS rv_index,\
@@ -306,7 +312,7 @@ class SignalInit(Featurizer):
             FROM """ +\
             self.dataset.table_specific_name(name) +\
             " AS init_flat " +\
-            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name') +" and init_flat.observed=1"
+            "WHERE " + self.get_constraint_attibute('init_flat', 'attr_name')
         return query_for_featurization
 
 
@@ -330,6 +336,11 @@ class SignalCooccur(Featurizer):
         """
         # Create cooccure table
 
+        if name == "Possible_values_clean":
+            name = "Observed_Possible_values_clean"
+        else:
+            name = "Observed_Possible_values_dk"
+
         query_init_flat_join = "CREATE TABLE " + \
                                self.dataset.table_specific_name('Init_flat_join') + \
                                " SELECT * FROM ( " \
@@ -350,12 +361,11 @@ class SignalCooccur(Featurizer):
                                                                                "t1.tid = t2.tid " \
                                                                                "AND " \
                                                                                "t1.attr_name != t2.attribute " \
-                                                                                  " AND " \
-                                                                                  " t3.attribute=t2.attribute " \
-                                                                                  " AND " \
-                                                                                  " t3.value=t2.value" \
-                                                                                    " AND" \
-                                                                                    " t1.observed=1 ) " \
+                                                                               " AND " \
+                                                                               " t3.attribute=t2.attribute " \
+                                                                               " AND " \
+                                                                               " t3.value=t2.value" \
+                                                                               ") " \
                                                                                "AS table1;"
         self.dataengine.query(query_init_flat_join)
 
@@ -460,8 +470,10 @@ class SignalDC(Featurizer):
             dc_queries.append(query_for_featurization)
 
 
+
             insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + self.attributes_list[index_dc] \
+            'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + \
+                                  self.attributes_list[index_dc] \
                                   +'","'+self.final_dc[index_dc] + '", "DC");'
             self.dataengine.query(insert_signal_query)
 

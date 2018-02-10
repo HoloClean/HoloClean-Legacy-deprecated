@@ -41,6 +41,8 @@ class Dataset:
         'Feature_id_map',
         'Possible_values_clean',
         'Possible_values_dk',
+        'Observed_Possible_values_clean',
+        'Observed_Possible_values_dk',
         'Kij_lookup_clean',
         'Kij_lookup_dk']
 
