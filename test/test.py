@@ -43,7 +43,7 @@ class Testing:
         print 'error dectection time: '+str(total)+'\n'
 
         t0 = time.time()
-        pruning_threshold = 0.5
+        pruning_threshold = 0.0
         self.session.ds_domain_pruning(pruning_threshold)
 
         t1 = time.time()
@@ -79,10 +79,18 @@ class Testing:
         t1 = time.time()
         total = t1 - t0
 
-        self.fx.write('time for X tensor: '+str(total)+'\n')
-        print 'time for X tensor: '+str(total)+'\n'
+        self.fx.write('time for training model: '+str(total)+'\n')
+        print 'time for training model: '+str(total)+'\n'
 
         print(soft.logreg())
+        print()
+
+        t0 = time.time()
+        self.session.ds_featurize(0)
+        t1 = time.time()
+        self.fx.write('time for test featurization: ' + str(total) + '\n')
+        print 'time for test featurization: ' + str(total) + '\n'
+
 
         '''start_time = t()
         self.session._numskull()

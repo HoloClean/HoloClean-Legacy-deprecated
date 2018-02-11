@@ -291,12 +291,12 @@ class SignalInit(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalInit"
 
-    def get_query(self, name = "Possible_values_clean"):
+    def get_query(self, clean=1):
         """
         This method creates a query for the featurization table for the initial values"
         """
 
-        if name == "Possible_values_clean":
+        if clean:
             name = "Observed_Possible_values_clean"
         else:
             name = "Observed_Possible_values_dk"
@@ -327,19 +327,23 @@ class SignalCooccur(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
 
-    def get_query(self , name = "Possible_values_clean"):
+    def get_query(self, clean = 1):
         """
                 This method creates a query for the featurization table for the cooccurances
         """
         # Create cooccure table
 
-        if name == "Possible_values_clean":
+        if clean:
             name = "Observed_Possible_values_clean"
+            init_flat = "Init_flat_join"
+            c = "C_clean_flat"
         else:
             name = "Observed_Possible_values_dk"
+            init_flat = "Init_flat_join_dk"
+            c = "C_dk_flat"
 
         query_init_flat_join = "CREATE TABLE " + \
-                               self.dataset.table_specific_name('Init_flat_join') + \
+                               self.dataset.table_specific_name(init_flat) + \
                                " SELECT * FROM ( " \
                                "SELECT DISTINCT " \
                                "t1.vid as vid_first, " \
@@ -352,7 +356,7 @@ class SignalCooccur(Featurizer):
                                "t3.feature_ind as feature_ind " \
                                "FROM " + \
                                self.dataset.table_specific_name(name) + " t1, " + \
-                               self.dataset.table_specific_name('C_clean_flat') + " t2, "+ \
+                               self.dataset.table_specific_name(c) + " t2, "+ \
                                self.dataset.table_specific_name('Feature_id_map') + " as t3 " \
                                                                                " WHERE " \
                                                                                "t1.tid = t2.tid " \
@@ -375,7 +379,7 @@ class SignalCooccur(Featurizer):
                                   "'cooccur' AS TYPE," \
                                   " 1 as count " \
                                   "FROM " \
-                                  + self.dataset.table_specific_name('Init_flat_join') + \
+                                  + self.dataset.table_specific_name(init_flat) + \
                                   " AS cooccur  " +\
                                   "WHERE " + self.get_constraint_attibute('cooccur', 'attr_first')
         return query_for_featurization
@@ -396,18 +400,22 @@ class SignalDC(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
-    def get_query(self, name= "Possible_values_clean"):
+    def get_query(self, clean=1):
         """
                 This method creates a query for the featurization table for the dc"
                 """
-
+        if clean:
+            name = "Possible_values_clean"
+            join_table_name = self.dataset.table_specific_name('Init_join')
+        else:
+            name = "Possible_values_dk"
+            join_table_name = self.dataset.table_specific_name('Init_join_dk')
         self.possible_table_name = self.dataset.table_specific_name(name)
 
         new_dc = self._create_new_dc()
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, 'Init')
         attributes = table_attribute_string.split(',')
-        join_table_name = self.dataset.table_specific_name('Init_join')
         query1 = "SELECT "
 
 

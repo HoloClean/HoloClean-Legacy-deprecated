@@ -388,14 +388,16 @@ class Session:
             self.connection = self.dataengine._start_db()
             self.connection.execute(self.query)
 
-    def ds_featurize(self):
+    def ds_featurize(self, clean = 1):
         """TODO: Extract dataset features"""
+        table_name = "Possible_values_clean" if clean == 1 else "Possible_values_dk"
+        feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
 
         global_counter = "set @p:=0;"
         self.holo_env.dataengine.query(global_counter)
 
         query_for_featurization = "CREATE TABLE \
-            " + self.dataset.table_specific_name('Feature_clean') \
+            " + self.dataset.table_specific_name(feature_name) \
             + "(vid INT, assigned_val INT," \
             " feature TEXT,TYPE TEXT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
@@ -403,12 +405,11 @@ class Session:
         counter = 0
 
 
-        table_name = "Possible_values_clean"
         for feature in self.featurizers:
             t0 = time.time()
             if feature.id != "SignalDC":
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                    'Feature_clean') + " SELECT * FROM ( " + feature.get_query(table_name) + ")as T_" + str(counter) + ");"
+                    feature_name) + " SELECT * FROM ( " + feature.get_query(clean) + ")as T_" + str(counter) + ");"
                 counter += 1
                 self.holo_env.logger.info(
                     'the query that will be executed is:' +
@@ -422,10 +423,10 @@ class Session:
                 total = t1 - t0
                 print "the query took : "+str(total) + " sec to exeute"
             else:
-                dc_queries = feature.get_query(table_name)
+                dc_queries = feature.get_query(clean)
                 for dc_query in dc_queries:
                     t0 = time.time()
-                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_clean') +\
+                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(feature_name) +\
                                           " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
                     counter += 1
                     self.holo_env.logger.info('the query that will be executed is:' + insert_signal_query)
@@ -454,32 +455,35 @@ class Session:
         print (
             'adding weight_id to feature table is finished')
         featurizer.pointers()'''
-        self._create_dimensions()
+        self._create_dimensions(clean)
         return
 
     def _create_dimensions(self, clean = 1):
-        if clean == 1:
-            query_for_create_offset = "CREATE TABLE \
-                        " + self.dataset.table_specific_name('Dimensions_clean') \
-                                      + "(dimension Text, length INT);"
-            self.holo_env.dataengine.query(query_for_create_offset)
+        dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
+        obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 else 'Observed_Possible_values_dk'
+        feature_id_map = 'Feature_id_map'
+        kij_lookup = 'Kij_lookup_clean' if clean == 1 else 'Kij_lookup_dk'
+        query_for_create_offset = "CREATE TABLE \
+                    " + self.dataset.table_specific_name(dimensions) \
+                                  + "(dimension Text, length INT);"
+        self.holo_env.dataengine.query(query_for_create_offset)
 
-            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                'Dimensions_clean') + " SELECT 'N' as dimension, (" \
-                " SELECT COUNT(*) FROM " \
-                + self.dataset.table_specific_name("Observed_Possible_values_clean") + ") as length;"
-            self.holo_env.dataengine.query(insert_signal_query)
-            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                'Dimensions_clean') + " SELECT 'M' as dimension, (" \
-                " SELECT COUNT(*) FROM " \
-                + self.dataset.table_specific_name("Feature_id_map") + ") as length;"
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'Dimensions_clean') + " SELECT 'N' as dimension, (" \
+            " SELECT COUNT(*) FROM " \
+            + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
+        self.holo_env.dataengine.query(insert_signal_query)
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'Dimensions_clean') + " SELECT 'M' as dimension, (" \
+            " SELECT COUNT(*) FROM " \
+            + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
-            self.holo_env.dataengine.query(insert_signal_query)
-            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                'Dimensions_clean') + " SELECT 'L' as dimension, (" \
-                " SELECT MAX(k_ij) FROM " \
-                + self.dataset.table_specific_name("Kij_lookup_clean") + ") as length;"
-            self.holo_env.dataengine.query(insert_signal_query)
+        self.holo_env.dataengine.query(insert_signal_query)
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            'Dimensions_clean') + " SELECT 'L' as dimension, (" \
+            " SELECT MAX(k_ij) FROM " \
+            + self.dataset.table_specific_name(kij_lookup) + ") as length;"
+        self.holo_env.dataengine.query(insert_signal_query)
 
 
     def ds_learn_repair_model(self):

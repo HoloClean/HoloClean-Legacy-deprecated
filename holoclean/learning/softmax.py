@@ -96,6 +96,8 @@ class SoftMax:
         self._setupMask()
         self.Y = None
         self._setupY()
+
+        self.W = None
         
         return
     # Will create the Y tensor of size NxL
@@ -177,7 +179,7 @@ class SoftMax:
         
         output = model.forward(x, index, mask)
         output = softmax(output, 1)
-        return output.data.numpy()
+        return output
 
     def logreg(self):
 
@@ -203,5 +205,4 @@ class SoftMax:
             #    start, end = k * batch_size, (k + 1) * batch_size
             #    cost += self.train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
             cost += self.train(model, loss, optimizer, self.X, self.Y, self.mask)
-
         return self.predict(model, self.X, self.mask)
