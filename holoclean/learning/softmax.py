@@ -4,6 +4,7 @@ from torch.nn import Parameter
 from torch.autograd import Variable
 import torch.nn.functional as F
 import math
+from torch import optim
 
 
 class LogReg(torch.nn.Module):
@@ -14,23 +15,23 @@ class LogReg(torch.nn.Module):
         
         # setup init
         if (self.tie_init):
-            self.init_W = Parameter(torch.randn(1).expand(self.output_dim, 1))
+            self.init_W = Parameter(torch.randn(1).expand(1, self.output_dim))
         else:
-            self.init_W = Parameter(torch.randn(self.output_dim, 1))
+            self.init_W = Parameter(torch.randn(1, self.output_dim))
             
         # setup cooccur
-        self.cooc_W = Parameter(torch.randn(self.output_dim, self.input_dim_non_dc - 1))
+        self.cooc_W = Parameter(torch.randn(self.input_dim_non_dc - 1, self.output_dim))
         
-        self.W = torch.cat((self.init_W, self.cooc_W), 1)
+        self.W = torch.cat((self.init_W, self.cooc_W), 0)
         
         # setup dc
         if self.input_dim_dc > 0:
             if (self.tie_dc):
-                self.dc_W = Parameter(torch.randn(self.input_dim_dc).expand(self.output_dim, self.input_dim_dc))
+                self.dc_W = Parameter(torch.randn(self.output_dim).expand(self.input_dim_dc, self.output_dim))
             else:
-                self.dc_W = Parameter(torch.randn(self.output_dim, self.input_dim_dc))
-            
-            self.W = torch.cat((self.W, self.dc_W), 1)
+                self.dc_W = Parameter(torch.randn(self.input_dim_dc, self.output_dim))
+
+            self.W = torch.cat((self.W, self.dc_W), 0)
     
     
     def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_dc):
@@ -50,15 +51,17 @@ class LogReg(torch.nn.Module):
 
         # reties the weights - need to do on every pass
         if self.input_dim_dc > 0:
-            self.W = torch.cat((self.init_W.expand(self.output_dim, 1), self.cooc_W,
-                               self.dc_W.expand(self.output_dim, self.input_dim_dc)), 1)
+            self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W,
+                                self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
         else:
-            self.W = torch.cat((self.init_W.expand(self.output_dim, 1), self.cooc_W), 1)
+            self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W), 0)
             
             
         # calculates n x l matrix output
-        output = X.mul(self.W)
-        output = output.sum(2)
+        print(X.size())
+        print(self.W.size())
+        output = (X).mul(self.W)
+        output = output.sum(1)
         
         # changes values to extremely negative and specified indices
         if index is not None and mask is not None:
@@ -99,7 +102,7 @@ class SoftMax:
     # Will create the Y tensor of size NxL
     def _setupY(self):
         possible_values = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).collect()
-        self.Y = torch.zeros(self.N, self.L)
+        self.Y = torch.zeros(self.N, self.L).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, value.domain_id - 1] = 1
         print(self.Y)
@@ -108,16 +111,17 @@ class SoftMax:
     # Will create the X-value tensor of size nxmxl
     def _setupX(self):
         coordinates = torch.LongTensor()
-        values = torch.LongTensor([])
+        values = torch.FloatTensor([])
         feature_table = self.dataengine.get_table_to_dataframe("Feature_clean", self.dataset).collect()
         for factor in feature_table:
             coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
                                            [int(factor.assigned_val) - 1]])
             coordinates = torch.cat((coordinates, coordinate), 1)
             value = factor['count']
-            values = torch.cat((values, torch.LongTensor([value])), 0)
-        self.X = torch.sparse.LongTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
+            values = torch.cat((values, torch.FloatTensor([value])), 0)
+        self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
         print(self.X.to_dense())
+        self.X = self.X.to_dense()
         return
 
     def _setupMask(self, clean = 1):
@@ -152,6 +156,9 @@ class SoftMax:
         # Forward
         fx = model.forward(x, index, mask)
 
+
+        print(fx)
+        print(y)
         output = loss.forward(fx, y)
 
         # Backward
@@ -173,8 +180,6 @@ class SoftMax:
         # hard for me to test anything related to HC implementation until rest is done
         
         ## TODO:
-        # setup Y
-        # fill dc count once we decide where we're getting that from
         # debug
         
         n_examples, n_features, n_classes = self.X.size()
@@ -185,13 +190,13 @@ class SoftMax:
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
         # experiment with different batch sizes. no hard rule on this
-        batch_size = n_examples / 100
+        batch_size = n_examples
         for i in range(100):
             cost = 0.
             num_batches = n_examples // batch_size
-            for k in range(num_batches):
-                start, end = k * batch_size, (k + 1) * batch_size
-                cost += train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
-        
+            #for k in range(num_batches):
+            #    start, end = k * batch_size, (k + 1) * batch_size
+            #    cost += self.train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
+            cost += self.train(model, loss, optimizer, self.X, self.Y, self.mask)
 
         return predict(model, self.X)
