@@ -88,9 +88,11 @@ class Testing:
         t0 = time.time()
         self.session.ds_featurize(0)
         t1 = time.time()
-        self.fx.write('time for test featurization: ' + str(total) + '\n')
+        self.fx.write('t    ime for test featurization: ' + str(total) + '\n')
         print 'time for test featurization: ' + str(total) + '\n'
 
+        Y = soft.predict(soft.model, soft.setuptrainingX(), soft.setupMask(0))
+        print(Y)
 
         '''start_time = t()
         self.session._numskull()

@@ -439,7 +439,8 @@ class SignalDC(Featurizer):
         dc_queries = []
 
         maximum = self.dataengine.query(
-            "SELECT MAX(feature_ind) as max FROM " + self.dataset.table_specific_name("Feature_id_map"), 1
+            "SELECT MAX(feature_ind) as max FROM " + self.dataset.table_specific_name("Feature_id_map") +
+            " WHERE Type = 'cooccur'", 1
         ).collect()[0]['max']
 
         map_dc = []
@@ -469,13 +470,12 @@ class SignalDC(Featurizer):
                                       " possible_table.domain_id"
             dc_queries.append(query_for_featurization)
 
-
-
-            insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + \
-                                  self.attributes_list[index_dc] \
-                                  +'","'+self.final_dc[index_dc] + '", "DC");'
-            self.dataengine.query(insert_signal_query)
+            if clean:
+                insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+                'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + \
+                                      self.attributes_list[index_dc] \
+                                      +'","'+self.final_dc[index_dc] + '", "DC");'
+                self.dataengine.query(insert_signal_query)
 
 
 

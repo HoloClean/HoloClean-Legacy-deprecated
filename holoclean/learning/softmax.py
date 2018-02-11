@@ -35,7 +35,7 @@ class LogReg(torch.nn.Module):
             self.W = torch.cat((self.W, self.dc_W), 0)
     
     
-    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_dc):
+    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_dc, rv_dim):
         super(LogReg, self).__init__()
         
         self.input_dim_non_dc = input_dim_non_dc
@@ -44,6 +44,7 @@ class LogReg(torch.nn.Module):
         
         self.tie_init = tie_init
         self.tie_dc = tie_dc
+        self.rv_dim = rv_dim
 
         self._setup_weights()
         
@@ -89,14 +90,20 @@ class SoftMax:
         self.N = dimension_dict['N']                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         self.L = dimension_dict['L']
 
+        self.testM = None
+        self.testN = None
+        self.testL = None
+
         # pytorch tensors
         self.X = None
         self._setupX()
         self.mask = None
-        self._setupMask()
+        self.testmask = None
+        self.setupMask()
         self.Y = None
         self._setupY()
-        
+
+        self.model = None
         return
     # Will create the Y tensor of size NxL
     def _setupY(self):
@@ -104,7 +111,7 @@ class SoftMax:
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
-        print(self.Y)
+        #print(self.Y)
         return
 
     # Will create the X-value tensor of size nxmxl
@@ -119,10 +126,21 @@ class SoftMax:
             value = factor['count']
             values = torch.cat((values, torch.FloatTensor([value])), 0)
         self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        print(self.X.to_dense())
+        #print(self.X.to_dense())
         return
 
     def setuptrainingX(self):
+        dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_dk", self.dataset)
+        list = dataframe_offset.collect()
+        dimension_dict = {}
+        for dimension in list:
+            dimension_dict[dimension['dimension']] = dimension['length']
+
+        # X Tensor Dimensions (N * M * L)
+        self.testM = dimension_dict['M']
+        self.testN = dimension_dict['N']
+        self.testL = dimension_dict['L']
+
         coordinates = torch.LongTensor()
         values = torch.FloatTensor([])
         feature_table = self.dataengine.get_table_to_dataframe("Feature_dk", self.dataset).collect()
@@ -132,28 +150,35 @@ class SoftMax:
             coordinates = torch.cat((coordinates, coordinate), 1)
             value = factor['count']
             values = torch.cat((values, torch.FloatTensor([value])), 0)
-        X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        print(X.to_dense())
-        return
+        X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.testN, self.testM, self.testL]))
+        #print(X.to_dense())
+        return X
 
-    def _setupMask(self, clean = 1):
-        lookup = "Kij_lookup_clean" if clean else "Kij_lookup_clean"
+    def setupMask(self, clean=1):
+        lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
+        N = self.N if clean else self.testN
+        L = self.L if clean else self.testL
         K_ij_lookup = self.dataengine.get_table_to_dataframe(
             lookup, self.dataset).select("vid", "k_ij").collect()
-        self.mask = torch.zeros(self.N, self.L)
+        mask = torch.zeros(N,L)
         for domain in K_ij_lookup:
-            if domain.k_ij < self.L:
-                self.mask[domain.vid-1, domain.k_ij:] = -10e6;
-        print(self.mask)
-        return
+            if domain.k_ij < L:
+                mask[domain.vid-1, domain.k_ij:] = -10e6;
+        print(mask)
+        if clean:
+            self.mask = mask
+        else:
+            self.testmask = mask
+        return mask
 
 
     def build_model(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
-        model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC)
+        model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC, self.N)
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
         x = Variable(x_val.to_dense(), requires_grad=False)
+        # x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
     
         if mask is not None:
@@ -180,6 +205,7 @@ class SoftMax:
 
     def predict(self, model, x_val, mask=None):
 
+        # x = Variable(x_val, requires_grad=False)
         x = Variable(x_val.to_dense(), requires_grad=False)
 
         index = torch.LongTensor(range(x_val.size()[0]))
@@ -203,9 +229,9 @@ class SoftMax:
         n_examples, n_features, n_classes = self.X.size()
 
         # need to fill this with dc_count once we decide where to get that from
-        model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
+        self.model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
-        optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+        optimizer = optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = n_examples
@@ -215,5 +241,5 @@ class SoftMax:
             #for k in range(num_batches):
             #    start, end = k * batch_size, (k + 1) * batch_size
             #    cost += self.train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
-            cost += self.train(model, loss, optimizer, self.X, self.Y, self.mask)
-        return self.predict(model, self.X, self.mask)
+            cost += self.train(self.model, loss, optimizer, self.X, self.Y, self.mask)
+        return self.predict(self.model, self.X, self.mask)

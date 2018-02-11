@@ -469,20 +469,22 @@ class Session:
         self.holo_env.dataengine.query(query_for_create_offset)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Dimensions_clean') + " SELECT 'N' as dimension, (" \
+            dimensions) + " SELECT 'N' as dimension, (" \
             " SELECT COUNT(*) FROM " \
             + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Dimensions_clean') + " SELECT 'M' as dimension, (" \
+            dimensions) + " SELECT 'M' as dimension, (" \
             " SELECT COUNT(*) FROM " \
             + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            'Dimensions_clean') + " SELECT 'L' as dimension, (" \
-            " SELECT MAX(k_ij) FROM " \
-            + self.dataset.table_specific_name(kij_lookup) + ") as length;"
+            dimensions) + " SELECT 'L' as dimension, MAX(m) as length FROM (" \
+            " SELECT MAX(k_ij) m FROM " \
+            + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
+            " SELECT MAX(k_ij) as m FROM " \
+            + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
 
 
