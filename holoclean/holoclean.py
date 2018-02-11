@@ -424,6 +424,7 @@ class Session:
             else:
                 dc_queries = feature.get_query(table_name)
                 for dc_query in dc_queries:
+                    t0 = time.time()
                     insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_clean') +\
                                           " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
                     counter += 1
