@@ -74,7 +74,7 @@ class Testing:
         print 'featurization time: '+str(total)+'\n'
 
         t0 = time.time()
-        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset)
+        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset, self.holo_obj.spark_session)
 
         t1 = time.time()
         total = t1 - t0
@@ -93,7 +93,7 @@ class Testing:
 
         Y = soft.predict(soft.model, soft.setuptrainingX(), soft.setupMask(0))
         print(Y)
-
+        soft.save_Y_to_db(Y)
         '''start_time = t()
         self.session._numskull()
         d = t() - start_time

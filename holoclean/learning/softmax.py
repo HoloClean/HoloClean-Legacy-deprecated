@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import math
 from torch import optim
 from torch.nn.functional import softmax
-
+from pyspark.sql.types import *
 
 class LogReg(torch.nn.Module):
 
@@ -71,9 +71,10 @@ class LogReg(torch.nn.Module):
     
 class SoftMax:
 
-    def __init__(self, dataengine, dataset):
+    def __init__(self, dataengine, dataset, spark_session):
         self.dataengine = dataengine
         self.dataset = dataset
+        self.spark_session = spark_session
         query = "SELECT COUNT(*) AS dc FROM " + \
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
@@ -235,7 +236,7 @@ class SoftMax:
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = n_examples
-        for i in range(100):
+        for i in range(1000):
             cost = 0.
             num_batches = n_examples // batch_size
             #for k in range(num_batches):
@@ -243,3 +244,27 @@ class SoftMax:
             #    cost += self.train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
             cost += self.train(self.model, loss, optimizer, self.X, self.Y, self.mask)
         return self.predict(self.model, self.X, self.mask)
+
+    def save_Y_to_db(self, Y):
+        max_result = torch.max(Y, 1)
+        max_indexes = max_result[1].data.tolist()
+        max_prob = max_result[0].data.tolist()
+        vid_to_value = []
+        df_possible_values = self.dataengine.get_table_to_dataframe('Possible_values_dk',self.dataset).select(
+            "vid", "attr_name", "attr_val", "tid", "domain_id")
+        for i in range(len(max_indexes)):
+            vid_to_value.append([i+1, max_indexes[i]+1, max_prob[i]])
+        df_vid_to_value = self.spark_session.createDataFrame(
+            vid_to_value, StructType([
+                StructField("vid2", IntegerType(), False),
+                StructField("domain_id2", IntegerType(), False),
+                StructField("probability", DoubleType(), False)
+            ])
+        )
+        df1 = df_vid_to_value
+        df2 = df_possible_values
+        df_inference = df1.join(df2, [df1.vid2 == df2.vid, df1.domain_id2 == df2.domain_id], 'inner').drop(
+            "vid2", "domain_id2")
+        self.dataengine.add_db_table('Inferred_values',
+                                     df_inference, self.dataset)
+        return
