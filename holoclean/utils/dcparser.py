@@ -143,8 +143,10 @@ class DCParser:
 
         attributes = set()
         for attribute in all_table_attribuites:
-            if attribute in cond:
+            temp = "." + attribute
+            if temp in cond:
                 attributes.add(attribute)
+
 
         return list(attributes)
 

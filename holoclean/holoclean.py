@@ -396,9 +396,8 @@ class Session:
 
         query_for_featurization = "CREATE TABLE \
             " + self.dataset.table_specific_name('Feature_clean') \
-            + "(var_index INT,vid INT, rv_index TEXT , rv_attr TEXT,\
-            assigned_val INT," \
-            " feature TEXT,TYPE TEXT, weight_id TEXT,count INT);"
+            + "(vid INT, assigned_val INT," \
+            " feature TEXT,TYPE TEXT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
         counter = 0
@@ -422,12 +421,10 @@ class Session:
 
                 total = t1 - t0
                 print "the query took : "+str(total) + " sec to exeute"
-                global_counter = "select max(var_index) into @p from " + \
-                    self.dataset.table_specific_name('Feature_clean') + ";"
-                self.holo_env.dataengine.query(global_counter)
             else:
                 dc_queries = feature.get_query(table_name)
                 for dc_query in dc_queries:
+                    t0 = time.time()
                     insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name('Feature_clean') +\
                                           " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
                     counter += 1
@@ -440,9 +437,7 @@ class Session:
                     total = t1 - t0
                     print "the query took : " + str(total) + " sec to exeute"
 
-                    global_counter = "select max(var_index) into @p from " + \
-                        self.dataset.table_specific_name('Feature_clean') + ";"
-                    self.holo_env.dataengine.query(global_counter)
+
 
 
         # raw_input("Count the Feature table")
