@@ -11,11 +11,13 @@ import time
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.featurizer import Featurizer
+from featurization.DatabaseWorker import DatabaseWorker
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from learning.softmax import SoftMax
 from threading import Thread, Lock
+
 
 # Define arguments for HoloClean
 arguments = [
@@ -388,13 +390,46 @@ class Session:
             self.connection = self.dataengine._start_db()
             self.connection.execute(self.query)
 
+    def parallel_queries(self, number_of_threads=4, clean=1):
+
+        list_of_names = []
+        list_of_threads = []
+        table_name = "clean" if clean == 1 else "dk"
+        feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
+        t0 = time.time()
+
+        for i in range(0, number_of_threads):
+            list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
+                                                  self.holo_env.dataengine, self.dataset))
+
+        for thread in list_of_threads:
+            thread.start()
+
+        for thread in list_of_threads:
+            thread.join()
+
+        insert_query = ""
+        for name in list_of_names:
+            insert_query = insert_query + " Select * from " + name + " UNION"
+        insert_query = insert_query[:-5]
+
+        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+            feature_name) + " SELECT * FROM ( (" + insert_query + ")" \
+                                                                  "as T_0);"
+        print insert_query
+        self.holo_env.dataengine.query(insert_signal_query)
+        t1 = time.time()
+        total = t1 - t0
+        print total
+        print total
+
+        self._create_dimensions(clean)
+        return
+
     def ds_featurize(self, clean = 1):
         """TODO: Extract dataset features"""
         table_name = "Possible_values_clean" if clean == 1 else "Possible_values_dk"
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
-
-        global_counter = "set @p:=0;"
-        self.holo_env.dataengine.query(global_counter)
 
         query_for_featurization = "CREATE TABLE \
             " + self.dataset.table_specific_name(feature_name) \
@@ -402,61 +437,21 @@ class Session:
             " feature TEXT,TYPE TEXT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
-        counter = 0
 
-
+        self.list_of_queries = []
         for feature in self.featurizers:
-            t0 = time.time()
             if feature.id != "SignalDC":
-                insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-                    feature_name) + " SELECT * FROM ( " + feature.get_query(clean) + ")as T_" + str(counter) + ");"
-                counter += 1
-                self.holo_env.logger.info(
-                    'the query that will be executed is:' +
-                    insert_signal_query)
-                self.holo_env.dataengine.query(insert_signal_query)
-                self.holo_env.logger.info(
-                    'the query was executed is:' + insert_signal_query)
-                print insert_signal_query
-                t1 = time.time()
+                self.list_of_queries.append(feature.get_query(clean))
 
-                total = t1 - t0
-                print "the query took : "+str(total) + " sec to exeute"
             else:
                 dc_queries = feature.get_query(clean)
                 for dc_query in dc_queries:
                     t0 = time.time()
-                    insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(feature_name) +\
-                                          " SELECT * FROM " + dc_query + ")AS T_" + str(counter) + ";"
-                    counter += 1
-                    self.holo_env.logger.info('the query that will be executed is:' + insert_signal_query)
-                    self.holo_env.dataengine.query(insert_signal_query)
-                    self.holo_env.logger.info('the query was executed is:' + insert_signal_query)
-                    print insert_signal_query
+                    self.list_of_queries.append(dc_query)
 
-                    t1 = time.time()
-                    total = t1 - t0
-                    print "the query took : " + str(total) + " sec to exeute"
+        self.parallel_queries(4, clean)
 
 
-
-
-        # raw_input("Count the Feature table")
-
-        '''print ('adding weight_id to feature table...')
-        self.holo_env.logger.info('adding weight_id to feature table...')
-        featurizer = Featurizer(
-            self.Denial_constraints,
-            self.holo_env.dataengine,
-            self.dataset)
-#        featurizer.add_weights()
-        self.holo_env.logger.info(
-            'adding weight_id to feature table is finished')
-        print (
-            'adding weight_id to feature table is finished')
-        featurizer.pointers()'''
-        self._create_dimensions(clean)
-        return
 
     def _create_dimensions(self, clean = 1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'

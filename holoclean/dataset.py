@@ -122,6 +122,8 @@ class Dataset:
         fx.close()
         return str(self.dataset_id)
 
+    def return_id(self):
+        return str(self.dataset_id)
     # Getters
     def getattribute(self, attr):
         return self.dataset_tables_specific_name[attr]
