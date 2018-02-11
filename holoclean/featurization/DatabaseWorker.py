@@ -4,7 +4,6 @@ import logging
 import threading
 import time
 
-list1 = [["0", "2"], "2", "3", "4"]
 
 class DatabaseWorker(Thread):
     __lock = Lock()
@@ -30,9 +29,8 @@ class DatabaseWorker(Thread):
         self.list_of_names.append(table_name)
 
         query_for_featurization = "CREATE TABLE " + table_name + "(vid INT, assigned_val INT," \
-            " feature TEXT,TYPE TEXT, count INT);"
+            " feature TEXT,count INT);"
         self.dataengine.query(query_for_featurization)
-        print query_for_featurization
 
         while True:
             try:

@@ -304,7 +304,6 @@ class SignalInit(Featurizer):
         query_for_featurization = """ (SELECT  \
             init_flat.vid as vid, init_flat.domain_id AS assigned_val, \
             '1' AS feature, \
-            'init' AS TYPE, \
             1 as count\
             FROM """ +\
             self.dataset.table_specific_name(name) +\
@@ -376,7 +375,6 @@ class SignalCooccur(Featurizer):
                                   "cooccur.vid_first as vid, " \
                                   "cooccur.val_first AS assigned_val, " \
                                   " feature_ind AS feature, " \
-                                  "'cooccur' AS TYPE," \
                                   " 1 as count " \
                                   "FROM " \
                                   + self.dataset.table_specific_name(init_flat) + \
@@ -454,7 +452,6 @@ class SignalDC(Featurizer):
                                       " possible_table.vid as vid, " \
                                       "possible_table.domain_id AS assigned_val, "+ \
                                       str(count) + " AS feature, " \
-                                      "'FD' AS TYPE, " \
                                       "  count(table1.second_index) as count " \
                                       "  FROM " \
                                       "(SELECT * FROM " + \
