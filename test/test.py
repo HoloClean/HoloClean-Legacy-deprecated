@@ -82,7 +82,7 @@ class Testing:
         self.fx.write('time for X tensor: '+str(total)+'\n')
         print 'time for X tensor: '+str(total)+'\n'
 
-
+        print(soft.logreg())
 
         '''start_time = t()
         self.session._numskull()
