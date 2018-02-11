@@ -59,7 +59,7 @@ class LogReg(torch.nn.Module):
             
             
         # calculates n x l matrix output
-        output = (X).mul(self.W)
+        output = X.mul(self.W)
         output = output.sum(1)
         
         # changes values to extremely negative and specified indices
@@ -96,8 +96,6 @@ class SoftMax:
         self._setupMask()
         self.Y = None
         self._setupY()
-
-        self.W = None
         
         return
     # Will create the Y tensor of size NxL
@@ -122,7 +120,20 @@ class SoftMax:
             values = torch.cat((values, torch.FloatTensor([value])), 0)
         self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
         print(self.X.to_dense())
-        self.X = self.X.to_dense()
+        return
+
+    def setuptrainingX(self):
+        coordinates = torch.LongTensor()
+        values = torch.FloatTensor([])
+        feature_table = self.dataengine.get_table_to_dataframe("Feature_dk", self.dataset).collect()
+        for factor in feature_table:
+            coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
+                                           [int(factor.assigned_val) - 1]])
+            coordinates = torch.cat((coordinates, coordinate), 1)
+            value = factor['count']
+            values = torch.cat((values, torch.FloatTensor([value])), 0)
+        X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
+        print(X.to_dense())
         return
 
     def _setupMask(self, clean = 1):
@@ -142,7 +153,7 @@ class SoftMax:
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
-        x = Variable(x_val, requires_grad=False)
+        x = Variable(x_val.to_dense(), requires_grad=False)
         y = Variable(y_val, requires_grad=False)
     
         if mask is not None:
@@ -169,7 +180,7 @@ class SoftMax:
 
     def predict(self, model, x_val, mask=None):
 
-        x = Variable(x_val, requires_grad=False)
+        x = Variable(x_val.to_dense(), requires_grad=False)
 
         index = torch.LongTensor(range(x_val.size()[0]))
         index = Variable(index, requires_grad=False)
