@@ -3,18 +3,19 @@ from threading import Thread, Lock
 import logging
 import threading
 import time
-
+from holoclean.dataengine import *
 
 class DatabaseWorker(Thread):
     __lock = Lock()
 
-    def __init__(self,table_name, result_queue, list_of_names, dataengine, dataset):
+    def __init__(self,table_name, result_queue, list_of_names, holo_env, dataset, cv):
         Thread.__init__(self)
         self.table_name = table_name
         self.result_queue = result_queue
-        self.dataengine = dataengine
+        self.dataengine = DataEngine(holo_env)
         self.dataset = dataset
         self.list_of_names = list_of_names
+        self.cv = cv
 
     def run(self):
         result = None
@@ -33,19 +34,65 @@ class DatabaseWorker(Thread):
         self.dataengine.query(query_for_featurization)
 
         while True:
-            try:
-                list2 = self.result_queue.pop()
-                print threading.currentThread().getName()
-                print list2
-                insert_signal_query = "INSERT INTO " + table_name + \
-                                      " SELECT * FROM " + list2 + ")AS T_0;"
-                self.dataengine.query(insert_signal_query)
+            self.cv.acquire()
+            while len(self.result_queue) == 0:
+                self.cv.wait()
+            self.cv.release()
 
+            list2 = self.result_queue.pop()
+            if list2 == -1:
+                break
+            insert_signal_query = "INSERT INTO " + table_name + \
+                                  " SELECT * FROM " + list2 + ")AS T_0;"
+            t0 = time.time()
+            print threading.currentThread().getName(), " Query Started "
+            self.dataengine.query(insert_signal_query)
+            t1= time.time()
+            print threading.currentThread().getName(), " Query Execution time: ", t1-t0
                # time.sleep(10)
-            except IndexError:
-                break  # Done.
 
 
+class QueryWorker(Thread):
+    __lock = Lock()
+
+    def __init__(self, query, holo_env):
+        Thread.__init__(self)
+        self.query = query
+        self.dataengine = DataEngine(holo_env)
+
+    def run(self):
+        self.dataengine.query(self.query)
+
+class FeatureProducer(Thread):
+    __lock = Lock()
+
+    def __init__(self, clean, cv, list_of_queries, num_of_threads, featurizers):
+        Thread.__init__(self)
+        self.clean = clean
+        self.cv = cv
+        self.list_of_queries = list_of_queries
+        self.num_of_threads = num_of_threads
+        self.featurizers = featurizers
+
+    def run(self):
+        for feature in self.featurizers:
+            print 'adding a ', feature.id
+            if feature.id != "SignalDC":
+                self.list_of_queries.append(feature.get_query(self.clean))
+                self.cv.acquire()
+                self.cv.notify()
+                self.cv.release()
+
+            else:
+                dc_queries = feature.get_query(self.clean)
+                for dc_query in dc_queries:
+                    self.list_of_queries.append(dc_query)
+                    self.cv.acquire()
+                    self.cv.notify()
+                    self.cv.release()
+            print 'done adding ', feature.id
+        for i in range(self.num_of_threads):
+            self.list_of_queries.append(-1)
 
 '''
 worker1 = DatabaseWorker("db1", "select something from sometable",

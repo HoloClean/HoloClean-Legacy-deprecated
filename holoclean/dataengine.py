@@ -126,6 +126,7 @@ class DataEngine:
         dbProperties = {
             "user": self.holoEnv.db_user,
             "password": self.holoEnv.db_pwd,
+            "useSSL": "false",
         }
 
         dataframe.write.jdbc(

@@ -17,7 +17,7 @@ class Testing:
        # start_time = t()
         t0 = time.time()
         self.session.ingest_dataset("test/inputDatabase.csv")
-        # self.session.ingest_dataset("test/test.csv")
+        #self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()

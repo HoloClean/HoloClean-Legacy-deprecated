@@ -11,12 +11,12 @@ import time
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.featurizer import Featurizer
-from featurization.DatabaseWorker import DatabaseWorker
+from featurization.DatabaseWorker import DatabaseWorker, QueryWorker, FeatureProducer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from learning.softmax import SoftMax
-from threading import Thread, Lock
+from threading import Thread, Lock, Condition
 
 
 # Define arguments for HoloClean
@@ -141,9 +141,9 @@ class HoloClean:
             setattr(self, arg, kwargs.get(arg, default))
 
         logging.basicConfig(filename="logger.log",
-                            filemode='w', level=logging.INFO)
+                            filemode='w', level=logging.ERROR)
         self.logger = logging.getLogger("__main__")
-        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
         # Initialize dataengine and spark session
 
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
@@ -181,7 +181,7 @@ class HoloClean:
 
         # Get Spark context
         sc = SparkContext(conf=conf)
-        sc.setLogLevel("ERROR")
+        sc.setLogLevel("OFF")
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
@@ -239,6 +239,7 @@ class Session:
         self.dataset = None
         self.featurizers = []
         self.error_detectors = []
+        self.cv = None
 
     # Internal methods
     def _numbskull_fg_lists(self):
@@ -391,7 +392,8 @@ class Session:
             self.connection.execute(self.query)
 
     def parallel_queries(self, number_of_threads=4, clean=1):
-
+        print 'Creating parallel queries'
+        t0 = time.time()
         list_of_names = []
         list_of_threads = []
         table_name = "clean" if clean == 1 else "dk"
@@ -400,8 +402,11 @@ class Session:
 
         for i in range(0, number_of_threads):
             list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
-                                                  self.holo_env.dataengine, self.dataset))
+                                                  self.holo_env, self.dataset, self.cv))
 
+        t1 = time.time()
+        print t1 - t0
+        print 'Starting threads'
         for thread in list_of_threads:
             thread.start()
 
@@ -409,6 +414,11 @@ class Session:
             thread.join()
 
         insert_query = ""
+        t1 = time.time()
+        total = t1 - t0
+        print "Total Featurization Queries time Before Union: "
+        print total
+        t0 = time.time()
         for name in list_of_names:
             insert_query = insert_query + " Select * from " + name + " UNION"
         insert_query = insert_query[:-5]
@@ -420,36 +430,36 @@ class Session:
         self.holo_env.dataengine.query(insert_signal_query)
         t1 = time.time()
         total = t1 - t0
-        print total
+        print "Union Time: "
         print total
 
+        t0 = time.time()
         self._create_dimensions(clean)
+        t1 = time.time()
+        print 'Dimension time: ', t1 - t0
         return
 
     def ds_featurize(self, clean = 1):
         """TODO: Extract dataset features"""
+        num_of_threads = 4
+        print 'Setting up Feature Threads'
+        t0 = time.time()
         table_name = "Possible_values_clean" if clean == 1 else "Possible_values_dk"
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
 
         query_for_featurization = "CREATE TABLE \
-            " + self.dataset.table_specific_name(feature_name) \
-            + "(vid INT, assigned_val INT," \
-            " feature TEXT, count INT);"
+                                   " + self.dataset.table_specific_name(feature_name) \
+                                  + "(vid INT, assigned_val INT," \
+                                    " feature TEXT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
-
         self.list_of_queries = []
-        for feature in self.featurizers:
-            if feature.id != "SignalDC":
-                self.list_of_queries.append(feature.get_query(clean))
-
-            else:
-                dc_queries = feature.get_query(clean)
-                for dc_query in dc_queries:
-                    t0 = time.time()
-                    self.list_of_queries.append(dc_query)
-
-        self.parallel_queries(4, clean)
+        self.cv = Condition()
+        feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
+        feat_prod.start()
+        t1 = time.time()
+        print t1 - t0
+        self.parallel_queries(num_of_threads, clean)
 
 
 

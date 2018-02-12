@@ -127,7 +127,8 @@ class SoftMax:
             value = factor['count']
             values = torch.cat((values, torch.FloatTensor([value])), 0)
         self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        #print(self.X.to_dense())
+        print('X tensor:')
+        print(self.X.to_dense())
         return
 
     def setuptrainingX(self):
@@ -152,7 +153,7 @@ class SoftMax:
             value = factor['count']
             values = torch.cat((values, torch.FloatTensor([value])), 0)
         X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.testN, self.testM, self.testL]))
-        #print(X.to_dense())
+        # print(X.to_dense())
         return X
 
     def setupMask(self, clean=1):
@@ -236,7 +237,7 @@ class SoftMax:
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = n_examples
-        for i in range(1000):
+        for i in range(100):
             cost = 0.
             num_batches = n_examples // batch_size
             #for k in range(num_batches):
