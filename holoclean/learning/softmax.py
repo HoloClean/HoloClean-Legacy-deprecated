@@ -127,8 +127,8 @@ class SoftMax:
             value = factor['count']
             values = torch.cat((values, torch.FloatTensor([value])), 0)
         self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        print('X tensor:')
-        print(self.X.to_dense())
+        #print('X tensor:')
+        #print(self.X.to_dense())
         return
 
     def setuptrainingX(self):

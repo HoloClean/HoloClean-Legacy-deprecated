@@ -5,6 +5,7 @@ import threading
 import time
 from holoclean.dataengine import *
 
+printLock = Lock()
 class DatabaseWorker(Thread):
     __lock = Lock()
 
@@ -45,10 +46,14 @@ class DatabaseWorker(Thread):
             insert_signal_query = "INSERT INTO " + table_name + \
                                   " SELECT * FROM " + list2 + ")AS T_0;"
             t0 = time.time()
+            printLock.acquire()
             print threading.currentThread().getName(), " Query Started "
+            printLock.release()
             self.dataengine.query(insert_signal_query)
             t1= time.time()
+            printLock.acquire()
             print threading.currentThread().getName(), " Query Execution time: ", t1-t0
+            printLock.release()
                # time.sleep(10)
 
 
@@ -76,7 +81,10 @@ class FeatureProducer(Thread):
 
     def run(self):
         for feature in self.featurizers:
+            printLock.acquire()
             print 'adding a ', feature.id
+            printLock.release()
+            t0 = time.time()
             if feature.id != "SignalDC":
                 self.list_of_queries.append(feature.get_query(self.clean))
                 self.cv.acquire()
@@ -90,7 +98,11 @@ class FeatureProducer(Thread):
                     self.cv.acquire()
                     self.cv.notify()
                     self.cv.release()
-            print 'done adding ', feature.id
+            t1 = time.time()
+            total = t1 - t0
+            printLock.acquire()
+            print 'done adding ', feature.id, ' ', total
+            printLock.release()
         for i in range(self.num_of_threads):
             self.list_of_queries.append(-1)
 
