@@ -441,6 +441,8 @@ class Session:
 
     def ds_featurize(self, clean = 1):
         """TODO: Extract dataset features"""
+        dc_query_prod = DCQueryProducer(clean, self.featurizers)
+        dc_query_prod.start()
         num_of_threads = 4
         print 'Setting up Feature Threads'
         t0 = time.time()
@@ -455,8 +457,6 @@ class Session:
 
         self.list_of_queries = []
         self.cv = Condition()
-        dc_query_prod = DCQueryProducer(clean, self.featurizers)
-        dc_query_prod.start()
 
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
         feat_prod.start()
