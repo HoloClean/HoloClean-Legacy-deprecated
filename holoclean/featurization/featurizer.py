@@ -398,7 +398,7 @@ class SignalDC(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
-    def get_query(self, clean=1):
+    def get_query(self, clean=1, dcquery_prod = None):
         """
                 This method creates a query for the featurization table for the dc"
                 """
@@ -466,6 +466,9 @@ class SignalDC(Featurizer):
                                       ") group by possible_table.vid,possible_table.tid,possible_table.attr_name," \
                                       " possible_table.domain_id"
             dc_queries.append(query_for_featurization)
+
+            if dcquery_prod is not None:
+                dcquery_prod.appendQuery(query_for_featurization)
 
             if clean:
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(

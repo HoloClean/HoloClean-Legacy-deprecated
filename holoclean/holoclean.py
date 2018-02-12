@@ -11,7 +11,7 @@ import time
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.featurizer import Featurizer
-from featurization.DatabaseWorker import DatabaseWorker, QueryWorker, FeatureProducer
+from featurization.DatabaseWorker import DatabaseWorker, QueryWorker, FeatureProducer, DCQueryProducer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
@@ -455,6 +455,9 @@ class Session:
 
         self.list_of_queries = []
         self.cv = Condition()
+        dc_query_prod = DCQueryProducer(clean, self.featurizers)
+        dc_query_prod.start()
+
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
         feat_prod.start()
         t1 = time.time()

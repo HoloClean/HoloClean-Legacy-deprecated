@@ -1,11 +1,14 @@
 from time import sleep
-from threading import Thread, Lock
+from threading import Thread, Lock, Condition
 import logging
 import threading
 import time
 from holoclean.dataengine import *
 
 printLock = Lock()
+DCqueryCV = Condition()
+dc_queries = []
+
 class DatabaseWorker(Thread):
     __lock = Lock()
 
@@ -54,7 +57,9 @@ class DatabaseWorker(Thread):
             printLock.acquire()
             print threading.currentThread().getName(), " Query Execution time: ", t1-t0
             printLock.release()
-               # time.sleep(10)
+        printLock.acquire()
+        print threading.currentThread().getName(), " Done executing queries"
+        printLock.release()
 
 
 class QueryWorker(Thread):
@@ -67,6 +72,7 @@ class QueryWorker(Thread):
 
     def run(self):
         self.dataengine.query(self.query)
+
 
 class FeatureProducer(Thread):
     __lock = Lock()
@@ -90,21 +96,74 @@ class FeatureProducer(Thread):
                 self.cv.acquire()
                 self.cv.notify()
                 self.cv.release()
-
-            else:
-                dc_queries = feature.get_query(self.clean)
-                for dc_query in dc_queries:
-                    self.list_of_queries.append(dc_query)
-                    self.cv.acquire()
-                    self.cv.notify()
-                    self.cv.release()
             t1 = time.time()
             total = t1 - t0
             printLock.acquire()
             print 'done adding ', feature.id, ' ', total
             printLock.release()
+
+        global dc_queries
+        while True:
+            DCqueryCV.acquire()
+            while len(dc_queries) == 0:
+                DCqueryCV.wait()
+            DCqueryCV.release()
+
+            dc_query = dc_queries.pop()
+            if dc_query == -1:
+                break
+            printLock.acquire()
+            print 'adding a DC query'
+            printLock.release()
+            self.list_of_queries.append(dc_query)
+            self.cv.acquire()
+            self.cv.notify()
+            self.cv.release()
+
+            printLock.acquire()
+            print 'finished adding a DC query'
+            printLock.release()
+
         for i in range(self.num_of_threads):
             self.list_of_queries.append(-1)
+            self.cv.acquire()
+            self.cv.notify()
+            self.cv.release()
+
+        printLock.acquire()
+        print 'Feature Prod done'
+        printLock.release()
+
+
+class DCQueryProducer(Thread):
+    __lock = Lock()
+
+    def __init__(self, clean, featurizers):
+        Thread.__init__(self)
+        self.clean = clean
+        self.featurizers = featurizers
+
+    def run(self):
+        clean = self.clean
+        global dc_queries
+
+        for feature in self.featurizers:
+            if feature.id == "SignalDC":
+                feature.get_query(clean, self)
+        dc_queries.append(-1)
+        DCqueryCV.acquire()
+        DCqueryCV.notify()
+        DCqueryCV.release()
+
+        printLock.acquire()
+        print 'DC QUERY Producer FINISHED'
+        printLock.release()
+
+    def appendQuery(self, query):
+        dc_queries.append(query)
+        DCqueryCV.acquire()
+        DCqueryCV.notify()
+        DCqueryCV.release()
 
 '''
 worker1 = DatabaseWorker("db1", "select something from sometable",

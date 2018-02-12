@@ -237,7 +237,7 @@ class SoftMax:
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = n_examples
-        for i in range(100):
+        for i in range(200):
             cost = 0.
             num_batches = n_examples // batch_size
             #for k in range(num_batches):
