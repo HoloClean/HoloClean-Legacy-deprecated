@@ -16,8 +16,8 @@ class Testing:
        # list_time = []
        # start_time = t()
         t0 = time.time()
-        #self.session.ingest_dataset("test/inputDatabase.csv")
-        self.session.ingest_dataset("test/test.csv")
+        self.session.ingest_dataset("test/inputDatabase.csv")
+        # self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()
@@ -26,8 +26,8 @@ class Testing:
         self.fx.write('time for ingesting file: ' + str(total) + '\n')
         print 'time for ingesting file: ' + str(total) + '\n'
 
-        #self.session.denial_constraints("test/inputConstraint.txt")
-        self.session.denial_constraints("test/dc1.txt")
+        self.session.denial_constraints("test/inputConstraint.txt")
+        # self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
 
         t0 = time.time()
@@ -43,7 +43,7 @@ class Testing:
         print 'error dectection time: '+str(total)+'\n'
 
         t0 = time.time()
-        pruning_threshold = 0.0
+        pruning_threshold = 0.5
         self.session.ds_domain_pruning(pruning_threshold)
 
         t1 = time.time()
@@ -63,6 +63,10 @@ class Testing:
         dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
                              self.holo_obj.spark_session)
         self.session.add_featurizer(dc_signal)
+        t1 = time.time()
+        total = t1 - t0
+        print "Feature Signal Time:", total
+        t0 = time.time()
         self.session.ds_featurize()
 
         t1 = time.time()
@@ -76,23 +80,28 @@ class Testing:
         t0 = time.time()
         soft = SoftMax(self.holo_obj.dataengine, self.session.dataset, self.holo_obj.spark_session)
 
+        print(soft.logreg())
         t1 = time.time()
         total = t1 - t0
 
         self.fx.write('time for training model: '+str(total)+'\n')
         print 'time for training model: '+str(total)+'\n'
 
-        print(soft.logreg())
         print()
 
         t0 = time.time()
         self.session.ds_featurize(0)
         t1 = time.time()
-        self.fx.write('t    ime for test featurization: ' + str(total) + '\n')
+        total = t1 - t0
+        self.fx.write('time for test featurization: ' + str(total) + '\n')
         print 'time for test featurization: ' + str(total) + '\n'
 
+        t0 = time.time()
         Y = soft.predict(soft.model, soft.setuptrainingX(), soft.setupMask(0))
         print(Y)
+        t1 = time.time()
+        total = t1 - t0
+        print 'time for inference: ', total
         soft.save_Y_to_db(Y)
         '''start_time = t()
         self.session._numskull()
