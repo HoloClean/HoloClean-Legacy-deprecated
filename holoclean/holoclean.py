@@ -452,7 +452,7 @@ class Session:
         query_for_featurization = "CREATE TABLE \
                                    " + self.dataset.table_specific_name(feature_name) \
                                   + "(vid INT, assigned_val INT," \
-                                    " feature TEXT, count INT);"
+                                    " feature INT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
 
         self.list_of_queries = []

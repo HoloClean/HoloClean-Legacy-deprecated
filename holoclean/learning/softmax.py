@@ -116,22 +116,28 @@ class SoftMax:
         return
 
     # Will create the X-value tensor of size nxmxl
-    def _setupX(self):
-        coordinates = torch.LongTensor()
-        values = torch.FloatTensor([])
+    def _setupX(self, sparse=0):
         feature_table = self.dataengine.get_table_to_dataframe("Feature_clean", self.dataset).collect()
-        for factor in feature_table:
-            coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
-                                           [int(factor.assigned_val) - 1]])
-            coordinates = torch.cat((coordinates, coordinate), 1)
-            value = factor['count']
-            values = torch.cat((values, torch.FloatTensor([value])), 0)
-        self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
-        #print('X tensor:')
-        #print(self.X.to_dense())
+        if sparse:
+            coordinates = torch.LongTensor()
+            values = torch.FloatTensor([])
+            for factor in feature_table:
+                coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
+                                               [int(factor.assigned_val) - 1]])
+                coordinates = torch.cat((coordinates, coordinate), 1)
+                value = factor['count']
+                values = torch.cat((values, torch.FloatTensor([value])), 0)
+            self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
+        else:
+            self.X = torch.zeros(self.N, self.M, self.L)
+            for factor in feature_table:
+                self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+
+        print('X tensor:')
+        print(self.X)
         return
 
-    def setuptrainingX(self):
+    def setuptrainingX(self, sparse=0):
         dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_dk", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}
@@ -143,17 +149,22 @@ class SoftMax:
         self.testN = dimension_dict['N']
         self.testL = dimension_dict['L']
 
-        coordinates = torch.LongTensor()
-        values = torch.FloatTensor([])
         feature_table = self.dataengine.get_table_to_dataframe("Feature_dk", self.dataset).collect()
-        for factor in feature_table:
-            coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
-                                           [int(factor.assigned_val) - 1]])
-            coordinates = torch.cat((coordinates, coordinate), 1)
-            value = factor['count']
-            values = torch.cat((values, torch.FloatTensor([value])), 0)
-        X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.testN, self.testM, self.testL]))
-        # print(X.to_dense())
+        if sparse:
+            coordinates = torch.LongTensor()
+            values = torch.FloatTensor([])
+            for factor in feature_table:
+                coordinate = torch.LongTensor([[int(factor.vid) - 1], [int(factor.feature) - 1],
+                                               [int(factor.assigned_val) - 1]])
+                coordinates = torch.cat((coordinates, coordinate), 1)
+                value = factor['count']
+                values = torch.cat((values, torch.FloatTensor([value])), 0)
+            X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.testN, self.testM, self.testL]))
+        else:
+            X = torch.zeros(self.testN, self.testM, self.testL)
+            for factor in feature_table:
+                X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+        print(X)
         return X
 
     def setupMask(self, clean=1):
@@ -179,7 +190,7 @@ class SoftMax:
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
-        x = Variable(x_val.to_dense(), requires_grad=False)
+        x = Variable(x_val, requires_grad=False)
         # x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
     
@@ -208,7 +219,7 @@ class SoftMax:
     def predict(self, model, x_val, mask=None):
 
         # x = Variable(x_val, requires_grad=False)
-        x = Variable(x_val.to_dense(), requires_grad=False)
+        x = Variable(x_val, requires_grad=False)
 
         index = torch.LongTensor(range(x_val.size()[0]))
         index = Variable(index, requires_grad=False)
