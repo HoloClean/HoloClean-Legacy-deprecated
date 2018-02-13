@@ -42,6 +42,7 @@ class Dataset:
         'Factor_to_var',
         'Final',
         'Correct',
+        'Correct_flat',
         'Feature_id_map',
         'Possible_values_clean',
         'Possible_values_dk',
