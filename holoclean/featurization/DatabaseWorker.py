@@ -62,16 +62,21 @@ class DatabaseWorker(Thread):
         printLock.release()
 
 
-class QueryWorker(Thread):
+class QueryProd(Thread):
     __lock = Lock()
 
-    def __init__(self, query, holo_env):
+    def __init__(self, list_of_queries, clean, feature, cv):
         Thread.__init__(self)
-        self.query = query
-        self.dataengine = DataEngine(holo_env)
+        self.list_of_queries = list_of_queries
+        self.clean = clean
+        self.feature = feature
+        self.cv = cv
 
     def run(self):
-        self.dataengine.query(self.query)
+        self.list_of_queries.append(self.feature.get_query(self.clean))
+        self.cv.acquire()
+        self.cv.notify()
+        self.cv.release()
 
 
 class FeatureProducer(Thread):
@@ -86,16 +91,16 @@ class FeatureProducer(Thread):
         self.featurizers = featurizers
 
     def run(self):
+        prods = []
         for feature in self.featurizers:
             printLock.acquire()
             print 'adding a ', feature.id
             printLock.release()
             t0 = time.time()
             if feature.id != "SignalDC":
-                self.list_of_queries.append(feature.get_query(self.clean))
-                self.cv.acquire()
-                self.cv.notify()
-                self.cv.release()
+                thread = QueryProd(self.list_of_queries, self.clean, feature, self.cv)
+                prods.append(thread)
+                thread.start()
             t1 = time.time()
             total = t1 - t0
             printLock.acquire()
@@ -123,6 +128,9 @@ class FeatureProducer(Thread):
             printLock.acquire()
             print 'finished adding a DC query'
             printLock.release()
+
+        for thread in prods:
+            thread.join()
 
         for i in range(self.num_of_threads):
             self.list_of_queries.append(-1)

@@ -11,7 +11,7 @@ import time
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.featurizer import Featurizer
-from featurization.DatabaseWorker import DatabaseWorker, QueryWorker, FeatureProducer, DCQueryProducer
+from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, DCQueryProducer
 from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning

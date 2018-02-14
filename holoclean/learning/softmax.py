@@ -133,8 +133,8 @@ class SoftMax:
             for factor in feature_table:
                 self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
 
-        print('X tensor:')
-        print(self.X)
+        # print('X tensor:')
+        # print(self.X)
         return
 
     def setuptrainingX(self, sparse=0):
@@ -164,7 +164,7 @@ class SoftMax:
             X = torch.zeros(self.testN, self.testM, self.testL)
             for factor in feature_table:
                 X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
-        print(X)
+        # print(X)
         return X
 
     def setupMask(self, clean=1):

@@ -14,7 +14,7 @@ class Testing:
     def test(self):
         self.fx = open('execution_time.txt', 'w')
        # list_time = []
-       # start_time = t()
+        start_time = time.time()
         t0 = time.time()
         self.session.ingest_dataset("test/inputDatabase.csv")
         #self.session.ingest_dataset("test/test.csv")
@@ -114,6 +114,10 @@ class Testing:
         #acc = Accuracy(self.holo_obj.dataengine, "test/correct.csv", self.session.dataset, self.holo_obj.spark_session)
         #flattening=1
         #acc.accuracy_calculation(flattening)
+
+        endtime = time.time()
+        print 'total time: ', endtime - start_time
+
         '''start_time = t()
         self.session._numskull()
         d = t() - start_time

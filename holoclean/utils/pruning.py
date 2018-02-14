@@ -330,6 +330,7 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible, self.dataset)
+        del new_df_possible
 
         # Create Clean and DK flats
         new_df_clean = self.spark_session.createDataFrame(
@@ -369,6 +370,10 @@ class Pruning:
         ]))
         self.dataengine.add_db_table('Kij_lookup_clean',
                                      new_df_kij, self.dataset)
+
+        del new_df_kij
+        del new_df_clean
+        del new_df_dk
 
         # Create dataframe for Feature id map
         max_domain = 0
