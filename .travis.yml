@@ -68,6 +68,9 @@ install:
 
   #Install pytorch
   - conda install --yes pytorch pytorch torchvision
+  
+  #Install pyspark
+  - conda install --yes conda-forge pyspark 
 
   # Install all remaining dependencies as per our README
   - pip install -r python-package-requirement.txt
