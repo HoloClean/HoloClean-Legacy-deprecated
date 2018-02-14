@@ -67,7 +67,7 @@ install:
   - conda install --yes numba
 
   #Install pytorch
-  - conda install -c pytorch pytorch torchvision
+  - conda install -c --yes pytorch pytorch torchvision
 
   # Install all remaining dependencies as per our README
   - pip install -r python-package-requirement.txt
