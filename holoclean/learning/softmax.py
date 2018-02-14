@@ -13,7 +13,7 @@ class LogReg(torch.nn.Module):
     # inits weights to random values
     # ties init and dc weights if specified
     def _setup_weights(self):
-        
+        torch.manual_seed(42)
         # setup init
         if (self.tie_init):
             self.init_W = Parameter(torch.randn(1).expand(1, self.output_dim))
