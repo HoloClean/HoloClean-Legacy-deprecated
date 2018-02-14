@@ -10,6 +10,13 @@ class Accuracy:
         # precision=0
         final = self.dataengine.get_table_to_dataframe("Inferred_values", self.dataset).select(
             "tid", "attr_name", "attr_val")
+        init_clean = self.dataengine.get_table_to_dataframe("Observed_Possible_values_dk", self.dataset).select(
+            "tid", "attr_name", "attr_val"
+        )
+        init_dk = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).select(
+            "tid", "attr_name", "attr_val"
+        )
+        init = init_clean.union(init_dk)
 
         final.show()
 
@@ -19,16 +26,18 @@ class Accuracy:
         self.ground_truth_flat.show()
 
         incorrect = final.subtract(self.ground_truth_flat)
+        errors = init.subtract(self.ground_truth_flat)
+        corrected = errors.subtract(incorrect)
         incorrect_values = incorrect.count()
         repair = final.count()
 
         all_corect = self.ground_truth_flat.count()
 
         precision = float((repair - incorrect_values)) / repair
-        #recall = float((repair - incorrect_values)) / all_corect
+        recall = float(corrected.count()) / errors.count()
         #f1_score = 2.0 * (precision * recall) / (precision + recall)
         print ("The precision that we have is :" + str(precision))
-        #print ("The recall that we have is :" + str(recall))
+        print ("The recall that we have is :" + str(recall))
         #print ("The F1 score that we have is :" + str(f1_score))
 
         '''
