@@ -37,7 +37,7 @@ This file will go through the steps needed to install the required packages and 
 bash Anaconda-2.3.0-Linux-x86.sh
  ```
 
-<b>For 64 bit machines, run:<b>
+<b>For 64 bit machines, run: </b>
 ```
 wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
 bash Anaconda-2.3.0-Linux-x86_64.sh
@@ -98,3 +98,10 @@ Again go to the [Holoclean-v0.01/](https://github.com/HoloClean/HoloClean-v0.01/
 ```
 pip install python-package-requirement.txt
 ```
+
+### 5. Installing Pytorch
+
+Follow instructions for your OS at:
+http://pytorch.org/
+To install pytorch
+Make sure to install version 0.3.0 or later
