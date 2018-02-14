@@ -74,7 +74,7 @@ install:
 
   # Install all remaining dependencies as per our README
   - pip install -r python-package-requirement.txt
-  - test -e parser/corenlp.sh || ./install-parser.sh
+  #- test -e parser/corenlp.sh || ./install-parser.sh
 
   # Use runipy to run Jupyter/IPython notebooks from command-line
   - pip install runipy
