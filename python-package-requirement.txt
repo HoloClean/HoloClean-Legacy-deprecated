@@ -7,6 +7,5 @@ MySQL-python
 sqlalchemy
 mysql-connector-python-rf
 git+https://github.com/HazyResearch/numbskull@master
-http://download.pytorch.org/whl/cu80/torch-0.3.0.post4-cp27-cp27mu-linux_x86_64.whl 
 numba
 torchvision
