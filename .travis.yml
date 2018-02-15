@@ -10,6 +10,9 @@ python:
 
 jdk:
   - oraclejdk8
+  
+services:
+  - mysql
 
 cache:
   directories:
