@@ -43,7 +43,7 @@ class DatabaseWorker(Thread):
                 self.cv.wait()
             self.cv.release()
 
-            list2 = self.result_queue.pop()
+            list2 = self.result_queue.pop(0)
             if list2 == -1:
                 break
             insert_signal_query = "INSERT INTO " + table_name + \
@@ -114,7 +114,7 @@ class FeatureProducer(Thread):
                 DCqueryCV.wait()
             DCqueryCV.release()
 
-            dc_query = dc_queries.pop()
+            dc_query = dc_queries.pop(0)
             if dc_query == -1:
                 break
             printLock.acquire()

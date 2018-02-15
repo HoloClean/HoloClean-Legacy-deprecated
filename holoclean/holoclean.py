@@ -423,11 +423,15 @@ class Session:
             insert_query = insert_query + " Select vid, assigned_val, feature, count from " + name + " UNION"
         insert_query = insert_query[:-5]
 
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
+        feature_table = self.holo_env.dataengine.query(insert_query, 1)
+        self.holo_env.dataengine.add_db_table(feature_name,
+                                     feature_table, self.dataset)
+
+        '''insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             feature_name) + " SELECT T_0.vid, T_0.assigned_val, T_0.feature, T_0.count FROM ( (" + insert_query + ")" \
-                                                                  "as T_0);"
+                                                                "as T_0);"
         print insert_query
-        self.holo_env.dataengine.query(insert_signal_query)
+        self.holo_env.dataengine.query(insert_signal_query)'''
         t1 = time.time()
         total = t1 - t0
         print "Union Time: "
@@ -449,12 +453,12 @@ class Session:
         table_name = "Possible_values_clean" if clean == 1 else "Possible_values_dk"
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
 
-        query_for_featurization = "CREATE TABLE \
+        '''query_for_featurization = "CREATE TABLE \
                                    " + self.dataset.table_specific_name(feature_name) \
                                   + "(vid INT, assigned_val INT," \
                                     " feature INT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
-
+        '''
         self.list_of_queries = []
         self.cv = Condition()
 
