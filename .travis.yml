@@ -55,7 +55,7 @@ before_install:
   #create the database and u
   - mysql -u root -e 'CREATE DATABASE holo;'
   - mysql -u root -e "Create user 'holocleanUser'@'localhost' identified by 'abcd1234'";
-  - mysql -u root -e "GRANT ALL PRIVILEGES ON holo.* TO 'holocleanUser'@'localhost'";
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'holocleanUser'@'localhost'";
 
 install:
   # Install binary distribution of scientific python modules
