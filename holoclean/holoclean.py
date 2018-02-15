@@ -420,11 +420,11 @@ class Session:
         print total
         t0 = time.time()
         for name in list_of_names:
-            insert_query = insert_query + " Select * from " + name + " UNION"
+            insert_query = insert_query + " Select vid, assigned_val, feature, count from " + name + " UNION"
         insert_query = insert_query[:-5]
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            feature_name) + " SELECT * FROM ( (" + insert_query + ")" \
+            feature_name) + " SELECT T_0.vid, T_0.assigned_val, T_0.feature, T_0.count FROM ( (" + insert_query + ")" \
                                                                   "as T_0);"
         print insert_query
         self.holo_env.dataengine.query(insert_signal_query)

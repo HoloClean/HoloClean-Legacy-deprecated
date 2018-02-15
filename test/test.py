@@ -111,10 +111,10 @@ class Testing:
         flattening = 0
         acc.accuracy_calculation(flattening)'''
 
-        acc = Accuracy(self.holo_obj.dataengine, "test/correct.csv", self.session.dataset, self.holo_obj.spark_session)
+        '''acc = Accuracy(self.holo_obj.dataengine, "test/correct.csv", self.session.dataset, self.holo_obj.spark_session)
         flattening=1
         acc.accuracy_calculation(flattening)
-
+        '''
         endtime = time.time()
         print 'total time: ', endtime - start_time
 
