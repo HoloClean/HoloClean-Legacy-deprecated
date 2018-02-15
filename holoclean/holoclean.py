@@ -367,7 +367,9 @@ class Session:
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
         self.holo_env.logger.info('error detection is finished')
-
+        del union_clean_cells
+        del intersect_dk_cells
+        del self.error_detectors
         return
 
     def ds_domain_pruning(self, pruning_threshold=0):
@@ -426,7 +428,7 @@ class Session:
         feature_table = self.holo_env.dataengine.query(insert_query, 1)
         self.holo_env.dataengine.add_db_table(feature_name,
                                      feature_table, self.dataset)
-
+        del feature_table
         '''insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             feature_name) + " SELECT T_0.vid, T_0.assigned_val, T_0.feature, T_0.count FROM ( (" + insert_query + ")" \
                                                                 "as T_0);"

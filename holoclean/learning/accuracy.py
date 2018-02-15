@@ -34,13 +34,11 @@ class Accuracy:
         all_corect = self.ground_truth_flat.count()
 
         print "debug:"
-        print init.count()
-        print self.ground_truth_flat.count()
         print init.subtract(self.ground_truth_flat).count()
         print errors.intersect(incorrect).count()
 
         precision = float((repair - incorrect_values)) / repair
-        recall = float(corrected.count()) / errors.count()
+        recall = 1.0 - float(corrected.count()) / errors.count()
         #f1_score = 2.0 * (precision * recall) / (precision + recall)
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))

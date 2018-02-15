@@ -117,7 +117,7 @@ class DataEngine:
         useSpark = 1
         return self.query(table_get, useSpark)
 
-    def _dataframe_to_table(self, spec_table_name, dataframe):
+    def _dataframe_to_table(self, spec_table_name, dataframe, append=0):
         """Add spark dataframe df with specific name table name_table in the data database
         with spark session
         """
@@ -128,12 +128,18 @@ class DataEngine:
             "password": self.holoEnv.db_pwd,
             "useSSL": "false",
         }
-
-        dataframe.write.jdbc(
-            jdbcUrl,
-            spec_table_name,
-            "overwrite",
-            properties=dbProperties)
+        if append:
+            dataframe.write.jdbc(
+                jdbcUrl,
+                spec_table_name,
+                "append",
+                properties=dbProperties)
+        else:
+            dataframe.write.jdbc(
+                jdbcUrl,
+                spec_table_name,
+                "overwrite",
+                properties=dbProperties)
 
     def _query_spark(self, sqlQuery):
         """
@@ -185,7 +191,7 @@ class DataEngine:
                   + " MODIFY COLUMN " + column_name + " INT;"
         self.db_backend.execute(sql_statement)
 
-    def add_db_table(self, table_name, spark_dataframe, dataset):
+    def add_db_table(self, table_name, spark_dataframe, dataset, append=0):
         """
         This method get spark dataframe and a table_name and creates a table.
         """
@@ -193,7 +199,7 @@ class DataEngine:
         schema = spark_dataframe.schema.names
         specific_table_name = self._add_info_to_meta(
             table_name, schema, dataset)
-        self._dataframe_to_table(specific_table_name, spark_dataframe)
+        self._dataframe_to_table(specific_table_name, spark_dataframe, append)
 
     def ingest_data(self, filepath, dataset):
         """
@@ -237,6 +243,6 @@ class DataEngine:
         if spark_flag == 1:
             return self._query_spark(sqlQuery)
         else:
-            return self.db_backend.execution_options(autocommit=True).execute(sqlQuery)
+            return self.db_backend.execute(sqlQuery)
 
 

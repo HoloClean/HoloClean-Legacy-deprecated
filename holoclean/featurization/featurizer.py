@@ -1,5 +1,5 @@
 from holoclean.utils.dcparser import DCParser
-
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
 class Featurizer:
     """TODO.
@@ -443,6 +443,7 @@ class SignalDC(Featurizer):
 
         map_dc = []
         count = maximum
+        feature_map = []
         for index_dc in range(0, len(new_dc)):
             count = count + 1
             relax_dc = new_dc[index_dc] + self.attributes_list[index_dc]
@@ -471,13 +472,23 @@ class SignalDC(Featurizer):
                 dcquery_prod.appendQuery(query_for_featurization)
 
             if clean:
+                feature_map.append([count, self.attributes_list[index_dc], self.final_dc[index_dc], "DC"])
+                '''t0 = time.time()
                 insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
                 'Feature_id_map') + ' (feature_ind, attribute,value,Type) Values ('+str(count)+',"' + \
                                       self.attributes_list[index_dc] \
                                       +'","'+self.final_dc[index_dc] + '", "DC");'
-                self.dataengine.query(insert_signal_query)
+                self.dataengine.query(insert_signal_query)'''
 
-
-
+        if clean:
+            df_feature_map = self.spark_session.createDataFrame(
+                feature_map, StructType([
+                    StructField("feature_ind", IntegerType(), True),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), False),
+                    StructField("Type", StringType(), False),
+                ]))
+            self.dataengine.add_db_table('Feature_id_map',
+                                         df_feature_map, self.dataset, 1)
 
         return dc_queries
