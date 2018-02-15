@@ -400,10 +400,10 @@ class Session:
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
         t0 = time.time()
         
-        timeout ="SET innodb_lock_wait_timeout = 5000;"
+        timeout ="SET tx_isolation = 'READ-COMMITTED';"
         self.holo_env.dataengine.query(timeout)
         
-        timeout1= "SET GLOBAL innodb_lock_wait_timeout = 5000;" 
+        timeout1= "SET GLOBAL tx_isolation = 'READ-COMMITTED';" 
         self.holo_env.dataengine.query(timeout1)
 
         for i in range(0, number_of_threads):
