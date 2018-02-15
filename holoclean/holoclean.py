@@ -403,8 +403,8 @@ class Session:
         timeout ="SET innodb_lock_wait_timeout = 5000;"
         self.holo_env.dataengine.query(timeout)
         
-        timeout1= "SET GLOBAL innodb_lock_wait_timeout = 5000;" 
-        self.holo_env.dataengine.query(timeout1)
+        #timeout1= "SET GLOBAL innodb_lock_wait_timeout = 5000;" 
+        #self.holo_env.dataengine.query(timeout1)
 
         for i in range(0, number_of_threads):
             list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
