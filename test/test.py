@@ -21,7 +21,7 @@ class Testing:
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()
-
+        print self.holo_obj.dataengine.query("SELECT VERSION() as version", 1).collect()[0].version
         total = t1 - t0
         self.fx.write('time for ingesting file: ' + str(total) + '\n')
         print 'time for ingesting file: ' + str(total) + '\n'
