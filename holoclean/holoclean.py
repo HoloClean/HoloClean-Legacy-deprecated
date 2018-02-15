@@ -399,6 +399,9 @@ class Session:
         table_name = "clean" if clean == 1 else "dk"
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
         t0 = time.time()
+        
+        timeout ="set innodb_lock_wait_timeout=100"
+        self.holo_env.dataengine.query(timeout)
 
         for i in range(0, number_of_threads):
             list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
