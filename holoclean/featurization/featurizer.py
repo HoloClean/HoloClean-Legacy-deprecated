@@ -356,7 +356,7 @@ class SignalCooccur(Featurizer):
                                "FROM " + \
                                self.dataset.table_specific_name(name) + " t1, " + \
                                self.dataset.table_specific_name(c) + " t2, "+ \
-                               self.dataset.table_specific_name('Feature_id_map') + " as t3 " \
+                               self.dataset.table_specific_name('Feature_id_map_temp') + " as t3 " \
                                                                                " WHERE " \
                                                                                "t1.tid = t2.tid " \
                                                                                "AND " \
