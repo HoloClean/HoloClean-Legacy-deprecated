@@ -16,8 +16,8 @@ class Testing:
        # list_time = []
         start_time = time.time()
         t0 = time.time()
-        self.session.ingest_dataset("test/inputDatabase.csv")
-        #self.session.ingest_dataset("test/test.csv")
+        #self.session.ingest_dataset("test/inputDatabase.csv")
+        self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()
@@ -26,8 +26,8 @@ class Testing:
         self.fx.write('time for ingesting file: ' + str(total) + '\n')
         print 'time for ingesting file: ' + str(total) + '\n'
 
-        self.session.denial_constraints("test/inputConstraint.txt")
-        #self.session.denial_constraints("test/dc1.txt")
+        #self.session.denial_constraints("test/inputConstraint.txt")
+        self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
 
         t0 = time.time()
