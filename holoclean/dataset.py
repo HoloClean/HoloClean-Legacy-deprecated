@@ -44,6 +44,7 @@ class Dataset:
         'Correct',
         'Correct_flat',
         'Feature_id_map',
+        'Feature_id_map_temp',
         'Possible_values_clean',
         'Possible_values_dk',
         'Observed_Possible_values_clean',

@@ -437,7 +437,7 @@ class SignalDC(Featurizer):
         dc_queries = []
 
         maximum = self.dataengine.query(
-            "SELECT MAX(feature_ind) as max FROM " + self.dataset.table_specific_name("Feature_id_map") +
+            "SELECT MAX(feature_ind) as max FROM " + self.dataset.table_specific_name("Feature_id_map_temp") +
             " WHERE Type = 'cooccur'", 1
         ).collect()[0]['max']
 
@@ -481,14 +481,15 @@ class SignalDC(Featurizer):
                 self.dataengine.query(insert_signal_query)'''
 
         if clean:
-            df_feature_map = self.spark_session.createDataFrame(
+            df_feature_map_dc = self.spark_session.createDataFrame(
                 feature_map, StructType([
                     StructField("feature_ind", IntegerType(), True),
                     StructField("attribute", StringType(), False),
                     StructField("value", StringType(), False),
                     StructField("Type", StringType(), False),
                 ]))
+            df_feature_map_temp = self.dataengine.get_table_to_dataframe('Feature_id_map_temp', self.dataset)
             self.dataengine.add_db_table('Feature_id_map',
-                                         df_feature_map, self.dataset, 1)
+                                         df_feature_map_dc.union(df_feature_map_temp), self.dataset)
 
         return dc_queries

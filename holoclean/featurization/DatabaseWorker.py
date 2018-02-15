@@ -4,10 +4,11 @@ import logging
 import threading
 import time
 from holoclean.dataengine import *
+from collections import deque
 
 printLock = Lock()
 DCqueryCV = Condition()
-dc_queries = []
+dc_queries = deque([])
 
 class DatabaseWorker(Thread):
     __lock = Lock()
@@ -43,7 +44,7 @@ class DatabaseWorker(Thread):
                 self.cv.wait()
             self.cv.release()
 
-            list2 = self.result_queue.pop(0)
+            list2 = self.result_queue.popleft()
             if list2 == -1:
                 break
             insert_signal_query = "INSERT INTO " + table_name + \
@@ -114,7 +115,7 @@ class FeatureProducer(Thread):
                 DCqueryCV.wait()
             DCqueryCV.release()
 
-            dc_query = dc_queries.pop(0)
+            dc_query = dc_queries.popleft()
             if dc_query == -1:
                 break
             printLock.acquire()
@@ -131,12 +132,11 @@ class FeatureProducer(Thread):
 
         for thread in prods:
             thread.join()
-
+        self.cv.acquire()
         for i in range(self.num_of_threads):
             self.list_of_queries.append(-1)
-            self.cv.acquire()
             self.cv.notify()
-            self.cv.release()
+        self.cv.release()
 
         printLock.acquire()
         print 'Feature Prod done'
@@ -158,8 +158,8 @@ class DCQueryProducer(Thread):
         for feature in self.featurizers:
             if feature.id == "SignalDC":
                 feature.get_query(clean, self)
-        dc_queries.append(-1)
         DCqueryCV.acquire()
+        dc_queries.append(-1)
         DCqueryCV.notify()
         DCqueryCV.release()
 

@@ -17,6 +17,7 @@ from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from learning.softmax import SoftMax
 from threading import Thread, Lock, Condition
+from collections import deque
 import multiprocessing
 
 # Define arguments for HoloClean
@@ -461,7 +462,7 @@ class Session:
                                     " feature INT, count INT);"
         self.holo_env.dataengine.query(query_for_featurization)
         '''
-        self.list_of_queries = []
+        self.list_of_queries = deque([])
         self.cv = Condition()
 
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
