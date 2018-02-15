@@ -107,13 +107,13 @@ class Testing:
         t1 = time.time()
         print 'time to save inferred values', t1 - t0
 
-        acc = Accuracy(self.holo_obj.dataengine, "test/hospital1k/grandtruth.csv", self.session.dataset, self.holo_obj.spark_session)
+        '''acc = Accuracy(self.holo_obj.dataengine, "test/hospital1k/grandtruth.csv", self.session.dataset, self.holo_obj.spark_session)
         flattening = 0
-        acc.accuracy_calculation(flattening)
+        acc.accuracy_calculation(flattening)'''
 
-        #acc = Accuracy(self.holo_obj.dataengine, "test/correct.csv", self.session.dataset, self.holo_obj.spark_session)
-        #flattening=1
-        #acc.accuracy_calculation(flattening)
+        acc = Accuracy(self.holo_obj.dataengine, "test/correct.csv", self.session.dataset, self.holo_obj.spark_session)
+        flattening=1
+        acc.accuracy_calculation(flattening)
 
         endtime = time.time()
         print 'total time: ', endtime - start_time

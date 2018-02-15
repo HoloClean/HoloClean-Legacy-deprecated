@@ -237,6 +237,6 @@ class DataEngine:
         if spark_flag == 1:
             return self._query_spark(sqlQuery)
         else:
-            return self.db_backend.execute(sqlQuery)
+            return self.db_backend.execution_options(autocommit=True).execute(sqlQuery)
 
 

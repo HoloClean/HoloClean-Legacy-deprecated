@@ -34,7 +34,7 @@ class DatabaseWorker(Thread):
         self.list_of_names.append(table_name)
 
         query_for_featurization = "CREATE TABLE " + table_name + "(vid INT, assigned_val INT," \
-            " feature TEXT,count INT);"
+            " feature INT ,count INT);"
         self.dataengine.query(query_for_featurization)
 
         while True:

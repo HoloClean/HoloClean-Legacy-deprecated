@@ -17,7 +17,7 @@ from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from learning.softmax import SoftMax
 from threading import Thread, Lock, Condition
-
+import multiprocessing
 
 # Define arguments for HoloClean
 arguments = [
@@ -391,7 +391,7 @@ class Session:
             self.connection = self.dataengine._start_db()
             self.connection.execute(self.query)
 
-    def parallel_queries(self, number_of_threads=4, clean=1):
+    def parallel_queries(self, number_of_threads=multiprocessing.cpu_count() - 4, clean=1):
         print 'Creating parallel queries'
         t0 = time.time()
         list_of_names = []
@@ -399,12 +399,6 @@ class Session:
         table_name = "clean" if clean == 1 else "dk"
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
         t0 = time.time()
-        
-        timeout ="SET tx_isolation = 'READ-COMMITTED';"
-        self.holo_env.dataengine.query(timeout)
-        
-        timeout1= "SET GLOBAL tx_isolation = 'READ-COMMITTED';" 
-        self.holo_env.dataengine.query(timeout1)
 
         for i in range(0, number_of_threads):
             list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
