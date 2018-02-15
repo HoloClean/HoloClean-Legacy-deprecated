@@ -1,7 +1,7 @@
 # Travis CI config for Holoclean, Weakly Supervised Data Cleaning
 
 dist: trusty
-sudo: false  # to use container-based infra, see: http://docs.travis-ci.com/user/migrating-from-legacy/
+sudo: required  # to use container-based infra, see: http://docs.travis-ci.com/user/migrating-from-legacy/
 
 language:
   - python
@@ -13,6 +13,14 @@ jdk:
   
 services:
   - mysql
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+
 
 cache:
   directories:
