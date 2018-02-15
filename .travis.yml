@@ -23,12 +23,12 @@ cache:
 
 addons:
   apt:
-	sources:
+    sources:
       - mysql-5.7-trusty
     packages:
     # CoreNLP needs Java 8
     - oracle-java8-installer
-	- mysql-server
+    - mysql-server
 
 # Following trick is necessary to get a binary distribution of numpy, scipy, etc. which takes too long to build every time
 # See: http://stackoverflow.com/q/30588634
