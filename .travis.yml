@@ -26,15 +26,16 @@ addons:
     sources:
       - mysql-5.7-trusty
     packages:
-    # CoreNLP needs Java 8
-    - oracle-java8-installer
-    - mysql-server
+      - mysql-server
+      - mysql-client
 
 # Following trick is necessary to get a binary distribution of numpy, scipy, etc. which takes too long to build every time
 # See: http://stackoverflow.com/q/30588634
 # See: https://github.com/Theano/Theano/blob/master/.travis.yml (for caching)
 # See: http://conda.pydata.org/docs/travis.html
 before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('abcd1234') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo service mysql restart
   - deactivate  # leaving Travis' virtualenv first since otherwise Jupyter/IPython gets confused with conda inside a virtualenv (See: https://github.com/ipython/ipython/issues/8898)
   - mkdir -p download
   - cd download
@@ -58,10 +59,10 @@ before_install:
   # Set environment variables
   - source set_env.sh
   
-  #create the database and u
-  - mysql -u root -e 'CREATE DATABASE holo;'
+  #create the database and user
+  - mysql -u root -e "CREATE DATABASE holo;"
   - mysql -u root -e "Create user 'holocleanUser'@'localhost' identified by 'abcd1234'";
-  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'holocleanUser'@'localhost'";
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON holo.* TO 'holocleanUser'@'localhost'";
 
 install:
   # Install binary distribution of scientific python modules
