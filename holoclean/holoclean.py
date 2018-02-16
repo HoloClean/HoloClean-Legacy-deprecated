@@ -16,7 +16,9 @@ from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from learning.softmax import SoftMax
-from threading import Thread, Lock, Condition
+from threading import Thread, Lock, Condition, Semaphore
+import threading
+import torch
 from collections import deque
 import multiprocessing
 
@@ -99,6 +101,33 @@ flags = [
          'action': 'store_true',
          'help': 'verbose'})
 ]
+
+
+
+class Barrier:
+    def __init__(self, n ):
+        self.n = n
+        self.count = 0
+        self.mutex = Semaphore(1)
+        self.barrier = Condition()
+
+    def wait(self):
+        self.mutex.acquire()
+        self.count = self.count + 1
+        string_name = str(threading.currentThread().getName())
+        print string_name
+        self.mutex.release()
+        if self.count == self.n:
+            self.barrier.acquire()
+            self.barrier.notifyAll()
+            self.barrier.release()
+        else:
+            self.barrier.acquire()
+            self.barrier.wait()
+            self.barrier.release()
+
+
+
 
 
 class HoloClean:
@@ -403,50 +432,58 @@ class Session:
         feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
         t0 = time.time()
 
-        for i in range(0, number_of_threads):
-            list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
-                                                  self.holo_env, self.dataset, self.cv))
+        if clean:
+            b = Barrier(number_of_threads + 1)
+            for i in range(0, number_of_threads):
+                list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
+                                                      self.holo_env, self.dataset, self.cv, b, self.cvX))
+            t1 = time.time()
+            print t1 - t0
+            print 'Starting threads'
+            for thread in list_of_threads:
+                thread.start()
 
-        t1 = time.time()
-        print t1 - t0
-        print 'Starting threads'
-        for thread in list_of_threads:
-            thread.start()
+            b.wait()
+        else:
+            b1 = Barrier(number_of_threads + 1)
+            for i in range(0, number_of_threads):
+                list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
+                                                      self.holo_env, self.dataset, self.cv, b1, self.cvX))
+            t1 = time.time()
+            print t1 - t0
+            print 'Starting threads'
+            for thread in list_of_threads:
+                thread.start()
+
+            b1.wait()
+
+        if (clean):
+            self._create_dimensions(clean)
+            X_training = torch.zeros(self.N, self.M, self.L)
+            for thread in list_of_threads:
+                thread.getX(X_training)
+            self.cvX.acquire()
+            self.cvX.notifyAll()
+            self.cvX.release()
+        else:
+            self._create_dimensions(clean)
+            X_testing = torch.zeros(self.N, self.M, self.L)
+            for thread in list_of_threads:
+                thread.getX(X_testing)
+            self.cvX.acquire()
+            self.cvX.notifyAll()
+            self.cvX.release()
 
         for thread in list_of_threads:
             thread.join()
 
-        insert_query = ""
-        t1 = time.time()
-        total = t1 - t0
-        print "Total Featurization Queries time Before Union: "
-        print total
-        t0 = time.time()
-        for name in list_of_names:
-            insert_query = insert_query + " Select vid, assigned_val, feature, count from " + name + " UNION"
-        insert_query = insert_query[:-5]
-
-        feature_table = self.holo_env.dataengine.query(insert_query, 1)
-        self.holo_env.dataengine.add_db_table(feature_name,
-                                     feature_table, self.dataset)
-        del feature_table
-        '''insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            feature_name) + " SELECT T_0.vid, T_0.assigned_val, T_0.feature, T_0.count FROM ( (" + insert_query + ")" \
-                                                                "as T_0);"
-        print insert_query
-        self.holo_env.dataengine.query(insert_signal_query)'''
-        t1 = time.time()
-        total = t1 - t0
-        print "Union Time: "
-        print total
-
-        t0 = time.time()
-        self._create_dimensions(clean)
-        t1 = time.time()
-        print 'Dimension time: ', t1 - t0
+        if (clean):
+            self.X_training = X_training
+        else:
+            self.X_testing = X_testing
         return
 
-    def ds_featurize(self, clean = 1):
+    def ds_featurize(self, clean=1):
         """TODO: Extract dataset features"""
         dc_query_prod = DCQueryProducer(clean, self.featurizers)
         dc_query_prod.start()
@@ -464,6 +501,7 @@ class Session:
         '''
         self.list_of_queries = deque([])
         self.cv = Condition()
+        self.cvX = Condition()
 
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
         feat_prod.start()
@@ -471,9 +509,7 @@ class Session:
         print t1 - t0
         self.parallel_queries(num_of_threads, clean)
 
-
-
-    def _create_dimensions(self, clean = 1):
+    def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
         obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 else 'Observed_Possible_values_dk'
         feature_id_map = 'Feature_id_map'
@@ -485,23 +521,43 @@ class Session:
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'N' as dimension, (" \
-            " SELECT COUNT(*) FROM " \
-            + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
+                          " SELECT COUNT(*) FROM " \
+                              + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'M' as dimension, (" \
-            " SELECT COUNT(*) FROM " \
-            + self.dataset.table_specific_name(feature_id_map) + ") as length;"
+                          " SELECT COUNT(*) FROM " \
+                              + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'L' as dimension, MAX(m) as length FROM (" \
-            " SELECT MAX(k_ij) m FROM " \
-            + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
-            " SELECT MAX(k_ij) as m FROM " \
-            + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
+                          " SELECT MAX(k_ij) m FROM " \
+                              + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
+                                                                                       " SELECT MAX(k_ij) as m FROM " \
+                              + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
+        if (clean):
+            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
+            list = dataframe_offset.collect()
+            dimension_dict = {}
+            for dimension in list:
+                dimension_dict[dimension['dimension']] = dimension['length']
+            self.M = dimension_dict['M']
+            self.N = dimension_dict['N']
+            self.L = dimension_dict['L']
 
+        else:
+            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_dk", self.dataset)
+            list = dataframe_offset.collect()
+            dimension_dict = {}
+            for dimension in list:
+                dimension_dict[dimension['dimension']] = dimension['length']
+            # X Tensor Dimensions (N * M * L)
+            self.M = dimension_dict['M']
+            self.N = dimension_dict['N']
+            self.L = dimension_dict['L']
+        return
 
     def ds_learn_repair_model(self):
         """TODO: Learn a repair model"""

@@ -17,17 +17,17 @@ class Testing:
         start_time = time.time()
         t0 = time.time()
         self.session.ingest_dataset("test/inputDatabase.csv")
-        # self.session.ingest_dataset("test/test.csv")
+        #self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
         t1 = time.time()
-        print self.holo_obj.dataengine.query("SELECT VERSION() as version", 1).collect()[0].version
+
         total = t1 - t0
         self.fx.write('time for ingesting file: ' + str(total) + '\n')
         print 'time for ingesting file: ' + str(total) + '\n'
 
         self.session.denial_constraints("test/inputConstraint.txt")
-        # self.session.denial_constraints("test/dc1.txt")
+        #self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
 
         t0 = time.time()
@@ -78,7 +78,8 @@ class Testing:
         print 'featurization time: '+str(total)+'\n'
 
         t0 = time.time()
-        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset, self.holo_obj.spark_session)
+        soft = SoftMax(self.holo_obj.dataengine, self.session.dataset, self.holo_obj.spark_session,
+                       self.session.X_training)
 
         print(soft.logreg())
         t1 = time.time()
@@ -97,7 +98,7 @@ class Testing:
         print 'time for test featurization: ' + str(total) + '\n'
 
         t0 = time.time()
-        Y = soft.predict(soft.model, soft.setuptrainingX(), soft.setupMask(0))
+        Y = soft.predict(soft.model, self.session.X_testing, soft.setupMask(0, self.session.N,self.session.L))
         print(Y)
         t1 = time.time()
         total = t1 - t0

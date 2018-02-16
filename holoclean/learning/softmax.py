@@ -71,7 +71,7 @@ class LogReg(torch.nn.Module):
     
 class SoftMax:
 
-    def __init__(self, dataengine, dataset, spark_session):
+    def __init__(self, dataengine, dataset, spark_session, X_training):
         self.dataengine = dataengine
         self.dataset = dataset
         self.spark_session = spark_session
@@ -96,8 +96,8 @@ class SoftMax:
         self.testL = None
 
         # pytorch tensors
-        self.X = None
-        self._setupX()
+        self.X = X_training
+        #self._setupX()
         self.mask = None
         self.testmask = None
         self.setupMask()
@@ -167,10 +167,10 @@ class SoftMax:
         # print(X)
         return X
 
-    def setupMask(self, clean=1):
+    def setupMask(self, clean=1, N=1, L=1):
         lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
-        N = self.N if clean else self.testN
-        L = self.L if clean else self.testL
+        N = self.N if clean else N
+        L = self.L if clean else L
         K_ij_lookup = self.dataengine.get_table_to_dataframe(
             lookup, self.dataset).select("vid", "k_ij").collect()
         mask = torch.zeros(N,L)

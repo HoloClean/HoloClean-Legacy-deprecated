@@ -13,7 +13,7 @@ dc_queries = deque([])
 class DatabaseWorker(Thread):
     __lock = Lock()
 
-    def __init__(self,table_name, result_queue, list_of_names, holo_env, dataset, cv):
+    def __init__(self, table_name, result_queue, list_of_names, holo_env, dataset, cv, barrier, cvX):
         Thread.__init__(self)
         self.table_name = table_name
         self.result_queue = result_queue
@@ -21,6 +21,12 @@ class DatabaseWorker(Thread):
         self.dataset = dataset
         self.list_of_names = list_of_names
         self.cv = cv
+        self.barrier = barrier
+        self.cvX = cvX
+        self.X = None
+
+    def getX(self, X):
+        self.X = X
 
     def run(self):
         result = None
@@ -46,6 +52,16 @@ class DatabaseWorker(Thread):
 
             list2 = self.result_queue.popleft()
             if list2 == -1:
+                self.barrier.wait()
+
+                self.cvX.acquire()
+                self.cvX.wait()
+                self.cvX.release()
+                query = "SELECT * FROM " + table_name
+                feature_table = self.dataengine.query(query, 1).collect()
+                for factor in feature_table:
+                    self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+
                 break
             insert_signal_query = "INSERT INTO " + table_name + \
                                   " SELECT * FROM " + list2 + ")AS T_0;"
@@ -173,18 +189,3 @@ class DCQueryProducer(Thread):
         DCqueryCV.notify()
         DCqueryCV.release()
 
-'''
-worker1 = DatabaseWorker("db1", "select something from sometable",
-        result_queue)
-worker2 = DatabaseWorker("db1", "select something from othertable",
-        result_queue)
-worker1.start()
-worker2.start()
-
-# Wait for the job to be done
-while len(result_queue) < 2:
-    sleep(delay)
-job_done = True
-worker1.join()
-worker2.join()
-'''
