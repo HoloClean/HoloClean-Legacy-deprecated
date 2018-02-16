@@ -1,6 +1,11 @@
-FROM bosr/pytorch
-# FROM digitalgenius/ubuntu-pytorch
+
+FROM ubuntu:16.04
 MAINTAINER HoloClean "holo@clean.org"
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get install -y python2.7 python-pip
+RUN pip install http://download.pytorch.org/whl/cpu/torch-0.3.1-cp27-cp27mu-linux_x86_64.whl && \
+    pip install torchvision 
 
 # Copy all the required folders into the docker image
 COPY python-package-requirement.txt /holoclean/
@@ -11,6 +16,7 @@ COPY script.py 	/holoclean/
 WORKDIR /holoclean
 # Install VIM, not really needed
 RUN apt-get install -y vim
+RUN apt-get install -y git
 
 # Install required python packages
 RUN apt-get install -y libmysqlclient-dev
