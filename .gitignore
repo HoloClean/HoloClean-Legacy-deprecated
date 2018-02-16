@@ -1,0 +1,7 @@
+/.ipynb_checkpoints/
+/.idea
+*.log
+__pycache__/
+*.py[cod]
+*$py.class
+
