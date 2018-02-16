@@ -36,7 +36,7 @@ addons:
 before_install:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo service mysql restart
-  - mysql_upgrade --force -uroot -p
+  - mysql_upgrade --force 
   - deactivate  # leaving Travis' virtualenv first since otherwise Jupyter/IPython gets confused with conda inside a virtualenv (See: https://github.com/ipython/ipython/issues/8898)
   - mkdir -p download
   - cd download
