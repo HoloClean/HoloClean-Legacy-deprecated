@@ -1,13 +1,26 @@
 FROM digitalgenius/ubuntu-pytorch
 MAINTAINER HoloClean "holo@clean.org"
 
-# Install MySQL
-RUN apt-get update && apt-get install -y mysql-server mysql-client
-RUN mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-RUN service mysql restart
-RUN mysql_upgrade --force 
+# Copy all the required folders into the docker image
+COPY python-package-requirement.txt /holoclean/
+COPY holoclean /holoclean/holoclean/
+COPY test /holoclean/test/
+COPY script.py 	/holoclean/
 
-RUN mysql -u root -e "CREATE DATABASE holo;"
-RUN mysql -u root -e "Create user 'holocleanUser'@'localhost' identified by 'abcd1234'";
-RUN mysql -u root -e "GRANT ALL PRIVILEGES ON holo.* TO 'holocleanUser'@'localhost'";
+WORKDIR /holoclean
+# Install VIM, not really needed
+RUN apt-get install -y vim
+
+# Install required python packages
+RUN apt-get install -y libmysqlclient-dev
+RUN pip install -r python-package-requirement.txt
+
+# Install Java to run Spark.
+RUN  apt-get update && \
+  apt-get -y install software-properties-common && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
+  apt-get update && \
+  apt-get -y install oracle-java8-installer
 
