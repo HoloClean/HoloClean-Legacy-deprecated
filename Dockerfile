@@ -1,4 +1,5 @@
-FROM digitalgenius/ubuntu-pytorch
+FROM bosr/pytorch
+# FROM digitalgenius/ubuntu-pytorch
 MAINTAINER HoloClean "holo@clean.org"
 
 # Copy all the required folders into the docker image
