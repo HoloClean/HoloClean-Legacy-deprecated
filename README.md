@@ -1,6 +1,10 @@
 # HoloClean: Weakly Supervised Data Cleaning
 HoloClean over Spark and PyTorch
 
+### Status
+
+[![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
+
 **_v0.0.1_**
 
 ## Data Cleaning with HoloClean
@@ -24,9 +28,6 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 ### References
 * _HoloClean:Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
 
-### Status
-
-[![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
 
 ## Installation
 
