@@ -337,7 +337,7 @@ class Pruning:
             c_clean, StructType([
                 StructField("tid", IntegerType(), False),
                 StructField("attribute", StringType(), False),
-                StructField("value", StringType(), False)
+                StructField("value", StringType(), True)
             ])
         )
         self.dataengine.add_db_table('C_clean_flat',
@@ -347,7 +347,7 @@ class Pruning:
             c_dk, StructType([
                 StructField("tid", IntegerType(), False),
                 StructField("attribute", StringType(), False),
-                StructField("value", StringType(), False)
+                StructField("value", StringType(), True)
             ])
         )
         self.dataengine.add_db_table('C_dk_flat',
@@ -363,7 +363,7 @@ class Pruning:
                                      new_df_kij, self.dataset)
 
         new_df_kij = self.spark_session.createDataFrame(domain_kij_clean, StructType([
-            StructField("vid", IntegerType(), True),
+            StructField("vid", IntegerType(), False),
             StructField("tid", IntegerType(), False),
             StructField("attr_name", StringType(), False),
             StructField("k_ij", IntegerType(), False),

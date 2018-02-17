@@ -355,7 +355,8 @@ class Session:
         self.Denial_constraints = []
         dc_file = open(filepath, 'r')
         for line in dc_file:
-            self.Denial_constraints.append(line[:-1])
+            if line.translate(None, ' \n') != '':
+                self.Denial_constraints.append(line[:-1])
 
     # Getters
 

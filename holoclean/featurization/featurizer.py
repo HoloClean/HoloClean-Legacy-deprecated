@@ -402,12 +402,13 @@ class SignalDC(Featurizer):
         """
                 This method creates a query for the featurization table for the dc"
                 """
+        join_table_name = self.dataset.table_specific_name('Init_join')
         if clean:
             name = "Possible_values_clean"
-            join_table_name = self.dataset.table_specific_name('Init_join')
+            #join_table_name = self.dataset.table_specific_name('Init_join')
         else:
             name = "Possible_values_dk"
-            join_table_name = self.dataset.table_specific_name('Init_join_dk')
+            #join_table_name = self.dataset.table_specific_name('Init_join_dk')
         self.possible_table_name = self.dataset.table_specific_name(name)
 
         new_dc = self._create_new_dc()
@@ -421,19 +422,19 @@ class SignalDC(Featurizer):
             query1 = query1 + "table1." + attribute + " AS first_" + \
                 attribute + "," + "table2." + attribute + " AS second_" + attribute + ","
         query1 = query1[:-1]
-
-        query = "CREATE TABLE " \
-                + join_table_name + \
-                " AS " \
-                "SELECT * FROM (" \
-                + query1 + \
-                " FROM " + \
-                self.table_name + " AS table1," + \
-                self.table_name + " AS table2" \
-                                  " WHERE" \
-                                  " table1.index!=table2.index" \
-                                  ") AS jointable ;"
-        self.dataengine.query(query)
+        if clean:
+            query = "CREATE TABLE " \
+                    + join_table_name + \
+                    " AS " \
+                    "SELECT * FROM (" \
+                    + query1 + \
+                    " FROM " + \
+                    self.table_name + " AS table1," + \
+                    self.table_name + " AS table2" \
+                                      " WHERE" \
+                                      " table1.index!=table2.index" \
+                                      ") AS jointable ;"
+            self.dataengine.query(query)
         dc_queries = []
 
         maximum = self.dataengine.query(

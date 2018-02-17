@@ -68,6 +68,7 @@ class DatabaseWorker(Thread):
             t0 = time.time()
             printLock.acquire()
             print threading.currentThread().getName(), " Query Started "
+            print insert_signal_query
             printLock.release()
             self.dataengine.query(insert_signal_query)
             t1= time.time()
