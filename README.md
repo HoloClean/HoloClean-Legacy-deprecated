@@ -24,6 +24,10 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 ### References
 * _HoloClean:Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
 
+### Status
+
+[![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
+
 ## Installation
 
 This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](https://github.com/HoloClean/HoloClean-v0.01/blob/pytorch/Holoclean_Installation_v3.pdf) file in the git repo.
@@ -106,4 +110,4 @@ http://pytorch.org/
 To install pytorch
 Make sure to install version 0.3.0 or later
 
-[![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
+
