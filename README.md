@@ -105,3 +105,5 @@ Follow instructions for your OS at:
 http://pytorch.org/
 To install pytorch
 Make sure to install version 0.3.0 or later
+
+[![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
