@@ -6,7 +6,7 @@ with open("flights_input.csv") as f:
     dict1 = {}
     one = []
     two = []
-    file1.write("flight"","+"sched_dep_time"+","+"act_dep_time"+","+"sched_arr_time"+","+"act_arr_time"+"\n")
+    file1.write("index"+","+"flight"","+"sched_dep_time"+","+"act_dep_time"+","+"sched_arr_time"+","+"act_arr_time"+"\n")
     list_onomata = ["sched_dep_time","act_dep_time","sched_arr_time","flight","act_arr_time"]
     for line in f:
         line1 = line.split(",")
