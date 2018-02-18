@@ -16,7 +16,16 @@ with open("flights_input.csv") as f:
 	        dict1[line1[1]] = line1[2]
             list1.append([line1[1],line1[2]])
         else:
+              list1 = []
+              if count != 0:
+                           file1.write(str(count) +","+dict1["flight"]+","+dict1["sched_dep_time"]+","+dict1["act_dep_time"]+","+dict1["sched_arr_time"]+","+dict1["act_arr_time"]+"\n")
+              dict1={}
+              count = count1
+              if line1[1] in list_onomata:
+	        dict1[line1[1]] = line1[2]
+              list1.append([line1[1],line1[2]]) 
 
+        '''    
               list1 = []
               if count != 0:
                   flights = dict1["flight"]
@@ -35,7 +44,7 @@ with open("flights_input.csv") as f:
               count = count1
               if line1[1] in list_onomata:
 	        dict1[line1[1]] = line1[2]
-              list1.append([line1[1],line1[2]])
+              list1.append([line1[1],line1[2]])        '''   
 
 file1.close()
       
