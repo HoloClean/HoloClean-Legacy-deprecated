@@ -7,8 +7,8 @@ with open("food_input1.csv") as f:
     one = []
     two = []
 
-    file1.write("index"+","+"akaname"","+"inspectionid"+","+"city"+","+"state"+","+"results"+","+"longitude"+","+"latitude"+","+"inspectiondate"+","+"risk"+","+"location"+","+"license"+","+"facilitytype"+","+"address"+","+"inspectiontype"+","+"dbaname"+"\n")
-    list_onomata = ["index","akaname","inspectionid","city","state","results","longitude","latitude","inspectiondate","risk","location","license","facilitytype","address","inspectiontype","dbaname"]
+    file1.write("index"+","+"akaname"","+"inspectionid"+","+"city"+","+"state"+","+"results"+","+"longitude"+","+"latitude"+","+"inspectiondate"+","+"risk"+","+"location"+","+"license"+","+"facilitytype"+","+"address"+","+"inspectiontype"+","+"dbaname"+","+"zip"+"\n")
+    list_onomata = ["index","akaname","inspectionid","city","state","results","longitude","latitude","inspectiondate","risk","location","license","facilitytype","address","inspectiontype","dbaname","zip"]
     for line in f:
         line1 = line.split(",")
         count1 = line1[0]
@@ -22,7 +22,7 @@ with open("food_input1.csv") as f:
               if count != 0: 
                     if(int(count)<85601):
                            print count
-                           file1.write(str(count) +","+ dict1["akaname"]+","+dict1["inspectionid"]+","+dict1["city"]+","+dict1["state"]+","+dict1["results"]+","+dict1["longitude"]+","+dict1["latitude"]+","+dict1["inspectiondate"]+","+dict1["risk"]+","+dict1["location"]+","+dict1["license"]+","+dict1["facilitytype"]+","+dict1["address"]+","+dict1["inspectiontype"]+","+dict1["dbaname"]+"\n")
+                           file1.write(str(count) +","+ dict1["akaname"]+","+dict1["inspectionid"]+","+dict1["city"]+","+dict1["state"]+","+dict1["results"]+","+dict1["longitude"]+","+dict1["latitude"]+","+dict1["inspectiondate"]+","+dict1["risk"]+","+dict1["location"]+","+dict1["license"]+","+dict1["facilitytype"]+","+dict1["address"]+","+dict1["inspectiontype"]+","+dict1["dbaname"]+","+dict1["zip"]+"\n")
               for onomata in list_onomata:
                   dict1[onomata]=""
               count = count1
