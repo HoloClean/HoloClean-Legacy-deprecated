@@ -6,6 +6,7 @@ with open("flights_input.csv") as f:
     dict1 = {}
     one = []
     two = []
+    file1.write("flight"","+"sched_dep_time"+","+"act_dep_time"+","+"sched_arr_time"+","+"act_arr_time"+"\n")
     list_onomata = ["sched_dep_time","act_dep_time","sched_arr_time","flight","act_arr_time"]
     for line in f:
         line1 = line.split(",")
@@ -15,16 +16,17 @@ with open("flights_input.csv") as f:
 	        dict1[line1[1]] = line1[2]
             list1.append([line1[1],line1[2]])
         else:
+
               list1 = []
               if count != 0:
                   flights = dict1["flight"]
                   if not (flights in one):
                       one.append(dict1["flight"])
-                      file1.write(str(index) +","+dict1["flight"]+","+dict1["sched_dep_time"]+","+dict1["act_dep_time"]+","+dict1["sched_arr_time"]+","+dict1["act_arr_time"]+"\n")
+                      file1.write(str(count) +","+dict1["flight"]+","+dict1["sched_dep_time"]+","+dict1["act_dep_time"]+","+dict1["sched_arr_time"]+","+dict1["act_arr_time"]+"\n")
                       index = index +1
                   else:
                        if (float(one.index(flights)) % 20 > 0):
-                           file1.write(str(index) +","+dict1["flight"]+","+dict1["sched_dep_time"]+","+dict1["act_dep_time"]+","+dict1["sched_arr_time"]+","+dict1["act_arr_time"]+"\n")
+                           file1.write(str(count) +","+dict1["flight"]+","+dict1["sched_dep_time"]+","+dict1["act_dep_time"]+","+dict1["sched_arr_time"]+","+dict1["act_arr_time"]+"\n")
                            index = index +1
                        #else:
                        #    two.append(flights)
