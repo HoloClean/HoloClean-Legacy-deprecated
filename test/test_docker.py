@@ -8,7 +8,7 @@ import time
 
 class Testing:
     def __init__(self):
-        self.holo_obj = HoloClean(db_host = "127.0.0.1:4444")
+        self.holo_obj = HoloClean()
         self.session = Session("Session", self.holo_obj)
 
     def test(self):
@@ -17,8 +17,8 @@ class Testing:
         start_time = time.time()
         t0 = time.time()
         #self.session.ingest_dataset("test/inputDatabase.csv")
-        self.session.ingest_dataset("test/flights/flights_input_holo.csv")
-        #self.session.ingest_dataset("test/food/food_input_holo.csv")
+        #self.session.ingest_dataset("test/flights/flights_input_holo.csv")
+        self.session.ingest_dataset("test/food/food_input_holo.csv")
         #self.session.ingest_dataset("test/test.csv")
         # self.session.ingest_dataset("test/test1.csv")
 
@@ -29,8 +29,8 @@ class Testing:
         print 'time for ingesting file: ' + str(total) + '\n'
 
         #self.session.denial_constraints("test/inputConstraint.txt")
-        self.session.denial_constraints("test/flights/flight_constraints.txt")
-        #self.session.ingest_dataset("test/food/food_constraints1.csv")
+        #self.session.denial_constraints("test/flights/flight_constraints.txt")
+        self.session.denial_constraints("test/food/food_constraints1.txt")
         #self.session.denial_constraints("test/dc1.txt")
         # self.session.denial_constraints("test/dc2.txt")
 
