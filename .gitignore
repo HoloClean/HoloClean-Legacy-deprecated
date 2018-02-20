@@ -4,4 +4,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+_build
+_static
+_templates
