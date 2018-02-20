@@ -37,8 +37,10 @@ class Accuracy:
         print init.subtract(self.ground_truth_flat).count()
         print errors.intersect(incorrect).count()
 
+        self.dataengine.add_db_table('Initial_Errors', errors, self.dataset)
+        self.dataengine.add_db_table('Incorrect_Repairs', incorrect, self.dataset)
         precision = float((repair - incorrect_values)) / repair
-        recall = 1.0 - float(corrected.count()) / errors.count()
+        recall = 1.0 - (float(corrected.count()) / errors.count())
         #f1_score = 2.0 * (precision * recall) / (precision + recall)
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))

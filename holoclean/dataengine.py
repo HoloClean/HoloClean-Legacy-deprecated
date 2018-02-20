@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 import sqlalchemy as sqla
-import mysql.connector
-from dataset import *
 import pandas as pd
 from pyspark.sql.types import *
 from utils.reader import Reader
 
 
 class DataEngine:
-    """TODO: Data Engine Class."""
+    """
+    The DataEngine class which contains functionality to read the input files and output to MySQL database
+    """
 
     def __init__(self, holoEnv):
-        """TODO.
-
+        """
+        The constructor for DataEngine class
         Parameters
         ----------
-        parameter : type
-           This is a parameter
+        HoloEnv : HoloClean
+           This parameter is the HoloClean class from the holoclean.py module which contains all the connection
+           information.
 
         Returns
         -------
@@ -154,7 +155,21 @@ class DataEngine:
 
     # Getters
     def get_schema(self, dataset, table_general_name):
+        """
+        Gets the schema of MySQL table
+        Parameters
+        ----------
+        dataset : DataSet
+            This parameter is the dataset object used to store the ID of the current HoloClean Session
 
+        table_general_name: String
+            This parameter is the string literal of the table name
+        Returns
+        -------
+        dataframe : String
+            If successful will return a string of the schema with the column names separated by commas otherwise
+            will return "No such element"
+        """
         sql_query = "SELECT schem FROM metatable Where dataset_id = '" + \
             dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
         mt_eng = self.db_backend
@@ -165,18 +180,29 @@ class DataEngine:
         try:
             return dataframe.iloc[0][0]
         except BaseException:
-            return "Not such element"
+            return "No such element"
 
     def get_table_to_dataframe(self, table_name, dataset):
         """
         This method get table general name and return it as spark dataframe
+
+         Parameters
+        ----------
+        table_name : String
+            string literal of table name not including the session ID
+        dataset: DataSet
+            The DataSet object that holds the Session ID for HoloClean
+
+        Returns
+        -------
+        dataframe: DataFrame
+            The Spark DataFrame representing the MySQL Table
         """
 
         table_get = "Select * from " + \
                     dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
 
         useSpark = 1
-
         return self.query(table_get, useSpark)
 
     def get_db_backend(self):
@@ -185,15 +211,25 @@ class DataEngine:
 
     # Setters
 
-    # Will set the column datatype of column_name to INTEGER using a MySQL statement
-    def altar_column(self, dataset, column_name):
-        sql_statement="ALTER TABLE " + dataset.table_specific_name('Init') \
-                  + " MODIFY COLUMN " + column_name + " INT;"
-        self.db_backend.execute(sql_statement)
-
     def add_db_table(self, table_name, spark_dataframe, dataset, append=0):
         """
         This method get spark dataframe and a table_name and creates a table.
+
+        Parameters
+        ----------
+        table_name : String
+            string literal of table name not including the session ID
+        spark_dataframe: DataFrame
+            The dataframe that will be made into a MySQL table
+        dataset: DataSet
+            The DataSet object that holds the Session ID for HoloClean
+        append: Int
+            Optional parameter to specify if we want to append dataframe to table or overwrite
+            default value is 0 (i.e. overwrite)
+
+        Returns
+        -------
+        No Return
         """
 
         schema = spark_dataframe.schema.names
@@ -203,7 +239,17 @@ class DataEngine:
 
     def ingest_data(self, filepath, dataset):
         """
-        TO DO:load data from a file to a dataframe and store it on the db
+        load data from a file to a dataframe and store it on the db
+
+         Parameters
+        ----------
+        filepath : String
+            file path of the .csv file for the dataset
+        dataset: DataSet
+            The DataSet object that holds the Session ID for HoloClean
+        Returns
+        -------
+        No Return
         """
         # Spawn new reader and load data into dataframe
         fileReader = Reader(self.holoEnv.spark_session)
@@ -237,7 +283,21 @@ class DataEngine:
 
     def query(self, sqlQuery, spark_flag=0):
         """
-        TO DO:execute a query, uses the flag to decide if it will store the results on spark dataframe
+        execute a query, uses the flag to decide if it will store the results on spark dataframe
+
+         Parameters
+        ----------
+        sqlQuery : String
+            string literal of sql query to be executed
+        spark_flat: Int
+            Default value: 0
+            If 1 will use Pyspark otherwise will use SqlAlchemy
+
+        Returns
+        -------
+        dataframe: DataFrame
+            The DataFrame representing the result of the query if spark_flag = 0
+            otherwise None
         """
 
         if spark_flag == 1:

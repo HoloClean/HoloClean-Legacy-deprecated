@@ -51,7 +51,9 @@ class Dataset:
         'Observed_Possible_values_dk',
         'Kij_lookup_clean',
         'Kij_lookup_dk',
-        'Inferred_values']
+        'Inferred_values',
+        'Initial_Errors',
+        'Incorrect_Repairs']
 
     """
 
