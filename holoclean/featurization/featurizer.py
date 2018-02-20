@@ -278,15 +278,16 @@ class Featurizer:
 
 
 class SignalInit(Featurizer):
-    """TODO.
+    """
     Signal for initial values
     """
 
     def __init__(self, denial_constraints, dataengine, dataset):
-        """TODO.
-        Parameters
-        --------
-        denial_constraints,dataengine,dataset
+        """
+        Create a Signal for initial values
+        :param denial_constraints: The Session's current denial_constraints (i.e. Session.Denial_Constraints)
+        :param dataengine: DataEngine used for the current HoloClean Session
+        :param dataset: DataSet containing the current Session ID
         """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalInit"
@@ -318,11 +319,12 @@ class SignalCooccur(Featurizer):
     """
 
     def __init__(self, denial_constraints, dataengine, dataset):
-        """TODO.
-                Parameters
-                --------
-                denial_constraints,dataengine,dataset
-                """
+        """
+        Create a Signal for Co-occurances
+        :param denial_constraints: The Session's current denial_constraints (i.e. Session.Denial_Constraints)
+        :param dataengine: DataEngine used for the current HoloClean Session
+        :param dataset: DataSet containing the current Session ID
+        """
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
 
@@ -389,10 +391,12 @@ class SignalDC(Featurizer):
         """
 
     def __init__(self, denial_constraints, dataengine, dataset, spark_session):
-        """TODO.
-        Parameters
-        --------
-        denial_constraints,dataengine,dataset
+        """
+        Create a Signal for Denial Constraints
+        :param denial_constraints: The Session's current denial_constraints (i.e. Session.Denial_Constraints)
+        :param dataengine: DataEngine used for the current HoloClean Session
+        :param dataset: DataSet containing the current Session ID
+        :param spark_session: the Spark Session contained by the HoloClean Session
         """
         self.spark_session = spark_session
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
