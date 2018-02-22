@@ -1,7 +1,7 @@
 # Travis CI config for Holoclean, Weakly Supervised Data Cleaning
 
 dist: trusty
-sudo: required  # to use container-based infra, see: http://docs.travis-ci.com/user/migrating-from-legacy/
+sudo: required
 
 language:
   - python
