@@ -68,7 +68,7 @@ class DatabaseWorker(Thread):
             t0 = time.time()
             printLock.acquire()
             print threading.currentThread().getName(), " Query Started "
-            print insert_signal_query
+            # print insert_signal_query
             printLock.release()
             self.dataengine.query(insert_signal_query)
             t1= time.time()
@@ -115,7 +115,7 @@ class FeatureProducer(Thread):
             print 'adding a ', feature.id
             printLock.release()
             t0 = time.time()
-            if feature.id != "SignalDC":
+            if feature.id != "SignalDC" and feature.id != "SignalSource":
                 thread = QueryProd(self.list_of_queries, self.clean, feature, self.cv)
                 prods.append(thread)
                 thread.start()
@@ -175,6 +175,8 @@ class DCQueryProducer(Thread):
         for feature in self.featurizers:
             if feature.id == "SignalDC":
                 feature.get_query(clean, self)
+            if feature.id == "SignalSource":
+                feature.get_query(clean, self)
         DCqueryCV.acquire()
         dc_queries.append(-1)
         DCqueryCV.notify()
@@ -189,4 +191,3 @@ class DCQueryProducer(Thread):
         DCqueryCV.acquire()
         DCqueryCV.notify()
         DCqueryCV.release()
-
