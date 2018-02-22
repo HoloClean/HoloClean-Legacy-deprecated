@@ -14,12 +14,9 @@ class Accuracy:
             "tid", "attr_name", "attr_val"
         )
 
-        final.show()
-
         self.read()
         if flattening :
             self._flatting()
-        self.ground_truth_flat.show()
 
         incorrect = final.subtract(self.ground_truth_flat)
         errors = init.subtract(self.ground_truth_flat)
@@ -27,14 +24,6 @@ class Accuracy:
         incorrect_values = incorrect.count()
         repair = final.count()
 
-        all_corect = self.ground_truth_flat.count()
-
-        print "debug:"
-        print init.subtract(self.ground_truth_flat).count()
-        print errors.intersect(incorrect).count()
-
-        self.dataengine.add_db_table('Initial_Errors', errors, self.dataset)
-        self.dataengine.add_db_table('Incorrect_Repairs', incorrect, self.dataset)
         precision = float((repair - incorrect_values)) / repair
         recall = 1.0 - (float(corrected.count()) / errors.count())
         print ("The precision that we have is :" + str(precision))

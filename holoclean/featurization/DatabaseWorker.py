@@ -142,7 +142,7 @@ class FeatureProducer(Thread):
                 break
             if debug:
                 printLock.acquire()
-                print 'adding a DC query'
+                print 'adding a DC/Source query'
                 printLock.release()
             self.list_of_queries.append(dc_query)
             self.cv.acquire()
@@ -150,7 +150,7 @@ class FeatureProducer(Thread):
             self.cv.release()
             if debug:
                 printLock.acquire()
-                print 'finished adding a DC query'
+                print 'finished adding a DC/Source query'
                 printLock.release()
 
         for thread in prods:

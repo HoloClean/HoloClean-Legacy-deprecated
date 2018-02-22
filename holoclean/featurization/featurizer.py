@@ -1,6 +1,6 @@
 from holoclean.utils.dcparser import DCParser
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
-
+key = 'flight'
 class Featurizer:
     """TODO.
         parent class for all the signals
@@ -504,6 +504,7 @@ class SignalSource(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalSource"
         self.create_tables(clean, multiple_weights)
+        self.multiple_weights = multiple_weights
 
     def create_tables(self, clean, multiple_weights):
         if clean:
@@ -609,7 +610,7 @@ class SignalSource(Featurizer):
                 self.dataengine.query(query_featurization)
             return
 
-    def get_query(self, clean=1, multiple_weights=0, query_prod=None):
+    def get_query(self, clean=1, query_prod=None):
         if clean:
             name = "Observed_Possible_values_clean"
             possible_values = "Possible_values_clean"
@@ -621,30 +622,28 @@ class SignalSource(Featurizer):
 
         source_queries = []
         for possible_value in self.possible_values:
-            if multiple_weights:
+            if self.multiple_weights:
                 query_for_featurization = "(SELECT " + str(possible_value.vid) + " as vid, " \
-                                                                                 " '" + str(
-                    possible_value.domain_id) + "' as assigned_val, " \
-                                                " source_index as feature, " \
-                                                " 1 as count FROM " + self.dataset.table_specific_name(
-                    'Init') + " i" \
-                              " INNER JOIN " + self.dataset.table_specific_name('Sources') + " s" \
-                                                                                             " ON i.src = s.name where " + key + "= (SELECT " + key + \
+                                          " '" + str( possible_value.domain_id) + "' as assigned_val, " \
+                                          " source_index as feature, " \
+                                          " 1 as count FROM " + self.dataset.table_specific_name(
+                                          'Init') + " i" \
+                                          " INNER JOIN " + self.dataset.table_specific_name('Sources') + " s" \
+                                          " ON i.src = s.name where " + key + "= (SELECT " + key + \
                                           " FROM " + self.dataset.table_specific_name('Init') + " where `index`=" + \
-                                          str(possible_value.tid) + ") and " + str(possible_value.attr_name) + \
-                                          "=s.attribute and " + \
+                                          str(possible_value.tid) + ") and " +  \
+                                          " s.attribute = " + str(possible_value.attr_name) + " and " + \
                                           str(possible_value.attr_name) + "='" + \
                                           str(possible_value.attr_val) + \
                                           "' "
             else:
                 query_for_featurization = "(SELECT " + str(possible_value.vid) + " as vid, " \
-                                                                                 " '" + str(
-                    possible_value.domain_id) + "' as assigned_val, " \
-                                                " source_index as feature, " \
-                                                " 1 as count FROM " + self.dataset.table_specific_name(
-                    'Init') + " i" \
-                              " INNER JOIN " + self.dataset.table_specific_name('Sources') + " s" \
-                                                                                             " ON i.src = s.name where " + key + "= (SELECT " + key + \
+                                          " '" + str(possible_value.domain_id) + "' as assigned_val, " \
+                                          " source_index as feature, " \
+                                          " 1 as count FROM " + self.dataset.table_specific_name(
+                                          'Init') + " i" \
+                                          " INNER JOIN " + self.dataset.table_specific_name('Sources') + " s" \
+                                          " ON i.src = s.name where " + key + "= (SELECT " + key + \
                                           " FROM " + self.dataset.table_specific_name('Init') + " where `index`=" + \
                                           str(possible_value.tid) + ") and " + str(possible_value.attr_name) \
                                           + "='" + str(possible_value.attr_val) + \
