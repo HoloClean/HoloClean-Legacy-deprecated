@@ -5,6 +5,9 @@ HoloClean over Spark and PyTorch
 
 [![Build Status](https://travis-ci.com/HoloClean/HoloClean-v0.01.svg?token=YfAzBXp1E7FY9ZAqGDpk&branch=pytorch)](https://travis-ci.com/HoloClean/HoloClean-v0.01)
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
 **_v0.0.1_**
 
 ## Data Cleaning with HoloClean
