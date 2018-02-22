@@ -5,7 +5,7 @@ import threading
 import time
 from holoclean.dataengine import *
 from collections import deque
-
+debug = 0
 printLock = Lock()
 DCqueryCV = Condition()
 dc_queries = deque([])
@@ -66,18 +66,21 @@ class DatabaseWorker(Thread):
             insert_signal_query = "INSERT INTO " + table_name + \
                                   " SELECT * FROM " + list2 + ")AS T_0;"
             t0 = time.time()
-            printLock.acquire()
-            print threading.currentThread().getName(), " Query Started "
-            # print insert_signal_query
-            printLock.release()
+            if debug:
+                printLock.acquire()
+                print threading.currentThread().getName(), " Query Started "
+                print insert_signal_query
+                printLock.release()
             self.dataengine.query(insert_signal_query)
-            t1= time.time()
+            t1 = time.time()
+            if debug:
+                printLock.acquire()
+                print threading.currentThread().getName(), " Query Execution time: ", t1-t0
+                printLock.release()
+        if debug:
             printLock.acquire()
-            print threading.currentThread().getName(), " Query Execution time: ", t1-t0
+            print threading.currentThread().getName(), " Done executing queries"
             printLock.release()
-        printLock.acquire()
-        print threading.currentThread().getName(), " Done executing queries"
-        printLock.release()
 
 
 class QueryProd(Thread):
@@ -111,9 +114,10 @@ class FeatureProducer(Thread):
     def run(self):
         prods = []
         for feature in self.featurizers:
-            printLock.acquire()
-            print 'adding a ', feature.id
-            printLock.release()
+            if debug:
+                printLock.acquire()
+                print 'adding a ', feature.id
+                printLock.release()
             t0 = time.time()
             if feature.id != "SignalDC" and feature.id != "SignalSource":
                 thread = QueryProd(self.list_of_queries, self.clean, feature, self.cv)
@@ -121,9 +125,10 @@ class FeatureProducer(Thread):
                 thread.start()
             t1 = time.time()
             total = t1 - t0
-            printLock.acquire()
-            print 'done adding ', feature.id, ' ', total
-            printLock.release()
+            if debug:
+                printLock.acquire()
+                print 'done adding ', feature.id, ' ', total
+                printLock.release()
 
         global dc_queries
         while True:
@@ -135,17 +140,18 @@ class FeatureProducer(Thread):
             dc_query = dc_queries.popleft()
             if dc_query == -1:
                 break
-            printLock.acquire()
-            print 'adding a DC query'
-            printLock.release()
+            if debug:
+                printLock.acquire()
+                print 'adding a DC query'
+                printLock.release()
             self.list_of_queries.append(dc_query)
             self.cv.acquire()
             self.cv.notify()
             self.cv.release()
-
-            printLock.acquire()
-            print 'finished adding a DC query'
-            printLock.release()
+            if debug:
+                printLock.acquire()
+                print 'finished adding a DC query'
+                printLock.release()
 
         for thread in prods:
             thread.join()
@@ -154,10 +160,10 @@ class FeatureProducer(Thread):
             self.list_of_queries.append(-1)
             self.cv.notify()
         self.cv.release()
-
-        printLock.acquire()
-        print 'Feature Prod done'
-        printLock.release()
+        if debug:
+            printLock.acquire()
+            print 'Feature Prod done'
+            printLock.release()
 
 
 class DCQueryProducer(Thread):
@@ -181,10 +187,10 @@ class DCQueryProducer(Thread):
         dc_queries.append(-1)
         DCqueryCV.notify()
         DCqueryCV.release()
-
-        printLock.acquire()
-        print 'DC QUERY Producer FINISHED'
-        printLock.release()
+        if debug:
+            printLock.acquire()
+            print 'DC QUERY Producer FINISHED'
+            printLock.release()
 
     def appendQuery(self, query):
         dc_queries.append(query)
