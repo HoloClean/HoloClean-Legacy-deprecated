@@ -19,12 +19,12 @@ class LogReg(torch.nn.Module):
             self.init_W = Parameter(torch.randn(1).expand(1, self.output_dim))
         else:
             self.init_W = Parameter(torch.randn(1, self.output_dim))
-            
+
         # setup cooccur
-        self.cooc_W = Parameter(torch.randn(self.input_dim_non_dc - 1, self.output_dim))
-        
+        self.cooc_W = Parameter(torch.randn(self.input_dim_non_dc - 1, 1).expand(-1, self.output_dim))
+
         self.W = torch.cat((self.init_W, self.cooc_W), 0)
-        
+
         # setup dc
         if self.input_dim_dc > 0:
             if (self.tie_dc):
@@ -112,7 +112,6 @@ class SoftMax:
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
-        #print(self.Y)
         return
 
     # Will create the X-value tensor of size nxmxl
@@ -132,9 +131,6 @@ class SoftMax:
             self.X = torch.zeros(self.N, self.M, self.L)
             for factor in feature_table:
                 self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
-
-        # print('X tensor:')
-        # print(self.X)
         return
 
     def setuptrainingX(self, sparse=0):
@@ -164,7 +160,6 @@ class SoftMax:
             X = torch.zeros(self.testN, self.testM, self.testL)
             for factor in feature_table:
                 X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
-        # print(X)
         return X
 
     def setupMask(self, clean=1, N=1, L=1):
@@ -177,7 +172,6 @@ class SoftMax:
         for domain in K_ij_lookup:
             if domain.k_ij < L:
                 mask[domain.vid-1, domain.k_ij:] = -10e6;
-        print(mask)
         if clean:
             self.mask = mask
         else:
@@ -257,7 +251,7 @@ class SoftMax:
             cost += self.train(self.model, loss, optimizer, self.X, self.Y, self.mask)
         return self.predict(self.model, self.X, self.mask)
 
-    def save_Y_to_db(self, Y):
+    def save_prediction(self, Y):
         max_result = torch.max(Y, 1)
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()

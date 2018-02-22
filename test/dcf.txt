@@ -1,2 +1,0 @@
-t1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)
-t1&t2&EQ(t1.city,t2.city)&IQ(t1.date,t2.date)&EQ(t1.tempType,t2.tempType)

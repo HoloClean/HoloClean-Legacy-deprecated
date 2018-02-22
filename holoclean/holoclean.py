@@ -111,7 +111,6 @@ class _Barrier:
         self.mutex.acquire()
         self.count = self.count + 1
         string_name = str(threading.currentThread().getName())
-        print string_name
         self.mutex.release()
         if self.count == self.n:
             self.barrier.acquire()
@@ -369,8 +368,7 @@ class Session:
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
-    def _parallel_queries(self, number_of_threads=multiprocessing.cpu_count() - 4, clean=1):
-        print 'Creating parallel queries'
+    def _parallel_queries(self, number_of_threads=multiprocessing.cpu_count() - 2, clean=1):
         t0 = time.time()
         list_of_names = []
         list_of_threads = []
@@ -383,9 +381,6 @@ class Session:
             for i in range(0, number_of_threads):
                 list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
                                                       self.holo_env, self.dataset, self.cv, b, self.cvX))
-            t1 = time.time()
-            print t1 - t0
-            print 'Starting threads'
             for thread in list_of_threads:
                 thread.start()
 
@@ -396,8 +391,6 @@ class Session:
                 list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
                                                       self.holo_env, self.dataset, self.cv, b1, self.cvX))
             t1 = time.time()
-            print t1 - t0
-            print 'Starting threads'
             for thread in list_of_threads:
                 thread.start()
 
@@ -439,18 +432,8 @@ class Session:
         """
         dc_query_prod = DCQueryProducer(clean, self.featurizers)
         dc_query_prod.start()
-        num_of_threads = 4
-        print 'Setting up Feature Threads'
-        t0 = time.time()
-        table_name = "Possible_values_clean" if clean == 1 else "Possible_values_dk"
-        feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
+        num_of_threads = multiprocessing.cpu_count() - 2
 
-        '''query_for_featurization = "CREATE TABLE \
-                                   " + self.dataset.table_specific_name(feature_name) \
-                                  + "(vid INT, assigned_val INT," \
-                                    " feature INT, count INT);"
-        self.holo_env.dataengine.query(query_for_featurization)
-        '''
         self.list_of_queries = deque([])
         self.cv = Condition()
         self.cvX = Condition()
@@ -458,7 +441,6 @@ class Session:
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
         feat_prod.start()
         t1 = time.time()
-        print t1 - t0
         self._parallel_queries(num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):

@@ -14,17 +14,15 @@ class Testing:
     def test(self):
         self.fx = open('execution_time.txt', 'w')
 
-        # dataset = "test/inputDatabase.csv"
+        # dataset = "test/hospital1k/hospital_dataset.csv"
         # dataset = "test/flights/flights_input_holo.csv""
         # dataset = "test/food/food_input_holo.csv"
-        dataset = "test/test.csv"
-        # dataset = "test/test1.csv"
+        dataset = "test/unit_test/unit_test_dataset.csv"
 
-        # denial_constraints = "test/inputConstraint.txt"
+        # denial_constraints = "test/hospital1k/hospital_constraints.txt"
         # denial_constraints = "test/flights/flight_constraints.txt"
         # denial_constraints = "test/food/food_constraints1.txt"
-        denial_constraints = "test/dc1.txt"
-        # denial_constraints = "test/dc2.txt"
+        denial_constraints = "test/unit_test/unit_test_constraints.txt"
 
         flattening = 0
         # flattening = 1
@@ -121,12 +119,11 @@ class Testing:
         #Inference
         t0 = time.time()
         Y = soft.predict(soft.model, self.session.X_testing, soft.setupMask(0, self.session.N,self.session.L))
-        print(Y)
         t1 = time.time()
         total = t1 - t0
         print 'time for inference: ', total
         t0 = time.time()
-        soft.save_Y_to_db(Y)
+        soft.save_prediction(Y)
         t1 = time.time()
         print 'time to save inferred values', t1 - t0
 

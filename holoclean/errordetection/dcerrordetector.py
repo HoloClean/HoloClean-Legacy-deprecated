@@ -71,15 +71,14 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df")
         satisfied_tuples_index = []
         nullcells = []
+        print 'Denial Constraint Queries: '
         for cond in self.and_of_preds:
-            query = "SELECT table1.index as ind,table2.index as\
-                indexT2 FROM df table1,df table2 WHERE ("+cond+")"
+            query = "SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"
             print query
             satisfied_tuples_index.append(self.spark_session.sql(query))
         for nullquery in self.null_pred:
             query = "SELECT table1.index as ind,table1.index as\
                 indexT2 FROM df table1 WHERE ("+nullquery +")"
-            print query
             nullcells.append(self.spark_session.sql(query))
 
         return satisfied_tuples_index , nullcells

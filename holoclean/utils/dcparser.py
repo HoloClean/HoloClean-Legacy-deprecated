@@ -30,6 +30,8 @@ class DCParser:
         """
 
         dcSql = []
+        finalnull = []
+
         usedOperations = []
         numOfContraints = len(self. denial_constraints)
 
@@ -41,7 +43,8 @@ class DCParser:
             # calculating the number of predicate 2 is because of identifiers
             numOfpredicate = len(ruleParts)-2
             dcOperations = []
-            dc2sqlpred = []  # list of SQL predicate
+            dc2sqlpred = []
+            nullsql = [] # list of SQL predicate
             for part_counter in range(2, len(ruleParts)):
                 dc2sql = ''  # current predicate
                 predParts = ruleParts[part_counter].split('(')
@@ -81,13 +84,17 @@ class DCParser:
                         dc2sql = dc2sql + predLeft\
                             + self.operationsArr[self.operationSign.index(op)]\
                             + 'table2.' + predRight.split('.')[1]
+                nulsql = 'table1.' + predLeft.split('.')[1] +" IS NULL"
+                nullsql.append(nulsql)
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
             usedOperations.append(dcOperations)
 
-            dcSql.append(dc2sqlpred)
 
-        return dcSql, usedOperations
+            dcSql.append(dc2sqlpred)
+            finalnull.append(nullsql)
+
+        return dcSql, usedOperations, finalnull
 
 
     # Setters:
@@ -96,7 +103,7 @@ class DCParser:
 
     def for_join_condition(self):
         result = []
-        dcs = self.get_anded_string(conditionInd='all')
+        dcs, nothing = self.get_anded_string(conditionInd='all')
         for dc in dcs:
             tmp = dc.replace('table1.', 'table1.first_')
             tmp = tmp.replace('table2.', 'table1.second_')
@@ -111,17 +118,25 @@ class DCParser:
         :param conditionInd: int
         :return: string or list[string]
         """
-
+        nulllist = []
         if conditionInd == 'all':
             andlist = []
-            result, dc = self._dc_to_sql_condition()
+            nulllist = []
+            result, dc, nullsql = self._dc_to_sql_condition()
+            count = 0
             for parts in result:
                 strRes = str(parts[0])
                 if len(parts) > 1:
                     for i in range(1, len(parts)):
                         strRes = strRes+" AND "+str(parts[i])
                 andlist.append(strRes)
-            return andlist
+                count = count +1
+            for sql1 in nullsql:
+                for null_part in sql1:
+                    strRes1 = ""
+                    strRes1 = strRes1 + str(null_part)
+                nulllist.append(strRes1)
+            return andlist, nulllist
 
         else:
             result, dc = self._dc_to_sql_condition()
@@ -130,7 +145,7 @@ class DCParser:
             if len(parts) > 1:
                 for i in range(1, len(parts)):
                     strRes = strRes+" AND "+str(parts[i])
-            return strRes
+            return strRes, nulllist
 
     @staticmethod
     def get_attribute(cond, all_table_attribuites):
@@ -170,7 +185,7 @@ class DCParser:
         :return: list of attributes
         """
         all_attributes = self.get_all_attribute(dataengine, dataset)
-        and_of_preds = self.get_anded_string('all')
+        and_of_preds, nothing = self.get_anded_string('all')
         result = set({'index'})
         for cond in and_of_preds:
             tmp_list = self.get_attribute(cond, all_attributes)
@@ -234,5 +249,3 @@ class DCParser:
                 if self.nonsymmetricOperations.count(operator) != 0:
                     for column in columns[index]:
                         dataengine.altar_column(dataset, column)
-
-
