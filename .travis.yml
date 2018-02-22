@@ -89,8 +89,10 @@ install:
 
 script:
 
-  # Run test modules
-  - python script.py
+  # Runs tutorial notebooks
+  - runipy tutorial/Holoclean_Hospital_Test.ipynb
+  - runipy tutorial/Holoclean_Unit_Test.ipynb
+  - runipy tutorial/Holofusion_Flight_Test.ipynb
 
 after_success:
   - killall java
