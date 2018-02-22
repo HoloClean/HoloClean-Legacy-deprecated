@@ -402,7 +402,7 @@ class Pruning:
                 StructField("value", StringType(), False),
                 StructField("Type", StringType(), False),
             ]))
-        self.dataengine.add_db_table('Feature_id_map_temp',
+        self.dataengine.add_db_table('Feature_id_map',
                                      df_domain_map, self.dataset)
 
         query_observed = "CREATE TABLE " + \

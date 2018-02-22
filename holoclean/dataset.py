@@ -44,6 +44,8 @@ class Dataset:
         'Correct',
         'Correct_flat',
         'Feature_id_map',
+        'Sources',
+        'Sources_temp',
         'Feature_id_map_temp',
         'Possible_values_clean',
         'Possible_values_dk',
@@ -52,8 +54,8 @@ class Dataset:
         'Kij_lookup_clean',
         'Kij_lookup_dk',
         'Inferred_values',
-        'Initial_Errors',
-        'Incorrect_Repairs']
+        'Attribute_temp',
+        'Incorrect']
 
     """
 

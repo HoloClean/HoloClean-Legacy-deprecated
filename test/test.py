@@ -70,10 +70,16 @@ class Testing:
         t0 = time.time()
         initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
                                           self.session.dataset)
-        self.session.add_featurizer(initial_value_signal )
+        self.session.add_featurizer(initial_value_signal)
         statistics_signal = SignalCooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
-                                          self.session.dataset )
+                                          self.session.dataset)
         self.session.add_featurizer(statistics_signal)
+        '''
+        source_signal = SignalSource(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
+                         self.holo_obj.spark_session, 1, 1)
+
+        self.session.add_featurizer(source_signal)
+        '''
         dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
                              self.holo_obj.spark_session)
         self.session.add_featurizer(dc_signal)

@@ -20,7 +20,7 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds = DCParser(DenialConstraints, dataengine, dataset)\
+        self.and_of_preds , self.null_pred = DCParser(DenialConstraints, dataengine, dataset)\
             .get_anded_string('all')
         self.dataengine = dataengine
         self.dataset = dataset
@@ -70,12 +70,19 @@ class DCErrorDetection:
 
         dataset.createOrReplaceTempView("df")
         satisfied_tuples_index = []
+        nullcells = []
         for cond in self.and_of_preds:
             query = "SELECT table1.index as ind,table2.index as\
                 indexT2 FROM df table1,df table2 WHERE ("+cond+")"
-            satisfied_tuples_index.append(self.spark_session.sql(query))
             print query
-        return satisfied_tuples_index
+            satisfied_tuples_index.append(self.spark_session.sql(query))
+        for nullquery in self.null_pred:
+            query = "SELECT table1.index as ind,table1.index as\
+                indexT2 FROM df table1 WHERE ("+nullquery +")"
+            print query
+            nullcells.append(self.spark_session.sql(query))
+
+        return satisfied_tuples_index , nullcells
 
     # Setters
 
@@ -89,13 +96,18 @@ class DCErrorDetection:
         """
 
         num_of_constarints = len(self.and_of_preds)
-        violation = self._violation_tuples(dataset)
+        violation, nullcells = self._violation_tuples(dataset)
         result = self._make_cells(violation[0], self.and_of_preds[0])
         if num_of_constarints > 1:
             for dc_count in range(1, num_of_constarints):
                 pred = self.and_of_preds[dc_count]
                 result = result.\
                     unionAll(self._make_cells(violation[dc_count], pred))
+        #result = self._make_cells(nullcells[0], self.null_pred[0])
+        for dc_count in range(0, len(self.null_pred)):
+            pred = self.null_pred[dc_count]
+            result = result. \
+                unionAll(self._make_cells(nullcells[dc_count], pred))
         return result.distinct()
 
     def get_clean_cells(self, dataframe, noisy_cells):
@@ -120,5 +132,4 @@ class DCErrorDetection:
 
         result = all_cell.subtract(noisy_cells)
         return result
-
 
