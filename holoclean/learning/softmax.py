@@ -65,8 +65,9 @@ class LogReg(torch.nn.Module):
                                 self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
         else:
             self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W), 0)
-            
-            
+
+        print X.size()
+        print self.W.size()
         # calculates n x l matrix output
         output = X.mul(self.W)
         output = output.sum(1)
