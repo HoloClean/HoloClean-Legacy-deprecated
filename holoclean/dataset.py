@@ -54,6 +54,8 @@ class Dataset:
         'Kij_lookup_clean',
         'Kij_lookup_dk',
         'Inferred_values',
+        'Repairs',
+        'Repaired',
         'Attribute_temp',
         'Incorrect']
 
@@ -86,6 +88,8 @@ class Dataset:
             dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
             Final: table with final results in order to check the accuracy
             Correct: table with the correct values for our dataset
+            Repairs: wide version of all recommended changed values from the initial set
+            Repaired: initial data with repairs performed. same schema as original
 
         """
 

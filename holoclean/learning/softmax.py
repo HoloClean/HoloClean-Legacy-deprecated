@@ -7,6 +7,7 @@ import math
 from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
+from pyspark.sql.functions import first
 
 class LogReg(torch.nn.Module):
 
@@ -274,3 +275,30 @@ class SoftMax:
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
         return
+
+
+    def repair_init(self):
+
+        # pivot repairs to wide
+        inferred = self.dataengine.get_table_to_dataframe('Inferred_values', self.dataset)
+        repairs = inferred.groupBy('tid').pivot('attr_name').agg(first('attr_val')).collect()
+
+        repairs = self.spark_session.createDataFrame(repairs)
+        repairs.createOrReplaceTempView('Repairs')
+
+        self.dataengine.add_db_table('Repairs', repairs, self.dataset)
+
+        # apply repairs to initial data
+        repaired = self.dataengine.get_table_to_dataframe('Init', self.dataset)
+        repaired.createOrReplaceTempView('Repaired')
+        self.dataengine.add_db_table('Repaired', repaired, self.dataset)
+
+        dirty_attrs = [str(row.attr_name) for row in inferred.select('attr_name').distinct().collect()]
+
+        for attr in dirty_attrs:
+            repair_query = 'UPDATE ' + self.dataset.table_specific_name('Repaired') + ' init ' \
+                           'LEFT JOIN ' + self.dataset.table_specific_name('Repairs') + ' repairs ' \
+                           'ON init.index = repairs.tid ' \
+                           'SET init.' + attr + ' = repairs.' + attr + ' ' \
+                           'WHERE repairs.' + attr + ' IS NOT NULL;'
+            self.dataengine.query(repair_query)
