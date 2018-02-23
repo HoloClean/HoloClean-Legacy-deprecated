@@ -96,7 +96,7 @@ sudo usr/local/mysql/bin/mysql_secure_installation
 
 <b> 3.3 Create MySQL User and Database </b>
 
-Go to the [Holoclean-v0.01/](https://github.com/HoloClean/HoloClean-v0.01/tree/pytorch) directory and run the script:
+Go to the [Holoclean-v0.01/installation/](https://github.com/HoloClean/HoloClean-v0.01/tree/pytorch) directory and run the script:
 ```
 ./mysql_script.sh
 ```
