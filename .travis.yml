@@ -75,7 +75,7 @@ install:
   - conda install --yes numba
 
   #Install pytorch
-  - conda install --yes pytorch pytorch torchvision
+  - conda install --yes pytorch-cpu torchvision -c pytorch
   
   #Install pyspark
   - conda install --yes conda-forge pyspark 
