@@ -1,6 +1,4 @@
-from time import sleep
 from threading import Thread, Lock, Condition
-import logging
 import threading
 import time
 from holoclean.dataengine import *

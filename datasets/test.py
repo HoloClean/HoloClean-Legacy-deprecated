@@ -1,7 +1,6 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import SignalInit, SignalCooccur, SignalDC
-from holoclean.featurization.featurizer import Featurizer
 from holoclean.learning.softmax import SoftMax
 from holoclean.learning.accuracy import Accuracy
 import time
@@ -14,22 +13,22 @@ class Testing:
     def test(self):
         self.fx = open('execution_time.txt', 'w')
 
-        # dataset = "test/hospital1k/hospital_dataset.csv"
-        # dataset = "test/flights/flights_input_holo.csv""
-        # dataset = "test/food/food_input_holo.csv"
-        dataset = "test/unit_test/unit_test_dataset.csv"
+        # dataset = "datasets/hospital1k/hospital_dataset.csv"
+        # dataset = "datasets/flights/flights_input_holo.csv""
+        # dataset = "datasets/food/food_input_holo.csv"
+        dataset = "datasets/unit_test/unit_test_dataset.csv"
 
-        # denial_constraints = "test/hospital1k/hospital_constraints.txt"
-        # denial_constraints = "test/flights/flight_constraints.txt"
-        # denial_constraints = "test/food/food_constraints1.txt"
-        denial_constraints = "test/unit_test/unit_test_constraints.txt"
+        # denial_constraints = "datasets/hospital1k/hospital_constraints.txt"
+        # denial_constraints = "datasets/flights/flight_constraints.txt"
+        # denial_constraints = "datasets/food/food_constraints1.txt"
+        denial_constraints = "datasets/unit_test/unit_test_constraints.txt"
 
         flattening = 0
         # flattening = 1
 
-        # ground_truth = "test/hospital1k/grandtruth.csv"
-        # ground_truth = "test/flights/flights_clean.csv"
-        # ground_truth = "test/food/food_clean.csv"
+        # ground_truth = "datasets/hospital1k/grandtruth.csv"
+        # ground_truth = "datasets/flights/flights_clean.csv"
+        # ground_truth = "datasets/food/food_clean.csv"
         ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
