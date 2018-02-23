@@ -111,16 +111,17 @@ class _Barrier:
         self.mutex.acquire()
         self.count = self.count + 1
         string_name = str(threading.currentThread().getName())
-        self.mutex.release()
         if self.count == self.n:
+            self.mutex.release()
             self.barrier.acquire()
             self.barrier.notifyAll()
             self.barrier.release()
         else:
             self.barrier.acquire()
+            self.mutex.release()
             self.barrier.wait()
+            self.mutex.acquire()
             self.barrier.release()
-
 
 class HoloClean:
     """
@@ -395,7 +396,7 @@ class Session:
                 thread.start()
 
             b1.wait()
-        dc_query_prod.join()
+            
         if (clean):
             self._create_dimensions(clean)
             X_training = torch.zeros(self.N, self.M, self.L)

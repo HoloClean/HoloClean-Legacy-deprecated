@@ -490,7 +490,6 @@ class SignalDC(Featurizer):
             self.dataengine.add_db_table('Feature_id_map',
                                          df_feature_map_dc, self.dataset, 1)
 
-
         return dc_queries
 
 class SignalSource(Featurizer):
