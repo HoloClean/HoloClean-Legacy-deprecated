@@ -53,7 +53,6 @@ class LogReg(torch.nn.Module):
     def forward(self, X, index, mask):
 
         # reties the weights - need to do on every pass
-        print self.input_dim_dc
         if self.input_dim_dc > 0:
             self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W,
                                 self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
