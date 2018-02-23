@@ -8,6 +8,7 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
 import time
 
+import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, DCQueryProducer
@@ -16,7 +17,6 @@ from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from threading import Thread, Condition, Semaphore
 import threading
-import torch
 from collections import deque
 import multiprocessing
 
