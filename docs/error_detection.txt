@@ -1,0 +1,9 @@
+Error detection
+========
+
+In the Holoclean pipeline, the user can choose the way he wants to seperate clean from the don't know cells.See tutorials for a more in-depth explanation.
+
+.. code-block:: python
+   :linenos:
+
+   ErrorDetectors(session.Denial_constraints, holo_obj.dataengine,holo_obj.spark_session, session.dataset)

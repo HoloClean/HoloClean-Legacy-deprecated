@@ -1,0 +1,26 @@
+Featurization
+========
+
+In the Holoclean pipeline, the user can choose the signal that he wants to use in order to train the model. 
+
+Domain Pruning
+----------------
+
+Holoclean gives the option to the user to prune the active domain
+
+.. code-block:: python
+   :linenos:
+
+   session.ds_domain_pruning(pruning_threshold)
+
+Signals
+------------------------------------------
+
+.. code-block:: python
+   :linenos:
+
+   SignalInit(session.Denial_constraints, holo_obj.dataengine,session.dataset)
+
+   SignalCooccur(session.Denial_constraints, holo_obj.dataengine,session.dataset )
+
+   SignalDC(session.Denial_constraints, holo_obj.dataengine, session.dataset, holo_obj.spark_session)
