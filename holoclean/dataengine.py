@@ -142,7 +142,7 @@ class DataEngine:
                 if dataframe.schema.fields[i].dataType == IntegerType():
                     create_table = create_table + "INT,"
                 else:
-                    create_table = create_table + "VARCHAR(128),"
+                    create_table = create_table + "VARCHAR(255),"
             create_table = create_table[:-1] + " );"
             self.query(create_table)
             dataframe.write.jdbc(

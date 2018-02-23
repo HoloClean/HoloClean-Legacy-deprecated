@@ -452,7 +452,7 @@ class Session:
         kij_lookup = 'Kij_lookup_clean' if clean == 1 else 'Kij_lookup_dk'
         query_for_create_offset = "CREATE TABLE \
                     " + self.dataset.table_specific_name(dimensions) \
-                                  + "(dimension Text, length INT);"
+                                  + "(dimension VARCHAR(255), length INT);"
         self.holo_env.dataengine.query(query_for_create_offset)
 
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
