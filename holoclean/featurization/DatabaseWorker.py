@@ -17,6 +17,7 @@ class DatabaseWorker(Thread):
         Thread.__init__(self)
         self.table_name = table_name
         self.result_queue = result_queue
+        self.holo_env=holo_env
         self.dataengine = DataEngine(holo_env)
         self.dataset = dataset
         self.list_of_names = list_of_names
@@ -66,20 +67,23 @@ class DatabaseWorker(Thread):
             insert_signal_query = "INSERT INTO " + table_name + \
                                   " SELECT * FROM " + list2 + ")AS T_0;"
             t0 = time.time()
-            if debug:
+            if self.holo_env.verbose:
                 printLock.acquire()
-                print threading.currentThread().getName(), " Query Started "
-                print insert_signal_query
+               # self.holo_env.logger.info(str(threading.currentThread().getName())+ " Query Started ")
                 printLock.release()
             self.dataengine.query(insert_signal_query)
             t1 = time.time()
-            if debug:
+            if self.holo_env.verbose:
                 printLock.acquire()
-                print threading.currentThread().getName(), " Query Execution time: ", t1-t0
+                self.holo_env.logger.info(str(threading.currentThread().getName())+ " Query Execution time: "+
+                                          str(t1-t0))
+                self.holo_env.logger.info(str(insert_signal_query))
+                self.holo_env.logger.info("  ")
                 printLock.release()
-        if debug:
+        if self.holo_env.verbose:
             printLock.acquire()
-            print threading.currentThread().getName(), " Done executing queries"
+           # self.holo_env.logger.info(str(threading.currentThread().getName())+ " Done executing queries")
+            #print threading.currentThread().getName(), " Done executing queries"
             printLock.release()
 
 

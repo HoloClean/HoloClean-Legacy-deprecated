@@ -94,7 +94,7 @@ flags = [
          'action': 'store_true',
          'help': 'quiet'}),
     (tuple(['--verbose']),
-        {'default': False,
+        {'default': True,
          'dest': 'verbose',
          'action': 'store_true',
          'help': 'verbose'})
@@ -156,10 +156,14 @@ class HoloClean:
         for (arg, default) in arg_defaults.items():
             setattr(self, arg, kwargs.get(arg, default))
 
-        logging.basicConfig(filename="logger.log",
-                            filemode='w', level=logging.ERROR)
+        if self.verbose:
+            logging.basicConfig(filename="logger.log",
+                                filemode='w', level=logging.INFO)
+        else:
+            logging.basicConfig(filename="logger.log",
+                                filemode='w', level=logging.ERROR)
         self.logger = logging.getLogger("__main__")
-        logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
+        #logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
         # Initialize dataengine and spark session
 
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
@@ -430,6 +434,9 @@ class Session:
         :param clean: Optional, default=1, if clean = 1 then the featurization is for clean cells otherwise dirty cells
         :return: None
         """
+
+        self.holo_env.logger.info('Start executing queries for featurization')
+        self.holo_env.logger.info(' ')
         dc_query_prod = DCQueryProducer(clean, self.featurizers)
         dc_query_prod.start()
         num_of_threads = multiprocessing.cpu_count() - 2
