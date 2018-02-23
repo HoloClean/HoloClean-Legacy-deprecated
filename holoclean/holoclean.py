@@ -111,16 +111,15 @@ class _Barrier:
         self.mutex.acquire()
         self.count = self.count + 1
         string_name = str(threading.currentThread().getName())
-        if self.count == self.n:
-            self.mutex.release()
+        count = self.count
+        self.mutex.release()
+        if count == self.n:
             self.barrier.acquire()
             self.barrier.notifyAll()
             self.barrier.release()
         else:
             self.barrier.acquire()
-            self.mutex.release()
             self.barrier.wait()
-            self.mutex.acquire()
             self.barrier.release()
 
 class HoloClean:
