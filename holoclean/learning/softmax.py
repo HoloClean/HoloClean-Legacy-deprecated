@@ -58,8 +58,7 @@ class LogReg(torch.nn.Module):
                                 self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
         else:
             self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W), 0)
-            
-            
+
         # calculates n x l matrix output
         output = X.mul(self.W)
         output = output.sum(1)
@@ -80,7 +79,6 @@ class SoftMax:
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
         self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
-        print self.DC_count
         dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}

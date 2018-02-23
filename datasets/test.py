@@ -1,7 +1,6 @@
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.errordetector import ErrorDetectors
 from holoclean.featurization.featurizer import SignalInit, SignalCooccur, SignalDC
-from holoclean.featurization.featurizer import Featurizer
 from holoclean.learning.softmax import SoftMax
 from holoclean.learning.accuracy import Accuracy
 import time

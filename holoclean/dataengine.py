@@ -136,10 +136,19 @@ class DataEngine:
                 "append",
                 properties=dbProperties)
         else:
+            create_table = "CREATE TABLE " + spec_table_name + " ("
+            for i in range(len(dataframe.schema.names)):
+                create_table = create_table + " `" + dataframe.schema.names[i] + "` "
+                if dataframe.schema.fields[i].dataType == IntegerType():
+                    create_table = create_table + "INT,"
+                else:
+                    create_table = create_table + "VARCHAR(128),"
+            create_table = create_table[:-1] + " );"
+            self.query(create_table)
             dataframe.write.jdbc(
                 jdbcUrl,
                 spec_table_name,
-                "overwrite",
+                "append",
                 properties=dbProperties)
 
     def _query_spark(self, sqlQuery):

@@ -113,169 +113,6 @@ class Featurizer:
         list_preds = cond.split(' AND ')
         return list_preds
 
-    def pointers(self):
-        create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Random_index') + \
-                                      "(" \
-                                      "variable_index INT PRIMARY KEY AUTO_INCREMENT," \
-                                      "rv_ind LONGTEXT," \
-                                      "rv_attr LONGTEXT);"
-        self.dataengine.query(create_variable_table_query)
-        mysql_query = 'INSERT INTO ' + \
-                      self.dataset.table_specific_name('Random_index') + \
-                      " SELECT * FROM (SELECT NULL AS variable_index," \
-                      "table1.tid," \
-                      "table2.index from " \
-                      + self.dataset.table_specific_name('Init_flat') + " AS table1 , " \
-                      + self.dataset.table_specific_name('Map_schema') + " AS table2, " \
-                      + self.dataset.table_specific_name('C_clean') + " AS table3 " \
-                                                                         "WHERE " \
-                      + self.get_constraint_attibute('table1', 'attr_name') +\
-                                                                         " and table1.attr_name = table2.attribute " \
-                                                                         " and table3.attr =table1.attr_name and" \
-                                                                         " table3.ind = table1.tid  " \
-                                                                           ") AS T0;"
-
-        self.dataengine.query(mysql_query)
-
-        create_feature_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Feature') + \
-                                     "(" \
-                                     "var_index INT," \
-                                     "rv_index LONGTEXT," \
-                                     "rv_attr LONGTEXT," \
-                                     "assigned_val INT," \
-                                     "feature INT," \
-                                     "TYPE LONGTEXT," \
-                                     "weight_id TEXT," \
-                                     "count INT" \
-                                     ");"
-
-        self.dataengine.query(create_feature_table_query)
-
-        # Creating new weight table by joining the initial table and calculated weights
-        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('Feature') + \
-                              " (" \
-                              "SELECT * FROM ( SELECT " \
-                              " variable_index AS var_index" \
-                              " , table1.rv_index" \
-                              " , table1.rv_attr" \
-                              " , table1.assigned_val" \
-                              " , table1.feature" \
-                              " , table1.TYPE" \
-                              " ,  table1.weight_id" \
-                              " , table1.count" \
-                              " FROM " \
-                              + self.dataset.table_specific_name('Feature_clean') + " AS table1, " \
-                              + self.dataset.table_specific_name('Random_index') + " AS table2 " \
-                                                                                  " WHERE " \
-                                                                                  " table1.rv_index=table2.rv_ind" \
-                                                                                  " AND " \
-                                                                                  "table1.rv_attr=table2.rv_attr) " \
-                                                                                  "AS ftmp " \
-                                                                                  ");"
-
-        self.dataengine.query(query_featurization)
-
-        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('offset') + \
-                              " (" \
-                              "SELECT * FROM ( SELECT " \
-                              " 'N' as offset_type" \
-                              " , max(var_index) as offset" \
-                              " FROM " \
-                              + self.dataset.table_specific_name('Feature') + " AS table1) " \
-                                                                                  "AS f);"
-        self.dataengine.query(query_featurization)
-
-
-    # Setters
-    def add_weights(self):
-        """
-        This method updates the values of weights for the featurization table"
-        """
-
-        # Create internal weight table for join to calculated weights
-        query_for_weights = "CREATE TABLE " \
-                            + self.dataset.table_specific_name('weight_temp') \
-                            + "(" \
-                              "weight_id INT PRIMARY KEY AUTO_INCREMENT," \
-                              "rv_attr LONGTEXT," \
-                              "feature LONGTEXT" \
-                              ");"
-
-        self.dataengine.query(query_for_weights)
-
-        # Insert initial weights to the table
-        query = "INSERT INTO  " \
-                + self.dataset.table_specific_name('weight_temp') + \
-                " (" \
-                "SELECT * FROM (" \
-                "SELECT distinct NULL, rv_attr,feature FROM " + \
-                self.dataset.table_specific_name('Feature_clean') + "" \
-                                                                   ") AS TABLE1);"
-
-        self.dataengine.query(query)
-
-        create_feature_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Feature') + \
-                                     "(" \
-                                     "var_index INT PRIMARY KEY AUTO_INCREMENT," \
-                                     "rv_index LONGTEXT," \
-                                     "rv_attr LONGTEXT," \
-                                     "assigned_val LONGTEXT," \
-                                     "feature LONGTEXT," \
-                                     "TYPE LONGTEXT," \
-                                     "weight_id INT," \
-                                     "count INT" \
-                                     ");"
-
-        self.dataengine.query(create_feature_table_query)
-
-        # Creating new weight table by joining the initial table and calculated weights
-        query_featurization = "INSERT INTO " + self.dataset.table_specific_name('Feature') + \
-                              " (" \
-                              "SELECT * FROM ( SELECT " \
-                              "NULL AS var_index" \
-                              " , table1.rv_index" \
-                              " , table1.rv_attr" \
-                              " , table1.assigned_val" \
-                              " , table1.feature" \
-                              " , table1.TYPE" \
-                              " ,  table2.weight_id" \
-                              " , table1.count" \
-                              " FROM " \
-                              + self.dataset.table_specific_name('Feature_clean') + " AS table1, " \
-                              + self.dataset.table_specific_name('weight_temp') + " AS table2 " \
-                                                                                  " WHERE" \
-                                                                                  " table1.feature=table2.feature" \
-                                                                                  " AND " \
-                                                                                  "table1.rv_attr=table2.rv_attr) " \
-                                                                                  "AS ftmp " \
-                                                                                  "ORDER BY rv_index,rv_attr);"
-
-        self.dataengine.query(query_featurization)
-
-    def get_domain_count(self):
-        """
-        This method creates Domain table which is the size of the each attribute
-        :return:
-        """
-        create_domain_table = "CREATE TABLE " + self.dataset.table_specific_name('Domain') + \
-                              " (" \
-                              "attr_name LONGTEXT," \
-                              "cardinal LONGTEXT" \
-                              ");"
-        self.dataengine.query(create_domain_table)
-
-        all_attributes_list = self.dcp.get_all_attribute(self.dataengine, self.dataset)
-
-        for attr in all_attributes_list:
-            insert_attr_count_query = "INSERT INTO  " +\
-                                      self.dataset.table_specific_name('Domain') + \
-                                      " SELECT '" + attr + \
-                                      "' AS attr_name,(SELECT COUNT(DISTINCT " + attr + \
-                                      ") AS cardinal FROM " + \
-                                      self.dataset.table_specific_name('Init') + \
-                                      ") AS cardinal;"
-            self.dataengine.query(insert_attr_count_query)
-
 
 class SignalInit(Featurizer):
     """
@@ -520,7 +357,7 @@ class SignalSource(Featurizer):
 
                 create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Attribute_temp') + \
                                               "(" \
-                                              "attribute LONGTEXT);"
+                                              "attribute varchar(64));"
                 self.dataengine.query(create_variable_table_query)
                 for attribute in attributes:
                     if attribute != "index" and attribute != "src" and attribute != key:
@@ -532,7 +369,7 @@ class SignalSource(Featurizer):
                 create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources_temp') + \
                                               "(" \
                                               "source_index INT PRIMARY KEY AUTO_INCREMENT," \
-                                              "name LONGTEXT, attribute LONGTEXT);"
+                                              "name varchar(64), attribute varchar(64));"
                 self.dataengine.query(create_variable_table_query)
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources_temp') + \
@@ -547,7 +384,7 @@ class SignalSource(Featurizer):
                 create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources') + \
                                               "(" \
                                               "source_index INT," \
-                                              "name LONGTEXT, attribute LONGTEXT);"
+                                              "name varchar(64), attribute varchar(64));"
                 self.dataengine.query(create_variable_table_query)
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources') + \
@@ -560,7 +397,7 @@ class SignalSource(Featurizer):
                 create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources_temp') + \
                                               "(" \
                                               "source_index INT PRIMARY KEY AUTO_INCREMENT," \
-                                              "name LONGTEXT);"
+                                              "name varchar(64));"
                 self.dataengine.query(create_variable_table_query)
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources_temp') + \
@@ -574,7 +411,7 @@ class SignalSource(Featurizer):
                 create_variable_table_query = "CREATE TABLE " + self.dataset.table_specific_name('Sources') + \
                                               "(" \
                                               "source_index INT," \
-                                              "name LONGTEXT);"
+                                              "name varchar(64));"
                 self.dataengine.query(create_variable_table_query)
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources') + \

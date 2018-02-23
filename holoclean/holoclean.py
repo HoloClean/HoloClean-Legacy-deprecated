@@ -2,7 +2,6 @@
 
 
 import logging
-import sys
 
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
@@ -12,10 +11,9 @@ import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, DCQueryProducer
-from learning.inference import inference
 from learning.wrapper import Wrapper
 from utils.pruning import Pruning
-from threading import Thread, Condition, Semaphore
+from threading import Condition, Semaphore
 import threading
 from collections import deque
 import multiprocessing
@@ -368,13 +366,10 @@ class Session:
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
-    def _parallel_queries(self, number_of_threads=multiprocessing.cpu_count() - 2, clean=1):
-        t0 = time.time()
+    def _parallel_queries(self, dc_query_prod, number_of_threads=multiprocessing.cpu_count() - 2, clean=1):
         list_of_names = []
         list_of_threads = []
         table_name = "clean" if clean == 1 else "dk"
-        feature_name = "Feature_clean" if clean == 1 else "Feature_dk"
-        t0 = time.time()
 
         if clean:
             b = _Barrier(number_of_threads + 1)
@@ -390,12 +385,12 @@ class Session:
             for i in range(0, number_of_threads):
                 list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
                                                       self.holo_env, self.dataset, self.cv, b1, self.cvX))
-            t1 = time.time()
             for thread in list_of_threads:
                 thread.start()
 
             b1.wait()
 
+        dc_query_prod.join()
         if (clean):
             self._create_dimensions(clean)
             X_training = torch.zeros(self.N, self.M, self.L)
@@ -441,7 +436,7 @@ class Session:
         feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
         feat_prod.start()
         t1 = time.time()
-        self._parallel_queries(num_of_threads, clean)
+        self._parallel_queries(dc_query_prod, num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
