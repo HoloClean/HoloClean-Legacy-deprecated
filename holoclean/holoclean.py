@@ -395,7 +395,8 @@ class Session:
                 thread.start()
 
             b1.wait()
-            
+
+        dc_query_prod.join()
         if (clean):
             self._create_dimensions(clean)
             X_training = torch.zeros(self.N, self.M, self.L)
