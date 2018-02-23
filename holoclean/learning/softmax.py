@@ -79,6 +79,8 @@ class SoftMax:
         query = "SELECT COUNT(*) AS dc FROM " + \
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
+        print self.dataengine.query(query, 1).show()
+        print self.dataengine.query(query, 1).collect()
         self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
         dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
