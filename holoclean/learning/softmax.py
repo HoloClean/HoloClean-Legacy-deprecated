@@ -27,6 +27,9 @@ class LogReg(torch.nn.Module):
         self.W = torch.cat((self.init_W, self.cooc_W), 0)
 
         # setup dc
+
+        print self.input_dim_dc
+        print "in setup_weight"
         if self.input_dim_dc > 0:
             if (self.tie_dc):
                 self.dc_W = Parameter(torch.randn(self.output_dim).expand(self.input_dim_dc, self.output_dim))
@@ -41,6 +44,8 @@ class LogReg(torch.nn.Module):
         
         self.input_dim_non_dc = input_dim_non_dc
         self.input_dim_dc = input_dim_dc
+        print self.input_dim_dc
+        print "in init"
         self.output_dim = output_dim
         
         self.tie_init = tie_init
@@ -53,6 +58,8 @@ class LogReg(torch.nn.Module):
     def forward(self, X, index, mask):
 
         # reties the weights - need to do on every pass
+        print self.input_dim_dc
+        print "in forward"
         if self.input_dim_dc > 0:
             self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W,
                                 self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
