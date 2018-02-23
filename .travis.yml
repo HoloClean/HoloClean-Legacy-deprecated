@@ -89,8 +89,9 @@ install:
 
 script:
 
-  # Runs tutorial notebook
-  - runipy tutorial/Holoclean_Unit_Test.ipynb
+  # Runs tutorial python tests
+  - cd tutorial
+  - python Holoclean_Unit_Test.py
 
 after_success:
   - killall java
