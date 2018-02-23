@@ -81,8 +81,8 @@ class Featurizer:
                                     operation)
                                 comp = components_preds[components_index].split("_")
                                 self.attributes_list.append(
-                                    "possible_table.attr_name= '" + comp[1] + "'")
-                                new_pred = "possible_table.attr_val" + operation + \
+                                    "postab.attr_name= '" + comp[1] + "'")
+                                new_pred = "postab.attr_val" + operation + \
                                     left_component[1] + "." + components_preds[components_index]
                                 break
                         for index_pred in range(0, len(list_preds)):
@@ -97,9 +97,9 @@ class Featurizer:
                         self.change_pred.append(rest_new_pred)
                         new_pred_list.append(new_pred)
         new_dcs = list([])
-        new_dcs.append("(" + new_pred_list[0] + ")")
+        new_dcs.append(new_pred_list[0] )
         for pred_index in range(1, len(new_pred_list)):
-            new_dcs.append("(" + new_pred_list[pred_index] + ")")
+            new_dcs.append(new_pred_list[pred_index] )
         return new_dcs
 
     @staticmethod
@@ -292,23 +292,22 @@ class SignalDC(Featurizer):
             map_dc.append([str(count), relax_dc, self.final_dc[index_dc]])
             new_condition = new_dc[index_dc]
             query_for_featurization = "(SELECT" \
-                                      " possible_table.vid as vid, " \
-                                      "possible_table.domain_id AS assigned_val, "+ \
+                                      " postab.vid as vid, " \
+                                      "postab.domain_id AS assigned_val, "+ \
                                       str(count) + " AS feature, " \
                                       "  count(table1.second_index) as count " \
-                                      "  FROM " \
-                                      "(SELECT * FROM " + \
-                                      join_table_name + " AS table1 " \
-                                      "WHERE " + self.change_pred[index_dc] + ") AS table1," \
-                                      " (SELECT * FROM " + self.possible_table_name + " AS possible_table" \
-                                      " WHERE " + \
-                                      self.attributes_list[index_dc] + " ) AS possible_table " +\
-                                      "WHERE (" + \
+                                      "  FROM " +\
+                                      join_table_name + " AS table1, " +\
+                                      self.possible_table_name + " as postab" \
+                                      " WHERE (" + \
+                                      self.change_pred[index_dc] + " AND " +\
+                                      self.attributes_list[index_dc] + " AND " +\
                                       new_condition +\
-                                      " and possible_table.tid=table1.first_index" \
-                                      ") group by possible_table.vid,possible_table.tid,possible_table.attr_name," \
-                                      " possible_table.domain_id"
+                                      " AND postab.tid=table1.first_index" \
+                                      ") group by postab.vid, postab.tid,postab.attr_name," \
+                                      " postab.domain_id"
             dc_queries.append(query_for_featurization)
+
 
             if dcquery_prod is not None:
                 dcquery_prod.appendQuery(query_for_featurization)
