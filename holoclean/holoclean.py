@@ -340,10 +340,17 @@ class Session:
         self.holo_env.dataengine.add_db_table(
             'C_clean', union_clean_cells, self.dataset)
 
+        self.holo_env.logger.info('The table: ' + self.dataset.table_specific_name('C_clean') +
+                                  " has been created")
+        self.holo_env.logger.info("  ")
 
 
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
+
+        self.holo_env.logger.info('The table: ' + self.dataset.table_specific_name('C_dk') +
+                                  " has been created")
+        self.holo_env.logger.info("  ")
         self.holo_env.logger.info('error detection is finished')
         del union_clean_cells
         del intersect_dk_cells
@@ -415,10 +422,16 @@ class Session:
         for thread in list_of_threads:
             thread.join()
 
+
+
         if (clean):
             self.X_training = X_training
+            self.holo_env.logger.info("The X-Tensor_traning has been created")
+            self.holo_env.logger.info("  ")
         else:
             self.X_testing = X_testing
+            self.holo_env.logger.info("The X-Tensor_testing has been created")
+            self.holo_env.logger.info("  ")
         return
 
     def ds_featurize(self, clean=1):

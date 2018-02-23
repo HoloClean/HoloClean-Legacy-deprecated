@@ -42,6 +42,12 @@ class DatabaseWorker(Thread):
         query_for_featurization = "CREATE TABLE " + table_name + "(vid INT, assigned_val INT," \
             " feature INT ,count INT);"
         self.dataengine.query(query_for_featurization)
+        if self.holo_env.verbose:
+            printLock.acquire()
+            self.holo_env.logger.info(str(threading.currentThread().getName()) + " has created the table: "
+                                      + table_name)
+            self.holo_env.logger.info("  ")
+            printLock.release()
 
         while True:
             self.cv.acquire()
