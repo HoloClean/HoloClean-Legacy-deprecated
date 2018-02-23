@@ -80,6 +80,7 @@ class SoftMax:
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
         self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
+        print self.Dc_count!
         dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}
