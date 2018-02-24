@@ -287,7 +287,6 @@ class SignalDC(Featurizer):
                                       ") group by postab.vid, postab.tid,postab.attr_name," \
                                       " postab.domain_id"
             dc_queries.append(query_for_featurization)
-            print query_for_featurization
 
             if dcquery_prod is not None:
                 dcquery_prod.appendQuery(query_for_featurization)

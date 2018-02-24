@@ -508,6 +508,23 @@ class Session:
             self.L = dimension_dict['L']
         return
 
-    def ds_learn_repair_model(self):
-        """TODO: Learn a repair model"""
-        return
+    def create_corrected_dataset(self):
+        """
+        Will recreate the original dataset with the repaired values and save to Repaired_dataset table in MySQL
+        :return: the original dataset with the repaired values from the Inferred_values table
+        """
+        final = self.holo_env.dataengine.get_table_to_dataframe("Inferred_values", self.dataset).select(
+            "tid", "attr_name", "attr_val")
+        init = self.holo_env.dataengine.get_table_to_dataframe("Init", self.dataset)
+        correct = init.collect()
+        final = final.collect()
+        for i in range(len(correct)):
+            d = correct[i].asDict()
+            correct[i] = Row(**d)
+        for cell in final:
+            d = correct[cell.tid - 1].asDict()
+            d[cell.attr_name] = cell.attr_val
+            correct[cell.tid - 1] = Row(**d)
+        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
+        self.holo_env.dataengine.add_db_table("Repaired_dataset", correct_dataframe, self.dataset)
+        return correct

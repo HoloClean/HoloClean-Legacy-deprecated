@@ -29,7 +29,7 @@ class LogReg(torch.nn.Module):
         # setup dc
         if self.input_dim_dc > 0:
             if (self.tie_dc):
-                self.dc_W = Parameter(torch.randn(self.output_dim).expand(self.input_dim_dc, self.output_dim))
+                self.dc_W = Parameter(torch.randn(self.input_dim_dc, 1).expand(self.input_dim_dc, self.output_dim))
             else:
                 self.dc_W = Parameter(torch.randn(self.input_dim_dc, self.output_dim))
 
