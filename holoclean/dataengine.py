@@ -246,6 +246,25 @@ class DataEngine:
             table_name, schema, dataset)
         self._dataframe_to_table(specific_table_name, spark_dataframe, append)
 
+    def add_db_table_index(self, table_name, attr_name):
+        """
+        This method creates an index to an existing database table.
+
+        Parameters
+        ----------
+        table_name : String
+            string literal of table name not including the session ID
+        attr_name: String
+            string literal of the attribute to create an index on
+
+        Returns
+        -------
+        No Return
+        """
+        index_id = table_name+"_"+attr_name
+        sql = "CREATE INDEX " + index_id + " ON " + table_name + " (" + attr_name + ");"
+        self.db_backend.execute(sql)
+
     def ingest_data(self, filepath, dataset):
         """
         load data from a file to a dataframe and store it on the db

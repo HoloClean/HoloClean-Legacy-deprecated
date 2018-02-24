@@ -317,6 +317,7 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
+        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'),'attr_name')
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
@@ -330,6 +331,7 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible, self.dataset)
+        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
 
         # Create Clean and DK flats
@@ -433,9 +435,6 @@ class Pruning:
                                " WHERE " \
                                " t1.observed=1 ) " \
                               "AS table1;"
-
-
-
 
         self.dataengine.query(query_observed)
 

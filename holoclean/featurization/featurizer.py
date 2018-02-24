@@ -241,15 +241,13 @@ class SignalDC(Featurizer):
 
     def get_query(self, clean=1, dcquery_prod = None):
         """
-                This method creates a query for the featurization table for the dc"
-                """
+        This method creates a query for the featurization table for the dc"
+        """
         join_table_name = self.dataset.table_specific_name('Init_join')
         if clean:
             name = "Possible_values_clean"
-            #join_table_name = self.dataset.table_specific_name('Init_join')
         else:
             name = "Possible_values_dk"
-            #join_table_name = self.dataset.table_specific_name('Init_join_dk')
         self.possible_table_name = self.dataset.table_specific_name(name)
 
         new_dc = self._create_new_dc()
