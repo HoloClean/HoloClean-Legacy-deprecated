@@ -55,8 +55,7 @@ class Accuracy:
                                        self.dataset.table_specific_name('Correct') + " as table1)"
 
                 insert_query = "INSERT INTO " + self.dataset.table_specific_name('Correct_flat') + \
-                               " SELECT * FROM ( " + query_for_flattening + \
-                               "as T_" + str(counter) + ");"
+                               "( " + query_for_flattening + ");"
                 counter += 1
 
                 self.dataengine.query(insert_query)

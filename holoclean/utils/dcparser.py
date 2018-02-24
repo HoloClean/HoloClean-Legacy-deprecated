@@ -105,8 +105,8 @@ class DCParser:
         result = []
         dcs, nothing = self.get_anded_string(conditionInd='all')
         for dc in dcs:
-            tmp = dc.replace('table1.', 'table1.first_')
-            tmp = tmp.replace('table2.', 'table1.second_')
+            tmp = dc.replace('table1.', 'table1.')
+            tmp = tmp.replace('table2.', 'table2.')
             result.append(tmp)
         return result
 

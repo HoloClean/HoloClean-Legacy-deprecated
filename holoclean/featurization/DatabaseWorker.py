@@ -68,8 +68,7 @@ class DatabaseWorker(Thread):
                     self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
 
                 break
-            insert_signal_query = "INSERT INTO " + table_name + \
-                                  " SELECT * FROM " + list2 + ")AS T_0;"
+            insert_signal_query = "INSERT INTO " + table_name + list2 + ");"
             t0 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
