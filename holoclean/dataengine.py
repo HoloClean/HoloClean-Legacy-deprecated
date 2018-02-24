@@ -145,6 +145,8 @@ class DataEngine:
                     create_table = create_table + "VARCHAR(255),"
             create_table = create_table[:-1] + " );"
             self.query(create_table)
+            self.holoEnv.logger.info(create_table)
+            self.holoEnv.logger.info("  ")
             dataframe.write.jdbc(
                 jdbcUrl,
                 spec_table_name,
