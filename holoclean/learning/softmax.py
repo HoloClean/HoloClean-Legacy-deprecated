@@ -8,6 +8,7 @@ from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
 from pyspark.sql.functions import first
+import numpy as np
 
 class LogReg(torch.nn.Module):
 
@@ -97,7 +98,6 @@ class SoftMax:
 
         # pytorch tensors
         self.X = X_training
-        #self._setupX()
         self.mask = None
         self.testmask = None
         self.setupMask()
@@ -211,8 +211,6 @@ class SoftMax:
         return output.data[0]
 
     def predict(self, model, x_val, mask=None):
-
-        # x = Variable(x_val, requires_grad=False)
         x = Variable(x_val, requires_grad=False)
 
         index = torch.LongTensor(range(x_val.size()[0]))
@@ -238,17 +236,20 @@ class SoftMax:
         # need to fill this with dc_count once we decide where to get that from
         self.model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
-        optimizer = optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
+        optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.0, weight_decay=0.9)
 
         # experiment with different batch sizes. no hard rule on this
-        batch_size = n_examples
-        for i in range(200):
+        batch_size = 1
+        for i in range(100):
             cost = 0.
             num_batches = n_examples // batch_size
-            #for k in range(num_batches):
-            #    start, end = k * batch_size, (k + 1) * batch_size
-            #    cost += self.train(model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask)
-            cost += self.train(self.model, loss, optimizer, self.X, self.Y, self.mask)
+            for k in range(num_batches):
+                start, end = k * batch_size, (k + 1) * batch_size
+                cost += self.train(self.model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask[start:end])
+            predY = self.predict(self.model, self.X, self.mask)
+            map = predY.data.numpy().argmax(axis=1)
+            # Fix this to be logged only if verbose is activated
+            print("Epoch %d, cost = %f, acc = %.2f%%" % (i + 1, cost / num_batches, 100. * np.mean(map == self.Y)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
