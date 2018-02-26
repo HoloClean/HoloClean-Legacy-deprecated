@@ -8,6 +8,7 @@ printLock = Lock()
 DCqueryCV = Condition()
 dc_queries = deque([])
 
+
 class DatabaseWorker(Thread):
     __lock = Lock()
 
@@ -15,7 +16,7 @@ class DatabaseWorker(Thread):
         Thread.__init__(self)
         self.table_name = table_name
         self.result_queue = result_queue
-        self.holo_env=holo_env
+        self.holo_env = holo_env
         self.dataengine = DataEngine(holo_env)
         self.dataset = dataset
         self.list_of_names = list_of_names
@@ -31,8 +32,8 @@ class DatabaseWorker(Thread):
         result = None
 
         string_name = str(threading.currentThread().getName())
-        name_list = list (string_name)
-        name_list[6]="_"
+        name_list = list(string_name)
+        name_list[6] = "_"
         name = "".join(name_list)
 
         table_name = self.dataset.return_id() + "_" + name + "_" + self.table_name
@@ -72,21 +73,18 @@ class DatabaseWorker(Thread):
             t0 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
-               # self.holo_env.logger.info(str(threading.currentThread().getName())+ " Query Started ")
                 printLock.release()
             self.dataengine.query(insert_signal_query)
             t1 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
-                self.holo_env.logger.info(str(threading.currentThread().getName())+ " Query Execution time: "+
+                self.holo_env.logger.info(str(threading.currentThread().getName()) + " Query Execution time: " +
                                           str(t1-t0))
                 self.holo_env.logger.info(str(insert_signal_query))
                 self.holo_env.logger.info("  ")
                 printLock.release()
         if self.holo_env.verbose:
             printLock.acquire()
-           # self.holo_env.logger.info(str(threading.currentThread().getName())+ " Done executing queries")
-            #print threading.currentThread().getName(), " Done executing queries"
             printLock.release()
 
 

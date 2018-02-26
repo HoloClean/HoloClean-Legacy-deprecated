@@ -10,6 +10,7 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import first
 import numpy as np
 
+
 class LogReg(torch.nn.Module):
 
     # inits weights to random values
@@ -36,7 +37,6 @@ class LogReg(torch.nn.Module):
 
             self.W = torch.cat((self.W, self.dc_W), 0)
     
-    
     def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_dc, rv_dim):
         super(LogReg, self).__init__()
         
@@ -49,7 +49,6 @@ class LogReg(torch.nn.Module):
         self.rv_dim = rv_dim
 
         self._setup_weights()
-        
         
     def forward(self, X, index, mask):
 
@@ -70,6 +69,7 @@ class LogReg(torch.nn.Module):
             
         return output
     
+
 class SoftMax:
 
     def __init__(self, dataengine, dataset, spark_session, X_training):
@@ -85,7 +85,6 @@ class SoftMax:
         dimension_dict = {}
         for dimension in list:
             dimension_dict[dimension['dimension']] = dimension['length']
-
 
         # X Tensor Dimensions (N * M * L)
         self.M = dimension_dict['M']
@@ -107,8 +106,10 @@ class SoftMax:
         self.model = None
         return
     # Will create the Y tensor of size NxL
+
     def _setupY(self):
-        possible_values = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).collect()
+        possible_values = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).\
+                                                                 collect()
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
@@ -168,16 +169,15 @@ class SoftMax:
         L = self.L if clean else L
         K_ij_lookup = self.dataengine.get_table_to_dataframe(
             lookup, self.dataset).select("vid", "k_ij").collect()
-        mask = torch.zeros(N,L)
+        mask = torch.zeros(N, L)
         for domain in K_ij_lookup:
             if domain.k_ij < L:
-                mask[domain.vid-1, domain.k_ij:] = -10e6;
+                mask[domain.vid-1, domain.k_ij:] = -10e6
         if clean:
             self.mask = mask
         else:
             self.testmask = mask
         return mask
-
 
     def build_model(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
         model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC, self.N)
@@ -227,8 +227,7 @@ class SoftMax:
 
         # here's where the most changes came in from the isolated notebook version
         # hard for me to test anything related to HC implementation until rest is done
-        
-        ## TODO:
+        # TODO:
         # debug
         
         n_examples, n_features, n_classes = self.X.size()
@@ -245,7 +244,8 @@ class SoftMax:
             num_batches = n_examples // batch_size
             for k in range(num_batches):
                 start, end = k * batch_size, (k + 1) * batch_size
-                cost += self.train(self.model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask[start:end])
+                cost += self.train(self.model, loss, optimizer, self.X[start:end], self.Y[start:end],
+                                   self.mask[start:end])
             predY = self.predict(self.model, self.X, self.mask)
             map = predY.data.numpy().argmax(axis=1)
             # Fix this to be logged only if verbose is activated
@@ -257,7 +257,7 @@ class SoftMax:
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
         vid_to_value = []
-        df_possible_values = self.dataengine.get_table_to_dataframe('Possible_values_dk',self.dataset).select(
+        df_possible_values = self.dataengine.get_table_to_dataframe('Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
         for i in range(len(max_indexes)):
             vid_to_value.append([i+1, max_indexes[i]+1, max_prob[i]])
@@ -276,10 +276,9 @@ class SoftMax:
                                      df_inference, self.dataset)
 
         self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Inferred_values') +
-                                  " has been created")
+                                            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
         return
-
 
     def repair_init(self):
 

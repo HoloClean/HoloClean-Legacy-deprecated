@@ -98,8 +98,9 @@ flags = [
          'help': 'verbose'})
 ]
 
+
 class _Barrier:
-    def __init__(self, n ):
+    def __init__(self, n):
         self.n = n
         self.count = 0
         self.mutex = Semaphore(1)
@@ -119,6 +120,7 @@ class _Barrier:
             self.barrier.acquire()
             self.barrier.wait()
             self.barrier.release()
+
 
 class HoloClean:
     """
@@ -161,9 +163,8 @@ class HoloClean:
             logging.basicConfig(filename="logger.log",
                                 filemode='w', level=logging.ERROR)
         self.logger = logging.getLogger("__main__")
-        #logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
-        # Initialize dataengine and spark session
 
+        # Initialize dataengine and spark session
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
         self.dataengine = self._init_dataengine()
 
@@ -202,6 +203,7 @@ class HoloClean:
         sc.setLogLevel("OFF")
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
+
 
 class Session:
     """
@@ -344,7 +346,6 @@ class Session:
                                   " has been created")
         self.holo_env.logger.info("  ")
 
-
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
 
@@ -471,20 +472,20 @@ class Session:
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'N' as dimension, (" \
                           " SELECT COUNT(*) FROM " \
-                              + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
+                          + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'M' as dimension, (" \
                           " SELECT COUNT(*) FROM " \
-                              + self.dataset.table_specific_name(feature_id_map) + ") as length;"
+                          + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'L' as dimension, MAX(m) as length FROM (" \
                           " SELECT MAX(k_ij) m FROM " \
-                              + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
-                                                                                       " SELECT MAX(k_ij) as m FROM " \
-                              + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
+                          + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
+                          " SELECT MAX(k_ij) as m FROM " \
+                          + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
         if (clean):
             dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)

@@ -109,7 +109,7 @@ class DataEngine:
         """
         This method get table general name and return it as spark dataframe
         """
-        columns_string=""
+        columns_string = ""
         for c in columns_name_list:
             columns_string += c + ","
         columns_string = columns_string[:-1]
@@ -162,7 +162,6 @@ class DataEngine:
             url=self._init_sparksql_url(),
             dbtable="(" + sqlQuery + ") as tablename").load()
         return dataframe
-
 
     # Getters
     def get_schema(self, dataset, table_general_name):
@@ -299,9 +298,7 @@ class DataEngine:
                 count = count + 1
                 map_schema.append([count, attribute])
 
-
-        dataframe_map_schema = self.holoEnv.spark_session.createDataFrame(
-        map_schema, StructType([
+        dataframe_map_schema = self.holoEnv.spark_session.createDataFrame(map_schema, StructType([
                 StructField("index", IntegerType(), False),
                 StructField("attribute", StringType(), True)
             ]))
@@ -334,5 +331,3 @@ class DataEngine:
             return self._query_spark(sqlQuery)
         else:
             return self.db_backend.execute(sqlQuery)
-
-

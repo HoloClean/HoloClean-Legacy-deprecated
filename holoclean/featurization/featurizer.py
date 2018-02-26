@@ -1,6 +1,8 @@
 from holoclean.utils.dcparser import DCParser
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 key = 'flight'
+
+
 class Featurizer:
     """TODO.
         parent class for all the signals
@@ -18,7 +20,7 @@ class Featurizer:
         self.possible_table_name = self.dataset.table_specific_name(
             'Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
-        self.dcp = DCParser(self.denial_constraints,dataengine,dataset)
+        self.dcp = DCParser(self.denial_constraints, dataengine, dataset)
 
     def get_constraint_attibute(self, table_name, attr_column_name):
         attr_costrained = self.dcp.get_constrainted_attributes(self.dataengine, self.dataset)
@@ -41,7 +43,7 @@ class Featurizer:
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        dc_sql_parts ,nullpredicates = self.dcp.get_anded_string(conditionInd='all')
+        dc_sql_parts, nullpredicates = self.dcp.get_anded_string(conditionInd='all')
         new_dcs = []
         self.final_dc = []
         self.change_pred = []
@@ -56,18 +58,19 @@ class Featurizer:
 
     def _change_predicates_for_query(self, list_preds, attributes):
         """
-                For each predicates we change it to the form that we need for the query to create the featurization table
+                For each predicates we change it to the form that we need for the query to create the featurization
+                table
                 Parameters
                 --------
                 list_preds: a list of all the predicates of a dc
                 attributes: a list of attributes of our initial table
         """
 
-        operationsarr=['<>' , '<=' ,'>=','=' , '<' , '>']
-        new_pred_list=[]
-        for list_pred_index in range(0,len(list_preds)):
+        operationsarr = ['<>', '<=', '>=', '=', '<', '>']
+        new_pred_list = []
+        for list_pred_index in range(0, len(list_preds)):
             components_preds = list_preds[list_pred_index].split('.')
-            new_pred=""
+            new_pred = ""
             rest_new_pred = ""
             first = 0
             for components_index in (0, len(components_preds) - 1):
@@ -78,8 +81,8 @@ class Featurizer:
                                     operation)
                                 self.attributes_list.append(
                                     "postab.attr_name= '" + components_preds[components_index] + "'")
-                                new_pred = "postab.attr_val" + operation + \
-                                left_component[1] + "." + components_preds[components_index]
+                                new_pred = "postab.attr_val" + operation + left_component[1] + "." + \
+                                           components_preds[components_index]
                                 break
 
                     for index_pred in range(0, len(list_preds)):
@@ -160,7 +163,7 @@ class SignalCooccur(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalCooccur"
 
-    def get_query(self, clean = 1):
+    def get_query(self, clean=1):
         """
                 This method creates a query for the featurization table for the cooccurances
         """
@@ -189,17 +192,17 @@ class SignalCooccur(Featurizer):
                                "t3.feature_ind as feature_ind " \
                                "FROM " + \
                                self.dataset.table_specific_name(name) + " t1, " + \
-                               self.dataset.table_specific_name(c) + " t2, "+ \
+                               self.dataset.table_specific_name(c) + " t2, " + \
                                self.dataset.table_specific_name('Feature_id_map') + " as t3 " \
-                                                                               " WHERE " \
-                                                                               "t1.tid = t2.tid " \
-                                                                               "AND " \
-                                                                               "t1.attr_name != t2.attribute " \
-                                                                               " AND " \
-                                                                               " t3.attribute=t2.attribute " \
-                                                                               " AND " \
-                                                                               " t3.value=t2.value" \
-                                                                               ") ;"
+                               " WHERE " \
+                               "t1.tid = t2.tid " \
+                               "AND " \
+                               "t1.attr_name != t2.attribute " \
+                               " AND " \
+                               " t3.attribute=t2.attribute " \
+                               " AND " \
+                               " t3.value=t2.value" \
+                               ") ;"
         self.dataengine.query(query_init_flat_join)
 
         # Create co-occur feature
@@ -233,7 +236,7 @@ class SignalDC(Featurizer):
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
         self.id = "SignalDC"
 
-    def get_query(self, clean=1, dcquery_prod = None):
+    def get_query(self, clean=1, dcquery_prod=None):
         """
         This method creates a query for the featurization table for the dc"
         """
@@ -250,9 +253,7 @@ class SignalDC(Featurizer):
         attributes = table_attribute_string.split(',')
         query1 = "SELECT "
 
-
         query1 = query1[:-1]
-
 
         dc_queries = []
 
@@ -271,7 +272,7 @@ class SignalDC(Featurizer):
             new_condition = new_dc[index_dc]
             query_for_featurization = "(SELECT" \
                                       " postab.vid as vid, " \
-                                      "postab.domain_id AS assigned_val, "+ \
+                                      "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
                                       "  count(table2.index) as count " \
                                       "  FROM " + \
@@ -306,6 +307,7 @@ class SignalDC(Featurizer):
                                          df_feature_map_dc, self.dataset, 1)
 
         return dc_queries
+
 
 class SignalSource(Featurizer):
     def __init__(self, denial_constraints, dataengine, dataset, spark_session, clean, multiple_weights=0):
@@ -366,8 +368,8 @@ class SignalSource(Featurizer):
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources') + \
                               "  (SELECT DISTINCT table1.source_index+" + str(maximum) + "," \
-                                                                                                      "table1.name, attribute" \
-                                                                                                      " from " \
+                              "table1.name, attribute" \
+                              " from " \
                               + self.dataset.table_specific_name('Sources_temp') + " AS table1);"
                 self.dataengine.query(mysql_query)
             else:
@@ -393,8 +395,8 @@ class SignalSource(Featurizer):
                 mysql_query = 'INSERT INTO ' + \
                               self.dataset.table_specific_name('Sources') + \
                               " (SELECT DISTINCT table1.source_index+" + str(maximum) + "," \
-                                                                                                      "table1.name" \
-                                                                                                      " from " \
+                              "table1.name" \
+                              " from " \
                               + self.dataset.table_specific_name('Sources_temp') + " AS table1) ;"
                 self.dataengine.query(mysql_query)
 
@@ -436,7 +438,7 @@ class SignalSource(Featurizer):
         for possible_value in self.possible_values:
             if self.multiple_weights:
                 query_for_featurization = "(SELECT " + str(possible_value.vid) + " as vid, " \
-                                          " '" + str( possible_value.domain_id) + "' as assigned_val, " \
+                                          " '" + str(possible_value.domain_id) + "' as assigned_val, " \
                                           " source_index as feature, " \
                                           " 1 as count FROM " + self.dataset.table_specific_name(
                                           'Init') + " i" \
@@ -465,4 +467,3 @@ class SignalSource(Featurizer):
             if query_prod is not None:
                 query_prod.appendQuery(query_for_featurization)
         return source_queries
-
