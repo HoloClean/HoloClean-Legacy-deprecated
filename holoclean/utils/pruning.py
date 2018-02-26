@@ -1,5 +1,6 @@
 from pyspark.sql.types import *
 
+
 class RandomVar:
     """TODO:RandomVar class: class for random variable"""
 
@@ -243,7 +244,7 @@ class Pruning:
                 self.assignments[cell_index], self.attribute_to_be_pruned[cell_index])
         return
 
-    def _append_possible(self, v_id, value, dataframe, cell_index,k_ij):
+    def _append_possible(self, v_id, value, dataframe, cell_index, k_ij):
         if value != self.all_cells_temp[cell_index].value:
             dataframe.append(
                 [v_id, (self.all_cells_temp[cell_index].tupleid + 1),
@@ -255,13 +256,12 @@ class Pruning:
                  self.all_cells_temp[cell_index].columnname,
                  unicode(value), 1, k_ij])
 
-
     def _create_dataframe(self):
         """
         creates a spark dataframe from cell_domain for all the cells
         :return:
         """
-        attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',');
+        attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
         domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []
@@ -289,9 +289,9 @@ class Pruning:
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value, possible_values_dirty,tmp_cell_index, k_ij)
+                            self._append_possible(v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
                         domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                          self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                                              self.all_cells_temp[tmp_cell_index].columnname, k_ij])
                 elif [attribute, tuple_id + 1] not in self.noisy_list:
                     c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
@@ -302,11 +302,11 @@ class Pruning:
                             k_ij = k_ij + 1
                             self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
                         domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                          self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                                                 self.all_cells_temp[tmp_cell_index].columnname, k_ij])
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
-            possible_values_clean,StructType([
+            possible_values_clean, StructType([
                 StructField("vid", IntegerType(), True),
                 StructField("tid", IntegerType(), False),
                 StructField("attr_name", StringType(), False),
@@ -317,7 +317,7 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'),'attr_name')
+        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'), 'attr_name')
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
@@ -374,10 +374,10 @@ class Pruning:
                                      new_df_kij, self.dataset)
 
         self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Kij_lookup_clean') +
-                                  " has been created")
+                                            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
         self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                  " has been created")
+                                            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
 
         del new_df_kij
@@ -415,37 +415,35 @@ class Pruning:
                                      df_domain_map, self.dataset)
 
         query_observed = "CREATE TABLE " + \
-                               self.dataset.table_specific_name('Observed_Possible_values_clean') + \
-                               " SELECT * FROM ( " \
-                               "SELECT *  \
-                               FROM " + \
-                               self.dataset.table_specific_name('Possible_values_clean') + " as t1 " + \
-                                                                               " WHERE " \
-                                                                                    " t1.observed=1 ) " \
-                                                                               "AS table1;"
+                         self.dataset.table_specific_name('Observed_Possible_values_clean') + \
+                         " SELECT * FROM ( " \
+                         "SELECT *  \
+                         FROM " + \
+                         self.dataset.table_specific_name('Possible_values_clean') + " as t1 " + \
+                         " WHERE " \
+                         " t1.observed=1 ) " \
+                         "AS table1;"
 
         self.dataengine.query(query_observed)
 
         query_observed = "CREATE TABLE " + \
-                               self.dataset.table_specific_name('Observed_Possible_values_dk') + \
-                               " SELECT * FROM ( " \
-                               "SELECT *  \
-                               FROM " + \
-                               self.dataset.table_specific_name('Possible_values_dk') + " as t1 " + \
-                               " WHERE " \
-                               " t1.observed=1 ) " \
-                              "AS table1;"
+                         self.dataset.table_specific_name('Observed_Possible_values_dk') + \
+                         " SELECT * FROM ( " \
+                         "SELECT *  \
+                         FROM " + \
+                         self.dataset.table_specific_name('Possible_values_dk') + " as t1 " + \
+                         " WHERE " \
+                         " t1.observed=1 ) " \
+                         "AS table1;"
 
         self.dataengine.query(query_observed)
 
         self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                  " has been created")
+                                            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
 
         self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_clean') +
-                                  " has been created")
+                                            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
-
-
 
         return

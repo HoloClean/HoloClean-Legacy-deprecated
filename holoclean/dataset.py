@@ -57,7 +57,8 @@ class Dataset:
         'Repairs',
         'Repaired',
         'Attribute_temp',
-        'Incorrect']
+        'Incorrect',
+        'Repaired_dataset']
 
     """
 
@@ -65,15 +66,15 @@ class Dataset:
 
             id : is the unique id for the dataset and it will be used in registering and retrieving data
             Init : the initial data that get to the database from a file that user give
-            Init_flat : The initial data that flatted on three columns index, attribute, and value  
-            Init_flat_join : self join of Init_flat table  
+            Init_flat : The initial data that flatted on three columns index, attribute, and value
+            Init_flat_join : self join of Init_flat table
             C_clean : it is table with index of clean cells
             C_dk : is table of indices that we don't know they are noisy or clean
             Feature : table of feature vector each row of it is feature vector for a cell with id of indices it has
-            size of cells in the T 
-            Feature_temp : feature table that used to make map for weight id 
-            Feature_gb : keep the smallest index in the feature table each random variable starts 
-            Feature_gb_accur : keep the accuracy for each rvs 
+            size of cells in the T
+            Feature_temp : feature table that used to make map for weight id
+            Feature_gb : keep the smallest index in the feature table each random variable starts
+            Feature_gb_accur : keep the accuracy for each rvs
             Domain : keep the size of each attribute before prunning
             Possible_values: is the table of all possible values for each attribute
             Labels : is the set of label for the cell in the Init
@@ -134,7 +135,9 @@ class Dataset:
 
     def return_id(self):
         return str(self.dataset_id)
+
     # Getters
+
     def getattribute(self, attr):
         return self.dataset_tables_specific_name[attr]
 

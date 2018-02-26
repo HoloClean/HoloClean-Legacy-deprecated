@@ -6,8 +6,7 @@ class Accuracy:
         self.path_to_grand_truth = path_to_grand_truth
         self.spark_session = spark_session
 
-    def accuracy_calculation(self, flattening = 1):
-        # precision=0
+    def accuracy_calculation(self, flattening=1):
         final = self.dataengine.get_table_to_dataframe("Inferred_values", self.dataset).select(
             "tid", "attr_name", "attr_val")
         init = self.dataengine.get_table_to_dataframe("Observed_Possible_values_dk", self.dataset).select(
@@ -15,7 +14,7 @@ class Accuracy:
         )
 
         self.read()
-        if flattening :
+        if flattening:
             self._flatting()
 
         incorrect = final.subtract(self.ground_truth_flat)

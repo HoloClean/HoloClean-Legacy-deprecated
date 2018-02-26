@@ -4,14 +4,13 @@
 import logging
 
 from pyspark import SparkContext, SparkConf
-from pyspark.sql import SQLContext
+from pyspark.sql import SQLContext, Row
 import time
 
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, DCQueryProducer
-from learning.wrapper import Wrapper
 from utils.pruning import Pruning
 from threading import Condition, Semaphore
 import threading
@@ -85,21 +84,8 @@ flags = [
 ]
 
 
-flags = [
-    (('-q', '--quiet'),
-        {'default': False,
-         'dest': 'quiet',
-         'action': 'store_true',
-         'help': 'quiet'}),
-    (tuple(['--verbose']),
-        {'default': True,
-         'dest': 'verbose',
-         'action': 'store_true',
-         'help': 'verbose'})
-]
-
 class _Barrier:
-    def __init__(self, n ):
+    def __init__(self, n):
         self.n = n
         self.count = 0
         self.mutex = Semaphore(1)
@@ -119,6 +105,7 @@ class _Barrier:
             self.barrier.acquire()
             self.barrier.wait()
             self.barrier.release()
+
 
 class HoloClean:
     """
@@ -161,7 +148,6 @@ class HoloClean:
             logging.basicConfig(filename="logger.log",
                                 filemode='w', level=logging.ERROR)
         self.logger = logging.getLogger("__main__")
-        #logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
         # Initialize dataengine and spark session
 
         self.spark_session, self.spark_sql_ctxt = self._init_spark()
@@ -203,6 +189,7 @@ class HoloClean:
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
+
 class Session:
     """
     Session class controls the entire pipeline of HoloClean
@@ -224,25 +211,6 @@ class Session:
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
-
-    # Internal methods
-    def _numbskull_fg_lists(self):
-        self.holo_env.logger.info('wrapper is starting')
-        print "wrapper is starting"
-        wrapper_obj = Wrapper(self.holo_env.dataengine, self.dataset)
-        wrapper_obj.set_variable()
-        wrapper_obj.set_weight()
-        wrapper_obj.set_factor_to_var()
-        wrapper_obj.set_factor()
-        weight = wrapper_obj.get_list_weight()
-        variable = wrapper_obj.get_list_variable()
-        fmap = wrapper_obj.get_list_factor_to_var()
-        factor = wrapper_obj.get_list_factor()
-        edges = Wrapper.get_edge(factor)
-        domain_mask = Wrapper.get_mask(variable)
-        print "wrapper is finished"
-        self.holo_env.logger.info('wrapper is finished')
-        return weight, variable, factor, fmap, domain_mask, edges
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -344,7 +312,6 @@ class Session:
                                   " has been created")
         self.holo_env.logger.info("  ")
 
-
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
 
@@ -422,9 +389,7 @@ class Session:
         for thread in list_of_threads:
             thread.join()
 
-
-
-        if (clean):
+        if clean:
             self.X_training = X_training
             self.holo_env.logger.info("The X-Tensor_traning has been created")
             self.holo_env.logger.info("  ")
@@ -462,7 +427,6 @@ class Session:
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
         obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 else 'Observed_Possible_values_dk'
         feature_id_map = 'Feature_id_map'
-        kij_lookup = 'Kij_lookup_clean' if clean == 1 else 'Kij_lookup_dk'
         query_for_create_offset = "CREATE TABLE \
                     " + self.dataset.table_specific_name(dimensions) \
                                   + "(dimension VARCHAR(255), length INT);"
@@ -471,20 +435,20 @@ class Session:
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'N' as dimension, (" \
                           " SELECT COUNT(*) FROM " \
-                              + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
+                          + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'M' as dimension, (" \
                           " SELECT COUNT(*) FROM " \
-                              + self.dataset.table_specific_name(feature_id_map) + ") as length;"
+                          + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
         self.holo_env.dataengine.query(insert_signal_query)
         insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
             dimensions) + " SELECT 'L' as dimension, MAX(m) as length FROM (" \
                           " SELECT MAX(k_ij) m FROM " \
-                              + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
-                                                                                       " SELECT MAX(k_ij) as m FROM " \
-                              + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
+                          + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
+                                                                                   " SELECT MAX(k_ij) as m FROM " \
+                          + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
         if (clean):
             dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)

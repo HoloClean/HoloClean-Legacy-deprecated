@@ -20,7 +20,7 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds , self.null_pred = DCParser(DenialConstraints, dataengine, dataset)\
+        self.and_of_preds, self.null_pred = DCParser(DenialConstraints, dataengine, dataset)\
             .get_anded_string('all')
         self.dataengine = dataengine
         self.dataset = dataset
@@ -78,10 +78,10 @@ class DCErrorDetection:
             satisfied_tuples_index.append(self.spark_session.sql(query))
         for nullquery in self.null_pred:
             query = "SELECT table1.index as ind,table1.index as\
-                indexT2 FROM df table1 WHERE ("+nullquery +")"
+                indexT2 FROM df table1 WHERE ("+nullquery + ")"
             nullcells.append(self.spark_session.sql(query))
 
-        return satisfied_tuples_index , nullcells
+        return satisfied_tuples_index, nullcells
 
     # Setters
 
@@ -102,7 +102,6 @@ class DCErrorDetection:
                 pred = self.and_of_preds[dc_count]
                 result = result.\
                     unionAll(self._make_cells(violation[dc_count], pred))
-        #result = self._make_cells(nullcells[0], self.null_pred[0])
         for dc_count in range(0, len(self.null_pred)):
             pred = self.null_pred[dc_count]
             result = result. \
@@ -131,4 +130,3 @@ class DCErrorDetection:
 
         result = all_cell.subtract(noisy_cells)
         return result
-

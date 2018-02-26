@@ -7,7 +7,8 @@ from utils.reader import Reader
 
 class DataEngine:
     """
-    The DataEngine class which contains functionality to read the input files and output to MySQL database
+    The DataEngine class which contains functionality
+    to read the input files and output to MySQL database
     """
 
     def __init__(self, holoEnv):
@@ -16,8 +17,8 @@ class DataEngine:
         Parameters
         ----------
         HoloEnv : HoloClean
-           This parameter is the HoloClean class from the holoclean.py module which contains all the connection
-           information.
+           This parameter is the HoloClean class from the holoclean.py
+           module which contains all the connection information.
 
         Returns
         -------
@@ -47,7 +48,8 @@ class DataEngine:
         pwd = self.holoEnv.db_pwd
         host = self.holoEnv.db_host
         dbname = self.holoEnv.db_name
-        connection = "mysql+mysqldb://" + user + ":" + pwd + "@" + host + "/" + dbname
+        connection = "mysql+mysqldb://" + user + ":" + pwd + \
+                     "@" + host + "/" + dbname
         return sqla.create_engine(connection)
 
     def _init_sparksql_url(self):
@@ -84,15 +86,17 @@ class DataEngine:
 
     def _add_meta(self, table_name, table_schema, dataset):
         """
-        TO DO:checks if the metatable exists (if not it is created) and add a new row with the informations
-        (the id of the dataset, the name of the table and the schema) for a new table
+        checks if the metatable exists (if not it is created)
+        and add a new row with the informations
+        (the id of the dataset,
+        the name of the table and the schema) for a new table
         """
         tmp_conn = self.db_backend.raw_connection()
         dbcur = tmp_conn.cursor()
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row = "INSERT INTO metatable (dataset_id,tablename,schem) VALUES('" + \
+        add_row = "INSERT INTO metatable (dataset_id, tablename, schem) VALUES('" + \
             dataset.dataset_id + "','" + str(table_name) + "','" + str(table_schema) + "');"
         if result:
             # there is a table named "metatable"
@@ -101,7 +105,6 @@ class DataEngine:
             # create db with columns 'dataset_id' , 'tablename' , 'schem'
             # there are no tables named "metatable"
             create_table = 'CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
-#             dbcur.execute(create_table)
             self.db_backend.execute(create_table)
             self.db_backend.execute(add_row)
 
@@ -109,7 +112,7 @@ class DataEngine:
         """
         This method get table general name and return it as spark dataframe
         """
-        columns_string=""
+        columns_string = ""
         for c in columns_name_list:
             columns_string += c + ","
         columns_string = columns_string[:-1]
@@ -162,7 +165,6 @@ class DataEngine:
             url=self._init_sparksql_url(),
             dbtable="(" + sqlQuery + ") as tablename").load()
         return dataframe
-
 
     # Getters
     def get_schema(self, dataset, table_general_name):
@@ -299,9 +301,8 @@ class DataEngine:
                 count = count + 1
                 map_schema.append([count, attribute])
 
-
         dataframe_map_schema = self.holoEnv.spark_session.createDataFrame(
-        map_schema, StructType([
+            map_schema, StructType([
                 StructField("index", IntegerType(), False),
                 StructField("attribute", StringType(), True)
             ]))
@@ -334,5 +335,3 @@ class DataEngine:
             return self._query_spark(sqlQuery)
         else:
             return self.db_backend.execute(sqlQuery)
-
-

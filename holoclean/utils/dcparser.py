@@ -9,7 +9,7 @@ class DCParser:
 
     operationsArr = ['=', '<', '>', '<>', '<=', '>=']
     operationSign = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
-    nonsymmetricOperations = ['LT','GT','LTE','GTE'];
+    nonsymmetricOperations = ['LT', 'GT', 'LTE', 'GTE']
 
     def __init__(self, denial_constraints, dataengine, dataset):
         self.denial_constraints = denial_constraints
@@ -41,10 +41,9 @@ class DCParser:
             firstTuple = ruleParts[0]  # first tuple identifier
             secondTuple = ruleParts[1]  # second tuple identifier
             # calculating the number of predicate 2 is because of identifiers
-            numOfpredicate = len(ruleParts)-2
             dcOperations = []
             dc2sqlpred = []
-            nullsql = [] # list of SQL predicate
+            nullsql = []  # list of SQL predicate
             for part_counter in range(2, len(ruleParts)):
                 dc2sql = ''  # current predicate
                 predParts = ruleParts[part_counter].split('(')
@@ -84,18 +83,16 @@ class DCParser:
                         dc2sql = dc2sql + predLeft\
                             + self.operationsArr[self.operationSign.index(op)]\
                             + 'table2.' + predRight.split('.')[1]
-                nulsql = 'table1.' + predLeft.split('.')[1] +" IS NULL"
+                nulsql = 'table1.' + predLeft.split('.')[1] + " IS NULL"
                 nullsql.append(nulsql)
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
             usedOperations.append(dcOperations)
 
-
             dcSql.append(dc2sqlpred)
             finalnull.append(nullsql)
 
         return dcSql, usedOperations, finalnull
-
 
     # Setters:
 
@@ -130,11 +127,11 @@ class DCParser:
                     for i in range(1, len(parts)):
                         strRes = strRes+" AND "+str(parts[i])
                 andlist.append(strRes)
-                count = count +1
+                count += 1
             for sql1 in nullsql:
                 for null_part in sql1:
                     strRes1 = ""
-                    strRes1 = strRes1 + str(null_part)
+                    strRes1 += str(null_part)
                 nulllist.append(strRes1)
             return andlist, nulllist
 
@@ -161,7 +158,6 @@ class DCParser:
             temp = "." + attribute
             if temp in cond:
                 attributes.add(attribute)
-
 
         return list(attributes)
 
@@ -228,7 +224,7 @@ class DCParser:
     def get_columns(denial_constraint):
         operators = denial_constraint.split('&')
         operators = operators[2:]
-        columns = [];
+        columns = []
         for i in range(0, len(operators)):
             dc = operators[i].split('.')
             operators[i] = operators[i].partition('(')[0]
