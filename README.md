@@ -65,12 +65,17 @@ Then the environment can be activated by running:
 Make sure the keep the environment activated for the rest of the installation process
 
 ### 2. Download and Install Spark
+
+*Note: before you install spark, you may need to install Scala on your system*
+
 Download the ``spark-2.2.0-bin-hadoop2.7.tgz`` file from the [spark website](https://spark.apache.org/downloads.html)
 Go to the directory where you downloaded the file and run:
 ```
 tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
 pip install pyspark
 ```
+On MacOS run `brew install apache-spark` 
+
 
 ### 3. Install MySQL Server
 <b> 3.1 For Ubuntu: </b>
