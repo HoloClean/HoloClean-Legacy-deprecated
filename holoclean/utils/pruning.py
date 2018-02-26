@@ -394,14 +394,13 @@ class Pruning:
         list_domain_map = []
         self.index = 1
         list_domain_map.append([self.index, 'Init', 'Init', 'Init'])
-        self.index = self.index + 1
+        self.index += + 1
         for attribute in domain_dict:
             value_index = 1
             for value in domain_dict[attribute]:
-                #list_domain_map.append([index, self.dataengine.attribute_map[attribute], value_index, str(value)])
                 list_domain_map.append([self.index, attribute, unicode(value), 'cooccur'])
-                value_index = value_index + 1
-                self.index = self.index + 1
+                value_index += + 1
+                self.index += self.index + 1
 
         # Send dataframe to Feature id map Table
         df_domain_map = self.spark_session.createDataFrame(
