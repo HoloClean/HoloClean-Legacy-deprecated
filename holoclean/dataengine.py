@@ -43,7 +43,7 @@ class DataEngine:
 
     # Internal methods
     def _start_db(self):
-        """TODO: Start MySQL database"""
+        """Start MySQL database"""
         user = self.holoEnv.db_user
         pwd = self.holoEnv.db_pwd
         host = self.holoEnv.db_host
@@ -53,7 +53,7 @@ class DataEngine:
         return sqla.create_engine(connection)
 
     def _init_sparksql_url(self):
-        """TODO: Start MySQL database"""
+        """Start MySQL database"""
         user = self.holoEnv.db_user
         pwd = self.holoEnv.db_pwd
         host = self.holoEnv.db_host
@@ -73,7 +73,7 @@ class DataEngine:
 
     def _add_info_to_meta(self, table_name, table_schema, dataset):
         """
-        TO DO:store information for a table to the metatable
+        store information for a table to the metatable
         """
 
         schema = ''
@@ -158,7 +158,7 @@ class DataEngine:
 
     def _query_spark(self, sqlQuery):
         """
-        TO DO:execute a query and create a dataframe from the results
+        execute a query and create a dataframe from the results
         """
 
         dataframe = self.sql_ctxt.read.format('jdbc').options(
