@@ -388,9 +388,6 @@ class Pruning:
         max_domain = 0
         for attribute in domain_dict:
             max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
-        '''for attribute in domain_dict:
-            while len(domain_dict[attribute]) < max_domain:
-                domain_dict[attribute].append('*')'''
         list_domain_map = []
         self.index = 1
         list_domain_map.append([self.index, 'Init', 'Init', 'Init'])

@@ -21,7 +21,7 @@ class LogReg(torch.nn.Module):
             self.init_W = Parameter(torch.randn(1, self.output_dim))
 
         # setup cooccur
-        self.cooc_W = Parameter(torch.randn(self.input_dim_non_dc - 1, 1).expand(-1, self.output_dim))
+        self.cooc_W = Parameter(torch.ones(self.input_dim_non_dc - 1, 1).expand(-1, self.output_dim))
 
         self.W = torch.cat((self.init_W, self.cooc_W), 0)
 
