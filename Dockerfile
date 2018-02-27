@@ -12,6 +12,9 @@ COPY python-package-requirement.txt /holoclean/
 COPY holoclean /holoclean/holoclean/
 COPY test /holoclean/test/
 COPY datasets 	/holoclean/datasets/
+COPY tutorial   /holoclean/tutorial/
+COPY set_env.sh /holoclean/
+COPY Holoclean_food_Test.ipynb /holoclean/
 
 WORKDIR /holoclean
 # Install VIM, not really needed
