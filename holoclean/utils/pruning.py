@@ -388,9 +388,6 @@ class Pruning:
         max_domain = 0
         for attribute in domain_dict:
             max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
-        '''for attribute in domain_dict:
-            while len(domain_dict[attribute]) < max_domain:
-                domain_dict[attribute].append('*')'''
         list_domain_map = []
         self.index = 1
         list_domain_map.append([self.index, 'Init', 'Init', 'Init'])
@@ -399,8 +396,8 @@ class Pruning:
             value_index = 1
             for value in domain_dict[attribute]:
                 list_domain_map.append([self.index, attribute, unicode(value), 'cooccur'])
-                value_index += + 1
-                self.index += self.index + 1
+                value_index += 1
+                self.index += 1
 
         # Send dataframe to Feature id map Table
         df_domain_map = self.spark_session.createDataFrame(
