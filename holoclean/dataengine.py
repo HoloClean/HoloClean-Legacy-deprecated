@@ -96,19 +96,22 @@ class DataEngine:
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row = "INSERT INTO metatable (dataset_id, tablename, schem) VALUES('" + \
-            dataset.dataset_id + "','" + str(table_name) + "','" + str(table_schema) + "');"
+        add_row = "INSERT INTO metatable (dataset_id, tablename, schem) " \
+                  "VALUES('" + dataset.dataset_id + "','" + str(table_name) + \
+                  "','" + str(table_schema) + "');"
         if result:
             # there is a table named "metatable"
             self.db_backend.execute(add_row)
         else:
             # create db with columns 'dataset_id' , 'tablename' , 'schem'
             # there are no tables named "metatable"
-            create_table = 'CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
+            create_table = 'CREATE TABLE metatable ' \
+                           '(dataset_id TEXT,tablename TEXT,schem TEXT);'
             self.db_backend.execute(create_table)
             self.db_backend.execute(add_row)
 
-    def _table_column_to_dataframe(self, table_name, columns_name_list, dataset):
+    def _table_column_to_dataframe(self, table_name,
+                                   columns_name_list, dataset):
         """
         This method get table general name and return it as spark dataframe
         """
@@ -116,17 +119,19 @@ class DataEngine:
         for c in columns_name_list:
             columns_string += c + ","
         columns_string = columns_string[:-1]
-        table_get = "Select " + columns_string + " from " + dataset.dataset_tables_specific_name[
-            dataset.attributes.index(table_name)]
+        table_get = "Select " + columns_string + " from " + \
+                    dataset.dataset_tables_specific_name[
+                        dataset.attributes.index(table_name)]
         useSpark = 1
         return self.query(table_get, useSpark)
 
     def _dataframe_to_table(self, spec_table_name, dataframe, append=0):
-        """Add spark dataframe df with specific name table name_table in the data database
-        with spark session
+        """Add spark dataframe df with specific name table name_table
+        in the data database with spark session
         """
 
-        jdbcUrl = "jdbc:mysql://" + self.holoEnv.db_host + "/" + self.holoEnv.db_name
+        jdbcUrl = "jdbc:mysql://" + self.holoEnv.db_host + "/" + \
+                  self.holoEnv.db_name
         dbProperties = {
             "user": self.holoEnv.db_user,
             "password": self.holoEnv.db_pwd,
@@ -141,7 +146,8 @@ class DataEngine:
         else:
             create_table = "CREATE TABLE " + spec_table_name + " ("
             for i in range(len(dataframe.schema.names)):
-                create_table = create_table + " `" + dataframe.schema.names[i] + "` "
+                create_table = create_table + " `" + \
+                               dataframe.schema.names[i] + "` "
                 if dataframe.schema.fields[i].dataType == IntegerType():
                     create_table = create_table + "INT,"
                 else:
@@ -173,18 +179,21 @@ class DataEngine:
         Parameters
         ----------
         dataset : DataSet
-            This parameter is the dataset object used to store the ID of the current HoloClean Session
+            This parameter is the dataset object used to store the ID
+            of the current HoloClean Session
 
         table_general_name: String
             This parameter is the string literal of the table name
         Returns
         -------
         dataframe : String
-            If successful will return a string of the schema with the column names separated by commas otherwise
+            If successful will return a string of the schema with the
+            column names separated by commas otherwise
             will return "No such element"
         """
         sql_query = "SELECT schem FROM metatable Where dataset_id = '" + \
-            dataset.dataset_id + "' AND  tablename = '" + table_general_name + "';"
+                    dataset.dataset_id + "' AND  tablename = '" + \
+                    table_general_name + "';"
         mt_eng = self.db_backend
 
         generator = pd.read_sql_query(sql_query, mt_eng)
@@ -213,7 +222,8 @@ class DataEngine:
         """
 
         table_get = "Select * from " + \
-                    dataset.dataset_tables_specific_name[dataset.attributes.index(table_name)]
+                    dataset.dataset_tables_specific_name[
+                        dataset.attributes.index(table_name)]
 
         useSpark = 1
         return self.query(table_get, useSpark)
@@ -237,7 +247,8 @@ class DataEngine:
         dataset: DataSet
             The DataSet object that holds the Session ID for HoloClean
         append: Int
-            Optional parameter to specify if we want to append dataframe to table or overwrite
+            Optional parameter to specify if we want to
+            append dataframe to table or overwrite
             default value is 0 (i.e. overwrite)
 
         Returns
@@ -266,7 +277,8 @@ class DataEngine:
         No Return
         """
         index_id = table_name+"_"+attr_name
-        sql = "CREATE INDEX " + index_id + " ON " + table_name + " (" + attr_name + ");"
+        sql = "CREATE INDEX " + index_id + " ON " + table_name + \
+              " (" + attr_name + ");"
         self.db_backend.execute(sql)
 
     def ingest_data(self, filepath, dataset):
@@ -314,7 +326,8 @@ class DataEngine:
 
     def query(self, sqlQuery, spark_flag=0):
         """
-        execute a query, uses the flag to decide if it will store the results on spark dataframe
+        execute a query, uses the flag to decide if it will store the results
+        on spark dataframe
 
          Parameters
         ----------
@@ -327,7 +340,8 @@ class DataEngine:
         Returns
         -------
         dataframe: DataFrame
-            The DataFrame representing the result of the query if spark_flag = 0
+            The DataFrame representing the result of the query if
+            spark_flag = 0
             otherwise None
         """
 
