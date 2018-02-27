@@ -2,7 +2,7 @@ from holoclean.errordetection.dcerrordetector import DCErrorDetection
 
 
 class ErrorDetectors:
-    """TODO:
+    """
     This class call different error detection method that we needed
     """
 
@@ -23,7 +23,9 @@ class ErrorDetectors:
         """
         if detection_type is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               dataengine, dataset, spark_session)
+                                               dataengine,
+                                               dataset,
+                                               spark_session)
 
     # Setters:
 
