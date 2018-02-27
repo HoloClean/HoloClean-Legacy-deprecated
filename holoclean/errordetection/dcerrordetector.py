@@ -2,7 +2,7 @@ from holoclean.utils.dcparser import DCParser
 
 
 class DCErrorDetection:
-    """TODO:
+    """
     This class return error
     cells and clean
     cells based on the
