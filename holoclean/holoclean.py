@@ -208,9 +208,53 @@ class Session:
         self.name = name
         self.holo_env = holo_env
         self.dataset = None
+        self.Denial_constraints = []
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
+
+
+    def load_data(self, file_path):
+        """ Loads a dataset from file into the database
+        :param file_path: path to data file
+        :return: pyspark dataframe
+        """
+        self.ingest_dataset(file_path)
+
+        df = self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset)
+
+        return df
+
+    def load_denial_constraints(self, file_path):
+        """ Loads denial constraints from line-separated txt file
+        :param file_path: path to dc file
+        :return: string array of dc's
+        """
+        self.denial_constraints(file_path)
+        return self.Denial_constraints
+
+    def add_denial_constraints(self, dcs):
+        """ add denial constraints piecemeal from text
+        :param dcs: string or list of strings in dc format
+        :return: string array of dc's
+        """
+        for dc in dcs:
+            self.Denial_constraints.append(dc)
+        return self.Denial_constraints
+
+    def remove_denial_constraint(self, index):
+        """ removed the denial constraint at index
+        :param index: index in list
+        :return: string array of dc's
+        """
+        if len(self.Denial_constraints) == 0:
+            raise IndexError("No Denial Constraints Have Been Defined")
+
+        if index < 0 or index >= len(self.Denial_constraints):
+            raise IndexError("Given Index Out Of Bounds")
+
+        self.Denial_constraints.pop(index)
+        return self.Denial_constraints
 
     # Setters
     def ingest_dataset(self, src_path):
@@ -272,7 +316,6 @@ class Session:
         :param filepath: The path to the file containing DCs
         :return: None
         """
-        self.Denial_constraints = []
         dc_file = open(filepath, 'r')
         for line in dc_file:
             if line.translate(None, ' \n') != '':
