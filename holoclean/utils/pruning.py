@@ -167,7 +167,8 @@ class Pruning:
                 cell = self.cellvalues[tupleid][cid]
                 col = cell.columnname
                 val = cell.value
-                self.all_cells.append(cell)
+                if col in self.dirty_cells_attributes:
+                    self.all_cells.append(cell)
                 self.all_cells_temp[cell.cellid] = cell
 
                 if val not in self.domain_stats[col]:
