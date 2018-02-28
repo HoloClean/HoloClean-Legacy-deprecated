@@ -10,7 +10,8 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, DCQueryProducer
+from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, \
+    DCQueryProducer
 from utils.pruning import Pruning
 from threading import Condition, Semaphore
 import threading
@@ -60,13 +61,15 @@ arguments = [
       'dest': 'threshold',
       'default': 0,
       'type': float,
-      'help': 'The threshold of the probabilities which are shown in the results'}),
+      'help': 'The threshold of the probabilities '
+              'which are shown in the results'}),
     (('-k', '--first_k'),
      {'metavar': 'FIRST_K',
       'dest': 'first_k',
       'default': 1,
       'type': int,
-      'help': 'The final output will show the k-first results (if it is 0 it will show everything)'}),
+      'help': 'The final output will show the k-first results '
+              '(if it is 0 it will show everything)'}),
 ]
 
 
@@ -159,14 +162,10 @@ class HoloClean:
 
     # Internal methods
     def _init_dataengine(self):
-        """TODO: Initialize HoloClean's Data Engine"""
-        # if self.dataengine:
-        #    return
         data_engine = DataEngine(self)
         return data_engine
 
     def _init_spark(self):
-        """TODO: Initialize Spark Session"""
         # Set spark configuration
         conf = SparkConf()
         # Link MySQL driver to Spark Engine
@@ -255,7 +254,8 @@ class Session:
         Parameters
         ----------
         :param new_error_detector : Derived class of ErrorDetectors
-            Object representing a method of separating the dataset into a clean set and a dirty set
+            Object representing a method of separating the dataset into
+            a clean set and a dirty set
 
         Returns
         -------
@@ -292,7 +292,8 @@ class Session:
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
             temp = err_detector.get_noisy_dknow_dataframe(
-                self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset))
+                self.holo_env.dataengine.get_table_to_dataframe(
+                    'Init', self.dataset))
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -308,14 +309,16 @@ class Session:
         self.holo_env.dataengine.add_db_table(
             'C_clean', union_clean_cells, self.dataset)
 
-        self.holo_env.logger.info('The table: ' + self.dataset.table_specific_name('C_clean') +
+        self.holo_env.logger.info('The table: ' +
+                                  self.dataset.table_specific_name('C_clean') +
                                   " has been created")
         self.holo_env.logger.info("  ")
 
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
 
-        self.holo_env.logger.info('The table: ' + self.dataset.table_specific_name('C_dk') +
+        self.holo_env.logger.info('The table: ' +
+                                  self.dataset.table_specific_name('C_dk') +
                                   " has been created")
         self.holo_env.logger.info("  ")
         self.holo_env.logger.info('error detection is finished')
@@ -326,10 +329,13 @@ class Session:
 
     def ds_domain_pruning(self, pruning_threshold=0):
         """
-        Prunes domain based off of threshold to give each cell repair candidates
+        Prunes domain based off of threshold to give
+         each cell repair candidates
         Tables created: Possible_values_clean, Possible_values_dk,
-                        Observed_Possible_values_clean, Observed_Possible_values_dk,
-                        Kij_lookup_clean, Kij_lookup_dk, Feature_id_map_temp
+                        Observed_Possible_values_clean,
+                        Observed_Possible_values_dk,
+                        Kij_lookup_clean, Kij_lookup_dk,
+                        Feature_id_map_temp
         :param pruning_threshold: Float from 0.0 to 1.0
         :return: None
         """
@@ -344,7 +350,10 @@ class Session:
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
-    def _parallel_queries(self, dc_query_prod, number_of_threads=multiprocessing.cpu_count() - 2, clean=1):
+    def _parallel_queries(self,
+                          dc_query_prod,
+                          number_of_threads=multiprocessing.cpu_count() - 2,
+                          clean=1):
         list_of_names = []
         list_of_threads = []
         table_name = "clean" if clean == 1 else "dk"
@@ -352,8 +361,9 @@ class Session:
         if clean:
             b = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
-                list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
-                                                      self.holo_env, self.dataset, self.cv, b, self.cvX))
+                list_of_threads.append(DatabaseWorker(
+                    table_name, self.list_of_queries, list_of_names,
+                    self.holo_env, self.dataset, self.cv, b, self.cvX))
             for thread in list_of_threads:
                 thread.start()
 
@@ -361,8 +371,9 @@ class Session:
         else:
             b1 = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
-                list_of_threads.append(DatabaseWorker(table_name, self.list_of_queries, list_of_names,
-                                                      self.holo_env, self.dataset, self.cv, b1, self.cvX))
+                list_of_threads.append(DatabaseWorker(
+                    table_name, self.list_of_queries, list_of_names,
+                    self.holo_env, self.dataset, self.cv, b1, self.cvX))
             for thread in list_of_threads:
                 thread.start()
 
@@ -391,7 +402,7 @@ class Session:
 
         if clean:
             self.X_training = X_training
-            self.holo_env.logger.info("The X-Tensor_traning has been created")
+            self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
         else:
             self.X_testing = X_testing
@@ -401,10 +412,12 @@ class Session:
 
     def ds_featurize(self, clean=1):
         """
-        Extract dataset features and creates the X tensor for learning or for inferrence
+        Extract dataset features and creates the X tensor for learning
+        or for inferrence
         Tables created (clean=1): Dimensions_clean
         Tables created (clean=0): Dimensions_dk
-        :param clean: Optional, default=1, if clean = 1 then the featurization is for clean cells otherwise dirty cells
+        :param clean: Optional, default=1, if clean = 1 then
+         the featurization is for clean cells otherwise dirty cells
         :return: None
         """
 
@@ -418,40 +431,53 @@ class Session:
         self.cv = Condition()
         self.cvX = Condition()
 
-        feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries, num_of_threads, self.featurizers)
+        feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries,
+                                    num_of_threads, self.featurizers)
         feat_prod.start()
         t1 = time.time()
         self._parallel_queries(dc_query_prod, num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
-        obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 else 'Observed_Possible_values_dk'
+        obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 \
+            else 'Observed_Possible_values_dk'
         feature_id_map = 'Feature_id_map'
         query_for_create_offset = "CREATE TABLE \
                     " + self.dataset.table_specific_name(dimensions) \
                                   + "(dimension VARCHAR(255), length INT);"
         self.holo_env.dataengine.query(query_for_create_offset)
 
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            dimensions) + " SELECT 'N' as dimension, (" \
-                          " SELECT COUNT(*) FROM " \
-                          + self.dataset.table_specific_name(obs_possible_values) + ") as length;"
+        insert_signal_query = "INSERT INTO " + \
+                              self.dataset.table_specific_name(dimensions) + \
+                              " SELECT 'N' as dimension, (" \
+                              " SELECT COUNT(*) FROM " + \
+                              self.dataset.table_specific_name(
+                                  obs_possible_values) + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            dimensions) + " SELECT 'M' as dimension, (" \
-                          " SELECT COUNT(*) FROM " \
-                          + self.dataset.table_specific_name(feature_id_map) + ") as length;"
 
+        insert_signal_query = "INSERT INTO " + \
+                              self.dataset.table_specific_name(dimensions) + \
+                              " SELECT 'M' as dimension, (" \
+                              " SELECT COUNT(*) FROM " + \
+                              self.dataset.table_specific_name(feature_id_map) \
+                              + ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
-        insert_signal_query = "INSERT INTO " + self.dataset.table_specific_name(
-            dimensions) + " SELECT 'L' as dimension, MAX(m) as length FROM (" \
-                          " SELECT MAX(k_ij) m FROM " \
-                          + self.dataset.table_specific_name('Kij_lookup_clean') + " UNION " \
-                                                                                   " SELECT MAX(k_ij) as m FROM " \
-                          + self.dataset.table_specific_name('Kij_lookup_dk') + " ) k_ij_union;"
+
+        insert_signal_query = "INSERT INTO " + \
+                              self.dataset.table_specific_name(dimensions) + \
+                              " SELECT 'L' as dimension," \
+                              " MAX(m) as length FROM (" \
+                              " SELECT MAX(k_ij) m FROM " +\
+                              self.dataset.table_specific_name(
+                                  'Kij_lookup_clean') + \
+                              " UNION SELECT MAX(k_ij) as m FROM " + \
+                              self.dataset.table_specific_name('Kij_lookup_dk')\
+                              + " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
+
         if (clean):
-            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
+            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe(
+                "Dimensions_clean", self.dataset)
             list = dataframe_offset.collect()
             dimension_dict = {}
             for dimension in list:
@@ -461,7 +487,8 @@ class Session:
             self.L = dimension_dict['L']
 
         else:
-            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe("Dimensions_dk", self.dataset)
+            dataframe_offset = self.holo_env.dataengine.get_table_to_dataframe(
+                "Dimensions_dk", self.dataset)
             list = dataframe_offset.collect()
             dimension_dict = {}
             for dimension in list:
@@ -474,12 +501,16 @@ class Session:
 
     def create_corrected_dataset(self):
         """
-        Will recreate the original dataset with the repaired values and save to Repaired_dataset table in MySQL
-        :return: the original dataset with the repaired values from the Inferred_values table
+        Will recreate the original dataset with the repaired values and save to
+        Repaired_dataset table in MySQL
+        :return: the original dataset with the repaired values from the
+        Inferred_values table
         """
-        final = self.holo_env.dataengine.get_table_to_dataframe("Inferred_values", self.dataset).select(
+        final = self.holo_env.dataengine.get_table_to_dataframe(
+            "Inferred_values", self.dataset).select(
             "tid", "attr_name", "attr_val")
-        init = self.holo_env.dataengine.get_table_to_dataframe("Init", self.dataset)
+        init = self.holo_env.dataengine.get_table_to_dataframe(
+            "Init", self.dataset)
         correct = init.collect()
         final = final.collect()
         for i in range(len(correct)):
@@ -490,5 +521,6 @@ class Session:
             d[cell.attr_name] = cell.attr_val
             correct[cell.tid - 1] = Row(**d)
         correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
-        self.holo_env.dataengine.add_db_table("Repaired_dataset", correct_dataframe, self.dataset)
+        self.holo_env.dataengine.add_db_table(
+            "Repaired_dataset", correct_dataframe, self.dataset)
         return correct

@@ -62,35 +62,45 @@ class Dataset:
 
     """
 
-        Each element stand for some data that the holoclean needs or create:
-
-            id : is the unique id for the dataset and it will be used in registering and retrieving data
-            Init : the initial data that get to the database from a file that user give
-            Init_flat : The initial data that flatted on three columns index, attribute, and value
+        Each element stand for some data that the holoclean needs or creates
+            id : is the unique id for the dataset and it will be used in
+            registering and retrieving data
+            Init : the initial data that get to the database from a file that
+            user give
+            Init_flat : The initial data that flatted on three columns index,
+            attribute, and value
             Init_flat_join : self join of Init_flat table
             C_clean : it is table with index of clean cells
-            C_dk : is table of indices that we don't know they are noisy or clean
-            Feature : table of feature vector each row of it is feature vector for a cell with id of indices it has
-            size of cells in the T
+            C_dk : table of indices that we don't know they are noisy or clean
+            Feature : table of feature vector each row of it is feature vector
+            for a cell with id of indices it has size of cells in the T
             Feature_temp : feature table that used to make map for weight id
-            Feature_gb : keep the smallest index in the feature table each random variable starts
+            Feature_gb : keep the smallest index in the feature table each
+            random variable starts
             Feature_gb_accur : keep the accuracy for each rvs
-            Domain : keep the size of each attribute before prunning
-            Possible_values: is the table of all possible values for each attribute
+            Domain : keep the size of each attribute before pruning
+            Possible_values: is the table of all possible values for each
+            attribute
             Labels : is the set of label for the cell in the Init
-            biases : is the table that contains the biases that generated in learning part
+            biases : is the table that contains the biases that are
+            generated in learning part
             Probabilities : is the table of probabilities for don't know cells
             k_Probabilities: it holds the k values with the biggest probability
             Variable : using Variable_temp and fill offset column
-            Variable_temp : is the table for the wrapper of variables for numbskull
+            Variable_temp : is the table for the wrapper of variables
+            for numbskull
             Factor: is the table for the wrapper of factor for numbskull
-            Weights : table of weights that we learn in the learning section for numbskull
+            Weights : table of weights that we learn in the
+            learning section for numbskull
             Factor_to_var: table of factor_to_var for numbskull
-            dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
+            dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing.
+            They will be removed
             Final: table with final results in order to check the accuracy
             Correct: table with the correct values for our dataset
-            Repairs: wide version of all recommended changed values from the initial set
-            Repaired: initial data with repairs performed. same schema as original
+            Repairs: wide version of all recommended changed
+            values from the initial set
+            Repaired: initial data with repairs performed.
+            same schema as original
 
         """
 
@@ -105,7 +115,8 @@ class Dataset:
                     Returns
                     -------
                     describe : type
-                        Creates the table_names for each attribute for the dataset
+                        Creates the table_names for each attribute for
+                         the dataset
                     """
 
         self.attribute = {}

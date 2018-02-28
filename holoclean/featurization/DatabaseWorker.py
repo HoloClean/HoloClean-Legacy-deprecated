@@ -12,7 +12,8 @@ dc_queries = deque([])
 class DatabaseWorker(Thread):
     __lock = Lock()
 
-    def __init__(self, table_name, result_queue, list_of_names, holo_env, dataset, cv, barrier, cvX):
+    def __init__(self, table_name, result_queue, list_of_names,
+                 holo_env, dataset, cv, barrier, cvX):
         Thread.__init__(self)
         self.table_name = table_name
         self.result_queue = result_queue
@@ -39,12 +40,14 @@ class DatabaseWorker(Thread):
 
         self.list_of_names.append(table_name)
 
-        query_for_featurization = "CREATE TABLE " + table_name + "(vid INT, assigned_val INT," \
-            " feature INT ,count INT);"
+        query_for_featurization = "CREATE TABLE " + table_name + \
+                                  "(vid INT, assigned_val INT," \
+                                  " feature INT ,count INT);"
         self.dataengine.query(query_for_featurization)
         if self.holo_env.verbose:
             printLock.acquire()
-            self.holo_env.logger.info(str(threading.currentThread().getName()) + " has created the table: " +
+            self.holo_env.logger.info(str(threading.currentThread().getName())
+                                      + " has created the table: " +
                                       table_name)
             self.holo_env.logger.info("  ")
             printLock.release()
@@ -65,27 +68,32 @@ class DatabaseWorker(Thread):
                 query = "SELECT * FROM " + table_name
                 feature_table = self.dataengine.query(query, 1).collect()
                 for factor in feature_table:
-                    self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+                    self.X[factor.vid - 1, factor.feature - 1,
+                           factor.assigned_val - 1] = factor['count']
 
                 break
             insert_signal_query = "INSERT INTO " + table_name + list2 + ");"
             t0 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
-                self.holo_env.logger.info(str(threading.currentThread().getName()) + " Query Started ")
+                self.holo_env.logger.info(
+                    str(threading.currentThread().getName()) +
+                    " Query Started ")
                 printLock.release()
             self.dataengine.query(insert_signal_query)
             t1 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
-                self.holo_env.logger.info(str(threading.currentThread().getName()) + " Query Execution time: " +
-                                          str(t1-t0))
+                self.holo_env.logger.info(
+                    str(threading.currentThread().getName()) +
+                    " Query Execution time: " + str(t1-t0))
                 self.holo_env.logger.info(str(insert_signal_query))
                 self.holo_env.logger.info("  ")
                 printLock.release()
         if self.holo_env.verbose:
             printLock.acquire()
-            self.holo_env.logger.info(str(threading.currentThread().getName()) + " Done executing queries")
+            self.holo_env.logger.info(str(threading.currentThread().getName())
+                                      + " Done executing queries")
             print threading.currentThread().getName(), " Done executing queries"
             printLock.release()
 
@@ -127,7 +135,8 @@ class FeatureProducer(Thread):
                 printLock.release()
             t0 = time.time()
             if feature.id != "SignalDC" and feature.id != "SignalSource":
-                thread = QueryProd(self.list_of_queries, self.clean, feature, self.cv)
+                thread = QueryProd(self.list_of_queries, self.clean,
+                                   feature, self.cv)
                 prods.append(thread)
                 thread.start()
             t1 = time.time()
