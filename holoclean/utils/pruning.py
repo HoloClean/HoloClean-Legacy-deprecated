@@ -167,9 +167,7 @@ class Pruning:
                 cell = self.cellvalues[tupleid][cid]
                 col = cell.columnname
                 val = cell.value
-                if col in self.dirty_cells_attributes:
-                    # This part adds all cells that has attribute with dc violation to be prunned
-                    self.all_cells.append(cell)
+                self.all_cells.append(cell)
                 self.all_cells_temp[cell.cellid] = cell
 
                 if val not in self.domain_stats[col]:
