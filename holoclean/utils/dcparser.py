@@ -13,7 +13,7 @@ class DCParser:
 
     def __init__(self, denial_constraints, dataengine, dataset):
         self.denial_constraints = denial_constraints
-        self.contains_nonsymmetric_operator(dataengine, dataset)
+        #self.contains_nonsymmetric_operator(dataengine, dataset)
     # Private methods:
 
     def _dc_to_sql_condition(self):

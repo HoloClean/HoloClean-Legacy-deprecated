@@ -1,6 +1,4 @@
-time for ingesting file: 4.20669484138
-error dectection time: 82.5477740765
-domain pruning time: 4.82810902596
-featurization time: 1.97895789146
-time for training model: 0.199034929276
-time for test featurization: 2.22991704941
+time for ingesting file: 5.46904706955
+error dectection time: 400.197681189
+domain pruning time: 1.59994006157
+featurization time: 0.352394104004
