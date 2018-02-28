@@ -22,6 +22,7 @@ from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
 
+from DCFormatException import DCFormatException
 
 # Define arguments for HoloClean
 arguments = [
@@ -227,7 +228,8 @@ class Session:
         """
         self.ingest_dataset(file_path)
 
-        init = self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset)
+        init = self.holo_env.dataengine.get_table_to_dataframe(
+            'Init', self.dataset)
 
         return init
 
@@ -240,10 +242,12 @@ class Session:
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
-        """ add denial constraints piecemeal from text
-        :param dcs: string or list of strings in dc format
+        """ add denial constraints piecemeal from string
+        :param dc: string in dc format
         :return: string array of dc's
         """
+        self._check_dc_format(dc)
+
         self.Denial_constraints.append(dc)
         return self.Denial_constraints
 
@@ -258,8 +262,50 @@ class Session:
         if index < 0 or index >= len(self.Denial_constraints):
             raise IndexError("Given Index Out Of Bounds")
 
-        self.Denial_constraints.pop(index)
-        return self.Denial_constraints
+        return self.Denial_constraints.pop(index)
+
+    def _check_dc_format(self, dc):
+        """
+        determines whether or not the dc is formatted correctly
+        used before adding any dc to the list
+
+        :param dc: denial constraint to be checked
+
+        :return nothing if dc is correctly formatted
+        raises exception if incorrect
+        """
+        split_dc = dc.split('&')
+
+        if len(split_dc) < 3:
+            raise DCFormatException("Invalid DC: Missing Information")
+
+        if split_dc[0] != 't1' or split_dc[1] != 't2':
+            raise DCFormatException("Invalid DC: "
+                                    "Tuples Not Defined Correctly")
+
+        operators = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
+
+        for inequality in split_dc[2:]:
+            split_ie = inequality.split('(')
+
+            if len(split_ie) != 2:
+                raise DCFormatException("Invalid DC: "
+                                        "Inequality Not Defined Correctly")
+
+            if split_ie[0] == '':
+                raise DCFormatException("Invalid DC: "
+                                        "Missing Operator")
+
+            if split_ie[0] not in operators:
+                raise DCFormatException("Invalid DC: "
+                                        "Operator Must Be In " +
+                                        str(operators))
+
+            split_tuple = split_ie[1].split(',')
+            if len(split_tuple) != 2:
+                raise DCFormatException("Invalid DC: "
+                                        "Tuple Not Defined Correctly")
+
 
     def detect_errors(self):
         """ separates cells that violate DC's from those that don't
@@ -274,8 +320,10 @@ class Session:
         self.add_error_detector(err_detector)
         self.ds_detect_errors()
 
-        clean = self.holo_env.dataengine.get_table_to_dataframe('C_clean', self.dataset)
-        dk = self.holo_env.dataengine.get_table_to_dataframe('C_dk', self.dataset)
+        clean = self.holo_env.dataengine.get_table_to_dataframe(
+            'C_clean', self.dataset)
+        dk = self.holo_env.dataengine.get_table_to_dataframe(
+            'C_dk', self.dataset)
 
         return clean, dk
 
@@ -311,7 +359,7 @@ class Session:
 
         soft.logreg()
 
-        self.ds_featurize(clean = 0)
+        self.ds_featurize(clean=0)
 
         Y = soft.predict(soft.model, self.X_testing,
                          soft.setupMask(0, self.N, self.L))
@@ -399,6 +447,7 @@ class Session:
         dc_file = open(filepath, 'r')
         for line in dc_file:
             if line.translate(None, ' \n') != '':
+                self._check_dc_format(line[:-1])
                 self.Denial_constraints.append(line[:-1])
 
     # Methodsdata
