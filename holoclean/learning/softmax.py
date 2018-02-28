@@ -21,20 +21,25 @@ class LogReg(torch.nn.Module):
             self.init_W = Parameter(torch.randn(1, self.output_dim))
 
         # setup cooccur
-        self.cooc_W = Parameter(torch.randn(self.input_dim_non_dc - 1, 1).expand(-1, self.output_dim))
-
+        self.cooc_W = Parameter(
+            torch.randn(self.input_dim_non_dc - 1, 1)
+            .expand(-1, self.output_dim))
         self.W = torch.cat((self.init_W, self.cooc_W), 0)
 
         # setup dc
         if self.input_dim_dc > 0:
             if (self.tie_dc):
-                self.dc_W = Parameter(torch.randn(self.input_dim_dc, 1).expand(self.input_dim_dc, self.output_dim))
+                self.dc_W = Parameter(
+                    torch.randn(self.input_dim_dc, 1)
+                    .expand(self.input_dim_dc, self.output_dim))
             else:
-                self.dc_W = Parameter(torch.randn(self.input_dim_dc, self.output_dim))
+                self.dc_W = Parameter(
+                    torch.randn(self.input_dim_dc, self.output_dim))
 
             self.W = torch.cat((self.W, self.dc_W), 0)
 
-    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_dc, rv_dim):
+    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init,
+                 tie_dc, rv_dim):
         super(LogReg, self).__init__()
 
         self.input_dim_non_dc = input_dim_non_dc
@@ -51,10 +56,14 @@ class LogReg(torch.nn.Module):
 
         # reties the weights - need to do on every pass
         if self.input_dim_dc > 0:
-            self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W,
-                                self.dc_W.expand(self.input_dim_dc, self.output_dim)), 0)
+            self.W = torch.cat(
+                (self.init_W.expand(
+                    1, self.output_dim), self.cooc_W, self.dc_W.expand(
+                    self.input_dim_dc, self.output_dim)), 0)
         else:
-            self.W = torch.cat((self.init_W.expand(1, self.output_dim), self.cooc_W), 0)
+            self.W = torch.cat(
+                (self.init_W.expand(
+                    1, self.output_dim), self.cooc_W), 0)
 
         # calculates n x l matrix output
         output = X.mul(self.W)
@@ -76,7 +85,8 @@ class SoftMax:
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
         self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
-        dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_clean", self.dataset)
+        dataframe_offset = self .dataengine.get_table_to_dataframe(
+            "Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}
         for dimension in list:
@@ -104,7 +114,8 @@ class SoftMax:
 
     # Will create the Y tensor of size NxL
     def _setupY(self):
-        possible_values = self.dataengine.get_table_to_dataframe("Observed_Possible_values_clean", self.dataset).collect()
+        possible_values = self.dataengine .get_table_to_dataframe(
+            "Observed_Possible_values_clean", self.dataset) .collect()
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
@@ -112,7 +123,8 @@ class SoftMax:
 
     # Will create the X-value tensor of size nxmxl
     def _setupX(self, sparse=0):
-        feature_table = self.dataengine.get_table_to_dataframe("Feature_clean", self.dataset).collect()
+        feature_table = self .dataengine.get_table_to_dataframe(
+            "Feature_clean", self.dataset).collect()
         if sparse:
             coordinates = torch.LongTensor()
             values = torch.FloatTensor([])
@@ -122,15 +134,19 @@ class SoftMax:
                 coordinates = torch.cat((coordinates, coordinate), 1)
                 value = factor['count']
                 values = torch.cat((values, torch.FloatTensor([value])), 0)
-            self.X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.N, self.M, self.L]))
+            self.X = torch.sparse\
+                .FloatTensor(coordinates, values,
+                             torch.Size([self.N, self.M, self.L]))
         else:
             self.X = torch.zeros(self.N, self.M, self.L)
             for factor in feature_table:
-                self.X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+                self.X[factor.vid - 1, factor.feature - 1,
+                       factor.assigned_val - 1] = factor['count']
         return
 
     def setuptrainingX(self, sparse=0):
-        dataframe_offset = self.dataengine.get_table_to_dataframe("Dimensions_dk", self.dataset)
+        dataframe_offset = self.dataengine.get_table_to_dataframe(
+            "Dimensions_dk", self.dataset)
         list = dataframe_offset.collect()
         dimension_dict = {}
         for dimension in list:
@@ -141,7 +157,8 @@ class SoftMax:
         self.testN = dimension_dict['N']
         self.testL = dimension_dict['L']
 
-        feature_table = self.dataengine.get_table_to_dataframe("Feature_dk", self.dataset).collect()
+        feature_table = self.dataengine.get_table_to_dataframe(
+            "Feature_dk", self.dataset).collect()
         if sparse:
             coordinates = torch.LongTensor()
             values = torch.FloatTensor([])
@@ -151,11 +168,15 @@ class SoftMax:
                 coordinates = torch.cat((coordinates, coordinate), 1)
                 value = factor['count']
                 values = torch.cat((values, torch.FloatTensor([value])), 0)
-            X = torch.sparse.FloatTensor(coordinates, values, torch.Size([self.testN, self.testM, self.testL]))
+            X = torch.sparse.FloatTensor(coordinates, values, torch.Size(
+                [self.testN, self.testM, self.testL]))
         else:
             X = torch.zeros(self.testN, self.testM, self.testL)
             for factor in feature_table:
-                X[factor.vid - 1, factor.feature - 1, factor.assigned_val - 1] = factor['count']
+                X[factor.vid -
+                  1, factor.feature -
+                  1, factor.assigned_val -
+                  1] = factor['count']
         return X
 
     def setupMask(self, clean=1, N=1, L=1):
@@ -167,15 +188,22 @@ class SoftMax:
         mask = torch.zeros(N, L)
         for domain in K_ij_lookup:
             if domain.k_ij < L:
-                mask[domain.vid-1, domain.k_ij:] = -10e6
+                mask[domain.vid - 1, domain.k_ij:] = -10e6
         if clean:
             self.mask = mask
         else:
             self.testmask = mask
         return mask
 
-    def build_model(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init=True, tie_DC=True):
-        model = LogReg(input_dim_non_dc, input_dim_dc, output_dim, tie_init, tie_DC, self.N)
+    def build_model(self, input_dim_non_dc, input_dim_dc,
+                    output_dim, tie_init=True, tie_DC=True):
+        model = LogReg(
+            input_dim_non_dc,
+            input_dim_dc,
+            output_dim,
+            tie_init,
+            tie_DC,
+            self.N)
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
@@ -218,13 +246,15 @@ class SoftMax:
         return output
 
     def logreg(self):
-
-
         n_examples, n_features, n_classes = self.X.size()
-
-        self.model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
+        self.model = self.build_model(
+            self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
-        optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.0, weight_decay=0.9)
+        optimizer = optim.SGD(
+            self.model.parameters(),
+            lr=0.001,
+            momentum=0.0,
+            weight_decay=0.9)
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
@@ -233,12 +263,18 @@ class SoftMax:
             num_batches = n_examples // batch_size
             for k in range(num_batches):
                 start, end = k * batch_size, (k + 1) * batch_size
-                cost += self.train(self.model, loss, optimizer, self.X[start:end], self.Y[start:end], self.mask[start:end])
+                cost += self.train(self.model,
+                                   loss,
+                                   optimizer,
+                                   self.X[start:end],
+                                   self.Y[start:end],
+                                   self.mask[start:end])
             predY = self.predict(self.model, self.X, self.mask)
             map = predY.data.numpy().argmax(axis=1)
 
             if self.holo_obj.verbose:
-                print("Epoch %d, cost = %f, acc = %.2f%%" % (i + 1, cost / num_batches, 100. * np.mean(map == self.Y)))
+                print("Epoch %d, cost = %f, acc = %.2f%%" %
+                      (i + 1, cost / num_batches, 100. * np.mean(map == self.Y)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
@@ -246,10 +282,11 @@ class SoftMax:
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
         vid_to_value = []
-        df_possible_values = self.dataengine.get_table_to_dataframe('Possible_values_dk', self.dataset).select(
+        df_possible_values = self.dataengine.get_table_to_dataframe(
+            'Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
         for i in range(len(max_indexes)):
-            vid_to_value.append([i+1, max_indexes[i]+1, max_prob[i]])
+            vid_to_value.append([i + 1, max_indexes[i] + 1, max_prob[i]])
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
                 StructField("vid2", IntegerType(), False),
@@ -259,21 +296,27 @@ class SoftMax:
         )
         df1 = df_vid_to_value
         df2 = df_possible_values
-        df_inference = df1.join(df2, [df1.vid2 == df2.vid, df1.domain_id2 == df2.domain_id], 'inner').drop(
+        df_inference = df1.join(
+            df2, [
+                df1.vid2 == df2.vid, df1.domain_id2 == df2.domain_id], 'inner').drop(
             "vid2", "domain_id2")
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Inferred_values') +
-                                            " has been created")
+        self.dataengine.holoEnv.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Inferred_values') +
+            " has been created")
         self.dataengine.holoEnv.logger.info("  ")
         return
 
     def repair_init(self):
 
         # pivot repairs to wide
-        inferred = self.dataengine.get_table_to_dataframe('Inferred_values', self.dataset)
-        repairs = inferred.groupBy('tid').pivot('attr_name').agg(first('attr_val')).collect()
+        inferred = self.dataengine.get_table_to_dataframe(
+            'Inferred_values', self.dataset)
+        repairs = inferred.groupBy('tid').pivot(
+            'attr_name').agg(first('attr_val')).collect()
 
         repairs = self.spark_session.createDataFrame(repairs)
         repairs.createOrReplaceTempView('Repairs')
@@ -285,7 +328,8 @@ class SoftMax:
         repaired.createOrReplaceTempView('Repaired')
         self.dataengine.add_db_table('Repaired', repaired, self.dataset)
 
-        dirty_attrs = [str(row.attr_name) for row in inferred.select('attr_name').distinct().collect()]
+        dirty_attrs = [str(row.attr_name) for row in inferred.select(
+            'attr_name').distinct().collect()]
 
         for attr in dirty_attrs:
             repair_query = 'UPDATE ' + self.dataset.table_specific_name('Repaired') + ' init ' \
