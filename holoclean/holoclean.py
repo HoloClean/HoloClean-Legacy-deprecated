@@ -17,6 +17,12 @@ import threading
 from collections import deque
 import multiprocessing
 
+from errordetection.errordetector import ErrorDetectors
+from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
+from learning.softmax import SoftMax
+from learning.accuracy import Accuracy
+
+
 # Define arguments for HoloClean
 arguments = [
     (('-u', '--db_user'),
@@ -221,9 +227,9 @@ class Session:
         """
         self.ingest_dataset(file_path)
 
-        df = self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset)
+        init = self.holo_env.dataengine.get_table_to_dataframe('Init', self.dataset)
 
-        return df
+        return init
 
     def load_denial_constraints(self, file_path):
         """ Loads denial constraints from line-separated txt file
@@ -233,13 +239,12 @@ class Session:
         self.denial_constraints(file_path)
         return self.Denial_constraints
 
-    def add_denial_constraints(self, dcs):
+    def add_denial_constraint(self, dc):
         """ add denial constraints piecemeal from text
         :param dcs: string or list of strings in dc format
         :return: string array of dc's
         """
-        for dc in dcs:
-            self.Denial_constraints.append(dc)
+        self.Denial_constraints.append(dc)
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):
@@ -255,6 +260,81 @@ class Session:
 
         self.Denial_constraints.pop(index)
         return self.Denial_constraints
+
+    def detect_errors(self):
+        """ separates cells that violate DC's from those that don't
+
+        :return: clean dataframe and don't know dataframe
+        """
+        err_detector = ErrorDetectors(self.Denial_constraints,
+                                      self.holo_env.dataengine,
+                                      self.holo_env.spark_session,
+                                      self.dataset)
+
+        self.add_error_detector(err_detector)
+        self.ds_detect_errors()
+
+        clean = self.holo_env.dataengine.get_table_to_dataframe('C_clean', self.dataset)
+        dk = self.holo_env.dataengine.get_table_to_dataframe('C_dk', self.dataset)
+
+        return clean, dk
+
+    def repair(self):
+        """
+        repairs the initial data
+        includes pruning, featurization, and softmax
+
+        :return: repaired dataset
+        """
+        self.ds_domain_pruning(0.5)
+
+        init_signal = SignalInit(self.Denial_constraints,
+                                 self.holo_env.dataengine,
+                                 self.dataset)
+        self.add_featurizer(init_signal)
+
+        cooccur_signal = SignalCooccur(self.Denial_constraints,
+                                       self.holo_env.dataengine,
+                                       self.dataset)
+        self.add_featurizer(cooccur_signal)
+
+        dc_signal = SignalDC(self.Denial_constraints,
+                             self.holo_env.dataengine,
+                             self.dataset,
+                             self.holo_env.spark_session)
+        self.add_featurizer(dc_signal)
+
+        self.ds_featurize(clean=1)
+
+        soft = SoftMax(self.holo_env.dataengine, self.dataset,
+                       self.holo_env, self.X_training)
+
+        soft.logreg()
+
+        self.ds_featurize(clean = 0)
+
+        Y = soft.predict(soft.model, self.X_testing,
+                         soft.setupMask(0, self.N, self.L))
+        soft.save_prediction(Y)
+
+        self.create_corrected_dataset()
+
+        return self.holo_env.dataengine.get_table_to_dataframe(
+            'Repaired_dataset', self.dataset)
+
+    def compare_to_truth(self, truth_path):
+        """
+        compares our repaired set to the truth
+        prints precision and recall
+
+        :param truth_path: path to clean version of dataset
+        """
+
+        flattening = 0
+
+        acc = Accuracy(self.holo_env.dataengine, truth_path, self.dataset,
+                       self.holo_env.spark_session)
+        acc.accuracy_calculation(flattening)
 
     # Setters
     def ingest_dataset(self, src_path):
