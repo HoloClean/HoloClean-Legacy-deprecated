@@ -15,22 +15,23 @@ class Testing:
         self.fx = open('execution_time.txt', 'w')
 
         # dataset = "../datasets/hospital1k/hospital_dataset.csv"
-        dataset = "../datasets/flights/flight_input_holo.csv"
+        # dataset = "../datasets/flights/flight_input_holo.csv"
         # dataset = "../datasets/food/food_input_holo.csv"
-        # dataset = "../datasets/unit_test/unit_test_dataset.csv"
+        dataset = "../datasets/unit_test/unit_test_dataset.csv"
+        # dataset = "../datasets/food/food_input_small.csv"
 
         # denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
-        denial_constraints = "../datasets/flights/flight_constraints.txt"
+        # denial_constraints = "../datasets/flights/flight_constraints.txt"
         # denial_constraints = "../datasets/food/food_constraints1.txt"
-        # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
+        denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
 
         flattening = 0
         # flattening = 1
 
         # ground_truth = "../datasets/hospital1k/groundtruth.csv"
-        ground_truth = "../datasets/flights/flights_clean.csv"
+        # ground_truth = "../datasets/flights/flights_clean.csv"
         # ground_truth = "../datasets/food/food_clean.csv"
-        # ground_truth = 0
+        ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
         start_time = time.time()
@@ -56,7 +57,7 @@ class Testing:
 
         # Domain Pruning
         t0 = time.time()
-        pruning_threshold = 0.3
+        pruning_threshold = 0.5
         self.session.ds_domain_pruning(pruning_threshold)
         t1 = time.time()
         total = t1 - t0
@@ -66,7 +67,7 @@ class Testing:
 
         # Featurization
         t0 = time.time()
-        '''initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
+        initial_value_signal = SignalInit(self.session.Denial_constraints, self.holo_obj.dataengine,
                                           self.session.dataset)
         self.session.add_featurizer(initial_value_signal)
         statistics_signal = SignalCooccur(self.session.Denial_constraints, self.holo_obj.dataengine,
@@ -78,10 +79,11 @@ class Testing:
 
         self.session.add_featurizer(source_signal)
 
-        '''dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
+        '''
+        dc_signal = SignalDC(self.session.Denial_constraints, self.holo_obj.dataengine, self.session.dataset,
                              self.holo_obj.spark_session)
         self.session.add_featurizer(dc_signal)
-        '''
+
         t1 = time.time()
         total = t1 - t0
         print "Feature Signal Time:", total
