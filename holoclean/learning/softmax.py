@@ -219,15 +219,9 @@ class SoftMax:
 
     def logreg(self):
 
-        # here's where the most changes came in from the isolated notebook version
-        # hard for me to test anything related to HC implementation until rest is done
-
-        # TODO:
-        # debug
 
         n_examples, n_features, n_classes = self.X.size()
 
-        # need to fill this with dc_count once we decide where to get that from
         self.model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.0, weight_decay=0.9)
