@@ -228,7 +228,7 @@ class Session:
         :param file_path: path to data file
         :return: pyspark dataframe
         """
-        self.ingest_dataset(file_path)
+        self._ingest_dataset(file_path)
 
         init = self.holo_env.dataengine.get_table_to_dataframe(
             'Init', self.dataset)
@@ -240,7 +240,7 @@ class Session:
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        self.denial_constraints(file_path)
+        self._denial_constraints(file_path)
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
@@ -318,8 +318,8 @@ class Session:
                                       self.holo_env.spark_session,
                                       self.dataset)
 
-        self.add_error_detector(err_detector)
-        self.ds_detect_errors()
+        self._add_error_detector(err_detector)
+        self._ds_detect_errors()
 
         clean = self.holo_env.dataengine.get_table_to_dataframe(
             'C_clean', self.dataset)
@@ -335,38 +335,38 @@ class Session:
 
         :return: repaired dataset
         """
-        self.ds_domain_pruning(0.5)
+        self._ds_domain_pruning(0.5)
 
         init_signal = SignalInit(self.Denial_constraints,
                                  self.holo_env.dataengine,
                                  self.dataset)
-        self.add_featurizer(init_signal)
+        self._add_featurizer(init_signal)
 
         cooccur_signal = SignalCooccur(self.Denial_constraints,
                                        self.holo_env.dataengine,
                                        self.dataset)
-        self.add_featurizer(cooccur_signal)
+        self._add_featurizer(cooccur_signal)
 
         dc_signal = SignalDC(self.Denial_constraints,
                              self.holo_env.dataengine,
                              self.dataset,
                              self.holo_env.spark_session)
-        self.add_featurizer(dc_signal)
+        self._add_featurizer(dc_signal)
 
-        self.ds_featurize(clean=1)
+        self._ds_featurize(clean=1)
 
         soft = SoftMax(self.holo_env.dataengine, self.dataset,
                        self.holo_env, self.X_training)
 
         soft.logreg()
 
-        self.ds_featurize(clean=0)
+        self._ds_featurize(clean=0)
 
         Y = soft.predict(soft.model, self.X_testing,
                          soft.setupMask(0, self.N, self.L))
         soft.save_prediction(Y)
 
-        self.create_corrected_dataset()
+        self._create_corrected_dataset()
 
         return self.holo_env.dataengine.get_table_to_dataframe(
             'Repaired_dataset', self.dataset)
@@ -386,7 +386,7 @@ class Session:
         acc.accuracy_calculation(flattening)
 
     # Setters
-    def ingest_dataset(self, src_path):
+    def _ingest_dataset(self, src_path):
         """ Load, Ingest, a dataset from a src_path
         Tables created: Init
         Parameters
@@ -406,7 +406,7 @@ class Session:
             self.dataset.print_id())
         return
 
-    def add_featurizer(self, new_featurizer):
+    def _add_featurizer(self, new_featurizer):
         """Add a new featurizer
         Parameters
         ----------
@@ -423,7 +423,7 @@ class Session:
             'getting new signal for featurization is finished')
         return
 
-    def add_error_detector(self, new_error_detector):
+    def _add_error_detector(self, new_error_detector):
         """Add a new error detector
         Parameters
         ----------
@@ -440,7 +440,7 @@ class Session:
         self.holo_env.logger.info('getting new for error detection')
         return
 
-    def denial_constraints(self, filepath):
+    def _denial_constraints(self, filepath):
         """
         Read a textfile containing the the Denial Constraints
         :param filepath: The path to the file containing DCs
@@ -453,7 +453,7 @@ class Session:
                 self.Denial_constraints.append(line[:-1])
 
     # Methodsdata
-    def ds_detect_errors(self):
+    def _ds_detect_errors(self):
         """
         Use added ErrorDetector to split the dataset into clean and dirty sets.
         Must be called after add_error_detector
@@ -501,7 +501,7 @@ class Session:
         del self.error_detectors
         return
 
-    def ds_domain_pruning(self, pruning_threshold=0):
+    def _ds_domain_pruning(self, pruning_threshold=0):
         """
         Prunes domain based off of threshold to give each cell
         repair candidates
@@ -585,7 +585,7 @@ class Session:
             self.holo_env.logger.info("  ")
         return
 
-    def ds_featurize(self, clean=1):
+    def _ds_featurize(self, clean=1):
         """
         Extract dataset features and creates the X tensor for learning
         or for inferrence
@@ -676,7 +676,7 @@ class Session:
             self.L = dimension_dict['L']
         return
 
-    def create_corrected_dataset(self):
+    def _create_corrected_dataset(self):
         """
         Will recreate the original dataset with the repaired values and save
         to Repaired_dataset table in MySQL
