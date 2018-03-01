@@ -87,7 +87,13 @@ arguments = [
        'dest': 'momentum',
        'default': 0.0,
        'type': float,
-       'help': 'The momentum term in the loss function'})
+       'help': 'The momentum term in the loss function'}),
+    (('-b', '--batch-size'),
+     {'metavar': 'BATCH_SIZE',
+      'dest': 'batch_size',
+      'default':1,
+      'type': int,
+      'help': 'The batch size during training'})
 ]
 
 
