@@ -1,5 +1,5 @@
 file1 = open("food_input_holo.csv","w") 
-with open("food_input1.csv") as f:
+with open("food_input_ordered.csv") as f:
     count = 0.00
     index = 1
     list1 = []
@@ -7,7 +7,7 @@ with open("food_input1.csv") as f:
     one = []
     two = []
 
-    file1.write("index"+","+"akaname"","+"inspectionid"+","+"city"+","+"state"+","+"results"+","+"longitude"+","+"latitude"+","+"inspectiondate"+","+"risk"+","+"location"+","+"license"+","+"facilitytype"+","+"address"+","+"inspectiontype"+","+"dbaname"+","+"zip"+"\n")
+    file1.write("index"+","+"akaname"","+"inspectionid"+","+"City"+","+"State"+","+"Results"+","+"longitude"+","+"latitude"+","+"InspectionDate"+","+"risk"+","+"Location"+","+"license"+","+"FacilityType"+","+"Address"+","+"inspectiontype"+","+"DBAName"+","+"Zip"+"\n")
     list_onomata = ["index","akaname","inspectionid","city","state","results","longitude","latitude","inspectiondate","risk","location","license","facilitytype","address","inspectiontype","dbaname","zip"]
     for line in f:
         line1 = line.split(",")
@@ -20,7 +20,6 @@ with open("food_input1.csv") as f:
         else:
               list1 = []
               if count != 0: 
-                    if(int(count)<85601):
                            print count
                            file1.write(str(count) +","+ dict1["akaname"]+","+dict1["inspectionid"]+","+dict1["city"]+","+dict1["state"]+","+dict1["results"]+","+dict1["longitude"]+","+dict1["latitude"]+","+dict1["inspectiondate"]+","+dict1["risk"]+","+dict1["location"]+","+dict1["license"]+","+dict1["facilitytype"]+","+dict1["address"]+","+dict1["inspectiontype"]+","+dict1["dbaname"]+","+dict1["zip"]+"\n")
               for onomata in list_onomata:

@@ -18,7 +18,7 @@ class Pruning:
                 spark_session:Takes as an argument the spark_Session
                 threshold:The threshold that we will use for the pruning
                 dataengine:Takes as an argument the Data Engine to create Domain table
-                """
+                """f
         self.spark_session = spark_session
         self.dataengine = dataengine
         self.threshold = threshold
@@ -37,8 +37,9 @@ class Pruning:
         self.all_cells_temp = {}
         self.index = 0
 
-        self.noisycells = self._d_cell()
         self.cellvalues = self._c_values()
+        self.noisycells = self._d_cell()
+
         self._preprop()
         self._analyze_entries()
         self._generate_assignments()
@@ -59,8 +60,23 @@ class Pruning:
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
             self.noisy_list.append([cell[1], int(cell[0])])
+            self.cellvalues[int(cell[0])-1][self.attribute_map[cell[1]]].dirty = 1
 
         return noisy_cells
+
+    def _c_cell(self):
+        """
+                Create clean_cell list from the C_clean table
+        """f
+        dataframe_clean = self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
+        clean_cells = []
+        self.clean_list = []
+        for cell in dataframe_clean.collect():
+            cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
+            clean_cells.append(cell_variable)
+            self.clean_list.append([cell[1], int(cell[0])])
+
+        return clean_cells
 
     def _c_values(self):
         """
@@ -71,16 +87,15 @@ class Pruning:
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
+        self.attribute_map = {}
         number_id = 0
         for column in dataframe_init.drop('index').collect():
             row = {}
             column_id = 1
             for column_value in column:
-                cell_variable = RandomVar(
-                    columnname=table_attribute[column_id],
-                    value=column_value,
-                    tupleid=row_id,
-                    cellid=number_id)
+                self.attribute_map[table_attribute[column_id]] = column_id
+                cell_variable = RandomVar(columnname=table_attribute[column_id],
+                                          value=column_value, tupleid=row_id, cellid=number_id, dirty=0, domain=0)
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
@@ -179,6 +194,7 @@ class Pruning:
                 val = cell.value
                 if col in self.dirty_cells_attributes:
                     self.all_cells.append(cell)
+                    self.cellvalues[tupleid][cid].domain = 1
                 self.all_cells_temp[cell.cellid] = cell
 
                 if val not in self.domain_stats[col]:
@@ -295,26 +311,21 @@ class Pruning:
                 if value not in domain_dict[attribute]:
                     domain_dict[attribute].append(value)
 
-                if [attribute, tuple_id + 1] in self.noisy_list:
+                if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     c_dk.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
-                    if tmp_cell_index in self.cell_domain:
+                    if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(
-                                v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
-                        domain_kij_dk.append(
-                            [
-                                v_id_dk,
-                                (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                self.all_cells_temp[tmp_cell_index].columnname,
-                                k_ij])
-                elif [attribute, tuple_id + 1] not in self.noisy_list:
+                            self._append_possible(v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
+                        domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                                              self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                else:
                     c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
-                    if tmp_cell_index in self.cell_domain:
+                    if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
