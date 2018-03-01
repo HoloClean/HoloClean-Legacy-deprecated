@@ -2,7 +2,7 @@ from holoclean.utils.dcparser import DCParser
 
 
 class DCErrorDetection:
-    """TODO:
+    """
     This class return error
     cells and clean
     cells based on the
@@ -20,8 +20,8 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds, self.null_pred = DCParser(DenialConstraints, dataengine, dataset)\
-            .get_anded_string('all')
+        self.and_of_preds, self.null_pred = \
+            DCParser(DenialConstraints, dataengine, dataset).get_anded_string('all')
         self.dataengine = dataengine
         self.dataset = dataset
         self.spark_session = spark_session
@@ -73,7 +73,9 @@ class DCErrorDetection:
         nullcells = []
         print 'Denial Constraint Queries: '
         for cond in self.and_of_preds:
-            query = "SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"
+            query = "SELECT table1.index as ind,table2.index as indexT2 " \
+                    "FROM df table1,df table2 " \
+                    "WHERE ("+cond+")"
             print query
             satisfied_tuples_index.append(self.spark_session.sql(query))
         for nullquery in self.null_pred:
