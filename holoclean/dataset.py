@@ -32,7 +32,6 @@ class Dataset:
         'Correct_flat']
 
     """
-
         Each element stand for some data that the holoclean needs or create:
 
             id : is the unique id for the dataset and it will be used in registering and retrieving data
@@ -75,7 +74,8 @@ class Dataset:
                     Returns
                     -------
                     describe : type
-                        Creates the table_names for each attribute for the dataset
+                        Creates the table_names for each attribute for
+                         the dataset
                     """
 
         self.attribute = {}
