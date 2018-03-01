@@ -94,7 +94,7 @@ class Pruning:
             for column_value in column:
                 self.attribute_map[table_attribute[column_id]] = column_id
                 cell_variable = RandomVar(columnname=table_attribute[column_id],
-                                          value=column_value, tupleid=row_id, cellid=number_id, dirty = 0 )
+                                          value=column_value, tupleid=row_id, cellid=number_id, dirty=0, domain=0)
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
@@ -189,6 +189,7 @@ class Pruning:
                 if col in self.dirty_cells_attributes:
                     # This part adds all cells that has attribute with dc violation to be prunned
                     self.all_cells.append(cell)
+                    self.cellvalues[tupleid][cid].domain = 1
                 self.all_cells_temp[cell.cellid] = cell
 
                 if val not in self.domain_stats[col]:
@@ -303,7 +304,7 @@ class Pruning:
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     c_dk.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
-                    if tmp_cell_index in self.cell_domain:
+                    if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
@@ -314,7 +315,7 @@ class Pruning:
                 else:
                     c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
-                    if tmp_cell_index in self.cell_domain:
+                    if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
