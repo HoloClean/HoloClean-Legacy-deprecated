@@ -70,6 +70,24 @@ arguments = [
       'type': int,
       'help': 'The final output will show the k-first results '
               '(if it is 0 it will show everything)'}),
+     (('-l','--learning-rate'),
+      {'metavar':'LEARNING_RATE',
+       'dest':'learning_rate',
+       'default': 0.001,
+       'type': float,
+       'help': 'The learning rate holoclean will use during training'}),
+     (('-w', '--weight_decay'),
+      {'metavar':'WEIGHT_DECAY',
+       'dest':  'weight_decay',
+       'default': 0.9,
+       'type': float,
+       'help': 'The weight decay HoloClean will use during training, this is an L2 penalty'}),
+     (('-p', '--momentum'),
+      {'metavar':'MOMENTUM',
+       'dest': 'momentum',
+       'default': 0.0,
+       'type': float,
+       'help': 'The momentum term in the loss function'})
 ]
 
 
