@@ -96,19 +96,25 @@ class DataEngine:
         stmt = "SHOW TABLES LIKE 'metatable'"
         dbcur.execute(stmt)
         result = dbcur.fetchone()
-        add_row = "INSERT INTO metatable (dataset_id, tablename, schem) VALUES('" + \
-            dataset.dataset_id + "','" + str(table_name) + "','" + str(table_schema) + "');"
+        add_row = "INSERT INTO metatable " \
+                  "(dataset_id, tablename, schem)" \
+                  " VALUES('" + \
+                  dataset.dataset_id + "','" +\
+                  str(table_name) + "','" + \
+                  str(table_schema) + "');"
         if result:
             # there is a table named "metatable"
             self.db_backend.execute(add_row)
         else:
             # create db with columns 'dataset_id' , 'tablename' , 'schem'
             # there are no tables named "metatable"
-            create_table = 'CREATE TABLE metatable (dataset_id TEXT,tablename TEXT,schem TEXT);'
+            create_table = 'CREATE TABLE metatable ' \
+                           '(dataset_id TEXT,tablename TEXT,schem TEXT);'
             self.db_backend.execute(create_table)
             self.db_backend.execute(add_row)
 
-    def _table_column_to_dataframe(self, table_name, columns_name_list, dataset):
+    def _table_column_to_dataframe(self,
+                                   table_name, columns_name_list, dataset):
         """
         This method get table general name and return it as spark dataframe
         """

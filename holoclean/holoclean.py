@@ -198,7 +198,6 @@ class Session:
     For Error Detection: add_error_detector, ds_detect_errors
     For Domain Prunning: ds_domain_pruning
     For Featurization: add_featurizer, ds_featurize
-
     """
 
     def __init__(self, name, holo_env):
