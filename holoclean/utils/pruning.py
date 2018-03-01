@@ -178,8 +178,6 @@ class Pruning:
                 col = cell.columnname
                 val = cell.value
                 if col in self.dirty_cells_attributes:
-                    # This part adds all cells that has attribute with dc
-                    # violation to be prunned
                     self.all_cells.append(cell)
                 self.all_cells_temp[cell.cellid] = cell
 
@@ -421,12 +419,8 @@ class Pruning:
         # Create dataframe for Feature id map
         max_domain = 0
         for attribute in domain_dict:
-            max_domain = len(
-                domain_dict[attribute]) if len(
-                domain_dict[attribute]) > max_domain else max_domain
-        '''for attribute in domain_dict:
-            while len(domain_dict[attribute]) < max_domain:
-                domain_dict[attribute].append('*')'''
+            max_domain = len(domain_dict[attribute]) if \
+                len(domain_dict[attribute]) > max_domain else max_domain
         list_domain_map = []
         self.index = 1
         list_domain_map.append([self.index, 'Init', 'Init', 'Init'])
