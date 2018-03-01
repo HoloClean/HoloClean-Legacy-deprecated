@@ -6,6 +6,7 @@ from torch.nn.functional import softmax
 from pyspark.sql.types import *
 from pyspark.sql.functions import first
 import numpy as np
+from tqdm import tqdm
 
 
 class LogReg(torch.nn.Module):
@@ -219,22 +220,16 @@ class SoftMax:
 
     def logreg(self):
 
-        # here's where the most changes came in from the isolated notebook version
-        # hard for me to test anything related to HC implementation until rest is done
-
-        # TODO:
-        # debug
 
         n_examples, n_features, n_classes = self.X.size()
 
-        # need to fill this with dc_count once we decide where to get that from
         self.model = self.build_model(self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.0, weight_decay=0.9)
 
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
-        for i in range(100):
+        for i in tqdm(range(100)):
             cost = 0.
             num_batches = n_examples // batch_size
             for k in range(num_batches):
@@ -275,28 +270,3 @@ class SoftMax:
         self.dataengine.holoEnv.logger.info("  ")
         return
 
-    def repair_init(self):
-
-        # pivot repairs to wide
-        inferred = self.dataengine.get_table_to_dataframe('Inferred_values', self.dataset)
-        repairs = inferred.groupBy('tid').pivot('attr_name').agg(first('attr_val')).collect()
-
-        repairs = self.spark_session.createDataFrame(repairs)
-        repairs.createOrReplaceTempView('Repairs')
-
-        self.dataengine.add_db_table('Repairs', repairs, self.dataset)
-
-        # apply repairs to initial data
-        repaired = self.dataengine.get_table_to_dataframe('Init', self.dataset)
-        repaired.createOrReplaceTempView('Repaired')
-        self.dataengine.add_db_table('Repaired', repaired, self.dataset)
-
-        dirty_attrs = [str(row.attr_name) for row in inferred.select('attr_name').distinct().collect()]
-
-        for attr in dirty_attrs:
-            repair_query = 'UPDATE ' + self.dataset.table_specific_name('Repaired') + ' init ' \
-                           'LEFT JOIN ' + self.dataset.table_specific_name('Repairs') + ' repairs ' \
-                           'ON init.index = repairs.tid ' \
-                           'SET init.' + attr + ' = repairs.' + attr + ' ' \
-                           'WHERE repairs.' + attr + ' IS NOT NULL;'
-            self.dataengine.query(repair_query)
