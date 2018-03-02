@@ -5,92 +5,61 @@ from datetime import datetime
 class Dataset:
     attributes = [
         'id',
-        'Dimensions_clean',
-        'Dimensions_dk',
-        'Random_index',
-        'Map_schema',
-        'Map_dc',
         'Init',
-        'Init_flat',
-        'Init_join',
-        'Init_join_dk',
-        'Init_flat_join_dk',
-        'Init_flat_join',
         'C_clean',
-        'C_clean_flat',
         'C_dk',
-        'C_dk_flat',
-        'Feature',
-        'Feature_clean',
-        'Feature_dk',
-        'Feature_gb',
-        'Feature_gb_accur',
-        'weight_temp',
-        'Domain',
-        'Labels',
-        'Init_cooccur',
-        'Possible_values',
-        'Weights',
-        'Biases',
-        'k_Probabilities',
-        'Probabilities',
-        'config',
-        'Changes',
-        'Variable',
-        'Variable_tmp',
-        'Factor',
-        'Factor_to_var',
-        'Final',
-        'Correct',
-        'Correct_flat',
-        'Feature_id_map',
-        'Sources',
-        'Sources_temp',
-        'Feature_id_map_temp',
         'Possible_values_clean',
         'Possible_values_dk',
         'Observed_Possible_values_clean',
         'Observed_Possible_values_dk',
+        'C_clean_flat',
+        'C_dk_flat',
         'Kij_lookup_clean',
         'Kij_lookup_dk',
-        'Inferred_values',
-        'Repairs',
-        'Repaired',
+        'Init_join',
+        'Map_schema',
+        'Init_flat_join_dk',
+        'Init_flat_join',
+        'Feature_id_map',
+        'Sources',
+        'Sources_temp',
         'Attribute_temp',
-        'Incorrect',
-        'Repaired_dataset']
+        'Dimensions_clean',
+        'Dimensions_dk',
+        'Inferred_values',
+        'Repaired_dataset',
+        'Correct',
+        'Correct_flat']
 
     """
-
         Each element stand for some data that the holoclean needs or create:
 
             id : is the unique id for the dataset and it will be used in registering and retrieving data
             Init : the initial data that get to the database from a file that user give
-            Init_flat : The initial data that flatted on three columns index, attribute, and value
-            Init_flat_join : self join of Init_flat table
             C_clean : it is table with index of clean cells
             C_dk : is table of indices that we don't know they are noisy or clean
-            Feature : table of feature vector each row of it is feature vector for a cell with id of indices it has
-            size of cells in the T
-            Feature_temp : feature table that used to make map for weight id
-            Feature_gb : keep the smallest index in the feature table each random variable starts
-            Feature_gb_accur : keep the accuracy for each rvs
-            Domain : keep the size of each attribute before prunning
-            Possible_values: is the table of all possible values for each attribute
-            Labels : is the set of label for the cell in the Init
-            biases : is the table that contains the biases that generated in learning part
-            Probabilities : is the table of probabilities for don't know cells
-            k_Probabilities: it holds the k values with the biggest probability
-            Variable : using Variable_temp and fill offset column
-            Variable_temp : is the table for the wrapper of variables for numbskull
-            Factor: is the table for the wrapper of factor for numbskull
-            Weights : table of weights that we learn in the learning section for numbskull
-            Factor_to_var: table of factor_to_var for numbskull
-            dc_f_mysql,dc_f_dd,config,dc_f1: are attributes only for testing. They will be removed
-            Final: table with final results in order to check the accuracy
-            Correct: table with the correct values for our dataset
-            Repairs: wide version of all recommended changed values from the initial set
-            Repaired: initial data with repairs performed. same schema as original
+            Possible_values_clean: is the table of all possible values for the clean cells
+            Possible_values_dk: is the table of all possible values for the do not know cell
+            Observed_Possible_values_clean : is the table with the observed values for the clean cells
+            Observed_Possible_values_dk : is the table with the observed values for the do now know cells
+            C_clean_flat: is the table for the clean cells that are flatted on three columns index, attribute, and value
+            C_dk_flat: is the table for the dk cells that are flatted on three columns index, attribute, and value
+            Kij_lookup_clean: is the table with  the lenght of the domain for each clean cell
+            Kij_lookup_dk:is the table with  the lenght of the domain for each do not know cell
+            Init_flat_join:is the  self join of C_clean_flat table
+            Init_flat_join_dk: is the self join of C_dk_flat table
+            Map_schema:  is the table with the schema of the Init table
+            Feature_id_map: is the table that maps each feature to a number
+            Sources: is the table that maps each source to a number
+            Sources_temp: is a temporary table for saving the sources
+            Attribute_temp: is a temporary table for saving the attributes
+            Dimensions_clean: is  a table with the dimensions for the X tensor for training
+            Dimensions_dk: is a table with the dimensions for the X tensor for learning
+            Inferred_values: is the tables with the inferred values
+            Repaired_dataset: is the dataset table after we apply repairs to initial data
+            Correct: is the table with the correct values for our dataset
+            Correct_flat: is th table with the correct data that are flatted on three columns index, attribute,
+            and value
 
         """
 
@@ -105,7 +74,8 @@ class Dataset:
                     Returns
                     -------
                     describe : type
-                        Creates the table_names for each attribute for the dataset
+                        Creates the table_names for each attribute for
+                         the dataset
                     """
 
         self.attribute = {}
@@ -122,7 +92,7 @@ class Dataset:
     def _id_generator(self):
         """This function create
                 a random id from the system time
-                """
+        """
 
         r = random.seed(datetime.now())
         return str(random.random())[2:]

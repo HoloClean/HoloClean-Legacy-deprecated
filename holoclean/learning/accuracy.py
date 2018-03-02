@@ -1,17 +1,23 @@
 class Accuracy:
 
-    def __init__(self, dataengine, path_to_grand_truth, dataset, spark_session):
+    def __init__(
+            self,
+            dataengine,
+            path_to_grand_truth,
+            dataset,
+            spark_session):
         self.dataengine = dataengine
         self.dataset = dataset
         self.path_to_grand_truth = path_to_grand_truth
         self.spark_session = spark_session
 
     def accuracy_calculation(self, flattening=1):
-        final = self.dataengine.get_table_to_dataframe("Inferred_values", self.dataset).select(
+        final = self.dataengine.get_table_to_dataframe(
+            "Inferred_values", self.dataset).select(
             "tid", "attr_name", "attr_val")
-        init = self.dataengine.get_table_to_dataframe("Observed_Possible_values_dk", self.dataset).select(
-            "tid", "attr_name", "attr_val"
-        )
+        init = self.dataengine.get_table_to_dataframe(
+            "Observed_Possible_values_dk", self.dataset).select(
+            "tid", "attr_name", "attr_val")
 
         self.read()
         if flattening:
@@ -58,7 +64,8 @@ class Accuracy:
                 counter += 1
 
                 self.dataengine.query(insert_query)
-        self.ground_truth_flat = self.dataengine.get_table_to_dataframe('Correct_flat', self.dataset)
+        self.ground_truth_flat = self.dataengine.get_table_to_dataframe(
+            'Correct_flat', self.dataset)
         return
 
     def read(self):
@@ -66,6 +73,7 @@ class Accuracy:
 
         Takes as argument the full path name of the csv file and the spark_session
         """
-        self.ground_truth_flat = self.spark_session.read.csv(self.path_to_grand_truth, header=True)
+        self.ground_truth_flat = self.spark_session.read.csv(
+            self.path_to_grand_truth, header=True)
         self.dataengine.add_db_table(
             'Correct', self.ground_truth_flat, self.dataset)

@@ -2,14 +2,14 @@ from holoclean.utils.dcparser import DCParser
 
 
 class DCErrorDetection:
-    """TODO:
+    """
     This class return error
     cells and clean
     cells based on the
     denial constraint
     """
 
-    def __init__(self, DenialConstraints, dataengine, spark_session, dataset):
+    def __init__(self, DenialConstraints, holo_obj, dataset):
 
         """
         This constructor at first convert all denial constraints
@@ -20,11 +20,13 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds, self.null_pred = DCParser(DenialConstraints, dataengine, dataset)\
-            .get_anded_string('all')
-        self.dataengine = dataengine
+        self.and_of_preds, self.null_pred = \
+            DCParser(DenialConstraints, holo_obj.dataengine, dataset).get_anded_string('all')
+        self.dataengine = holo_obj.dataengine
         self.dataset = dataset
-        self.spark_session = spark_session
+        self.spark_session = holo_obj.spark_session
+        self.holo_obj = holo_obj
+        
 
     # Private methods
 
@@ -71,10 +73,12 @@ class DCErrorDetection:
         dataset.createOrReplaceTempView("df")
         satisfied_tuples_index = []
         nullcells = []
-        print 'Denial Constraint Queries: '
+        self.holo_obj.logger.info('Denial Constraint Queries: ')
         for cond in self.and_of_preds:
-            query = "SELECT table1.index as ind,table2.index as indexT2 FROM df table1,df table2 WHERE ("+cond+")"
-            print query
+            query = "SELECT table1.index as ind,table2.index as indexT2 " \
+                    "FROM df table1,df table2 " \
+                    "WHERE ("+cond+")"
+            self.holo_obj.logger.info(query)
             satisfied_tuples_index.append(self.spark_session.sql(query))
         for nullquery in self.null_pred:
             query = "SELECT table1.index as ind,table1.index as\
