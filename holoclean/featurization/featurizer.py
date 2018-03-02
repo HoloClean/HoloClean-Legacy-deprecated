@@ -255,22 +255,25 @@ class SignalDC(Featurizer):
         self.possible_table_name = self.dataset.table_specific_name(name)
 
         new_dc = self._create_new_dc()
-        table_attribute_string = self.dataengine.get_schema(
-            self.dataset, 'Init')
-
         dc_queries = []
 
-        maximum = self.dataengine.query(
-            "SELECT MAX(feature_ind) as max FROM " +
-            self.dataset.table_specific_name("Feature_id_map") +
-            " WHERE Type = 'cooccur'", 1
-        ).collect()[0]['max']
+        if clean:
+            count = self.dataengine.query(
+                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
+                self.dataset.table_specific_name("Feature_id_map") +
+                " WHERE Type != 'DC'", 1
+            ).collect()[0]['max']
+            count += 1
+        else:
+            count = self.dataengine.query(
+                "SELECT COALESCE(MIN(feature_ind), 0) as max FROM " +
+                self.dataset.table_specific_name("Feature_id_map") +
+                " WHERE Type = 'DC'", 1
+            ).collect()[0]['max']
 
         map_dc = []
-        count = maximum
         feature_map = []
         for index_dc in range(0, len(new_dc)):
-            count = count + 1
             relax_dc = new_dc[index_dc] + self.attributes_list[index_dc]
             map_dc.append([str(count), relax_dc, self.final_dc[index_dc]])
             new_condition = new_dc[index_dc]
@@ -301,6 +304,7 @@ class SignalDC(Featurizer):
             if clean:
                 feature_map.append([count, self.attributes_list[index_dc],
                                     self.final_dc[index_dc], "DC"])
+            count += 1
 
         if clean:
             df_feature_map_dc = self.spark_session.createDataFrame(

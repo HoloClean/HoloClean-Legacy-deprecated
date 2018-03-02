@@ -11,18 +11,17 @@ class RandomVar:
 class Pruning:
     """TODO:Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, dataengine, dataset, spark_session, threshold=0.5):
+    def __init__(self, session, threshold=0.5):
         """TODO.
                 Parameters
                 --------
-                spark_session:Takes as an argument the spark_Session
-                threshold:The threshold that we will use for the pruning
-                dataengine:Takes as an argument the Data Engine to create Domain table
+                Session: the Holoclean session using the Pruning object
                 """
-        self.spark_session = spark_session
-        self.dataengine = dataengine
+        self.session = session
+        self.spark_session = session.holo_env.spark_session
+        self.dataengine = session.holo_env.dataengine
         self.threshold = threshold
-        self.dataset = dataset
+        self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
         self.domain_stats = {}
@@ -284,12 +283,12 @@ class Pruning:
         :return:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
-        domain_dict = {}
+        self.domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []
         for attribute in attributes:
             if attribute != 'index' and attribute != 'Index':
-                domain_dict[attribute] = []
+                self.domain_dict[attribute] = []
 
         possible_values_clean = []
         possible_values_dirty = []
@@ -300,8 +299,8 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-                if value not in domain_dict[attribute]:
-                    domain_dict[attribute].append(value)
+                if value not in self.domain_dict[attribute]:
+                    self.domain_dict[attribute].append(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     c_dk.append([tuple_id + 1, attribute, value])
@@ -406,31 +405,13 @@ class Pruning:
         del new_df_clean
         del new_df_dk
 
-        # Create dataframe for Feature id map
-        max_domain = 0
-        for attribute in domain_dict:
-            max_domain = len(domain_dict[attribute]) if len(domain_dict[attribute]) > max_domain else max_domain
-        list_domain_map = []
-        self.index = 1
-        list_domain_map.append([self.index, 'Init', 'Init', 'Init'])
-        self.index += + 1
-        for attribute in domain_dict:
-            value_index = 1
-            for value in domain_dict[attribute]:
-                list_domain_map.append([self.index, attribute, unicode(value), 'cooccur'])
-                value_index += 1
-                self.index += 1
-
-        # Send dataframe to Feature id map Table
-        df_domain_map = self.spark_session.createDataFrame(
-            list_domain_map, StructType([
-                StructField("feature_ind", IntegerType(), True),
-                StructField("attribute", StringType(), False),
-                StructField("value", StringType(), False),
-                StructField("Type", StringType(), False),
-            ]))
-        self.dataengine.add_db_table('Feature_id_map',
-                                     df_domain_map, self.dataset)
+        create_feature_id_map = "Create TABLE " + \
+                                self.dataset.table_specific_name("Feature_id_map") + \
+                                "( feature_ind INT," \
+                                " attribute VARCHAR(255)," \
+                                " value VARCHAR(255)," \
+                                " type VARCHAR(255) );"
+        self.dataengine.query(create_feature_id_map)
 
         query_observed = "CREATE TABLE " + \
                          self.dataset.table_specific_name('Observed_Possible_values_clean') + \
