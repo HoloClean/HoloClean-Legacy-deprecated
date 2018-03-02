@@ -18,8 +18,6 @@ class Featurizer:
         self.denial_constraints = denial_constraints
         self.dataengine = dataengine
         self.dataset = dataset
-        self.possible_table_name = self.dataset.table_specific_name(
-            'Possible_values')
         self.table_name = self.dataset.table_specific_name('Init')
         self.dcp = DCParser(self.denial_constraints, dataengine, dataset)
 
