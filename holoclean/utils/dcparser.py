@@ -13,7 +13,7 @@ class DCParser:
 
     def __init__(self, denial_constraints, dataengine, dataset):
         self.denial_constraints = denial_constraints
-        self.contains_nonsymmetric_operator(dataengine, dataset)
+
     # Private methods:
 
     def _dc_to_sql_condition(self):
@@ -175,7 +175,8 @@ class DCParser:
 
     def get_constraint_free_attributes(self, dataengine, dataset):
         """
-        This function return all attributes that is not appeared in any constraints
+        This function return all attributes that is not appeared in
+        any constraints
         :param dataengine:
         :param dataset:
         :return: list of attributes
@@ -193,20 +194,23 @@ class DCParser:
 
     def get_constrainted_attributes(self, dataengine, dataset):
         """
-        This function return all attributes that is appeared at least in one constraint
+        This function return all attributes that is appeared
+        at least in one constraint
         :param dataengine:
         :param dataset:
         :return: list of attributes
         """
         result = set(self.get_all_attribute(dataengine, dataset))
-        free_attributes = self.get_constraint_free_attributes(dataengine, dataset)
+        free_attributes = \
+            self.get_constraint_free_attributes(dataengine, dataset)
 
         result = result.difference(set(free_attributes))
 
         return list(result)
 
     # Given ONE denial constraint will return array of corresponding operators
-    # Example: 't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
+    # Example:
+    #   't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
     # will output ['EQ', 'EQ', 'IQ']
     @staticmethod
     def get_operators(denial_constraint):
@@ -218,8 +222,10 @@ class DCParser:
         return operators
 
     # Given ONE denial constraint will return array of column names
-    # Example: 't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
-    # will output [['State', 'State'], ['MeasureCode', 'MeasureCode'], ['Stateavg', 'Stateavg']]
+    # Example:
+    #   't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
+    # will output:
+    #   [['State', 'State'], ['MeasureCode', 'MeasureCode'], ['Stateavg', 'Stateavg']]
     @staticmethod
     def get_columns(denial_constraint):
         operators = denial_constraint.split('&')

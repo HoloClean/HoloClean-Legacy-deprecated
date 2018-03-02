@@ -77,6 +77,30 @@ arguments = [
       'type': int,
       'help': 'The final output will show the k-first results '
               '(if it is 0 it will show everything)'}),
+     (('-l','--learning-rate'),
+      {'metavar':'LEARNING_RATE',
+       'dest':'learning_rate',
+       'default': 0.001,
+       'type': float,
+       'help': 'The learning rate holoclean will use during training'}),
+     (('-w', '--weight_decay'),
+      {'metavar':'WEIGHT_DECAY',
+       'dest':  'weight_decay',
+       'default': 0.9,
+       'type': float,
+       'help': 'The weight decay HoloClean will use during training, this is an L2 penalty'}),
+     (('-p', '--momentum'),
+      {'metavar':'MOMENTUM',
+       'dest': 'momentum',
+       'default': 0.0,
+       'type': float,
+       'help': 'The momentum term in the loss function'}),
+    (('-b', '--batch-size'),
+     {'metavar': 'BATCH_SIZE',
+      'dest': 'batch_size',
+      'default':1,
+      'type': int,
+      'help': 'The batch size during training'})
 ]
 
 
@@ -169,14 +193,10 @@ class HoloClean:
 
     # Internal methods
     def _init_dataengine(self):
-        """TODO: Initialize HoloClean's Data Engine"""
-        # if self.dataengine:
-        #    return
         data_engine = DataEngine(self)
         return data_engine
 
     def _init_spark(self):
-        """TODO: Initialize Spark Session"""
         # Set spark configuration
         conf = SparkConf()
         # Link MySQL driver to Spark Engine
@@ -208,7 +228,6 @@ class Session:
     For Error Detection: add_error_detector, ds_detect_errors
     For Domain Prunning: ds_domain_pruning
     For Featurization: add_featurizer, ds_featurize
-
     """
 
     def __init__(self, holo_env, name="session"):
@@ -581,7 +600,7 @@ class Session:
 
         if clean:
             self.X_training = X_training
-            self.holo_env.logger.info("The X-Tensor_traning has been created")
+            self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
         else:
             self.X_testing = X_testing
@@ -634,6 +653,7 @@ class Session:
             self.dataset.table_specific_name(obs_possible_values) + \
             ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
+        
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'M' as dimension, (" \
@@ -641,8 +661,8 @@ class Session:
             "FROM " \
             + self.dataset.table_specific_name(feature_id_map) + \
             ") as length;"
-
         self.holo_env.dataengine.query(insert_signal_query)
+        
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'L' as dimension, MAX(m) as length " \
@@ -655,6 +675,7 @@ class Session:
             + self.dataset.table_specific_name('Kij_lookup_dk') + \
             " ) k_ij_union;"
         self.holo_env.dataengine.query(insert_signal_query)
+
         if (clean):
             dataframe_offset = \
                 self.holo_env.dataengine.get_table_to_dataframe(
@@ -701,6 +722,7 @@ class Session:
             d = correct[cell.tid - 1].asDict()
             d[cell.attr_name] = cell.attr_val
             correct[cell.tid - 1] = Row(**d)
+            
         correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(
             correct)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
