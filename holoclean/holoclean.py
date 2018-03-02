@@ -301,6 +301,15 @@ class Session:
             if line.translate(None, ' \n') != '':
                 self.Denial_constraints.append(line[:-1])
 
+    def add_denial_constraint(self, denial_constraint):
+        """
+        Adds the parameter as a denial constraint to the session
+        :param denial_constraint: The string representing the first order expression for the denial constraint
+                                    Example: t1&t2&EQ(t1.ZipCode,t2.ZipCode)&IQ(t1.City,t2.City)
+        :return:
+        """
+        self.Denial_constraints.append(denial_constraint)
+
     # Methodsdata
     def ds_detect_errors(self):
         """

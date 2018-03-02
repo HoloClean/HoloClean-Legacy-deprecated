@@ -192,7 +192,7 @@ class SoftMax:
                 mask[domain.vid - 1, domain.k_ij:] = -10e6
         if clean:
             self.mask = mask
-        else:f
+        else:
             self.testmask = mask
         return mask
 
