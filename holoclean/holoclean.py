@@ -276,6 +276,10 @@ class Session:
         :return nothing if dc is correctly formatted
         raises exception if incorrect
         """
+
+        if dc in self.Denial_constraints:
+            raise DCFormatException("Duplicate Denial Constraint")
+
         split_dc = dc.split('&')
 
         if len(split_dc) < 3:
