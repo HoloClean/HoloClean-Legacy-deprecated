@@ -18,7 +18,7 @@ class Pruning:
                 spark_session:Takes as an argument the spark_Session
                 threshold:The threshold that we will use for the pruning
                 dataengine:Takes as an argument the Data Engine to create Domain table
-                """f
+                """
         self.spark_session = spark_session
         self.dataengine = dataengine
         self.threshold = threshold
@@ -66,7 +66,7 @@ class Pruning:
     def _c_cell(self):
         """
                 Create clean_cell list from the C_clean table
-        """f
+        """
         dataframe_clean = self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
         clean_cells = []
         self.clean_list = []
