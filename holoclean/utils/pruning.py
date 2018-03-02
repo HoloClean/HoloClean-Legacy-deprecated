@@ -101,8 +101,12 @@ class Pruning:
             row_id = row_id + 1
         return cell_values
 
-    def _compute_number_of_coocurences(self, original_attribute, original_attr_value, cooccured_attribute,
-                                       cooccured_attr_value):
+    def _compute_number_of_coocurences(
+            self,
+            original_attribute,
+            original_attr_value,
+            cooccured_attribute,
+            cooccured_attr_value):
         """
         generate_assignments creates assignment for each cell with the attribute and value
                     of each other cell in the same row
@@ -116,8 +120,8 @@ class Pruning:
         if (original_attr_value, cooccured_attr_value) not in \
                 self.domain_pair_stats[original_attribute][cooccured_attribute]:
             return None
-        cooccur_count = self.domain_pair_stats[original_attribute][cooccured_attribute][(original_attr_value,
-                                                                                         cooccured_attr_value)]
+        cooccur_count = self.domain_pair_stats[original_attribute][cooccured_attribute][(
+            original_attr_value, cooccured_attr_value)]
         v_cnt = self.domain_stats[original_attribute][original_attr_value]
 
         # Compute counter
