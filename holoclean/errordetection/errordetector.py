@@ -7,8 +7,7 @@ class ErrorDetectors:
     """
 
     def __init__(self, DenialConstraints,
-                 dataengine,
-                 spark_session,
+                 holo_obj,
                  dataset,
                  detection_type=None
                  ):
@@ -23,9 +22,8 @@ class ErrorDetectors:
         """
         if detection_type is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               dataengine,
-                                               dataset,
-                                               spark_session)
+                                               holo_obj,
+                                               dataset)
 
     # Setters:
 
