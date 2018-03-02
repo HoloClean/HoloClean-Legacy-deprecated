@@ -22,6 +22,7 @@ from errordetection.errordetector import ErrorDetectors
 from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
+from utils.reader import Reader
 
 from DCFormatException import DCFormatException
 
@@ -330,6 +331,28 @@ class Session:
             if len(split_tuple) != 2:
                 raise DCFormatException("Invalid DC: "
                                         "Tuple Not Defined Correctly")
+
+    def load_clean_data(self, file_path):
+        """
+        Loads pre-defined clean cells from csv
+        :param file_path: path to file
+        :return: spark dataframe of clean cells
+        """
+        clean = self.holo_env.spark_session.read.csv(file_path, header=True)
+        self.holo_env.dataengine.add_db_table('C_clean', clean, self.dataset)
+
+        return clean
+
+    def load_dirty_data(self, file_path):
+        """
+        Loads pre-defined dirty cells from csv
+        :param file_path: path to file
+        :return: spark dataframe of dirty cells
+        """
+        dirty = self.holo_env.spark_session.read.csv(file_path, header=True)
+        self.holo_env.dataengine.add_db_table('C_dk', dirty, self.dataset)
+
+        return dirty
 
     def detect_errors(self):
         """ separates cells that violate DC's from those that don't
