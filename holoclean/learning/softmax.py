@@ -110,7 +110,6 @@ class SoftMax:
         self.setupMask()
         self.Y = None
         self._setupY()
-
         self.model = None
         return
 
@@ -254,10 +253,9 @@ class SoftMax:
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
             self.model.parameters(),
-            lr=0.001,
-            momentum=0.0,
-            weight_decay=0.9)
-
+            lr= self.holo_obj.learning_rate,
+            momentum= self.holo_obj.momentum,
+            weight_decay= self.holo_obj.weight_decay)
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
         for i in tqdm(range(100)):
