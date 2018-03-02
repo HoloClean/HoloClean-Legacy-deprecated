@@ -9,7 +9,7 @@ class DCErrorDetection:
     denial constraint
     """
 
-    def __init__(self, DenialConstraints, dataengine, dataset, spark_session):
+    def __init__(self, DenialConstraints, dataengine, spark_session, dataset):
 
         """
         This constructor at first convert all denial constraints

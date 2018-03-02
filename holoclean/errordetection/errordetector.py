@@ -23,7 +23,9 @@ class ErrorDetectors:
         """
         if detection_type is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               dataengine, dataset, spark_session)
+                                               dataengine,
+                                               spark_session,
+                                               dataset)
 
     # Setters:
 
