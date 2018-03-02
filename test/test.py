@@ -44,8 +44,7 @@ class Testing:
 
         # Error Detector
         t0 = time.time()
-        err_detector = ErrorDetectors(self.session.Denial_constraints, self.holo_obj.dataengine,
-                                      self.holo_obj.spark_session, self.session.dataset)
+        err_detector = ErrorDetectors(self.session.Denial_constraints, self.holo_obj, self.session.dataset)
         self.session.add_error_detector(err_detector)
         self.session.ds_detect_errors()
         t1 = time.time()
