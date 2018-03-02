@@ -211,7 +211,7 @@ class Session:
 
     """
 
-    def __init__(self, name, holo_env):
+    def __init__(self, holo_env, name="session"):
         logging.basicConfig()
 
         # Initialize members
