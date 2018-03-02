@@ -21,7 +21,7 @@ class ErrorDetectors:
         :param dataset: dataset object for accessing tables name
         :param detection_type: type of errordetection
         """
-        if detection_type is None:
+        if detection_obj is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
                                                dataengine,
                                                dataset,
