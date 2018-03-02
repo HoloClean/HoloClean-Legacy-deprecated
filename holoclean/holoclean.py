@@ -101,7 +101,13 @@ arguments = [
       'dest': 'batch_size',
       'default':1,
       'type': int,
-      'help': 'The batch size during training'})
+      'help': 'The batch size during training'}),
+    (('-t', '--timing-file'),
+     {'metavar': 'TIMING_FILE',
+      'dest': 'timing_file',
+      'default':None,
+      'type': str,
+      'help': 'File to save timing infomrmation'})
 ]
 
 
@@ -243,15 +249,31 @@ class Session:
         self.error_detectors = []
         self.cv = None
 
+    def _timing_to_file(self, log):
+        if self.holo_env.timing_file:
+            t_file = open(self.holo_env.timing_file, 'a')
+            t_file.write(log)
+
     def load_data(self, file_path):
         """ Loads a dataset from file into the database
         :param file_path: path to data file
         :return: pyspark dataframe
         """
+        if self.holo_env.verbose:
+            start = time.time()
+
         self._ingest_dataset(file_path)
 
         init = self.holo_env.dataengine.get_table_to_dataframe(
             'Init', self.dataset)
+
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time to Load Data: ' + str(end - start) + '\n'
+            print log
+            if self.holo_env.timing_file:
+                t_file = open(self.holo_env.timing_file, 'w')
+                t_file.write(log)
 
         return init
 
@@ -359,6 +381,9 @@ class Session:
 
         :return: clean dataframe and don't know dataframe
         """
+        if self.holo_env.verbose:
+            start = time.time()
+
         err_detector = ErrorDetectors(self.Denial_constraints,
                                       self.holo_env,
                                       self.dataset)
@@ -371,6 +396,12 @@ class Session:
         dk = self.holo_env.dataengine.get_table_to_dataframe(
             'C_dk', self.dataset)
 
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Error Detection: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
+
         return clean, dk
 
     def repair(self):
@@ -380,7 +411,17 @@ class Session:
 
         :return: repaired dataset
         """
+        if self.holo_env.verbose:
+            start = time.time()
+
         self._ds_domain_pruning(0.5)
+
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Domain Pruning: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
+            start = time.time()
 
         init_signal = SignalInit(self.Denial_constraints,
                                  self.holo_env.dataengine,
@@ -400,16 +441,43 @@ class Session:
 
         self._ds_featurize(clean=1)
 
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Featurization: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
+            start = time.time()
+
         soft = SoftMax(self.holo_env.dataengine, self.dataset,
                        self.holo_env, self.X_training)
 
         soft.logreg()
 
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Training Model: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
+            start = time.time()
+
         self._ds_featurize(clean=0)
+
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Test Featurization: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
+            start = time.time()
 
         Y = soft.predict(soft.model, self.X_testing,
                          soft.setupMask(0, self.N, self.L))
         soft.save_prediction(Y)
+
+        if self.holo_env.verbose:
+            end = time.time()
+            log = 'Time for Inference: ' + str(end - start) + '\n'
+            print log
+            self._timing_to_file(log)
 
         self._create_corrected_dataset()
 
