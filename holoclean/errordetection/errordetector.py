@@ -10,7 +10,7 @@ class ErrorDetectors:
                  dataengine,
                  spark_session,
                  dataset,
-                 detection_type=None
+                 detect_obj = None
                  ):
         """
         In this class we instantiate a DC error detector and pass dataengine to
@@ -26,6 +26,8 @@ class ErrorDetectors:
                                                dataengine,
                                                dataset,
                                                spark_session)
+        else:
+            self.detect_obj = detect_obj
 
     # Setters:
 
