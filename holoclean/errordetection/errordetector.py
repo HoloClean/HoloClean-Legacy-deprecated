@@ -6,12 +6,7 @@ class ErrorDetectors:
     This class call different error detection method that we needed
     """
 
-    def __init__(self, DenialConstraints,
-                 dataengine,
-                 spark_session,
-                 dataset,
-                 detect_obj = None
-                 ):
+    def __init__(self, detect_obj):
         """
         In this class we instantiate a DC error detector and pass dataengine to
         fill correspondence tables in data base
@@ -21,17 +16,8 @@ class ErrorDetectors:
         :param dataset: dataset object for accessing tables name
         :param detection_type: type of errordetection
         """
-        if detect_obj is None:
-            self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               dataengine,
-                                               dataset,
-                                               spark_session)
-        else:
-            self.detect_obj = detect_obj
+        self.detect_obj = detect_obj
 
-    # Setters:
-
-    # Getters:
 
     def get_noisy_dknow_dataframe(self, data_dataframe):
 
