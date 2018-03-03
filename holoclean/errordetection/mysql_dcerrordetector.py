@@ -35,8 +35,6 @@ class Mysql_DCErrorDetection:
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
         self.final_dc = []
-        self.change_pred = []
-        self.attributes_list = []
         for dc_part in self.and_of_preds:
             list_preds = self._find_predicates(dc_part)
             for predicate in list_preds:
@@ -45,7 +43,7 @@ class Mysql_DCErrorDetection:
 
         return
 
-    def _change_predicates_for_query(self, list_preds1, attributes):
+    def _change_predicates_for_query(self, pred, attributes):
         """
                 For each predicates we change it to the form that we need for
                 the query to create the featurization table
@@ -57,7 +55,7 @@ class Mysql_DCErrorDetection:
 
         operationsarr = ['<>', '<=', '>=', '=', '<', '>']
 
-        components_preds = list_preds1.split('.')
+        components_preds = pred.split('.')
         for components_index in (0, len(components_preds) - 1):
             if components_preds[components_index] in attributes:
                 for operation in operationsarr:
