@@ -1,5 +1,5 @@
 from holoclean.errordetection.dcerrordetector import DCErrorDetection
-
+from holoclean.errordetection.mysql_dcerrordetector import Mysql_DCErrorDetection
 
 class ErrorDetectors:
     """
@@ -22,6 +22,10 @@ class ErrorDetectors:
         """
         if detection_type is None:
             self.detect_obj = DCErrorDetection(DenialConstraints,
+                                               holo_obj,
+                                               dataset)
+        elif detection_type == "mysql_DcErrorDetection":
+            self.detect_obj = Mysql_DCErrorDetection (DenialConstraints,
                                                holo_obj,
                                                dataset)
 
