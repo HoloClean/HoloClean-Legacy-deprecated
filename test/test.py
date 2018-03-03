@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 
 from holoclean.holoclean import HoloClean, Session
-
+from holoclean.errordetection.dcerrordetector import DCErrorDetection
 
 class Testing:
     def __init__(self):
@@ -14,30 +14,33 @@ class Testing:
 
     def test(self):
 
-        dataset = "../tutorial/data/hospital_dataset.csv"
+        #dataset = "../tutorial/data/hospital_dataset.csv"
         # dataset = "../datasets/flights/flight_input_holo.csv"
         # dataset = "../datasets/food/food_input_holo.csv"
-        #dataset = "../datasets/unit_test/unit_test_dataset.csv"
+        dataset = "../datasets/unit_test/unit_test_dataset.csv"
 
-        denial_constraints = "../tutorial/data/hospital_constraints.txt"
+        #denial_constraints = "../tutorial/data/hospital_constraints.txt"
         #denial_constraints = "../datasets/flights/flight_constraints.txt"
         # denial_constraints = "../datasets/food/food_constraints1.txt"
-        #denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
+        denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
 
         flattening = 0
         # flattening = 1
 
-        ground_truth = "../tutorial/data/groundtruth.csv"
+        #ground_truth = "../tutorial/data/groundtruth.csv"
         #ground_truth = "../datasets/flights/flights_clean.csv"
         # ground_truth = "../datasets/food/food_clean.csv"
-        #ground_truth = 0
+        ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
         self.session.load_data(dataset)
         self.session.load_denial_constraints(denial_constraints)
 
         # Error Detector
-        self.session.detect_errors()
+        detector = DCErrorDetection(self.session.Denial_constraints,
+                                    self.holo_obj,
+                                    self.session.dataset)
+        self.session.detect_errors(detector)
 
         self.session.repair()
 
