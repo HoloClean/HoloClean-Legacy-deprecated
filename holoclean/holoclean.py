@@ -376,7 +376,7 @@ class Session:
 
         return dirty
 
-    def detect_errors(self):
+    def detect_errors(self, detector):
         """ separates cells that violate DC's from those that don't
 
         :return: clean dataframe and don't know dataframe
@@ -384,9 +384,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        err_detector = ErrorDetectors(self.Denial_constraints,
-                                      self.holo_env,
-                                      self.dataset)
+        err_detector = ErrorDetectors(detector)
 
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
