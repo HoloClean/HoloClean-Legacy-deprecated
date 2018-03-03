@@ -565,16 +565,7 @@ class Session:
                 self._check_dc_format(line[:-1])
                 self.Denial_constraints.append(line[:-1])
 
-    def add_denial_constraint(self, denial_constraint):
-        """
-        Adds the parameter as a denial constraint to the session
-        :param denial_constraint: The string representing the first order expression for the denial constraint
-                                    Example: t1&t2&EQ(t1.ZipCode,t2.ZipCode)&IQ(t1.City,t2.City)
-        :return:
-        """
-        self.Denial_constraints.append(denial_constraint)
-
-    # Methodsdata
+    # Methods data
     def _ds_detect_errors(self):
         """
         Use added ErrorDetector to split the dataset into clean and dirty sets.
