@@ -92,13 +92,13 @@ class Mysql_DCErrorDetection:
         self.dataengine.query(query_for_featurization)
         for dc in self.final_dc:
             query = " ( " \
-                               "SELECT DISTINCT " \
-                               "table1.index as ind, " \
-                               + "'" + dc[0] + "'" + " AS attr " \
-                               " FROM  " + \
-                               self.dataset.table_specific_name("Init") + " as table1, " + \
-                               self.dataset.table_specific_name("Init") + " as  table2 " + \
-                               "WHERE table1.index != table2.index  AND " + dc[1] + " )"
+               "SELECT DISTINCT " \
+               "table1.index as ind, " \
+               + "'" + dc[0] + "'" + " AS attr " \
+               " FROM  " + \
+               self.dataset.table_specific_name("Init") + " as table1, " + \
+               self.dataset.table_specific_name("Init") + " as  table2 " + \
+               "WHERE table1.index != table2.index  AND " + dc[1] + " )"
 
             insert_dk_query = "INSERT INTO " + self.dataset.table_specific_name("C_dk_temp") + query + ";"
             self.dataengine.query(insert_dk_query)
@@ -122,11 +122,11 @@ class Mysql_DCErrorDetection:
 
         for attribute in all_attr:
             query = " ( " \
-                               "SELECT  " \
-                               "table1.index as ind, " \
-                               + "'" + attribute + "'" + " AS attr " \
-                               " FROM  " + \
-                               self.dataset.table_specific_name("Init") + " as table1 )"
+               "SELECT  " \
+               "table1.index as ind, " \
+               + "'" + attribute + "'" + " AS attr " \
+               " FROM  " + \
+               self.dataset.table_specific_name("Init") + " as table1 )"
             insert_dk_query = "INSERT INTO " + self.dataset.table_specific_name("C_clean_temp") + query + ";"
             self.dataengine.query(insert_dk_query)
         df = self.dataengine.get_table_to_dataframe('C_clean_temp', self.dataset)
