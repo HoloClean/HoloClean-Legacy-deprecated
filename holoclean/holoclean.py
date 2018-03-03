@@ -561,9 +561,10 @@ class Session:
         """
         dc_file = open(filepath, 'r')
         for line in dc_file:
-            if line.translate(None, ' \n') != '':
-                self._check_dc_format(line[:-1])
-                self.Denial_constraints.append(line[:-1])
+            if not line.isspace():
+                line = line.rstrip()
+                self._check_dc_format(line)
+                self.Denial_constraints.append(line)
 
     # Methods data
     def _ds_detect_errors(self):
