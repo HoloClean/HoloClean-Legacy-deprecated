@@ -1,37 +1,16 @@
-from holoclean.errordetection.dcerrordetector import DCErrorDetection
-from holoclean.errordetection.mysql_dcerrordetector import Mysql_DCErrorDetection
-
 class ErrorDetectors:
     """
     This class call different error detection method that we needed
     """
 
-    def __init__(self, DenialConstraints,
-                 holo_obj,
-                 dataset,
-                 detection_type=None
-                 ):
+    def __init__(self, detect_obj):
         """
-        In this class we instantiate a DC error detector and pass dataengine to
-        fill correspondence tables in data base
-        :param DenialConstraints: list of denial constraints
-        :param dataengine: list of dataengine
-        :param spark_session: spark session
-        :param dataset: dataset object for accessing tables name
-        :param detection_type: type of errordetection
+        The general class for error detection
+        :param detect_obj: an object which implements
+        get_noisy_cells, get_clean_cells
         """
-        if detection_type is None:
-            self.detect_obj = DCErrorDetection(DenialConstraints,
-                                               holo_obj,
-                                               dataset)
-        elif detection_type == "mysql_DcErrorDetection":
-            self.detect_obj = Mysql_DCErrorDetection (DenialConstraints,
-                                               holo_obj,
-                                               dataset)
+        self.detect_obj = detect_obj
 
-    # Setters:
-
-    # Getters:
 
     def get_noisy_dknow_dataframe(self, data_dataframe):
 
