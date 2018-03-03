@@ -386,7 +386,7 @@ class Session:
 
         err_detector = ErrorDetectors(self.Denial_constraints,
                                       self.holo_env,
-                                      self.dataset)
+                                      self.dataset, "mysql_DcErrorDetection")
 
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
