@@ -1,0 +1,2 @@
+class DCFormatException(Exception):
+    pass
