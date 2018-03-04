@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 
 from holoclean.holoclean import HoloClean, Session
-from holoclean.errordetection.dcerrordetector import DCErrorDetection
+from holoclean.errordetection.mysql_dcerrordetector import Mysql_DCErrorDetection
 
 class Testing:
     def __init__(self):
@@ -37,7 +37,7 @@ class Testing:
         self.session.load_denial_constraints(denial_constraints)
 
         # Error Detector
-        detector = DCErrorDetection(self.session.Denial_constraints,
+        detector = Mysql_DCErrorDetection(self.session.Denial_constraints,
                                     self.holo_obj,
                                     self.session.dataset)
         self.session.detect_errors(detector)
