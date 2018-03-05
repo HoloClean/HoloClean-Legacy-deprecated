@@ -34,7 +34,7 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 
 ## Installation
 
-This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](https://github.com/HoloClean/HoloClean-v0.01/blob/pytorch/Holoclean_Installation_v3.pdf) file in the git repo.
+This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](https://github.com/HoloClean/HoloClean/blob/pytorch-clean/docs/Holoclean_Installation_v3.pdf) file in the git repo.
 
 ### 1. Setting Up and Using Conda 
  <b>1.1 Ubuntu: </b>
@@ -52,17 +52,17 @@ bash Anaconda-2.3.0-Linux-x86_64.sh
 ```
 <h4>1.2 MacOS: <h4>
 
-Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install conda for MacOS
+Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install Anaconda (Not miniconda) for MacOS
 
 <h4> 1.3 Using Conda </h4>
-Open the terminal and create a Python 2.7 environment by running the command:
+Open/Restart the terminal and create a Python 2.7 environment by running the command:
 
 	conda create -n py27Env python=2.7 anaconda
 
 Then the environment can be activated by running:
 
 	source activate py27Env
-Make sure the keep the environment activated for the rest of the installation process
+<b> Make sure the keep the environment activated for the rest of the installation process </b>
 
 ### 2. Download and Install Spark
 
@@ -74,8 +74,6 @@ Go to the directory where you downloaded the file and run:
 tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
 pip install pyspark
 ```
-On MacOS run `brew install apache-spark` 
-
 
 ### 3. Install MySQL Server
 <b> 3.1 For Ubuntu: </b>
@@ -119,4 +117,13 @@ http://pytorch.org/
 To install pytorch
 Make sure to install version 0.3.0 or later
 
+### 6. Install JDK 8
+<b> 6.1 For Ubuntu: </b>
+Run the following command: 
+```
+sudo apt-get install default-jre
+```
+<br>
+<b> 3.2 For MacOS </b>
+Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
