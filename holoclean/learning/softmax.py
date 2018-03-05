@@ -270,7 +270,7 @@ class SoftMax:
         :param x_val: x tensor - features
         :param y_val: y tensor - output for comparison
         :param mask: masking tensor
-        :return: cost of trainingn
+        :return: cost of traininng
         """
         x = Variable(x_val, requires_grad=False)
         y = Variable(y_val, requires_grad=False)
@@ -302,7 +302,7 @@ class SoftMax:
 
         :param model: trained logreg model
         :param x_val: test x tensor
-        :param mask: masking tenxor
+        :param mask: masking tensor to restrict domain
         :return: predicted classes with probabilities
         """
         x = Variable(x_val, requires_grad=False)
