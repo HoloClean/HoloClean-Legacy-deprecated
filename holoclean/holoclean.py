@@ -17,6 +17,7 @@ from threading import Condition, Semaphore
 import threading
 from collections import deque
 import multiprocessing
+from pyspark.sql.types import *
 
 from errordetection.errordetector import ErrorDetectors
 from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
@@ -248,6 +249,7 @@ class Session:
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
+        self.pruning = None
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -528,6 +530,44 @@ class Session:
         -------
         No Return
         """
+        if new_featurizer.id == 'SignalInit':
+            maximum = self.holo_env.dataengine.query(
+                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
+                self.dataset.table_specific_name("Feature_id_map"), 1
+            ).collect()[0]['max']
+            index = maximum + 1
+            list_domain_map = [[index, 'Init', 'Init', 'Init']]
+            df_domain_map = self.holo_env.spark_session.createDataFrame(
+                list_domain_map, StructType([
+                    StructField("feature_ind", IntegerType(), True),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), False),
+                    StructField("Type", StringType(), False),
+                ]))
+            self.holo_env.dataengine.add_db_table(
+                'Feature_id_map', df_domain_map, self.dataset, append=1)
+        elif new_featurizer.id == 'SignalCooccur':
+            maximum = self.holo_env.dataengine.query(
+                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
+                self.dataset.table_specific_name("Feature_id_map"), 1
+            ).collect()[0]['max']
+            index = maximum + 1
+            list_domain_map = []
+            for attribute in self.pruning.domain_dict:
+                value_index = 1
+                for value in self.pruning.domain_dict[attribute]:
+                    list_domain_map.append([index, attribute, unicode(value), 'cooccur'])
+                    value_index += 1
+                    index += 1
+            df_domain_map = self.holo_env.spark_session.createDataFrame(
+                list_domain_map, StructType([
+                    StructField("feature_ind", IntegerType(), True),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), False),
+                    StructField("Type", StringType(), False),
+                ]))
+            self.holo_env.dataengine.add_db_table(
+                'Feature_id_map', df_domain_map, self.dataset, append=1)
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
         self.holo_env.logger.info(
@@ -627,10 +667,8 @@ class Session:
         self.holo_env.logger.info(
             'starting domain pruning with threshold %s',
             pruning_threshold)
-        Pruning(
-            self.holo_env.dataengine,
-            self.dataset,
-            self.holo_env.spark_session,
+        self.pruning = Pruning(
+            self,
             pruning_threshold)
         self.holo_env.logger.info('Domain pruning is finished')
         return
