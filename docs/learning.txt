@@ -1,0 +1,11 @@
+Learning
+========
+
+
+Currently we provide one basic models in Pytorch: Logistic regression.  See tutorials for a more in-depth explanation.
+
+.. code-block:: python
+   :linenos:
+
+   SoftMax(holo_obj.dataengine, session.dataset, holo_obj.spark_session,session.X_training)
+
