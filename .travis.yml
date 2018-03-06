@@ -78,7 +78,7 @@ install:
   - conda install --yes pytorch-cpu torchvision -c pytorch
   
   #Install pyspark
-  - conda install --yes conda-forge pyspark 
+  #- conda install --yes conda-forge pyspark 
 
   # Install all remaining dependencies as per our README
   - pip install -r python-package-requirement.txt
@@ -91,7 +91,7 @@ script:
 
   # Runs tutorial python tests
   - cd tutorial
-  - python Holoclean_Unit_Test.py
+  - python Holoclean_Hospital.py
 
 after_success:
   - killall java
