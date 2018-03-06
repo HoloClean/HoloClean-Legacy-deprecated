@@ -25,7 +25,7 @@ Noisy and erroneous data is a major bottleneck in analytics. Data cleaning and r
 </ul>
 
 <p>
-More more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/holoclean.html">blog post</a>.
+For more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/holoclean.html">blog post</a>.
 </p>
 
 ### References
@@ -115,7 +115,7 @@ pip install -r python-package-requirement.txt
 Follow instructions for your OS at:
 http://pytorch.org/
 To install pytorch
-Make sure to install version 0.3.0 or later
+Make sure to install <b>version 0.3.0</b> or later
 
 ### 6. Install JDK 8
 <b> 6.1 For Ubuntu: </b>
