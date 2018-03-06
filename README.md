@@ -99,13 +99,13 @@ sudo usr/local/mysql/bin/mysql_secure_installation
 
 <b> 3.3 Create MySQL User and Database </b>
 
-Go to the [Holoclean/installation/](https://github.com/HoloClean/HoloClean/tree/pytorch-clean/installation) directory and run the script:
+Go to the root directory and run the script:
 ```
 ./mysql_script.sh
 ```
 
 ### 4. Installing Required Packages
-Again go to the [Holoclean/](https://github.com/HoloClean/HoloClean/tree/pytorch-clean)  directory and run:
+Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
 ```
@@ -127,7 +127,7 @@ sudo apt-get install default-jre
 <b> 3.2 For MacOS </b>
 Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 6. Getting Started
+### 7. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 [Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
@@ -135,4 +135,9 @@ To get started, the following tutorials in the tutorial directory will get you f
 [Complete Pipeline](tutorial/Tutorial_2.ipynb)
 <br>
 [Error Detection](tutorial/Tutorial_3.ipynb)
+<br>
+To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
+```
+./start_notebook.sh
+```
 
