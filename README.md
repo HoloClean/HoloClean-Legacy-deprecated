@@ -34,7 +34,7 @@ More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/
 
 ## Installation
 
-This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](https://github.com/HoloClean/HoloClean/blob/pytorch-clean/docs/Holoclean_Installation_v3.pdf) file in the git repo.
+This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](docs/Holoclean_Installation_v3.pdf) file in the git repo.
 
 ### 1. Setting Up and Using Conda 
  <b>1.1 Ubuntu: </b>
@@ -129,6 +129,7 @@ Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwor
 
 ### 6. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
+<br>
 [Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
 <br>
 [Complete Pipeline](tutorial/Tutorial_2.ipynb)
