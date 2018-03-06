@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Holoclean's documentation!
-===================================
+=====================================
 
 .. image:: images/logo.png
     :width: 100
@@ -14,5 +14,4 @@ Welcome to Holoclean's documentation!
 
     holoclean
     error_detection
-    featurization
-    learning
+    repairing
