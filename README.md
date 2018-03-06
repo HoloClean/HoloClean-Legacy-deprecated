@@ -127,3 +127,9 @@ sudo apt-get install default-jre
 <b> 3.2 For MacOS </b>
 Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
+### 6. Getting Started
+To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
+[Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
+[Complete Pipeline](tutorial/Tutorial_2.ipynb)
+[Error Detection](tutorial/Tutorial_3.ipynb)
+
