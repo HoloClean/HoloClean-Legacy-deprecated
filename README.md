@@ -25,7 +25,7 @@ Noisy and erroneous data is a major bottleneck in analytics. Data cleaning and r
 </ul>
 
 <p>
-More more information read our recent <a href="http://dawn.cs.stanford.edu/2017/05/12/holoclean/">blog post</a>.
+More more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/holoclean.html">blog post</a>.
 </p>
 
 ### References
