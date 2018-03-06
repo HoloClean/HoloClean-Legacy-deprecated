@@ -25,11 +25,6 @@ if "READTHEDOCS" in os.environ:
     p.communicate()
 
 
-
-#MOCK_MODULES = ['py4j', 'py4j.protocol', 'py4j.java_gateway', 'py4j.java_collections']
-#sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
-
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
