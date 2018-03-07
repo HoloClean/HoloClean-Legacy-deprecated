@@ -1,0 +1,7 @@
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&IQ(t1.FacilityType,t2.FacilityType)
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&IQ(t1.Address,t2.Address)
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&IQ(t1.City,t2.City)
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&IQ(t1.State,t2.State)
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&IQ(t1.Zip,t2.Zip)
+t1&t2&EQ(t1.Zip,t2.Zip)&IQ(t1.State,t2.State)
+t1&t2&EQ(t1.DBAName,t2.DBAName)&EQ(t1.Location,t2.Location)&EQ(t1.Results,"Out of Business")&LTE(t1.InspectionDate,t2.InspectionDate)

@@ -1,0 +1,12 @@
+Repairing
+=========
+
+Denial Constraints are the driving force behind the repairing process. Denial constraints are used as features in a softmax regression model. The clean cells are used as training examples to learn the parameters (weights) of this model. Once those weights are defined, we use this model to perform inference on the "don't-know" cells and insert the most likely value for each cell.
+
+
+Softmax 
+----------------
+.. autoclass:: holoclean.learning.softmax.SoftMax
+    :members:
+
+
