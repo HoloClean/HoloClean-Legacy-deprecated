@@ -21,15 +21,14 @@ class DCErrorDetection:
         :param spark_session: spark session configuration
         """
         self.and_of_preds, self.null_pred = \
-            DCParser(DenialConstraints, holo_obj.dataengine, dataset).get_anded_string('all')
+            DCParser(DenialConstraints, holo_obj.dataengine, dataset)\
+            .get_anded_string('all')
         self.dataengine = holo_obj.dataengine
         self.dataset = dataset
         self.spark_session = holo_obj.spark_session
         self.holo_obj = holo_obj
-        
 
     # Private methods
-
     def _index2list(self, dataset):
         """
         Returns list of indices

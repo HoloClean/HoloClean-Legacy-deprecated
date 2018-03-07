@@ -52,14 +52,17 @@ class Accuracy:
         for rv_attr in rv_attrs:
             if rv_attr != "index" and rv_attr != "Index":
                 query_for_flattening = """ (SELECT \
-                                                  DISTINCT table1.index as tid,'""" + \
+                                       DISTINCT table1.index as tid,'""" + \
                                        rv_attr + """'  \
-                                                  AS attr_name, \
-                                                  table1.""" + rv_attr + """ AS attr_val \
-                                                  FROM """ + \
-                                       self.dataset.table_specific_name('Correct') + " as table1)"
+                                       AS attr_name, \
+                                       table1.""" + rv_attr + """ AS attr_val \
+                                       FROM """ + \
+                                       self.dataset.\
+                                       table_specific_name('Correct') +\
+                                       " as table1)"
 
-                insert_query = "INSERT INTO " + self.dataset.table_specific_name('Correct_flat') + \
+                insert_query = "INSERT INTO " + self.dataset.\
+                    table_specific_name('Correct_flat') + \
                                "( " + query_for_flattening + ");"
                 counter += 1
 
@@ -71,7 +74,8 @@ class Accuracy:
     def read(self):
         """Create a dataframe from the csv file
 
-        Takes as argument the full path name of the csv file and the spark_session
+        Takes as argument the full path name of the csv file
+        and the spark_session
         """
         self.ground_truth_flat = self.spark_session.read.csv(
             self.path_to_grand_truth, header=True)

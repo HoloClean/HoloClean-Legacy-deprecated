@@ -79,34 +79,34 @@ arguments = [
       'type': int,
       'help': 'The final output will show the k-first results '
               '(if it is 0 it will show everything)'}),
-     (('-l','--learning-rate'),
-      {'metavar':'LEARNING_RATE',
-       'dest':'learning_rate',
-       'default': 0.001,
-       'type': float,
-       'help': 'The learning rate holoclean will use during training'}),
-     (('-w', '--weight_decay'),
-      {'metavar':'WEIGHT_DECAY',
-       'dest':  'weight_decay',
-       'default': 0.9,
-       'type': float,
-       'help': 'The weight decay HoloClean will use during training, this is an L2 penalty'}),
-     (('-p', '--momentum'),
-      {'metavar':'MOMENTUM',
-       'dest': 'momentum',
-       'default': 0.0,
-       'type': float,
-       'help': 'The momentum term in the loss function'}),
+    (('-l', '--learning-rate'),
+     {'metavar': 'LEARNING_RATE',
+      'dest': 'learning_rate',
+      'default': 0.001,
+      'type': float,
+      'help': 'The learning rate holoclean will use during training'}),
+    (('-w', '--weight_decay'),
+     {'metavar': 'WEIGHT_DECAY',
+      'dest':  'weight_decay',
+      'default': 0.9,
+      'type': float,
+      'help': 'TThe L2 penalty HoloClean will use during training'}),
+    (('-p', '--momentum'),
+     {'metavar': 'MOMENTUM',
+      'dest': 'momentum',
+      'default': 0.0,
+      'type': float,
+      'help': 'The momentum term in the loss function'}),
     (('-b', '--batch-size'),
      {'metavar': 'BATCH_SIZE',
       'dest': 'batch_size',
-      'default':1,
+      'default': 1,
       'type': int,
       'help': 'The batch size during training'}),
     (('-t', '--timing-file'),
      {'metavar': 'TIMING_FILE',
       'dest': 'timing_file',
-      'default':None,
+      'default': None,
       'type': str,
       'help': 'File to save timing infomrmation'})
 ]
@@ -556,7 +556,8 @@ class Session:
             for attribute in self.pruning.domain_dict:
                 value_index = 1
                 for value in self.pruning.domain_dict[attribute]:
-                    list_domain_map.append([index, attribute, unicode(value), 'cooccur'])
+                    list_domain_map.append(
+                        [index, attribute, unicode(value), 'cooccur'])
                     value_index += 1
                     index += 1
             df_domain_map = self.holo_env.spark_session.createDataFrame(
@@ -780,7 +781,7 @@ class Session:
             self.dataset.table_specific_name(obs_possible_values) + \
             ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
-        
+
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'M' as dimension, (" \
@@ -789,7 +790,7 @@ class Session:
             + self.dataset.table_specific_name(feature_id_map) + \
             ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
-        
+
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'L' as dimension, MAX(m) as length " \
@@ -849,7 +850,7 @@ class Session:
             d = correct[cell.tid - 1].asDict()
             d[cell.attr_name] = cell.attr_val
             correct[cell.tid - 1] = Row(**d)
-            
+
         correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(
             correct)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",

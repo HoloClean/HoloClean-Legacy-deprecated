@@ -29,7 +29,7 @@ class Featurizer:
 
         for const in attr_costrained:
             specific_features += table_name + "." + attr_column_name + " = '" \
-                                 + const + "' OR "
+                + const + "' OR "
 
         specific_features = specific_features[:-4]
         specific_features += ")"
@@ -44,7 +44,8 @@ class Featurizer:
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        dc_sql_parts, nullpredicates = self.dcp.get_anded_string(conditionInd='all')
+        dc_sql_parts, nullpredicates = self.dcp.get_anded_string(
+            conditionInd='all')
         new_dcs = []
         self.final_dc = []
         self.change_pred = []
@@ -93,11 +94,11 @@ class Featurizer:
                         if index_pred != list_pred_index:
                             if first != 1:
                                 rest_new_pred = rest_new_pred + \
-                                                list_preds[index_pred]
+                                    list_preds[index_pred]
                                 first = 1
                             else:
                                 rest_new_pred = rest_new_pred + " AND " + \
-                                                list_preds[index_pred]
+                                    list_preds[index_pred]
                     self.change_pred.append(rest_new_pred)
                     new_pred_list.append(new_pred)
         new_dcs = list([])
@@ -201,9 +202,12 @@ class SignalCooccur(Featurizer):
                                "t2.value AS val_second, " \
                                "t3.feature_ind as feature_ind " \
                                "FROM " + \
-                               self.dataset.table_specific_name(name) + " t1, " + \
-                               self.dataset.table_specific_name(c) + " t2, " + \
-                               self.dataset.table_specific_name('Feature_id_map') + " t3 " \
+                               self.dataset.table_specific_name(name) +\
+                               " t1, " + \
+                               self.dataset.\
+                               table_specific_name(c) + " t2, " + \
+                               self.dataset.\
+                               table_specific_name('Feature_id_map') + " t3 " \
                                "WHERE t1.tid = t2.tid AND " \
                                "t1.attr_name != t2.attribute AND " \
                                " t3.attribute=t2.attribute AND " \
@@ -218,7 +222,8 @@ class SignalCooccur(Featurizer):
                                   " feature_ind AS feature, " \
                                   " 1 as count " \
                                   "FROM " \
-                                  + self.dataset.table_specific_name(init_flat) + \
+                                  + self.dataset.\
+                                  table_specific_name(init_flat) + \
                                   " AS cooccur  " +\
                                   "WHERE " + \
                                   self.get_constraint_attibute('cooccur',
@@ -238,7 +243,8 @@ class SignalDC(Featurizer):
         denial_constraints (i.e. Session.Denial_Constraints)
         :param dataengine: DataEngine used for the current HoloClean Session
         :param dataset: DataSet containing the current Session ID
-        :param spark_session: the Spark Session contained by the HoloClean Session
+        :param spark_session: the Spark Session contained
+        by the HoloClean Session
         """
         self.spark_session = spark_session
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)
@@ -283,15 +289,18 @@ class SignalDC(Featurizer):
                                       str(count) + " AS feature, " \
                                       "  count(table2.index) as count " \
                                       "  FROM " + \
-                                      self.dataset.table_specific_name('Init') +\
+                                      self.dataset.\
+                                      table_specific_name('Init') +\
                                       " as table1 ," + \
-                                      self.dataset.table_specific_name('Init') +\
+                                      self.dataset.\
+                                      table_specific_name('Init') +\
                                       " as table2," + \
                                       self.possible_table_name + " as postab" \
                                       " WHERE (" + \
                                       " table1.index <> table2.index AND " +\
                                       self.change_pred[index_dc] + " AND " +\
-                                      self.attributes_list[index_dc] + " AND " +\
+                                      self.attributes_list[index_dc] +\
+                                      " AND " +\
                                       new_condition +\
                                       " AND postab.tid=table1.index" \
                                       ") GROUP BY postab.vid, postab.tid," \
@@ -374,7 +383,8 @@ class SignalSource(Featurizer):
                     self.dataset.table_specific_name('Sources_temp') + \
                     " (SELECT distinct NULL AS source_index, src, attribute " \
                     "FROM " \
-                    + self.dataset.table_specific_name('Init') + " AS table1, "\
+                    + self.dataset.\
+                    table_specific_name('Init') + " AS table1, "\
                     + self.dataset.table_specific_name('Attribute_temp') + \
                     " AS table2) ;"
                 self.dataengine.query(mysql_query)
@@ -382,7 +392,8 @@ class SignalSource(Featurizer):
                 create_variable_table_query = \
                     "CREATE TABLE " + \
                     self.dataset.table_specific_name('Sources') + \
-                    "(source_index INT, name varchar(64), attribute varchar(64));"
+                    "(source_index INT, name varchar(64)," +\
+                    " attribute varchar(64));"
                 self.dataengine.query(create_variable_table_query)
 
                 mysql_query = 'INSERT INTO ' + \
@@ -390,7 +401,8 @@ class SignalSource(Featurizer):
                               "  (SELECT DISTINCT table1.source_index+" + \
                               str(maximum) + ",table1.name, attribute" \
                               " FROM " \
-                              + self.dataset.table_specific_name('Sources_temp') + \
+                              + self.dataset.\
+                              table_specific_name('Sources_temp') + \
                               " AS table1);"
                 self.dataengine.query(mysql_query)
 
@@ -398,7 +410,8 @@ class SignalSource(Featurizer):
                 create_variable_table_query = \
                     "CREATE TABLE " + \
                     self.dataset.table_specific_name('Sources_temp') + \
-                    "(source_index INT PRIMARY KEY AUTO_INCREMENT, name varchar(64));"
+                    "(source_index INT PRIMARY KEY AUTO_INCREMENT," +\
+                    " name varchar(64));"
                 self.dataengine.query(create_variable_table_query)
 
                 mysql_query = \
@@ -471,7 +484,8 @@ class SignalSource(Featurizer):
             if self.multiple_weights:
                 query_for_featurization = \
                     "(SELECT " + str(possible_value.vid) + " as vid, " \
-                    " '" + str(possible_value.domain_id) + "' as assigned_val, " \
+                    " '" + str(possible_value.domain_id) +\
+                    "' as assigned_val, " \
                     " source_index as feature, 1 as count " \
                     "FROM " + \
                     self.dataset.table_specific_name('Init') + " i" \

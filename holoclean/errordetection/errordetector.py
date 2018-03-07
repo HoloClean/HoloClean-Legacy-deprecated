@@ -11,7 +11,6 @@ class ErrorDetectors:
         """
         self.detect_obj = detect_obj
 
-
     def get_noisy_dknow_dataframe(self, data_dataframe):
 
         """
