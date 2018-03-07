@@ -36,7 +36,8 @@ class DatabaseWorker(Thread):
         name_list[6] = "_"
         name = "".join(name_list)
 
-        table_name = self.dataset.return_id() + "_" + name + "_" + self.table_name
+        table_name = self.dataset.return_id() +\
+            "_" + name + "_" + self.table_name
 
         self.list_of_names.append(table_name)
 
@@ -46,9 +47,10 @@ class DatabaseWorker(Thread):
         self.dataengine.query(query_for_featurization)
         if self.holo_env.verbose:
             printLock.acquire()
-            self.holo_env.logger.info(str(threading.currentThread().getName())
-                                      + " has created the table: " +
-                                      table_name)
+            msg = str(threading.currentThread().getName()) +\
+                " has created the table: " +\
+                table_name
+            self.holo_env.logger.info(msg)
             self.holo_env.logger.info("  ")
             printLock.release()
 
@@ -76,9 +78,9 @@ class DatabaseWorker(Thread):
             t0 = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
-                self.holo_env.logger.info(
-                    str(threading.currentThread().getName()) +
-                    " Query Started ")
+                msg = str(threading.currentThread().getName()) +\
+                    " Query Started "
+                self.holo_env.logger.info(msg)
                 printLock.release()
             self.dataengine.query(insert_signal_query)
             t1 = time.time()
@@ -86,15 +88,15 @@ class DatabaseWorker(Thread):
                 printLock.acquire()
                 self.holo_env.logger.info(
                     str(threading.currentThread().getName()) +
-                    " Query Execution time: " + str(t1-t0))
+                    " Query Execution time: " + str(t1 - t0))
                 self.holo_env.logger.info(str(insert_signal_query))
                 self.holo_env.logger.info("  ")
                 printLock.release()
         if self.holo_env.verbose:
             printLock.acquire()
-            self.holo_env.logger.info(str(threading.currentThread().getName())
-                                      + " Done executing queries")
-            print threading.currentThread().getName(), " Done executing queries"
+            msg = str(threading.currentThread().getName()) +\
+                " Done executing queries"
+            self.holo_env.logger.info(msg)
             printLock.release()
 
 
@@ -118,7 +120,13 @@ class QueryProd(Thread):
 class FeatureProducer(Thread):
     __lock = Lock()
 
-    def __init__(self, clean, cv, list_of_queries, num_of_threads, featurizers):
+    def __init__(
+            self,
+            clean,
+            cv,
+            list_of_queries,
+            num_of_threads,
+            featurizers):
         Thread.__init__(self)
         self.clean = clean
         self.cv = cv

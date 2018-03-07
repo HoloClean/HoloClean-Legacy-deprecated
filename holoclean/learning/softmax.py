@@ -328,9 +328,9 @@ class SoftMax:
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
             self.model.parameters(),
-            lr= self.holo_obj.learning_rate,
-            momentum= self.holo_obj.momentum,
-            weight_decay= self.holo_obj.weight_decay)
+            lr=self.holo_obj.learning_rate,
+            momentum=self.holo_obj.momentum,
+            weight_decay=self.holo_obj.weight_decay)
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
         for i in tqdm(range(100)):
@@ -379,8 +379,10 @@ class SoftMax:
         df2 = df_possible_values
         df_inference = df1.join(
             df2, [
-                df1.vid2 == df2.vid, df1.domain_id2 == df2.domain_id], 'inner').drop(
-            "vid2", "domain_id2")
+                df1.vid2 == df2.vid,
+                df1.domain_id2 == df2.domain_id], 'inner')\
+            .drop("vid2", "domain_id2")
+
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
 
@@ -390,4 +392,3 @@ class SoftMax:
             " has been created")
         self.dataengine.holoEnv.logger.info("  ")
         return
-
