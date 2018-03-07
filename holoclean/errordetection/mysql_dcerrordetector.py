@@ -62,9 +62,9 @@ class Mysql_DCErrorDetection:
             if components_preds[components_index] in attributes:
                 for operation in operationsarr:
                     if operation in components_preds[components_index - 1]:
-                        attribute = components_preds[
-                            components_index]
-        return attribute
+                        attr = components_preds[components_index]
+
+        return attr
 
     @staticmethod
     def _find_predicates(cond):

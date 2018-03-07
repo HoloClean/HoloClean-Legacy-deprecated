@@ -36,48 +36,46 @@ class Dataset:
     """
         Each element stand for some data that the holoclean needs or create:
 
-            id : is the unique id for the dataset and it will be used in
-            registering and retrieving data
-            Init : the initial data that get to the database from a file
-             that user give
-            C_clean : it is table with index of clean cells
+            id : unique id for the dataset and it will be used in
+             registering and retrieving data
+            Init : initial data that get to the database from a file
+             that user gives
+            C_clean : table with index of clean cells
             C_dk : is table of indices that we don't know they
              are noisy or clean
-            Possible_values_clean: is the table of all possible values
+            Possible_values_clean:  table of all possible values
              for the clean cells
             Possible_values_dk: is the table of all possible
              values for the do not know cell
-            Observed_Possible_values_clean : is the table with the observed
+            Observed_Possible_values_clean : table with the observed
              values for the clean cells
-            Observed_Possible_values_dk : is the table with the observed
+            Observed_Possible_values_dk : table with the observed
              values for the do now know cells
-            C_clean_flat: is the table for the clean cells that are
+            C_clean_flat: table for the clean cells that are
              flatted on three columns index, attribute, and value
-            C_dk_flat: is the table for the dk cells that are flatted
+            C_dk_flat: table for the dk cells that are flatted
              on three columns index, attribute, and value
-            Kij_lookup_clean: is the table with  the lenght of the
+            Kij_lookup_clean: table with  the lenght of the
              domain for each clean cell
-            Kij_lookup_dk:is the table with  the lenght of the domain
+            Kij_lookup_dk: table with  the lenght of the domain
              for each do not know cell
-            Init_flat_join:is the  self join of C_clean_flat table
-            Init_flat_join_dk: is the self join of C_dk_flat table
-            Map_schema:  is the table with the schema of the Init table
-            Feature_id_map: is the table that maps each feature to a number
-            Sources: is the table that maps each source to a number
-            Sources_temp: is a temporary table for saving the sources
-            Attribute_temp: is a temporary table for saving the attributes
-            Dimensions_clean: is  a table with the dimensions for the
+            Init_flat_join: self join of C_clean_flat table
+            Init_flat_join_dk: self join of C_dk_flat table
+            Map_schema: table with the schema of the Init table
+            Feature_id_map: table that maps each feature to a number
+            Sources: table that maps each source to a number
+            Sources_temp: a temporary table for saving the sources
+            Attribute_temp: a temporary table for saving the attributes
+            Dimensions_clean: a table with the dimensions for the
              X tensor for training
-            Dimensions_dk: is a table with the dimensions for the
+            Dimensions_dk: a table with the dimensions for the
              X tensor for learning
-            Inferred_values: is the tables with the inferred values
-            Repaired_dataset: is the dataset table after we apply
+            Inferred_values: tables with the inferred values
+            Repaired_dataset: dataset table after we apply
              repairs to initial data
-            Correct: is the table with the correct values for our dataset
-            Correct_flat: is th table with the correct data that
-             are flatted on three columns index, attribute,
-            and value
-
+            Correct: table with the correct values for our dataset
+            Correct_flat: table with the correct data that
+             are flatted on three columns index, attribute, and value
         """
 
     def __init__(self):

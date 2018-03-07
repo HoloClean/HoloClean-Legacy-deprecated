@@ -240,11 +240,11 @@ class SignalDC(Featurizer):
         """
         Create a Signal for Denial Constraints
         :param denial_constraints: The Session's current
-        denial_constraints (i.e. Session.Denial_Constraints)
+            denial_constraints (i.e. Session.Denial_Constraints)
         :param dataengine: DataEngine used for the current HoloClean Session
         :param dataset: DataSet containing the current Session ID
         :param spark_session: the Spark Session contained
-        by the HoloClean Session
+            by the HoloClean Session
         """
         self.spark_session = spark_session
         Featurizer.__init__(self, denial_constraints, dataengine, dataset)

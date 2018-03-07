@@ -90,7 +90,7 @@ arguments = [
       'dest':  'weight_decay',
       'default': 0.9,
       'type': float,
-      'help': 'TThe L2 penalty HoloClean will use during training'}),
+      'help': 'The L2 penalty HoloClean will use during training'}),
     (('-p', '--momentum'),
      {'metavar': 'MOMENTUM',
       'dest': 'momentum',
