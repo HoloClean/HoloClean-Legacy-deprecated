@@ -90,11 +90,12 @@ sudo apt-get install mysql-server
 <b> 3.2 For MacOS </b>
 
 Install and run the MySQL .dmg file for MacOS from https://dev.mysql.com/downloads/mysql/
-After the installation is finished, open system preferences and click on the MySQL icon and make sure the MySQL Server Instance is running.
+
+After the installation is finished, open system preferences and <b> click on the MySQL icon and make sure the MySQL Server Instance is running.</b>
 
 Next run :
 ```
-sudo usr/local/mysql/bin/mysql_secure_installation
+sudo /usr/local/mysql/bin/mysql_secure_installation
 ```
 
 <b> 3.3 Create MySQL User and Database </b>
