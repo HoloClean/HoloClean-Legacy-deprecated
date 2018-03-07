@@ -140,9 +140,10 @@ sudo apt-get install openjdk-8-jre
 <b> 3.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
-```
-/usr/libexec/java_home -V
-```
+
+	/usr/libexec/java_home -V
+
+<br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 ### 7. Getting Started
