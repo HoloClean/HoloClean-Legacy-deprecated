@@ -16,6 +16,15 @@ import subprocess
 
 sys.path.insert(0, os.path.abspath('../'))
 
+
+if "READTHEDOCS" in os.environ:
+    # pyspark can't be installed on the readthedocs build system
+    # due to out of memory errors. And we can't mock it either due to
+    # inheritance constraints.
+    p = subprocess.Popen("sh get_pyspark.sh".split())
+    p.communicate()
+
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -25,7 +34,7 @@ os.environ['HOLOCLEANHOME'] = os.path.abspath('..')
 # Mock imports for troublesome modules (i.e. any that use C code)
 # See: http://blog.rtwilson.com/how-to-make-your-sphinx-documentation-compile-with-readthedocs-when-youre-using-numpy-and-scipy/
 import mock
-MOCK_MODULES = ['numpy','scipy' 
+MOCK_MODULES = ['numpy','scipy','py4j','tqdm', 'py4j.protocol', 'py4j.java_gateway', 'py4j.java_collections','pandas','sqlalchemy',
   'nltk.stem.porter', 'nltk','torch','pyspark.sql.types','pyspark.sql.types.StructType','pyspark.sql.types.StructType',
   'pyspark.sql.types.IntegerType','pyspark.sql.types.DoubleType','torch.nn',
   'torch.autograd','torch.nn.functional','tqdm.tqdm',
@@ -58,9 +67,9 @@ copyright = u'2018, Holoclean team'
 author = u'Holoclean team'
 
 # The short X.Y version
-version = u'0.01'
+version = u'0.0.1'
 # The full version, including alpha/beta/rc tags
-release = u'0.01'
+release = u'0.0.1'
 
 
 # Add any paths that contain templates here, relative to this directory.
