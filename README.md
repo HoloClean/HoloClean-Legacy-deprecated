@@ -153,7 +153,6 @@ To run the tutorials in Jupyter Notebook go to the root directory in the termina
 ```
 ./start_notebook.sh
 ```
-<br>
 [Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
 <br>
 [Complete Pipeline](tutorial/Tutorial_2.ipynb)
