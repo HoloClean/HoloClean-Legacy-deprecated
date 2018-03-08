@@ -39,23 +39,26 @@ To build the docker image, run the following command:
 docker build -t holoclean/holoclean:0.1 .
 ```
 ## Running the Docker Image
-To run the Holoclean Docker. use the command:
+To run the Holoclean container. use the command:
 ```
 docker run --name holoclean -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
 ```
+Then Copy/paste the URL provided into your browser to open Jupyter notebook.
 
-When you are finished with the Holoclean Docker, close the container and remove it with the following command:
+When you are finished with Holoclean, close the container and remove it with the following command:
 ```
 docker rm holoclean
 ```
-
-Then Copy/paste the URL provided into your browser to open Jupyter notebook.
 
 ## Additional commands
 
 In order to enter the Holoclean container, use the following command:
 ```
 docker exec -it holoclean  /bin/bash
+```
+In order to mount a host directory(e.g. a dataset folder) in the Holoclean container, use the following command to run the Holoclean Docker:
+```
+docker run --name holoclean -v /host/directory:/datasets -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
 ```
 
 If you wish to enter the mysql of the container from your local machine you should first check the ip of the Holoclean container by typing:
