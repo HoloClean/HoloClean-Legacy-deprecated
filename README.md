@@ -32,112 +32,48 @@ For more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/
 * _HoloClean:Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
 
 
-## Installation
+## Building the Docker Image
 
-This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](docs/Holoclean_Installation_v3.pdf) file in the git repo.
-
-### 1. Setting Up and Using Conda 
- <b>1.1 Ubuntu: </b>
- <b>For 32 bit machines, run:</b>
- 
- ```
- wget https://3230d63b5fc54e62148ec95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86.sh
-bash Anaconda-2.3.0-Linux-x86.sh
- ```
-
-<b>For 64 bit machines, run: </b>
+To build the docker image, run the following command:
 ```
-wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
-bash Anaconda-2.3.0-Linux-x86_64.sh
+docker build -t holoclean/holoclean:0.1 .
 ```
-<h4>1.2 MacOS: <h4>
-
-Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install Anaconda (Not miniconda) for MacOS
-
-<h4> 1.3 Using Conda </h4>
-Open/Restart the terminal and create a Python 2.7 environment by running the command:
-
-	conda create -n py27Env python=2.7 anaconda
-
-Then the environment can be activated by running:
-
-	source activate py27Env
-<b> Make sure the keep the environment activated for the rest of the installation process </b>
-
-### 2. Download and Install Spark
-
-*Note: before you install spark, you may need to install Scala on your system*
-
-Download the ``spark-2.2.0-bin-hadoop2.7.tgz`` file from the [spark website](https://spark.apache.org/downloads.html)
-Go to the directory where you downloaded the file and run:
+## Running the Docker Image
+To run the Holoclean container. use the command:
 ```
-tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
-pip install pyspark
+docker run --name holoclean -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
+```
+Then Copy/paste the URL provided into your browser to open Jupyter notebook.
+
+When you are finished with Holoclean, close the container and remove it with the following command:
+```
+docker rm holoclean
 ```
 
-### 3. Install MySQL Server
-<b> 3.1 For Ubuntu: </b>
-update and upgrade your apt-get:
-```
-sudo apt-get update	
-sudo apt-get upgrade
-```
-Install MySQL by running:
-```
-sudo apt-get install mysql-server
-```
-<br>
-<b> 3.2 For MacOS </b>
+## Additional commands
 
-Install and run the MySQL .dmg file for MacOS from https://dev.mysql.com/downloads/mysql/
-After the installation is finished, open system preferences and click on the MySQL icon and make sure the MySQL Server Instance is running.
-
-Next run :
+In order to enter the Holoclean container, use the following command:
 ```
-sudo usr/local/mysql/bin/mysql_secure_installation
+docker exec -it holoclean  /bin/bash
+```
+In order to mount a host directory(e.g. a dataset folder) in the Holoclean container, use the following command to run the Holoclean Docker:
+```
+docker run --name holoclean -v /host/directory:/datasets -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
 ```
 
-<b> 3.3 Create MySQL User and Database </b>
-
-Go to the root directory and run the script:
+If you wish to enter the mysql of the container from your local machine you should first check the ip of the Holoclean container by typing:
 ```
-./mysql_script.sh
+docker inspect holoclean
 ```
-
-### 4. Installing Required Packages
-Again go to the repo's root directory directory and run:
+And then you can connect by using the following command:
 ```
-pip install -r python-package-requirement.txt
+mysql -h IPAddress -u holocleanUser -p
 ```
 
-### 5. Installing Pytorch
 
-Follow instructions for your OS at:
-http://pytorch.org/
-To install pytorch
-Make sure to install <b>version 0.3.0</b> or later
 
-### 6. Install JDK 8
-<b> 6.1 For Ubuntu: </b>
-Run the following command: 
-```
-sudo apt-get install default-jre
-```
-<br>
-<b> 3.2 For MacOS </b>
-Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 7. Getting Started
-To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
-<br>
-[Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
-<br>
-[Complete Pipeline](tutorial/Tutorial_2.ipynb)
-<br>
-[Error Detection](tutorial/Tutorial_3.ipynb)
-<br>
-To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
-```
-./start_notebook.sh
-```
+
+
+
 
