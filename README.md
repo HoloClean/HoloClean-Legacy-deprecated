@@ -62,7 +62,7 @@ Open/Restart the terminal and create a Python 2.7 environment by running the com
 Then the environment can be activated by running:
 
 	source activate py27Env
-<b> Make sure the keep the environment activated for the rest of the installation process </b>
+<b> Make sure to keep the environment activated for the rest of the installation process </b>
 
 ### 2. Download and Install Spark
 
@@ -90,12 +90,16 @@ sudo apt-get install mysql-server
 <b> 3.2 For MacOS </b>
 
 Install and run the MySQL .dmg file for MacOS from https://dev.mysql.com/downloads/mysql/
-After the installation is finished, open system preferences and click on the MySQL icon and make sure the MySQL Server Instance is running.
+<br>
+After the installation is finished: 
+<br>
+<b>open system preferences and click on the MySQL icon and make sure the MySQL Server Instance is running.</b>
 
 Next run :
 ```
-sudo usr/local/mysql/bin/mysql_secure_installation
+sudo /usr/local/mysql/bin/mysql_secure_installation
 ```
+Set a new root password and use the default options for other prompts
 
 <b> 3.3 Create MySQL User and Database </b>
 
@@ -115,29 +119,44 @@ pip install -r python-package-requirement.txt
 Follow instructions for your OS at:
 http://pytorch.org/
 To install pytorch
+<br>
+make sure to use Python 2.7 for installation (the other settings can be left as default)
+<br>
 Make sure to install <b>version 0.3.0</b> or later
+<br>
 
 ### 6. Install JDK 8
 <b> 6.1 For Ubuntu: </b>
-Run the following command: 
+<br>
+Check if you have JDK 8 installed by running
 ```
-sudo apt-get install default-jre
+java -version
+```
+If you do not have JDK 8, run the following command: 
+```
+sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 3.2 For MacOS </b>
-Download JDK for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+<b> 6.2 For MacOS </b>
+<br>
+Check if you have JDK 8 by running
+
+	/usr/libexec/java_home -V
+
+<br>
+If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 ### 7. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
+To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
+```
+./start_notebook.sh
+```
 [Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
 <br>
 [Complete Pipeline](tutorial/Tutorial_2.ipynb)
 <br>
 [Error Detection](tutorial/Tutorial_3.ipynb)
 <br>
-To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
-```
-./start_notebook.sh
-```
 
