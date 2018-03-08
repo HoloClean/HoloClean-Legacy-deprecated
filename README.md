@@ -8,7 +8,7 @@ HoloClean over Spark and PyTorch
 [![Documentation Status](https://readthedocs.org/projects/holoclean/badge/?version=latest)](http://holoclean.readthedocs.io/en/latest/?badge=latest)
 
 
-**_v0.0.1_**
+**_v0.1.0_**
 
 ## Data Cleaning with HoloClean
 <p>
@@ -36,12 +36,12 @@ For more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/
 
 To build the docker image, run the following command:
 ```
-docker build -t holoclean/holoclean:0.1 .
+docker build -t holoclean/holoclean:0.1.0 .
 ```
 ## Running the Docker Image
 To run the Holoclean container. use the command:
 ```
-docker run --name holoclean -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
+docker run --name holoclean -p 8888:8888 -p 3306  holoclean/holoclean:0.1.0 
 ```
 Then Copy/paste the URL provided into your browser to open Jupyter notebook.
 
@@ -58,7 +58,7 @@ docker exec -it holoclean  /bin/bash
 ```
 In order to mount a host directory(e.g. a dataset folder) in the Holoclean container, use the following command to run the Holoclean Docker:
 ```
-docker run --name holoclean -v /host/directory:/datasets -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
+docker run --name holoclean -v /host/directory:/datasets -p 8888:8888 -p 3306  holoclean/holoclean:0.1.0 
 ```
 
 If you wish to enter the mysql of the container from your local machine you should first check the ip of the Holoclean container by typing:
