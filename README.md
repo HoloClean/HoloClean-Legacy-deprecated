@@ -137,7 +137,7 @@ If you do not have JDK 8, run the following command:
 sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 3.2 For MacOS </b>
+<b> 6.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
 
