@@ -44,12 +44,12 @@ To run the Holoclean Docker. use the command:
 docker run --name holoclean -p 8888:8888 -p 3306  holoclean/holoclean:0.1 
 ```
 
-When you are finished with the Holoclean, close the container and remove it with the following command:
+When you are finished with the Holoclean Docker, close the container and remove it with the following command:
 ```
 docker rm holoclean
 ```
 
-Then  Copy/paste the URL provided into your browser to open jupyter notebook.
+Then Copy/paste the URL provided into your browser to open Jupyter notebook.
 
 ## Additional commands
 
