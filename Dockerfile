@@ -12,9 +12,7 @@ COPY holoclean /holoclean/holoclean/
 COPY test /holoclean/test/
 COPY datasets 	/holoclean/datasets/
 COPY tutorial   /holoclean/tutorial/
-COPY set_env.sh /holoclean/
 COPY LICENSE /holoclean/
-COPY start_notebook.sh /holoclean/
 
 WORKDIR /holoclean
 # Install VIM and git, not really needed
