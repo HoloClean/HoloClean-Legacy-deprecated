@@ -13,6 +13,9 @@ HoloClean over Spark and PyTorch
 ## Data Cleaning with HoloClean
 <p>
 Noisy and erroneous data is a major bottleneck in analytics. Data cleaning and repairing account for about <a href="https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task-survey-says/#259a5d256f63">60% of the work of data scientists</a>. To address this bottleneck, we recently introduced <a href="https://arxiv.org/abs/1702.00820">HoloClean</a>, a semi-automated data repairing framework that relies on statistical learning and inference to repair errors in structured data. In HoloClean, we build upon the paradigm of <a href="http://hazyresearch.github.io/snorkel/blog/weak_supervision.html">weak supervision</a> and demonstrate how to leverage diverse signals, including user-defined heuristic rules (such as <a href="http://dl.acm.org/citation.cfm?id=2511233">generalized data integrity constraints</a>) and external dictionaries, to repair erroneous data.
+<br>
+<br>
+HoloClean is a statistical inference engine to impute, clean, and enrich data. As a weakly supervised machine learning system, HoloClean leverages available quality rules, value correlations, reference data, and multiple other signals to build a probabilistic model that accurately captures the data generation process, and uses the model in a variety of data curation tasks. HoloClean allows data practitioners and scientists to save the enormous time they spend in building piecemeal cleaning solutions, and instead, effectively communicate their domain knowledge in a declarative way to enable accurate analytics, predictions, and insights form noisy, incomplete, and erroneous data.
 </p>
 
 
@@ -25,7 +28,7 @@ Noisy and erroneous data is a major bottleneck in analytics. Data cleaning and r
 </ul>
 
 <p>
-For more information read our <a href="http://pages.cs.wisc.edu/%7Ethodrek/blog/holoclean.html">blog post</a>.
+For more information read our <a href="https://holoclean.github.io/gh-pages/blog/holoclean.html">blog post</a>.
 </p>
 
 ### References
