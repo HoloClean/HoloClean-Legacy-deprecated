@@ -5,7 +5,6 @@ pyspark
 MySQL-python
 sqlalchemy
 mysql-connector-python-rf
-git+https://github.com/HazyResearch/numbskull@master
 numba
 torchvision
 tqdm
