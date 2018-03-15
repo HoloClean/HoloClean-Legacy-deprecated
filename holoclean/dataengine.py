@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import sqlalchemy as sqla
-import pandas as pd
 from pyspark.sql.types import *
 from utils.reader import Reader
 
@@ -194,13 +193,11 @@ class DataEngine:
         sql_query = "SELECT schem FROM metatable Where dataset_id = '" + \
                     dataset.dataset_id + "' AND  tablename = '" + \
                     table_general_name + "';"
-        mt_eng = self.db_backend
 
-        generator = pd.read_sql_query(sql_query, mt_eng)
-        dataframe = pd.DataFrame(generator)
+        df = self.query(sql_query, 0)
 
         try:
-            return dataframe.iloc[0][0]
+            return df.cursor._rows[0][0]
         except BaseException:
             return "No such element"
 

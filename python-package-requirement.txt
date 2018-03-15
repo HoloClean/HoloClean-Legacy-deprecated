@@ -1,6 +1,5 @@
 future
 Jupyter
-pandas
 numpy>=1.11
 pyspark
 MySQL-python
