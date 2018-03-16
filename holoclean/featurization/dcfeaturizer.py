@@ -41,10 +41,24 @@ class SignalDC(Featurizer):
         self.attributes_list = []
         dictionary_dc = self.parser.create_dc_map(all_dcs)
         for dc in all_dcs:
-            relax_dc = self._create_relaxed_dc(dictionary_dc, dc)
-            for dc in relax_dc:
-                all_relax_dc.append(dc)
+            relax_dcs = self._create_relaxed_dc(dictionary_dc, dc)
+            for relax_dc in relax_dcs:
+                all_relax_dc.append(relax_dc)
         return all_relax_dc
+
+    def _creating_table_name(self, name):
+        """
+        This method choose the appropriate name of the table for the query
+
+        :param name: shows the name of table that we have on the comparison
+
+        :return return the name of the table that we will use in the query
+        """
+        if name == "table1":
+            table_name = "table2"
+        else:
+            table_name = "table1"
+        return table_name
 
     def _create_relaxed_dc(self, dictionary_dc, dc_name):
         """
@@ -75,7 +89,7 @@ class SignalDC(Featurizer):
                 name_attribute = \
                     dc_predicates[predicate_index][relax_index].split(".")
                 self.attributes_list.append(name_attribute[1])
-                table_name = self.creating_table_name(name_attribute[0])
+                table_name = self._creating_table_name(name_attribute[0])
                 if relax_index == 2:
                     relax_dc = "postab.tid = " + name_attribute[0] +\
                                ".index AND " + \
@@ -95,21 +109,6 @@ class SignalDC(Featurizer):
                                    dc_predicates[predicate_index_temp][0]
                 relax_dcs.append([relax_dc, table_name])
         return relax_dcs
-
-    def creating_table_name(self, name):
-        """
-        This method choose the appropriate name of the table for the query
-
-        :param name: shows the name of table that we have on the comparison
-        :param table: return the name of the table that we will use in the query
-
-        :return a list of strings for the queries for this feature
-        """
-        if name == "table1":
-            table_name = "table2"
-        else:
-            table_name = "table1"
-        return table_name
 
     def get_query(self, clean=1, dcquery_prod=None):
         """
