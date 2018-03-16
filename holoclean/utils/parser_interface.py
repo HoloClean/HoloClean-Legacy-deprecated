@@ -120,6 +120,7 @@ class ParserInterface:
         predicate_list = []
         operations_list = ['=', '<>', '<', '>', '<=', '>=']
         predicates = dc.split(' AND ')
+        components = []
         for predicate in predicates:
             predicate_components = []
             type = 0
@@ -154,10 +155,10 @@ class ParserInterface:
         for predicate in predicates:
             component1 = predicate[2].split('.')
             component2 = predicate[3].split('.')
-            type = predicate[4]
-            if type == 1:
+            dc_type = predicate[4]
+            if dc_type == 1:
                 attributes.add(component2[1])
-            elif type == 2:
+            elif dc_type == 2:
                 attributes.add(component1[1])
             else:
                 attributes.add(component1[1])
