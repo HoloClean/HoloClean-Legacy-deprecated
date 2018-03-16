@@ -16,10 +16,7 @@ class SignalDC(Featurizer):
         """
 
         :param denial_constraints: list of denial_constraints
-        :param dataengine: a connector to database
-        :param dataset: list of tables name
-        :param spark_session: spark_session: the Spark Session contained
-            by the HoloClean Session
+        :param session: a Holoclean session
         """
 
         super(SignalDC, self).__init__(session.holo_env.dataengine,
@@ -125,7 +122,7 @@ class SignalDC(Featurizer):
             name = "Possible_values_clean"
         else:
             name = "Possible_values_dk"
-        self.possible_table_name = self.dataset.table_specific_name(name)
+        possible_table_name = self.dataset.table_specific_name(name)
 
         all_relax_dcs = self._create_all_relaxed_dc()
         dc_queries = []
@@ -160,7 +157,7 @@ class SignalDC(Featurizer):
                                       self.dataset. \
                                       table_specific_name('Init') + \
                                       " as table2," + \
-                                      self.possible_table_name + " as postab" \
+                                      possible_table_name + " as postab" \
                                       " WHERE (" + \
                                       " table1.index < table2.index AND " + \
                                       relax_dc + \
