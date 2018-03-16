@@ -26,7 +26,7 @@ class ParserInterface:
         :param dc: denial constraint to be checked
         :param dc: all currently added dc's
 
-        :return nothing if dc is correctly formatted
+        :return the dc if dc is correctly formatted
         raises exception if incorrect
         """
 
@@ -68,7 +68,9 @@ class ParserInterface:
         if not self._check_dc_attributes(dc):
             raise DCFormatException("DC uses attribute not in schema")
 
-    def get_anded_dcs(self, dcs):
+        return dc
+
+    def get_CNF_of_dcs(self, dcs):
         """
         takes a list of DCs and returns the SQL condition for each DC
 
@@ -84,7 +86,7 @@ class ParserInterface:
         a list of its predicates for the value
 
         Example Output:
-        {'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City':
+        {'(table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City)':
             [
                 ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
                 ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]
@@ -103,7 +105,7 @@ class ParserInterface:
     def find_predicates(self, dc):
         """
         This method finds the predicates of dc"
-        input example: 'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City'
+        input example: '(table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City)'
 
         output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
         ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]]
