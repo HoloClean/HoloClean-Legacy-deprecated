@@ -170,7 +170,7 @@ class ParserInterface:
         :param dcs: list of string representation of DCs
         :return: list of attributes
         """
-        dcparser = DCParser([dcs])
+        dcparser = DCParser(dcs)
         return dcparser.get_constrainted_attributes(self.dataengine, self.session.dataset)
 
     # private methods
