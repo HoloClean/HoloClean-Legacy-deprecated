@@ -68,6 +68,16 @@ class ParserInterface:
         if not self._check_dc_attributes(dc):
             raise DCFormatException("DC uses attribute not in schema")
 
+    def get_anded_dcs(self, dcs):
+        """
+        takes a list of DCs and returns the SQL condition for each DC
+
+        :param dcs: list of string representation of DCs
+        :return: returns list of SQL conditions
+        """
+        dcparser = DCParser([dcs])
+        return dcparser.get_anded_string()
+
     def create_dc_map(self, dcs):
         """
         Returns a dictionary that takes a dc as a string for a key and takes
