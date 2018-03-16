@@ -93,17 +93,19 @@ class Mysql_DCErrorDetection:
             "(ind INT, attr VARCHAR(255));"
         self.dataengine.query(query_for_featurization)
         for dc in self.final_dc:
-            query = " ( " \
-                "SELECT DISTINCT " \
-                "table1.index as ind, " \
-                + "'" + dc[0] + "'" + " AS attr " \
-                " FROM  " + \
-                self.dataset.table_specific_name("Init") + " as table1, " + \
-                self.dataset.table_specific_name("Init") + " as  table2 " + \
-                "WHERE table1.index != table2.index  AND " + dc[1] + " )"
-            insert_dk_query = "INSERT INTO " + \
-                self.dataset.table_specific_name("C_dk_temp") + query + ";"
-            self.dataengine.query(insert_dk_query)
+            tables = ["table1", "table2"]
+            for table in tables:
+                query = " ( " \
+                    "SELECT DISTINCT " +\
+                    table + ".index as ind, " \
+                    + "'" + dc[0] + "'" + " AS attr " \
+                    " FROM  " + \
+                    self.dataset.table_specific_name("Init") + " as table1, " + \
+                    self.dataset.table_specific_name("Init") + " as  table2 " + \
+                    "WHERE table1.index != table2.index  AND " + dc[1] + " )"
+                insert_dk_query = "INSERT INTO " + \
+                    self.dataset.table_specific_name("C_dk_temp") + query + ";"
+                self.dataengine.query(insert_dk_query)
         df = self.dataengine.get_table_to_dataframe('C_dk_temp', self.dataset)
         c_dk_dataframe = df.distinct()
 
