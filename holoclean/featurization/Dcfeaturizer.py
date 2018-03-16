@@ -1,7 +1,7 @@
 from featurizer import Featurizer
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
-
+__metaclass__ = type
 
 
 class SignalDC(Featurizer):
@@ -21,10 +21,10 @@ class SignalDC(Featurizer):
             by the HoloClean Session
         """
 
-        super.__init__(session.dataengine, session.dataset)
+        super(SignalDC, self).__init__(session.holo_env.dataengine, session.dataset)
         self.id = "SignalDC"
         self.denial_constraints = denial_constraints
-        self.spark_session = session.spark_session
+        self.spark_session = session.holo_env.spark_session
         self.parser = session.parser
         self.table_name = self.dataset.table_specific_name('Init')
 
@@ -34,7 +34,7 @@ class SignalDC(Featurizer):
 
         :return: a list of all the possible relaxed DC's
         """
-        all_dcs = self.parser.get_anded_string(self.denial_constraints)
+        all_dcs = self.parser.get_anded_dcs(self.denial_constraints)
         all_relax_dc = []
         self.attributes_list = []
         dictionary_dc = self.parser.create_dc_map(all_dcs)
@@ -142,10 +142,10 @@ class SignalDC(Featurizer):
                                                    "  count(" + table_name + ".index) as count " \
                                                                              "  FROM " + \
                                       self.dataset. \
-                                          table_specific_name('Init') + \
+                                      table_specific_name('Init') + \
                                       " as table1 ," + \
                                       self.dataset. \
-                                          table_specific_name('Init') + \
+                                      table_specific_name('Init') + \
                                       " as table2," + \
                                       self.possible_table_name + " as postab" \
                                                                  " WHERE (" + \

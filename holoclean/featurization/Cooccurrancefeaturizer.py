@@ -1,6 +1,9 @@
 from featurizer import Featurizer
 
 
+__metaclass__ = type
+
+
 class SignalCooccur(Featurizer):
     """
     This class is a subclass of the Featurizer class and
@@ -16,9 +19,9 @@ class SignalCooccur(Featurizer):
         :param dataset: list of tables name
         """
 
-        super.__init__(dataengine, dataset)
+        super(SignalCooccur, self).__init__(dataengine, dataset)
         self.id = "SignalCooccur"
-        self.attr_constrained = attr_constrained
+        self.attr_costrained = attr_constrained
         self.table_name = self.dataset.table_specific_name('Init')
 
     def _get_constraint_attibute(self, table_name, attr_column_name):
@@ -39,7 +42,6 @@ class SignalCooccur(Featurizer):
         specific_features = specific_features[:-4]
         specific_features += ")"
         return specific_features
-
 
     def get_query(self, clean=1):
         """
@@ -95,6 +97,5 @@ class SignalCooccur(Featurizer):
                                   table_specific_name(init_flat) + \
                                   " AS cooccur  " +\
                                   "WHERE " + \
-                                  self.get_constraint_attibute('cooccur',
-                                                               'attr_first')
+                                  self._get_constraint_attibute('cooccur', 'attr_first')
         return query_for_featurization

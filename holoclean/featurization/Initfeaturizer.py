@@ -1,5 +1,9 @@
 from featurizer import Featurizer
 
+
+__metaclass__ = type
+
+
 class SignalInit(Featurizer):
     """
     This class is a subclass of the Featurizer class and
@@ -15,9 +19,9 @@ class SignalInit(Featurizer):
         :param dataset: list of tables name
         """
 
-        super.__init__(dataengine, dataset)
+        super(SignalInit, self).__init__(dataengine, dataset)
         self.id = "SignalInit"
-        self.attr_constrained = attr_constrained
+        self.attr_costrained = attr_constrained
         self.table_name = self.dataset.table_specific_name('Init')
 
     def _get_constraint_attibute(self, table_name, attr_column_name):

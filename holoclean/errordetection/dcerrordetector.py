@@ -1,7 +1,8 @@
 from holoclean.utils.dcparser import DCParser
+from abstract_errordetector import Abstract_Error_Detection
 
 
-class DCErrorDetection:
+class DCErrorDetection(Abstract_Error_Detection):
     """
     This class return error
     cells and clean
@@ -10,7 +11,6 @@ class DCErrorDetection:
     """
 
     def __init__(self, DenialConstraints, holo_obj, dataset):
-
         """
         This constructor at first convert all denial constraints
         to the form of SQL constraints
@@ -20,13 +20,10 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds, self.null_pred = \
-            DCParser(DenialConstraints)\
+        super(DCErrorDetection, self).__init__(holo_obj, dataset)
+        self.and_of_preds = DCParser(
+            DenialConstraints)\
             .get_anded_string('all')
-        self.dataengine = holo_obj.dataengine
-        self.dataset = dataset
-        self.spark_session = holo_obj.spark_session
-        self.holo_obj = holo_obj
 
     # Private methods
     def _index2list(self, dataset):
@@ -105,10 +102,6 @@ class DCErrorDetection:
                 pred = self.and_of_preds[dc_count]
                 result = result.\
                     unionAll(self._make_cells(violation[dc_count], pred))
-        for dc_count in range(0, len(self.null_pred)):
-            pred = self.null_pred[dc_count]
-            result = result. \
-                unionAll(self._make_cells(nullcells[dc_count], pred))
         return result.distinct()
 
     def get_clean_cells(self, dataframe, noisy_cells):

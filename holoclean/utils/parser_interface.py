@@ -75,7 +75,7 @@ class ParserInterface:
         :param dcs: list of string representation of DCs
         :return: returns list of SQL conditions
         """
-        dcparser = DCParser([dcs])
+        dcparser = DCParser(dcs)
         return dcparser.get_anded_string()
 
     def create_dc_map(self, dcs):
@@ -183,7 +183,7 @@ class ParserInterface:
         :return: True if all attributes are in the dataset, False otherwise
         """
         dcparser = DCParser([dc])
-        attributes = self.get_dc_attributes(dcparser.get_anded_string()[0][0])
+        attributes = self.get_dc_attributes(dcparser.get_anded_string()[0])
         schema = DCParser.get_all_attribute(self.dataengine, self.session.dataset)
         for attribute in attributes:
             if attribute not in schema:
