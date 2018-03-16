@@ -10,7 +10,7 @@ class Abstract_Error_Detection:
 
     def __init__(self, holo_obj, dataset):
         """
-        :param dataengine: a connector to database
+        :param holo_obj: a holoclean object
         :param dataset: list of tables name
         """
         self.dataengine = holo_obj.dataengine
