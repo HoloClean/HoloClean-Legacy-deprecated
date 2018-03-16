@@ -279,7 +279,8 @@ class Pruning:
 
     def _create_dataframe(self):
         """
-        creates a spark dataframe from cell_domain for all the cells
+        creates Possible_values table from cell_domains for all the cells
+        
         :return:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
