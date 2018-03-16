@@ -13,8 +13,8 @@ from dataset import Dataset
 from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, \
     DCQueryProducer
 from utils.pruning import Pruning
+from utils.parser_interface import ParserInterface
 from threading import Condition, Semaphore
-import threading
 from collections import deque
 import multiprocessing
 from pyspark.sql.types import *
@@ -23,9 +23,7 @@ from errordetection.errordetector import ErrorDetectors
 from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
-from utils.reader import Reader
 
-from DCFormatException import DCFormatException
 
 # Define arguments for HoloClean
 arguments = [
@@ -136,7 +134,6 @@ class _Barrier:
     def wait(self):
         self.mutex.acquire()
         self.count = self.count + 1
-        string_name = str(threading.currentThread().getName())
         count = self.count
         self.mutex.release()
         if count == self.n:
@@ -244,12 +241,14 @@ class Session:
         # Initialize members
         self.name = name
         self.holo_env = holo_env
-        self.dataset = None
         self.Denial_constraints = []
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
         self.pruning = None
+        self.dataset = Dataset()
+
+        self.parser = ParserInterface(self)
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -281,19 +280,21 @@ class Session:
 
     def load_denial_constraints(self, file_path):
         """ Loads denial constraints from line-separated txt file
+            into self.Denial_constraints
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        self._denial_constraints(file_path)
+        new_denial_constraints = self.parser.load_denial_constraints(
+            file_path, self.Denial_constraints)
+        self.Denial_constraints.extend(new_denial_constraints)
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
-        """ add denial constraints piecemeal from string
+        """ add denial constraints piecemeal from string into self.Denial_constraints
         :param dc: string in dc format
         :return: string array of dc's
         """
-        self._check_dc_format(dc)
-
+        self.parser.check_dc_format(dc, self.Denial_constraints)
         self.Denial_constraints.append(dc)
         return self.Denial_constraints
 
@@ -309,52 +310,6 @@ class Session:
             raise IndexError("Given Index Out Of Bounds")
 
         return self.Denial_constraints.pop(index)
-
-    def _check_dc_format(self, dc):
-        """
-        determines whether or not the dc is formatted correctly
-        used before adding any dc to the list
-
-        :param dc: denial constraint to be checked
-
-        :return nothing if dc is correctly formatted
-        raises exception if incorrect
-        """
-
-        if dc in self.Denial_constraints:
-            raise DCFormatException("Duplicate Denial Constraint")
-
-        split_dc = dc.split('&')
-
-        if len(split_dc) < 3:
-            raise DCFormatException("Invalid DC: Missing Information")
-
-        if split_dc[0] != 't1' or split_dc[1] != 't2':
-            raise DCFormatException("Invalid DC: "
-                                    "Tuples Not Defined Correctly")
-
-        operators = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
-
-        for inequality in split_dc[2:]:
-            split_ie = inequality.split('(')
-
-            if len(split_ie) != 2:
-                raise DCFormatException("Invalid DC: "
-                                        "Inequality Not Defined Correctly")
-
-            if split_ie[0] == '':
-                raise DCFormatException("Invalid DC: "
-                                        "Missing Operator")
-
-            if split_ie[0] not in operators:
-                raise DCFormatException("Invalid DC: "
-                                        "Operator Must Be In " +
-                                        str(operators))
-
-            split_tuple = split_ie[1].split(',')
-            if len(split_tuple) != 2:
-                raise DCFormatException("Invalid DC: "
-                                        "Tuple Not Defined Correctly")
 
     def load_clean_data(self, file_path):
         """
@@ -512,7 +467,6 @@ class Session:
         No Return
         """
         self.holo_env.logger.info('ingesting file:' + src_path)
-        self.dataset = Dataset()
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         self.holo_env.logger.info(
             'creating dataset with id:' +
@@ -591,19 +545,6 @@ class Session:
         self.error_detectors.append(new_error_detector)
         self.holo_env.logger.info('getting new for error detection')
         return
-
-    def _denial_constraints(self, filepath):
-        """
-        Read a textfile containing the the Denial Constraints
-        :param filepath: The path to the file containing DCs
-        :return: None
-        """
-        dc_file = open(filepath, 'r')
-        for line in dc_file:
-            if not line.isspace():
-                line = line.rstrip()
-                self._check_dc_format(line)
-                self.Denial_constraints.append(line)
 
     # Methods data
     def _ds_detect_errors(self):

@@ -20,7 +20,7 @@ class Mysql_DCErrorDetection:
         :param spark_session: spark session configuration
         """
         self.and_of_preds, self.null_pred = DCParser(
-            DenialConstraints, holo_obj.dataengine, dataset)\
+            DenialConstraints)\
             .get_anded_string('all')
         self.dataengine = holo_obj.dataengine
         self.dataset = dataset
