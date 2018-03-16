@@ -32,23 +32,16 @@ class Mysql_DCErrorDetection:
         """
         For each dc we change the predicates, and return the new type of dc
         """
-        table_attribute_string = self.dataengine.get_schema(
-            self.dataset, "Init")
-        attributes = table_attribute_string.split(',')
         self.final_dc = []
         for dc_part in self.and_of_preds:
             list_preds = self._find_predicates(dc_part)
             for predicate in list_preds:
-                attribute = self._change_predicates_for_query(
-                    predicate, attributes)
-                if attribute == "None":
-                    pass
-                else:
-                    self.final_dc.append([attribute, dc_part])
+                attribute = self._find_predicate(predicate)
+                self.final_dc.append([attribute, dc_part])
 
         return
 
-    def _change_predicates_for_query(self, pred, attributes):
+    def _find_predicate(self, predicate):
         """
                 For each predicates we change it to the form that we need for
                 the query to create the featurization table
@@ -59,16 +52,15 @@ class Mysql_DCErrorDetection:
         """
 
         operationsarr = ['<>', '<=', '>=', '=', '<', '>']
-
-        components_preds = pred.split('.')
-        for components_index in (0, len(components_preds) - 1):
-            if components_preds[components_index] in attributes:
-                for operation in operationsarr:
-                    if operation in components_preds[components_index - 1]:
-                        attr = components_preds[components_index]
-            else:
-                attr = "None"
-
+        for operation in operationsarr:
+            if operation in predicate:
+                componets = predicate.split(operation)
+                for component in componets:
+                    if component.find("table1.") == -1 and component.find("table2.") == -1:
+                        pass
+                    else:
+                        attribute = component.split(".")
+                        attr = attribute[1]
         return attr
 
     @staticmethod
