@@ -19,7 +19,7 @@ class Mysql_DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds, self.null_pred = DCParser(
+        self.and_of_preds = DCParser(
             DenialConstraints, holo_obj.dataengine, dataset)\
             .get_anded_string('all')
         self.dataengine = holo_obj.dataengine
@@ -41,7 +41,10 @@ class Mysql_DCErrorDetection:
             for predicate in list_preds:
                 attribute = self._change_predicates_for_query(
                     predicate, attributes)
-                self.final_dc.append([attribute, dc_part])
+                if attribute == "None":
+                    pass
+                else:
+                    self.final_dc.append([attribute, dc_part])
 
         return
 
@@ -63,6 +66,8 @@ class Mysql_DCErrorDetection:
                 for operation in operationsarr:
                     if operation in components_preds[components_index - 1]:
                         attr = components_preds[components_index]
+            else:
+                attr = "None"
 
         return attr
 

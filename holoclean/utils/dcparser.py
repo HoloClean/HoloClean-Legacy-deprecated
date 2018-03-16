@@ -30,8 +30,7 @@ class DCParser:
         """
 
         dcSql = []
-        finalnull = []
-
+    
         usedOperations = []
         numOfContraints = len(self. denial_constraints)
 
@@ -63,16 +62,13 @@ class DCParser:
                 dc2sql = dc2sql.replace(firstTuple,'table1').\
                     replace(secondTuple,'table2')
 
-                nulsql = 'table1.' + predLeft.split('.')[1] + " IS NULL"
-                nullsql.append(nulsql)
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
             usedOperations.append(dcOperations)
 
             dcSql.append(dc2sqlpred)
-            finalnull.append(nullsql)
 
-        return dcSql, usedOperations, finalnull
+        return dcSql, usedOperations
 
     # Setters:
 
@@ -95,11 +91,9 @@ class DCParser:
         :param conditionInd: int
         :return: string or list[string]
         """
-        nulllist = []
         if conditionInd == 'all':
             andlist = []
-            nulllist = []
-            result, dc, nullsql = self._dc_to_sql_condition()
+            result, dc = self._dc_to_sql_condition()
             count = 0
             for parts in result:
                 strRes = str(parts[0])
@@ -108,12 +102,7 @@ class DCParser:
                         strRes = strRes+" AND "+str(parts[i])
                 andlist.append(strRes)
                 count += 1
-            for sql1 in nullsql:
-                for null_part in sql1:
-                    strRes1 = ""
-                    strRes1 += str(null_part)
-                nulllist.append(strRes1)
-            return andlist, nulllist
+            return andlist
 
         else:
             result, dc = self._dc_to_sql_condition()
@@ -122,7 +111,7 @@ class DCParser:
             if len(parts) > 1:
                 for i in range(1, len(parts)):
                     strRes = strRes+" AND "+str(parts[i])
-            return strRes, nulllist
+            return strRes
 
     @staticmethod
     def get_attribute(cond, all_table_attribuites):
@@ -162,7 +151,7 @@ class DCParser:
         :return: list of attributes
         """
         all_attributes = self.get_all_attribute(dataengine, dataset)
-        and_of_preds, nothing = self.get_anded_string('all')
+        and_of_preds = self.get_anded_string('all')
         result = set({'index'})
         for cond in and_of_preds:
             tmp_list = self.get_attribute(cond, all_attributes)

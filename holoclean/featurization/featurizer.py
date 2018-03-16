@@ -6,8 +6,8 @@ key = 'flight'
 
 class Featurizer:
     """
-    parent class for all the signals
-    """
+        parent class for all the signals
+        """
 
     def __init__(self, denial_constraints, dataengine, dataset):
         """
@@ -21,6 +21,7 @@ class Featurizer:
         self.table_name = self.dataset.table_specific_name('Init')
         self.dcp = DCParser(self.denial_constraints, dataengine, dataset)
 
+
     def get_constraint_attibute(self, table_name, attr_column_name):
         attr_costrained = self.dcp.get_constrainted_attributes(
             self.dataengine, self.dataset)
@@ -29,14 +30,13 @@ class Featurizer:
 
         for const in attr_costrained:
             specific_features += table_name + "." + attr_column_name + " = '" \
-                + const + "' OR "
+                                 + const + "' OR "
 
         specific_features = specific_features[:-4]
         specific_features += ")"
-
         return specific_features
 
-    # Internal Method
+        # Internal Method
     def _create_new_dc(self):
         """
         For each dc we change the predicates, and return the new type of dc
@@ -44,80 +44,109 @@ class Featurizer:
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
         attributes = table_attribute_string.split(',')
-        dc_sql_parts, nullpredicates = self.dcp.get_anded_string(
+        all_dcs  = self.dcp.get_anded_string(
             conditionInd='all')
-        new_dcs = []
+        all_relax_dc = []
         self.final_dc = []
         self.change_pred = []
         self.attributes_list = []
-        for dc_part in dc_sql_parts:
-            list_preds = self._find_predicates(dc_part)
-            new_dc = self._change_predicates_for_query(list_preds, attributes)
-            for dc in new_dc:
-                new_dcs.append(dc)
-                self.final_dc.append(dc_part)
-        return new_dcs
+        dictionary_dc = self.create_dc_map(all_dcs)
+        for dc in all_dcs:
+            relax_dc = self._create_relaxes(dictionary_dc, dc)
+            for dc in relax_dc:
+                all_relax_dc.append(dc)
+        return all_relax_dc
 
-    def _change_predicates_for_query(self, list_preds, attributes):
+    def _create_relaxes(self, dictionary_dc, dc_name):
+        relax_dcs = []
+        dc_predicates = dictionary_dc[dc_name]
+        for predicate_index in range(0, len(dc_predicates)):
+            predicate_type = dc_predicates[predicate_index][4]
+            operation = dc_predicates[predicate_index][1]
+            component1 = dc_predicates[predicate_index][2]
+            component2 = dc_predicates[predicate_index][3]
+            if predicate_type == 0:
+                relax_indices = range(2, 4)
+            elif predicate_type == 1:
+                relax_indices = range(3, 4)
+            elif predicate_type == 2:
+                relax_indices = range(2, 3)
+            else:
+                raise ValueError('predicate type can only be 0, 1 or 2')
+            for i in relax_indices:
+                relax_dc = ""
+                attributes = dc_predicates[predicate_index][i].split(".")
+                self.attributes_list.append(attributes[1])
+                table_name = self.creating_table_name(attributes[0])
+                if i == 2:
+                    relax_dc = "postab.attr_name ='"+attributes[1] + "' AND " + "postab.attr_val" + operation + \
+                               component2 + " AND postab.tid = "+attributes[0] + ".index"
+                else:
+                    relax_dc = "postab.attr_name = '"+attributes[1] + "' AND " + component1 + operation + \
+                    "postab.attr_val" +" AND postab.tid = "+attributes[0] + ".index"
+
+                for predicate_index_temp in range(0, len(dc_predicates)):
+                    if predicate_index_temp != predicate_index:
+                        relax_dc = relax_dc + " AND  " + dc_predicates[predicate_index_temp][0]
+                relax_dcs.append([relax_dc,table_name])
+        return relax_dcs
+
+    def creating_table_name(self, name):
+        if name == "table1":
+            table_name = "table2"
+        else:
+            table_name = "table1"
+        return table_name
+
+    def create_dc_map(self, dcs):
         """
-                For each predicates we change it to the form that we need for
-                the query to create the featurization table
-                Parameters
-                --------
-                list_preds: a list of all the predicates of a dc
-                attributes: a list of attributes of our initial table
+        creates a list of dictionaries which contains the dc and each predicates
+
         """
-
-        operationsarr = ['<>', '<=', '>=', '=', '<', '>']
-        new_pred_list = []
-        for list_pred_index in range(0, len(list_preds)):
-            components_preds = list_preds[list_pred_index].split('.')
-            new_pred = ""
-            rest_new_pred = ""
-            first = 0
-            for components_index in (0, len(components_preds) - 1):
-                if components_preds[components_index] in attributes:
-                    for operation in operationsarr:
-                        if operation in components_preds[components_index - 1]:
-                            left_component = components_preds[
-                                components_index - 1].split(
-                                operation)
-                            self.attributes_list.append(
-                                "postab.attr_name= '" + components_preds[
-                                    components_index] + "'")
-                            new_pred = "postab.attr_val" + operation + \
-                                       left_component[1] + "." + \
-                                       components_preds[components_index]
-                            break
-
-                    for index_pred in range(0, len(list_preds)):
-                        if index_pred != list_pred_index:
-                            if first != 1:
-                                rest_new_pred = rest_new_pred + \
-                                    list_preds[index_pred]
-                                first = 1
-                            else:
-                                rest_new_pred = rest_new_pred + " AND " + \
-                                    list_preds[index_pred]
-                    self.change_pred.append(rest_new_pred)
-                    new_pred_list.append(new_pred)
-        new_dcs = list([])
-        new_dcs.append(new_pred_list[0])
-        for pred_index in range(1, len(new_pred_list)):
-            new_dcs.append(new_pred_list[pred_index])
-        return new_dcs
+        dictionary_dc = {}
+        for dc in dcs:
+            list_preds = self._find_predicates(dc)
+            dictionary_dc[dc] = list_preds
+        return dictionary_dc
 
     @staticmethod
-    def _find_predicates(cond):
+    def _find_predicates(dc):
         """
         This method finds the predicates of dc"
-        :param cond: a denial constrain
-        :rtype: list_preds: list of predicates
+        input example: '(table1.ZipCode=table2.ZipCode)and(table1.City,table2.City)'
+
+        output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
+        ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]
+
+        :param dc: a denial constraint
+        :rtype: predicate_list: list of predicates and it's componenents and type:
+                        [full predicate string, component 1, component 2, 0=no literal 1=component 1 is literal ]
         """
 
-        list_preds = cond.split(' AND ')
-        return list_preds
+        predicate_list = []
+        operations_list = ['=', '<>','<', '>',  '<=', '>=']
+        predicates = dc.split(' AND ')
+        for predicate in predicates:
+            predicate_components = []
+            type = 0
+            predicate_components.append(predicate)
+            for operation in operations_list:
+                if operation in predicate:
+                    componets = predicate.split(operation)
+                    predicate_components.append(operation)
+                    break
 
+            component_index = 1
+            for component in componets:
+                if component.find("table1.") == -1 and component.find("table2.") == -1:
+                    type = component_index
+                predicate_components.append(component)
+                component_index = component_index + 1
+
+            predicate_components.append(type)
+            predicate_list.append(predicate_components)
+
+        return predicate_list
 
 class SignalInit(Featurizer):
     """
@@ -260,7 +289,7 @@ class SignalDC(Featurizer):
             name = "Possible_values_dk"
         self.possible_table_name = self.dataset.table_specific_name(name)
 
-        new_dc = self._create_new_dc()
+        all_relax_dcs = self._create_new_dc()
         dc_queries = []
 
         if clean:
@@ -279,15 +308,14 @@ class SignalDC(Featurizer):
 
         map_dc = []
         feature_map = []
-        for index_dc in range(0, len(new_dc)):
-            relax_dc = new_dc[index_dc] + self.attributes_list[index_dc]
-            map_dc.append([str(count), relax_dc, self.final_dc[index_dc]])
-            new_condition = new_dc[index_dc]
+        for index_dc in range(0, len(all_relax_dcs)):
+            relax_dc = all_relax_dcs[index_dc][0]
+            table_name = all_relax_dcs[index_dc][1]
             query_for_featurization = "(SELECT" \
                                       " postab.vid as vid, " \
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
-                                      "  count(table2.index) as count " \
+                                      "  count(" + table_name + ".index) as count " \
                                       "  FROM " + \
                                       self.dataset.\
                                       table_specific_name('Init') +\
@@ -297,12 +325,8 @@ class SignalDC(Featurizer):
                                       " as table2," + \
                                       self.possible_table_name + " as postab" \
                                       " WHERE (" + \
-                                      " table1.index <> table2.index AND " +\
-                                      self.change_pred[index_dc] + " AND " +\
-                                      self.attributes_list[index_dc] +\
-                                      " AND " +\
-                                      new_condition +\
-                                      " AND postab.tid=table1.index" \
+                                      " table1.index < table2.index AND " + \
+                                      relax_dc +\
                                       ") GROUP BY postab.vid, postab.tid," \
                                       "postab.attr_name, postab.domain_id"
             dc_queries.append(query_for_featurization)
@@ -312,7 +336,7 @@ class SignalDC(Featurizer):
 
             if clean:
                 feature_map.append([count, self.attributes_list[index_dc],
-                                    self.final_dc[index_dc], "DC"])
+                                    relax_dc, "DC"])
             count += 1
 
         if clean:
@@ -328,196 +352,3 @@ class SignalDC(Featurizer):
 
         return dc_queries
 
-
-class SignalSource(Featurizer):
-    def __init__(self, denial_constraints, dataengine, dataset,
-                 spark_session, clean, multiple_weights=0):
-        """
-        Parameters
-        --------
-        denial_constraints,dataengine,dataset
-        """
-        self.spark_session = spark_session
-        Featurizer.__init__(self, denial_constraints, dataengine, dataset)
-        self.id = "SignalSource"
-        self.create_tables(clean, multiple_weights)
-        self.multiple_weights = multiple_weights
-
-    def create_tables(self, clean, multiple_weights):
-        if clean:
-            maximum = self.dataengine.query(
-                "SELECT MAX(feature_ind) as max FROM " +
-                self.dataset.table_specific_name("Feature_id_map"), 1
-            ).collect()[0]['max']
-
-        if clean:
-            if multiple_weights == 1:
-                table_attribute_string = self.dataengine.get_schema(
-                    self.dataset, 'Init')
-                attributes = table_attribute_string.split(',')
-
-                create_variable_table_query = \
-                    "CREATE TABLE " + \
-                    self.dataset.table_specific_name('Attribute_temp') + \
-                    "(attribute varchar(64));"
-                self.dataengine.query(create_variable_table_query)
-
-                for attribute in attributes:
-                    if attribute != "index" and attribute != "src" and \
-                            attribute != key:
-                        mysql_query = 'INSERT INTO ' + \
-                                      self.dataset.table_specific_name(
-                                          'Attribute_temp') + \
-                                      " VALUES('" + attribute + "');"
-                        self.dataengine.query(mysql_query)
-
-                create_variable_table_query = \
-                    "CREATE TABLE " + \
-                    self.dataset.table_specific_name('Sources_temp') + \
-                    "(source_index INT PRIMARY KEY AUTO_INCREMENT,"\
-                    "name varchar(64), attribute varchar(64));"
-                self.dataengine.query(create_variable_table_query)
-
-                mysql_query = \
-                    'INSERT INTO ' + \
-                    self.dataset.table_specific_name('Sources_temp') + \
-                    " (SELECT distinct NULL AS source_index, src, attribute " \
-                    "FROM " \
-                    + self.dataset.\
-                    table_specific_name('Init') + " AS table1, "\
-                    + self.dataset.table_specific_name('Attribute_temp') + \
-                    " AS table2) ;"
-                self.dataengine.query(mysql_query)
-
-                create_variable_table_query = \
-                    "CREATE TABLE " + \
-                    self.dataset.table_specific_name('Sources') + \
-                    "(source_index INT, name varchar(64)," +\
-                    " attribute varchar(64));"
-                self.dataengine.query(create_variable_table_query)
-
-                mysql_query = 'INSERT INTO ' + \
-                              self.dataset.table_specific_name('Sources') + \
-                              "  (SELECT DISTINCT table1.source_index+" + \
-                              str(maximum) + ",table1.name, attribute" \
-                              " FROM " \
-                              + self.dataset.\
-                              table_specific_name('Sources_temp') + \
-                              " AS table1);"
-                self.dataengine.query(mysql_query)
-
-            else:
-                create_variable_table_query = \
-                    "CREATE TABLE " + \
-                    self.dataset.table_specific_name('Sources_temp') + \
-                    "(source_index INT PRIMARY KEY AUTO_INCREMENT," +\
-                    " name varchar(64));"
-                self.dataengine.query(create_variable_table_query)
-
-                mysql_query = \
-                    'INSERT INTO ' +\
-                    self.dataset.table_specific_name('Sources_temp') + \
-                    " (SELECT distinct NULL AS source_index, src FROM " \
-                    + self.dataset.table_specific_name('Init') +\
-                    " AS table1" \
-                    ");"
-                self.dataengine.query(mysql_query)
-
-                create_variable_table_query = \
-                    "CREATE TABLE " + \
-                    self.dataset.table_specific_name('Sources') + \
-                    "(source_index INT, name varchar(64));"
-                self.dataengine.query(create_variable_table_query)
-
-                mysql_query = \
-                    'INSERT INTO ' + \
-                    self.dataset.table_specific_name('Sources') + \
-                    " (SELECT DISTINCT table1.source_index+" + str(maximum) + \
-                    ", table1.name" \
-                    "FROM " \
-                    + self.dataset.table_specific_name('Sources_temp') + \
-                    " AS table1) ;"
-                self.dataengine.query(mysql_query)
-
-        if clean == 1:
-
-            if multiple_weights == 1:
-                query_featurization = \
-                    "INSERT INTO " + \
-                    self.dataset.table_specific_name('Feature_id_map') + \
-                    "(SELECT source_index AS feature_ind, " \
-                    "attribute as attribute, name as value, 'source' as Type" \
-                    " FROM " \
-                    + self.dataset.table_specific_name('Sources') + \
-                    " AS table1  );"
-                self.dataengine.query(query_featurization)
-
-            else:
-                query_featurization = \
-                    "INSERT INTO " + \
-                    self.dataset.table_specific_name('Feature_id_map') + \
-                    "(SELECT source_index + " + str(maximum) + \
-                    " AS feature_ind," \
-                    " 'null' as attribute" \
-                    ", name as value" \
-                    ", 'source' as Type" \
-                    " FROM " \
-                    + self.dataset.table_specific_name('Sources_temp') + \
-                    " AS table1 );"
-                self.dataengine.query(query_featurization)
-
-            return
-
-    def get_query(self, clean=1, query_prod=None):
-        if clean:
-            name = "Observed_Possible_values_clean"
-            possible_values = "Possible_values_clean"
-        else:
-            name = "Observed_Possible_values_dk"
-            possible_values = "Possible_values_dk"
-        self.possible_table_name = self.dataset.table_specific_name(name)
-        self.possible_values = self.dataengine.get_table_to_dataframe(
-            possible_values, self.dataset).collect()
-
-        source_queries = []
-        for possible_value in self.possible_values:
-            if self.multiple_weights:
-                query_for_featurization = \
-                    "(SELECT " + str(possible_value.vid) + " as vid, " \
-                    " '" + str(possible_value.domain_id) +\
-                    "' as assigned_val, " \
-                    " source_index as feature, 1 as count " \
-                    "FROM " + \
-                    self.dataset.table_specific_name('Init') + " i" \
-                    " INNER JOIN " + \
-                    self.dataset.table_specific_name('Sources') + " s" \
-                    " ON i.src = s.name " \
-                    "WHERE " + key + "= " \
-                    "(SELECT " + key + \
-                    " FROM " + self.dataset.table_specific_name('Init') + \
-                    " WHERE `index`=" + str(possible_value.tid) + ")" \
-                    " AND s.attribute = " + str(possible_value.attr_name) + \
-                    " AND " + str(possible_value.attr_name) + "='" + \
-                    str(possible_value.attr_val) + "' "
-            else:
-                query_for_featurization = \
-                    "(SELECT " + str(possible_value.vid) + " as vid, " \
-                    " '" + str(possible_value.domain_id) + "' as assigned_val, "" \
-                    "" source_index as feature, 1 as count " \
-                    "FROM " + \
-                    self.dataset.table_specific_name('Init') + " i" \
-                    " INNER JOIN " + \
-                    self.dataset.table_specific_name('Sources') + " s" \
-                    " ON i.src = s.name " \
-                    "WHERE " + key + "= " \
-                    "(SELECT " + key + \
-                    " FROM " + self.dataset.table_specific_name('Init') + \
-                    " WHERE `index`=" + str(possible_value.tid) + ") " \
-                    "AND " + str(possible_value.attr_name) + "='" + \
-                    str(possible_value.attr_val) + "' "
-
-            source_queries.append(query_for_featurization)
-
-            if query_prod is not None:
-                query_prod.appendQuery(query_for_featurization)
-        return source_queries
