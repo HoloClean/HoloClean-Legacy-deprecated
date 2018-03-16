@@ -111,7 +111,7 @@ class Featurizer:
         a list of its predicates for the value
 
         Example Output:
-        {table1.ZipCode=table2.ZipCode)and(table1.City,table2.City:
+        {'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City':
             [
                 ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
                 ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]

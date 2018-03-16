@@ -100,7 +100,6 @@ class Mysql_DCErrorDetection:
                 self.dataset.table_specific_name("Init") + " as table1, " + \
                 self.dataset.table_specific_name("Init") + " as  table2 " + \
                 "WHERE table1.index != table2.index  AND " + dc[1] + " )"
-            print query
             insert_dk_query = "INSERT INTO " + \
                 self.dataset.table_specific_name("C_dk_temp") + query + ";"
             self.dataengine.query(insert_dk_query)
