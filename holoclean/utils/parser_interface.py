@@ -68,7 +68,7 @@ class ParserInterface:
         if not self._check_dc_attributes(dc):
             raise DCFormatException("DC uses attribute not in schema")
 
-    def get_anded_dcs(self, dcs):
+    def get_CNF_of_dcs(self, dcs):
         """
         takes a list of DCs and returns the SQL condition for each DC
 
