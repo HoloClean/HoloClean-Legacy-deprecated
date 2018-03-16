@@ -36,8 +36,6 @@ class SignalDC(Featurizer):
         """
         all_dcs = self.parser.get_anded_string(self.denial_constraints)
         all_relax_dc = []
-        self.final_dc = []
-        self.change_pred = []
         self.attributes_list = []
         dictionary_dc = self.parser.create_dc_map(all_dcs)
         for dc in all_dcs:
