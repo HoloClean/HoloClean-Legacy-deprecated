@@ -39,7 +39,7 @@ class Featurizer:
         # Internal Method
     def _create_new_dc(self):
         """
-        For each dc we change the predicates, and return the new type of dc
+        Return a list of all possible relaxed DC's for the current session
         """
         table_attribute_string = self.dataengine.get_schema(
             self.dataset, "Init")
@@ -58,6 +58,13 @@ class Featurizer:
         return all_relax_dc
 
     def _create_relaxes(self, dictionary_dc, dc_name):
+        """
+        Will return a list of all relaxed DC's for the given DC
+
+        :param dictionary_dc: Dictionary mapping DC's to a list of their predicates
+        :param dc_name: The string of the DC we want to relax
+        :return: A list of all relaxed DC's for dc_name
+        """
         relax_dcs = []
         dc_predicates = dictionary_dc[dc_name]
         for predicate_index in range(0, len(dc_predicates)):
@@ -100,8 +107,19 @@ class Featurizer:
 
     def create_dc_map(self, dcs):
         """
-        creates a list of dictionaries which contains the dc and each predicates
+        Returns a dictionary that takes a dc as a string for a key and takes
+        a list of its predicates for the value
 
+        Example Output:
+        {table1.ZipCode=table2.ZipCode)and(table1.City,table2.City:
+            [
+                ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
+                ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]
+            ]
+        }
+
+        :param dcs: a list of DC's with their string representation
+        :return: A dictionary of mapping every dc to their list of predicates
         """
         dictionary_dc = {}
         for dc in dcs:
@@ -113,14 +131,16 @@ class Featurizer:
     def _find_predicates(dc):
         """
         This method finds the predicates of dc"
-        input example: '(table1.ZipCode=table2.ZipCode)and(table1.City,table2.City)'
+        input example: 'table1.ZipCode=table2.ZipCode)and(table1.City,table2.City'
 
         output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
-        ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]
+        ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]]
 
-        :param dc: a denial constraint
+        :param dc: a string representation of the denial constraint
+
         :rtype: predicate_list: list of predicates and it's componenents and type:
-                        [full predicate string, component 1, component 2, 0=no literal 1=component 1 is literal ]
+                        [full predicate string, component 1, component 2,
+                        (0=no literal or 1=component 1 is literal or 2=component 2 is literal) ]
         """
 
         predicate_list = []
