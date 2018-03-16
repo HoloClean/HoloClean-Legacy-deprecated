@@ -311,9 +311,18 @@ class Pruning:
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
-                        domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                              self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                            self._append_possible(
+                                v_id_dk,
+                                value,
+                                possible_values_dirty,
+                                tmp_cell_index,
+                                k_ij
+                            )
+                        domain_kij_dk.append([
+                            v_id_dk,
+                            (self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                            self.all_cells_temp[tmp_cell_index].columnname, k_ij
+                        ])
                 else:
                     c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
@@ -322,9 +331,19 @@ class Pruning:
                         v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                                 self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                            self._append_possible(
+                                v_id_clean,
+                                value,
+                                possible_values_clean,
+                                tmp_cell_index,
+                                k_ij
+                            )
+                        domain_kij_clean.append([
+                            v_id_clean,
+                            (self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                            self.all_cells_temp[tmp_cell_index].columnname,
+                            k_ij
+                        ])
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
@@ -339,7 +358,11 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'), 'attr_name')
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_clean'),
+            'attr_name'
+
+        )
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
@@ -353,7 +376,10 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_dk'),
+            'attr_name'
+        )
         del new_df_possible
 
         # Create Clean and DK flats
@@ -395,11 +421,17 @@ class Pruning:
         self.dataengine.add_db_table('Kij_lookup_clean',
                                      new_df_kij, self.dataset)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Kij_lookup_clean') +
-                                            " has been created")
+        self.dataengine.holoEnv.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Kij_lookup_clean') +
+            " has been created"
+        )
         self.dataengine.holoEnv.logger.info("  ")
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                            " has been created")
+        self.dataengine.holoEnv.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Possible_values_dk') +
+            " has been created"
+        )
         self.dataengine.holoEnv.logger.info("  ")
 
         del new_df_kij
@@ -438,12 +470,18 @@ class Pruning:
 
         self.dataengine.query(query_observed)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                            " has been created")
+        self.dataengine.holoEnv.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Possible_values_dk') +
+            " has been created"
+        )
         self.dataengine.holoEnv.logger.info("  ")
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_clean') +
-                                            " has been created")
+        self.dataengine.holoEnv.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Possible_values_clean') +
+            " has been created"
+        )
         self.dataengine.holoEnv.logger.info("  ")
 
         return
