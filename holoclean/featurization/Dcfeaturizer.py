@@ -34,7 +34,7 @@ class SignalDC(Featurizer):
 
         :return: a list of all the possible relaxed DC's
         """
-        all_dcs = self.parser.get_anded_dcs(self.denial_constraints)
+        all_dcs = self.parser.get_CNF_of_dcs(self.denial_constraints)
         all_relax_dc = []
         self.attributes_list = []
         dictionary_dc = self.parser.create_dc_map(all_dcs)

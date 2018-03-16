@@ -6,22 +6,19 @@ __metaclass__ = type
 
 class Mysql_DCErrorDetection(Abstract_Error_Detection):
     """
-    This class return error
-    cells and clean
-    cells based on the
+    This class is a subclass of the abstract_errodetector class and
+    will return  error  cells and clean cells based on the
     denial constraint
     """
 
     def __init__(self, DenialConstraints, holo_obj, dataset):
         """
-        This constructor at first convert all denial constraints
+        This constructor  converts all denial constraints
         to the form of SQL constraints
-        and it get dataengine to connect to the database
 
         :param DenialConstraints: list of denial constraints that use
-        :param dataengine: a connector to database
+        :param holo_obj: a holoclean object
         :param dataset: list of tables name
-        :param spark_session: spark session configuration
         """
         super(Mysql_DCErrorDetection, self).__init__(holo_obj, dataset)
         self.and_of_preds = DCParser(
@@ -32,6 +29,8 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
     def _create_new_dc(self):
         """
         For each dc we change the predicates, and return the new type of dc
+
+        :return:
         """
         self.final_dc = []
         for dc_part in self.and_of_preds:
@@ -44,12 +43,11 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
 
     def _find_predicate(self, predicate):
         """
-                For each predicates we change it to the form that we need for
-                the query to create the featurization table
-                Parameters
-                --------
-                list_preds: a list of all the predicates of a dc
-                attributes: a list of attributes of our initial table
+         This method returns the attribute of each predicate
+
+         :param predicate: the predicate
+         :return: list_preds: a list of all the predicates of a dc
+         :return: attributes: a list of attributes of our initial table
         """
 
         operationsarr = ['=', '<>', '<=', '>=', '<', '>']
@@ -71,6 +69,7 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
     def _find_predicates(cond):
         """
         This method finds the predicates of dc"
+
         :param cond: a denial constrain
         :rtype: list_preds: list of predicates
         """
@@ -85,6 +84,7 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
     def get_noisy_cells(self, dataset):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
+
         :param dataset: list od dataset names
         :return: spark_dataframe
         """
@@ -116,6 +116,7 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
     def get_clean_cells(self, dataframe, noisy_cells):
         """
         Return a dataframe that consist of index of clean cells index,attribute
+
         :param dataframe: spark dataframe
         :param noisy_cells: list of noisy cells
         :return:

@@ -4,22 +4,19 @@ from abstract_errordetector import Abstract_Error_Detection
 
 class DCErrorDetection(Abstract_Error_Detection):
     """
-    This class return error
-    cells and clean
-    cells based on the
+    This class is a subclass of the abstract_errodetector class and
+    will return  error  cells and clean cells based on the
     denial constraint
     """
 
     def __init__(self, DenialConstraints, holo_obj, dataset):
         """
-        This constructor at first convert all denial constraints
+        This constructor converts all denial constraints
         to the form of SQL constraints
-        and it get dataengine to connect to the database
 
         :param DenialConstraints: list of denial constraints that use
-        :param dataengine: a connector to database
+        :param holo_obj: a holoclean object
         :param dataset: list of tables name
-        :param spark_session: spark session configuration
         """
         super(DCErrorDetection, self).__init__(holo_obj, dataset)
         self.and_of_preds = DCParser(
@@ -30,6 +27,7 @@ class DCErrorDetection(Abstract_Error_Detection):
     def _index2list(self, dataset):
         """
         Returns list of indices
+
         :rtype: list[string]
         """
         li_tmp = dataset.select('index').collect()
