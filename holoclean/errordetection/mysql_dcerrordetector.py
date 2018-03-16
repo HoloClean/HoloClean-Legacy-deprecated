@@ -1,10 +1,10 @@
 from holoclean.utils.dcparser import DCParser
-from abstract_errordetector import Abstract_Error_Detection
+from errordetector import ErrorDetection
 
 __metaclass__ = type
 
 
-class Mysql_DCErrorDetection(Abstract_Error_Detection):
+class MysqlDCErrorDetection(ErrorDetection):
     """
     This class is a subclass of the abstract_errodetector class and
     will return  error  cells and clean cells based on the
@@ -20,10 +20,11 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
         :param holo_obj: a holoclean object
         :param dataset: list of tables name
         """
-        super(Mysql_DCErrorDetection, self).__init__(holo_obj, dataset)
+        super(MysqlDCErrorDetection, self).__init__(holo_obj, dataset)
         self.and_of_preds = DCParser(
             DenialConstraints)\
             .get_anded_string('all')
+        self.operationsarr = ['=', '<>', '<=', '>=', '<', '>']
 
     # Private methods
     def _create_new_dc(self):
@@ -50,12 +51,12 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
          :return: attributes: a list of attributes of our initial table
         """
 
-        operationsarr = ['=', '<>', '<=', '>=', '<', '>']
-        for operation in operationsarr:
+        for operation in self.operationsarr:
             if operation in predicate:
-                componets = predicate.split(operation)
-                for component in componets:
-                    if component.find("table1.") == -1 and component.find("table2.") == -1:
+                components = predicate.split(operation)
+                for component in components:
+                    if component.find("table1.") == -1 and \
+                            component.find("table2.") == -1:
                         pass
                     else:
                         attributes = component.split(".")
@@ -85,7 +86,7 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
 
-        :param dataset: list od dataset names
+        :param dataset: list of dataset names
         :return: spark_dataframe
         """
         self.holo_obj.logger.info('Denial Constraint Queries: ')
@@ -101,12 +102,16 @@ class Mysql_DCErrorDetection(Abstract_Error_Detection):
                         "SELECT DISTINCT " + \
                         table + ".index as ind, " \
                         + "'" + dc[0] + "'" + " AS attr " \
-                                              " FROM  " + \
-                        self.dataset.table_specific_name("Init") + " as table1, " + \
-                        self.dataset.table_specific_name("Init") + " as  table2 " + \
-                        "WHERE table1.index != table2.index  AND " + dc[1] + " )"
+                        " FROM  " + \
+                        self.dataset.table_specific_name("Init") + \
+                        " as table1, " + \
+                        self.dataset.table_specific_name("Init") +\
+                        " as  table2 " + \
+                        "WHERE table1.index != table2.index  AND " \
+                        + dc[1] + " )"
                 insert_dk_query = "INSERT INTO " + \
-                                  self.dataset.table_specific_name("C_dk_temp") + query + ";"
+                                  self.dataset.table_specific_name("C_dk_temp")\
+                                  + query + ";"
                 self.dataengine.query(insert_dk_query)
         df = self.dataengine.get_table_to_dataframe('C_dk_temp', self.dataset)
         c_dk_dataframe = df.distinct()

@@ -10,7 +10,7 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, \
+from featurization.database_worker import DatabaseWorker, FeatureProducer, \
     DCQueryProducer
 from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface
@@ -19,10 +19,10 @@ from collections import deque
 import multiprocessing
 from pyspark.sql.types import *
 
-from errordetection.errordetector import ErrorDetectors
-from featurization.Initfeaturizer import SignalInit
-from featurization.Dcfeaturizer import SignalDC
-from featurization.Cooccurrancefeaturizer import SignalCooccur
+from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
+from featurization.initfeaturizer import SignalInit
+from featurization.dcfeaturizer import SignalDC
+from featurization.cooccurrencefeaturizer import SignalCooccur
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
 
@@ -343,7 +343,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        err_detector = ErrorDetectors(detector)
+        err_detector = ErrorDetectorsWrapper(detector)
 
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
@@ -380,7 +380,8 @@ class Session:
             self._timing_to_file(log)
             start = time.time()
 
-        attr_constrained = self.parser.get_all_constraint_attributes(self.Denial_constraints)
+        attr_constrained = self.parser.get_all_constraint_attributes(
+            self.Denial_constraints)
 
         init_signal = SignalInit(attr_constrained,
                                  self.holo_env.dataengine,

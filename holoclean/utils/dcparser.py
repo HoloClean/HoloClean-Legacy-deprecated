@@ -89,13 +89,7 @@ class DCParser:
             usedOperations.append(dcOperations)
 
             dcSql.append(dc2sqlpred)
-
-
         return dcSql, usedOperations
-
-    # Setters:
-
-    # Getters:
 
     def for_join_condition(self):
         result = []
@@ -152,6 +146,7 @@ class DCParser:
                 attributes.add(attribute)
 
         return list(attributes)
+
     @staticmethod
     def get_all_attribute(dataengine, dataset):
         """
@@ -200,10 +195,6 @@ class DCParser:
 
         return list(result)
 
-    # Given ONE denial constraint will return array of corresponding operators
-    # Example:
-    #   't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
-    # will output ['EQ', 'EQ', 'IQ']
     @staticmethod
     def get_operators(denial_constraint):
         operators = denial_constraint.split('&')
@@ -213,11 +204,6 @@ class DCParser:
             operators[i] = operators[i].partition('(')[0]
         return operators
 
-    # Given ONE denial constraint will return array of column names
-    # Example:
-    #   't1&t2&EQ(t1.State,t2.State)&EQ(t1.MeasureCode,t2.MeasureCode)&IQ(t1.Stateavg,t2.Stateavg)'
-    # will output:
-    #   [['State', 'State'], ['MeasureCode', 'MeasureCode'], ['Stateavg', 'Stateavg']]
     @staticmethod
     def get_columns(denial_constraint):
         operators = denial_constraint.split('&')

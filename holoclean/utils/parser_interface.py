@@ -14,7 +14,8 @@ class ParserInterface:
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        denial_constraints = self._denial_constraints(file_path, all_current_dcs)
+        denial_constraints = self._denial_constraints(file_path,
+                                                      all_current_dcs)
         return denial_constraints
 
     def check_dc_format(self, dc, all_current_dcs):
@@ -86,8 +87,10 @@ class ParserInterface:
         Example Output:
         {'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City':
             [
-                ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
-                ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]
+                ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode',
+                'table2.ZipCode',0],
+                ['table1.City<>table2.City', '<>','table1.City', 'table2.City'
+                , 0]
             ]
         }
 
@@ -103,16 +106,20 @@ class ParserInterface:
     def find_predicates(self, dc):
         """
         This method finds the predicates of dc"
-        input example: 'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City'
+        input example: 'table1.ZipCode=table2.ZipCode)
+                       AND(table1.City,table2.City'
 
-        output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
+        output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode',
+                         'table2.ZipCode',0],
         ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]]
 
         :param dc: a string representation of the denial constraint
 
-        :rtype: predicate_list: list of predicates and it's componenents and type:
+        :rtype: predicate_list: list of predicates and it's componenents and
+                                type:
                         [full predicate string, component 1, component 2,
-                        (0=no literal or 1=component 1 is literal or 2=component 2 is literal) ]
+                        (0=no literal or 1=component 1 is literal or
+                        2=component 2 is literal) ]
         """
 
         predicate_list = []
@@ -130,7 +137,8 @@ class ParserInterface:
 
             component_index = 1
             for component in components:
-                if component.find("table1.") == -1 and component.find("table2.") == -1:
+                if component.find("table1.") == -1 and \
+                   component.find("table2.") == -1:
                     type = component_index
                 predicate_components.append(component)
                 component_index = component_index + 1
@@ -171,7 +179,8 @@ class ParserInterface:
         :return: list of attributes
         """
         dcparser = DCParser(dcs)
-        return dcparser.get_constrainted_attributes(self.dataengine, self.session.dataset)
+        return dcparser.get_constrainted_attributes(self.dataengine,
+                                                    self.session.dataset)
 
     # private methods
 
@@ -184,7 +193,8 @@ class ParserInterface:
         """
         dcparser = DCParser([dc])
         attributes = self.get_dc_attributes(dcparser.get_anded_string()[0])
-        schema = DCParser.get_all_attribute(self.dataengine, self.session.dataset)
+        schema = DCParser.get_all_attribute(self.dataengine,
+                                            self.session.dataset)
         for attribute in attributes:
             if attribute not in schema:
                 return False

@@ -1,6 +1,7 @@
 class Reader:
 
-    """TODO:Reader class:Finds the extesion of the file and calls the appropriate reader"""
+    """TODO:Reader class:Finds the extesion of the file and calls the
+    appropriate reader"""
 
     def __init__(self, spark_session):
         """TODO.
@@ -44,7 +45,8 @@ class CSVReader:
     def read(self, file_path, spark_session):
         """Create a dataframe from the csv file
 
-        Takes as argument the full path name of the csv file and the spark_session
+        Takes as argument the full path name of the csv file and the
+        spark_session
         """
         df = spark_session.read.csv(file_path, header=True)
 

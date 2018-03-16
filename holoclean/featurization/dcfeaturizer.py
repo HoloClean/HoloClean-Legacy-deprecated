@@ -7,7 +7,8 @@ __metaclass__ = type
 class SignalDC(Featurizer):
     """
     This class is a subclass of the Featurizer class and
-    will return a list of mysql queries which represent the DC Signal for the clean and dk cells
+    will return a list of mysql queries which represent the DC Signal for the
+    clean and dk cells
     """
 
     def __init__(self, denial_constraints, session):
@@ -21,7 +22,8 @@ class SignalDC(Featurizer):
             by the HoloClean Session
         """
 
-        super(SignalDC, self).__init__(session.holo_env.dataengine, session.dataset)
+        super(SignalDC, self).__init__(session.holo_env.dataengine,
+                                       session.dataset)
         self.id = "SignalDC"
         self.denial_constraints = denial_constraints
         self.spark_session = session.holo_env.spark_session
@@ -48,7 +50,8 @@ class SignalDC(Featurizer):
         """
         This method creates a list of all the relaxed DC's for a specific DC
 
-        :param dictionary_dc: Dictionary mapping DC's to a list of their predicates
+        :param dictionary_dc: Dictionary mapping DC's to a list of their
+         predicates
         :param dc_name: The dc that we want to relax
 
         :return: A list of all relaxed DC's for dc_name
@@ -69,21 +72,27 @@ class SignalDC(Featurizer):
             else:
                 raise ValueError('predicate type can only be 0, 1 or 2')
             for relax_index in relax_indices:
-                name_atttribute = dc_predicates[predicate_index][relax_index].split(".")
-                self.attributes_list.append(name_atttribute[1])
-                table_name = self.creating_table_name(name_atttribute[0])
+                name_attribute = \
+                    dc_predicates[predicate_index][relax_index].split(".")
+                self.attributes_list.append(name_attribute[1])
+                table_name = self.creating_table_name(name_attribute[0])
                 if relax_index == 2:
-                    relax_dc = "postab.tid = " + name_atttribute[0] + ".index AND " + \
-                               "postab.attr_name ='" + name_atttribute[1] + "' AND " + "postab.attr_val" + operation + \
+                    relax_dc = "postab.tid = " + name_attribute[0] +\
+                               ".index AND " + \
+                               "postab.attr_name ='" + name_attribute[1] +\
+                               "' AND " + "postab.attr_val" + operation + \
                                component2
                 else:
-                    relax_dc = "postab.tid = " + name_atttribute[0] + ".index AND " + \
-                               "postab.attr_name = '" + name_atttribute[1] + "' AND " + component1 + operation + \
+                    relax_dc = "postab.tid = " + name_attribute[0] + \
+                               ".index AND " + \
+                               "postab.attr_name = '" + name_attribute[1] + \
+                               "' AND " + component1 + operation + \
                                "postab.attr_val"
 
                 for predicate_index_temp in range(0, len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
-                        relax_dc = relax_dc + " AND  " + dc_predicates[predicate_index_temp][0]
+                        relax_dc = relax_dc + " AND  " + \
+                                   dc_predicates[predicate_index_temp][0]
                 relax_dcs.append([relax_dc, table_name])
         return relax_dcs
 
@@ -104,9 +113,11 @@ class SignalDC(Featurizer):
 
     def get_query(self, clean=1, dcquery_prod=None):
         """
-        Creates a list of strings for the queries that are used to create the DC Signal
+        Creates a list of strings for the queries that are used to create the
+        DC Signal
 
-        :param clean: shows if we create the feature table for the clean or the dk cells
+        :param clean: shows if we create the feature table for the clean or the
+        dk cells
         :param dcquery_prod: a thread that we will produce the final queries
 
         :return a list of strings for the queries for this feature
@@ -141,7 +152,8 @@ class SignalDC(Featurizer):
                                       " postab.vid as vid, " \
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
-                                      "  count(" + table_name + ".index) as count " \
+                                      "  count(" + table_name + \
+                                      ".index) as count " \
                                       "  FROM " + \
                                       self.dataset. \
                                       table_specific_name('Init') + \

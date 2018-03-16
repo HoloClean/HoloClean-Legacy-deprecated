@@ -1,8 +1,8 @@
 from holoclean.utils.dcparser import DCParser
-from abstract_errordetector import Abstract_Error_Detection
+from errordetector import ErrorDetection
 
 
-class DCErrorDetection(Abstract_Error_Detection):
+class DCErrorDetection(ErrorDetection):
     """
     This class is a subclass of the abstract_errodetector class and
     will return  error  cells and clean cells based on the

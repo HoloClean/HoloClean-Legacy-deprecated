@@ -1,28 +1,41 @@
-class ErrorDetectors:
+from abc import ABCMeta, abstractmethod
+
+
+class ErrorDetection:
     """
-    This class call different error detection method that we needed
+    This class is an abstract class for general error_detection ,
+     it requires for every sub-class to implement the
+    get_clean_cells and get_noisy_cells method
     """
+    __metaclass__ = ABCMeta
 
-    def __init__(self, detect_obj):
+    def __init__(self, holo_obj, dataset):
         """
-        The general class for error detection
-
-        :param detect_obj: an object which implements
-        get_noisy_cells, get_clean_cells
+        :param holo_obj: a holoclean object
+        :param dataset: list of tables name
         """
-        self.detect_obj = detect_obj
+        self.dataengine = holo_obj.dataengine
+        self.dataset = dataset
+        self.spark_session = holo_obj.spark_session
+        self.holo_obj = holo_obj
 
-    def get_noisy_dknow_dataframe(self, data_dataframe):
+    @abstractmethod
+    def get_noisy_cells(self):
+        """
+         This method creates a dataframe which has the informations
+         (index,attribute) for the dk_cells
+
+        :return dataframe  for the dk_cell
+        """
+        pass
+
+    @abstractmethod
+    def get_clean_cells(self):
+        """
+         This method creates a dataframe which has the informations
+         (index,attribute) for the clean_cells
+
+        :return dataframe  for the clean_cells
 
         """
-        Return tuple of noisy cells and clean cells dataframes
-
-        :param data_dataframe: get dataframe of data
-        :return: return noisy cells and
-        """
-
-        noisy_cells = self.detect_obj.get_noisy_cells(data_dataframe)
-        clean_cells = self.detect_obj.get_clean_cells(data_dataframe,
-                                                      noisy_cells)
-
-        return noisy_cells, clean_cells
+        pass
