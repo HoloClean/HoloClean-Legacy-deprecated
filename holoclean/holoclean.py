@@ -380,20 +380,19 @@ class Session:
             self._timing_to_file(log)
             start = time.time()
 
-        init_signal = SignalInit(self.Denial_constraints,
+        attr_constrained = self.parser.get_all_constraint_attributes(self.Denial_constraints)
+
+        init_signal = SignalInit(attr_constrained,
                                  self.holo_env.dataengine,
                                  self.dataset)
         self._add_featurizer(init_signal)
 
-        cooccur_signal = SignalCooccur(self.Denial_constraints,
+        cooccur_signal = SignalCooccur(attr_constrained,
                                        self.holo_env.dataengine,
                                        self.dataset)
         self._add_featurizer(cooccur_signal)
 
-        dc_signal = SignalDC(self.Denial_constraints,
-                             self.holo_env.dataengine,
-                             self.dataset,
-                             self.holo_env.spark_session)
+        dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
 
         self._ds_featurize(clean=1)
