@@ -73,11 +73,13 @@ class SignalDC(Featurizer):
                 self.attributes_list.append(name_atttribute[1])
                 table_name = self.creating_table_name(name_atttribute[0])
                 if relax_index == 2:
-                    relax_dc = "postab.attr_name ='" + name_atttribute[1] + "' AND " + "postab.attr_val" + operation + \
-                               component2 + " AND postab.tid = " + name_atttribute[0] + ".index"
+                    relax_dc = "postab.tid = " + name_atttribute[0] + ".index AND " + \
+                               "postab.attr_name ='" + name_atttribute[1] + "' AND " + "postab.attr_val" + operation + \
+                               component2
                 else:
-                    relax_dc = "postab.attr_name = '" + name_atttribute[1] + "' AND " + component1 + operation + \
-                               "postab.attr_val" + " AND postab.tid = " + name_atttribute[0] + ".index"
+                    relax_dc = "postab.tid = " + name_atttribute[0] + ".index AND " + \
+                               "postab.attr_name = '" + name_atttribute[1] + "' AND " + component1 + operation + \
+                               "postab.attr_val"
 
                 for predicate_index_temp in range(0, len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
@@ -139,8 +141,8 @@ class SignalDC(Featurizer):
                                       " postab.vid as vid, " \
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
-                                                   "  count(" + table_name + ".index) as count " \
-                                                                             "  FROM " + \
+                                      "  count(" + table_name + ".index) as count " \
+                                      "  FROM " + \
                                       self.dataset. \
                                       table_specific_name('Init') + \
                                       " as table1 ," + \
@@ -148,7 +150,7 @@ class SignalDC(Featurizer):
                                       table_specific_name('Init') + \
                                       " as table2," + \
                                       self.possible_table_name + " as postab" \
-                                                                 " WHERE (" + \
+                                      " WHERE (" + \
                                       " table1.index < table2.index AND " + \
                                       relax_dc + \
                                       ") GROUP BY postab.vid, postab.tid," \

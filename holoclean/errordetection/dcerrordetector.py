@@ -15,6 +15,7 @@ class DCErrorDetection(Abstract_Error_Detection):
         This constructor at first convert all denial constraints
         to the form of SQL constraints
         and it get dataengine to connect to the database
+
         :param DenialConstraints: list of denial constraints that use
         :param dataengine: a connector to database
         :param dataset: list of tables name
@@ -39,8 +40,10 @@ class DCErrorDetection(Abstract_Error_Detection):
 
         """
         This method create cell based on dataframe it get
+
         :param tuples_dataframe: spark_dataframe
         :param cond: list[String] of conditions
+
         :return: spark_dataframe
         """
 
@@ -62,6 +65,7 @@ class DCErrorDetection(Abstract_Error_Detection):
         """
         Return a list of two column dataframe that consist
         indices that create violation w.r.t. dc
+
         :param dataset: dataset of tables name
         :return: list[spark_dataframe] list of violations tuples
         """
@@ -90,7 +94,9 @@ class DCErrorDetection(Abstract_Error_Detection):
     def get_noisy_cells(self, dataset):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
+
         :param dataset: list od dataset names
+
         :return: spark_dataframe
         """
 
@@ -107,8 +113,10 @@ class DCErrorDetection(Abstract_Error_Detection):
     def get_clean_cells(self, dataframe, noisy_cells):
         """
         Return a dataframe that consist of index of clean cells index,attribute
+
         :param dataframe: spark dataframe
         :param noisy_cells: list of noisy cells
+
         :return:
         """
 
