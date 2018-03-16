@@ -11,7 +11,7 @@ class DCParser:
     operationSign = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
     nonsymmetricOperations = ['LT', 'GT', 'LTE', 'GTE']
 
-    def __init__(self, denial_constraints, dataengine, dataset):
+    def __init__(self, denial_constraints):
         self.denial_constraints = denial_constraints
 
     # Private methods:
@@ -30,7 +30,8 @@ class DCParser:
         """
 
         dcSql = []
-    
+        finalnull = []
+
         usedOperations = []
         numOfContraints = len(self. denial_constraints)
 
@@ -55,20 +56,43 @@ class DCParser:
                 predLeft = tmp[0]
                 predRight = tmp[1]
                 # predicate type detection
-
-                dc2sql = predLeft +\
-                         self.operationsArr[self.operationSign.index(op)]\
-                         + predRight
-                dc2sql = dc2sql.replace(firstTuple,'table1').\
-                    replace(secondTuple,'table2')
-
+                if firstTuple in predBody and secondTuple in predBody:
+                    if firstTuple in predLeft:
+                        dc2sql = dc2sql + 'table1.' + predLeft.split('.')[1] \
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + 'table2.' + predRight.split('.')[1]
+                    else:
+                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + 'table1.' + predRight.split('.')[1]
+                elif firstTuple in predBody:
+                    if firstTuple in predLeft:
+                        dc2sql = dc2sql+'table1.' + predLeft.split('.')[1]\
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + predRight
+                    else:
+                        dc2sql = dc2sql + predLeft\
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + 'table1.' + predRight.split('.')[1]
+                else:
+                    if secondTuple in predLeft:
+                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + predRight
+                    else:
+                        dc2sql = dc2sql + predLeft\
+                            + self.operationsArr[self.operationSign.index(op)]\
+                            + 'table2.' + predRight.split('.')[1]
+                nulsql = 'table1.' + predLeft.split('.')[1] + " IS NULL"
+                nullsql.append(nulsql)
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
             usedOperations.append(dcOperations)
 
             dcSql.append(dc2sqlpred)
+            finalnull.append(nullsql)
 
-        return dcSql, usedOperations
+        return dcSql, usedOperations, finalnull
 
     # Setters:
 
@@ -91,9 +115,11 @@ class DCParser:
         :param conditionInd: int
         :return: string or list[string]
         """
+        nulllist = []
         if conditionInd == 'all':
             andlist = []
-            result, dc = self._dc_to_sql_condition()
+            nulllist = []
+            result, dc, nullsql = self._dc_to_sql_condition()
             count = 0
             for parts in result:
                 strRes = str(parts[0])
@@ -102,7 +128,12 @@ class DCParser:
                         strRes = strRes+" AND "+str(parts[i])
                 andlist.append(strRes)
                 count += 1
-            return andlist
+            for sql1 in nullsql:
+                for null_part in sql1:
+                    strRes1 = ""
+                    strRes1 += str(null_part)
+                nulllist.append(strRes1)
+            return andlist, nulllist
 
         else:
             result, dc = self._dc_to_sql_condition()
@@ -111,7 +142,7 @@ class DCParser:
             if len(parts) > 1:
                 for i in range(1, len(parts)):
                     strRes = strRes+" AND "+str(parts[i])
-            return strRes
+            return strRes, nulllist
 
     @staticmethod
     def get_attribute(cond, all_table_attribuites):
@@ -129,8 +160,8 @@ class DCParser:
                 attributes.add(attribute)
 
         return list(attributes)
-
-    def get_all_attribute(self, dataengine, dataset):
+    @staticmethod
+    def get_all_attribute(dataengine, dataset):
         """
         This method return all attributes in the initial table
         :param dataengine:
@@ -150,8 +181,8 @@ class DCParser:
         :param dataset:
         :return: list of attributes
         """
-        all_attributes = self.get_all_attribute(dataengine, dataset)
-        and_of_preds = self.get_anded_string('all')
+        all_attributes = DCParser.get_all_attribute(dataengine, dataset)
+        and_of_preds, nothing = self.get_anded_string('all')
         result = set({'index'})
         for cond in and_of_preds:
             tmp_list = self.get_attribute(cond, all_attributes)
@@ -169,7 +200,7 @@ class DCParser:
         :param dataset:
         :return: list of attributes
         """
-        result = set(self.get_all_attribute(dataengine, dataset))
+        result = set(DCParser.get_all_attribute(dataengine, dataset))
         free_attributes = \
             self.get_constraint_free_attributes(dataengine, dataset)
 

@@ -20,8 +20,8 @@ class DCErrorDetection:
         :param dataset: list of tables name
         :param spark_session: spark session configuration
         """
-        self.and_of_preds = \
-            DCParser(DenialConstraints, holo_obj.dataengine, dataset)\
+        self.and_of_preds, self.null_pred = \
+            DCParser(DenialConstraints)\
             .get_anded_string('all')
         self.dataengine = holo_obj.dataengine
         self.dataset = dataset
@@ -79,7 +79,10 @@ class DCErrorDetection:
                     "WHERE ("+cond+")"
             self.holo_obj.logger.info(query)
             satisfied_tuples_index.append(self.spark_session.sql(query))
-
+        for nullquery in self.null_pred:
+            query = "SELECT table1.index as ind,table1.index as\
+                indexT2 FROM df table1 WHERE ("+nullquery + ")"
+            nullcells.append(self.spark_session.sql(query))
 
         return satisfied_tuples_index, nullcells
 
@@ -102,6 +105,10 @@ class DCErrorDetection:
                 pred = self.and_of_preds[dc_count]
                 result = result.\
                     unionAll(self._make_cells(violation[dc_count], pred))
+        for dc_count in range(0, len(self.null_pred)):
+            pred = self.null_pred[dc_count]
+            result = result. \
+                unionAll(self._make_cells(nullcells[dc_count], pred))
         return result.distinct()
 
     def get_clean_cells(self, dataframe, noisy_cells):
