@@ -75,7 +75,7 @@ class ParserInterface:
         :param dcs: list of string representation of DCs
         :return: returns list of SQL conditions
         """
-        dcparser = DCParser([dcs])
+        dcparser = DCParser(dcs)
         return dcparser.get_anded_string()
 
     def create_dc_map(self, dcs):
