@@ -6,6 +6,7 @@ HoloClean over Spark and PyTorch
 [![Build Status](https://travis-ci.org/HoloClean/HoloClean.svg?branch=test)](https://travis-ci.org/HoloClean/HoloClean)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Documentation Status](https://readthedocs.org/projects/holoclean/badge/?version=latest)](http://holoclean.readthedocs.io/en/latest/?badge=latest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d355e754057907628593/maintainability)](https://codeclimate.com/github/HoloClean/HoloClean/maintainability)
 
 
 **_v0.1.0_**
