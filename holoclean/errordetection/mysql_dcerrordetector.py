@@ -51,7 +51,7 @@ class Mysql_DCErrorDetection:
                 attributes: a list of attributes of our initial table
         """
 
-        operationsarr = ['<>', '<=', '>=', '=', '<', '>']
+        operationsarr = [ '=','<>', '<=', '>=', '<', '>']
         for operation in operationsarr:
             if operation in predicate:
                 componets = predicate.split(operation)
@@ -60,8 +60,9 @@ class Mysql_DCErrorDetection:
                         pass
                     else:
                         attribute = component.split(".")
-                        attr = attribute[1]
-        return attr
+                        break
+                break
+        return attribute
 
     @staticmethod
     def _find_predicates(cond):
@@ -92,14 +93,14 @@ class Mysql_DCErrorDetection:
         self.dataengine.query(query_for_featurization)
         for dc in self.final_dc:
             query = " ( " \
-                "SELECT DISTINCT " \
-                "table1.index as ind, " \
-                + "'" + dc[0] + "'" + " AS attr " \
+                "SELECT DISTINCT " +\
+                dc[0][0]+".index as ind, " \
+                + "'" + dc[0][1] + "'" + " AS attr " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + " as table1, " + \
                 self.dataset.table_specific_name("Init") + " as  table2 " + \
                 "WHERE table1.index != table2.index  AND " + dc[1] + " )"
-
+            print query
             insert_dk_query = "INSERT INTO " + \
                 self.dataset.table_specific_name("C_dk_temp") + query + ";"
             self.dataengine.query(insert_dk_query)
