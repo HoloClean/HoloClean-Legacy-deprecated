@@ -106,7 +106,6 @@ class ParserInterface:
         """
         This method finds the predicates of dc"
         input example: '(table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City)'
-
         output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
         ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]]
 
@@ -196,7 +195,9 @@ class ParserInterface:
     def _denial_constraints(self, filepath, all_current_dcs):
         """
         Read a textfile containing the the Denial Constraints
+
         :param filepath: The path to the file containing DCs
+        :param all_current_dcs: all the current dc's in the list to compare with
         :return: None
         """
 
