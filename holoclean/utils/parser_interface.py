@@ -122,7 +122,7 @@ class ParserInterface:
         components = []
         for predicate in predicates:
             predicate_components = []
-            type = 0
+            dc_type = 0
             predicate_components.append(predicate)
             for operation in operations_list:
                 if operation in predicate:
@@ -133,11 +133,11 @@ class ParserInterface:
             component_index = 1
             for component in components:
                 if component.find("table1.") == -1 and component.find("table2.") == -1:
-                    type = component_index
+                    dc_type = component_index
                 predicate_components.append(component)
                 component_index = component_index + 1
 
-            predicate_components.append(type)
+            predicate_components.append(dc_type)
             predicate_list.append(predicate_components)
 
         return predicate_list
