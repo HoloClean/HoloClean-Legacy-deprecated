@@ -131,15 +131,13 @@ class SignalDC(Featurizer):
             count = self.dataengine.query(
                 "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
                 self.dataset.table_specific_name("Feature_id_map") +
-                " WHERE Type != 'DC'", 1
-            ).collect()[0]['max']
+                " WHERE Type != 'DC'", 1).collect()[0]['max']
             count += 1
         else:
             count = self.dataengine.query(
                 "SELECT COALESCE(MIN(feature_ind), 0) as max FROM " +
                 self.dataset.table_specific_name("Feature_id_map") +
-                " WHERE Type = 'DC'", 1
-            ).collect()[0]['max']
+                " WHERE Type = 'DC'", 1).collect()[0]['max']
         feature_map = []
         for index_dc in range(0, len(all_relax_dcs)):
             relax_dc = all_relax_dcs[index_dc][0]
