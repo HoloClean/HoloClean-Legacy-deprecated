@@ -25,6 +25,7 @@ class MysqlDCErrorDetection(ErrorDetection):
             DenialConstraints)\
             .get_anded_string('all')
         self.operationsarr = ['=', '<>', '<=', '>=', '<', '>']
+        self.table_names = ["table1", "table2"]
 
     # Private methods
     def _create_new_dc(self):
@@ -96,8 +97,7 @@ class MysqlDCErrorDetection(ErrorDetection):
             "(ind INT, attr VARCHAR(255));"
         self.dataengine.query(query_for_featurization)
         for dc in self.final_dc:
-            tables = ["table1", "table2"]
-            for table in tables:
+            for table in self.table_names:
                 query = " ( " \
                         "SELECT DISTINCT " + \
                         table + ".index as ind, " \
