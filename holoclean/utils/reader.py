@@ -42,7 +42,7 @@ class CSVReader:
 
     # Setters
     def read(self, file_path, spark_session):
-        """Create a dataframe from the csv file
+        """Creates a dataframe from the csv file
 
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
