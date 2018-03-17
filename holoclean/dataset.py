@@ -1,5 +1,4 @@
 import random
-from datetime import datetime
 
 
 class Dataset:
@@ -79,20 +78,17 @@ class Dataset:
         """
 
     def __init__(self):
-        """TODO.
+        """
+        The constructor for Dataset class
 
-                    Parameters
-                    ----------
-                    parameter : type
-                    This is a parameter
+        Parameters
+        ----------
+        No parameter
 
-                    Returns
-                    -------
-                    describe : type
-                        Creates the table_names for each attribute for
-                         the dataset
-                    """
-
+        Returns
+        -------
+        No Return
+        """
         self.attribute = {}
         self.dataset_tables_specific_name = []
         for a in Dataset.attributes:
@@ -104,30 +100,88 @@ class Dataset:
                 self.dataset_id + '_' + self.attributes[i])
 
     # Internal methods
-    def _id_generator(self):
-        """This function create
-                a random id from the system time
+    @staticmethod
+    def _id_generator():
         """
+        This function create a random id from the system time
 
-        r = random.seed(datetime.now())
-        return str(random.random())[2:]
+        Parameters
+        ----------
+        No parameter
+
+        Returns
+        -------
+        :return: random_str : String
+             Generating a string of random numbers
+        """
+        random_str = str(random.random())[2:]
+        return random_str
 
     def print_id(self):
+        """
+        This method writes dataset id inside dataset_id.txt file and return that
+        id
+
+        Parameters
+        ----------
+        No parameter
+
+        Returns
+        -------
+        :return: dataset id : String
+        """
         fx = open('dataset_id.txt', 'w')
         fx.write(str(self.dataset_id))
         fx.close()
         return str(self.dataset_id)
 
     def return_id(self):
+        """
+        This method returns detaset id as string
+
+        Parameters
+        ----------
+        No parameter
+
+        Returns
+        -------
+        :return: dataset id : String
+                The id of data set
+        """
         return str(self.dataset_id)
 
     # Getters
 
-    def getattribute(self, attr):
-        return self.dataset_tables_specific_name[attr]
+    def get_specific_name_by_index(self, table_index):
+        """
+        Returning the table specific name using index
+
+        Parameters
+        ----------
+        :param table_index: String
+                The index of table we want its specific name
+
+        Returns
+        -------
+        :return: table specific name : String
+                The specific name of table
+        """
+        return self.dataset_tables_specific_name[table_index]
 
     def table_specific_name(self, table_general_name):
-        """TODO return the name of the table for this dataset"""
+        """
+        Returning the name of the table for this dataset
+
+        Parameters
+        ----------
+        :param table_general_name: String
+                This the general name of table
+
+        Returns
+        -------
+        :return: String
+                Specific name correspond to table general name
+        """
         return self.dataset_tables_specific_name[self.attributes.index(
             table_general_name)]
 
