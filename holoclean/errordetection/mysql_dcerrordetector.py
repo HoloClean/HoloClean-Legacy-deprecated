@@ -26,6 +26,7 @@ class MysqlDCErrorDetection(ErrorDetection):
             .get_anded_string('all')
         self.operationsarr = ['=', '<>', '<=', '>=', '<', '>']
         self.table_names = ["table1", "table2"]
+        self.noisy_cells = None
 
     # Private methods
     def _create_new_dc(self):
@@ -83,19 +84,15 @@ class MysqlDCErrorDetection(ErrorDetection):
 
     # Getters
 
-    def get_noisy_cells(self, dataset):
+    def get_noisy_cells(self):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
 
-        :param dataset: list of dataset names
         :return: spark_dataframe
         """
         self.holo_obj.logger.info('Denial Constraint Queries: ')
         self._create_new_dc()
-        query_for_featurization = "CREATE TABLE " + \
-            self.dataset.table_specific_name("C_dk_temp") +\
-            "(ind INT, attr VARCHAR(255));"
-        self.dataengine.query(query_for_featurization)
+        df = None
         for dc in self.final_dc:
             for table in self.table_names:
                 query = " ( " \
@@ -109,16 +106,16 @@ class MysqlDCErrorDetection(ErrorDetection):
                         " as  table2 " + \
                         "WHERE table1.index != table2.index  AND " \
                         + dc[1] + " )"
-                insert_dk_query = "INSERT INTO " + \
-                                  self.dataset.table_specific_name("C_dk_temp")\
-                                  + query + ";"
-                self.dataengine.query(insert_dk_query)
-        df = self.dataengine.get_table_to_dataframe('C_dk_temp', self.dataset)
-        c_dk_dataframe = df.distinct()
+                if df is not None:
+                    df = df.union(self.dataengine.query(query, spark_flag=1))
+                else:
+                    df = self.dataengine.query(query, spark_flag=1)
 
+        c_dk_dataframe = df.distinct()
+        self.noisy_cells = c_dk_dataframe
         return c_dk_dataframe
 
-    def get_clean_cells(self, dataframe, noisy_cells):
+    def get_clean_cells(self):
         """
         Return a dataframe that consist of index of clean cells index,attribute
 
@@ -126,13 +123,10 @@ class MysqlDCErrorDetection(ErrorDetection):
         :param noisy_cells: list of noisy cells
         :return:
         """
-        query_for_featurization = "CREATE TABLE " + \
-            self.dataset.table_specific_name("C_clean_temp") +\
-            "(ind INT, attr VARCHAR(255));"
-        self.dataengine.query(query_for_featurization)
+        noisy_cells = self.noisy_cells
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
         all_attr.remove('index')
-
+        df = None
         for attribute in all_attr:
             query = " ( " \
                 "SELECT  " \
@@ -140,11 +134,13 @@ class MysqlDCErrorDetection(ErrorDetection):
                 + "'" + attribute + "'" + " AS attr " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + " as table1 )"
-            insert_dk_query = "INSERT INTO " + \
-                self.dataset.table_specific_name("C_clean_temp") + query + ";"
-            self.dataengine.query(insert_dk_query)
-        df = self.dataengine.get_table_to_dataframe(
-            'C_clean_temp', self.dataset)
-        c_clean_dataframe = df.subtract(noisy_cells)
+            if df is not None:
+                df = df.union(self.dataengine.query(query, spark_flag=1))
+            else:
+                df = self.dataengine.query(query, spark_flag=1)
 
+        if df:
+            c_clean_dataframe = df.subtract(noisy_cells)
+        else:
+            c_clean_dataframe = None
         return c_clean_dataframe
