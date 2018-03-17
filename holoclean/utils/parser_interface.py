@@ -139,7 +139,7 @@ class ParserInterface:
             for component in components:
                 if component.find("table1.") == -1 and \
                    component.find("table2.") == -1:
-                    type = component_index
+                    dc_type = component_index
                 predicate_components.append(component)
                 component_index = component_index + 1
 
