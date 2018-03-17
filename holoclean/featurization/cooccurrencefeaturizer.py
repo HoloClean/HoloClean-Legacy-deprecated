@@ -7,7 +7,7 @@ __metaclass__ = type
 class SignalCooccur(Featurizer):
     """
     This class is a subclass of the Featurizer class and
-    will return the mysql query which represent the Initial Signal for
+    will return the mysql query which represent the  Cooccur signal for
      the clean and dk cells
     """
 
