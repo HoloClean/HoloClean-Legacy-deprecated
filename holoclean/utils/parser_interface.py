@@ -27,7 +27,7 @@ class ParserInterface:
         :param dc: denial constraint to be checked
         :param dc: all currently added dc's
 
-        :return nothing if dc is correctly formatted
+        :return the dc if dc is correctly formatted
         raises exception if incorrect
         """
 
@@ -68,6 +68,7 @@ class ParserInterface:
 
         if not self._check_dc_attributes(dc):
             raise DCFormatException("DC uses attribute not in schema")
+        return dc
 
     def get_CNF_of_dcs(self, dcs):
         """
@@ -85,7 +86,7 @@ class ParserInterface:
         a list of its predicates for the value
 
         Example Output:
-        {'table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City':
+        {'(table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City)':
             [
                 ['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode',
                 'table2.ZipCode',0],
@@ -106,11 +107,9 @@ class ParserInterface:
     def find_predicates(self, dc):
         """
         This method finds the predicates of dc"
-        input example: 'table1.ZipCode=table2.ZipCode)
-                       AND(table1.City,table2.City'
-
-        output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode',
-                         'table2.ZipCode',0],
+       
+        input example: '(table1.ZipCode=table2.ZipCode)AND(table1.City,table2.City)'
+        output example [['table1.ZipCode= table2.ZipCode', '=','table1.ZipCode', 'table2.ZipCode',0],
         ['table1.City<>table2.City', '<>','table1.City', 'table2.City' , 0]]
 
         :param dc: a string representation of the denial constraint
@@ -125,9 +124,10 @@ class ParserInterface:
         predicate_list = []
         operations_list = ['=', '<>', '<', '>', '<=', '>=']
         predicates = dc.split(' AND ')
+        components = []
         for predicate in predicates:
             predicate_components = []
-            type = 0
+            dc_type = 0
             predicate_components.append(predicate)
             for operation in operations_list:
                 if operation in predicate:
@@ -143,7 +143,7 @@ class ParserInterface:
                 predicate_components.append(component)
                 component_index = component_index + 1
 
-            predicate_components.append(type)
+            predicate_components.append(dc_type)
             predicate_list.append(predicate_components)
 
         return predicate_list
@@ -160,10 +160,10 @@ class ParserInterface:
         for predicate in predicates:
             component1 = predicate[2].split('.')
             component2 = predicate[3].split('.')
-            type = predicate[4]
-            if type == 1:
+            dc_type = predicate[4]
+            if dc_type == 1:
                 attributes.add(component2[1])
-            elif type == 2:
+            elif dc_type == 2:
                 attributes.add(component1[1])
             else:
                 attributes.add(component1[1])
@@ -203,7 +203,9 @@ class ParserInterface:
     def _denial_constraints(self, filepath, all_current_dcs):
         """
         Read a textfile containing the the Denial Constraints
+
         :param filepath: The path to the file containing DCs
+        :param all_current_dcs: all the current dc's in the list to compare with
         :return: None
         """
 
