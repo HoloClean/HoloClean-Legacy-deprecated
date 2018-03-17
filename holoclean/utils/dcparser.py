@@ -11,7 +11,7 @@ class DCParser:
     operationSign = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
     nonsymmetricOperations = ['LT', 'GT', 'LTE', 'GTE']
 
-    def __init__(self, denial_constraints, dataengine, dataset):
+    def __init__(self, denial_constraints):
         self.denial_constraints = denial_constraints
 
     # Private methods:
@@ -160,8 +160,8 @@ class DCParser:
                 attributes.add(attribute)
 
         return list(attributes)
-
-    def get_all_attribute(self, dataengine, dataset):
+    @staticmethod
+    def get_all_attribute(dataengine, dataset):
         """
         This method return all attributes in the initial table
         :param dataengine:
@@ -181,7 +181,7 @@ class DCParser:
         :param dataset:
         :return: list of attributes
         """
-        all_attributes = self.get_all_attribute(dataengine, dataset)
+        all_attributes = DCParser.get_all_attribute(dataengine, dataset)
         and_of_preds, nothing = self.get_anded_string('all')
         result = set({'index'})
         for cond in and_of_preds:
@@ -200,7 +200,7 @@ class DCParser:
         :param dataset:
         :return: list of attributes
         """
-        result = set(self.get_all_attribute(dataengine, dataset))
+        result = set(DCParser.get_all_attribute(dataengine, dataset))
         free_attributes = \
             self.get_constraint_free_attributes(dataengine, dataset)
 
