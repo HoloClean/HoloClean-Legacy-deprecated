@@ -59,16 +59,16 @@ class TestMysqlErrordetector(unittest.TestCase):
         dataframe_C_clean = holo_obj.dataengine.get_table_to_dataframe(
             'C_clean', self.session.dataset)
 
-        C_clean_cells = [["3", "D"], ["1", "D"], ["2", "D"], ["3", "A"],
-                         ["3", "B"]]
+        anticipated_C_clean_cells = [["3", "D"], ["1", "D"], ["2", "D"],
+                                     ["3", "A"], ["3", "B"]]
 
-        C_clean_cells_dataframe = holo_obj.spark_session.createDataFrame(
-            C_clean_cells, StructType([
+        anticipated_dataframe = holo_obj.spark_session.createDataFrame(
+            anticipated_C_clean_cells, StructType([
                 StructField("ind", StringType(), False),
                 StructField("attr", StringType(), False),
             ]))
 
-        incorrect = C_clean_cells_dataframe.subtract(dataframe_C_clean)
+        incorrect = anticipated_dataframe.subtract(dataframe_C_clean)
         self.assertEquals(incorrect.count(), 0)
 
     def test_correction_of_dk_cells(self):
@@ -82,20 +82,20 @@ class TestMysqlErrordetector(unittest.TestCase):
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
             'C_dk', self.session.dataset)
 
-        C_dk_cells = [["3", "C"],  ["2", "C"], ["2", "A"], ["2", "E"],
-                      ["3", "E"], ["2", "B"], ["1", "A"], ["1", "C"],
-                      ["1", "B"], ["1", "E"]]
+        anticipated_dataframe_C_dk_cells = [["3", "C"],
+                                            ["2", "C"], ["2", "A"], ["2", "E"],
+                                            ["3", "E"], ["2", "B"], ["1", "A"],
+                                            ["1", "C"], ["1", "B"], ["1", "E"]]
 
-        C_dk_cells_dataframe = holo_obj.spark_session.createDataFrame(
-            C_dk_cells, StructType([
+        anticipated_dataframe = holo_obj.spark_session.createDataFrame(
+            anticipated_dataframe_C_dk_cells, StructType([
                 StructField("ind", StringType(), False),
                 StructField("attr", StringType(), False),
             ]))
 
-        incorrect = C_dk_cells_dataframe.subtract(dataframe_C_dk)
+        incorrect = anticipated_dataframe.subtract(dataframe_C_dk)
         self.assertEquals(incorrect.count(), 0)
 
 
 if __name__ == "__main__":
     unittest.main()
-
