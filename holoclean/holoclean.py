@@ -10,7 +10,7 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, \
+from featurization.database_worker import DatabaseWorker, FeatureProducer, \
     DCQueryProducer
 from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface
@@ -19,8 +19,10 @@ from collections import deque
 import multiprocessing
 from pyspark.sql.types import *
 
-from errordetection.errordetector import ErrorDetectors
-from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
+from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
+from featurization.initfeaturizer import SignalInit
+from featurization.dcfeaturizer import SignalDC
+from featurization.cooccurrencefeaturizer import SignalCooccur
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
 
@@ -339,7 +341,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        err_detector = ErrorDetectors(detector)
+        err_detector = ErrorDetectorsWrapper(detector)
 
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
@@ -376,20 +378,20 @@ class Session:
             self._timing_to_file(log)
             start = time.time()
 
-        init_signal = SignalInit(self.Denial_constraints,
+        attr_constrained = self.parser.get_all_constraint_attributes(
+            self.Denial_constraints)
+
+        init_signal = SignalInit(attr_constrained,
                                  self.holo_env.dataengine,
                                  self.dataset)
         self._add_featurizer(init_signal)
 
-        cooccur_signal = SignalCooccur(self.Denial_constraints,
+        cooccur_signal = SignalCooccur(attr_constrained,
                                        self.holo_env.dataengine,
                                        self.dataset)
         self._add_featurizer(cooccur_signal)
 
-        dc_signal = SignalDC(self.Denial_constraints,
-                             self.holo_env.dataengine,
-                             self.dataset,
-                             self.holo_env.spark_session)
+        dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
 
         self._ds_featurize(clean=1)
@@ -557,9 +559,7 @@ class Session:
 
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
-            temp = err_detector.get_noisy_dknow_dataframe(
-                self.holo_env.dataengine.get_table_to_dataframe(
-                    'Init', self.dataset))
+            temp = err_detector.get_noisy_dknow_dataframe()
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 

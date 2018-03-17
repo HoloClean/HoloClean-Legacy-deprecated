@@ -1,8 +1,9 @@
 import sys
 sys.path.append("..")
-
 from holoclean.holoclean import HoloClean, Session
-from holoclean.errordetection.mysql_dcerrordetector import Mysql_DCErrorDetection
+from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
+
+
 
 class Testing:
     def __init__(self):
@@ -20,7 +21,7 @@ class Testing:
         # dataset = "../datasets/unit_test/unit_test_dataset.csv"
 
         denial_constraints = "../tutorial/data/hospital_constraints.txt"
-        #denial_constraints = "../datasets/flights/flight_constraints.txt"
+        # denial_constraints = "../datasets/flights/flight_constraints.txt"
         # denial_constraints = "../datasets/food/food_constraints1.txt"
         # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
 
@@ -28,7 +29,7 @@ class Testing:
         # flattening = 1
 
         ground_truth = "../tutorial/data/groundtruth.csv"
-        #ground_truth = "../datasets/flights/flights_clean.csv"
+        # ground_truth = "../datasets/flights/flights_clean.csv"
         # ground_truth = "../datasets/food/food_clean.csv"
         # ground_truth = 0
 
@@ -37,13 +38,12 @@ class Testing:
         self.session.load_denial_constraints(denial_constraints)
 
         # Error Detector
-        detector = Mysql_DCErrorDetection(self.session.Denial_constraints,
-                                    self.holo_obj,
-                                    self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
+                                         self.holo_obj,
+                                         self.session.dataset)
         self.session.detect_errors(detector)
 
         self.session.repair()
 
         if ground_truth:
             self.session.compare_to_truth(ground_truth)
-
