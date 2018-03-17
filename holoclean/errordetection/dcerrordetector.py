@@ -73,14 +73,14 @@ class DCErrorDetection(ErrorDetection):
         nullcells = []
         self.holo_obj.logger.info('Denial Constraint Queries: ')
         for cond in self.and_of_preds:
-            query = "SELECT table1.index as ind,table2.index as indexT2 " \
-                    "FROM df table1,df table2 " \
+            query = "SELECT t.index as ind,t2.index as indexT2 " \
+                    "FROM df t1,df t2 " \
                     "WHERE ("+cond+")"
             self.holo_obj.logger.info(query)
             satisfied_tuples_index.append(self.spark_session.sql(query))
         for nullquery in self.null_pred:
-            query = "SELECT table1.index as ind,table1.index as\
-                indexT2 FROM df table1 WHERE ("+nullquery + ")"
+            query = "SELECT t1.index as ind,t1.index as\
+                indexT2 FROM df t1 WHERE ("+nullquery + ")"
             nullcells.append(self.spark_session.sql(query))
 
         return satisfied_tuples_index, nullcells
@@ -119,7 +119,7 @@ class DCErrorDetection(ErrorDetection):
         """
 
         dataframe.createOrReplaceTempView("df")
-        query = "SELECT table1.index as ind FROM df table1"
+        query = "SELECT t1.index as ind FROM df t1"
         index_set = self.spark_session.sql(query)
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
         all_attr.remove('index')

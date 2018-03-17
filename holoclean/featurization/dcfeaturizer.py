@@ -30,11 +30,6 @@ class SignalDC(Featurizer):
     def _create_all_relaxed_dc(self):
         """
         This method creates a list of all the possible relaxed DC's
-        example output
-        ["postab.tid = table1.index
-        AND postab.attr_name ='ZipCode'
-        AND postab.attr_val=table2.ZipCode
-        AND  table1.City<>table2.City", 'table2']
 
         :return: a list of all the possible relaxed DC's
         """
@@ -56,10 +51,10 @@ class SignalDC(Featurizer):
 
         :return return the name of the table that we will use in the query
         """
-        if name == "table1":
-            table_name = "table2"
+        if name == "t1":
+            table_name = "t2"
         else:
-            table_name = "table1"
+            table_name = "t1"
         return table_name
 
     def _create_relaxed_dc(self, dictionary_dc, dc_name):
@@ -79,6 +74,9 @@ class SignalDC(Featurizer):
             operation = dc_predicates[predicate_index][1]
             component1 = dc_predicates[predicate_index][2]
             component2 = dc_predicates[predicate_index][3]
+            # predicate_type 0 : we do not have a literal in this predicate
+            # predicate_type 1 : literal on the left side of the predicate
+            # predicate_type 2 : literal on the right side of the predicate
             if predicate_type == 0:
                 relax_indices = range(2, 4)
             elif predicate_type == 1:
@@ -86,7 +84,12 @@ class SignalDC(Featurizer):
             elif predicate_type == 2:
                 relax_indices = range(2, 3)
             else:
-                raise ValueError('predicate type can only be 0, 1 or 2')
+                raise ValueError(
+                    'predicate type can only be 0: '
+                    'if the predicate does not have a literal'
+                    '1: if the predicate has a literal in the left side,'
+                    '2: if the predicate has a literal in right side'
+                )
             for relax_index in relax_indices:
                 name_attribute = \
                     dc_predicates[predicate_index][relax_index].split(".")
@@ -156,13 +159,13 @@ class SignalDC(Featurizer):
                                       "  FROM " + \
                                       self.dataset. \
                                       table_specific_name('Init') + \
-                                      " as table1 ," + \
+                                      " as t1 ," + \
                                       self.dataset. \
                                       table_specific_name('Init') + \
-                                      " as table2," + \
+                                      " as t2," + \
                                       possible_table_name + " as postab" \
                                       " WHERE (" + \
-                                      " table1.index < table2.index AND " + \
+                                      " t1.index < t2.index AND " + \
                                       relax_dc + \
                                       ") GROUP BY postab.vid, postab.tid," \
                                       "postab.attr_name, postab.domain_id"

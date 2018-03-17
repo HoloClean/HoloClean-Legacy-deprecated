@@ -1,15 +1,13 @@
-
 class DCParser:
-
     """TODO:
     This class parse the DC in format of
     <first tuple>&<second tuple>&<first predicate>&<second predicate>...
     and create strings that SQL comprehensive
     """
 
-    operationsArr = ['=', '<', '>', '<>', '<=', '>=']
-    operationSign = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
-    nonsymmetricOperations = ['LT', 'GT', 'LTE', 'GTE']
+    operationsArr = ['<>', '<=', '>=', '=', '<', '>', ]
+    operationSign = ['IQ', 'LTE', 'GTE', 'EQ', 'LT', 'GT']
+    tables_name = ['t1', 't2']
 
     def __init__(self, denial_constraints):
         self.denial_constraints = denial_constraints
@@ -19,21 +17,20 @@ class DCParser:
     def _dc_to_sql_condition(self):
 
         """
-        Creates list of list of sql predicates by parsing the
-        input denial constraints
+        Creates list of listdc_parser.operationsArr of sql predicates by
+        parsing the input denial constraints
         the standard form for the is like
         't_i&t_j&EQ(t_i.a,t_j.a)&IQ(t_i.b,t_j.b)' or
         't1&t2&EQ(t1.part_counter,t2.part_counter)&IQ(t1.a,t2.a)' or
-        't1&t2&EQ(t1.city,t2.city)&EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)'
+        't1&t2&EQ(t1.city,t2.city)&
+        EQ(t1.temp,t2.temp)&IQ(t1.tempType,t2.tempType)'
 
         :return: list[list[string]]
         """
 
         dcSql = []
-        finalnull = []
-
         usedOperations = []
-        numOfContraints = len(self. denial_constraints)
+        numOfContraints = len(self.denial_constraints)
 
         for dc_count in range(0, numOfContraints):
             # Divide the string by & cause the meaningful parts separated
@@ -47,9 +44,9 @@ class DCParser:
             for part_counter in range(2, len(ruleParts)):
                 dc2sql = ''  # current predicate
                 predParts = ruleParts[part_counter].split('(')
-                op = predParts[0]   # operation appear before '('
+                op = predParts[0]  # operation appear before '('
                 # set of operation
-                dcOperations.\
+                dcOperations. \
                     append(self.operationsArr[self.operationSign.index(op)])
                 predBody = predParts[1][:-1]
                 tmp = predBody.split(',')
@@ -58,31 +55,45 @@ class DCParser:
                 # predicate type detection
                 if firstTuple in predBody and secondTuple in predBody:
                     if firstTuple in predLeft:
-                        dc2sql = dc2sql + 'table1.' + predLeft.split('.')[1] \
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table2.' + predRight.split('.')[1]
+                        dc2sql = dc2sql + self.tables_name[0] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[1] + '.' + \
+                                 predRight.split('.')[1]
                     else:
-                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table1.' + predRight.split('.')[1]
+                        dc2sql = dc2sql + self.tables_name[1] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[0] + '.' + \
+                                 predRight.split('.')[1]
                 elif firstTuple in predBody:
                     if firstTuple in predLeft:
-                        dc2sql = dc2sql+'table1.' + predLeft.split('.')[1]\
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + predRight
+                        dc2sql = dc2sql + self.tables_name[0] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + predRight
                     else:
-                        dc2sql = dc2sql + predLeft\
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table1.' + predRight.split('.')[1]
+                        dc2sql = dc2sql + predLeft \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[0] + '.' + \
+                                 predRight.split('.')[1]
                 else:
                     if secondTuple in predLeft:
-                        dc2sql = dc2sql + 'table2.' + predLeft.split('.')[1]\
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + predRight
+                        dc2sql = dc2sql + self.tables_name[1] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + predRight
                     else:
-                        dc2sql = dc2sql + predLeft\
-                            + self.operationsArr[self.operationSign.index(op)]\
-                            + 'table2.' + predRight.split('.')[1]
+                        dc2sql = dc2sql + predLeft \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[1] + '.' + \
+                                 predRight.split('.')[1]
 
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
@@ -90,15 +101,6 @@ class DCParser:
 
             dcSql.append(dc2sqlpred)
         return dcSql, usedOperations
-
-    def for_join_condition(self):
-        result = []
-        dcs = self.get_anded_string(conditionInd='all')
-        for dc in dcs:
-            tmp = dc.replace('table1.', 'table1.')
-            tmp = tmp.replace('table2.', 'table2.')
-            result.append(tmp)
-        return result
 
     def get_anded_string(self, conditionInd='all'):
 
@@ -116,7 +118,7 @@ class DCParser:
                 strRes = str(parts[0])
                 if len(parts) > 1:
                     for i in range(1, len(parts)):
-                        strRes = strRes+" AND "+str(parts[i])
+                        strRes = strRes + " AND " + str(parts[i])
                 andlist.append(strRes)
                 count += 1
             return andlist
@@ -127,7 +129,7 @@ class DCParser:
             strRes = str(parts[0])
             if len(parts) > 1:
                 for i in range(1, len(parts)):
-                    strRes = strRes+" AND "+str(parts[i])
+                    strRes = strRes + " AND " + str(parts[i])
             return strRes
 
     @staticmethod
@@ -183,8 +185,10 @@ class DCParser:
         """
         This function return all attributes that is appeared
         at least in one constraint
+
         :param dataengine:
         :param dataset:
+
         :return: list of attributes
         """
         result = set(DCParser.get_all_attribute(dataengine, dataset))
@@ -216,16 +220,3 @@ class DCParser:
             for j in range(1, len(dc)):
                 columns[i].append(dc[j].partition(',')[0].partition(')')[0])
         return columns
-
-    # Checks through all denial constraints to see if it contains a non-symmetric operator
-    # If a denial constraint does contain a non-symmetric operator then it will altar
-    # the corresponding columns to be of type INTEGER
-    def contains_nonsymmetric_operator(self, dataengine, dataset):
-        for dc in self.denial_constraints:
-            operators = DCParser.get_operators(dc)
-            columns = DCParser.get_columns(dc)
-            for index in range(0, len(operators)):
-                operator = operators[index]
-                if self.nonsymmetricOperations.count(operator) != 0:
-                    for column in columns[index]:
-                        dataengine.altar_column(dataset, column)

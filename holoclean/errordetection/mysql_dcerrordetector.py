@@ -21,11 +21,10 @@ class MysqlDCErrorDetection(ErrorDetection):
         :param dataset: list of tables name
         """
         super(MysqlDCErrorDetection, self).__init__(holo_obj, dataset)
-        self.and_of_preds = DCParser(
-            DenialConstraints)\
-            .get_anded_string('all')
-        self.operationsarr = ['=', '<>', '<=', '>=', '<', '>']
-        self.table_names = ["table1", "table2"]
+        dc_parser = DCParser(DenialConstraints)
+        self.and_of_preds = dc_parser.get_anded_string('all')
+        self.operationsarr = DCParser.operationsArr
+        self.table_names = DCParser.tables_name
         self.noisy_cells = None
 
     # Private methods
@@ -57,8 +56,8 @@ class MysqlDCErrorDetection(ErrorDetection):
             if operation in predicate:
                 components = predicate.split(operation)
                 for component in components:
-                    if component.find("table1.") == -1 and \
-                            component.find("table2.") == -1:
+                    if component.find("t1.") == -1 and \
+                            component.find("t2.") == -1:
                         pass
                     else:
                         attributes = component.split(".")
@@ -101,13 +100,14 @@ class MysqlDCErrorDetection(ErrorDetection):
                         + "'" + dc[0] + "'" + " AS attr " \
                         " FROM  " + \
                         self.dataset.table_specific_name("Init") + \
-                        " as table1, " + \
+                        " as t1, " + \
                         self.dataset.table_specific_name("Init") +\
-                        " as  table2 " + \
-                        "WHERE table1.index != table2.index  AND " \
+                        " as  t2 " + \
+                        "WHERE t1.index != t2.index  AND " \
                         + dc[1] + " )"
                 if dataframe is not None:
-                    dataframe = dataframe.union(self.dataengine.query(query, spark_flag=1))
+                    dataframe = dataframe.union(
+                        self.dataengine.query(query, spark_flag=1))
                 else:
                     dataframe = self.dataengine.query(query, spark_flag=1)
 
@@ -130,12 +130,13 @@ class MysqlDCErrorDetection(ErrorDetection):
         for attribute in all_attr:
             query = " ( " \
                 "SELECT  " \
-                "table1.index as ind, " \
+                "t1.index as ind, " \
                 + "'" + attribute + "'" + " AS attr " \
                 " FROM  " + \
-                self.dataset.table_specific_name("Init") + " as table1 )"
+                self.dataset.table_specific_name("Init") + " as t1 )"
             if dataframe is not None:
-                dataframe = dataframe.union(self.dataengine.query(query, spark_flag=1))
+                dataframe = dataframe.union(
+                    self.dataengine.query(query, spark_flag=1))
             else:
                 dataframe = self.dataengine.query(query, spark_flag=1)
 

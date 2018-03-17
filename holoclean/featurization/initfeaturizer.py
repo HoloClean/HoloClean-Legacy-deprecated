@@ -28,15 +28,7 @@ class SignalInit(Featurizer):
     def _get_constraint_attribute(self, table_name, attr_column_name):
         """
         Creates a string with a condition for only checking the attributes that
-        are part of a DC violation
-        example_output : "(cooccur.attr_first = 'City'
-        OR cooccur.attr_first = 'Stateavg'
-        OR cooccur.attr_first = 'ZipCode' OR cooccur.attr_first = 'State'
-        OR cooccur.attr_first = 'PhoneNumber'
-        OR cooccur.attr_first = 'ProviderNumber'
-        OR cooccur.attr_first = 'MeasureName'
-        OR cooccur.attr_first = 'MeasureCode'
-        OR cooccur.attr_first = 'Condition')"
+        are part of a DC
 
         :param  table_name: the name of the table that we need to check
         the attributes
