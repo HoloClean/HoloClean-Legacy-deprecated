@@ -92,7 +92,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         """
         self.holo_obj.logger.info('Denial Constraint Queries: ')
         self._create_new_dc()
-        df = None
+        dataframe = None
         for dc in self.final_dc:
             for table in self.table_names:
                 query = " ( " \
@@ -106,12 +106,12 @@ class MysqlDCErrorDetection(ErrorDetection):
                         " as  table2 " + \
                         "WHERE table1.index != table2.index  AND " \
                         + dc[1] + " )"
-                if df is not None:
-                    df = df.union(self.dataengine.query(query, spark_flag=1))
+                if dataframe is not None:
+                    dataframe = dataframe.union(self.dataengine.query(query, spark_flag=1))
                 else:
-                    df = self.dataengine.query(query, spark_flag=1)
+                    dataframe = self.dataengine.query(query, spark_flag=1)
 
-        c_dk_dataframe = df.distinct()
+        c_dk_dataframe = dataframe.distinct()
         self.noisy_cells = c_dk_dataframe
         return c_dk_dataframe
 
@@ -126,7 +126,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         noisy_cells = self.noisy_cells
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
         all_attr.remove('index')
-        df = None
+        dataframe = None
         for attribute in all_attr:
             query = " ( " \
                 "SELECT  " \
@@ -134,13 +134,13 @@ class MysqlDCErrorDetection(ErrorDetection):
                 + "'" + attribute + "'" + " AS attr " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + " as table1 )"
-            if df is not None:
-                df = df.union(self.dataengine.query(query, spark_flag=1))
+            if dataframe is not None:
+                dataframe = dataframe.union(self.dataengine.query(query, spark_flag=1))
             else:
-                df = self.dataengine.query(query, spark_flag=1)
+                dataframe = self.dataengine.query(query, spark_flag=1)
 
-        if df:
-            c_clean_dataframe = df.subtract(noisy_cells)
+        if dataframe:
+            c_clean_dataframe = dataframe.subtract(noisy_cells)
         else:
             c_clean_dataframe = None
         return c_clean_dataframe
