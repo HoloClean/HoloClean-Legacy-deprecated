@@ -44,7 +44,7 @@ arguments = [
     (('-h', '--host'),
         {'metavar': 'HOST',
          'dest': 'db_host',
-         'default': '127.0.0.1',
+         'default': 'localhost',
          'type': str,
          'help': 'Host for DB used to persist state'}),
     (('-d', '--database'),
