@@ -11,8 +11,6 @@ class ErrorDetectorsWrapper:
         get_noisy_cells, get_clean_cells
         """
         self.detect_obj = detect_obj
-        self.noisy_cells = None
-        self.clean_cells = None
 
     def get_noisy_dknow_dataframe(self):
 
@@ -23,7 +21,7 @@ class ErrorDetectorsWrapper:
         :return: return noisy cells and
         """
 
-        self.noisy_cells = self.detect_obj.get_noisy_cells()
-        self.clean_cells = self.detect_obj.get_clean_cells()
+        noisy_cells = self.detect_obj.get_noisy_cells()
+        clean_cells = self.detect_obj.get_clean_cells()
 
-        return self.noisy_cells, self.clean_cells
+        return noisy_cells, clean_cells
