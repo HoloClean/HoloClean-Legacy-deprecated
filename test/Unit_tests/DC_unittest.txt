@@ -1,0 +1,78 @@
+Unit test for Errordectector and Featurizer for DC
+
+Given the following dataset:
+index,A,B,C,D,E
+1,p,w,f,n,r
+2,p,z,f,k,r
+3,u,y,m,n,r
+
+And the following DC's
+t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)
+t1&t2&EQ(t1.C,"f")&EQ(t2.C,"m")&EQ(t1.E,t2.E)
+
+We expect the following in C_dk:
+
+1, A
+1, E
+1, B
+1, C
+2, A
+2, B
+2, C
+2, E
+3, C
+3, E
+
+Results:
+
+mysql> select * from 952724798141_C_dk order by ind;
++------+------+
+| ind  | attr |
++------+------+
+|    1 | C    |
+|    1 | A    |
+|    1 | B    |
+|    1 | E    |
+|    2 | C    |
+|    2 | A    |
+|    2 | B    |
+|    2 | E    |
+|    3 | C    |
+|    3 | E    |
++------+------+
+
+
+
+We expect the following relaxations:
+
+DC1, Predicate 1, relax component 1: postab.attr_name ='A' AND postab.attr_val=table2.A AND postab.tid = table1.index AND table1.B<>table2.B 
+
+DC1, Predicate 1, relax component 2: postab.attr_name ='A' AND table1.A=postab.attr_val AND postab.tid = table2.index AND table1.B<>table2.B
+
+DC1, Predicate 2, relax component 1: postab.attr_name ='B' AND postab.attr_val<>table2.B AND postab.tid = table1.index AND table1.A=table2.A 
+
+DC1, Predicate 2, relax component 2: postab.attr_name ='B' AND table1.B<>postab.attr_val AND postab.tid = table2.index AND table1.A=table2.A  
+
+DC2, Predicate 1, relax component 1: postab.attr_name ='C' AND postab.attr_val="f" AND postab.tid = table1.index AND  table2.C="m" AND table1.E=table2.E
+
+DC2, Predicate 2, relax component 1: postab.attr_name ='C' AND postab.attr_val="m" AND postab.tid = table2.index AND  table1.C="f" AND table1.E=table2.E 
+
+DC2, Predicate 3, relax component 1: postab.attr_name ='D' AND postab.attr_val=table2.D AND postab.tid = table1.index AND table1.C="f" AND table2.C="m" 
+
+DC2, Predicate 3, relax component 2: postab.attr_name ='D' AND postab_attr_val=table1.D AND postab.tid = table2.index AND table1.C="f" AND table2.C="m"
+
+Results:
+
+mysql> select * from 00915830475635_Feature_id_map where type = 'DC' order by feature_ind;
++-------------+-----------+-----------------------------------------------------------------------------------------------------------------------+------+
+| feature_ind | attribute | value                                                                                                                 | type |
++-------------+-----------+-----------------------------------------------------------------------------------------------------------------------+------+
+|          12 | A         | postab.attr_name ='A' AND postab.attr_val=table2.A AND postab.tid = table1.index AND  table1.B<>table2.B              | DC   |
+|          13 | A         | postab.attr_name = 'A' AND table1.A=postab.attr_val AND postab.tid = table2.index AND  table1.B<>table2.B             | DC   |
+|          14 | B         | postab.attr_name ='B' AND postab.attr_val<>table2.B AND postab.tid = table1.index AND  table1.A=table2.A              | DC   |
+|          15 | B         | postab.attr_name = 'B' AND table1.B<>postab.attr_val AND postab.tid = table2.index AND  table1.A=table2.A             | DC   |
+|          16 | C         | postab.attr_name ='C' AND postab.attr_val="f" AND postab.tid = table1.index AND  table2.C="m" AND  table1.E=table2.E  | DC   |
+|          17 | C         | postab.attr_name ='C' AND postab.attr_val="m" AND postab.tid = table2.index AND  table1.C="f" AND  table1.E=table2.E  | DC   |
+|          18 | E         | postab.attr_name ='E' AND postab.attr_val=table2.E AND postab.tid = table1.index AND  table1.C="f" AND  table2.C="m"  | DC   |
+|          19 | E         | postab.attr_name = 'E' AND table1.E=postab.attr_val AND postab.tid = table2.index AND  table1.C="f" AND  table2.C="m" | DC   |
++-------------+-----------+-----------------------------------------------------------------------------------------------------------------------+------+

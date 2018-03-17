@@ -237,7 +237,8 @@ class DataEngine:
             for i in range(len(dataframe.schema.names)):
                 create_table = create_table + " `" + \
                                dataframe.schema.names[i] + "` "
-                if dataframe.schema.fields[i].dataType == IntegerType():
+                if dataframe.schema.fields[i].dataType == IntegerType() \
+                        or dataframe.schema.names[i] == 'index':
                     create_table = create_table + "INT,"
                 else:
                     create_table = create_table + "VARCHAR(255),"

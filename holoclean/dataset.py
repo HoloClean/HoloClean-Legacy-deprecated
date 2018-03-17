@@ -5,8 +5,6 @@ class Dataset:
     attributes = [
         'id',
         'Init',
-        'C_clean_temp',
-        'C_dk_temp',
         'C_clean',
         'C_dk',
         'Possible_values_clean',
