@@ -16,7 +16,7 @@ class Reader:
         """Finds the extesion of the file.
 
         :param filepath: The path to the file
-         """
+        """
         extention = filepath.split('.')[-1]
         return extention
 
@@ -24,7 +24,7 @@ class Reader:
     def read(self, filepath):
         """Calls the appropriate reader for the file
 
-        Takes as argument the full path name of the  file
+        :param filepath: The path to the file
         """
         if (self._findextesion(filepath) == "csv"):
             csv_obj = CSVReader()
