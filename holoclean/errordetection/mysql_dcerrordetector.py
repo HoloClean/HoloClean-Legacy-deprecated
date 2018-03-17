@@ -6,7 +6,7 @@ __metaclass__ = type
 
 class MysqlDCErrorDetection(ErrorDetection):
     """
-    This class is a subclass of the abstract_errodetector class and
+    This class is a subclass of the errordetector class and
     will return  error  cells and clean cells based on the
     denial constraint
     """
@@ -70,10 +70,10 @@ class MysqlDCErrorDetection(ErrorDetection):
     @staticmethod
     def _find_predicates(cond):
         """
-        This method finds the predicates of dc"
+        This method finds the predicates of dc
 
-        :param cond: a denial constrain
-        :rtype: list_preds: list of predicates
+        :param cond: a denial constraint
+        :return: list_preds: list of predicates
         """
 
         list_preds = cond.split(' AND ')

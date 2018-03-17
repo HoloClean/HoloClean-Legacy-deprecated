@@ -1,14 +1,13 @@
 class Reader:
 
-    """TODO:Reader class:Finds the extesion of the file and calls the
-    appropriate reader"""
+    """Reader class:
+    Finds the extension of the file and calls the appropriate reader
+    """
 
     def __init__(self, spark_session):
-        """TODO.
-        Parameters
-        --------
-        parameter: spark_session
-                Takes as an argument the spark_Session from the Data Engine
+        """
+-
+        :param spark_session: The spark_session we created in Holoclean object
         """
         self.spark_session = spark_session
 
@@ -36,7 +35,7 @@ class Reader:
 
 
 class CSVReader:
-    """TODO:CSVReader class: Reads a csv file and send its content back"""
+    """CSVReader class: Reads a csv file and send its content back"""
 
     def __init__(self):
         pass

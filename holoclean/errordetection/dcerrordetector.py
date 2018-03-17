@@ -4,7 +4,7 @@ from errordetector import ErrorDetection
 
 class DCErrorDetection(ErrorDetection):
     """
-    This class is a subclass of the abstract_errodetector class and
+    This class is a subclass of the errordetector class and
     will return  error  cells and clean cells based on the
     denial constraint
     """
@@ -93,7 +93,7 @@ class DCErrorDetection(ErrorDetection):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
 
-        :param dataset: list od dataset names
+        :param dataset: list of dataset names
 
         :return: spark_dataframe
         """

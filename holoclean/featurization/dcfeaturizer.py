@@ -30,6 +30,11 @@ class SignalDC(Featurizer):
     def _create_all_relaxed_dc(self):
         """
         This method creates a list of all the possible relaxed DC's
+        example output
+        ["postab.tid = table1.index
+        AND postab.attr_name ='ZipCode'
+        AND postab.attr_val=table2.ZipCode
+        AND  table1.City<>table2.City", 'table2']
 
         :return: a list of all the possible relaxed DC's
         """
@@ -43,9 +48,9 @@ class SignalDC(Featurizer):
                 all_relax_dc.append(relax_dc)
         return all_relax_dc
 
-    def _creating_table_name(self, name):
+    def _comparison_table_name(self, name):
         """
-        This method choose the appropriate name of the table for the query
+        This method chooses the appropriate name of the table for the query
 
         :param name: shows the name of table that we have on the comparison
 
@@ -86,7 +91,7 @@ class SignalDC(Featurizer):
                 name_attribute = \
                     dc_predicates[predicate_index][relax_index].split(".")
                 self.attributes_list.append(name_attribute[1])
-                table_name = self._creating_table_name(name_attribute[0])
+                table_name = self._comparison_table_name(name_attribute[0])
                 if relax_index == 2:
                     relax_dc = "postab.tid = " + name_attribute[0] +\
                                ".index AND " + \

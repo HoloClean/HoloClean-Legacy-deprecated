@@ -15,7 +15,7 @@ class SignalCooccur(Featurizer):
 
         """
 
-        :param attr_constrained: list of atttributes that are part of a dc
+        :param attr_constrained: list of attributes that are part of a dc
         :param dataengine: a connector to database
         :param dataset: list of tables name
         """
@@ -29,14 +29,14 @@ class SignalCooccur(Featurizer):
         """
         Creates a string with a condition for only checking the attributes that
         are part of a DC violation
-        example_output : "(cooccur.attr_first = 'City' OR
-        cooccur.attr_first = 'Stateavg'
+        example_output : "(cooccur.attr_first = 'City'
+        OR cooccur.attr_first = 'Stateavg'
         OR cooccur.attr_first = 'ZipCode' OR cooccur.attr_first = 'State'
         OR cooccur.attr_first = 'PhoneNumber'
         OR cooccur.attr_first = 'ProviderNumber'
         OR cooccur.attr_first = 'MeasureName'
-        OR cooccur.attr_first = 'MeasureCode' OR
-        cooccur.attr_first = 'Condition')"
+        OR cooccur.attr_first = 'MeasureCode'
+        OR cooccur.attr_first = 'Condition')"
 
         :param  table_name: the name of the table that we need to check
         the attributes
@@ -56,7 +56,7 @@ class SignalCooccur(Featurizer):
 
     def get_query(self, clean=1):
         """
-        Creates a string for the query that it is used to create the Initial
+        Creates a string for the query that it is used to create the  Cooccur
         Signal
 
         :param clean: shows if create the feature table for the clean or the dk
