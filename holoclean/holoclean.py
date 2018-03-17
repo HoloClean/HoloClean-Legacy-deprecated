@@ -249,7 +249,6 @@ class Session:
         self.cv = None
         self.pruning = None
         self.dataset = Dataset()
-
         self.parser = ParserInterface(self)
 
     def _timing_to_file(self, log):
@@ -282,7 +281,6 @@ class Session:
 
     def load_denial_constraints(self, file_path):
         """ Loads denial constraints from line-separated txt file
-            into self.Denial_constraints
         :param file_path: path to dc file
         :return: string array of dc's
         """
@@ -296,8 +294,8 @@ class Session:
         :param dc: string in dc format
         :return: string array of dc's
         """
-        self.parser.check_dc_format(dc, self.Denial_constraints)
-        self.Denial_constraints.append(dc)
+        checked_dc = self.parser.check_dc_format(dc, self.Denial_constraints)
+        self.Denial_constraints.append(checked_dc)
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):
