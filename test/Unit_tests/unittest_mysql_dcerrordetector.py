@@ -23,26 +23,22 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.detector = MysqlDCErrorDetection(self.session.Denial_constraints,
                                               holo_obj,
                                               self.session.dataset)
+        self.session.detect_errors(self.detector)
 
     def tearDown(self):
         del self.session
 
     def test_number_of_dk_cells(self):
-        self.session.detect_errors(self.detector)
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
             'C_dk', self.session.dataset)
         self.assertEquals(dataframe_C_dk.count(), 10)
 
     def test_number_of_clean_cells(self):
-        self.session.detect_errors(self.detector)
         dataframe_C_clean = holo_obj.dataengine.get_table_to_dataframe(
             'C_clean', self.session.dataset)
         self.assertEquals(dataframe_C_clean.count(), 5)
 
     def test_correction_of_clean_cells(self):
-
-        self.session.detect_errors(self.detector)
-
         dataframe_C_clean = holo_obj.dataengine.get_table_to_dataframe(
             'C_clean', self.session.dataset)
 
@@ -59,7 +55,6 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_correction_of_dk_cells(self):
-        self.session.detect_errors(self.detector)
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
             'C_dk', self.session.dataset)
 
