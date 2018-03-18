@@ -119,8 +119,8 @@ class Dataset:
 
     def print_id(self):
         """
-        This method writes dataset id inside dataset_id.txt file and return that
-        id
+        This method writes dataset id inside dataset_id.txt file and returns
+         that id
 
         Parameters
         ----------

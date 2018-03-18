@@ -43,15 +43,15 @@ class DataEngine:
     # Internal methods
     def _start_db(self):
         """Start MySQL database
-        
+
         Parameters
         ----------
         No parameter
-        
+
         Returns
         -------
         :return: sql_eng : SQL Engine
-                This method returns SQL engine to connect to database 
+                This method returns SQL engine to connect to database
         """
         user = self.holo_env.db_user
         pwd = self.holo_env.db_pwd
@@ -99,7 +99,8 @@ class DataEngine:
         """
         try:
             self.db_backend.connect()
-            self.holo_env.logger.info("Connection established to data database")
+            self.holo_env.logger.\
+                info("Connection established to data database")
         except Exception as e:
             self.holo_env.logger.error('No connection to data database',
                                        exc_info=e)
@@ -179,13 +180,13 @@ class DataEngine:
         :param table_name: The name of table that we want some of its columns
         :param columns_name_list: The list of columns that we want from
                                 table_name
-        :param dataset: The data set object to access to the correct project
+        :param dataset: The data set object to access the correct project
                         tables
 
         Returns
         -------
         :return: Dataframe
-                It returns a dataframe contains "columns_name_list" columns data
+            It returns a dataframe that contains "columns_name_list" columns data
         """
         columns_string = ""
         for c in columns_name_list:
@@ -212,9 +213,9 @@ class DataEngine:
                  "spec_table_name"
         :param append: Int
                 If this parameter equal to zero, the code first creates a
-                    table, then it adds "dataframe" information into table,
-                    otherwise it just appends "dataframe" into "spec_table_name"
-        
+                table, then it adds "dataframe" information into table,
+                otherwise it just appends "dataframe" into "spec_table_name"
+
         Returns
         -------
         No Return
@@ -258,8 +259,7 @@ class DataEngine:
         Parameters
         ----------
         :param sql_query: String
-                    The query that we want to have it results on the dataframe
-                     in the memory
+                    Query string to execute
 
         Returns
         -------
@@ -339,7 +339,7 @@ class DataEngine:
         Returns
         -------
         :return: SQL Engine
-            This is sql engine returns a sql engine
+            Returns a sql engine
         """
         return self.db_backend
 
