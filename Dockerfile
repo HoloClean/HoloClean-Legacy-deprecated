@@ -17,7 +17,6 @@ COPY LICENSE /holoclean/
 WORKDIR /holoclean
 # Install VIM and git, not really needed
 RUN apt-get install -y vim
-RUN apt-get install -y git
 
 # Install required python packages
 RUN apt-get install -y libmysqlclient-dev
