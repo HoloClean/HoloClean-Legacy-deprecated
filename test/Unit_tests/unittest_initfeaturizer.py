@@ -28,16 +28,15 @@ class TestInitFeaturizer(unittest.TestCase):
         self.attr_constrained = \
             self.session.parser.get_all_constraint_attributes(
                  self.session.Denial_constraints)
+        self.init_signal = SignalInit(self.attr_constrained,
+                                      holo_obj.dataengine,
+                                      self.session.dataset)
 
     def tearDown(self):
         del self.session
 
     def test_Init_query_for_clean(self):
-
-        init_signal = SignalInit(self.attr_constrained,
-                                 holo_obj.dataengine,
-                                 self.session.dataset)
-        query = init_signal.get_query()
+        query = self.init_signal.get_query()
         self.session._ds_domain_pruning(0.5)
         Int_feature_dataframe = \
             holo_obj.dataengine.query(query[2:], 1)
@@ -56,10 +55,7 @@ class TestInitFeaturizer(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_Init_query_for_dk(self):
-        init_signal = SignalInit(self.attr_constrained,
-                                 holo_obj.dataengine,
-                                 self.session.dataset)
-        query = init_signal.get_query(0)
+        query = self.init_signal.get_query(0)
         self.session._ds_domain_pruning(0.5)
         Int_feature_dataframe = \
             holo_obj.dataengine.query(query[2:], 1)
