@@ -1,5 +1,4 @@
-
-vis CI config for Holoclean, Weakly Supervised Data Cleaning
+# Travis CI config for Holoclean, Weakly Supervised Data Cleaning
 
 dist: trusty
 sudo: required
