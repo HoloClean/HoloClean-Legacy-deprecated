@@ -4,7 +4,6 @@ sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
 from holoclean.featurization.dcfeaturizer import SignalDC
-from pyspark.sql.types import *
 
 holo_obj = HoloClean(
     mysql_driver="../../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
@@ -124,7 +123,6 @@ class TestDCFeaturizerWeirdTableName(unittest.TestCase):
                                          holo_obj,
                                          self.session.dataset)
         self.session.detect_errors(detector)
-
 
 
 if __name__ == "__main__":
