@@ -333,7 +333,7 @@ class SoftMax:
             weight_decay=self.holo_obj.weight_decay)
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
-        for i in tqdm(range(100)):
+        for i in tqdm(range(20)):
             cost = 0.
             num_batches = n_examples // batch_size
             for k in range(num_batches):

@@ -52,14 +52,14 @@ class Accuracy:
         for rv_attr in rv_attrs:
             if rv_attr != "index" and rv_attr != "Index":
                 query_for_flattening = """ (SELECT \
-                                       DISTINCT table1.index as tid,'""" + \
+                                       DISTINCT t1.index as tid,'""" + \
                                        rv_attr + """'  \
                                        AS attr_name, \
-                                       table1.""" + rv_attr + """ AS attr_val \
+                                       t1.""" + rv_attr + """ AS attr_val \
                                        FROM """ + \
                                        self.dataset.\
                                        table_specific_name('Correct') +\
-                                       " as table1)"
+                                       " as t1)"
 
                 insert_query = "INSERT INTO " + self.dataset.\
                     table_specific_name('Correct_flat') + \

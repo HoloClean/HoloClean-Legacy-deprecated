@@ -2,21 +2,21 @@ from pyspark.sql.types import *
 
 
 class RandomVar:
-    """TODO:RandomVar class: class for random variable"""
+    """RandomVar class: class for random variable"""
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
 
 class Pruning:
-    """TODO:Pruning class: Creates the domain table for all the cells"""
+    """Pruning class: Creates the domain table for all the cells"""
 
     def __init__(self, session, threshold=0.5):
-        """TODO.
-                Parameters
-                --------
-                Session: the Holoclean session using the Pruning object
-                """
+        """
+
+            :param session: Holoclean session
+            :param threshold: the threshold will use for pruning
+        """
         self.session = session
         self.spark_session = session.holo_env.spark_session
         self.dataengine = session.holo_env.dataengine
@@ -51,14 +51,16 @@ class Pruning:
         """
                 Create noisy_cell list from the C_dk table
         """
-        dataframe_dont_know = self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
+        dataframe_dont_know = \
+            self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
         noisy_cells = []
         self.noisy_list = []
         for cell in dataframe_dont_know.collect():
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
             self.noisy_list.append([cell[1], int(cell[0])])
-            self.cellvalues[int(cell[0])-1][self.attribute_map[cell[1]]].dirty = 1
+            self.cellvalues[int(cell[0])-1][
+                 self.attribute_map[cell[1]]].dirty = 1
 
         return noisy_cells
 
@@ -66,7 +68,8 @@ class Pruning:
         """
                 Create clean_cell list from the C_clean table
         """
-        dataframe_clean = self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
+        dataframe_clean = \
+            self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
         clean_cells = []
         self.clean_list = []
         for cell in dataframe_clean.collect():
@@ -80,7 +83,8 @@ class Pruning:
         """
                 Create c_value list from the init table
         """
-        dataframe_init = self.dataengine.get_table_to_dataframe("Init", self.dataset)
+        dataframe_init = \
+            self.dataengine.get_table_to_dataframe("Init", self.dataset)
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
@@ -92,7 +96,8 @@ class Pruning:
             for column_value in column:
                 self.attribute_map[table_attribute[column_id]] = column_id
                 cell_variable = RandomVar(columnname=table_attribute[column_id],
-                                          value=column_value, tupleid=row_id, cellid=number_id, dirty=0, domain=0)
+                                          value=column_value, tupleid=row_id,
+                                          cellid=number_id, dirty=0, domain=0)
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
@@ -107,9 +112,9 @@ class Pruning:
             cooccured_attribute,
             cooccured_attr_value):
         """
-        generate_assignments creates assignment for each cell with the attribute and value
-                    of each other cell in the same row
-                    Parameters
+        generate_assignments creates assignment for each cell with the attribute
+        and value of each other cell in the same row
+
         :param original_attribute: the name of first attribute
         :param original_attr_value: the initial value of the first attribute
         :param cooccured_attribute: the name of second attribute
@@ -119,21 +124,21 @@ class Pruning:
         if (original_attr_value, cooccured_attr_value) not in \
                 self.domain_pair_stats[original_attribute][cooccured_attribute]:
             return None
-        cooccur_count = self.domain_pair_stats[original_attribute][cooccured_attribute][(
-            original_attr_value, cooccured_attr_value)]
+        cooccur_count = \
+            self.domain_pair_stats[original_attribute][cooccured_attribute][(
+                 original_attr_value, cooccured_attr_value)]
         v_cnt = self.domain_stats[original_attribute][original_attr_value]
 
         # Compute counter
-        number_of_cooccurence = cooccur_count  # / len(self.cellvalues)
-        total_number_of_original_attr_value = v_cnt  # / len(self.cellvalues)
+        number_of_cooccurence = cooccur_count
+        total_number_of_original_attr_value = v_cnt
         return number_of_cooccurence / total_number_of_original_attr_value
 
     def _find_domain(self, assignment, trgt_attr):
-        """TO DO: _find_domain finds the domain for each cell
-                Parameters
-                --------
-                assignment: attributes with value
-                trgt_attr: the name of attribute
+        """ This method finds the domain for each cell
+
+           :param assignment: the values for every attribute
+           :param trgt_attr: the name of attribute
         """
         cell_values = {(assignment[trgt_attr])}
         for attr in assignment:
@@ -142,15 +147,18 @@ class Pruning:
             attr_val = assignment[attr]
             if attr in self.cooocurance_for_first_attribute:
                 if attr_val in self.cooocurance_for_first_attribute[attr]:
-                    if trgt_attr in self.cooocurance_for_first_attribute[attr][attr_val]:
+                    if trgt_attr in self.cooocurance_for_first_attribute[
+                                    attr][attr_val]:
                         cell_values |= set(
-                            self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr].keys())
+                            self.cooocurance_for_first_attribute[attr][
+                                attr_val][trgt_attr].keys())
 
         return cell_values
 
     def _preprop(self):
-        """TO DO:
-               preprocessing phase. create the dictionary with all the attributes.
+        """
+               preprocessing phase: create the dictionary with
+               all the attributes.
         """
 
         # This part creates dictionary to find column index
@@ -168,7 +176,8 @@ class Pruning:
         for col in self.column_to_col_index_dict:
             self.domain_stats[col] = {}
 
-        # This part adds other (dirty) attributes to the dictionary of the key attribute
+        # This part adds other (dirty) attributes
+        # to the dictionary of the key attribute
         for column_name_key in self.column_to_col_index_dict:
             self.domain_pair_stats[column_name_key] = {}
             for col2 in self.dirty_cells_attributes:
@@ -177,8 +186,9 @@ class Pruning:
         return
 
     def _analyze_entries(self):
-        """TO DO:
-                analyzeEntries creates a dictionary with occurrences of the attributes
+        """
+                analyzeEntries creates a dictionary with
+                occurrences of the attributes
         """
         # Iterate over tuples to create to dictionary
         for tupleid in self.cellvalues:
@@ -197,7 +207,8 @@ class Pruning:
                     self.domain_stats[col][val] = 0.0
                 self.domain_stats[col][val] += 1.0
 
-            # Iterate over target attributes and grab counts of values with other attributes
+            # Iterate over target attributes and grab
+            # counts of values with other attributes
             for col in self.domain_pair_stats:
                 cid = self.column_to_col_index_dict[col]
                 for tgt_col in self.domain_pair_stats[col]:
@@ -214,37 +225,52 @@ class Pruning:
         """TO DO:
                 _generate_coocurences creates candidates repairs
         """
-        for original_attribute in self.domain_pair_stats:  # For each column in the cooccurences
-            self.cooocurance_for_first_attribute[original_attribute] = {}  # It creates a dictionary
-            for cooccured_attribute in self.domain_pair_stats[original_attribute]:
+        for original_attribute in self.domain_pair_stats:
+            # For each column in the cooccurences
+            self.cooocurance_for_first_attribute[original_attribute] = {}
+            # It creates a dictionary
+            for cooccured_attribute in \
+                    self.domain_pair_stats[original_attribute]:
                 # For second column in the cooccurences Over
                 # Pair of values that happend with each other
                 # (original_attribute value , cooccured_attribute value)
-                for assgn_tuple in self.domain_pair_stats[original_attribute][cooccured_attribute]:
+                for assgn_tuple in self.domain_pair_stats[
+                                        original_attribute][
+                                        cooccured_attribute]:
                     cooccure_number = self._compute_number_of_coocurences(
-                        original_attribute, assgn_tuple[0], cooccured_attribute, assgn_tuple[1])
+                        original_attribute, assgn_tuple[0], cooccured_attribute,
+                        assgn_tuple[1])
                     if cooccure_number > self.threshold:
-                        if assgn_tuple[0] not in self.cooocurance_for_first_attribute[original_attribute]:
-                            self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]] = {}
+                        if assgn_tuple[0] not in\
+                                self.cooocurance_for_first_attribute[
+                                     original_attribute]:
+                            self.cooocurance_for_first_attribute[
+                                original_attribute][assgn_tuple[0]] = {}
                         if cooccured_attribute not in \
-                                self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]]:
-                            self.cooocurance_for_first_attribute[original_attribute][
+                                self.cooocurance_for_first_attribute[
+                                    original_attribute][assgn_tuple[0]]:
+                            self.cooocurance_for_first_attribute[
+                                original_attribute][
                                 assgn_tuple[0]][cooccured_attribute] = {}
-                        self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]][cooccured_attribute][
+                        self.cooocurance_for_first_attribute[
+                            original_attribute][assgn_tuple[0]][
+                            cooccured_attribute][
                             assgn_tuple[1]] = cooccure_number
         return
 
     def _generate_assignments(self):
         """
-        generate_assignments creates assignment for each cell with the attribute and value
-                of each other cell in the same row
+        generate_assignments creates assignment for each cell with the attribute
+        and value of each other cell in the same row
+
         :return:
         """
         for cell in self.all_cells:
             tplid = cell.tupleid
             trgt_attr = cell.columnname
 
-            # assignment is a dictionary for each cell copied the row of that cell
+            # assignment is a dictionary for each cell copied
+            # the row of that cell
             # with all attribute to find the cooccurance
             assignment = {}
             for cid in self.cellvalues[tplid]:
@@ -260,9 +286,11 @@ class Pruning:
         :return:
         """
         for cell_index in self.assignments:
-            # In this part we get all values for cell_index's attribute_to_be_pruned
+            # In this part we get all values for cell_index's
+            # attribute_to_be_pruned
             self.cell_domain[cell_index] = self._find_domain(
-                self.assignments[cell_index], self.attribute_to_be_pruned[cell_index])
+                self.assignments[cell_index],
+                self.attribute_to_be_pruned[cell_index])
         return
 
     def _append_possible(self, v_id, value, dataframe, cell_index, k_ij):
@@ -304,26 +332,40 @@ class Pruning:
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     c_dk.append([tuple_id + 1, attribute, value])
-                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+                    tmp_cell_index = \
+                        self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
-                        domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                              self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                            self._append_possible(v_id_dk, value,
+                                                  possible_values_dirty,
+                                                  tmp_cell_index, k_ij)
+                        domain_kij_dk.append([v_id_dk, (
+                                self.all_cells_temp[tmp_cell_index].tupleid
+                                + 1),
+                                self.all_cells_temp[tmp_cell_index].columnname,
+                                k_ij])
                 else:
                     c_clean.append([tuple_id + 1, attribute, value])
-                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+                    tmp_cell_index = \
+                        self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                                 self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                            self._append_possible(v_id_clean, value,
+                                                  possible_values_clean,
+                                                  tmp_cell_index, k_ij)
+                        domain_kij_clean.append([v_id_clean,
+                                                 (self.all_cells_temp[
+                                                      tmp_cell_index].tupleid
+                                                  + 1),
+                                                 self.all_cells_temp[
+                                                     tmp_cell_index].columnname,
+                                                 k_ij])
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
@@ -338,7 +380,9 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'), 'attr_name')
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_clean'),
+            'attr_name')
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
@@ -352,7 +396,8 @@ class Pruning:
         )
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
 
         # Create Clean and DK flats
@@ -376,28 +421,34 @@ class Pruning:
         self.dataengine.add_db_table('C_dk_flat',
                                      new_df_dk, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(domain_kij_dk, StructType([
-            StructField("vid", IntegerType(), True),
-            StructField("tid", IntegerType(), False),
-            StructField("attr_name", StringType(), False),
-            StructField("k_ij", IntegerType(), False),
-        ]))
+        new_df_kij = self.spark_session.createDataFrame(
+            domain_kij_dk, StructType([
+                StructField("vid", IntegerType(), True),
+                StructField("tid", IntegerType(), False),
+                StructField("attr_name", StringType(), False),
+                StructField("k_ij", IntegerType(), False),
+            ]))
         self.dataengine.add_db_table('Kij_lookup_dk',
                                      new_df_kij, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(domain_kij_clean, StructType([
-            StructField("vid", IntegerType(), False),
-            StructField("tid", IntegerType(), False),
-            StructField("attr_name", StringType(), False),
-            StructField("k_ij", IntegerType(), False),
-        ]))
+        new_df_kij = self.spark_session.createDataFrame(
+            domain_kij_clean, StructType([
+                StructField("vid", IntegerType(), False),
+                StructField("tid", IntegerType(), False),
+                StructField("attr_name", StringType(), False),
+                StructField("k_ij", IntegerType(), False),
+            ]))
         self.dataengine.add_db_table('Kij_lookup_clean',
                                      new_df_kij, self.dataset)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Kij_lookup_clean') +
+        self.dataengine.holoEnv.logger.info('The table: ' +
+                                            self.dataset.table_specific_name(
+                                                'Kij_lookup_clean') +
                                             " has been created")
         self.dataengine.holoEnv.logger.info("  ")
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
+        self.dataengine.holoEnv.logger.info('The table: ' +
+                                            self.dataset.table_specific_name(
+                                                'Possible_values_dk') +
                                             " has been created")
         self.dataengine.holoEnv.logger.info("  ")
 
@@ -406,7 +457,8 @@ class Pruning:
         del new_df_dk
 
         create_feature_id_map = "Create TABLE " + \
-                                self.dataset.table_specific_name("Feature_id_map") + \
+                                self.dataset.table_specific_name(
+                                    "Feature_id_map") + \
                                 "( feature_ind INT," \
                                 " attribute VARCHAR(255)," \
                                 " value VARCHAR(255)," \
@@ -414,11 +466,13 @@ class Pruning:
         self.dataengine.query(create_feature_id_map)
 
         query_observed = "CREATE TABLE " + \
-                         self.dataset.table_specific_name('Observed_Possible_values_clean') + \
+                         self.dataset.table_specific_name(
+                             'Observed_Possible_values_clean') + \
                          " SELECT * FROM ( " \
                          "SELECT *  \
                          FROM " + \
-                         self.dataset.table_specific_name('Possible_values_clean') + " as t1 " + \
+                         self.dataset.table_specific_name(
+                             'Possible_values_clean') + " as t1 " + \
                          " WHERE " \
                          " t1.observed=1 ) " \
                          "AS table1;"
@@ -426,23 +480,28 @@ class Pruning:
         self.dataengine.query(query_observed)
 
         query_observed = "CREATE TABLE " + \
-                         self.dataset.table_specific_name('Observed_Possible_values_dk') + \
+                         self.dataset.table_specific_name(
+                             'Observed_Possible_values_dk') + \
                          " SELECT * FROM ( " \
                          "SELECT *  \
                          FROM " + \
-                         self.dataset.table_specific_name('Possible_values_dk') + " as t1 " + \
+                         self.dataset.table_specific_name('Possible_values_dk')\
+                         + " as t1 " + \
                          " WHERE " \
                          " t1.observed=1 ) " \
                          "AS table1;"
 
         self.dataengine.query(query_observed)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
+        self.dataengine.holoEnv.logger.info('The table: ' +
+                                            self.dataset.table_specific_name(
+                                                 'Possible_values_dk') +
                                             " has been created")
         self.dataengine.holoEnv.logger.info("  ")
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_clean') +
+        self.dataengine.holoEnv.logger.info('The table: ' +
+                                            self.dataset.table_specific_name(
+                                                 'Possible_values_clean') +
                                             " has been created")
         self.dataengine.holoEnv.logger.info("  ")
-
         return
