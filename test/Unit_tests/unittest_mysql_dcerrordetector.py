@@ -17,44 +17,31 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.session = Session(holo_obj)
         self.dataset = "../../datasets/unit_test/unit_test_dataset.csv"
         self.session.load_data(self.dataset)
+        self.session.load_denial_constraints(
+            "../../datasets/unit_test/unit_test_constraints.txt")
+
+        self.detector = MysqlDCErrorDetection(self.session.Denial_constraints,
+                                              holo_obj,
+                                              self.session.dataset)
 
     def tearDown(self):
         del self.session
 
     def test_number_of_dk_cells(self):
-
-        self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
-
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
-        self.session.detect_errors(detector)
+        self.session.detect_errors(self.detector)
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
             'C_dk', self.session.dataset)
         self.assertEquals(dataframe_C_dk.count(), 10)
 
     def test_number_of_clean_cells(self):
-
-        self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
-
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
-        self.session.detect_errors(detector)
+        self.session.detect_errors(self.detector)
         dataframe_C_clean = holo_obj.dataengine.get_table_to_dataframe(
             'C_clean', self.session.dataset)
         self.assertEquals(dataframe_C_clean.count(), 5)
 
     def test_correction_of_clean_cells(self):
-        self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
-        self.session.detect_errors(detector)
+        self.session.detect_errors(self.detector)
 
         dataframe_C_clean = holo_obj.dataengine.get_table_to_dataframe(
             'C_clean', self.session.dataset)
@@ -72,13 +59,7 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_correction_of_dk_cells(self):
-        self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
-
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
-        self.session.detect_errors(detector)
+        self.session.detect_errors(self.detector)
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
             'C_dk', self.session.dataset)
 
