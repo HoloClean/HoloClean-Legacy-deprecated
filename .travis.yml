@@ -34,6 +34,9 @@ addons:
 # See: https://github.com/Theano/Theano/blob/master/.travis.yml (for caching)
 # See: http://conda.pydata.org/docs/travis.html
 before_install:
+   - pip install python-coveralls
+  - pip install coverage
+  - pip install nose
   - pip install pytest pytest-cov
   - pip install coveralls
   - sudo pip install nose
@@ -73,7 +76,7 @@ script:
 
   # Runs tutorial python tests
   - cd test/Unit_tests
-  - coverage -p  run unittest_mysql_dcerrordetector.py
+  - nosetests --with-coverage --cover-package=../../holoclean
   - python unittest_mysql_dcerrordetector.py
 
 after_success:
