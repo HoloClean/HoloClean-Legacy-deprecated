@@ -25,15 +25,15 @@ class TestCooccurFeaturizer(unittest.TestCase):
                                          holo_obj,
                                          self.session.dataset)
         self.session.detect_errors(detector)
+        self.attr_constrained =\
+            self.session.parser.get_all_constraint_attributes(
+                 self.session.Denial_constraints)
 
     def tearDown(self):
         del self.session
 
     def test_Cooccur_query_for_clean(self):
-        attr_constrained = self.session.parser.get_all_constraint_attributes(
-            self.session.Denial_constraints)
-
-        cooccur_signal = SignalCooccur(attr_constrained,
+        cooccur_signal = SignalCooccur(self.attr_constrained,
                                        holo_obj.dataengine,
                                        self.session.dataset)
 
@@ -59,9 +59,8 @@ class TestCooccurFeaturizer(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_Cooccur_query_for_dk(self):
-        attr_constrained = self.session.parser.get_all_constraint_attributes(
-            self.session.Denial_constraints)
-        cooccur_signal = SignalCooccur(attr_constrained,
+
+        cooccur_signal = SignalCooccur(self.attr_constrained,
                                        holo_obj.dataengine,
                                        self.session.dataset)
 
