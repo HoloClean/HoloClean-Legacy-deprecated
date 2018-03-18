@@ -92,6 +92,8 @@ script:
   # Runs tutorial python tests
   - cd tutorial
   - python Holoclean_Hospital.py
+  - cd ../test/Unit_tests
+  - python unittest_mysql_dcerrordetector.py
 
 after_success:
   - killall java
