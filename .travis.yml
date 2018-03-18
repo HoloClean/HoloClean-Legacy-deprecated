@@ -56,11 +56,6 @@ before_install:
   - export PATH=~/miniconda/bin:$PATH
   - conda update --yes conda
 
-  # Make sure Java 8 is used
-  - export PATH="/usr/lib/jvm/java-8-oracle/bin:$PATH"
-  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - java -version
-
   # Set environment variables
   - source set_env.sh
   
@@ -73,23 +68,6 @@ install:
   # Install binary distribution of scientific python modules
   - test -e ~/miniconda/envs/test/bin/activate || ( rm -rf ~/miniconda/envs/test; conda create --yes -n test python=$TRAVIS_PYTHON_VERSION )
   - source activate test
-  - conda install --yes numpy scipy matplotlib pip
-
-  # Install Numba
-  - conda install --yes numba
-
-  #Install pytorch
-  - conda install --yes pytorch-cpu torchvision -c pytorch
-  
-  #Install pyspark
-  #- conda install --yes conda-forge pyspark 
-
-  # Install all remaining dependencies as per our README
-  - pip install -r python-package-requirement.txt
-
-
-  # Use runipy to run Jupyter/IPython notebooks from command-line
-  - pip install runipy
 
 script:
 
@@ -104,6 +82,5 @@ after_success:
   - coveralls
   - killall java
   - codeclimate-test-reporter --file .coverage
-
 after_failure:
 - killall java
