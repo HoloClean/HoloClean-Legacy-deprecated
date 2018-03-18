@@ -3,7 +3,6 @@ import sys
 sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
-from holoclean.featurization.cooccurrencefeaturizer import SignalCooccur
 from holoclean.featurization.dcfeaturizer import SignalDC
 from pyspark.sql.types import *
 
@@ -27,24 +26,17 @@ class TestDCFeaturizer(unittest.TestCase):
                                          self.session.dataset)
         self.session.detect_errors(detector)
 
-    def test_Cooccur_query_for_clean(self):
-        attr_constrained = self.session.parser.get_all_constraint_attributes(
-            self.session.Denial_constraints)
+    def test_DC_query_for_clean(self):
 
         dc_signal = SignalDC(self.session.Denial_constraints, self.session)
 
-        # query = cooccur_signal.get_query()
         self.session._ds_domain_pruning(0.5)
         self.session._add_featurizer(dc_signal)
-        # self.session._add_featurizer(cooccur_signal)
-
-        # Cooccur_feature_dataframe = \
-        #     holo_obj.dataengine.query(query[2:], 1)
 
         temp_list = dc_signal._create_all_relaxed_dc()
         relaxed_dcs = []
-        for el in temp_list:
-            relaxed_dcs.append(el[0])
+        for relaxed_dc in temp_list:
+            relaxed_dcs.append(relaxed_dc[0])
 
         expected_r_dcs = \
             ["postab.tid = t1.index AND postab.attr_name ='A' AND"
@@ -82,24 +74,19 @@ class TestDCFeaturizerNonSymmetric(unittest.TestCase):
                                          self.session.dataset)
         self.session.detect_errors(detector)
 
-    def test_Cooccur_query_for_clean(self):
+    def test_DC_query_for_clean(self):
         attr_constrained = self.session.parser.get_all_constraint_attributes(
             self.session.Denial_constraints)
 
         dc_signal = SignalDC(self.session.Denial_constraints, self.session)
 
-        # query = cooccur_signal.get_query()
         self.session._ds_domain_pruning(0.5)
         self.session._add_featurizer(dc_signal)
-        # self.session._add_featurizer(cooccur_signal)
-
-        # Cooccur_feature_dataframe = \
-        #     holo_obj.dataengine.query(query[2:], 1)
 
         temp_list = dc_signal._create_all_relaxed_dc()
         relaxed_dcs = []
-        for el in temp_list:
-            relaxed_dcs.append(el[0])
+        for relaxed_dc in temp_list:
+            relaxed_dcs.append(relaxed_dc[0])
 
         expected_r_dcs = \
             ["postab.tid = t1.index AND postab.attr_name ='A' AND"
@@ -123,7 +110,7 @@ class TestDCFeaturizerNonSymmetric(unittest.TestCase):
         self.assertEquals(relaxed_dcs, expected_r_dcs)
 
 
-class TestDCFeaturizerWierdTableName(unittest.TestCase):
+class TestDCFeaturizerWeirdTableName(unittest.TestCase):
     def setUp(self):
 
         self.session = Session(holo_obj)
@@ -131,7 +118,7 @@ class TestDCFeaturizerWierdTableName(unittest.TestCase):
         self.session.load_data(self.dataset)
         self.session.load_denial_constraints(
             "../../datasets/unit_test/"
-            "unit_test_constraints_wierd_table_name.txt")
+            "unit_test_constraints_weird_table_name.txt")
 
         detector = MysqlDCErrorDetection(self.session.Denial_constraints,
                                          holo_obj,
