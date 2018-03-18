@@ -28,19 +28,17 @@ class TestCooccurFeaturizer(unittest.TestCase):
         self.attr_constrained =\
             self.session.parser.get_all_constraint_attributes(
                  self.session.Denial_constraints)
+        self.cooccur_signal = SignalCooccur(self.attr_constrained,
+                                            holo_obj.dataengine,
+                                            self.session.dataset)
+        self.session._ds_domain_pruning(0.5)
+        self.session._add_featurizer(self.cooccur_signal)
 
     def tearDown(self):
         del self.session
 
     def test_Cooccur_query_for_clean(self):
-        cooccur_signal = SignalCooccur(self.attr_constrained,
-                                       holo_obj.dataengine,
-                                       self.session.dataset)
-
-        query = cooccur_signal.get_query()
-        self.session._ds_domain_pruning(0.5)
-        self.session._add_featurizer(cooccur_signal)
-
+        query = self.cooccur_signal.get_query()
         Cooccur_feature_dataframe = \
             holo_obj.dataengine.query(query[2:], 1)
 
@@ -59,14 +57,7 @@ class TestCooccurFeaturizer(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_Cooccur_query_for_dk(self):
-
-        cooccur_signal = SignalCooccur(self.attr_constrained,
-                                       holo_obj.dataengine,
-                                       self.session.dataset)
-
-        query = cooccur_signal.get_query(0)
-        self.session._ds_domain_pruning(0.5)
-        self.session._add_featurizer(cooccur_signal)
+        query = self.cooccur_signal.get_query(0)
         Cooccur_feature_dataframe = \
             holo_obj.dataengine.query(query[2:], 1)
 
