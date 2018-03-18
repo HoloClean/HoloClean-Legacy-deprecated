@@ -17,7 +17,7 @@ class DataEngine:
         Parameters
         ----------
         :param holo_env: HoloClean
-           This parameter is the HoloClean object from the holoclean.py
+           The HoloClean object from the holoclean.py
            module which contains all the connection information.
 
         Returns
@@ -43,15 +43,15 @@ class DataEngine:
     # Internal methods
     def _start_db(self):
         """Start MySQL database
-        
+
         Parameters
         ----------
         No parameter
-        
+
         Returns
         -------
         :return: sql_eng : SQL Engine
-                This method returns SQL engine to connect to database 
+                SQL engine to connect to database
         """
         user = self.holo_env.db_user
         pwd = self.holo_env.db_pwd
@@ -99,7 +99,8 @@ class DataEngine:
         """
         try:
             self.db_backend.connect()
-            self.holo_env.logger.info("Connection established to data database")
+            self.holo_env.logger.\
+                info("Connection established to data database")
         except Exception as e:
             self.holo_env.logger.error('No connection to data database',
                                        exc_info=e)
@@ -179,13 +180,13 @@ class DataEngine:
         :param table_name: The name of table that we want some of its columns
         :param columns_name_list: The list of columns that we want from
                                 table_name
-        :param dataset: The data set object to access to the correct project
+        :param dataset: The data set object to access the correct project
                         tables
 
         Returns
         -------
         :return: Dataframe
-                It returns a dataframe contains "columns_name_list" columns data
+            A dataframe that contains "columns_name_list" columns data
         """
         columns_string = ""
         for c in columns_name_list:
@@ -212,9 +213,9 @@ class DataEngine:
                  "spec_table_name"
         :param append: Int
                 If this parameter equal to zero, the code first creates a
-                    table, then it adds "dataframe" information into table,
-                    otherwise it just appends "dataframe" into "spec_table_name"
-        
+                table, then it adds "dataframe" information into table,
+                otherwise it just appends "dataframe" into "spec_table_name"
+
         Returns
         -------
         No Return
@@ -259,13 +260,12 @@ class DataEngine:
         Parameters
         ----------
         :param sql_query: String
-                    The query that we want to have it results on the dataframe
-                     in the memory
+                    Query string to execute
 
         Returns
         -------
         :return: dataframe : Dataframe
-                It returns the results of sql_query in a dataframe
+                The results of sql_query in a dataframe
         """
         dataframe = self.sql_ctxt.read.format('jdbc').options(
             url=self._init_sparksql_url(),
@@ -281,10 +281,10 @@ class DataEngine:
         Parameters
         ----------
         :param dataset: DataSet
-            This parameter is a dataset object used to store the ID
+            A dataset object used to store the ID
             of the current HoloClean Session
         :param table_general_name: String
-            This parameter is the string literal of the table name
+            The string literal of the table name
 
         Returns
         -------
@@ -307,13 +307,13 @@ class DataEngine:
 
     def get_table_to_dataframe(self, table_name, dataset):
         """
-        This method gets table general name and returns a spark dataframe as
+        Getting a table general name and returns a spark dataframe as
          result
 
         Parameters
         ----------
         :param table_name: String
-            string literal of table name not including the session ID
+            String literal of table name not including the session ID
         :param dataset: DataSet
             The DataSet object that holds the Session ID for HoloClean
 
@@ -332,7 +332,7 @@ class DataEngine:
 
     def get_db_backend(self):
         """
-        This method returns MySQL database
+        Returns MySQL database
         Parameters
         ----------
         No parameter
@@ -340,7 +340,7 @@ class DataEngine:
         Returns
         -------
         :return: SQL Engine
-            This is sql engine returns a sql engine
+            Sql engine
         """
         return self.db_backend
 
@@ -353,7 +353,7 @@ class DataEngine:
         Parameters
         ----------
         :param table_name: String
-            string literal of table name not including the session ID
+            String literal of table name not including the session ID
         :param spark_dataframe: DataFrame
             The dataframe that will be made into a MySQL table
         :param dataset: DataSet
@@ -400,7 +400,7 @@ class DataEngine:
         Parameters
         ----------
         filepath : String
-            file path of the .csv file for the dataset
+            File path of the .csv file for the dataset
         dataset: DataSet
             The DataSet object that holds the Session ID for HoloClean
 
@@ -445,7 +445,7 @@ class DataEngine:
         Parameters
         ----------
         :param sql_query: String
-            string literal of sql query to be executed
+            String literal of sql query to be executed
         :param spark_flag: Int
             Default value: 0
             If 1 will use Pyspark otherwise will use SqlAlchemy
