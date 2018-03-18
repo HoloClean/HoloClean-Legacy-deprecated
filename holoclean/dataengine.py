@@ -186,7 +186,8 @@ class DataEngine:
         Returns
         -------
         :return: Dataframe
-            It returns a dataframe that contains "columns_name_list" columns data
+            It returns a dataframe that contains "columns_name_list"
+            columns data
         """
         columns_string = ""
         for c in columns_name_list:
