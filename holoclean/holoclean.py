@@ -85,6 +85,18 @@ arguments = [
       'default': 0.001,
       'type': float,
       'help': 'The learning rate holoclean will use during training'}),
+    (('-p', '--pruning-threshold'),
+     {'metavar': 'PRUNING_THRESHOLD',
+      'dest': 'pruning_threshold',
+      'default': 0.5,
+      'type': float,
+      'help': 'Threshold used for domain pruning step'}),
+    (('-it', '--learning-iterations'),
+     {'metavar': 'LEARNING_ITERATIONS',
+      'dest': 'learning_iterations',
+      'default': 20,
+      'type': float,
+      'help': 'Number of iterations used for softmax'}),
     (('-w', '--weight_decay'),
      {'metavar': 'WEIGHT_DECAY',
       'dest':  'weight_decay',
@@ -369,7 +381,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        self._ds_domain_pruning(0.5)
+        self._ds_domain_pruning(self.holo_env.pruning_threshold)
 
         if self.holo_env.verbose:
             end = time.time()
