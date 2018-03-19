@@ -94,7 +94,7 @@ script:
 
   # Runs tutorial python tests
   - cd test/Unit_tests
-  - nosetests --with-coverage  --cover-package=../../holoclean
+  - nosetests --with-coverage test_code.py  --cover-package=../../holoclean
 
 after_success:
   - coveralls
