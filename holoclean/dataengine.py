@@ -243,6 +243,8 @@ class DataEngine:
                     create_table = create_table + "INT,"
                 else:
                     create_table = create_table + "VARCHAR(255),"
+            if 'index' in dataframe.schema.names:
+                create_table = create_table + " PRIMARY KEY (`index`) "
             create_table = create_table[:-1] + " );"
             self.query(create_table)
             self.holo_env.logger.info(create_table)
@@ -390,7 +392,7 @@ class DataEngine:
         """
         index_id = table_name+"_"+attr_name
         sql = "CREATE INDEX " + index_id + " ON " + table_name + \
-              " (" + attr_name + ");"
+              " (`" + attr_name + "`);"
         self.db_backend.execute(sql)
 
     def ingest_data(self, filepath, dataset):

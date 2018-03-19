@@ -493,15 +493,4 @@ class Pruning:
 
         self.dataengine.query(query_observed)
 
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                            'Possible_values_dk') +
-                                            " has been created")
-        self.dataengine.holo_env.logger.info("  ")
-
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                            'Possible_values_clean') +
-                                            " has been created")
-        self.dataengine.holo_env.logger.info("  ")
         return

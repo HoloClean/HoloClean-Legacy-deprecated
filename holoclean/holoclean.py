@@ -276,7 +276,11 @@ class Session:
             if self.holo_env.timing_file:
                 t_file = open(self.holo_env.timing_file, 'w')
                 t_file.write(log)
-
+        attributes = \
+            self.holo_env.dataengine.get_schema(self.dataset, 'Init').split(',')
+        for attribute in attributes:
+            self.holo_env.dataengine.add_db_table_index(
+                self.dataset.table_specific_name('Init'), attribute)
         return init
 
     def load_denial_constraints(self, file_path):
