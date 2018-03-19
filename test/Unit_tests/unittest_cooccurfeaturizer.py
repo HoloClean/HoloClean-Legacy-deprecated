@@ -21,9 +21,7 @@ class TestCooccurFeaturizer(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
         self.attr_constrained =\
             self.session.parser.get_all_constraint_attributes(

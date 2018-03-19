@@ -20,9 +20,7 @@ class TestDCFeaturizer(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
     def test_DC_query_for_clean(self):
@@ -68,9 +66,7 @@ class TestDCFeaturizerNonSymmetric(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_non_symmetric_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
     def test_DC_query_for_clean(self):
@@ -119,9 +115,7 @@ class TestDCFeaturizerWeirdTableName(unittest.TestCase):
             "../../datasets/unit_test/"
             "unit_test_constraints_weird_table_name.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
 

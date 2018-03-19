@@ -20,9 +20,7 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        self.detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                              holo_obj,
-                                              self.session.dataset)
+        self.detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(self.detector)
 
     def tearDown(self):

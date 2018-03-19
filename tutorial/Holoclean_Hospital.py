@@ -66,7 +66,7 @@ dcs
 from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
 
 # instantiate Holoclean's built in error detector
-detector = MysqlDCErrorDetection(session.Denial_constraints, holo, session.dataset)
+detector = MysqlDCErrorDetection(session)
 
 # both clean and dirty sets are returned as pyspark dataframes
 clean, dirty = session.detect_errors(detector)
