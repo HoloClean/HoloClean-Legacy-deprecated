@@ -27,9 +27,9 @@ class DCParser:
 
         :return: list[list[string]]
         """
-
-        dc_sql = []
-        used_operations = []
+        
+        dcSql = []
+        usedOperations = []
         num_of_contraints = len(self.denial_constraints)
 
         for dc_count in range(0, num_of_contraints):
@@ -42,31 +42,65 @@ class DCParser:
             dc2sqlpred = []
 
             for part_counter in range(2, len(rule_parts)):
-                pred_parts = rule_parts[part_counter].split('(')
-                op = pred_parts[0]  # operation appear before '('
+                dc2sql = ''  # current predicate
+                predParts = rule_parts[part_counter].split('(')
+                op = predParts[0]  # operation appear before '('
                 # set of operation
                 dc_operations. \
                     append(self.operationsArr[self.operationSign.index(op)])
-                pred_body = pred_parts[1][:-1]
-                tmp = pred_body.split(',')
-                pred_left = tmp[0]
-                pred_right = tmp[1]
+                predBody = predParts[1][:-1]
+                tmp = predBody.split(',')
+                predLeft = tmp[0]
+                predRight = tmp[1]
+                # predicate type detection
+                if first_tuple in predBody and second_tuple in predBody:
+                    if first_tuple in predLeft:
+                        dc2sql = dc2sql + self.tables_name[0] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[1] + '.' + \
+                                 predRight.split('.')[1]
+                    else:
+                        dc2sql = dc2sql + self.tables_name[1] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[0] + '.' + \
+                                 predRight.split('.')[1]
+                elif first_tuple in predBody:
+                    if first_tuple in predLeft:
+                        dc2sql = dc2sql + self.tables_name[0] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + predRight
+                    else:
+                        dc2sql = dc2sql + predLeft \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[0] + '.' + \
+                                 predRight.split('.')[1]
+                else:
+                    if second_tuple in predLeft:
+                        dc2sql = dc2sql + self.tables_name[1] + '.' + \
+                                 predLeft.split('.')[1] \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + predRight
+                    else:
+                        dc2sql = dc2sql + predLeft \
+                                 + self.operationsArr[
+                                     self.operationSign.index(op)] \
+                                 + self.tables_name[1] + '.' + \
+                                 predRight.split('.')[1]
 
-                # predicating type detection
-                dc2sql = \
-                    pred_left + \
-                    self.operationsArr[self.operationSign.index(op)] + \
-                    pred_right
+                dc2sqlpred.append(dc2sql)  # add the predicate to list
 
-                dc2sql = dc2sql.replace(first_tuple, self.tables_name[0]). \
-                    replace(second_tuple, self.tables_name[1])
+            usedOperations.append(dc_operations)
 
-                dc2sqlpred.append(dc2sql)  # Add the predicate to list
-
-            used_operations.append(dc_operations)
-
-            dc_sql.append(dc2sqlpred)
-        return dc_sql, used_operations
+            dcSql.append(dc2sqlpred)
+        return dcSql, usedOperations
 
     def get_anded_string(self, condition_ind='all'):
 
@@ -153,8 +187,8 @@ class DCParser:
         This function return all attributes that is appeared
         at least in one constraint
 
-        :param dataengine: DataEngine
-        :param dataset: Dataset
+        :param dataengine:
+        :param dataset:
 
         :return: list of attributes
         """
