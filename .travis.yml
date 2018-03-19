@@ -88,6 +88,7 @@ install:
   - pip install runipy
   - pip install nose
   - pip install coveralls
+  - pip install codeclimate-test-reporter
 
 script:
 
