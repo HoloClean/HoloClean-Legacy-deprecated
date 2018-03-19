@@ -94,7 +94,7 @@ script:
 
   # Runs tutorial python tests
   - cd test/Unit_tests
-  - nosetests --with-coverage test_mysql_dcerrordetector.py --cover-package=../../holoclean
+  - nosetests --with-coverage  --cover-package=../../holoclean
 
 after_success:
   - coveralls
