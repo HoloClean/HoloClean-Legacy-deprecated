@@ -1,0 +1,6 @@
+{
+  "test/Unit_tests/unittest_mysql_dcerrordetector.py::TestMysqlErrordetector::test_correction_of_clean_cells": true, 
+  "test/Unit_tests/unittest_mysql_dcerrordetector.py::TestMysqlErrordetector::test_correction_of_dk_cells": true, 
+  "test/Unit_tests/unittest_mysql_dcerrordetector.py::TestMysqlErrordetector::test_number_of_clean_cells": true, 
+  "test/Unit_tests/unittest_mysql_dcerrordetector.py::TestMysqlErrordetector::test_number_of_dk_cells": true
+}

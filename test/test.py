@@ -38,9 +38,7 @@ class Testing:
         self.session.load_denial_constraints(denial_constraints)
 
         # Error Detector
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         self.holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
         self.session.repair()
