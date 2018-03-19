@@ -27,34 +27,34 @@ class DCParser:
 
         :return: list[list[string]]
         """
-
+        
         dcSql = []
         usedOperations = []
-        numOfContraints = len(self.denial_constraints)
+        num_of_contraints = len(self.denial_constraints)
 
-        for dc_count in range(0, numOfContraints):
+        for dc_count in range(0, num_of_contraints):
             # Divide the string by & cause the meaningful parts separated
-            ruleParts = self.denial_constraints[dc_count].split('&')
-            firstTuple = ruleParts[0]  # first tuple identifier
-            secondTuple = ruleParts[1]  # second tuple identifier
+            rule_parts = self.denial_constraints[dc_count].split('&')
+            first_tuple = rule_parts[0]  # first tuple identifier
+            second_tuple = rule_parts[1]  # second tuple identifier
             # calculating the number of predicate 2 is because of identifiers
-            dcOperations = []
+            dc_operations = []
             dc2sqlpred = []
 
-            for part_counter in range(2, len(ruleParts)):
+            for part_counter in range(2, len(rule_parts)):
                 dc2sql = ''  # current predicate
-                predParts = ruleParts[part_counter].split('(')
+                predParts = rule_parts[part_counter].split('(')
                 op = predParts[0]  # operation appear before '('
                 # set of operation
-                dcOperations. \
+                dc_operations. \
                     append(self.operationsArr[self.operationSign.index(op)])
                 predBody = predParts[1][:-1]
                 tmp = predBody.split(',')
                 predLeft = tmp[0]
                 predRight = tmp[1]
                 # predicate type detection
-                if firstTuple in predBody and secondTuple in predBody:
-                    if firstTuple in predLeft:
+                if first_tuple in predBody and second_tuple in predBody:
+                    if first_tuple in predLeft:
                         dc2sql = dc2sql + self.tables_name[0] + '.' + \
                                  predLeft.split('.')[1] \
                                  + self.operationsArr[
@@ -68,8 +68,8 @@ class DCParser:
                                      self.operationSign.index(op)] \
                                  + self.tables_name[0] + '.' + \
                                  predRight.split('.')[1]
-                elif firstTuple in predBody:
-                    if firstTuple in predLeft:
+                elif first_tuple in predBody:
+                    if first_tuple in predLeft:
                         dc2sql = dc2sql + self.tables_name[0] + '.' + \
                                  predLeft.split('.')[1] \
                                  + self.operationsArr[
@@ -82,7 +82,7 @@ class DCParser:
                                  + self.tables_name[0] + '.' + \
                                  predRight.split('.')[1]
                 else:
-                    if secondTuple in predLeft:
+                    if second_tuple in predLeft:
                         dc2sql = dc2sql + self.tables_name[1] + '.' + \
                                  predLeft.split('.')[1] \
                                  + self.operationsArr[
@@ -97,46 +97,47 @@ class DCParser:
 
                 dc2sqlpred.append(dc2sql)  # add the predicate to list
 
-            usedOperations.append(dcOperations)
+            usedOperations.append(dc_operations)
 
             dcSql.append(dc2sqlpred)
         return dcSql, usedOperations
 
-    def get_anded_string(self, conditionInd='all'):
+    def get_anded_string(self, condition_ind='all'):
 
         """
         Return and string or list of string for conditions which is and of
         predicates with SQL format
-        :param conditionInd: int
+        :param condition_ind: int
         :return: string or list[string]
         """
-        if conditionInd == 'all':
+        if condition_ind == 'all':
             andlist = []
             result, dc = self._dc_to_sql_condition()
             count = 0
             for parts in result:
-                strRes = str(parts[0])
+                str_res = str(parts[0])
                 if len(parts) > 1:
                     for i in range(1, len(parts)):
-                        strRes = strRes + " AND " + str(parts[i])
-                andlist.append(strRes)
+                        str_res = str_res + " AND " + str(parts[i])
+                andlist.append(str_res)
                 count += 1
             return andlist
 
         else:
             result, dc = self._dc_to_sql_condition()
-            parts = result[conditionInd]
-            strRes = str(parts[0])
+            parts = result[condition_ind]
+            str_res = str(parts[0])
             if len(parts) > 1:
                 for i in range(1, len(parts)):
-                    strRes = strRes + " AND " + str(parts[i])
-            return strRes
+                    str_res = str_res + " AND " + str(parts[i])
+            return str_res
 
     @staticmethod
     def get_attribute(cond, all_table_attribuites):
 
         """
-        Return list of attribute in the give denial constraint
+        Returning a list of attributes in the given denial constraint
+        :param all_table_attribuites: String
         :param cond: string
         :return: list[string]
         """
@@ -204,7 +205,6 @@ class DCParser:
         operators = denial_constraint.split('&')
         operators = operators[2:]
         for i in range(0, len(operators)):
-            dc = operators[i].split('.')
             operators[i] = operators[i].partition('(')[0]
         return operators
 
