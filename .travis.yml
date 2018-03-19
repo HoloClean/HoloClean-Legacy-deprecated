@@ -86,14 +86,18 @@ install:
 
   # Use runipy to run Jupyter/IPython notebooks from command-line
   - pip install runipy
+  - sudo pip install nose
+  - sudo pip install coveralls
 
 script:
 
   # Runs tutorial python tests
-  - cd tutorial
-  - python Holoclean_Hospital.py
+  - cd test/Unit_tests
+  - nosetests --with-coverage test_mysql_dcerrordetector.py --cover-package=../../holoclean
 
 after_success:
+  - coveralls
+  - codeclimate-test-reporter --file .coverage
   - killall java
 
 after_failure:
