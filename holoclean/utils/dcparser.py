@@ -27,18 +27,18 @@ class DCParser:
 
         :return: list[list[string]]
         """
-
+        
         dcSql = []
         usedOperations = []
         numOfContraints = len(self.denial_constraints)
 
-        for dc_count in range(0, numOfContraints):
+        for dc_count in range(0, num_of_contraints):
             # Divide the string by & cause the meaningful parts separated
-            ruleParts = self.denial_constraints[dc_count].split('&')
-            firstTuple = ruleParts[0]  # first tuple identifier
-            secondTuple = ruleParts[1]  # second tuple identifier
+            rule_parts = self.denial_constraints[dc_count].split('&')
+            first_tuple = rule_parts[0]  # first tuple identifier
+            second_tuple = rule_parts[1]  # second tuple identifier
             # calculating the number of predicate 2 is because of identifiers
-            dcOperations = []
+            dc_operations = []
             dc2sqlpred = []
 
             for part_counter in range(2, len(ruleParts)):
@@ -107,7 +107,7 @@ class DCParser:
         """
         Return and string or list of string for conditions which is and of
         predicates with SQL format
-        :param conditionInd: int
+        :param condition_ind: int
         :return: string or list[string]
         """
         if conditionInd == 'all':
@@ -115,28 +115,29 @@ class DCParser:
             result, dc = self._dc_to_sql_condition()
             count = 0
             for parts in result:
-                strRes = str(parts[0])
+                str_res = str(parts[0])
                 if len(parts) > 1:
                     for i in range(1, len(parts)):
-                        strRes = strRes + " AND " + str(parts[i])
-                andlist.append(strRes)
+                        str_res = str_res + " AND " + str(parts[i])
+                andlist.append(str_res)
                 count += 1
             return andlist
 
         else:
             result, dc = self._dc_to_sql_condition()
-            parts = result[conditionInd]
-            strRes = str(parts[0])
+            parts = result[condition_ind]
+            str_res = str(parts[0])
             if len(parts) > 1:
                 for i in range(1, len(parts)):
-                    strRes = strRes + " AND " + str(parts[i])
-            return strRes
+                    str_res = str_res + " AND " + str(parts[i])
+            return str_res
 
     @staticmethod
     def get_attribute(cond, all_table_attribuites):
 
         """
-        Return list of attribute in the give denial constraint
+        Returning a list of attributes in the given denial constraint
+        :param all_table_attribuites: String
         :param cond: string
         :return: list[string]
         """
@@ -204,7 +205,6 @@ class DCParser:
         operators = denial_constraint.split('&')
         operators = operators[2:]
         for i in range(0, len(operators)):
-            dc = operators[i].split('.')
             operators[i] = operators[i].partition('(')[0]
         return operators
 
