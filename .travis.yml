@@ -34,8 +34,6 @@ addons:
 # See: https://github.com/Theano/Theano/blob/master/.travis.yml (for caching)
 # See: http://conda.pydata.org/docs/travis.html
 before_install:
-  - pip install pytest pytest-cov
-  - pip install coveralls
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo service mysql restart
   - mysql_upgrade --force 
@@ -94,11 +92,8 @@ script:
   # Runs tutorial python tests
   - cd tutorial
   - python Holoclean_Hospital.py
-  - cd ../test/Unit_tests
-  - python unittest_mysql_dcerrordetector.py
 
 after_success:
-  - coveralls
   - killall java
 
 after_failure:
