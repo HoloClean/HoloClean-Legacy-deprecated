@@ -168,8 +168,7 @@ class SignalDC(Featurizer):
                                       " WHERE (" + \
                                       " t1." + GlobalVariables.index_name + " < t2." + GlobalVariables.index_name + " AND " + \
                                       relax_dc + \
-                                      ") GROUP BY postab.vid, postab.tid," \
-                                      "postab.attr_name, postab.domain_id"
+                                      ") GROUP BY postab.vid, postab.domain_id"
             dc_queries.append(query_for_featurization)
 
             if clean:
