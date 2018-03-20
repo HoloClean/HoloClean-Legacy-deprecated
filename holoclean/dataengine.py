@@ -245,8 +245,10 @@ class DataEngine:
                     create_table = create_table + "INT,"
                 else:
                     create_table = create_table + "VARCHAR(255),"
-            if 'index' in dataframe.schema.names:
-                create_table = create_table + " PRIMARY KEY (`index`) "
+            if GlobalVariables.index_name in dataframe.schema.names:
+                create_table = \
+                    create_table + \
+                    " PRIMARY KEY (`" + GlobalVariables.index_name + "`) "
             create_table = create_table[:-1] + " );"
             self.query(create_table)
             self.holo_env.logger.info(create_table)
