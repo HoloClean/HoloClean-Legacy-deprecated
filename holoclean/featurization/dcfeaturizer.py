@@ -151,7 +151,7 @@ class SignalDC(Featurizer):
         for index_dc in range(0, len(all_relax_dcs)):
             relax_dc = all_relax_dcs[index_dc][0]
             table_name = all_relax_dcs[index_dc][1]
-            query_for_featurization = "(SELECT" \
+            query_for_featurization = "SELECT" \
                                       " postab.vid as vid, " \
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
@@ -171,9 +171,6 @@ class SignalDC(Featurizer):
                                       ") GROUP BY postab.vid, postab.tid," \
                                       "postab.attr_name, postab.domain_id"
             dc_queries.append(query_for_featurization)
-
-            if dcquery_prod is not None:
-                dcquery_prod.appendQuery(query_for_featurization)
 
             if clean:
                 feature_map.append([count, self.attributes_list[index_dc],

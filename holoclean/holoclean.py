@@ -10,8 +10,7 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.database_worker import DatabaseWorker, FeatureProducer, \
-    DCQueryProducer
+from featurization.database_worker import DatabaseWorker, QueryProducer
 from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface
 from threading import Condition, Semaphore
@@ -614,53 +613,49 @@ class Session:
         return
 
     def _parallel_queries(self,
-                          dc_query_prod,
-                          number_of_threads=multiprocessing.cpu_count() - 2,
+                          query_prod,
+                          number_of_threads=multiprocessing.cpu_count()-1,
                           clean=1):
-        list_of_names = []
         list_of_threads = []
-        table_name = "clean" if clean == 1 else "dk"
 
+        cvX = Condition()
         if clean:
             b = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(table_name, self.list_of_queries,
-                                   list_of_names, self.holo_env,
-                                   self.dataset, self.cv, b, self.cvX))
+                    DatabaseWorker(self, b, cvX))
             for thread in list_of_threads:
                 thread.start()
-
             b.wait()
         else:
-            b1 = _Barrier(number_of_threads + 1)
+            b_dk = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(table_name, self.list_of_queries,
-                                   list_of_names, self.holo_env,
-                                   self.dataset, self.cv, b1, self.cvX))
+                    DatabaseWorker(self, b_dk, cvX))
             for thread in list_of_threads:
                 thread.start()
 
-            b1.wait()
+            b_dk.wait()
 
-        dc_query_prod.join()
-        if (clean):
+
+
+        query_prod.join()
+        if clean:
             self._create_dimensions(clean)
             X_training = torch.zeros(self.N, self.M, self.L)
             for thread in list_of_threads:
                 thread.getX(X_training)
-            self.cvX.acquire()
-            self.cvX.notifyAll()
-            self.cvX.release()
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
         else:
             self._create_dimensions(clean)
             X_testing = torch.zeros(self.N, self.M, self.L)
             for thread in list_of_threads:
                 thread.getX(X_testing)
-            self.cvX.acquire()
-            self.cvX.notifyAll()
-            self.cvX.release()
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
 
         for thread in list_of_threads:
             thread.join()
@@ -688,19 +683,11 @@ class Session:
 
         self.holo_env.logger.info('Start executing queries for featurization')
         self.holo_env.logger.info(' ')
-        dc_query_prod = DCQueryProducer(clean, self.featurizers)
-        dc_query_prod.start()
-        num_of_threads = multiprocessing.cpu_count() - 2
+        num_of_threads = multiprocessing.cpu_count() - 1
+        query_prod = QueryProducer(self.featurizers, clean, num_of_threads)
+        query_prod.start()
 
-        self.list_of_queries = deque([])
-        self.cv = Condition()
-        self.cvX = Condition()
-
-        feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries,
-                                    num_of_threads, self.featurizers)
-        feat_prod.start()
-        t1 = time.time()
-        self._parallel_queries(dc_query_prod, num_of_threads, clean)
+        self._parallel_queries(query_prod, num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
