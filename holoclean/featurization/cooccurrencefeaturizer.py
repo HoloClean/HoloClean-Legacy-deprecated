@@ -65,7 +65,7 @@ class SignalCooccur(Featurizer):
 
         # Create co-occur feature
         query_for_featurization = \
-            " ( " \
+            "  " \
             "SELECT DISTINCT " \
             "t1.vid as vid, " \
             "t1.domain_id AS assigned_val," \
@@ -84,4 +84,4 @@ class SignalCooccur(Featurizer):
             " t3.value=t2.value AND " + \
             self._get_constraint_attribute('t1', 'attr_name')
 
-        return query_for_featurization
+        return [query_for_featurization]

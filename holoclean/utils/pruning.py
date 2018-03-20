@@ -1,4 +1,5 @@
 from pyspark.sql.types import *
+from holoclean.global_variables import GlobalVariables
 
 
 class RandomVar:
@@ -90,9 +91,9 @@ class Pruning:
         cell_values = {}
         self.attribute_map = {}
         number_id = 0
-        for column in dataframe_init.drop('index').collect():
+        for column in dataframe_init.drop(GlobalVariables.index_name).collect():
             row = {}
-            column_id = 1
+            column_id = 0
             for column_value in column:
                 self.attribute_map[table_attribute[column_id]] = column_id
                 cell_variable = RandomVar(columnname=table_attribute[column_id],
@@ -315,7 +316,7 @@ class Pruning:
         domain_kij_clean = []
         domain_kij_dk = []
         for attribute in attributes:
-            if attribute != 'index' and attribute != 'Index':
+            if attribute != GlobalVariables.index_name:
                 self.domain_dict[attribute] = []
 
         possible_values_clean = []
@@ -493,15 +494,4 @@ class Pruning:
 
         self.dataengine.query(query_observed)
 
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                            'Possible_values_dk') +
-                                            " has been created")
-        self.dataengine.holo_env.logger.info("  ")
-
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                            'Possible_values_clean') +
-                                            " has been created")
-        self.dataengine.holo_env.logger.info("  ")
         return
