@@ -103,8 +103,8 @@ repaired = session.repair()
 # In[9]:
 
 
-repaired = repaired.withColumn("index", repaired["index"].cast("int"))
-repaired.sort('index').select('City').show(15)
+repaired = repaired.withColumn('__ind', repaired['__ind'].cast("int"))
+repaired.sort('__ind').select('City').show(15)
 
 
 # ### Performance Evaluation

@@ -1,3 +1,6 @@
+from ..global_variables import GlobalVariables
+
+
 class Accuracy:
 
     def __init__(
@@ -50,9 +53,9 @@ class Accuracy:
         counter = 0
 
         for rv_attr in rv_attrs:
-            if rv_attr != "index" and rv_attr != "Index":
+            if rv_attr != GlobalVariables.index_name:
                 query_for_flattening = """ (SELECT \
-                                       DISTINCT t1.index as tid,'""" + \
+                                       DISTINCT t1.__ind as tid,'""" + \
                                        rv_attr + """'  \
                                        AS attr_name, \
                                        t1.""" + rv_attr + """ AS attr_val \
