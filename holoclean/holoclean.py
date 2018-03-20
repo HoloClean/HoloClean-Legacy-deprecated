@@ -614,7 +614,7 @@ class Session:
 
     def _parallel_queries(self,
                           query_prod,
-                          number_of_threads=multiprocessing.cpu_count()-1,
+                          number_of_threads=multiprocessing.cpu_count(),
                           clean=1):
         list_of_threads = []
 
@@ -683,7 +683,7 @@ class Session:
 
         self.holo_env.logger.info('Start executing queries for featurization')
         self.holo_env.logger.info(' ')
-        num_of_threads = multiprocessing.cpu_count() - 1
+        num_of_threads = multiprocessing.cpu_count()
         query_prod = QueryProducer(self.featurizers, clean, num_of_threads)
         query_prod.start()
 
