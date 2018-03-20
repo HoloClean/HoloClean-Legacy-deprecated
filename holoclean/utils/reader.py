@@ -1,13 +1,13 @@
 class Reader:
 
-    """TODO:Reader class:Finds the extesion of the file and calls the appropriate reader"""
+    """Reader class:
+    Finds the extension of the file and calls the appropriate reader
+    """
 
     def __init__(self, spark_session):
-        """TODO.
-        Parameters
-        --------
-        parameter: spark_session
-                Takes as an argument the spark_Session from the Data Engine
+        """
+-
+        :param spark_session: The spark_session we created in Holoclean object
         """
         self.spark_session = spark_session
 
@@ -15,8 +15,8 @@ class Reader:
     def _findextesion(self, filepath):
         """Finds the extesion of the file.
 
-        Takes as argument the full path name of the file
-         """
+        :param filepath: The path to the file
+        """
         extention = filepath.split('.')[-1]
         return extention
 
@@ -24,7 +24,7 @@ class Reader:
     def read(self, filepath):
         """Calls the appropriate reader for the file
 
-        Takes as argument the full path name of the  file
+        :param filepath: The path to the file
         """
         if (self._findextesion(filepath) == "csv"):
             csv_obj = CSVReader()
@@ -35,16 +35,18 @@ class Reader:
 
 
 class CSVReader:
-    """TODO:CSVReader class: Reads a csv file and send its content back"""
+    """CSVReader class: Reads a csv file and send its content back"""
 
     def __init__(self):
         pass
 
     # Setters
     def read(self, file_path, spark_session):
-        """Create a dataframe from the csv file
+        """Creates a dataframe from the csv file
 
-        Takes as argument the full path name of the csv file and the spark_session
+        :param spark_session: The spark_session we created in Holoclean object
+        :param file_path: The path to the file
+
         """
         df = spark_session.read.csv(file_path, header=True)
 

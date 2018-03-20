@@ -333,7 +333,7 @@ class SoftMax:
             weight_decay=self.holo_obj.weight_decay)
         # experiment with different batch sizes. no hard rule on this
         batch_size = 1
-        for i in tqdm(range(100)):
+        for i in tqdm(range(self.holo_obj.learning_iterations)):
             cost = 0.
             num_batches = n_examples // batch_size
             for k in range(num_batches):
@@ -386,9 +386,9 @@ class SoftMax:
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
 
-        self.dataengine.holoEnv.logger.info(
+        self.dataengine.holo_env.logger.info(
             'The table: ' +
             self.dataset.table_specific_name('Inferred_values') +
             " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
+        self.dataengine.holo_env.logger.info("  ")
         return

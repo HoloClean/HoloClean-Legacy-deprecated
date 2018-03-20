@@ -1,3 +1,6 @@
+from holoclean.global_variables import GlobalVariables
+
+
 class Accuracy:
 
     def __init__(
@@ -50,16 +53,16 @@ class Accuracy:
         counter = 0
 
         for rv_attr in rv_attrs:
-            if rv_attr != "index" and rv_attr != "Index":
+            if rv_attr != GlobalVariables.index_name:
                 query_for_flattening = """ (SELECT \
-                                       DISTINCT table1.index as tid,'""" + \
+                                       DISTINCT t1.__ind as tid,'""" + \
                                        rv_attr + """'  \
                                        AS attr_name, \
-                                       table1.""" + rv_attr + """ AS attr_val \
+                                       t1.""" + rv_attr + """ AS attr_val \
                                        FROM """ + \
                                        self.dataset.\
                                        table_specific_name('Correct') +\
-                                       " as table1)"
+                                       " as t1)"
 
                 insert_query = "INSERT INTO " + self.dataset.\
                     table_specific_name('Correct_flat') + \

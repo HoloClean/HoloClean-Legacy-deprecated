@@ -6,6 +6,7 @@ HoloClean over Spark and PyTorch
 [![Build Status](https://travis-ci.org/HoloClean/HoloClean.svg?branch=test)](https://travis-ci.org/HoloClean/HoloClean)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Documentation Status](https://readthedocs.org/projects/holoclean/badge/?version=latest)](http://holoclean.readthedocs.io/en/latest/?badge=latest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d355e754057907628593/maintainability)](https://codeclimate.com/github/HoloClean/HoloClean/maintainability)
 
 
 **_v0.1.0_**
@@ -67,19 +68,8 @@ Then the environment can be activated by running:
 	source activate py27Env
 <b> Make sure to keep the environment activated for the rest of the installation process </b>
 
-### 2. Download and Install Spark
-
-*Note: before you install spark, you may need to install Scala on your system*
-
-Download the ``spark-2.2.0-bin-hadoop2.7.tgz`` file from the [spark website](https://spark.apache.org/downloads.html)
-Go to the directory where you downloaded the file and run:
-```
-tar -xzf spark-2.2.0-bin-hadoop2.7.tgz
-pip install pyspark
-```
-
-### 3. Install MySQL Server
-<b> 3.1 For Ubuntu: </b>
+### 2. Install MySQL Server
+<b> 2.1 For Ubuntu: </b>
 update and upgrade your apt-get:
 ```
 sudo apt-get update	
@@ -90,7 +80,7 @@ Install MySQL by running:
 sudo apt-get install mysql-server
 ```
 <br>
-<b> 3.2 For MacOS </b>
+<b> 2.2 For MacOS </b>
 
 Install and run the MySQL .dmg file for MacOS from https://dev.mysql.com/downloads/mysql/
 <br>
@@ -104,20 +94,20 @@ sudo /usr/local/mysql/bin/mysql_secure_installation
 ```
 Set a new root password and use the default options for other prompts
 
-<b> 3.3 Create MySQL User and Database </b>
+<b> 2.3 Create MySQL User and Database </b>
 
 Go to the root directory and run the script:
 ```
 ./mysql_script.sh
 ```
 
-### 4. Installing Required Packages
+### 3. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
 ```
 
-### 5. Installing Pytorch
+### 4. Installing Pytorch
 
 Follow instructions for your OS at:
 http://pytorch.org/
@@ -128,8 +118,8 @@ make sure to use Python 2.7 for installation (the other settings can be left as 
 Make sure to install <b>version 0.3.0</b> or later
 <br>
 
-### 6. Install JDK 8
-<b> 6.1 For Ubuntu: </b>
+### 5. Install JDK 8
+<b> 5.1 For Ubuntu: </b>
 <br>
 Check if you have JDK 8 installed by running
 ```
@@ -140,7 +130,7 @@ If you do not have JDK 8, run the following command:
 sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 6.2 For MacOS </b>
+<b> 5.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
 
@@ -149,7 +139,7 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 7. Getting Started
+### 6. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run

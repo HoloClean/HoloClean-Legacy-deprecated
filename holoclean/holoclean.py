@@ -10,22 +10,21 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.DatabaseWorker import DatabaseWorker, FeatureProducer, \
-    DCQueryProducer
+from featurization.database_worker import DatabaseWorker, QueryProducer
 from utils.pruning import Pruning
+from utils.parser_interface import ParserInterface
 from threading import Condition, Semaphore
-import threading
 from collections import deque
 import multiprocessing
 from pyspark.sql.types import *
 
-from errordetection.errordetector import ErrorDetectors
-from featurization.featurizer import SignalInit, SignalCooccur, SignalDC
+from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
+from featurization.initfeaturizer import SignalInit
+from featurization.dcfeaturizer import SignalDC
+from featurization.cooccurrencefeaturizer import SignalCooccur
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
-from utils.reader import Reader
 
-from DCFormatException import DCFormatException
 
 # Define arguments for HoloClean
 arguments = [
@@ -85,6 +84,18 @@ arguments = [
       'default': 0.001,
       'type': float,
       'help': 'The learning rate holoclean will use during training'}),
+    (('-p', '--pruning-threshold'),
+     {'metavar': 'PRUNING_THRESHOLD',
+      'dest': 'pruning_threshold',
+      'default': 0.5,
+      'type': float,
+      'help': 'Threshold used for domain pruning step'}),
+    (('-it', '--learning-iterations'),
+     {'metavar': 'LEARNING_ITERATIONS',
+      'dest': 'learning_iterations',
+      'default': 20,
+      'type': float,
+      'help': 'Number of iterations used for softmax'}),
     (('-w', '--weight_decay'),
      {'metavar': 'WEIGHT_DECAY',
       'dest':  'weight_decay',
@@ -136,7 +147,6 @@ class _Barrier:
     def wait(self):
         self.mutex.acquire()
         self.count = self.count + 1
-        string_name = str(threading.currentThread().getName())
         count = self.count
         self.mutex.release()
         if count == self.n:
@@ -244,12 +254,13 @@ class Session:
         # Initialize members
         self.name = name
         self.holo_env = holo_env
-        self.dataset = None
         self.Denial_constraints = []
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
         self.pruning = None
+        self.dataset = Dataset()
+        self.parser = ParserInterface(self)
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -276,7 +287,11 @@ class Session:
             if self.holo_env.timing_file:
                 t_file = open(self.holo_env.timing_file, 'w')
                 t_file.write(log)
-
+        attributes = \
+            self.holo_env.dataengine.get_schema(self.dataset, 'Init').split(',')
+        for attribute in attributes:
+            self.holo_env.dataengine.add_db_table_index(
+                self.dataset.table_specific_name('Init'), attribute)
         return init
 
     def load_denial_constraints(self, file_path):
@@ -284,17 +299,18 @@ class Session:
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        self._denial_constraints(file_path)
+        new_denial_constraints = self.parser.load_denial_constraints(
+            file_path, self.Denial_constraints)
+        self.Denial_constraints.extend(new_denial_constraints)
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
-        """ add denial constraints piecemeal from string
+        """ add denial constraints piecemeal from string into self.Denial_constraints
         :param dc: string in dc format
         :return: string array of dc's
         """
-        self._check_dc_format(dc)
-
-        self.Denial_constraints.append(dc)
+        checked_dc = self.parser.check_dc_format(dc, self.Denial_constraints)
+        self.Denial_constraints.append(checked_dc)
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):
@@ -309,52 +325,6 @@ class Session:
             raise IndexError("Given Index Out Of Bounds")
 
         return self.Denial_constraints.pop(index)
-
-    def _check_dc_format(self, dc):
-        """
-        determines whether or not the dc is formatted correctly
-        used before adding any dc to the list
-
-        :param dc: denial constraint to be checked
-
-        :return nothing if dc is correctly formatted
-        raises exception if incorrect
-        """
-
-        if dc in self.Denial_constraints:
-            raise DCFormatException("Duplicate Denial Constraint")
-
-        split_dc = dc.split('&')
-
-        if len(split_dc) < 3:
-            raise DCFormatException("Invalid DC: Missing Information")
-
-        if split_dc[0] != 't1' or split_dc[1] != 't2':
-            raise DCFormatException("Invalid DC: "
-                                    "Tuples Not Defined Correctly")
-
-        operators = ['EQ', 'LT', 'GT', 'IQ', 'LTE', 'GTE']
-
-        for inequality in split_dc[2:]:
-            split_ie = inequality.split('(')
-
-            if len(split_ie) != 2:
-                raise DCFormatException("Invalid DC: "
-                                        "Inequality Not Defined Correctly")
-
-            if split_ie[0] == '':
-                raise DCFormatException("Invalid DC: "
-                                        "Missing Operator")
-
-            if split_ie[0] not in operators:
-                raise DCFormatException("Invalid DC: "
-                                        "Operator Must Be In " +
-                                        str(operators))
-
-            split_tuple = split_ie[1].split(',')
-            if len(split_tuple) != 2:
-                raise DCFormatException("Invalid DC: "
-                                        "Tuple Not Defined Correctly")
 
     def load_clean_data(self, file_path):
         """
@@ -386,7 +356,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        err_detector = ErrorDetectors(detector)
+        err_detector = ErrorDetectorsWrapper(detector)
 
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
@@ -414,7 +384,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        self._ds_domain_pruning(0.5)
+        self._ds_domain_pruning(self.holo_env.pruning_threshold)
 
         if self.holo_env.verbose:
             end = time.time()
@@ -423,20 +393,20 @@ class Session:
             self._timing_to_file(log)
             start = time.time()
 
-        init_signal = SignalInit(self.Denial_constraints,
+        attr_constrained = self.parser.get_all_constraint_attributes(
+            self.Denial_constraints)
+
+        init_signal = SignalInit(attr_constrained,
                                  self.holo_env.dataengine,
                                  self.dataset)
         self._add_featurizer(init_signal)
 
-        cooccur_signal = SignalCooccur(self.Denial_constraints,
+        cooccur_signal = SignalCooccur(attr_constrained,
                                        self.holo_env.dataengine,
                                        self.dataset)
         self._add_featurizer(cooccur_signal)
 
-        dc_signal = SignalDC(self.Denial_constraints,
-                             self.holo_env.dataengine,
-                             self.dataset,
-                             self.holo_env.spark_session)
+        dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
 
         self._ds_featurize(clean=1)
@@ -512,7 +482,6 @@ class Session:
         No Return
         """
         self.holo_env.logger.info('ingesting file:' + src_path)
-        self.dataset = Dataset()
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         self.holo_env.logger.info(
             'creating dataset with id:' +
@@ -592,19 +561,6 @@ class Session:
         self.holo_env.logger.info('getting new for error detection')
         return
 
-    def _denial_constraints(self, filepath):
-        """
-        Read a textfile containing the the Denial Constraints
-        :param filepath: The path to the file containing DCs
-        :return: None
-        """
-        dc_file = open(filepath, 'r')
-        for line in dc_file:
-            if not line.isspace():
-                line = line.rstrip()
-                self._check_dc_format(line)
-                self.Denial_constraints.append(line)
-
     # Methods data
     def _ds_detect_errors(self):
         """
@@ -618,9 +574,7 @@ class Session:
 
         self.holo_env.logger.info('starting error detection...')
         for err_detector in self.error_detectors:
-            temp = err_detector.get_noisy_dknow_dataframe(
-                self.holo_env.dataengine.get_table_to_dataframe(
-                    'Init', self.dataset))
+            temp = err_detector.get_noisy_dknow_dataframe()
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
@@ -675,53 +629,49 @@ class Session:
         return
 
     def _parallel_queries(self,
-                          dc_query_prod,
-                          number_of_threads=multiprocessing.cpu_count() - 2,
+                          query_prod,
+                          number_of_threads=multiprocessing.cpu_count(),
                           clean=1):
-        list_of_names = []
         list_of_threads = []
-        table_name = "clean" if clean == 1 else "dk"
 
+        cvX = Condition()
         if clean:
             b = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(table_name, self.list_of_queries,
-                                   list_of_names, self.holo_env,
-                                   self.dataset, self.cv, b, self.cvX))
+                    DatabaseWorker(self, b, cvX))
             for thread in list_of_threads:
                 thread.start()
-
             b.wait()
         else:
-            b1 = _Barrier(number_of_threads + 1)
+            b_dk = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(table_name, self.list_of_queries,
-                                   list_of_names, self.holo_env,
-                                   self.dataset, self.cv, b1, self.cvX))
+                    DatabaseWorker(self, b_dk, cvX))
             for thread in list_of_threads:
                 thread.start()
 
-            b1.wait()
+            b_dk.wait()
 
-        dc_query_prod.join()
-        if (clean):
+
+
+        query_prod.join()
+        if clean:
             self._create_dimensions(clean)
             X_training = torch.zeros(self.N, self.M, self.L)
             for thread in list_of_threads:
                 thread.getX(X_training)
-            self.cvX.acquire()
-            self.cvX.notifyAll()
-            self.cvX.release()
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
         else:
             self._create_dimensions(clean)
             X_testing = torch.zeros(self.N, self.M, self.L)
             for thread in list_of_threads:
                 thread.getX(X_testing)
-            self.cvX.acquire()
-            self.cvX.notifyAll()
-            self.cvX.release()
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
 
         for thread in list_of_threads:
             thread.join()
@@ -749,19 +699,11 @@ class Session:
 
         self.holo_env.logger.info('Start executing queries for featurization')
         self.holo_env.logger.info(' ')
-        dc_query_prod = DCQueryProducer(clean, self.featurizers)
-        dc_query_prod.start()
-        num_of_threads = multiprocessing.cpu_count() - 2
+        num_of_threads = multiprocessing.cpu_count()
+        query_prod = QueryProducer(self.featurizers, clean, num_of_threads)
+        query_prod.start()
 
-        self.list_of_queries = deque([])
-        self.cv = Condition()
-        self.cvX = Condition()
-
-        feat_prod = FeatureProducer(clean, self.cv, self.list_of_queries,
-                                    num_of_threads, self.featurizers)
-        feat_prod.start()
-        t1 = time.time()
-        self._parallel_queries(dc_query_prod, num_of_threads, clean)
+        self._parallel_queries(query_prod, num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'

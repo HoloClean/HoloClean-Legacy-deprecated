@@ -63,10 +63,10 @@ dcs
 # In[5]:
 
 
-from holoclean.errordetection.mysql_dcerrordetector import Mysql_DCErrorDetection
+from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
 
 # instantiate Holoclean's built in error detector
-detector = Mysql_DCErrorDetection(session.Denial_constraints, holo, session.dataset)
+detector = MysqlDCErrorDetection(session)
 
 # both clean and dirty sets are returned as pyspark dataframes
 clean, dirty = session.detect_errors(detector)
@@ -103,8 +103,8 @@ repaired = session.repair()
 # In[9]:
 
 
-repaired = repaired.withColumn("index", repaired["index"].cast("int"))
-repaired.sort('index').select('City').show(15)
+repaired = repaired.withColumn('__ind', repaired['__ind'].cast("int"))
+repaired.sort('__ind').select('City').show(15)
 
 
 # ### Performance Evaluation
