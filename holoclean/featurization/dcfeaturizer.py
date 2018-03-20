@@ -1,5 +1,6 @@
 from featurizer import Featurizer
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
+from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
 
@@ -97,13 +98,13 @@ class SignalDC(Featurizer):
                 table_name = self._comparison_table_name(name_attribute[0])
                 if relax_index == 2:
                     relax_dc = "postab.tid = " + name_attribute[0] +\
-                               ".index AND " + \
+                               "." + GlobalVariables.index_name + " AND " + \
                                "postab.attr_name ='" + name_attribute[1] +\
                                "' AND " + "postab.attr_val" + operation + \
                                component2
                 else:
                     relax_dc = "postab.tid = " + name_attribute[0] + \
-                               ".index AND " + \
+                               "." + GlobalVariables.index_name + " AND " + \
                                "postab.attr_name = '" + name_attribute[1] + \
                                "' AND " + component1 + operation + \
                                "postab.attr_val"
@@ -155,7 +156,7 @@ class SignalDC(Featurizer):
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
                                       "  count(" + table_name + \
-                                      ".index) as count " \
+                                      "." + GlobalVariables.index_name + ") as count " \
                                       "  FROM " + \
                                       self.dataset. \
                                       table_specific_name('Init') + \
@@ -165,7 +166,7 @@ class SignalDC(Featurizer):
                                       " as t2," + \
                                       possible_table_name + " as postab" \
                                       " WHERE (" + \
-                                      " t1.index < t2.index AND " + \
+                                      " t1." + GlobalVariables.index_name + " < t2." + GlobalVariables.index_name + " AND " + \
                                       relax_dc + \
                                       ") GROUP BY postab.vid, postab.tid," \
                                       "postab.attr_name, postab.domain_id"

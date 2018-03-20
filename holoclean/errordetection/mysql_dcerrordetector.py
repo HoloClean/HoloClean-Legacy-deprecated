@@ -1,5 +1,6 @@
 from holoclean.utils.dcparser import DCParser
 from errordetector import ErrorDetection
+from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
 
@@ -96,14 +97,14 @@ class MysqlDCErrorDetection(ErrorDetection):
             for table in self.table_names:
                 query = " ( " \
                         "SELECT DISTINCT " + \
-                        table + ".index as ind, " \
+                        table + "." + GlobalVariables.index_name + " as ind, " \
                         + "'" + dc[0] + "'" + " AS attr " \
                         " FROM  " + \
                         self.dataset.table_specific_name("Init") + \
                         " as t1, " + \
                         self.dataset.table_specific_name("Init") +\
                         " as  t2 " + \
-                        "WHERE t1.index != t2.index  AND " \
+                        "WHERE t1." + GlobalVariables.index_name + " != t2." + GlobalVariables.index_name + "  AND " \
                         + dc[1] + " )"
                 if dataframe is not None:
                     dataframe = dataframe.union(
@@ -125,12 +126,12 @@ class MysqlDCErrorDetection(ErrorDetection):
         """
         noisy_cells = self.noisy_cells
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
-        all_attr.remove('index')
+        all_attr.remove(GlobalVariables.index_name)
         dataframe = None
         for attribute in all_attr:
             query = " ( " \
                 "SELECT  " \
-                "t1.index as ind, " \
+                "t1." + GlobalVariables.index_name + " as ind, " \
                 + "'" + attribute + "'" + " AS attr " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + " as t1 )"
