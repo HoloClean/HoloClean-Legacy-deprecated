@@ -140,3 +140,18 @@ class QueryProducer(Thread):
             queries.append(-1)
             query_cv.notify()
             query_cv.release()
+
+
+class RunQuery(Thread):
+    """
+    RunQuery will just take in a query to run on a separate Thread
+    """
+    __lock = Lock()
+
+    def __init__(self, query, session):
+        Thread.__init__(self)
+        self.query = query
+        self.dataengine = session.holo_env.dataengine
+
+    def run(self):
+        self.dataengine.query(self.query)
