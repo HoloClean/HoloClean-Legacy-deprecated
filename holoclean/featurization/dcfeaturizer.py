@@ -1,6 +1,6 @@
 from featurizer import Featurizer
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
-from ..global_variables import GlobalVariables
+from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
 
