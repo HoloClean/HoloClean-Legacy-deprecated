@@ -1,7 +1,6 @@
 from holoclean.utils.dcparser import DCParser
 from errordetector import ErrorDetection
 from holoclean.global_variables import GlobalVariables
-import time
 
 __metaclass__ = type
 
@@ -20,28 +19,32 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         :param session: Holoclean session
         """
-        super(MysqlDCErrorDetection, self).__init__(session.holo_env,
-                                                    session.dataset)
+        super(MysqlDCErrorDetection, self).\
+            __init__(session.holo_env, session.dataset)
+        self.index = GlobalVariables.index_name
         self.dc_parser = session.parser
-        self.all_dcs = self.dc_parser.get_CNF_of_dcs(session.Denial_constraints)
+        self.all_dcs = \
+            self.dc_parser.get_CNF_of_dcs(session.Denial_constraints)
         self.operationsarr = DCParser.operationsArr
         self.noisy_cells = None
         self.dictionary_dc = self.dc_parser.create_dc_map(self.all_dcs)
 
+    # Internals
+
     def _is_symetric(self, dc_name):
         result = True
-        non_sym_ops = [ '<=', '>=', '<', '>', ]
+        non_sym_ops = ['<=', '>=', '<', '>']
         for op in non_sym_ops:
-            result = False
+            if op in dc_name:
+                result = False
         return result
 
-    # Getters
-
-    def get_noisy_cells_for_dc(self, dc_name):
+    def _get_noisy_cells_for_dc(self, dc_name):
         """
                 Return a dataframe that consist of index of noisy cells index,
                 attribute
 
+                :param dc_name: String
                 :return: spark_dataframe
                 """
 
@@ -49,15 +52,15 @@ class MysqlDCErrorDetection(ErrorDetection):
         temp_table = "tmp" + self.dataset.dataset_id
         query = "CREATE TABLE " + temp_table +\
                 " AS SELECT " \
-                "t1." + GlobalVariables.index_name + \
+                "t1." + self.index + \
                 " as t1_ind, " \
-                "t2." + GlobalVariables.index_name + " as t2_ind " \
+                "t2." + self.index + " as t2_ind " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + \
                 " as t1, " + \
                 self.dataset.table_specific_name("Init") + \
-                " as  t2 " + "WHERE t1." + GlobalVariables.index_name + \
-                " != t2." + GlobalVariables.index_name + "  AND " + dc_name
+                " as  t2 " + "WHERE t1." + self.index + \
+                " != t2." + self.index + "  AND " + dc_name
         self.dataengine.query(query)
 
         t1_attributes = set()
@@ -110,7 +113,8 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         query_left = "INSERT INTO " + \
                      self.dataset.table_specific_name("C_dk_temp") + \
-                     " SELECT row_table.t1_ind as ind, a.attr_name as attr FROM " + \
+                     " SELECT row_table.t1_ind as ind," \
+                     " a.attr_name as attr FROM " + \
                      t1_name + \
                      " AS a," + \
                      distinct_left
@@ -118,8 +122,8 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         self.holo_obj.logger.info('Denial Constraint Query Left ' +
                                   dc_name + ":" + query_left)
-
         # Right part of predicates
+
         distinct_right = \
             "(SELECT DISTINCT t2_ind  FROM " + temp_table + ") AS row_table"
         query_right = "INSERT INTO " + \
@@ -138,11 +142,12 @@ class MysqlDCErrorDetection(ErrorDetection):
                           t1_name + ";DROP TABLE " + t2_name
         self.dataengine.query(drop_temp_table)
 
-    def get_sym_noisy_cells_for_dc(self, dc_name):
+    def _get_sym_noisy_cells_for_dc(self, dc_name):
         """
                 Return a dataframe that consist of index of noisy cells index,
                 attribute
 
+                :param dc_name: String
                 :return: spark_dataframe
                 """
 
@@ -150,16 +155,16 @@ class MysqlDCErrorDetection(ErrorDetection):
         temp_table = "tmp" + self.dataset.dataset_id
         query = "CREATE TABLE " + \
                 temp_table + " AS SELECT " \
-                             "t1." + GlobalVariables.index_name + \
+                             "t1." + self.index + \
                 " as t1_ind, " \
-                "t2." + GlobalVariables.index_name + \
+                "t2." + self.index + \
                 " as t2_ind " \
                 " FROM  " + \
                 self.dataset.table_specific_name("Init") + \
                 " as t1, " + \
                 self.dataset.table_specific_name("Init") + \
-                " as  t2 " + "WHERE t1." + GlobalVariables.index_name + \
-                " != t2." + GlobalVariables.index_name + \
+                " as  t2 " + "WHERE t1." + self.index + \
+                " != t2." + self.index + \
                 "  AND " + dc_name
         self.dataengine.query(query)
 
@@ -195,7 +200,6 @@ class MysqlDCErrorDetection(ErrorDetection):
         t1_attributes_dataframe = self.spark_session.createDataFrame(
             left_attributes, ['attr_name'])
 
-
         t1_name = self.dataset.table_specific_name("T1_attributes")
         self.dataengine._dataframe_to_table(t1_name, t1_attributes_dataframe)
 
@@ -205,7 +209,8 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         query_left = "INSERT INTO " + \
                      self.dataset.table_specific_name("C_dk_temp") + \
-                     " SELECT row_table.t1_ind as ind, a.attr_name as attr FROM " + \
+                     " SELECT row_table.t1_ind as ind," \
+                     " a.attr_name as attr FROM " + \
                      t1_name + \
                      " AS a," + \
                      distinct_left
@@ -214,9 +219,10 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.holo_obj.logger.info('Denial Constraint Query Left ' +
                                   dc_name + ":" + query_left)
 
-
         drop_temp_table = "DROP TABLE " + temp_table
         self.dataengine.query(drop_temp_table)
+
+    # Getters
 
     def get_noisy_cells(self):
         """
@@ -230,37 +236,33 @@ class MysqlDCErrorDetection(ErrorDetection):
                                    "(ind INT, attr VARCHAR(255));"
         self.dataengine.query(query_for_creation_table)
         for dc_name in self.dictionary_dc:
-            self.get_noisy_cells_for_dc(dc_name)
+            self._get_noisy_cells_for_dc(dc_name)
 
         c_dk_drataframe = self.dataengine.\
             get_table_to_dataframe("C_dk_temp", self.dataset)
         self.noisy_cells = c_dk_drataframe['ind', 'attr'].distinct()
-
         return self.noisy_cells
 
     def get_clean_cells(self):
         """
         Return a dataframe that consist of index of clean cells index,attribute
-        :param dataframe: spark dataframe
-        :param noisy_cells: list of noisy cells
         :return:
         """
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(
             ',')
-        all_attr.remove(GlobalVariables.index_name)
+        all_attr.remove(self.index)
         number_of_tuples = \
             self.dataengine.query(
-                "Select count(*) as size FROM "
-                + self.dataset.table_specific_name("Init"),
+                "Select count(*) as size FROM " +
+                self.dataset.table_specific_name("Init"),
                 1).collect()[0].size
-
-        tuples = [ [i] for i in range(1,number_of_tuples+1)]
+        tuples = [[i] for i in range(1, number_of_tuples + 1)]
         attr = [[a] for a in all_attr]
+
         tuples_dataframe = self.spark_session.createDataFrame(
             tuples, ['ind'])
         attr_dataframe = self.spark_session.createDataFrame(
             attr, ['attr'])
-
         c_clean_dataframe = tuples_dataframe.crossJoin(attr_dataframe).\
             subtract(self.noisy_cells)
         return c_clean_dataframe
