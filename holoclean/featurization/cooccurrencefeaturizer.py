@@ -85,3 +85,36 @@ class SignalCooccur(Featurizer):
             self._get_constraint_attribute('t1', 'attr_name')
 
         return query_for_featurization
+
+    def get_dictionary_cooccur(self):
+        """
+        Creates a string for the query that it is used to create the  Cooccur
+        Signal
+
+        :param clean: shows if create the feature table for the clean or the dk
+         cells
+
+        :return a string with the query for this feature
+        """
+        # Create co-occur feature
+
+        query = "Select * from " + \
+                self.dataset.table_specific_name("Init")
+        df_possible_values = self.dataengine.query(query, 1)
+        all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
+
+        cooccur_dict = {}
+        for row in df_possible_values.collect():
+            dictionary = row.asDict()
+            for attribute in all_attr:
+                if attribute in self.attr_constrained:
+                    cell = str(row["index"])+"." + str(attribute)
+                    cooccur_dict[cell] = []
+                    for all_other_attribute in all_attr:
+                        if all_other_attribute != attribute:
+                            if all_other_attribute in self.attr_constrained:
+                                coocur = all_other_attribute + "=" +\
+                                     dictionary[all_other_attribute]
+                                cooccur_dict[cell].append(coocur)
+
+        return cooccur_dict

@@ -507,11 +507,15 @@ class Session:
             ).collect()[0]['max']
             index = maximum + 1
             list_domain_map = []
+            self.cooccur_dict_feature = {}
             for attribute in self.pruning.domain_dict:
                 value_index = 1
                 for value in self.pruning.domain_dict[attribute]:
                     list_domain_map.append(
                         [index, attribute, unicode(value), 'cooccur'])
+                    if attribute not in self.cooccur_dict_feature:
+                        self.cooccur_dict_feature[attribute] = {}
+                    self.cooccur_dict_feature[attribute][unicode(value)] = index
                     value_index += 1
                     index += 1
             df_domain_map = self.holo_env.spark_session.createDataFrame(
@@ -523,6 +527,7 @@ class Session:
                 ]))
             self.holo_env.dataengine.add_db_table(
                 'Feature_id_map', df_domain_map, self.dataset, append=1)
+            self.cooccur_dict = new_featurizer.get_dictionary_cooccur()
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
         self.holo_env.logger.info(
@@ -673,6 +678,33 @@ class Session:
             self.X_testing = X_testing
             self.holo_env.logger.info("The X-Tensor_testing has been created")
             self.holo_env.logger.info("  ")
+        self._cooccur_signal(clean)
+        return
+
+    def _cooccur_signal(self, clean=1):
+        if clean:
+            feature = self.pruning.c_clean
+        else:
+            feature = self.pruning.c_dk
+
+        for rv in feature:
+            random_variable = rv
+            vid = random_variable[0]
+            random_variable_id = str(rv[1]) + "." + str(rv[2])
+            if random_variable_id in self.cooccur_dict:
+                cooccurance_list = self.cooccur_dict[random_variable_id]
+                for cooccurance in cooccurance_list:
+                    attribute = cooccurance.split("=")
+                    attribute_name = attribute[0]
+                    attribute_value = attribute[1]
+                    self.X_training[vid-1,
+                                    self.cooccur_dict_feature[attribute_name]
+                                    [attribute_value]-1, rv[4]-1] = 1
+                    if vid == 1860:
+                        name = \
+                            self.cooccur_dict_feature[
+                                attribute_name][attribute_value]
+                        print str(vid) + " " + str(name) + " " + str(rv[4])
         return
 
     def _ds_featurize(self, clean=1):
