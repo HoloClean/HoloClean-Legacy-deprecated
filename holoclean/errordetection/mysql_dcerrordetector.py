@@ -1,6 +1,6 @@
 from holoclean.utils.dcparser import DCParser
 from errordetector import ErrorDetection
-from ..global_variables import GlobalVariables
+from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
 

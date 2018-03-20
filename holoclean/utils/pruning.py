@@ -1,5 +1,5 @@
 from pyspark.sql.types import *
-from ..global_variables import GlobalVariables
+from holoclean.global_variables import GlobalVariables
 
 
 class RandomVar:

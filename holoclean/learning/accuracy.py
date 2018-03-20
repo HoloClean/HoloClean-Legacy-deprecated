@@ -1,4 +1,4 @@
-from ..global_variables import GlobalVariables
+from holoclean.global_variables import GlobalVariables
 
 
 class Accuracy:
