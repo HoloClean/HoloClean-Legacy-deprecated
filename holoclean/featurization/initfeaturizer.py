@@ -54,14 +54,14 @@ class SignalInit(Featurizer):
         :param clean: shows if create the feature table for the clean or the dk
          cells
 
-        :return a string with the query for this feature
+        :return a list of length 1 with string with the query for this feature
         """
         if clean:
             name = "Observed_Possible_values_clean"
         else:
             name = "Observed_Possible_values_dk"
 
-        query_for_featurization = """ (SELECT  \
+        query_for_featurization = """ SELECT  \
             init_flat.vid as vid, init_flat.domain_id AS assigned_val, \
             '1' AS feature, \
             1 as count\
@@ -69,4 +69,4 @@ class SignalInit(Featurizer):
             self.dataset.table_specific_name(name) + \
             " AS init_flat " + \
             "WHERE " + self._get_constraint_attribute('init_flat', 'attr_name')
-        return query_for_featurization
+        return [query_for_featurization]
