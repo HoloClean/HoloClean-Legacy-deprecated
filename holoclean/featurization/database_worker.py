@@ -9,6 +9,10 @@ queries = deque([])
 
 
 class DatabaseWorker(Thread):
+    """
+    DatabaseWorker will retrieve queries to run from queries and execute them
+    until a -1 is received
+    """
     __lock = Lock()
 
     cv = Condition()
@@ -27,7 +31,7 @@ class DatabaseWorker(Thread):
         self.X = X
 
     def run(self):
-
+        # Get the table name of this thread
         string_name = str(threading.currentThread().getName())
         name_list = list(string_name)
         name_list[6] = "_"
@@ -59,6 +63,7 @@ class DatabaseWorker(Thread):
             if query == -1:
                 break
             insert_signal_query = "INSERT INTO " + table_name + "(" + query + ");"
+
             start_time = time.time()
             if self.holo_env.verbose:
                 printLock.acquire()
@@ -67,7 +72,9 @@ class DatabaseWorker(Thread):
                 self.holo_env.logger.info(msg)
                 printLock.release()
             self.dataengine.query(insert_signal_query)
+
             end_time = time.time()
+
             if self.holo_env.verbose:
                 printLock.acquire()
                 self.holo_env.logger.info(
@@ -102,6 +109,11 @@ class DatabaseWorker(Thread):
 
 
 class QueryProducer(Thread):
+    """
+    QueryProducer will loop through the featurizers given from session
+    To append all queries produced by featurizers into a List that
+    Database worker will retrieve from
+    """
     __lock = Lock()
 
     def __init__(self, featurizers, clean, num_of_threads):
@@ -112,6 +124,8 @@ class QueryProducer(Thread):
 
     def run(self):
         global queries
+
+        # Loop through featurizers to append queries to shared list
         for featurizer in self.featurizers:
             queries_to_add = featurizer.get_query(self.clean)
             for query in queries_to_add:
@@ -120,6 +134,7 @@ class QueryProducer(Thread):
                 query_cv.notify()
                 query_cv.release()
 
+        # Send -1 to shared list to indicated end
         for i in range(self.num_of_threads):
             query_cv.acquire()
             queries.append(-1)
