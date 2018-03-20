@@ -2,6 +2,8 @@
 import sqlalchemy as sqla
 from pyspark.sql.types import *
 from utils.reader import Reader
+from pyspark.sql.functions import monotonically_increasing_id
+from global_variables import GlobalVariables
 
 
 class DataEngine:
@@ -239,7 +241,7 @@ class DataEngine:
                 create_table = create_table + " `" + \
                                dataframe.schema.names[i] + "` "
                 if dataframe.schema.fields[i].dataType == IntegerType() \
-                        or dataframe.schema.names[i] == 'index':
+                        or dataframe.schema.names[i] == GlobalVariables.index_name:
                     create_table = create_table + "INT,"
                 else:
                     create_table = create_table + "VARCHAR(255),"
@@ -413,6 +415,9 @@ class DataEngine:
         # Spawn new reader and load data into dataframe
         file_reader = Reader(self.holo_env.spark_session)
         df = file_reader.read(filepath)
+        if GlobalVariables.index_name in df.schema.names:
+            raise Exception("attribute + " + GlobalVariables.index_name + " not allowed in dataset")
+        df = df.select("*").withColumn(GlobalVariables.index_name, monotonically_increasing_id() + 1)
 
         # Store dataframe to DB table
         schema = df.schema.names
@@ -424,13 +429,13 @@ class DataEngine:
         map_schema = []
         attributes = table_attribute_string.split(',')
         for attribute in attributes:
-            if attribute != "index":
+            if attribute != GlobalVariables.index_name:
                 count = count + 1
                 map_schema.append([count, attribute])
 
         dataframe_map_schema = self.holo_env.spark_session.createDataFrame(
             map_schema, StructType([
-                StructField("index", IntegerType(), False),
+                StructField(GlobalVariables.index_name, IntegerType(), False),
                 StructField("attribute", StringType(), True)
             ]))
         self.add_db_table('Map_schema', dataframe_map_schema, dataset)

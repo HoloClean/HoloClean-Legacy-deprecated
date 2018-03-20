@@ -1,3 +1,6 @@
+from holoclean.global_variables import GlobalVariables
+
+
 class DCParser:
     """TODO:
     This class parse the DC in format of
@@ -160,7 +163,7 @@ class DCParser:
         """
         all_list = dataengine.get_schema(dataset, "Init")
         all_attributes = all_list.split(',')
-        all_attributes.remove('index')
+        all_attributes.remove(GlobalVariables.index_name)
         return all_attributes
 
     def get_constraint_free_attributes(self, dataengine, dataset):
@@ -173,7 +176,7 @@ class DCParser:
         """
         all_attributes = DCParser.get_all_attribute(dataengine, dataset)
         and_of_preds = self.get_anded_string('all')
-        result = set({'index'})
+        result = set({GlobalVariables.index_name})
         for cond in and_of_preds:
             tmp_list = self.get_attribute(cond, all_attributes)
             result = result.union(set(tmp_list))
