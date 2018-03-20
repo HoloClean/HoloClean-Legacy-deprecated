@@ -25,18 +25,222 @@ class MysqlDCErrorDetection(ErrorDetection):
         super(MysqlDCErrorDetection, self).__init__(session.holo_env,
                                                     session.dataset)
         self.dc_parser = session.parser
-        all_dcs = self.dc_parser.get_CNF_of_dcs(session.Denial_constraints)
+        self.all_dcs = self.dc_parser.get_CNF_of_dcs(session.Denial_constraints)
         self.operationsarr = DCParser.operationsArr
         self.noisy_cells = None
-        self.dictionary_dc = self.dc_parser.create_dc_map(all_dcs)
+        self.dictionary_dc = self.dc_parser.create_dc_map(self.all_dcs)
+
+    def _is_symetric(self, dc_name):
+        result = True
+        non_sym_ops = [ '<=', '>=', '<', '>', ]
+        for op in non_sym_ops:
+            result = False
+        return result
+
 
     # Getters
+
+    def get_noisy_cells_for_dc(self, dc_name):
+        """
+                Return a dataframe that consist of index of noisy cells index,
+                attribute
+
+                :return: spark_dataframe
+                """
+
+        self.holo_obj.logger.info('Denial Constraint Queries For ' + dc_name)
+        temp_table = "tmp" + self.dataset.dataset_id
+        query = "CREATE TABLE " + temp_table + " AS SELECT " \
+                                               "t1.index as t1_ind, " \
+                                               "t2.index as t2_ind " \
+                " FROM  " + \
+                self.dataset.table_specific_name("Init") + \
+                " as t1, " + \
+                self.dataset.table_specific_name("Init") + \
+                " as  t2 " + "WHERE t1.index != t2.index  AND " + dc_name
+        self.dataengine.query(query)
+
+        t1_attributes = set()
+        t2_attributes = set()
+
+        dc_predicates = self.dictionary_dc[dc_name]
+        for predicate_index in range(0, len(dc_predicates)):
+            predicate_type = dc_predicates[predicate_index][4]
+            # predicate_type 0 : we do not have a literal in this predicate
+            # predicate_type 1 : literal on the left side of the predicate
+            # predicate_type 2 : literal on the right side of the predicate
+            if predicate_type == 0:
+                relax_indices = range(2, 4)
+            elif predicate_type == 1:
+                relax_indices = range(3, 4)
+            elif predicate_type == 2:
+                relax_indices = range(2, 3)
+            else:
+                raise ValueError(
+                    'predicate type can only be 0: '
+                    'if the predicate does not have a literal'
+                    '1: if the predicate has a literal in the left side,'
+                    '2: if the predicate has a literal in right side'
+                )
+            for relax_index in relax_indices:
+                name_attribute = \
+                    dc_predicates[predicate_index][relax_index].split(".")
+                if name_attribute[0] == "t1":
+                    t1_attributes.add(name_attribute[1])
+                elif name_attribute[0] == "t2":
+                    t2_attributes.add(name_attribute[1])
+
+        left_attributes = [[i] for i in t1_attributes]
+        right_attributes = [[i] for i in t2_attributes]
+
+        t1_attributes_dataframe = self.spark_session.createDataFrame(
+            left_attributes, ['attr_name'])
+
+        t2_attributes_dataframe = self.spark_session.createDataFrame(
+            right_attributes, ['attr_name'])
+
+        t1_name = self.dataset.table_specific_name("T1_attributes")
+        t2_name = self.dataset.table_specific_name("T2_attributes")
+        self.dataengine._dataframe_to_table(t1_name, t1_attributes_dataframe)
+        self.dataengine._dataframe_to_table(t2_name, t2_attributes_dataframe)
+
+        # Left part of predicates
+        distinct_left = \
+            "(SELECT DISTINCT t1_ind  FROM " + temp_table + ") AS row_table"
+
+        query_left = "INSERT INTO " + \
+                     self.dataset.table_specific_name("C_dk_temp") + \
+                     " SELECT row_table.t1_ind as ind, a.attr_name as attr FROM " + \
+                     t1_name + \
+                     " AS a," + \
+                     distinct_left
+        self.dataengine.query(query_left)
+
+        self.holo_obj.logger.info('Denial Constraint Query Left ' +
+                                  dc_name + ":" + query_left)
+
+        # Right part of predicates
+        distinct_right = \
+            "(SELECT DISTINCT t2_ind  FROM " + temp_table + ") AS row_table"
+        query_right = "INSERT INTO " + \
+                      self.dataset.table_specific_name("C_dk_temp") + \
+                      " SELECT row_table.t2_ind as ind, " \
+                      "a.attr_name as attr " \
+                      "FROM " + \
+                      t2_name + " AS a," + distinct_right
+
+        self.dataengine.query(query_right)
+
+        self.holo_obj.logger.info('Denial Constraint Query Right ' +
+                                  dc_name + ":" + query_right)
+
+        drop_temp_table = "DROP TABLE " + temp_table + ";DROP TABLE " + \
+                          t1_name + ";DROP TABLE " + t2_name
+        self.dataengine.query(drop_temp_table)
+
+    def get_sym_noisy_cells_for_dc(self, dc_name):
+        """
+                Return a dataframe that consist of index of noisy cells index,
+                attribute
+
+                :return: spark_dataframe
+                """
+
+        self.holo_obj.logger.info('Denial Constraint Queries For ' + dc_name)
+        temp_table = "tmp" + self.dataset.dataset_id
+        query = "CREATE TABLE " + temp_table + " AS SELECT " \
+                                               "t1.index as t1_ind, " \
+                                               "t2.index as t2_ind " \
+                " FROM  " + \
+                self.dataset.table_specific_name("Init") + \
+                " as t1, " + \
+                self.dataset.table_specific_name("Init") + \
+                " as  t2 " + "WHERE t1.index != t2.index  AND " + dc_name
+        self.dataengine.query(query)
+
+        t1_attributes = set()
+
+        dc_predicates = self.dictionary_dc[dc_name]
+        for predicate_index in range(0, len(dc_predicates)):
+            predicate_type = dc_predicates[predicate_index][4]
+            # predicate_type 0 : we do not have a literal in this predicate
+            # predicate_type 1 : literal on the left side of the predicate
+            # predicate_type 2 : literal on the right side of the predicate
+            if predicate_type == 0:
+                relax_indices = range(2, 4)
+            elif predicate_type == 1:
+                relax_indices = range(3, 4)
+            elif predicate_type == 2:
+                relax_indices = range(2, 3)
+            else:
+                raise ValueError(
+                    'predicate type can only be 0: '
+                    'if the predicate does not have a literal'
+                    '1: if the predicate has a literal in the left side,'
+                    '2: if the predicate has a literal in right side'
+                )
+            for relax_index in relax_indices:
+                name_attribute = \
+                    dc_predicates[predicate_index][relax_index].split(".")
+                if name_attribute[0] == "t1":
+                    t1_attributes.add(name_attribute[1])
+
+        left_attributes = [[i] for i in t1_attributes]
+
+        t1_attributes_dataframe = self.spark_session.createDataFrame(
+            left_attributes, ['attr_name'])
+
+
+        t1_name = self.dataset.table_specific_name("T1_attributes")
+        self.dataengine._dataframe_to_table(t1_name, t1_attributes_dataframe)
+
+        # Left part of predicates
+        distinct_left = \
+            "(SELECT DISTINCT t1_ind  FROM " + temp_table + ") AS row_table"
+
+        query_left = "INSERT INTO " + \
+                     self.dataset.table_specific_name("C_dk_temp") + \
+                     " SELECT row_table.t1_ind as ind, a.attr_name as attr FROM " + \
+                     t1_name + \
+                     " AS a," + \
+                     distinct_left
+        self.dataengine.query(query_left)
+
+        self.holo_obj.logger.info('Denial Constraint Query Left ' +
+                                  dc_name + ":" + query_left)
+
+
+        drop_temp_table = "DROP TABLE " + temp_table
+        self.dataengine.query(drop_temp_table)
+
     def get_noisy_cells(self):
         """
         Return a dataframe that consist of index of noisy cells index,attribute
 
         :return: spark_dataframe
         """
+
+        table_name = self.dataset.table_specific_name("C_dk_temp")
+        query_for_creation_table = "CREATE TABLE " + table_name + \
+                                   "(ind INT, attr VARCHAR(255));"
+        self.dataengine.query(query_for_creation_table)
+        for dc_name in self.dictionary_dc:
+            self.get_noisy_cells_for_dc(dc_name)
+
+        c_dk_drataframe = self.dataengine.\
+            get_table_to_dataframe("C_dk_temp", self.dataset)
+        self.noisy_cells = c_dk_drataframe['ind', 'attr'].distinct()
+
+        return self.noisy_cells
+
+
+    def get_noisy_cells_total(self):
+        """
+        Return a dataframe that consist of index of noisy cells index,attribute
+
+        :return: spark_dataframe
+        """
+        self.get_noisy_cells_for_dc(self.all_dcs[0])
         self.holo_obj.logger.info('Denial Constraint Queries: ')
 
         table_name = self.dataset.table_specific_name("C_dk_temp")
@@ -183,7 +387,6 @@ class MysqlDCErrorDetection(ErrorDetection):
         :param noisy_cells: list of noisy cells
         :return:
         """
-        noisy_cells = self.noisy_cells
         all_attr = self.dataengine.get_schema(self.dataset, "Init").split(
             ',')
         all_attr.remove('index')
@@ -192,19 +395,15 @@ class MysqlDCErrorDetection(ErrorDetection):
                 "Select count(*) as size FROM "
                 + self.dataset.table_specific_name("Init"),
                 1).collect()[0].size
-        dataset_list = []
-        for attribute in all_attr:
-            if attribute != "index":
-                for tuple_number in range(1, number_of_tuples+1):
-                    dataset_list.append([tuple_number, attribute])
 
-        dataframe = self.spark_session.createDataFrame(
-            dataset_list, StructType([
-                StructField("ind", IntegerType(), True),
-                StructField("attr", StringType(), False),
-            ]))
-        if dataframe:
-            c_clean_dataframe = dataframe.subtract(noisy_cells)
-        else:
-            c_clean_dataframe = None
+        tuples = [ [i] for i in range(1,number_of_tuples+1)]
+        attr = [[a] for a in all_attr]
+        tuples_dataframe = self.spark_session.createDataFrame(
+            tuples, ['ind'])
+        attr_dataframe = self.spark_session.createDataFrame(
+            attr, ['attr'])
+
+        c_clean_dataframe = tuples_dataframe.crossJoin(attr_dataframe).\
+            subtract(self.noisy_cells)
+
         return c_clean_dataframe
