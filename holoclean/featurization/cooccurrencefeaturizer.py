@@ -1,4 +1,5 @@
 from featurizer import Featurizer
+from holoclean.global_variables import GlobalVariables
 
 
 __metaclass__ = type
@@ -11,7 +12,7 @@ class SignalCooccur(Featurizer):
      the clean and dk cells
     """
 
-    def __init__(self, attr_constrained, dataengine, dataset):
+    def __init__(self, session, attr_constrained):
 
         """
 
@@ -20,6 +21,9 @@ class SignalCooccur(Featurizer):
         :param dataset: list of tables name
         """
 
+        self.session = session
+        dataengine = self.session.holo_env.dataengine
+        dataset = self.session.dataset
         super(SignalCooccur, self).__init__(dataengine, dataset)
         self.id = "SignalCooccur"
         self.attr_constrained = attr_constrained
@@ -84,37 +88,78 @@ class SignalCooccur(Featurizer):
             " t3.value=t2.value AND " + \
             self._get_constraint_attribute('t1', 'attr_name')
 
+        # this will be removed and it will be just an empty list
+        # after the pull request
+        query_for_featurization = \
+            "(select tid, attribute, value, attribute " \
+            " from 514300401728_C_clean_flat where attribute = 'TEMP'"
+
         return query_for_featurization
 
     def get_dictionary_cooccur(self):
         """
-        Creates a string for the query that it is used to create the  Cooccur
-        Signal
+        Creates a dictionary with cooccurance of each cell
+        with the other attribute in the same row
 
-        :param clean: shows if create the feature table for the clean or the dk
-         cells
-
-        :return a string with the query for this feature
+        :return: cooccur_dic dictinary of the cooccurances
         """
         # Create co-occur feature
 
-        query = "Select * from " + \
-                self.dataset.table_specific_name("Init")
-        df_possible_values = self.dataengine.query(query, 1)
-        all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
+        df_possible_values = \
+            self.dataengine.get_table_to_dataframe(
+                "Init", self.dataset)
 
-        cooccur_dict = {}
+        all_attr = self.dataengine.get_schema(self.dataset, "Init").split(',')
+        all_attr.remove(GlobalVariables.index_name)
+
+        cooccur_dict_clean = {}
+        cooccur_dict_dk = {}
         for row in df_possible_values.collect():
             dictionary = row.asDict()
             for attribute in all_attr:
-                if attribute in self.attr_constrained:
-                    cell = str(row["index"])+"." + str(attribute)
-                    cooccur_dict[cell] = []
-                    for all_other_attribute in all_attr:
-                        if all_other_attribute != attribute:
-                            if all_other_attribute in self.attr_constrained:
-                                coocur = all_other_attribute + "=" +\
-                                     dictionary[all_other_attribute]
-                                cooccur_dict[cell].append(coocur)
-
-        return cooccur_dict
+                cellid_key = str(dictionary[GlobalVariables.index_name]) \
+                         + "." + str(attribute)
+                if cellid_key in self.session.pruning.cell_lookup:
+                    cell_informations = \
+                        self.session.pruning.cell_lookup[cellid_key]
+                    vid = cell_informations[0]
+                    k_ij = cell_informations[1]
+                    clean = cell_informations[2]
+                    if clean:
+                        cooccur_dict_clean[vid] = []
+                        cooccur_dict_clean[vid].append(k_ij)
+                        for all_other_attribute in all_attr:
+                            if all_other_attribute != attribute:
+                                if all_other_attribute != \
+                                        GlobalVariables.index_name:
+                                    cellid = str(
+                                        dictionary[GlobalVariables.index_name])\
+                                             + "." + str(all_other_attribute)
+                                    if cellid not in \
+                                            self.session.pruning.noisy_cells_id:
+                                        feature_id = \
+                                            self.session.feature_id_cooccur(
+                                                all_other_attribute,
+                                                dictionary[all_other_attribute])
+                                        cooccur_dict_clean[
+                                            vid].append(
+                                            feature_id)
+                    else:
+                        cooccur_dict_dk[vid] = []
+                        cooccur_dict_dk[vid].append(k_ij)
+                        for all_other_attribute in all_attr:
+                            if all_other_attribute != attribute:
+                                if all_other_attribute != \
+                                        GlobalVariables.index_name:
+                                    cellid = str(
+                                        dictionary[GlobalVariables.index_name])\
+                                             + "." + str(all_other_attribute)
+                                    if cellid not in self.\
+                                            session.pruning.noisy_cells_id:
+                                        feature_id = \
+                                            self.session.feature_id_cooccur(
+                                                all_other_attribute,
+                                                dictionary[all_other_attribute])
+                                        cooccur_dict_dk[vid].append(
+                                            feature_id)
+        return [cooccur_dict_clean, cooccur_dict_dk]

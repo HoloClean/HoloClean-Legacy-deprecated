@@ -258,6 +258,7 @@ class Session:
 
     def load_data(self, file_path):
         """ Loads a dataset from file into the database
+
         :param file_path: path to data file
         :return: pyspark dataframe
         """
@@ -386,9 +387,7 @@ class Session:
                                  self.dataset)
         self._add_featurizer(init_signal)
 
-        cooccur_signal = SignalCooccur(attr_constrained,
-                                       self.holo_env.dataengine,
-                                       self.dataset)
+        cooccur_signal = SignalCooccur(self, attr_constrained)
         self._add_featurizer(cooccur_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
@@ -525,14 +524,19 @@ class Session:
                     StructField("value", StringType(), False),
                     StructField("Type", StringType(), False),
                 ]))
+            self.cooccur = True
             self.holo_env.dataengine.add_db_table(
                 'Feature_id_map', df_domain_map, self.dataset, append=1)
-            self.cooccur_dict = new_featurizer.get_dictionary_cooccur()
+            self.cooccur_dicts = new_featurizer.get_dictionary_cooccur()
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
         self.holo_env.logger.info(
             'getting new signal for featurization is finished')
         return
+
+    def feature_id_cooccur(self, attribute, value):
+        return self.cooccur_dict_feature[attribute][value]
+
 
     def _add_error_detector(self, new_error_detector):
         """Add a new error detector
@@ -674,37 +678,37 @@ class Session:
             self.X_training = X_training
             self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
+            if self.cooccur:
+                self._cooccur_signal(clean)
         else:
             self.X_testing = X_testing
             self.holo_env.logger.info("The X-Tensor_testing has been created")
             self.holo_env.logger.info("  ")
-        self._cooccur_signal(clean)
+            if self.cooccur:
+                self._cooccur_signal(clean)
         return
 
     def _cooccur_signal(self, clean=1):
-        if clean:
-            feature = self.pruning.c_clean
-        else:
-            feature = self.pruning.c_dk
+        '''
+        TO DO: this function should be replace as it bypass the database worker
 
-        for rv in feature:
-            random_variable = rv
-            vid = random_variable[0]
-            random_variable_id = str(rv[1]) + "." + str(rv[2])
-            if random_variable_id in self.cooccur_dict:
-                cooccurance_list = self.cooccur_dict[random_variable_id]
-                for cooccurance in cooccurance_list:
-                    attribute = cooccurance.split("=")
-                    attribute_name = attribute[0]
-                    attribute_value = attribute[1]
-                    self.X_training[vid-1,
-                                    self.cooccur_dict_feature[attribute_name]
-                                    [attribute_value]-1, rv[4]-1] = 1
-                    if vid == 1860:
-                        name = \
-                            self.cooccur_dict_feature[
-                                attribute_name][attribute_value]
-                        print str(vid) + " " + str(name) + " " + str(rv[4])
+        :param clean: variable that show if we are in the training or testing phase
+        '''
+        if clean:
+            dictionary = self.cooccur_dicts[0]
+            X_tensor = self.X_training
+        else:
+            dictionary = self.cooccur_dicts[1]
+            X_tensor = self.X_testing
+        for vid in dictionary:
+            list_information = dictionary[vid]
+            for cooccurance in range(1,len(list_information)):
+                X_tensor[vid - 1, cooccurance-1, list_information[0]-1] = 1
+
+        if clean:
+            self.X_training = X_tensor
+        else:
+            self.X_testing = X_tensor
         return
 
     def _ds_featurize(self, clean=1):

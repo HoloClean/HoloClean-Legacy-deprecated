@@ -37,6 +37,7 @@ class Pruning:
         self.all_cells_temp = {}
         self.index = 0
 
+        self.cooccur_map = {}
         self.cellvalues = self._c_values()
         self.noisycells = self._d_cell()
 
@@ -56,29 +57,16 @@ class Pruning:
             self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
         noisy_cells = []
         self.noisy_list = []
+        self.noisy_cells_id = {}
         for cell in dataframe_dont_know.collect():
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
             self.noisy_list.append([cell[1], int(cell[0])])
             self.cellvalues[int(cell[0])-1][
                  self.attribute_map[cell[1]]].dirty = 1
-
+            key = str(cell[0]) + "." + str(cell[1])
+            self.noisy_cells_id[key] = None
         return noisy_cells
-
-    def _c_cell(self):
-        """
-                Create clean_cell list from the C_clean table
-        """
-        dataframe_clean = \
-            self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
-        clean_cells = []
-        self.clean_list = []
-        for cell in dataframe_clean.collect():
-            cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
-            clean_cells.append(cell_variable)
-            self.clean_list.append([cell[1], int(cell[0])])
-
-        return clean_cells
 
     def _c_values(self):
         """
@@ -90,6 +78,7 @@ class Pruning:
         row_id = 0
         cell_values = {}
         self.attribute_map = {}
+        self.coo_map = {}
         number_id = 0
         for column in dataframe_init.drop(GlobalVariables.index_name).collect():
             row = {}
@@ -100,6 +89,7 @@ class Pruning:
                                           value=column_value, tupleid=row_id,
                                           cellid=number_id, dirty=0, domain=0)
                 row[column_id] = cell_variable
+                key = str(row_id+1) + "." + str(table_attribute[column_id])
                 number_id = number_id + 1
                 column_id = column_id + 1
             cell_values[row_id] = row
@@ -324,8 +314,7 @@ class Pruning:
         c_clean = []
         c_dk = []
         v_id_clean = v_id_dk = 0
-        self.c_dk = []
-        self.c_clean = []
+        self.cell_lookup = {}
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
@@ -347,15 +336,12 @@ class Pruning:
                                                   tmp_cell_index, k_ij)
                             if value == self.cellvalues[tuple_id][
                                         cell_index].value:
-                                self.c_dk.append([v_id_dk,
-                                                  (self.all_cells_temp[
-                                                       tmp_cell_index].
-                                                   tupleid + 1),
-                                                  self.all_cells_temp[
-                                                      tmp_cell_index].
-                                                 columnname,
-                                                  unicode(value), k_ij])
-
+                                cellid = str((self.all_cells_temp[
+                                                  tmp_cell_index].tupleid + 1))
+                                cellid = cellid + "."
+                                cellid = cellid + str(self.all_cells_temp[
+                                                 tmp_cell_index].columnname)
+                                self.cell_lookup[cellid] = [v_id_dk, k_ij, 0]
                         domain_kij_dk.append([v_id_dk, (
                                 self.all_cells_temp[tmp_cell_index].tupleid
                                 + 1),
@@ -376,14 +362,12 @@ class Pruning:
                                                   tmp_cell_index, k_ij)
                             if value == \
                                     self.cellvalues[tuple_id][cell_index].value:
-                                self.c_clean.append([v_id_clean,
-                                                     (self.all_cells_temp[
-                                                          tmp_cell_index].
-                                                      tupleid + 1),
-                                                     self.all_cells_temp[
-                                                         tmp_cell_index].
-                                                    columnname,
-                                                     unicode(value), k_ij])
+                                cellid = str((self.all_cells_temp[
+                                                  tmp_cell_index].tupleid + 1))
+                                cellid = cellid + "."
+                                cellid = cellid + str(self.all_cells_temp[
+                                                 tmp_cell_index].columnname)
+                                self.cell_lookup[cellid] = [v_id_clean, k_ij, 1]
                         domain_kij_clean.append([v_id_clean,
                                                  (self.all_cells_temp[
                                                       tmp_cell_index].
