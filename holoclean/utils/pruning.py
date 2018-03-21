@@ -325,6 +325,7 @@ class Pruning:
         creates a spark dataframe from cell_domain for all the cells
         :return:
         """
+        t0 = time.time()
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
         self.domain_dict = {}
         domain_kij_clean = []
@@ -382,6 +383,8 @@ class Pruning:
                                                  self.all_cells_temp[
                                                      tmp_cell_index].columnname,
                                                  k_ij])
+
+        t1 = time.time()
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
@@ -508,5 +511,9 @@ class Pruning:
                          "AS table1;"
 
         self.dataengine.query(query_observed)
+
+        print "Create dataframe part 1 ", t1 - t0
+        print "Create dataframe part 2 ", time.time() - t1
+        print "Create dataframe total ", time.time() - t0
 
         return

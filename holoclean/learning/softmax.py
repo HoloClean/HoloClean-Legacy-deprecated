@@ -348,9 +348,8 @@ class SoftMax:
             map = predY.data.numpy().argmax(axis=1)
 
             if self.holo_obj.verbose:
-                print("Epoch %d, cost = %f, acc = %.2f%%" %
-                      (i + 1, cost / num_batches,
-                       100. * np.mean(map == self.Y)))
+                print("Epoch %d, cost = %f" %
+                      (i + 1, cost / num_batches))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
@@ -382,7 +381,7 @@ class SoftMax:
                 df1.vid2 == df2.vid,
                 df1.domain_id2 == df2.domain_id], 'inner')\
             .drop("vid2", "domain_id2")
-
+        df_inference.schema.fields[1] = StructField('vid', StringType(), True)
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
 
