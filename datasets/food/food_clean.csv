@@ -1,2001 +1,2001 @@
-tupleid,attribute,correct_value,
-67,address,2032-2034 W DEVON AVE,
-71,city,Chicago,
-109,facilitytype,Grocery Store,
-109,facilitytype,Restaurant,
-143,facilitytype,Restaurant,
-153,facilitytype,School,
-176,address,2032-2034 W DEVON AVE,
-303,facilitytype,Grocery Store,
-369,city,Chicago,
-383,address,5805 W DIVERSEY AVE,
-400,dbaname,NEAR NORTH MONTESSORI SCHOOL,
-465,dbaname,CHIPPER PRE-SCHOOL/KINDERGARTEN,
-495,dbaname,BELLA'S PIZZA,
-964,address,2232-2234 W ROSCOE ST,
-1091,facilitytype,Restaurant,
-1095,facilitytype,Restaurant,
-1097,facilitytype,Restaurant,
-1435,dbaname,TASTY CHINA,
-1657,facilitytype,Daycare Above and Under 2 Years,
-1872,address,3463-3465 N BROADWAY,
-1915,dbaname,LA COCINA RESTAURANT & BAR,
-2276,facilitytype,Restaurant,
-2509,facilitytype,Hospital,
-2536,facilitytype,Restaurant,
-2572,dbaname,THE UNITED CENTER,
-2782,facilitytype,Restaurant,
-2782,facilitytype,Restaurant,
-3264,facilitytype,School,
-3318,facilitytype,School,
-3808,facilitytype,Restaurant,
-3923,facilitytype,Bakery,
-3938,facilitytype,Children's Services Facility,
-4053,address,8940-8942 S STONY ISLAND AVE,
-4243,facilitytype,Daycare Above and Under 2 Years,
-4324,facilitytype,Children's Services Facility,
-4735,facilitytype,Restaurant,
-4813,facilitytype,Children's Services Facility,
-4940,facilitytype,Mobile Food Dispenser,
-4943,facilitytype,Mobile Food Dispenser,
-4944,facilitytype,Mobile Food Dispenser,
-5185,facilitytype,Special Event,
-5195,dbaname,GOLDEN HEART RESTAURANT,
-5263,facilitytype,MOBILE FROZEN DESSERTS VENDOR,
-5331,dbaname,GOLDEN HEART RESTAURANT,
-5337,dbaname,GOLDEN HEART RESTAURANT,
-5381,address,8940-8942 S STONY ISLAND AVE,
-5435,facilitytype,Restaurant,
-5552,dbaname,SOUTH-EAST ASIA CENTER,
-5654,address,522 E 79TH ST,
-5707,facilitytype,Restaurant,
-5755,dbaname,DOMINOS PIZZA,
-6140,dbaname,BELLA'S PIZZA,
-6224,facilitytype,Special Event,
-6312,dbaname,BELLA'S PIZZA,
-6334,dbaname,43RD DAN RYAN CITGO,
-6362,dbaname,43RD DAN RYAN CITGO,
-6469,facilitytype,Restaurant,
-6704,facilitytype,Navy Pier Kiosk,
-6790,address,2032-2034 W DEVON AVE,
-6882,address,305 E GARFIELD BLVD,
-6887,address,305 E GARFIELD BLVD,
-6953,facilitytype,Restaurant,
-7060,facilitytype,School,
-7060,city,Chicago,
-7080,facilitytype,School,
-7080,facilitytype,School,
-7096,address,2032-2034 W DEVON AVE,
-7240,facilitytype,Banquet/kitchen,
-7249,facilitytype,School,
-7249,facilitytype,School,
-7420,facilitytype,Banquet/kitchen,
-7473,address,305 E GARFIELD BLVD,
-7473,address,305 E GARFIELD BLVD,
-7496,facilitytype,Banquet/kitchen,
-7500,address,305 E GARFIELD BLVD,
-8054,address,305 E GARFIELD BLVD,
-8611,facilitytype,Mobile Food Dispenser,
-8662,facilitytype,Restaurant,
-8799,facilitytype,Daycare (2 - 6 Years),
-8801,facilitytype,Mobile Food Dispenser,
-9004,dbaname,LILLIE'S Q,
-9014,dbaname,LILLIE'S Q,
-9392,dbaname,LILLIE'S Q,
-9609,dbaname,SALERO,
-9803,dbaname,AVENIDA DEL SABOR,
-9896,facilitytype,Grocery Store,
-9942,dbaname,HAIFA CAFE,
-10058,dbaname,ENGLEWOOD SATELLITE SENIOR CENTER,
-10376,dbaname,THE GODDARD SCHOOL CHICAGO,
-10421,dbaname,ASIAN TOWN NOODLES,
-10544,dbaname,AURORA CHICAGO LAKESHORE HOSPITAL,
-10557,dbaname,AURORA CHICAGO LAKESHORE HOSPITAL,
-10621,facilitytype,Mobile Food Dispenser,
-10830,dbaname,DAATA DARBAR RESTAURENT,
-11786,address,3816 W 63RD ST,
-11786,city,chicago,
-11861,facilitytype,Grocery Store,
-12254,address,100 W RANDOLPH ST STE C-19,
-12614,facilitytype,Grocery Store,
-13049,facilitytype,Bakery,
-15198,address,4531-4535 W MARQUETTE RD,
-15336,facilitytype,School,
-15874,facilitytype,Restaurant,
-15887,address,3501-3505 N HALSTED ST F,L 1
-15938,results,Out of Business,
-16350,address,2032-2034 W DEVON AVE,
-17010,facilitytype,Mobile Food Dispenser,
-17046,address,4310-4312 S PRAIRIE AVE,
-17697,facilitytype,School,
-17728,address,100 W RANDOLPH ST,
-17748,address,100 W RANDOLPH ST STE C-19,
-18347,address,3246 N CENTRAL AVE,
-18352,address,3246 N CENTRAL AVE,
-18440,zip,60666,
-18869,address,3246 N CENTRAL AVE,
-18899,address,3246 N CENTRAL AVE,
-19127,facilitytype,CHILDRENS SERVICES FACILITY,
-19456,dbaname,LA ESCONDIDA MINI MART & $ PLUS,
-19741,results,Out of Business,
-19791,results,Out of Business,
-20031,results,Out of Business,
-20057,results,Out of Business,
-20355,results,Out of Business,
-20414,results,Out of Business,
-20646,results,Out of Business,
-20738,results,Out of Business,
-20768,results,Out of Business,
-20815,results,Out of Business,
-20863,results,Out of Business,
-20865,results,Out of Business,
-21025,results,Out of Business,
-21257,results,Out of Business,
-21261,results,Out of Business,
-21322,results,Out of Business,
-21323,results,Out of Business,
-21329,results,Out of Business,
-21337,results,Out of Business,
-21368,results,Out of Business,
-21378,facilitytype,School,
-21463,results,Out of Business,
-21475,results,Out of Business,
-21493,results,Out of Business,
-21551,results,Out of Business,
-21634,results,Out of Business,
-21635,address,2706 E 75TH ST,
-21635,results,Out of Business,
-21639,results,Out of Business,
-21679,results,Out of Business,
-21685,results,Out of Business,
-21762,results,Out of Business,
-21766,results,Out of Business,
-21771,address,2032-2034 W DEVON AVE,
-21804,results,Out of Business,
-22048,address,3463-3465 N BROADWAY,
-22076,results,Out of Business,
-22105,city,Chicago,
-22110,facilitytype,School,
-22125,results,Out of Business,
-22296,results,Out of Business,
-22397,results,Out of Business,
-22398,results,Out of Business,
-22431,results,Out of Business,
-23186,state,IL,
-23186,state,IL,
-23194,state,IL,
-23194,state,IL,
-23219,state,IL,
-23219,state,IL,
-23371,state,IL,
-23371,state,IL,
-23406,state,IL,
-23406,state,IL,
-23471,state,IL,
-23471,state,IL,
-23629,state,IL,
-23629,state,IL,
-23635,state,IL,
-23635,state,IL,
-23666,state,IL,
-23666,state,IL,
-23675,state,IL,
-23694,state,IL,
-23694,state,IL,
-23755,state,IL,
-23755,state,IL,
-23804,state,IL,
-23804,state,IL,
-23812,state,IL,
-23812,state,IL,
-23845,state,IL,
-23845,state,IL,
-23877,state,IL,
-23877,state,IL,
-23878,state,IL,
-23878,state,IL,
-23943,state,IL,
-23943,state,IL,
-24031,state,IL,
-24031,state,IL,
-24039,state,IL,
-24039,state,IL,
-24095,state,IL,
-24095,state,IL,
-24121,state,IL,
-24258,state,IL,
-24258,state,IL,
-24261,state,IL,
-24261,state,IL,
-24283,state,IL,
-24283,state,IL,
-24300,state,IL,
-24300,state,IL,
-24306,state,IL,
-24306,state,IL,
-24470,state,IL,
-24470,state,IL,
-24483,state,IL,
-24583,state,IL,
-24686,state,IL,
-24688,state,IL,
-24695,state,IL,
-24783,results,Out of Business,
-24817,results,Out of Business,
-24900,results,Out of Business,
-24905,results,Out of Business,
-24915,results,Out of Business,
-24919,state,IL,
-24936,state,IL,
-24943,facilitytype,Grocery Store,
-24943,results,Out of Business,
-24986,state,IL,
-25003,state,IL,
-25032,results,Out of Business,
-25092,results,Out of Business,
-25154,state,IL,
-25173,state,IL,
-25201,state,IL,
-25267,results,Out of Business,
-25279,results,Out of Business,
-25337,state,IL,
-25349,results,Out of Business,
-25569,state,IL,
-25577,state,IL,
-25648,state,IL,
-25697,results,Out of Business,
-25722,state,IL,
-25742,results,Out of Business,
-25773,results,Out of Business,
-25804,state,IL,
-25807,results,Out of Business,
-25837,state,IL,
-25848,results,Out of Business,
-25919,results,Out of Business,
-25940,results,Out of Business,
-25954,results,Out of Business,
-25987,results,Out of Business,
-26277,address,3435 W VAN BUREN,
-26301,results,Out of Business,
-26483,state,IL,
-26565,state,IL,
-26588,state,IL,
-26595,state,IL,
-26614,state,IL,
-26761,facilitytype,Navy Pier Kiosk,
-26812,state,IL,
-26875,state,IL,
-26887,state,IL,
-26963,state,IL,
-26991,state,IL,
-27100,state,IL,
-27246,state,IL,
-27260,state,IL,
-27287,state,IL,
-27317,state,IL,
-27327,state,IL,
-27384,state,IL,
-27408,state,IL,
-27571,state,IL,
-27781,state,IL,
-27821,state,IL,
-27956,state,IL,
-28042,address,4900 S CICERO AVE,
-28092,state,IL,
-28497,state,IL,
-28526,state,IL,
-28774,state,IL,
-28778,state,IL,
-28792,state,IL,
-28980,state,IL,
-28999,state,IL,
-29013,state,IL,
-29050,state,IL,
-29137,state,IL,
-29176,dbaname,STARFRUIT CAFE,
-29198,state,IL,
-29220,address,2838 W NORTH AVE,
-29228,dbaname,THE PASTA BOWL COMPANY,
-29286,state,IL,
-29291,state,IL,
-29294,state,IL,
-29296,address,2401 W OGDEN AVE,
-29296,address,2401 W OGDEN AVE,
-29306,address,8940-8942 S STONY ISLAND,AVE
-29360,facilitytype,Restaurant,
-29592,dbaname,THE PASTA BOWL COMPANY,
-29720,state,IL,
-29724,state,IL,
-29794,address,2401 W OGDEN AVE,
-29794,address,2401 W OGDEN AVE,
-29893,state,IL,
-29919,facilitytype,Restaurant,
-30034,state,IL,
-30059,dbaname,SNAPPY CONVENIENCE CENTER #5,
-30060,dbaname,SNAPPY CONVENIENCE CENTER #5,
-30096,state,IL,
-30125,state,IL,
-30251,state,IL,
-30380,state,IL,
-30469,state,IL,
-30513,state,IL,
-30514,state,IL,
-30518,dbaname,REGGIO'S PIZZA EXPRESS,
-30605,state,IL,
-30670,dbaname,THE GREAT AMERICAN BAGEL,
-30688,state,IL,
-30691,state,IL,
-30692,state,IL,
-30710,state,IL,
-30753,facilitytype,Children's Services Facility,
-30770,facilitytype,Liquor,
-30819,state,IL,
-30821,state,IL,
-30856,state,IL,
-30996,dbaname,EL ORIGINAL GALLO BRAVO,
-31112,state,IL,
-31137,state,IL,
-31168,state,IL,
-31200,state,IL,
-31212,city,chicago,
-31327,state,IL,
-31328,state,IL,
-31394,state,IL,
-31396,state,IL,
-31412,state,IL,
-31414,state,IL,
-31421,state,IL,
-31423,dbaname,EL ORIGINAL GALLO BRAVO,
-31434,state,IL,
-31487,state,IL,
-31516,state,IL,
-31548,state,IL,
-31840,state,IL,
-31854,dbaname,BURGER KING #181,
-31891,state,IL,
-31999,state,IL,
-32028,state,IL,
-32030,state,IL,
-32069,dbaname,THE GREAT AMERICAN BAGEL,
-32206,state,IL,
-32362,state,IL,
-32373,facilitytype,MOBILE FROZEN DESSERTS VENDOR,
-32388,state,IL,
-32393,facilitytype,MOBILE DESSERTS VENDOR,
-32452,dbaname,BURGER KING #11297,
-32505,state,IL,
-32538,state,IL,
-32559,facilitytype,MOBILE FROZEN DESSERTS VENDOR,
-32563,state,IL,
-32620,facilitytype,MOBILE FROZEN DESSERTS VENDOR,
-32621,state,IL,
-32659,state,IL,
-32692,dbaname,BURGER KING #11297,
-32698,dbaname,BURGER KING #11297,
-32804,state,IL,
-32821,dbaname,THE PASTA BOWL COMPANY,
-32865,state,IL,
-32914,state,IL,
-32931,results,Out of Business,
-32996,state,IL,
-33019,state,IL,
-33076,results,Out of Business,
-33081,address,2838 W NORTH AVE,
-33112,results,Out of Business,
-33130,results,Out of Business,
-33150,results,Out of Business,
-33171,state,IL,
-33180,results,Out of Business,
-33197,dbaname,BURGER KING #11297,
-33213,dbaname,BURGER KING #11297,
-33269,results,Out of Business,
-33278,results,Out of Business,
-33284,results,Out of Business,
-33294,results,Out of Business,
-33297,results,Out of Business,
-33304,dbaname,BURGER KING #181,
-33341,dbaname,BURGER KING #181,
-33343,state,IL,
-33361,dbaname,BURGER KING #5818,
-33368,dbaname,BURGER KING #5818,
-33419,dbaname,THE PASTA BOWL COMPANY,
-33494,state,IL,
-33538,dbaname,LEONA'S PIZZERIA,
-33587,dbaname,LEONA'S PIZZERIA,
-33637,state,IL,
-33650,state,IL,
-33762,state,IL,
-33794,dbaname,BEAUDEVIN WINE BAR,
-33980,state,IL,
-33996,state,IL,
-34169,state,IL,
-34194,state,IL,
-34294,facilitytype,Restaurant,
-34295,facilitytype,Restaurant,
-34345,state,IL,
-34375,state,IL,
-34414,state,IL,
-34534,state,IL,
-34567,state,IL,
-34845,state,IL,
-34880,state,IL,
-34882,state,IL,
-35219,state,IL,
-35408,state,IL,
-35458,state,IL,
-35477,state,IL,
-35599,state,IL,
-35623,state,IL,
-35831,state,IL,
-35831,zip,60642,
-35836,facilitytype,Restaurant,
-35855,state,IL,
-35855,zip,60642,
-35933,state,IL,
-35933,zip,60642,
-36013,address,100 W RANDOLPH ST STE C-19,
-36137,state,IL,
-36137,zip,60642,
-36314,facilitytype,Restaurant,
-36358,state,IL,
-36358,zip,60642,
-36501,state,IL,
-36501,zip,60642,
-36526,state,IL,
-36526,zip,60642,
-36542,address,4503-4505 N KEDZIE AVE,
-36545,address,2554-2556 W DIVERSEY AVE,
-36554,state,IL,
-36554,zip,60642,
-36565,state,IL,
-36565,zip,60642,
-36612,state,IL,
-36612,zip,60642,
-36655,state,IL,
-36655,zip,60642,
-36807,state,IL,
-36807,zip,60642,
-36904,address,3421 N CLARK ST,
-36904,address,3421 N CLARK ST,
-36936,state,IL,
-36936,zip,60642,
-36956,state,IL,
-36956,zip,60642,
-37006,state,IL,
-37006,zip,60642,
-37407,facilitytype,Restaurant,
-37448,state,IL,
-37448,zip,60642,
-37473,state,IL,
-37473,zip,60642,
-37477,state,IL,
-37477,zip,60642,
-37512,facilitytype,Restaurant,
-37513,facilitytype,Restaurant,
-37697,dbaname,McCORMICK PLACE,
-37715,facilitytype,Restaurant,
-37752,facilitytype,Restaurant,
-37908,state,IL,
-37908,zip,60642,
-38043,state,IL,
-38043,zip,60642,
-38044,state,IL,
-38044,zip,60642,
-38102,state,IL,
-38102,zip,60642,
-38203,state,IL,
-38203,zip,60642,
-38332,state,IL,
-38332,zip,60642,
-38338,state,IL,
-38338,zip,60642,
-38366,state,IL,
-38366,zip,60642,
-38407,address,4503-4505 N KEDZIE AVE,
-38495,state,IL,
-38495,zip,60642,
-39042,state,IL,
-39042,zip,60642,
-39073,state,IL,
-39073,zip,60642,
-39580,facilitytype,Restaurant,
-39581,state,IL,
-39581,zip,60642,
-40122,address,100 W RANDOLPH ST STE C-19,
-40357,state,IL,
-40357,zip,60642,
-40535,state,IL,
-40535,zip,60642,
-40582,address,100 W RANDOLPH ST,
-40647,state,IL,
-40647,zip,60642,
-41123,state,IL,
-41123,zip,60642,
-41303,state,IL,
-41303,zip,60642,
-41342,state,IL,
-41342,zip,60642,
-41362,state,IL,
-41362,zip,60642,
-41451,address,8940-8942 S STONY ISLAND AVE,
-41454,address,8940-8942 S STONY ISLAND AVE,
-41520,state,IL,
-41520,zip,60642,
-41627,state,IL,
-41627,zip,60642,
-41637,state,IL,
-41637,zip,60642,
-41719,address,2945-2947 N BROADWAY AVE,
-41761,facilitytype,Restaurant,
-41845,state,IL,
-41845,zip,60642,
-41894,state,IL,
-41894,zip,60642,
-41921,state,IL,
-41921,zip,60642,
-42008,state,IL,
-42008,zip,60642,
-42013,state,IL,
-42013,zip,60642,
-42040,state,IL,
-42040,zip,60642,
-42181,state,IL,
-42181,zip,60642,
-42213,address,3601 W NORTH AVE BLDG 1STFL.,
-42213,address,3601 W NORTH AVE BLDG 1S TFL.,
-42312,state,IL,
-42312,zip,60642,
-42495,state,IL,
-42495,zip,60642,
-42523,state,IL,
-42579,state,IL,
-42662,dbaname,DOMINOS PIZZA,
-42673,state,IL,
-42706,state,IL,
-42925,state,IL,
-43187,state,IL,
-43196,state,IL,
-43206,address,3410 MAIN ST,
-43206,city,SCHAUMBURG,
-43206,zip,60193,
-43226,state,IL,
-43244,address,5633-5635 N ASHLAND AVE,
-43310,address,3601 W NORTH AVE BLDG 1STFL.,
-43753,state,IL,
-43759,state,IL,
-43927,address,131 N CLINTON #30,
-43936,address,3463-3465 N BROADWAY,
-43989,address,17429 S CENTER ST,
-43989,zip,60409,
-44178,state,IL,
-44184,state,IL,
-44454,location,"(41.89795569189251, -87.67696390590685)",
-44462,location,"(41.89795569189251, -87.67696390590685)",
-44484,location,"(41.744630715329514, -87.60490519818548)",
-44512,location,"(41.88199433820508, -87.6397586848809)",
-44571,location,"(41.94041749168562, -87.72578648822572)",
-44573,address,17429 S CENTER ST,
-44573,zip,60409,
-44576,location,"(41.94041749168562, -87.72578648822572)",
-44582,state,IL,
-44610,state,IL,
-44719,state,IL,
-44730,state,IL,
-44741,results,Out of Business,
-44855,state,IL,
-44885,state,IL,
-44966,facilitytype,Restaurant,
-45070,state,IL,
-45071,state,IL,
-45155,state,IL,
-45438,facilitytype,Restaurant,
-45544,state,IL,
-45572,state,IL,
-45588,state,IL,
-45596,state,IL,
-45838,facilitytype,Grocery Store,
-45848,location,"(41.884187507127805, -87.64111966683218)",
-45899,state,IL,
-45953,state,IL,
-46003,location,"(41.744630715329514, -87.60490519818548)",
-46274,location,"(41.884187507127805, -87.64111966683218)",
-46437,state,IL,
-46542,state,IL,
-46612,address,3313-3319 N BROADWAY,
-46616,location,"(41.90376544815293, -87.63307247105263)",
-46640,state,IL,
-46661,state,IL,
-46675,state,IL,
-46684,state,IL,
-46880,state,IL,
-46894,facilitytype,GROCERY& RESTAURANT,
-46963,state,IL,
-47008,state,IL,
-47022,state,IL,
-47041,state,IL,
-47075,state,IL,
-47100,state,IL,
-47105,state,IL,
-47302,state,IL,
-47443,location,"(41.83808910384431, -87.65129460738949)",
-47453,state,IL,
-47454,location,"(41.94041749168562, -87.72578648822572)",
-47509,state,IL,
-47510,state,IL,
-47517,location,"(41.87216695780119, -87.62957679729978)",
-47530,state,IL,
-47531,state,IL,
-47532,state,IL,
-47533,state,IL,
-47547,location,"(41.92335589370734, -87.69785017026875)",
-47557,state,IL,
-47654,location,"(41.87216695780119, -87.62957679729978)",
-47681,location,"(41.96851294147588, -87.71305126719813)",
-47712,state,IL,
-47836,facilitytype,Restaurant,
-47854,location,"(41.814554270530905, -87.70372129941862)",
-47922,location,"(41.87216695780119, -87.62957679729978)",
-47938,state,IL,
-47940,state,IL,
-47950,state,IL,
-47959,facilitytype,Grocery Store,
-47965,location,"(41.80824449155079, -87.70316885960831)",
-47969,location,"(41.80824449155079, -87.70316885960831)",
-47970,state,IL,
-47974,state,IL,
-48000,state,IL,
-48214,state,IL,
-48560,state,IL,
-48584,state,IL,
-48652,state,IL,
-48809,state,IL,
-48844,state,IL,
-48855,facilitytype,Restaurant,
-48958,facilitytype,Restaurant,
-49033,state,IL,
-49120,location,"(41.90943446610412, -87.75239305833514)",
-49374,state,IL,
-49450,state,IL,
-49485,state,IL,
-49554,state,IL,
-49573,state,IL,
-49888,location,"(41.9106455744334, -87.67420058686105)",
-49924,state,IL,
-49969,state,IL,
-50037,state,IL,
-50053,state,IL,
-50058,state,IL,
-50065,city,Chicago,
-50065,state,IL,
-50068,state,IL,
-50140,state,IL,
-50147,state,IL,
-50157,state,IL,
-50187,state,IL,
-50282,state,IL,
-50318,state,IL,
-50326,facilitytype,Grocery Store,
-50336,state,IL,
-50356,state,IL,
-50359,state,IL,
-50412,state,IL,
-50437,state,IL,
-50439,state,IL,
-50548,state,IL,
-50559,state,IL,
-50572,state,IL,
-50584,state,IL,
-50600,facilitytype,Grocery Store,
-50655,state,IL,
-50670,state,IL,
-50677,state,IL,
-50706,state,IL,
-50757,state,IL,
-50822,state,IL,
-50855,state,IL,
-50896,state,IL,
-50917,results,Out of Business,
-50937,state,IL,
-50939,state,IL,
-50983,state,IL,
-51083,state,IL,
-51109,state,IL,
-51274,state,IL,
-51285,state,IL,
-51340,state,IL,
-51350,state,IL,
-51399,state,IL,
-51468,state,IL,
-51470,state,IL,
-51484,state,IL,
-51512,state,IL,
-51527,state,IL,
-51531,state,IL,
-51697,state,IL,
-51715,state,IL,
-51746,dbaname,WRIGLEYVILLE ROOFTOPS,
-51753,state,IL,
-51825,facilitytype,School,
-51888,state,IL,
-51919,state,IL,
-51925,state,IL,
-51926,state,IL,
-51945,state,IL,
-51980,state,IL,
-52008,state,IL,
-52020,address,3816 W 63RD ST,
-52020,city,chicago,
-52029,address,3816 W 63RD ST,
-52029,city,chicago,
-52040,facilitytype,Restaurant,
-52050,state,IL,
-52080,state,IL,
-52083,state,IL,
-52095,state,IL,
-52096,state,IL,
-52113,state,IL,
-52114,state,IL,
-52168,state,IL,
-52208,state,IL,
-52236,state,IL,
-52256,address,2637 S THROOP ST,
-52261,state,IL,
-52281,facilitytype,School,
-52290,state,IL,
-52352,facilitytype,Daycare Above and Under 2 Years,
-52380,state,IL,
-52408,state,IL,
-52456,state,IL,
-52486,state,IL,
-52587,state,IL,
-52592,state,IL,
-52595,state,IL,
-52624,state,IL,
-52647,state,IL,
-52653,state,IL,
-52662,city,chicago,
-52671,city,chicago,
-52704,state,IL,
-52735,state,IL,
-52813,state,IL,
-52817,state,IL,
-52823,state,IL,
-52865,state,IL,
-52876,state,IL,
-52905,location,"(41.80945691736228, -87.68474598934672)",
-52943,state,IL,
-52952,state,IL,
-52985,state,IL,
-53025,state,IL,
-53176,state,IL,
-53203,state,IL,
-53234,facilitytype,Restaurant,
-53429,state,IL,
-53475,state,IL,
-53524,address,4503-4505 N KEDZIE AVE,
-53550,address,420-422 W 31ST ST,
-53550,address,420-422 W 31ST ST,
-53553,state,IL,
-53559,address,420-422 W 31ST ST,
-53595,state,IL,
-53663,state,IL,
-53740,state,IL,
-53747,state,IL,
-53768,state,IL,
-53771,state,IL,
-53784,state,IL,
-53790,state,IL,
-53800,state,IL,
-53851,state,IL,
-53879,address,420-422 W 31ST ST,
-53881,state,IL,
-53936,state,IL,
-54009,state,IL,
-54011,address,420-422 W 31ST ST,
-54011,address,420-422 W 31ST ST,
-54047,state,IL,
-54079,state,IL,
-54227,facilitytype,Mobile Food Dispenser,
-54245,facilitytype,Bakery,
-54275,state,IL,
-54400,facilitytype,Bakery,
-54450,state,IL,
-54457,facilitytype,Grocery Store,
-54471,state,IL,
-54489,state,IL,
-54632,state,IL,
-54741,address,3463-3465 N BROADWAY,
-54747,address,3463-3465 N BROADWAY,
-54908,facilitytype,Grocery Store,
-54914,address,3463-3465 N BROADWAY,
-54923,address,3463-3465 N BROADWAY,
-55014,state,IL,
-55120,state,IL,
-55147,state,IL,
-55165,state,IL,
-55188,state,IL,
-55197,state,IL,
-55204,state,IL,
-55229,state,IL,
-55270,state,IL,
-55358,facilitytype,Restaurant,
-55666,state,IL,
-55679,state,IL,
-55762,state,IL,
-55773,state,IL,
-55842,facilitytype,Restaurant,
-56079,facilitytype,Restaurant,
-56120,address,6727-6733 N OLMSTED AVE,
-56205,state,IL,
-56223,state,IL,
-56343,state,IL,
-56373,state,IL,
-56377,state,IL,
-56643,address,6727-6733 N OLMSTED AVE,
-56643,address,6727-6733 N OLMSTED AVE,
-56652,facilitytype,Grocery Store,
-56733,address,3142-3148 W LAWRENCE AVE,
-57100,state,IL,
-57338,state,IL,
-57351,state,IL,
-57616,facilitytype,Restaurant,
-57706,state,IL,
-57707,state,IL,
-57777,state,IL,
-57858,address,420-422 W 31ST ST,
-58054,state,IL,
-58249,address,4400-4412 N CICERO AVE,
-58249,address,4400-4412 N CICERO AVE,
-58283,state,IL,
-58340,state,IL,
-58638,state,IL,
-58641,address,1720-1780 N MARCEY ST,
-58674,address,4310-4312 S PRAIRIE AVE,
-58777,facilitytype,Restaurant,
-59101,address,100 W RANDOLPH ST STE C-19,
-59219,address,100 W RANDOLPH ST,
-59250,address,3142-3148 W LAWRENCE AVE,
-59260,state,IL,
-59277,state,IL,
-59340,state,IL,
-59496,state,IL,
-59558,facilitytype,Restaurant,
-59572,state,IL,
-59592,state,IL,
-59651,facilitytype,Restaurant,
-59724,state,IL,
-59755,state,IL,
-59834,zip,60616,
-59834,city,Chicago,
-59866,facilitytype,Restaurant,
-59978,facilitytype,Restaurant,
-59980,address,1410 S MUSEUM CAMPUS DR,
-59980,city,CHICAGO,
-59980,zip,60605,
-60043,state,IL,
-60170,state,IL,
-60179,state,IL,
-60185,state,IL,
-60224,facilitytype,Restaurant,
-60298,state,IL,
-60312,state,IL,
-60425,state,IL,
-60451,state,IL,
-60460,state,IL,
-60595,state,IL,
-60605,state,IL,
-60610,state,IL,
-60667,address,3601 W NORTH AVE BLDG 1STFL.,
-60679,address,3601 W NORTH AVE BLDG 1STFL.,
-60779,state,IL,
-60817,state,IL,
-60861,state,IL,
-61003,state,IL,
-61044,state,IL,
-61072,state,IL,
-61092,state,IL,
-61093,state,IL,
-61105,state,IL,
-61107,state,IL,
-61195,state,IL,
-61265,state,IL,
-61528,address,3313-3319 N BROADWAY,
-61687,address,3313-3319 N BROADWAY,
-61717,address,3400-3402 N ASHLAND AVE,
-61909,facilitytype,Restaurant,
-61926,address,3313-3319 N BROADWAY,
-62201,facilitytype,Restaurant,
-62251,address,3313-3319 N BROADWAY,
-62311,facilitytype,Grocery Store,
-63405,facilitytype,Restaurant,
-63444,address,10-20 E DELAWARE ST,
-63500,zip,60605,
-63500,city,Chicago,
-63501,dbaname,SPORTSERVICE SOLDIER FIELD,
-63514,facilitytype,Restaurant,
-63532,facilitytype,Restaurant,
-63533,inspectiondate,20130918,
-63603,address,658 E 75th ST,
-63621,facilitytype,Restaurant,
-64084,facilitytype,School,
-64117,dbaname,THE UNITED CENTER,
-64119,dbaname,THE UNITED CENTER,
-64147,facilitytype,School,
-64282,facilitytype,School,
-64293,zip,60642,
-64293,facilitytype,School,
-64294,zip,60642,
-64294,facilitytype,School,
-64295,zip,60642,
-64295,facilitytype,School,
-64298,zip,60642,
-64310,zip,60642,
-64357,address,420-422 W 31ST ST,
-64374,zip,60642,
-64374,facilitytype,School,
-64379,city,Chicago,
-64379,zip,60642,
-64384,zip,60642,
-64384,facilitytype,School,
-64385,zip,60642,
-64385,facilitytype,School,
-64386,zip,60642,
-64491,facilitytype,School,
-64514,facilitytype,Grocery Store,
-64558,zip,60642,
-64886,zip,60642,
-64972,facilitytype,School,
-65155,facilitytype,Restaurant,
-65235,facilitytype,Restaurant,
-65261,zip,60642,
-65268,zip,60642,
-65615,facilitytype,Grocery Store,
-65658,facilitytype,ICE CREAM PARLOR,
-65763,facilitytype,Grocery Store,
-65770,facilitytype,Grocery Store,
-65804,zip,60642,
-65857,address,3800-3804 N CLARK ST,
-66056,zip,60642,
-66156,dbaname,JALISCO RESTAURANT,
-66192,facilitytype,Restaurant,
-66217,zip,60642,
-66253,facilitytype,Grocery Store,
-66385,facilitytype,Grocery Store,
-66478,dbaname,HAIFA CAFE,
-66558,facilitytype,Special Event,
-66601,dbaname,CHINA CAFE,
-66711,zip,60642,
-66741,dbaname,PALETERIA OSO POLAR II,
-66744,facilitytype,Grocery Store,
-66779,zip,60666,
-66783,facilitytype,Grocery Store,
-66786,dbaname,LA COCINA,
-66885,facilitytype,Restaurant,
-66885,dbaname,COBBLER'S CAFE,
-66930,dbaname,STATE GARDEN FOOD & LIQ,
-67132,zip,60642,
-67153,facilitytype,Grocery Store,
-67187,dbaname,JAFFA BAKERY,
-67243,facilitytype,Restaurant,
-67341,dbaname,BEVERLY MONTESSORI SCHOOL,
-67453,dbaname,BEVERLY MONTESSORI SCHOOL,
-67454,dbaname,BEVERLY MONTESSORI SCHOOL,
-67459,facilitytype,Grocery Store,
-67819,zip,60622,
-67830,address,2301-03 W FOSTER AVE,
-67830,facilitytype,Restaurant,
-67858,facilitytype,Restaurant,
-67928,facilitytype,Restaurant,
-67930,facilitytype,Restaurant,
-68044,facilitytype,Grocery Store,
-68116,facilitytype,Restaurant,
-68167,zip,60622,
-68167,address,1366 N MILWAUKEE AVE,
-68216,state,IL,
-68216,dbaname,EMPORIUM ARCADE BAR,
-68216,location,"(41.893380429024546, -87.65758773796799)",
-68280,dbaname,LILLIE'S Q,
-68321,dbaname,AVY'S PIZZA,
-68940,dbaname,GIOIA CANDY,
-69391,facilitytype,Grocery Store,
-69473,dbaname,LILLIE'S Q,
-69503,facilitytype,Grocery Store,
-69509,facilitytype,Restaurant,
-69751,facilitytype,School,
-69885,facilitytype,School,
-69950,dbaname,3639 LLC,
-69957,dbaname,DOMINOS PIZZA,
-70163,facilitytype,Grocery Store,
-70310,dbaname,ROSATI'S PIZZA,
-70312,dbaname,ROSATI'S PIZZA,
-70331,facilitytype,Restaurant,
-70448,facilitytype,Grocery Store,
-70507,facilitytype,Grocery Store,
-70513,facilitytype,Grocery Store,
-70628,facilitytype,Grocery Store,
-70736,address,3601 W NORTH AVE BLDG 1STFL.,
-70751,facilitytype,Grocery Store,
-70753,facilitytype,Grocery Store,
-71002,address,815 W VAN BUREN,
-71002,address,815 W VAN BUREN,
-71028,address,2 W 103RD ST,
-71033,facilitytype,Grocery Store,
-71060,facilitytype,Grocery Store,
-71371,facilitytype,Restaurant,
-71405,facilitytype,Restaurant,
-71495,facilitytype,Restaurant,
-71496,facilitytype,Restaurant,
-71603,facilitytype,Grocery Store,
-71645,address,3601 W NORTH AVE BLDG 1STFL.,
-72081,facilitytype,Grocery Store,
-72095,facilitytype,Grocery Store,
-72110,facilitytype,Grocery Store,
-72447,facilitytype,CAT/LIQUOR,
-72553,facilitytype,Grocery Store,
-72603,facilitytype,Grocery Store,
-72837,facilitytype,Grocery Store,
-72888,address,6727-6733 N OLMSTED AVE,
-72888,address,6727-6733 N OLMSTED AVE,
-73072,facilitytype,Restaurant,
-73384,facilitytype,Restaurant,
-73416,facilitytype,Grocery Store,
-73494,facilitytype,Restaurant,
-73671,facilitytype,Grocery Store,
-73714,facilitytype,Restaurant,
-73756,facilitytype,Restaurant,
-73771,facilitytype,ROOFTOP,
-73771,facilitytype,ROOFTOP,
-74003,address,958 - 960 W BELMONT AVE,
-74042,facilitytype,Grocery Store,
-74453,address,4503-4505 N KEDZIE AVE,
-74530,address,958 - 960 W BELMONT AVE,
-74676,facilitytype,Grocery Store,
-74750,location,"(41.96794426205111, -87.74532767201778)",
-74852,address,3632-3640 N PULASKI RD,
-75082,facilitytype,Grocery Store,
-75132,facilitytype,Grocery Store,
-75287,facilitytype,Restaurant,
-75345,facilitytype,Restaurant,
-75547,address,3142-3148 W LAWRENCE AVE,
-75633,facilitytype,Restaurant,
-75717,address,2548-2550 W DEVON AVE,
-75793,facilitytype,Restaurant,
-75865,facilitytype,Grocery Store,
-76110,facilitytype,Grocery Store,
-76252,facilitytype,Grocery Store,
-76853,address,2548-2550 W DEVON AVE,
-77208,address,2548-2550 W DEVON AVE,
-77208,address,2548-2550 W DEVON AVE,
-77292,facilitytype,Restaurant,
-77295,facilitytype,Grocery Store,
-77611,dbaname,PIZZA KITCHEN,
-77615,facilitytype,Restaurant,
-77641,facilitytype,Restaurant,
-77657,facilitytype,Grocery Store,
-77730,facilitytype,Restaurant,
-77815,facilitytype,Restaurant,
-77885,facilitytype,Daycare Above and Under 2 Years,
-77909,facilitytype,Restaurant,
-78051,address,3435 W VAN BUREN,
-78425,facilitytype,Grocery Store,
-78453,address,100 W RANDOLPH ST,
-78619,facilitytype,Restaurant,
-78732,facilitytype,Restaurant,
-78989,facilitytype,Grocery Store,
-79024,facilitytype,Restaurant,
-79098,facilitytype,Grocery Store,
-79122,facilitytype,Daycare (2 - 6 Years),
-79251,facilitytype,Restaurant,
-79264,facilitytype,Grocery Store,
-79401,facilitytype,Grocery Store,
-79420,facilitytype,Restaurant,
-79448,facilitytype,Grocery Store,
-79456,facilitytype,Grocery Store,
-79603,facilitytype,Daycare (2 - 6 Years),
-79612,address,2343-2345 E 71ST ST,
-79631,facilitytype,Children's Services Facility,
-79727,facilitytype,Grocery Store,
-79919,facilitytype,Grocery Store,
-79920,facilitytype,Grocery Store,
-79941,facilitytype,Grocery Store,
-79942,facilitytype,Grocery Store,
-80017,facilitytype,Children's Services Facility,
-80059,facilitytype,Grocery Store,
-80144,facilitytype,Restaurant,
-80739,facilitytype,Grocery Store,
-80766,facilitytype,Grocery Store,
-80840,facilitytype,Restaurant,
-80905,facilitytype,Grocery Store,
-81184,address,4748-4750 W PETERSON AVE,
-81184,address,4748-4750 W PETERSON AVE,
-81246,facilitytype,Restaurant,
-81498,facilitytype,Restaurant,
-81890,address,1825 W IRVING PARK,
-81890,address,1825 W IRVING PARK,
-81899,facilitytype,Grocery Store,
-81941,facilitytype,Restaurant,
-82060,facilitytype,Grocery Store,
-82604,facilitytype,Grocery Store,
-82641,address,2022 S WENTWORTH AVE FL,
-82922,dbaname,SUBWAY,
-83093,facilitytype,Grocery Store,
-83254,facilitytype,Grocery Store,
-83423,city,CHICAGO,
-83423,zip,60625,
-83426,city,CHICAGO,
-83426,zip,60625,
-83432,facilitytype,Restaurant,
-83442,zip,60625,
-83442,city,Chicago,
-83517,facilitytype,Grocery Store,
-83521,facilitytype,Grocery Store,
-83525,facilitytype,Grocery Store,
-83717,facilitytype,Grocery Store,
-83784,zip,60608,
-83966,facilitytype,Restaurant,
-84143,facilitytype,Restaurant,
-84298,address,420-422 W 31ST ST,
-84887,facilitytype,Restaurant,
-84920,facilitytype,Restaurant,
-85112,facilitytype,Restaurant,
-85236,address,2421 N CLARK ST,
-85339,facilitytype,Daycare (2 - 6 Years),
-85431,facilitytype,Restaurant,
-85574,facilitytype,Restaurant,
-85584,facilitytype,Restaurant,
-85588,facilitytype,Grocery Store,
-85972,facilitytype,Restaurant,
-86077,facilitytype,Grocery Store,
-86134,facilitytype,Restaurant,
-86173,zip,60654,
-86173,facilitytype,Grocery Store,
-86518,facilitytype,Restaurant,
-86600,facilitytype,Restaurant,
-86883,facilitytype,Restaurant,
-87431,facilitytype,Restaurant,
-87615,facilitytype,Restaurant,
-87810,address,4606 S DAMEN AVE,
-87856,address,3904 N CICERO,
-88021,facilitytype,Restaurant,
-88100,facilitytype,Restaurant,
-88330,facilitytype,Liquor,
-88393,dbaname,THUNDERBIRD CATERING,
-88407,dbaname,THUNDERBIRD CATERING,
-88480,facilitytype,Mobile Food Dispenser,
-88483,facilitytype,Mobile Food Dispenser,
-88485,facilitytype,Mobile Food Dispenser,
-88488,dbaname,THUNDERBIRD CATERING,
-88488,facilitytype,Mobile Food Dispenser,
-88496,facilitytype,Mobile Food Dispenser,
-88498,facilitytype,Mobile Food Dispenser,
-88499,facilitytype,Mobile Food Dispenser,
-88503,facilitytype,Mobile Food Dispenser,
-88516,facilitytype,Mobile Food Dispenser,
-88988,state,IL,
-89123,facilitytype,Restaurant,
-89170,address,958 - 960 W BELMONT AVE,
-89261,address,2039-2041 W NORTH AVE,
-89262,address,2039-2041 W NORTH AVE,
-89350,results,Out of Business,
-89360,state,IL,
-89360,dbaname,EMPORIUM ARCADE BAR,
-89360,location,"(41.893380429024546, -87.65758773796799)",
-89416,facilitytype,Restaurant,
-89463,results,Out of Business,
-89896,address,3904 N CICERO,
-89896,dbaname,HONG KONG CHINESE RESTAURANT,
-90021,results,Out of Business,
-90148,address,2039-2041 W NORTH AVE,
-90151,address,2039-2041 W NORTH AVE,
-90584,address,10-20 E DELAWARE ST,
-91029,address,3142-3148 W LAWRENCE AVE,
-91078,address,201 N STATE ST,
-91195,address,201 N STATE ST,
-91234,facilitytype,Restaurant,
-91436,city,Chicago,
-91492,city,Chicago,
-91494,city,Chicago,
-91499,city,Chicago,
-91505,city,CHICAGO,
-91507,address,2843 - 2847 W 63RD ST ,
-91509,city,Chicago,
-91511,address,2843 - 2847 W 63RD ST ,
-91513,address,1646-1648 W 95TH ST,
-91516,address,2843 - 2847 W 63RD ST ,
-91523,facilitytype,Mobile Food Dispenser,
-91523,city,Chicago,
-91526,city,Chicago,
-91650,facilitytype,Grocery Store,
-92029,results,Out of Business,
-92053,address,2548-2550 W DEVON AVE,
-92053,address,2548-2550 W DEVON AVE,
-92167,address,2548-2550 W DEVON AVE,
-92167,address,2548-2550 W DEVON AVE,
-92189,address,3038 - 3046 W 59TH ST,
-92193,facilitytype,Restaurant,
-92801,facilitytype,Grocery Store,
-92841,facilitytype,Restaurant,
-92843,facilitytype,Restaurant,
-92932,facilitytype,Restaurant,
-92987,facilitytype,Restaurant,
-93001,address,2843 - 2847 W 63RD ST ,
-93006,facilitytype,Restaurant,
-93168,location,"(41.964682873337985, -87.73493399652928)",
-93176,location,"(41.964682873337985, -87.73493399652928)",
-93294,facilitytype,Restaurant,
-93500,facilitytype,Grocery Store,
-93619,facilitytype,Restaurant,
-93727,facilitytype,Restaurant,
-94319,facilitytype,Restaurant,
-94541,facilitytype,Daycare Combo 1586,
-94899,facilitytype,Restaurant,
-95032,dbaname,WALDORF ASTORIA CHICAGO,
-95092,dbaname,THE WIT,
-95116,dbaname,THE WIT,
-95117,dbaname,THE WIT,
-95431,facilitytype,Restaurant,
-95566,facilitytype,Restaurant,
-95567,facilitytype,Restaurant,
-95584,address,3632-3640 N PULASKI RD,
-95584,address,3632-3640 N PULASKI RD,
-95705,facilitytype,Restaurant,
-95787,address,2421 N CLARK ST,
-95838,address,4606 S DAMEN AVE,
-95924,results,Out of Business,
-96030,facilitytype,Grocery Store,
-96103,dbaname,FRANKO'S PIZZERIA,
-96104,dbaname,FRANKO'S PIZZERIA,
-96111,dbaname,JAVA N MUG,
-96209,dbaname,LEE'S WOK,
-96228,facilitytype,Restaurant,
-96346,city,Chicago,
-96357,address,8038 S ASHLAND,
-96441,facilitytype,Daycare Combo 1586,
-96482,address,3313-3319 N BROADWAY,
-96510,facilitytype,Restaurant,
-96548,address,4606 S DAMEN AVE,
-96548,address,4606 S DAMEN AVE,
-96589,city,Chicago,
-96626,city,Chicago,
-96718,dbaname,BURRITOS JUAREZ,
-96747,facilitytype,Restaurant,
-96996,address,6727-6733 N OLMSTED AVE,
-97378,dbaname,AMAZING GRACE DAYCARE CENTER,
-97393,facilitytype,Grocery Store,
-97538,dbaname,AMAZING GRACE DAYCARE CENTER,
-97578,dbaname,GONZALEZ RESTAURANT,
-97700,dbaname,AMAZING GRACE DAYCARE CENTER,
-98293,dbaname,CHOP SUEY HUANG,
-98296,facilitytype,Restaurant,
-98415,dbaname,ILLINOIS SPORTSERVICE INC,
-98426,facilitytype,Restaurant,
-98454,facilitytype,Restaurant,
-98456,facilitytype,Restaurant,
-98617,facilitytype,Restaurant,
-98643,address,4117-4125 S KEDZIE AVE,
-98643,address,4117-4125 S KEDZIE AVE,
-98693,dbaname,SALAD WORKS,
-98873,address,6319 S DR. MARTIN LUTHER KING JR DR ,
-99081,dbaname,DEVELOPMENTAL INSTITUTE INC,
-99098,dbaname,DEVELOPMENTAL INSTITUTE INC,
-99277,dbaname,BURGER KING #11967,
-99332,facilitytype,Grocery Store,
-99413,facilitytype,Restaurant,
-99540,address,958 - 960 W BELMONT AVE,
-99540,address,958 - 960 W BELMONT AVE,
-99664,facilitytype,Restaurant,
-100064,address,5633-5635 N ASHLAND AVE,
-100292,address,5633-5635 N ASHLAND AVE,
-100421,dbaname,ROSDED,
-100738,facilitytype,Restaurant,
-100823,facilitytype,Restaurant,
-100851,dbaname,ILLINOIS SPORTSERVICE INC,
-101121,facilitytype,Grocery Store,
-101215,facilitytype,Children's Services Facility,
-101252,facilitytype,Catering,
-101412,address,2032-2034 W DEVON AVE ,
-101878,facilitytype,Restaurant,
-101913,facilitytype,Catering,
-102032,address,2032-2034 W DEVON AVE ,
-102543,facilitytype,Restaurant,
-102544,facilitytype,Restaurant,
-102654,facilitytype,Restaurant,
-102684,facilitytype,Restaurant,
-102684,dbaname,SALAD WORKS,
-102758,facilitytype,Restaurant,
-102995,facilitytype,Bakery,
-103563,dbaname,JAVA N MUG,
-103720,facilitytype,Bakery,
-104116,facilitytype,Restaurant,
-104121,facilitytype,Restaurant,
-104354,address,3632-3640 N PULASKI RD,
-104627,facilitytype,Restaurant,
-104627,dbaname,JAVA N MUG,
-104629,dbaname,JAVA N MUG,
-105038,facilitytype,Restaurant,
-105096,facilitytype,Restaurant,
-105179,address,333 W 35TH ST,
-105179,dbaname,ILLINOIS SPORTSERVICE INC,
-105497,dbaname,CONVENIENT FOOD MART,
-105576,results,Out of Business,
-105579,results,Out of Business,
-105631,facilitytype,Restaurant,
-105733,dbaname,AMAZING GRACE DAYCARE CENTER,
-105802,facilitytype,Restaurant,
-106183,dbaname,GONZALEZ RESTAURANT,
-106230,address,2008 N HALSTED ST,
-106292,address,3142-3148 W LAWRENCE AVE,
-106306,zip,60666,
-106445,dbaname,LEE'S WOK,
-106447,dbaname,LEE'S WOK,
-106464,facilitytype,Restaurant,
-106754,zip,60608,
-106756,address,2548-2550 W DEVON AVE,
-106884,dbaname,P & P AMERICAN & CHINESE FOOD,
-107034,address,5633-5635 N ASHLAND AVE ,
-107182,address,2548-2550 W DEVON AVE,
-107400,address,2537-2543 N KEDZIE AVE,
-107603,dbaname,ARAMARK,
-107606,dbaname,ARAMARK,
-107662,dbaname,OSTIONERIA MAR ABIERTO,
-107781,dbaname,SALAD WORKS,
-107796,address,4749-4753 N ROCKWELL ST ,
-107800,address,2401-2405 W DEVON AVE,
-107813,address,4749-4753 N ROCKWELL ST ,
-108166,dbaname,GATEWAY NEWSTANDS & CIGAR STOR,
-108229,address,3632-3640 N PULASKI RD,
-108229,address,3632-3640 N PULASKI RD,
-108267,dbaname,OSTIONERIA MAR ABIERTO,
-108297,address,2401-2405 W DEVON AVE,
-108297,address,2401-2405 W DEVON AVE,
-108445,dbaname,OSTIONERIA MAR ABIERTO,
-108513,facilitytype,Restaurant,
-108689,results,Out of Business,
-108758,zip,60605,
-108896,dbaname,OSTIONERIA MAR ABIERTO,
-109029,facilitytype,Restaurant,
-109146,address,4748-4750 W PETERSON AVE,
-109150,dbaname,OSTIONERIA MAR ABIERTO,
-109353,facilitytype,Restaurant,
-109570,address,4748-4750 W PETERSON AVE,
-109646,facilitytype,Grocery Store,
-109744,address,3810 N Central AVE,
-109744,address,3810 N Central AVE,
-109786,results,Out of Business,
-109792,dbaname,OSTIONERIA MAR ABIERTO,
-109793,facilitytype,Grocery Store,
-109793,results,Out of Business,
-109836,results,Out of Business,
-109839,results,Out of Business,
-109844,results,Out of Business,
-109943,address,2032-2034 W DEVON AVE,
-109943,results,Out of Business,
-109945,results,Out of Business,
-109952,address,2032-2034 W DEVON AVE ,
-109954,facilitytype,Long Term Care,
-109958,address,2843 - 2847 W 63RD ST ,
-109958,dbaname,PAPA T'S ITALIANO,
-110026,results,Out of Business,
-110055,address,2032-2034 W DEVON AVE ,
-110056,address,10-20 E DELAWARE ST,
-110129,results,Out of Business,
-110130,results,Out of Business,
-110222,address,10-20 E DELAWARE ST,
-110281,results,Out of Business,
-110356,results,Out of Business,
-110365,results,Out of Business,
-110596,facilitytype,Restaurant,
-110927,dbaname,THREE R FOOD,
-111167,dbaname,OSTIONERIA MAR ABIERTO,
-111367,results,Out of Business,
-111730,dbaname,ILLINOIS SPORTSERVICE INC,
-111754,facilitytype,Restaurant,
-111778,dbaname,OSTIONERIA MAR ABIERTO,
-111789,dbaname,OSTIONERIA MAR ABIERTO,
-111820,dbaname,ILLINOIS SPORTSERVICE INC,
-111931,dbaname,ILLINOIS SPORTSERVICE INC,
-111940,address,333 W 35TH ST BLDG,
-111940,dbaname,ILLINOIS SPORTSERVICE INC,
-111979,dbaname,ILLINOIS SPORTSERVICE INC,
-112005,dbaname,ILLINOIS SPORTSERVICE INC,
-112006,dbaname,ILLINOIS SPORTSERVICE INC.,
-112177,address,2945-2947 N BROADWAY AVE,
-112261,address,3904 N CICERO,
-112363,dbaname,WATERS ELEMENTARY,
-112365,dbaname,WATERS ELEMENTARY,
-112384,facilitytype,Restaurant,
-112402,facilitytype,Restaurant,
-112494,address,151 E RANDOLPH ST,
-112517,results,Out of Business,
-112519,results,Out of Business,
-112633,address,3435 W VAN BUREN,
-112633,address,3435 W VAN BUREN,
-112714,dbaname,THE WIT,
-112732,dbaname,THE WIT,
-112737,dbaname,THE WIT,
-113108,address,100 W RANDOLPH ST STE C-19,
-113495,dbaname,PETE BOY'S,
-113735,dbaname,MONTESSORI DE LA CITTA,
-113785,state,IL,
-113823,dbaname,PETE BOY'S,
-113941,zip,60640,
-113941,city,Chicago,
-113953,dbaname,CHINA WOK,
-114138,facilitytype,Restaurant,
-114191,address,3142-3148 W LAWRENCE AVE,
-114213,facilitytype,Restaurant,
-114512,facilitytype,Restaurant,
-114790,facilitytype,Restaurant,
-114805,facilitytype,Restaurant,
-115050,zip,60640,
-115171,facilitytype,Restaurant,
-115195,address,5480 S KENWOOD AVE,
-115206,facilitytype,Restaurant,
-115304,address,4606 S DAMEN AVE,
-115406,dbaname,JA' GRILL,
-115564,address,2032-2034 W DEVON AVE ,
-115616,address,4606 S DAMEN AVE,
-115706,address,2032-2034 W DEVON AVE ,
-115817,dbaname,JA' GRILL,
-115963,facilitytype,Restaurant,
-116021,address,2132-2134 W WASHINGTON BLVD,
-116021,facilitytype,Grocery Store,
-116040,address,3421 N CLARK ST,
-116479,address,2150-58 W BELMONT AVE BLDG,
-116487,facilitytype,Grocery Store,
-116492,address,3421 N CLARK ST,
-116581,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL,
-116597,address,4749-4753 N ROCKWELL ST ,
-116677,address,3632-3640 N PULASKI RD,
-116677,address,3632-3640 N PULASKI RD,
-116838,address,3421 N CLARK ST,
-116889,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL,
-116897,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL,
-116916,location,"(41.90432596384963, -87.65594025144294)",
-116998,dbaname,HALSTED FOODS,
-117000,facilitytype,Grocery Store,
-117000,dbaname,HALSTED FOODS,
-117038,address,4749-4753 N ROCKWELL ST ,
-117064,address,8233-8237 S PULASKI RD,
-117080,facilitytype,Restaurant,
-117092,facilitytype,Grocery Store,
-117121,dbaname,HALSTED FOODS,
-117135,facilitytype,Restaurant,
-117170,facilitytype,Restaurant,
-117204,dbaname,BUB'S GYROS,
-117204,facilitytype,Restaurant,
-117242,facilitytype,Restaurant,
-117280,facilitytype,Restaurant,
-117284,facilitytype,Restaurant,
-117293,facilitytype,Restaurant,
-117303,facilitytype,Restaurant,
-117311,facilitytype,Restaurant,
-117324,facilitytype,Restaurant,
-117328,facilitytype,Restaurant,
-117352,facilitytype,Restaurant,
-117384,facilitytype,Restaurant,
-117581,facilitytype,Restaurant,
-117586,facilitytype,Restaurant,
-117588,facilitytype,Restaurant,
-117734,facilitytype,Restaurant,
-117867,facilitytype,Grocery Store,
-117882,facilitytype,Restaurant,
-117883,facilitytype,Restaurant,
-117935,facilitytype,Restaurant,
-117950,facilitytype,Restaurant,
-117955,facilitytype,Restaurant,
-117967,facilitytype,Restaurant,
-118011,address,6313-6323 N PULASKI RD,
-118011,address,6313-6323 N PULASKI RD,
-118048,facilitytype,Restaurant,
-118098,facilitytype,Restaurant,
-118131,facilitytype,Restaurant,
-118153,facilitytype,Restaurant,
-118154,facilitytype,Restaurant,
-118225,facilitytype,Restaurant,
-118233,facilitytype,Restaurant,
-118346,facilitytype,Restaurant,
-118349,facilitytype,Restaurant,
-118350,facilitytype,Restaurant,
-118351,facilitytype,Restaurant,
-118356,zip,60625,
-118356,city,Chicago,
-118356,facilitytype,Restaurant,
-118376,facilitytype,Restaurant,
-118457,facilitytype,Restaurant,
-118466,facilitytype,Restaurant,
-118469,facilitytype,Restaurant,
-118500,address,4748-4750 W PETERSON AVE,
-118519,address,4117-4125 S KEDZIE AVE,
-118647,dbaname,FRULLATI CAFE & BAKERY,
-118668,facilitytype,Restaurant,
-118679,facilitytype,Restaurant,
-118782,address,6313-6323 N PULASKI RD,
-118782,dbaname,EDEN'S HOUSE,
-118788,dbaname,EDEN'S HOUSE,
-118914,dbaname,GATEWAY NEWSTAND,
-118962,facilitytype,Grocery Store,
-118985,facilitytype,Restaurant,
-118986,facilitytype,Restaurant,
-118990,facilitytype,Restaurant,
-119000,address,6727-6733 N OLMSTED AVE,
-119000,address,6727-6733 N OLMSTED AVE,
-119037,zip,60625,
-119037,city,Chicago,
-119037,facilitytype,Restaurant,
-119064,facilitytype,Restaurant,
-119092,facilitytype,Restaurant,
-119206,facilitytype,Restaurant,
-119213,facilitytype,Restaurant,
-119214,facilitytype,Daycare Above and Under 2 Years,
-119275,address,2032-2034 W DEVON AVE ,
-119310,facilitytype,Restaurant,
-119344,facilitytype,Restaurant,
-119577,facilitytype,Restaurant,
-119583,address,2827-2831 N BROADWAY,
-119614,facilitytype,Restaurant,
-119615,address,1002 N CICERO AVE BLDG,
-119629,facilitytype,Restaurant,
-119644,facilitytype,Restaurant,
-119653,dbaname,ROCKS LAKEVIEW,
-119658,facilitytype,Restaurant,
-119661,zip,60625,
-119661,city,Chicago,
-119661,facilitytype,Restaurant,
-119675,facilitytype,MOBILE FOOD TRUCK,
-119694,facilitytype,Restaurant,
-119725,address,3800-3804 N CLARK ST,
-119741,facilitytype,Restaurant,
-119776,facilitytype,Restaurant,
-119781,facilitytype,Restaurant,
-119804,facilitytype,Daycare Above and Under 2 Years,
-119806,facilitytype,Daycare Above and Under 2 Years,
-119812,facilitytype,Restaurant,
-119812,dbaname,LILLIE'S Q,
-119813,facilitytype,Restaurant,
-119813,dbaname,LILLIE'S Q,
-119877,address,2827-2831 N BROADWAY,
-119922,facilitytype,Restaurant,
-119941,dbaname,RAEKWON'S SCHOLASTIC DAYCARE ACADEMY LLC,
-119980,address,2537-2543 N KEDZIE AVE,
-119999,facilitytype,Restaurant,
-120001,address,3904 N CICERO,
-120001,dbaname,HONG KONG CHINESE RESTAURANT,
-120003,facilitytype,Restaurant,
-120023,facilitytype,Restaurant,
-120024,facilitytype,Restaurant,
-120034,facilitytype,Restaurant,
-120036,facilitytype,Restaurant,
-120038,facilitytype,Daycare Above and Under 2 Years,
-120039,facilitytype,Daycare Above and Under 2 Years,
-120091,dbaname,RAEKWON'S SCHOLASTIC DAYCARE ACADEMY LLC,
-120113,address,3800-3804 N CLARK ST,
-120154,facilitytype,Restaurant,
-120155,results,Out of Business,
-120157,facilitytype,Restaurant,
-120157,dbaname,LILLIE'S Q,
-120159,facilitytype,Restaurant,
-120160,facilitytype,Restaurant,
-120160,dbaname,LILLIE'S Q,
-120252,dbaname,ROCKS LAKEVIEW,
-120340,address,2843 - 2847 W 63RD ST ,
-120340,facilitytype,Restaurant,
-120342,facilitytype,Restaurant,
-120383,facilitytype,Restaurant,
-120447,address,1825 W IRVING PARK,
-120511,facilitytype,Restaurant,
-120526,facilitytype,Restaurant,
-120548,facilitytype,Restaurant,
-120560,facilitytype,Restaurant,
-120564,facilitytype,Restaurant,
-120705,facilitytype,Restaurant,
-120867,facilitytype,Restaurant,
-120899,address,1825 W IRVING PARK,
-120934,facilitytype,Restaurant,
-120995,facilitytype,Grocery Store,
-121120,dbaname,BEVERLY MONTESSORI SCHOOL,
-121301,dbaname,JAVA N MUG,
-121333,dbaname,STATE STREET GRILL,
-121415,dbaname,ILLINOIS SPORTSERVICE INC.,
-121546,address,3142-3148 W LAWRENCE AVE,
-121665,facilitytype,Restaurant,
-121744,dbaname,FAMILY DOLLAR STORE #6643,
-121750,dbaname,FAMILY DOLLAR STORE #6643,
-121880,facilitytype,Restaurant,
-121997,dbaname,JIM NOODLE & RICE,
-122019,facilitytype,Grocery Store,
-122083,dbaname,HALSTED FOODS,
-122134,facilitytype,Bakery,
-122204,dbaname,Roosevelt Discount,
-122209,dbaname,Roosevelt Discount,
-122220,facilitytype,Restaurant,
-122226,dbaname,THE HOT SPOT ON ARMITAGE,
-122460,results,Out of Business,
-122460,facilitytype,Daycare Combo 1586,
-122461,results,Out of Business,
-122461,facilitytype,Daycare Combo 1586,
-122525,facilitytype,Restaurant,
-122540,dbaname,MOBIL,
-122610,facilitytype,Grocery Store,
-122613,facilitytype,Grocery Store,
-122615,facilitytype,Grocery Store,
-122627,dbaname,ALTGELD GARDENS DAYCARE,
-122755,dbaname,TAYLOR MADE DELI,
-122946,facilitytype,Grocery Store,
-122975,dbaname,LORDANCHILD CHRISTIAN DAY CARE INC.,
-123047,facilitytype,Restaurant,
-123081,address,3435 W VAN BUREN,
-123159,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP,
-123163,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP,
-123202,address,6319 S DR. MARTIN LUTHER KING JR DR ,
-123239,facilitytype,Restaurant,
-123298,address,2401-2405 W DEVON AVE,
-123341,address,10-20 E DELAWARE ST,
-123343,dbaname,DAVILA'S RESTAURANT,
-123349,dbaname,DAVILA'S RESTAURANT,
-123576,dbaname,MOBIL,
-123754,facilitytype,Restaurant,
-123754,dbaname,BOB SAN SUSHI BAR,
-123786,facilitytype,Restaurant,
-123786,dbaname,JAFFA BAKERY,
-124025,dbaname,BOB SAN SUSHI BAR,
-124237,facilitytype,Restaurant,
-124283,dbaname,MCCORMICK PLACE,
-124294,dbaname,MCCORMICK PLACE,
-124302,dbaname,MCCORMICK PLACE,
-124324,dbaname,MCCORMICK PLACE,
-124338,dbaname,MCCORMICK PLACE,
-124437,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP,
-124439,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP,
-124571,address,2843 - 2847 W 63RD ST ,
-124571,dbaname,PAPA T'S ITALIANO,
-124798,facilitytype,Restaurant,
-124887,dbaname,TAMMY'S SWICHES & SALADS,
-124887,zip,60608,
-124967,dbaname,F & F FOODS INC,
-124968,dbaname,F & F FOODS INC,
-125058,address,5633-5635 N ASHLAND AVE ,
-125067,address,4157 W Peterson AVE,
-125229,facilitytype,Restaurant,
-125266,zip,60608,
-125266,dbaname,TAMMY'S SWICHES & SALADS,
-125418,facilitytype,Restaurant,
-125571,dbaname,TURKISH CUISINE AND BAKERY,
-125603,dbaname,QUALITY CROUTONS INC,
-125604,results,Out of Business,
-125604,dbaname,QUALITY CROUTONS INC,
-125642,dbaname,THE WIT,
-125927,facilitytype,Restaurant,
-125953,dbaname,GREATER BETHEL ACADEMY,
-126078,address,2945-2947 N BROADWAY AVE,
-126102,facilitytype,Restaurant,
-126346,address,6319 S DR. MARTIN LUTHER KING JR DR ,
-126423,dbaname,BURGER KING #207,
-126593,dbaname,GREATER BETHEL ACADEMY,
-126649,facilitytype,Restaurant,
-126730,address,4157 W Peterson AVE,
-126820,dbaname,GREATER BETHEL ACADEMY,
-126822,location,"(41.736759925543325, -87.58884170140198)",
-126856,dbaname,DAVE'S ICE CREAM,
-127064,address,3038 - 3046 W 59TH ST,
-127064,dbaname,YOUNG SCHOLARS DEVELOPMENTAL INSTITUTE,
-127276,address,5650 W DIVISION AVE,
-127276,dbaname,WHALE FISH & CHICKEN,
-127362,dbaname,DAVE'S ICE CREAM,
-127427,facilitytype,Restaurant,
-127445,location,"(41.73646911302717, -87.62302412422503)",
-127529,address,1720-1780 N MARCEY ST,
-127581,dbaname,ENGLEWOOD MARATHON,
-127618,address,331-333 S FRANKLIN ST,
-127629,location,"(41.92418914583158, -87.75822974122624)",
-127693,dbaname,ARAMARK,
-127696,dbaname,ARAMARK,
-127700,dbaname,ARAMARK,
-127777,address,2637 S THROOP ST,
-127797,address,6727-6733 N OLMSTED AVE,
-127797,address,6727-6733 N OLMSTED AVE,
-128029,facilitytype,Restaurant,
-128095,dbaname,ARAMARK,
-128097,dbaname,ARAMARK,
-128120,address,2843 - 2847 W 63RD ST ,
-128139,dbaname,SPIN,
-128155,address,1938 W IRVING PARK RD,
-128155,dbaname,RED BRICK,
-128160,dbaname,RED BRICK,
-128177,dbaname,TONY'S SUB,
-128179,address,6727-6733 N OLMSTED AVE,
-128179,address,6727-6733 N OLMSTED AVE,
-128417,address,2843 - 2847 W 63RD ST ,
-128473,facilitytype,Restaurant,
-128485,address,2032-2034 W DEVON AVE ,
-128495,address,4748-4750 W PETERSON AVE,
-128495,dbaname,CHAI ASIAN BISTRO,
-128506,dbaname,EL TARASCO,
-128513,dbaname,EL TARASCO,
-128515,dbaname,EL TARASCO,
-128516,dbaname,EL TARASCO,
-128539,facilitytype,Daycare Above and Under 2 Years,
-128542,facilitytype,Restaurant,
-128650,facilitytype,Restaurant,
-128751,dbaname,EL TARASCO,
-128754,dbaname,EL TARASCO,
-128831,dbaname,SPARRER SAUSAGE CO,
-128838,dbaname,SPARRER SAUSAGE CO,
-128924,dbaname,ILLINOIS SPORTSERVICE INC,
-129070,address,2401-2405 W DEVON AVE,
-129070,address,2401-2405 W DEVON AVE,
-129076,address,2401-2405 W DEVON AVE,
-129083,dbaname,ILLINOIS SPORTSERVICE INC.,
-129137,address,2637 S THROOP ST,
-129144,address,2637 S THROOP ST,
-129171,dbaname,JAFFA BAKERY,
-129181,dbaname,TASTE BUD BANQUET HALL & RESTAURANT,
-129182,dbaname,TASTE BUD BANQUET HALL & RESTAURANT,
-129205,dbaname,JAFFA BAKERY,
-129222,dbaname,EL TARASCO,
-129232,dbaname,EL TARASCO,
-129244,address,2637 S THROOP ST ,
-129251,address,2637 S THROOP ST ,
-129273,address,2637 S THROOP ST ,
-129274,address,2637 S THROOP ST ,
-129276,address,2637 S THROOP ST ,
-129305,address,2637 S THROOP ST ,
-129315,address,2637 S THROOP ST ,
-129323,address,2637 S THROOP ST ,
-129327,address,2637 S THROOP ST ,
-129329,address,2637 S THROOP ST ,
-129333,address,2637 S THROOP ST ,
-129336,address,2637 S THROOP ST ,
-129340,address,2637 S THROOP ST ,
-129343,address,2637 S THROOP ST,
-129343,facilitytype,Mobile Food Dispenser,
-129349,address,2637 S THROOP ST ,
-129356,city,Chicago,
-129372,address,1400-1402 W BELMONT AVE,
-129374,location,"(41.736759925543325, -87.58884170140198)",
-129491,address,1400-1402 W BELMONT AVE,
-129498,dbaname,JAFFA BAKERY,
-129512,dbaname,ILLINOIS SPORTSERVICE INC,
-129633,dbaname,TASTE BUD BANQUET HALL & RESTAURANT,
-129643,dbaname,TASTE BUD BANQUET HALL & RESTAURANT,
-129746,dbaname,ILLINOIS SPORTSERVICE INC,
-129747,dbaname,ILLINOIS SPORTSERVICE INC.,
-129750,dbaname,ILLINOIS SPORTSERVICE INC.,
-129751,dbaname,ILLINOIS SPORTSERVICE INC.,
-129752,dbaname,ILLINOIS SPORTSERVICE INC.,
-129755,dbaname,ILLINOIS SPORTSERVICE INC.,
-129761,dbaname,ILLINOIS SPORTSERVICE INC.,
-129767,dbaname,ILLINOIS SPORTSERVICE INC.,
-129797,dbaname,ROCKS LAKEVIEW,
-129845,dbaname,"MONTESSORI ACADEMY OF CHICAGO I, LLC",
-129849,dbaname,"MONTESSORI ACADEMY OF CHICAGO I, LLC",
-129951,facilitytype,CANDY/GELATO,
-129951,dbaname,GIOIA CANDY,
-129953,dbaname,ILLINOIS SPORTSERVICE INC.,
-129960,dbaname,GIOIA CANDY,
-129970,dbaname,ILLINOIS SPORTSERVICE INC.,
-129976,address,2032-2034 W DEVON AVE ,
-129981,dbaname,ILLINOIS SPORTSERVICE INC.,
-130002,dbaname,ILLINOIS SPORTSERVICE INC.,
-130003,dbaname,ILLINOIS SPORTSERVICE INC.,
-130005,facilitytype,Restaurant,
-130005,dbaname,ILLINOIS SPORTSERVICE INC,
-130025,facilitytype,Restaurant,
-130025,dbaname,ILLINOIS SPORTSERVICE INC,
-130058,facilitytype,COMMISSARY,
-130058,dbaname,ILLINOIS SPORTSERVICE INC,
-130065,dbaname,ILLINOIS SPORTSERVICE INC.,
-130066,dbaname,ILLINOIS SPORTSERVICE INC.,
-130068,facilitytype,Restaurant,
-130068,dbaname,ILLINOIS SPORTSERVICE INC,
-130075,facilitytype,Restaurant,
-130075,dbaname,ILLINOIS SPORTSERVICE INC,
-130077,facilitytype,Restaurant,
-130077,dbaname,ILLINOIS SPORTSERVICE INC,
-130080,dbaname,ILLINOIS SPORTSERVICE INC,
-130082,dbaname,ILLINOIS SPORTSERVICE INC,
-130083,facilitytype,COMMISSARY,
-130083,dbaname,ILLINOIS SPORTSERVICE INC,
-130084,dbaname,ILLINOIS SPORTSERVICE INC,
-130085,dbaname,ILLINOIS SPORTSERVICE INC,
-130086,facilitytype,Restaurant,
-130086,dbaname,ILLINOIS SPORTSERVICE INC,
-130087,dbaname,ILLINOIS SPORTSERVICE INC,
-130093,dbaname,ILLINOIS SPORTSERVICE INC,
-130093,address,333 W 35TH ST ,
-130094,dbaname,ILLINOIS SPORTSERVICE INC.,
-130095,dbaname,ILLINOIS SPORTSERVICE INC,
-130095,address,333 W 35TH ST ,
-130096,dbaname,ILLINOIS SPORTSERVICE INC,
-130096,address,333 W 35TH ST ,
-130098,facilitytype,Restaurant,
-130098,dbaname,ILLINOIS SPORTSERVICE INC,
-130098,address,333 W 35TH ST ,
-130102,facilitytype,Restaurant,
-130102,dbaname,ILLINOIS SPORTSERVICE INC,
-130103,dbaname,ILLINOIS SPORTSERVICE INC,
-130103,address,333 W 35TH ST ,
-130105,dbaname,ILLINOIS SPORTSERVICE INC.,
-130106,dbaname,ILLINOIS SPORTSERVICE INC,
-130106,address,333 W 35TH ST ,
-130107,facilitytype,Restaurant,
-130107,dbaname,ILLINOIS SPORTSERVICE INC,
-130107,address,333 W 35TH ST ,
-130109,dbaname,ILLINOIS SPORTSERVICE INC,
-130109,address,333 W 35TH ST ,
-130113,dbaname,ILLINOIS SPORTSERVICE INC,
-130113,address,333 W 35TH ST ,
-130115,dbaname,ILLINOIS SPORTSERVICE INC,
-130115,address,333 W 35TH ST ,
-130117,dbaname,ILLINOIS SPORTSERVICE INC,
-130117,address,333 W 35TH ST ,
-130119,dbaname,ILLINOIS SPORTSERVICE INC,
-130119,address,333 W 35TH ST ,
-130125,dbaname,ILLINOIS SPORTSERVICE INC,
-130125,address,333 W 35TH ST ,
-130129,dbaname,ILLINOIS SPORTSERVICE INC,
-130129,address,333 W 35TH ST ,
-130131,facilitytype,Restaurant,
-130131,dbaname,ILLINOIS SPORTSERVICE INC,
-130131,address,333 W 35TH ST ,
-130133,dbaname,ILLINOIS SPORTSERVICE INC,
-130133,address,333 W 35TH ST ,
-130135,dbaname,ILLINOIS SPORTSERVICE INC,
-130135,address,333 W 35TH ST ,
-130137,facilitytype,Restaurant,
-130137,dbaname,ILLINOIS SPORTSERVICE INC,
-130137,address,333 W 35TH ST ,
-130143,dbaname,ILLINOIS SPORTSERVICE INC,
-130143,address,333 W 35TH ST ,
-130144,facilitytype,Restaurant,
-130144,dbaname,ILLINOIS SPORTSERVICE INC,
-130144,address,333 W 35TH ST ,
-130149,dbaname,ILLINOIS SPORTSERVICE INC,
-130149,address,333 W 35TH ST ,
-130160,dbaname,"MONTESSORI ACADEMY OF CHICAGO I, LLC",
-130175,dbaname,"MONTESSORI ACADEMY OF CHICAGO I, LLC",
-130239,address,2401-2405 W DEVON AVE,
-130239,address,2401-2405 W DEVON AVE,
-130283,address,2637 S THROOP ST ,
-130401,address,2827-2831 N BROADWAY,
-130414,dbaname,TAYLOR TOTS CHILD DEVELOPMENT,
-130688,address,333 S STATE ST,
-130688,facilitytype,CANDY/GELATO,
-130688,dbaname,GIOIA CANDY,
-130781,dbaname,EX LIBRIS SCIENCE DIGEST COFFEE,
-130869,facilitytype,Children's Services Facility,
-130890,facilitytype,Grocery Store,
-130902,address,6319 S DR. MARTIN LUTHER KING JR DR ,
-130939,address,5133 W NORTH AVE ,
-130951,address,6319 S DR. MARTIN LUTHER KING JR DR ,
-130952,address,2637 S THROOP ST ,
-130954,address,2637 S THROOP ST ,
-130958,address,2637 S THROOP ST ,
-131013,address,2637 S THROOP ST ,
-131015,address,2637 S THROOP ST ,
-131050,address,1938-1940 W DIVISION ST,
-131081,address,2032-2034 W DEVON AVE,
-131245,address,1825 W IRVING PARK,
-131245,address,1825 W IRVING PARK,
-131276,facilitytype,Restaurant,
-131298,address,11601 W TOUHY AVE,
-131358,address,5133 W NORTH AVE ,
-131382,facilitytype,Long Term Care,
-131484,facilitytype,Grocery Store,
-131506,dbaname,JIM NOODLE & RICE,
-131543,zip,60623,
-131543,dbaname,SUN FOOD MART,
-131583,facilitytype,Restaurant,
-131593,address,1825 W IRVING PARK,
-131618,address,2637 S THROOP ST ,
-131636,facilitytype,Restaurant,
-131686,address,900 N NORTH BRANCH ST ,
-131694,facilitytype,Restaurant,
-131696,facilitytype,School,
-131696,address,900 N NORTH BRANCH ST ,
-131771,address,900 N NORTH BRANCH ST ,
-131772,address,900 N NORTH BRANCH ST ,
-131802,facilitytype,School,
-131802,facilitytype,School,
-131802,address,900 N NORTH BRANCH ST,
-131805,address,900 N NORTH BRANCH ST ,
-131810,facilitytype,School,
-131810,address,900 N NORTH BRANCH ST ,
-131811,address,900 N NORTH BRANCH ST ,
-131813,facilitytype,Mobile Food Dispenser,
-131815,facilitytype,School,
-131815,address,900 N NORTH BRANCH ST ,
-131817,address,900 N NORTH BRANCH ST ,
-131821,address,2032-2034 W DEVON AVE,
-131824,facilitytype,School,
-131824,address,900 N NORTH BRANCH ST ,
-131832,address,900 N NORTH BRANCH ST ,
-131835,facilitytype,School,
-131835,address,900 N NORTH BRANCH ST ,
-131837,dbaname,ALTGELD GARDENS DAYCARE,
-131967,address,100 W RANDOLPH ST STE C-19,
-131978,address,100 W RANDOLPH ST STE C-19,
-132011,facilitytype,Restaurant,
-132011,location,"(41.88222093835454, -87.626365167586)",
-132013,facilitytype,Restaurant,
-132013,facilitytype,Restaurant,
-132014,facilitytype,Restaurant,
-132017,location,"(41.88222093835454, -87.626365167586)",
-132058,facilitytype,Grocery Store,
-132058,location,"(41.88007510168006, -87.6324578753162)",
-132061,location,"(41.88007510168006, -87.6324578753162)",
-132065,location,"(41.85094352340354, -87.63182661076641)",
-132162,location,"(41.736759925543325, -87.58884170140198)",
-132234,facilitytype,School,
-132234,facilitytype,School,
-132234,city,Chicago,
-132240,address,900 N NORTH BRANCH ST,
-132277,zip,60608,
-132283,location,"(41.85094352340354, -87.63182661076641)",
-132386,facilitytype,Restaurant,
-132461,address,2637 S THROOP ST ,
-132467,address,2637 S THROOP ST ,
-132468,address,2637 S THROOP ST ,
-132481,address,2637 S THROOP ST ,
-132489,address,3800-3804 N CLARK ST,
-132500,address,2637 S THROOP ST,
-132539,location,"(41.89319255965124, -87.62617281400281)",
-132543,facilitytype,MOBILE FOOD,
-132543,facilitytype,Mobile Food Dispenser,
-132666,facilitytype,Restaurant,
-132713,location,"(41.75074999598463, -87.6297922443189)",
-132716,dbaname,GATEWAY NEWSTAND,
-132736,facilitytype,Restaurant,
-132793,facilitytype,Restaurant,
-132795,facilitytype,Restaurant,
-132795,facilitytype,Restaurant,
-132809,facilitytype,Mobile Food Dispenser,
-132817,facilitytype,Mobile Food Dispenser,
-132842,address,1400-1402 W BELMONT AVE,
-132842,address,1400-1402 W BELMONT AVE,
-132852,facilitytype,Mobile Food Dispenser,
-132919,facilitytype,Wholesale,
-132966,facilitytype,Restaurant,
-132966,location,"(41.89319255965124, -87.62617281400281)",
-132981,dbaname,J'S VITAMINS & MORE,
-133041,dbaname,ADLER SCHOOL INC,
-133143,facilitytype,Grocery Store,
-133166,facilitytype,Restaurant,
-133166,facilitytype,Restaurant,
-133167,facilitytype,Restaurant,
-133167,facilitytype,Restaurant,
-133170,facilitytype,Restaurant,
-133172,facilitytype,Restaurant,
-133182,facilitytype,Grocery Store,
-133226,address,1400-1402 W BELMONT AVE,
-133288,facilitytype,Restaurant,
-133289,location,"(41.879391313239694, -87.62684825563626)",
-133290,facilitytype,Restaurant,
-133307,address,2 W 103RD ST,
-133307,address,2 W 103RD ST,
-133342,dbaname,HORIZON CAFE,
-133410,address,958 - 960 W BELMONT AVE,
-133422,address,3904 N CICERO,
-133422,dbaname,HONG KONG CHINESE RESTAURANT,
-133446,address,3800-3804 N CLARK ST,
-133472,dbaname,OBAMA FOOD MART,
-133488,address,958 - 960 W BELMONT AVE,
-133504,dbaname,INDIE CAFE,
-133505,facilitytype,Restaurant,
-133506,facilitytype,Restaurant,
-133514,address,3632-3640 N PULASKI RD,
-133514,address,3632-3640 N PULASKI RD,
-133551,dbaname,HALSTED FOODS,
-133588,dbaname,HALSTED FOODS,
-133604,dbaname,HORIZON CAFE,
-133612,address,1800 E 79TH ST,
-133612,dbaname,OBAMA FOOD MART,
-133676,facilitytype,Grocery Store,
-133676,dbaname,TAYLOR MADE DELI,
-133707,zip,60623,
-133755,dbaname,HALSTED FOODS,
-133758,facilitytype,ICE CREAM SHOP,
-133860,address,11919 S Avenue O AVE FRNT,
-133860,address,11919 S Avenue O AVE FRNT,
-133914,dbaname,OBAMA FOOD MART,
-133937,facilitytype,Daycare (2 - 6 Years),
+tupleid,attribute,correct_value
+67,address,2032-2034 W DEVON AVE
+71,city,Chicago
+109,facilitytype,Grocery Store
+109,facilitytype,Restaurant
+143,facilitytype,Restaurant
+153,facilitytype,School
+176,address,2032-2034 W DEVON AVE
+303,facilitytype,Grocery Store
+369,city,Chicago
+383,address,5805 W DIVERSEY AVE
+400,dbaname,NEAR NORTH MONTESSORI SCHOOL
+465,dbaname,CHIPPER PRE-SCHOOL/KINDERGARTEN
+495,dbaname,BELLA'S PIZZA
+964,address,2232-2234 W ROSCOE ST
+1091,facilitytype,Restaurant
+1095,facilitytype,Restaurant
+1097,facilitytype,Restaurant
+1435,dbaname,TASTY CHINA
+1657,facilitytype,Daycare Above and Under 2 Years
+1872,address,3463-3465 N BROADWAY
+1915,dbaname,LA COCINA RESTAURANT & BAR
+2276,facilitytype,Restaurant
+2509,facilitytype,Hospital
+2536,facilitytype,Restaurant
+2572,dbaname,THE UNITED CENTER
+2782,facilitytype,Restaurant
+2782,facilitytype,Restaurant
+3264,facilitytype,School
+3318,facilitytype,School
+3808,facilitytype,Restaurant
+3923,facilitytype,Bakery
+3938,facilitytype,Children's Services Facility
+4053,address,8940-8942 S STONY ISLAND AVE
+4243,facilitytype,Daycare Above and Under 2 Years
+4324,facilitytype,Children's Services Facility
+4735,facilitytype,Restaurant
+4813,facilitytype,Children's Services Facility
+4940,facilitytype,Mobile Food Dispenser
+4943,facilitytype,Mobile Food Dispenser
+4944,facilitytype,Mobile Food Dispenser
+5185,facilitytype,Special Event
+5195,dbaname,GOLDEN HEART RESTAURANT
+5263,facilitytype,MOBILE FROZEN DESSERTS VENDOR
+5331,dbaname,GOLDEN HEART RESTAURANT
+5337,dbaname,GOLDEN HEART RESTAURANT
+5381,address,8940-8942 S STONY ISLAND AVE
+5435,facilitytype,Restaurant
+5552,dbaname,SOUTH-EAST ASIA CENTER
+5654,address,522 E 79TH ST
+5707,facilitytype,Restaurant
+5755,dbaname,DOMINOS PIZZA
+6140,dbaname,BELLA'S PIZZA
+6224,facilitytype,Special Event
+6312,dbaname,BELLA'S PIZZA
+6334,dbaname,43RD DAN RYAN CITGO
+6362,dbaname,43RD DAN RYAN CITGO
+6469,facilitytype,Restaurant
+6704,facilitytype,Navy Pier Kiosk
+6790,address,2032-2034 W DEVON AVE
+6882,address,305 E GARFIELD BLVD
+6887,address,305 E GARFIELD BLVD
+6953,facilitytype,Restaurant
+7060,facilitytype,School
+7060,city,Chicago
+7080,facilitytype,School
+7080,facilitytype,School
+7096,address,2032-2034 W DEVON AVE
+7240,facilitytype,Banquet/kitchen
+7249,facilitytype,School
+7249,facilitytype,School
+7420,facilitytype,Banquet/kitchen
+7473,address,305 E GARFIELD BLVD
+7473,address,305 E GARFIELD BLVD
+7496,facilitytype,Banquet/kitchen
+7500,address,305 E GARFIELD BLVD
+8054,address,305 E GARFIELD BLVD
+8611,facilitytype,Mobile Food Dispenser
+8662,facilitytype,Restaurant
+8799,facilitytype,Daycare (2 - 6 Years)
+8801,facilitytype,Mobile Food Dispenser
+9004,dbaname,LILLIE'S Q
+9014,dbaname,LILLIE'S Q
+9392,dbaname,LILLIE'S Q
+9609,dbaname,SALERO
+9803,dbaname,AVENIDA DEL SABOR
+9896,facilitytype,Grocery Store
+9942,dbaname,HAIFA CAFE
+10058,dbaname,ENGLEWOOD SATELLITE SENIOR CENTER
+10376,dbaname,THE GODDARD SCHOOL CHICAGO
+10421,dbaname,ASIAN TOWN NOODLES
+10544,dbaname,AURORA CHICAGO LAKESHORE HOSPITAL
+10557,dbaname,AURORA CHICAGO LAKESHORE HOSPITAL
+10621,facilitytype,Mobile Food Dispenser
+10830,dbaname,DAATA DARBAR RESTAURENT
+11786,address,3816 W 63RD ST
+11786,city,chicago
+11861,facilitytype,Grocery Store
+12254,address,100 W RANDOLPH ST STE C-19
+12614,facilitytype,Grocery Store
+13049,facilitytype,Bakery
+15198,address,4531-4535 W MARQUETTE RD
+15336,facilitytype,School
+15874,facilitytype,Restaurant
+15887,address,3501-3505 N HALSTED ST F
+15938,results,Out of Business
+16350,address,2032-2034 W DEVON AVE
+17010,facilitytype,Mobile Food Dispenser
+17046,address,4310-4312 S PRAIRIE AVE
+17697,facilitytype,School
+17728,address,100 W RANDOLPH ST
+17748,address,100 W RANDOLPH ST STE C-19
+18347,address,3246 N CENTRAL AVE
+18352,address,3246 N CENTRAL AVE
+18440,zip,60666
+18869,address,3246 N CENTRAL AVE
+18899,address,3246 N CENTRAL AVE
+19127,facilitytype,CHILDRENS SERVICES FACILITY
+19456,dbaname,LA ESCONDIDA MINI MART & $ PLUS
+19741,results,Out of Business
+19791,results,Out of Business
+20031,results,Out of Business
+20057,results,Out of Business
+20355,results,Out of Business
+20414,results,Out of Business
+20646,results,Out of Business
+20738,results,Out of Business
+20768,results,Out of Business
+20815,results,Out of Business
+20863,results,Out of Business
+20865,results,Out of Business
+21025,results,Out of Business
+21257,results,Out of Business
+21261,results,Out of Business
+21322,results,Out of Business
+21323,results,Out of Business
+21329,results,Out of Business
+21337,results,Out of Business
+21368,results,Out of Business
+21378,facilitytype,School
+21463,results,Out of Business
+21475,results,Out of Business
+21493,results,Out of Business
+21551,results,Out of Business
+21634,results,Out of Business
+21635,address,2706 E 75TH ST
+21635,results,Out of Business
+21639,results,Out of Business
+21679,results,Out of Business
+21685,results,Out of Business
+21762,results,Out of Business
+21766,results,Out of Business
+21771,address,2032-2034 W DEVON AVE
+21804,results,Out of Business
+22048,address,3463-3465 N BROADWAY
+22076,results,Out of Business
+22105,city,Chicago
+22110,facilitytype,School
+22125,results,Out of Business
+22296,results,Out of Business
+22397,results,Out of Business
+22398,results,Out of Business
+22431,results,Out of Business
+23186,state,IL
+23186,state,IL
+23194,state,IL
+23194,state,IL
+23219,state,IL
+23219,state,IL
+23371,state,IL
+23371,state,IL
+23406,state,IL
+23406,state,IL
+23471,state,IL
+23471,state,IL
+23629,state,IL
+23629,state,IL
+23635,state,IL
+23635,state,IL
+23666,state,IL
+23666,state,IL
+23675,state,IL
+23694,state,IL
+23694,state,IL
+23755,state,IL
+23755,state,IL
+23804,state,IL
+23804,state,IL
+23812,state,IL
+23812,state,IL
+23845,state,IL
+23845,state,IL
+23877,state,IL
+23877,state,IL
+23878,state,IL
+23878,state,IL
+23943,state,IL
+23943,state,IL
+24031,state,IL
+24031,state,IL
+24039,state,IL
+24039,state,IL
+24095,state,IL
+24095,state,IL
+24121,state,IL
+24258,state,IL
+24258,state,IL
+24261,state,IL
+24261,state,IL
+24283,state,IL
+24283,state,IL
+24300,state,IL
+24300,state,IL
+24306,state,IL
+24306,state,IL
+24470,state,IL
+24470,state,IL
+24483,state,IL
+24583,state,IL
+24686,state,IL
+24688,state,IL
+24695,state,IL
+24783,results,Out of Business
+24817,results,Out of Business
+24900,results,Out of Business
+24905,results,Out of Business
+24915,results,Out of Business
+24919,state,IL
+24936,state,IL
+24943,facilitytype,Grocery Store
+24943,results,Out of Business
+24986,state,IL
+25003,state,IL
+25032,results,Out of Business
+25092,results,Out of Business
+25154,state,IL
+25173,state,IL
+25201,state,IL
+25267,results,Out of Business
+25279,results,Out of Business
+25337,state,IL
+25349,results,Out of Business
+25569,state,IL
+25577,state,IL
+25648,state,IL
+25697,results,Out of Business
+25722,state,IL
+25742,results,Out of Business
+25773,results,Out of Business
+25804,state,IL
+25807,results,Out of Business
+25837,state,IL
+25848,results,Out of Business
+25919,results,Out of Business
+25940,results,Out of Business
+25954,results,Out of Business
+25987,results,Out of Business
+26277,address,3435 W VAN BUREN
+26301,results,Out of Business
+26483,state,IL
+26565,state,IL
+26588,state,IL
+26595,state,IL
+26614,state,IL
+26761,facilitytype,Navy Pier Kiosk
+26812,state,IL
+26875,state,IL
+26887,state,IL
+26963,state,IL
+26991,state,IL
+27100,state,IL
+27246,state,IL
+27260,state,IL
+27287,state,IL
+27317,state,IL
+27327,state,IL
+27384,state,IL
+27408,state,IL
+27571,state,IL
+27781,state,IL
+27821,state,IL
+27956,state,IL
+28042,address,4900 S CICERO AVE
+28092,state,IL
+28497,state,IL
+28526,state,IL
+28774,state,IL
+28778,state,IL
+28792,state,IL
+28980,state,IL
+28999,state,IL
+29013,state,IL
+29050,state,IL
+29137,state,IL
+29176,dbaname,STARFRUIT CAFE
+29198,state,IL
+29220,address,2838 W NORTH AVE
+29228,dbaname,THE PASTA BOWL COMPANY
+29286,state,IL
+29291,state,IL
+29294,state,IL
+29296,address,2401 W OGDEN AVE
+29296,address,2401 W OGDEN AVE
+29306,address,8940-8942 S STONY ISLAND
+29360,facilitytype,Restaurant
+29592,dbaname,THE PASTA BOWL COMPANY
+29720,state,IL
+29724,state,IL
+29794,address,2401 W OGDEN AVE
+29794,address,2401 W OGDEN AVE
+29893,state,IL
+29919,facilitytype,Restaurant
+30034,state,IL
+30059,dbaname,SNAPPY CONVENIENCE CENTER #5
+30060,dbaname,SNAPPY CONVENIENCE CENTER #5
+30096,state,IL
+30125,state,IL
+30251,state,IL
+30380,state,IL
+30469,state,IL
+30513,state,IL
+30514,state,IL
+30518,dbaname,REGGIO'S PIZZA EXPRESS
+30605,state,IL
+30670,dbaname,THE GREAT AMERICAN BAGEL
+30688,state,IL
+30691,state,IL
+30692,state,IL
+30710,state,IL
+30753,facilitytype,Children's Services Facility
+30770,facilitytype,Liquor
+30819,state,IL
+30821,state,IL
+30856,state,IL
+30996,dbaname,EL ORIGINAL GALLO BRAVO
+31112,state,IL
+31137,state,IL
+31168,state,IL
+31200,state,IL
+31212,city,chicago
+31327,state,IL
+31328,state,IL
+31394,state,IL
+31396,state,IL
+31412,state,IL
+31414,state,IL
+31421,state,IL
+31423,dbaname,EL ORIGINAL GALLO BRAVO
+31434,state,IL
+31487,state,IL
+31516,state,IL
+31548,state,IL
+31840,state,IL
+31854,dbaname,BURGER KING #181
+31891,state,IL
+31999,state,IL
+32028,state,IL
+32030,state,IL
+32069,dbaname,THE GREAT AMERICAN BAGEL
+32206,state,IL
+32362,state,IL
+32373,facilitytype,MOBILE FROZEN DESSERTS VENDOR
+32388,state,IL
+32393,facilitytype,MOBILE DESSERTS VENDOR
+32452,dbaname,BURGER KING #11297
+32505,state,IL
+32538,state,IL
+32559,facilitytype,MOBILE FROZEN DESSERTS VENDOR
+32563,state,IL
+32620,facilitytype,MOBILE FROZEN DESSERTS VENDOR
+32621,state,IL
+32659,state,IL
+32692,dbaname,BURGER KING #11297
+32698,dbaname,BURGER KING #11297
+32804,state,IL
+32821,dbaname,THE PASTA BOWL COMPANY
+32865,state,IL
+32914,state,IL
+32931,results,Out of Business
+32996,state,IL
+33019,state,IL
+33076,results,Out of Business
+33081,address,2838 W NORTH AVE
+33112,results,Out of Business
+33130,results,Out of Business
+33150,results,Out of Business
+33171,state,IL
+33180,results,Out of Business
+33197,dbaname,BURGER KING #11297
+33213,dbaname,BURGER KING #11297
+33269,results,Out of Business
+33278,results,Out of Business
+33284,results,Out of Business
+33294,results,Out of Business
+33297,results,Out of Business
+33304,dbaname,BURGER KING #181
+33341,dbaname,BURGER KING #181
+33343,state,IL
+33361,dbaname,BURGER KING #5818
+33368,dbaname,BURGER KING #5818
+33419,dbaname,THE PASTA BOWL COMPANY
+33494,state,IL
+33538,dbaname,LEONA'S PIZZERIA
+33587,dbaname,LEONA'S PIZZERIA
+33637,state,IL
+33650,state,IL
+33762,state,IL
+33794,dbaname,BEAUDEVIN WINE BAR
+33980,state,IL
+33996,state,IL
+34169,state,IL
+34194,state,IL
+34294,facilitytype,Restaurant
+34295,facilitytype,Restaurant
+34345,state,IL
+34375,state,IL
+34414,state,IL
+34534,state,IL
+34567,state,IL
+34845,state,IL
+34880,state,IL
+34882,state,IL
+35219,state,IL
+35408,state,IL
+35458,state,IL
+35477,state,IL
+35599,state,IL
+35623,state,IL
+35831,state,IL
+35831,zip,60642
+35836,facilitytype,Restaurant
+35855,state,IL
+35855,zip,60642
+35933,state,IL
+35933,zip,60642
+36013,address,100 W RANDOLPH ST STE C-19
+36137,state,IL
+36137,zip,60642
+36314,facilitytype,Restaurant
+36358,state,IL
+36358,zip,60642
+36501,state,IL
+36501,zip,60642
+36526,state,IL
+36526,zip,60642
+36542,address,4503-4505 N KEDZIE AVE
+36545,address,2554-2556 W DIVERSEY AVE
+36554,state,IL
+36554,zip,60642
+36565,state,IL
+36565,zip,60642
+36612,state,IL
+36612,zip,60642
+36655,state,IL
+36655,zip,60642
+36807,state,IL
+36807,zip,60642
+36904,address,3421 N CLARK ST
+36904,address,3421 N CLARK ST
+36936,state,IL
+36936,zip,60642
+36956,state,IL
+36956,zip,60642
+37006,state,IL
+37006,zip,60642
+37407,facilitytype,Restaurant
+37448,state,IL
+37448,zip,60642
+37473,state,IL
+37473,zip,60642
+37477,state,IL
+37477,zip,60642
+37512,facilitytype,Restaurant
+37513,facilitytype,Restaurant
+37697,dbaname,McCORMICK PLACE
+37715,facilitytype,Restaurant
+37752,facilitytype,Restaurant
+37908,state,IL
+37908,zip,60642
+38043,state,IL
+38043,zip,60642
+38044,state,IL
+38044,zip,60642
+38102,state,IL
+38102,zip,60642
+38203,state,IL
+38203,zip,60642
+38332,state,IL
+38332,zip,60642
+38338,state,IL
+38338,zip,60642
+38366,state,IL
+38366,zip,60642
+38407,address,4503-4505 N KEDZIE AVE
+38495,state,IL
+38495,zip,60642
+39042,state,IL
+39042,zip,60642
+39073,state,IL
+39073,zip,60642
+39580,facilitytype,Restaurant
+39581,state,IL
+39581,zip,60642
+40122,address,100 W RANDOLPH ST STE C-19
+40357,state,IL
+40357,zip,60642
+40535,state,IL
+40535,zip,60642
+40582,address,100 W RANDOLPH ST
+40647,state,IL
+40647,zip,60642
+41123,state,IL
+41123,zip,60642
+41303,state,IL
+41303,zip,60642
+41342,state,IL
+41342,zip,60642
+41362,state,IL
+41362,zip,60642
+41451,address,8940-8942 S STONY ISLAND AVE
+41454,address,8940-8942 S STONY ISLAND AVE
+41520,state,IL
+41520,zip,60642
+41627,state,IL
+41627,zip,60642
+41637,state,IL
+41637,zip,60642
+41719,address,2945-2947 N BROADWAY AVE
+41761,facilitytype,Restaurant
+41845,state,IL
+41845,zip,60642
+41894,state,IL
+41894,zip,60642
+41921,state,IL
+41921,zip,60642
+42008,state,IL
+42008,zip,60642
+42013,state,IL
+42013,zip,60642
+42040,state,IL
+42040,zip,60642
+42181,state,IL
+42181,zip,60642
+42213,address,3601 W NORTH AVE BLDG 1STFL.
+42213,address,3601 W NORTH AVE BLDG 1S TFL.
+42312,state,IL
+42312,zip,60642
+42495,state,IL
+42495,zip,60642
+42523,state,IL
+42579,state,IL
+42662,dbaname,DOMINOS PIZZA
+42673,state,IL
+42706,state,IL
+42925,state,IL
+43187,state,IL
+43196,state,IL
+43206,address,3410 MAIN ST
+43206,city,SCHAUMBURG
+43206,zip,60193
+43226,state,IL
+43244,address,5633-5635 N ASHLAND AVE
+43310,address,3601 W NORTH AVE BLDG 1STFL.
+43753,state,IL
+43759,state,IL
+43927,address,131 N CLINTON #30
+43936,address,3463-3465 N BROADWAY
+43989,address,17429 S CENTER ST
+43989,zip,60409
+44178,state,IL
+44184,state,IL
+44454,location,"(41.89795569189251
+44462,location,"(41.89795569189251
+44484,location,"(41.744630715329514
+44512,location,"(41.88199433820508
+44571,location,"(41.94041749168562
+44573,address,17429 S CENTER ST
+44573,zip,60409
+44576,location,"(41.94041749168562
+44582,state,IL
+44610,state,IL
+44719,state,IL
+44730,state,IL
+44741,results,Out of Business
+44855,state,IL
+44885,state,IL
+44966,facilitytype,Restaurant
+45070,state,IL
+45071,state,IL
+45155,state,IL
+45438,facilitytype,Restaurant
+45544,state,IL
+45572,state,IL
+45588,state,IL
+45596,state,IL
+45838,facilitytype,Grocery Store
+45848,location,"(41.884187507127805
+45899,state,IL
+45953,state,IL
+46003,location,"(41.744630715329514
+46274,location,"(41.884187507127805
+46437,state,IL
+46542,state,IL
+46612,address,3313-3319 N BROADWAY
+46616,location,"(41.90376544815293
+46640,state,IL
+46661,state,IL
+46675,state,IL
+46684,state,IL
+46880,state,IL
+46894,facilitytype,GROCERY& RESTAURANT
+46963,state,IL
+47008,state,IL
+47022,state,IL
+47041,state,IL
+47075,state,IL
+47100,state,IL
+47105,state,IL
+47302,state,IL
+47443,location,"(41.83808910384431
+47453,state,IL
+47454,location,"(41.94041749168562
+47509,state,IL
+47510,state,IL
+47517,location,"(41.87216695780119
+47530,state,IL
+47531,state,IL
+47532,state,IL
+47533,state,IL
+47547,location,"(41.92335589370734
+47557,state,IL
+47654,location,"(41.87216695780119
+47681,location,"(41.96851294147588
+47712,state,IL
+47836,facilitytype,Restaurant
+47854,location,"(41.814554270530905
+47922,location,"(41.87216695780119
+47938,state,IL
+47940,state,IL
+47950,state,IL
+47959,facilitytype,Grocery Store
+47965,location,"(41.80824449155079
+47969,location,"(41.80824449155079
+47970,state,IL
+47974,state,IL
+48000,state,IL
+48214,state,IL
+48560,state,IL
+48584,state,IL
+48652,state,IL
+48809,state,IL
+48844,state,IL
+48855,facilitytype,Restaurant
+48958,facilitytype,Restaurant
+49033,state,IL
+49120,location,"(41.90943446610412
+49374,state,IL
+49450,state,IL
+49485,state,IL
+49554,state,IL
+49573,state,IL
+49888,location,"(41.9106455744334
+49924,state,IL
+49969,state,IL
+50037,state,IL
+50053,state,IL
+50058,state,IL
+50065,city,Chicago
+50065,state,IL
+50068,state,IL
+50140,state,IL
+50147,state,IL
+50157,state,IL
+50187,state,IL
+50282,state,IL
+50318,state,IL
+50326,facilitytype,Grocery Store
+50336,state,IL
+50356,state,IL
+50359,state,IL
+50412,state,IL
+50437,state,IL
+50439,state,IL
+50548,state,IL
+50559,state,IL
+50572,state,IL
+50584,state,IL
+50600,facilitytype,Grocery Store
+50655,state,IL
+50670,state,IL
+50677,state,IL
+50706,state,IL
+50757,state,IL
+50822,state,IL
+50855,state,IL
+50896,state,IL
+50917,results,Out of Business
+50937,state,IL
+50939,state,IL
+50983,state,IL
+51083,state,IL
+51109,state,IL
+51274,state,IL
+51285,state,IL
+51340,state,IL
+51350,state,IL
+51399,state,IL
+51468,state,IL
+51470,state,IL
+51484,state,IL
+51512,state,IL
+51527,state,IL
+51531,state,IL
+51697,state,IL
+51715,state,IL
+51746,dbaname,WRIGLEYVILLE ROOFTOPS
+51753,state,IL
+51825,facilitytype,School
+51888,state,IL
+51919,state,IL
+51925,state,IL
+51926,state,IL
+51945,state,IL
+51980,state,IL
+52008,state,IL
+52020,address,3816 W 63RD ST
+52020,city,chicago
+52029,address,3816 W 63RD ST
+52029,city,chicago
+52040,facilitytype,Restaurant
+52050,state,IL
+52080,state,IL
+52083,state,IL
+52095,state,IL
+52096,state,IL
+52113,state,IL
+52114,state,IL
+52168,state,IL
+52208,state,IL
+52236,state,IL
+52256,address,2637 S THROOP ST
+52261,state,IL
+52281,facilitytype,School
+52290,state,IL
+52352,facilitytype,Daycare Above and Under 2 Years
+52380,state,IL
+52408,state,IL
+52456,state,IL
+52486,state,IL
+52587,state,IL
+52592,state,IL
+52595,state,IL
+52624,state,IL
+52647,state,IL
+52653,state,IL
+52662,city,chicago
+52671,city,chicago
+52704,state,IL
+52735,state,IL
+52813,state,IL
+52817,state,IL
+52823,state,IL
+52865,state,IL
+52876,state,IL
+52905,location,"(41.80945691736228
+52943,state,IL
+52952,state,IL
+52985,state,IL
+53025,state,IL
+53176,state,IL
+53203,state,IL
+53234,facilitytype,Restaurant
+53429,state,IL
+53475,state,IL
+53524,address,4503-4505 N KEDZIE AVE
+53550,address,420-422 W 31ST ST
+53550,address,420-422 W 31ST ST
+53553,state,IL
+53559,address,420-422 W 31ST ST
+53595,state,IL
+53663,state,IL
+53740,state,IL
+53747,state,IL
+53768,state,IL
+53771,state,IL
+53784,state,IL
+53790,state,IL
+53800,state,IL
+53851,state,IL
+53879,address,420-422 W 31ST ST
+53881,state,IL
+53936,state,IL
+54009,state,IL
+54011,address,420-422 W 31ST ST
+54011,address,420-422 W 31ST ST
+54047,state,IL
+54079,state,IL
+54227,facilitytype,Mobile Food Dispenser
+54245,facilitytype,Bakery
+54275,state,IL
+54400,facilitytype,Bakery
+54450,state,IL
+54457,facilitytype,Grocery Store
+54471,state,IL
+54489,state,IL
+54632,state,IL
+54741,address,3463-3465 N BROADWAY
+54747,address,3463-3465 N BROADWAY
+54908,facilitytype,Grocery Store
+54914,address,3463-3465 N BROADWAY
+54923,address,3463-3465 N BROADWAY
+55014,state,IL
+55120,state,IL
+55147,state,IL
+55165,state,IL
+55188,state,IL
+55197,state,IL
+55204,state,IL
+55229,state,IL
+55270,state,IL
+55358,facilitytype,Restaurant
+55666,state,IL
+55679,state,IL
+55762,state,IL
+55773,state,IL
+55842,facilitytype,Restaurant
+56079,facilitytype,Restaurant
+56120,address,6727-6733 N OLMSTED AVE
+56205,state,IL
+56223,state,IL
+56343,state,IL
+56373,state,IL
+56377,state,IL
+56643,address,6727-6733 N OLMSTED AVE
+56643,address,6727-6733 N OLMSTED AVE
+56652,facilitytype,Grocery Store
+56733,address,3142-3148 W LAWRENCE AVE
+57100,state,IL
+57338,state,IL
+57351,state,IL
+57616,facilitytype,Restaurant
+57706,state,IL
+57707,state,IL
+57777,state,IL
+57858,address,420-422 W 31ST ST
+58054,state,IL
+58249,address,4400-4412 N CICERO AVE
+58249,address,4400-4412 N CICERO AVE
+58283,state,IL
+58340,state,IL
+58638,state,IL
+58641,address,1720-1780 N MARCEY ST
+58674,address,4310-4312 S PRAIRIE AVE
+58777,facilitytype,Restaurant
+59101,address,100 W RANDOLPH ST STE C-19
+59219,address,100 W RANDOLPH ST
+59250,address,3142-3148 W LAWRENCE AVE
+59260,state,IL
+59277,state,IL
+59340,state,IL
+59496,state,IL
+59558,facilitytype,Restaurant
+59572,state,IL
+59592,state,IL
+59651,facilitytype,Restaurant
+59724,state,IL
+59755,state,IL
+59834,zip,60616
+59834,city,Chicago
+59866,facilitytype,Restaurant
+59978,facilitytype,Restaurant
+59980,address,1410 S MUSEUM CAMPUS DR
+59980,city,CHICAGO
+59980,zip,60605
+60043,state,IL
+60170,state,IL
+60179,state,IL
+60185,state,IL
+60224,facilitytype,Restaurant
+60298,state,IL
+60312,state,IL
+60425,state,IL
+60451,state,IL
+60460,state,IL
+60595,state,IL
+60605,state,IL
+60610,state,IL
+60667,address,3601 W NORTH AVE BLDG 1STFL.
+60679,address,3601 W NORTH AVE BLDG 1STFL.
+60779,state,IL
+60817,state,IL
+60861,state,IL
+61003,state,IL
+61044,state,IL
+61072,state,IL
+61092,state,IL
+61093,state,IL
+61105,state,IL
+61107,state,IL
+61195,state,IL
+61265,state,IL
+61528,address,3313-3319 N BROADWAY
+61687,address,3313-3319 N BROADWAY
+61717,address,3400-3402 N ASHLAND AVE
+61909,facilitytype,Restaurant
+61926,address,3313-3319 N BROADWAY
+62201,facilitytype,Restaurant
+62251,address,3313-3319 N BROADWAY
+62311,facilitytype,Grocery Store
+63405,facilitytype,Restaurant
+63444,address,10-20 E DELAWARE ST
+63500,zip,60605
+63500,city,Chicago
+63501,dbaname,SPORTSERVICE SOLDIER FIELD
+63514,facilitytype,Restaurant
+63532,facilitytype,Restaurant
+63533,inspectiondate,20130918
+63603,address,658 E 75th ST
+63621,facilitytype,Restaurant
+64084,facilitytype,School
+64117,dbaname,THE UNITED CENTER
+64119,dbaname,THE UNITED CENTER
+64147,facilitytype,School
+64282,facilitytype,School
+64293,zip,60642
+64293,facilitytype,School
+64294,zip,60642
+64294,facilitytype,School
+64295,zip,60642
+64295,facilitytype,School
+64298,zip,60642
+64310,zip,60642
+64357,address,420-422 W 31ST ST
+64374,zip,60642
+64374,facilitytype,School
+64379,city,Chicago
+64379,zip,60642
+64384,zip,60642
+64384,facilitytype,School
+64385,zip,60642
+64385,facilitytype,School
+64386,zip,60642
+64491,facilitytype,School
+64514,facilitytype,Grocery Store
+64558,zip,60642
+64886,zip,60642
+64972,facilitytype,School
+65155,facilitytype,Restaurant
+65235,facilitytype,Restaurant
+65261,zip,60642
+65268,zip,60642
+65615,facilitytype,Grocery Store
+65658,facilitytype,ICE CREAM PARLOR
+65763,facilitytype,Grocery Store
+65770,facilitytype,Grocery Store
+65804,zip,60642
+65857,address,3800-3804 N CLARK ST
+66056,zip,60642
+66156,dbaname,JALISCO RESTAURANT
+66192,facilitytype,Restaurant
+66217,zip,60642
+66253,facilitytype,Grocery Store
+66385,facilitytype,Grocery Store
+66478,dbaname,HAIFA CAFE
+66558,facilitytype,Special Event
+66601,dbaname,CHINA CAFE
+66711,zip,60642
+66741,dbaname,PALETERIA OSO POLAR II
+66744,facilitytype,Grocery Store
+66779,zip,60666
+66783,facilitytype,Grocery Store
+66786,dbaname,LA COCINA
+66885,facilitytype,Restaurant
+66885,dbaname,COBBLER'S CAFE
+66930,dbaname,STATE GARDEN FOOD & LIQ
+67132,zip,60642
+67153,facilitytype,Grocery Store
+67187,dbaname,JAFFA BAKERY
+67243,facilitytype,Restaurant
+67341,dbaname,BEVERLY MONTESSORI SCHOOL
+67453,dbaname,BEVERLY MONTESSORI SCHOOL
+67454,dbaname,BEVERLY MONTESSORI SCHOOL
+67459,facilitytype,Grocery Store
+67819,zip,60622
+67830,address,2301-03 W FOSTER AVE
+67830,facilitytype,Restaurant
+67858,facilitytype,Restaurant
+67928,facilitytype,Restaurant
+67930,facilitytype,Restaurant
+68044,facilitytype,Grocery Store
+68116,facilitytype,Restaurant
+68167,zip,60622
+68167,address,1366 N MILWAUKEE AVE
+68216,state,IL
+68216,dbaname,EMPORIUM ARCADE BAR
+68216,location,"(41.893380429024546
+68280,dbaname,LILLIE'S Q
+68321,dbaname,AVY'S PIZZA
+68940,dbaname,GIOIA CANDY
+69391,facilitytype,Grocery Store
+69473,dbaname,LILLIE'S Q
+69503,facilitytype,Grocery Store
+69509,facilitytype,Restaurant
+69751,facilitytype,School
+69885,facilitytype,School
+69950,dbaname,3639 LLC
+69957,dbaname,DOMINOS PIZZA
+70163,facilitytype,Grocery Store
+70310,dbaname,ROSATI'S PIZZA
+70312,dbaname,ROSATI'S PIZZA
+70331,facilitytype,Restaurant
+70448,facilitytype,Grocery Store
+70507,facilitytype,Grocery Store
+70513,facilitytype,Grocery Store
+70628,facilitytype,Grocery Store
+70736,address,3601 W NORTH AVE BLDG 1STFL.
+70751,facilitytype,Grocery Store
+70753,facilitytype,Grocery Store
+71002,address,815 W VAN BUREN
+71002,address,815 W VAN BUREN
+71028,address,2 W 103RD ST
+71033,facilitytype,Grocery Store
+71060,facilitytype,Grocery Store
+71371,facilitytype,Restaurant
+71405,facilitytype,Restaurant
+71495,facilitytype,Restaurant
+71496,facilitytype,Restaurant
+71603,facilitytype,Grocery Store
+71645,address,3601 W NORTH AVE BLDG 1STFL.
+72081,facilitytype,Grocery Store
+72095,facilitytype,Grocery Store
+72110,facilitytype,Grocery Store
+72447,facilitytype,CAT/LIQUOR
+72553,facilitytype,Grocery Store
+72603,facilitytype,Grocery Store
+72837,facilitytype,Grocery Store
+72888,address,6727-6733 N OLMSTED AVE
+72888,address,6727-6733 N OLMSTED AVE
+73072,facilitytype,Restaurant
+73384,facilitytype,Restaurant
+73416,facilitytype,Grocery Store
+73494,facilitytype,Restaurant
+73671,facilitytype,Grocery Store
+73714,facilitytype,Restaurant
+73756,facilitytype,Restaurant
+73771,facilitytype,ROOFTOP
+73771,facilitytype,ROOFTOP
+74003,address,958 - 960 W BELMONT AVE
+74042,facilitytype,Grocery Store
+74453,address,4503-4505 N KEDZIE AVE
+74530,address,958 - 960 W BELMONT AVE
+74676,facilitytype,Grocery Store
+74750,location,"(41.96794426205111
+74852,address,3632-3640 N PULASKI RD
+75082,facilitytype,Grocery Store
+75132,facilitytype,Grocery Store
+75287,facilitytype,Restaurant
+75345,facilitytype,Restaurant
+75547,address,3142-3148 W LAWRENCE AVE
+75633,facilitytype,Restaurant
+75717,address,2548-2550 W DEVON AVE
+75793,facilitytype,Restaurant
+75865,facilitytype,Grocery Store
+76110,facilitytype,Grocery Store
+76252,facilitytype,Grocery Store
+76853,address,2548-2550 W DEVON AVE
+77208,address,2548-2550 W DEVON AVE
+77208,address,2548-2550 W DEVON AVE
+77292,facilitytype,Restaurant
+77295,facilitytype,Grocery Store
+77611,dbaname,PIZZA KITCHEN
+77615,facilitytype,Restaurant
+77641,facilitytype,Restaurant
+77657,facilitytype,Grocery Store
+77730,facilitytype,Restaurant
+77815,facilitytype,Restaurant
+77885,facilitytype,Daycare Above and Under 2 Years
+77909,facilitytype,Restaurant
+78051,address,3435 W VAN BUREN
+78425,facilitytype,Grocery Store
+78453,address,100 W RANDOLPH ST
+78619,facilitytype,Restaurant
+78732,facilitytype,Restaurant
+78989,facilitytype,Grocery Store
+79024,facilitytype,Restaurant
+79098,facilitytype,Grocery Store
+79122,facilitytype,Daycare (2 - 6 Years)
+79251,facilitytype,Restaurant
+79264,facilitytype,Grocery Store
+79401,facilitytype,Grocery Store
+79420,facilitytype,Restaurant
+79448,facilitytype,Grocery Store
+79456,facilitytype,Grocery Store
+79603,facilitytype,Daycare (2 - 6 Years)
+79612,address,2343-2345 E 71ST ST
+79631,facilitytype,Children's Services Facility
+79727,facilitytype,Grocery Store
+79919,facilitytype,Grocery Store
+79920,facilitytype,Grocery Store
+79941,facilitytype,Grocery Store
+79942,facilitytype,Grocery Store
+80017,facilitytype,Children's Services Facility
+80059,facilitytype,Grocery Store
+80144,facilitytype,Restaurant
+80739,facilitytype,Grocery Store
+80766,facilitytype,Grocery Store
+80840,facilitytype,Restaurant
+80905,facilitytype,Grocery Store
+81184,address,4748-4750 W PETERSON AVE
+81184,address,4748-4750 W PETERSON AVE
+81246,facilitytype,Restaurant
+81498,facilitytype,Restaurant
+81890,address,1825 W IRVING PARK
+81890,address,1825 W IRVING PARK
+81899,facilitytype,Grocery Store
+81941,facilitytype,Restaurant
+82060,facilitytype,Grocery Store
+82604,facilitytype,Grocery Store
+82641,address,2022 S WENTWORTH AVE FL
+82922,dbaname,SUBWAY
+83093,facilitytype,Grocery Store
+83254,facilitytype,Grocery Store
+83423,city,CHICAGO
+83423,zip,60625
+83426,city,CHICAGO
+83426,zip,60625
+83432,facilitytype,Restaurant
+83442,zip,60625
+83442,city,Chicago
+83517,facilitytype,Grocery Store
+83521,facilitytype,Grocery Store
+83525,facilitytype,Grocery Store
+83717,facilitytype,Grocery Store
+83784,zip,60608
+83966,facilitytype,Restaurant
+84143,facilitytype,Restaurant
+84298,address,420-422 W 31ST ST
+84887,facilitytype,Restaurant
+84920,facilitytype,Restaurant
+85112,facilitytype,Restaurant
+85236,address,2421 N CLARK ST
+85339,facilitytype,Daycare (2 - 6 Years)
+85431,facilitytype,Restaurant
+85574,facilitytype,Restaurant
+85584,facilitytype,Restaurant
+85588,facilitytype,Grocery Store
+85972,facilitytype,Restaurant
+86077,facilitytype,Grocery Store
+86134,facilitytype,Restaurant
+86173,zip,60654
+86173,facilitytype,Grocery Store
+86518,facilitytype,Restaurant
+86600,facilitytype,Restaurant
+86883,facilitytype,Restaurant
+87431,facilitytype,Restaurant
+87615,facilitytype,Restaurant
+87810,address,4606 S DAMEN AVE
+87856,address,3904 N CICERO
+88021,facilitytype,Restaurant
+88100,facilitytype,Restaurant
+88330,facilitytype,Liquor
+88393,dbaname,THUNDERBIRD CATERING
+88407,dbaname,THUNDERBIRD CATERING
+88480,facilitytype,Mobile Food Dispenser
+88483,facilitytype,Mobile Food Dispenser
+88485,facilitytype,Mobile Food Dispenser
+88488,dbaname,THUNDERBIRD CATERING
+88488,facilitytype,Mobile Food Dispenser
+88496,facilitytype,Mobile Food Dispenser
+88498,facilitytype,Mobile Food Dispenser
+88499,facilitytype,Mobile Food Dispenser
+88503,facilitytype,Mobile Food Dispenser
+88516,facilitytype,Mobile Food Dispenser
+88988,state,IL
+89123,facilitytype,Restaurant
+89170,address,958 - 960 W BELMONT AVE
+89261,address,2039-2041 W NORTH AVE
+89262,address,2039-2041 W NORTH AVE
+89350,results,Out of Business
+89360,state,IL
+89360,dbaname,EMPORIUM ARCADE BAR
+89360,location,"(41.893380429024546
+89416,facilitytype,Restaurant
+89463,results,Out of Business
+89896,address,3904 N CICERO
+89896,dbaname,HONG KONG CHINESE RESTAURANT
+90021,results,Out of Business
+90148,address,2039-2041 W NORTH AVE
+90151,address,2039-2041 W NORTH AVE
+90584,address,10-20 E DELAWARE ST
+91029,address,3142-3148 W LAWRENCE AVE
+91078,address,201 N STATE ST
+91195,address,201 N STATE ST
+91234,facilitytype,Restaurant
+91436,city,Chicago
+91492,city,Chicago
+91494,city,Chicago
+91499,city,Chicago
+91505,city,CHICAGO
+91507,address,2843 - 2847 W 63RD ST 
+91509,city,Chicago
+91511,address,2843 - 2847 W 63RD ST 
+91513,address,1646-1648 W 95TH ST
+91516,address,2843 - 2847 W 63RD ST 
+91523,facilitytype,Mobile Food Dispenser
+91523,city,Chicago
+91526,city,Chicago
+91650,facilitytype,Grocery Store
+92029,results,Out of Business
+92053,address,2548-2550 W DEVON AVE
+92053,address,2548-2550 W DEVON AVE
+92167,address,2548-2550 W DEVON AVE
+92167,address,2548-2550 W DEVON AVE
+92189,address,3038 - 3046 W 59TH ST
+92193,facilitytype,Restaurant
+92801,facilitytype,Grocery Store
+92841,facilitytype,Restaurant
+92843,facilitytype,Restaurant
+92932,facilitytype,Restaurant
+92987,facilitytype,Restaurant
+93001,address,2843 - 2847 W 63RD ST 
+93006,facilitytype,Restaurant
+93168,location,"(41.964682873337985
+93176,location,"(41.964682873337985
+93294,facilitytype,Restaurant
+93500,facilitytype,Grocery Store
+93619,facilitytype,Restaurant
+93727,facilitytype,Restaurant
+94319,facilitytype,Restaurant
+94541,facilitytype,Daycare Combo 1586
+94899,facilitytype,Restaurant
+95032,dbaname,WALDORF ASTORIA CHICAGO
+95092,dbaname,THE WIT
+95116,dbaname,THE WIT
+95117,dbaname,THE WIT
+95431,facilitytype,Restaurant
+95566,facilitytype,Restaurant
+95567,facilitytype,Restaurant
+95584,address,3632-3640 N PULASKI RD
+95584,address,3632-3640 N PULASKI RD
+95705,facilitytype,Restaurant
+95787,address,2421 N CLARK ST
+95838,address,4606 S DAMEN AVE
+95924,results,Out of Business
+96030,facilitytype,Grocery Store
+96103,dbaname,FRANKO'S PIZZERIA
+96104,dbaname,FRANKO'S PIZZERIA
+96111,dbaname,JAVA N MUG
+96209,dbaname,LEE'S WOK
+96228,facilitytype,Restaurant
+96346,city,Chicago
+96357,address,8038 S ASHLAND
+96441,facilitytype,Daycare Combo 1586
+96482,address,3313-3319 N BROADWAY
+96510,facilitytype,Restaurant
+96548,address,4606 S DAMEN AVE
+96548,address,4606 S DAMEN AVE
+96589,city,Chicago
+96626,city,Chicago
+96718,dbaname,BURRITOS JUAREZ
+96747,facilitytype,Restaurant
+96996,address,6727-6733 N OLMSTED AVE
+97378,dbaname,AMAZING GRACE DAYCARE CENTER
+97393,facilitytype,Grocery Store
+97538,dbaname,AMAZING GRACE DAYCARE CENTER
+97578,dbaname,GONZALEZ RESTAURANT
+97700,dbaname,AMAZING GRACE DAYCARE CENTER
+98293,dbaname,CHOP SUEY HUANG
+98296,facilitytype,Restaurant
+98415,dbaname,ILLINOIS SPORTSERVICE INC
+98426,facilitytype,Restaurant
+98454,facilitytype,Restaurant
+98456,facilitytype,Restaurant
+98617,facilitytype,Restaurant
+98643,address,4117-4125 S KEDZIE AVE
+98643,address,4117-4125 S KEDZIE AVE
+98693,dbaname,SALAD WORKS
+98873,address,6319 S DR. MARTIN LUTHER KING JR DR 
+99081,dbaname,DEVELOPMENTAL INSTITUTE INC
+99098,dbaname,DEVELOPMENTAL INSTITUTE INC
+99277,dbaname,BURGER KING #11967
+99332,facilitytype,Grocery Store
+99413,facilitytype,Restaurant
+99540,address,958 - 960 W BELMONT AVE
+99540,address,958 - 960 W BELMONT AVE
+99664,facilitytype,Restaurant
+100064,address,5633-5635 N ASHLAND AVE
+100292,address,5633-5635 N ASHLAND AVE
+100421,dbaname,ROSDED
+100738,facilitytype,Restaurant
+100823,facilitytype,Restaurant
+100851,dbaname,ILLINOIS SPORTSERVICE INC
+101121,facilitytype,Grocery Store
+101215,facilitytype,Children's Services Facility
+101252,facilitytype,Catering
+101412,address,2032-2034 W DEVON AVE 
+101878,facilitytype,Restaurant
+101913,facilitytype,Catering
+102032,address,2032-2034 W DEVON AVE 
+102543,facilitytype,Restaurant
+102544,facilitytype,Restaurant
+102654,facilitytype,Restaurant
+102684,facilitytype,Restaurant
+102684,dbaname,SALAD WORKS
+102758,facilitytype,Restaurant
+102995,facilitytype,Bakery
+103563,dbaname,JAVA N MUG
+103720,facilitytype,Bakery
+104116,facilitytype,Restaurant
+104121,facilitytype,Restaurant
+104354,address,3632-3640 N PULASKI RD
+104627,facilitytype,Restaurant
+104627,dbaname,JAVA N MUG
+104629,dbaname,JAVA N MUG
+105038,facilitytype,Restaurant
+105096,facilitytype,Restaurant
+105179,address,333 W 35TH ST
+105179,dbaname,ILLINOIS SPORTSERVICE INC
+105497,dbaname,CONVENIENT FOOD MART
+105576,results,Out of Business
+105579,results,Out of Business
+105631,facilitytype,Restaurant
+105733,dbaname,AMAZING GRACE DAYCARE CENTER
+105802,facilitytype,Restaurant
+106183,dbaname,GONZALEZ RESTAURANT
+106230,address,2008 N HALSTED ST
+106292,address,3142-3148 W LAWRENCE AVE
+106306,zip,60666
+106445,dbaname,LEE'S WOK
+106447,dbaname,LEE'S WOK
+106464,facilitytype,Restaurant
+106754,zip,60608
+106756,address,2548-2550 W DEVON AVE
+106884,dbaname,P & P AMERICAN & CHINESE FOOD
+107034,address,5633-5635 N ASHLAND AVE 
+107182,address,2548-2550 W DEVON AVE
+107400,address,2537-2543 N KEDZIE AVE
+107603,dbaname,ARAMARK
+107606,dbaname,ARAMARK
+107662,dbaname,OSTIONERIA MAR ABIERTO
+107781,dbaname,SALAD WORKS
+107796,address,4749-4753 N ROCKWELL ST 
+107800,address,2401-2405 W DEVON AVE
+107813,address,4749-4753 N ROCKWELL ST 
+108166,dbaname,GATEWAY NEWSTANDS & CIGAR STOR
+108229,address,3632-3640 N PULASKI RD
+108229,address,3632-3640 N PULASKI RD
+108267,dbaname,OSTIONERIA MAR ABIERTO
+108297,address,2401-2405 W DEVON AVE
+108297,address,2401-2405 W DEVON AVE
+108445,dbaname,OSTIONERIA MAR ABIERTO
+108513,facilitytype,Restaurant
+108689,results,Out of Business
+108758,zip,60605
+108896,dbaname,OSTIONERIA MAR ABIERTO
+109029,facilitytype,Restaurant
+109146,address,4748-4750 W PETERSON AVE
+109150,dbaname,OSTIONERIA MAR ABIERTO
+109353,facilitytype,Restaurant
+109570,address,4748-4750 W PETERSON AVE
+109646,facilitytype,Grocery Store
+109744,address,3810 N Central AVE
+109744,address,3810 N Central AVE
+109786,results,Out of Business
+109792,dbaname,OSTIONERIA MAR ABIERTO
+109793,facilitytype,Grocery Store
+109793,results,Out of Business
+109836,results,Out of Business
+109839,results,Out of Business
+109844,results,Out of Business
+109943,address,2032-2034 W DEVON AVE
+109943,results,Out of Business
+109945,results,Out of Business
+109952,address,2032-2034 W DEVON AVE 
+109954,facilitytype,Long Term Care
+109958,address,2843 - 2847 W 63RD ST 
+109958,dbaname,PAPA T'S ITALIANO
+110026,results,Out of Business
+110055,address,2032-2034 W DEVON AVE 
+110056,address,10-20 E DELAWARE ST
+110129,results,Out of Business
+110130,results,Out of Business
+110222,address,10-20 E DELAWARE ST
+110281,results,Out of Business
+110356,results,Out of Business
+110365,results,Out of Business
+110596,facilitytype,Restaurant
+110927,dbaname,THREE R FOOD
+111167,dbaname,OSTIONERIA MAR ABIERTO
+111367,results,Out of Business
+111730,dbaname,ILLINOIS SPORTSERVICE INC
+111754,facilitytype,Restaurant
+111778,dbaname,OSTIONERIA MAR ABIERTO
+111789,dbaname,OSTIONERIA MAR ABIERTO
+111820,dbaname,ILLINOIS SPORTSERVICE INC
+111931,dbaname,ILLINOIS SPORTSERVICE INC
+111940,address,333 W 35TH ST BLDG
+111940,dbaname,ILLINOIS SPORTSERVICE INC
+111979,dbaname,ILLINOIS SPORTSERVICE INC
+112005,dbaname,ILLINOIS SPORTSERVICE INC
+112006,dbaname,ILLINOIS SPORTSERVICE INC.
+112177,address,2945-2947 N BROADWAY AVE
+112261,address,3904 N CICERO
+112363,dbaname,WATERS ELEMENTARY
+112365,dbaname,WATERS ELEMENTARY
+112384,facilitytype,Restaurant
+112402,facilitytype,Restaurant
+112494,address,151 E RANDOLPH ST
+112517,results,Out of Business
+112519,results,Out of Business
+112633,address,3435 W VAN BUREN
+112633,address,3435 W VAN BUREN
+112714,dbaname,THE WIT
+112732,dbaname,THE WIT
+112737,dbaname,THE WIT
+113108,address,100 W RANDOLPH ST STE C-19
+113495,dbaname,PETE BOY'S
+113735,dbaname,MONTESSORI DE LA CITTA
+113785,state,IL
+113823,dbaname,PETE BOY'S
+113941,zip,60640
+113941,city,Chicago
+113953,dbaname,CHINA WOK
+114138,facilitytype,Restaurant
+114191,address,3142-3148 W LAWRENCE AVE
+114213,facilitytype,Restaurant
+114512,facilitytype,Restaurant
+114790,facilitytype,Restaurant
+114805,facilitytype,Restaurant
+115050,zip,60640
+115171,facilitytype,Restaurant
+115195,address,5480 S KENWOOD AVE
+115206,facilitytype,Restaurant
+115304,address,4606 S DAMEN AVE
+115406,dbaname,JA' GRILL
+115564,address,2032-2034 W DEVON AVE 
+115616,address,4606 S DAMEN AVE
+115706,address,2032-2034 W DEVON AVE 
+115817,dbaname,JA' GRILL
+115963,facilitytype,Restaurant
+116021,address,2132-2134 W WASHINGTON BLVD
+116021,facilitytype,Grocery Store
+116040,address,3421 N CLARK ST
+116479,address,2150-58 W BELMONT AVE BLDG
+116487,facilitytype,Grocery Store
+116492,address,3421 N CLARK ST
+116581,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL
+116597,address,4749-4753 N ROCKWELL ST 
+116677,address,3632-3640 N PULASKI RD
+116677,address,3632-3640 N PULASKI RD
+116838,address,3421 N CLARK ST
+116889,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL
+116897,dbaname,RENAISSANCE CHICAGO O'HARE HOTEL
+116916,location,"(41.90432596384963
+116998,dbaname,HALSTED FOODS
+117000,facilitytype,Grocery Store
+117000,dbaname,HALSTED FOODS
+117038,address,4749-4753 N ROCKWELL ST 
+117064,address,8233-8237 S PULASKI RD
+117080,facilitytype,Restaurant
+117092,facilitytype,Grocery Store
+117121,dbaname,HALSTED FOODS
+117135,facilitytype,Restaurant
+117170,facilitytype,Restaurant
+117204,dbaname,BUB'S GYROS
+117204,facilitytype,Restaurant
+117242,facilitytype,Restaurant
+117280,facilitytype,Restaurant
+117284,facilitytype,Restaurant
+117293,facilitytype,Restaurant
+117303,facilitytype,Restaurant
+117311,facilitytype,Restaurant
+117324,facilitytype,Restaurant
+117328,facilitytype,Restaurant
+117352,facilitytype,Restaurant
+117384,facilitytype,Restaurant
+117581,facilitytype,Restaurant
+117586,facilitytype,Restaurant
+117588,facilitytype,Restaurant
+117734,facilitytype,Restaurant
+117867,facilitytype,Grocery Store
+117882,facilitytype,Restaurant
+117883,facilitytype,Restaurant
+117935,facilitytype,Restaurant
+117950,facilitytype,Restaurant
+117955,facilitytype,Restaurant
+117967,facilitytype,Restaurant
+118011,address,6313-6323 N PULASKI RD
+118011,address,6313-6323 N PULASKI RD
+118048,facilitytype,Restaurant
+118098,facilitytype,Restaurant
+118131,facilitytype,Restaurant
+118153,facilitytype,Restaurant
+118154,facilitytype,Restaurant
+118225,facilitytype,Restaurant
+118233,facilitytype,Restaurant
+118346,facilitytype,Restaurant
+118349,facilitytype,Restaurant
+118350,facilitytype,Restaurant
+118351,facilitytype,Restaurant
+118356,zip,60625
+118356,city,Chicago
+118356,facilitytype,Restaurant
+118376,facilitytype,Restaurant
+118457,facilitytype,Restaurant
+118466,facilitytype,Restaurant
+118469,facilitytype,Restaurant
+118500,address,4748-4750 W PETERSON AVE
+118519,address,4117-4125 S KEDZIE AVE
+118647,dbaname,FRULLATI CAFE & BAKERY
+118668,facilitytype,Restaurant
+118679,facilitytype,Restaurant
+118782,address,6313-6323 N PULASKI RD
+118782,dbaname,EDEN'S HOUSE
+118788,dbaname,EDEN'S HOUSE
+118914,dbaname,GATEWAY NEWSTAND
+118962,facilitytype,Grocery Store
+118985,facilitytype,Restaurant
+118986,facilitytype,Restaurant
+118990,facilitytype,Restaurant
+119000,address,6727-6733 N OLMSTED AVE
+119000,address,6727-6733 N OLMSTED AVE
+119037,zip,60625
+119037,city,Chicago
+119037,facilitytype,Restaurant
+119064,facilitytype,Restaurant
+119092,facilitytype,Restaurant
+119206,facilitytype,Restaurant
+119213,facilitytype,Restaurant
+119214,facilitytype,Daycare Above and Under 2 Years
+119275,address,2032-2034 W DEVON AVE 
+119310,facilitytype,Restaurant
+119344,facilitytype,Restaurant
+119577,facilitytype,Restaurant
+119583,address,2827-2831 N BROADWAY
+119614,facilitytype,Restaurant
+119615,address,1002 N CICERO AVE BLDG
+119629,facilitytype,Restaurant
+119644,facilitytype,Restaurant
+119653,dbaname,ROCKS LAKEVIEW
+119658,facilitytype,Restaurant
+119661,zip,60625
+119661,city,Chicago
+119661,facilitytype,Restaurant
+119675,facilitytype,MOBILE FOOD TRUCK
+119694,facilitytype,Restaurant
+119725,address,3800-3804 N CLARK ST
+119741,facilitytype,Restaurant
+119776,facilitytype,Restaurant
+119781,facilitytype,Restaurant
+119804,facilitytype,Daycare Above and Under 2 Years
+119806,facilitytype,Daycare Above and Under 2 Years
+119812,facilitytype,Restaurant
+119812,dbaname,LILLIE'S Q
+119813,facilitytype,Restaurant
+119813,dbaname,LILLIE'S Q
+119877,address,2827-2831 N BROADWAY
+119922,facilitytype,Restaurant
+119941,dbaname,RAEKWON'S SCHOLASTIC DAYCARE ACADEMY LLC
+119980,address,2537-2543 N KEDZIE AVE
+119999,facilitytype,Restaurant
+120001,address,3904 N CICERO
+120001,dbaname,HONG KONG CHINESE RESTAURANT
+120003,facilitytype,Restaurant
+120023,facilitytype,Restaurant
+120024,facilitytype,Restaurant
+120034,facilitytype,Restaurant
+120036,facilitytype,Restaurant
+120038,facilitytype,Daycare Above and Under 2 Years
+120039,facilitytype,Daycare Above and Under 2 Years
+120091,dbaname,RAEKWON'S SCHOLASTIC DAYCARE ACADEMY LLC
+120113,address,3800-3804 N CLARK ST
+120154,facilitytype,Restaurant
+120155,results,Out of Business
+120157,facilitytype,Restaurant
+120157,dbaname,LILLIE'S Q
+120159,facilitytype,Restaurant
+120160,facilitytype,Restaurant
+120160,dbaname,LILLIE'S Q
+120252,dbaname,ROCKS LAKEVIEW
+120340,address,2843 - 2847 W 63RD ST 
+120340,facilitytype,Restaurant
+120342,facilitytype,Restaurant
+120383,facilitytype,Restaurant
+120447,address,1825 W IRVING PARK
+120511,facilitytype,Restaurant
+120526,facilitytype,Restaurant
+120548,facilitytype,Restaurant
+120560,facilitytype,Restaurant
+120564,facilitytype,Restaurant
+120705,facilitytype,Restaurant
+120867,facilitytype,Restaurant
+120899,address,1825 W IRVING PARK
+120934,facilitytype,Restaurant
+120995,facilitytype,Grocery Store
+121120,dbaname,BEVERLY MONTESSORI SCHOOL
+121301,dbaname,JAVA N MUG
+121333,dbaname,STATE STREET GRILL
+121415,dbaname,ILLINOIS SPORTSERVICE INC.
+121546,address,3142-3148 W LAWRENCE AVE
+121665,facilitytype,Restaurant
+121744,dbaname,FAMILY DOLLAR STORE #6643
+121750,dbaname,FAMILY DOLLAR STORE #6643
+121880,facilitytype,Restaurant
+121997,dbaname,JIM NOODLE & RICE
+122019,facilitytype,Grocery Store
+122083,dbaname,HALSTED FOODS
+122134,facilitytype,Bakery
+122204,dbaname,Roosevelt Discount
+122209,dbaname,Roosevelt Discount
+122220,facilitytype,Restaurant
+122226,dbaname,THE HOT SPOT ON ARMITAGE
+122460,results,Out of Business
+122460,facilitytype,Daycare Combo 1586
+122461,results,Out of Business
+122461,facilitytype,Daycare Combo 1586
+122525,facilitytype,Restaurant
+122540,dbaname,MOBIL
+122610,facilitytype,Grocery Store
+122613,facilitytype,Grocery Store
+122615,facilitytype,Grocery Store
+122627,dbaname,ALTGELD GARDENS DAYCARE
+122755,dbaname,TAYLOR MADE DELI
+122946,facilitytype,Grocery Store
+122975,dbaname,LORDANCHILD CHRISTIAN DAY CARE INC.
+123047,facilitytype,Restaurant
+123081,address,3435 W VAN BUREN
+123159,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP
+123163,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP
+123202,address,6319 S DR. MARTIN LUTHER KING JR DR 
+123239,facilitytype,Restaurant
+123298,address,2401-2405 W DEVON AVE
+123341,address,10-20 E DELAWARE ST
+123343,dbaname,DAVILA'S RESTAURANT
+123349,dbaname,DAVILA'S RESTAURANT
+123576,dbaname,MOBIL
+123754,facilitytype,Restaurant
+123754,dbaname,BOB SAN SUSHI BAR
+123786,facilitytype,Restaurant
+123786,dbaname,JAFFA BAKERY
+124025,dbaname,BOB SAN SUSHI BAR
+124237,facilitytype,Restaurant
+124283,dbaname,MCCORMICK PLACE
+124294,dbaname,MCCORMICK PLACE
+124302,dbaname,MCCORMICK PLACE
+124324,dbaname,MCCORMICK PLACE
+124338,dbaname,MCCORMICK PLACE
+124437,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP
+124439,dbaname,BRIGHT HORIZONS CHICAGO WEST LOOP
+124571,address,2843 - 2847 W 63RD ST 
+124571,dbaname,PAPA T'S ITALIANO
+124798,facilitytype,Restaurant
+124887,dbaname,TAMMY'S SWICHES & SALADS
+124887,zip,60608
+124967,dbaname,F & F FOODS INC
+124968,dbaname,F & F FOODS INC
+125058,address,5633-5635 N ASHLAND AVE 
+125067,address,4157 W Peterson AVE
+125229,facilitytype,Restaurant
+125266,zip,60608
+125266,dbaname,TAMMY'S SWICHES & SALADS
+125418,facilitytype,Restaurant
+125571,dbaname,TURKISH CUISINE AND BAKERY
+125603,dbaname,QUALITY CROUTONS INC
+125604,results,Out of Business
+125604,dbaname,QUALITY CROUTONS INC
+125642,dbaname,THE WIT
+125927,facilitytype,Restaurant
+125953,dbaname,GREATER BETHEL ACADEMY
+126078,address,2945-2947 N BROADWAY AVE
+126102,facilitytype,Restaurant
+126346,address,6319 S DR. MARTIN LUTHER KING JR DR 
+126423,dbaname,BURGER KING #207
+126593,dbaname,GREATER BETHEL ACADEMY
+126649,facilitytype,Restaurant
+126730,address,4157 W Peterson AVE
+126820,dbaname,GREATER BETHEL ACADEMY
+126822,location,"(41.736759925543325
+126856,dbaname,DAVE'S ICE CREAM
+127064,address,3038 - 3046 W 59TH ST
+127064,dbaname,YOUNG SCHOLARS DEVELOPMENTAL INSTITUTE
+127276,address,5650 W DIVISION AVE
+127276,dbaname,WHALE FISH & CHICKEN
+127362,dbaname,DAVE'S ICE CREAM
+127427,facilitytype,Restaurant
+127445,location,"(41.73646911302717
+127529,address,1720-1780 N MARCEY ST
+127581,dbaname,ENGLEWOOD MARATHON
+127618,address,331-333 S FRANKLIN ST
+127629,location,"(41.92418914583158
+127693,dbaname,ARAMARK
+127696,dbaname,ARAMARK
+127700,dbaname,ARAMARK
+127777,address,2637 S THROOP ST
+127797,address,6727-6733 N OLMSTED AVE
+127797,address,6727-6733 N OLMSTED AVE
+128029,facilitytype,Restaurant
+128095,dbaname,ARAMARK
+128097,dbaname,ARAMARK
+128120,address,2843 - 2847 W 63RD ST 
+128139,dbaname,SPIN
+128155,address,1938 W IRVING PARK RD
+128155,dbaname,RED BRICK
+128160,dbaname,RED BRICK
+128177,dbaname,TONY'S SUB
+128179,address,6727-6733 N OLMSTED AVE
+128179,address,6727-6733 N OLMSTED AVE
+128417,address,2843 - 2847 W 63RD ST 
+128473,facilitytype,Restaurant
+128485,address,2032-2034 W DEVON AVE 
+128495,address,4748-4750 W PETERSON AVE
+128495,dbaname,CHAI ASIAN BISTRO
+128506,dbaname,EL TARASCO
+128513,dbaname,EL TARASCO
+128515,dbaname,EL TARASCO
+128516,dbaname,EL TARASCO
+128539,facilitytype,Daycare Above and Under 2 Years
+128542,facilitytype,Restaurant
+128650,facilitytype,Restaurant
+128751,dbaname,EL TARASCO
+128754,dbaname,EL TARASCO
+128831,dbaname,SPARRER SAUSAGE CO
+128838,dbaname,SPARRER SAUSAGE CO
+128924,dbaname,ILLINOIS SPORTSERVICE INC
+129070,address,2401-2405 W DEVON AVE
+129070,address,2401-2405 W DEVON AVE
+129076,address,2401-2405 W DEVON AVE
+129083,dbaname,ILLINOIS SPORTSERVICE INC.
+129137,address,2637 S THROOP ST
+129144,address,2637 S THROOP ST
+129171,dbaname,JAFFA BAKERY
+129181,dbaname,TASTE BUD BANQUET HALL & RESTAURANT
+129182,dbaname,TASTE BUD BANQUET HALL & RESTAURANT
+129205,dbaname,JAFFA BAKERY
+129222,dbaname,EL TARASCO
+129232,dbaname,EL TARASCO
+129244,address,2637 S THROOP ST 
+129251,address,2637 S THROOP ST 
+129273,address,2637 S THROOP ST 
+129274,address,2637 S THROOP ST 
+129276,address,2637 S THROOP ST 
+129305,address,2637 S THROOP ST 
+129315,address,2637 S THROOP ST 
+129323,address,2637 S THROOP ST 
+129327,address,2637 S THROOP ST 
+129329,address,2637 S THROOP ST 
+129333,address,2637 S THROOP ST 
+129336,address,2637 S THROOP ST 
+129340,address,2637 S THROOP ST 
+129343,address,2637 S THROOP ST
+129343,facilitytype,Mobile Food Dispenser
+129349,address,2637 S THROOP ST 
+129356,city,Chicago
+129372,address,1400-1402 W BELMONT AVE
+129374,location,"(41.736759925543325
+129491,address,1400-1402 W BELMONT AVE
+129498,dbaname,JAFFA BAKERY
+129512,dbaname,ILLINOIS SPORTSERVICE INC
+129633,dbaname,TASTE BUD BANQUET HALL & RESTAURANT
+129643,dbaname,TASTE BUD BANQUET HALL & RESTAURANT
+129746,dbaname,ILLINOIS SPORTSERVICE INC
+129747,dbaname,ILLINOIS SPORTSERVICE INC.
+129750,dbaname,ILLINOIS SPORTSERVICE INC.
+129751,dbaname,ILLINOIS SPORTSERVICE INC.
+129752,dbaname,ILLINOIS SPORTSERVICE INC.
+129755,dbaname,ILLINOIS SPORTSERVICE INC.
+129761,dbaname,ILLINOIS SPORTSERVICE INC.
+129767,dbaname,ILLINOIS SPORTSERVICE INC.
+129797,dbaname,ROCKS LAKEVIEW
+129845,dbaname,"MONTESSORI ACADEMY OF CHICAGO I
+129849,dbaname,"MONTESSORI ACADEMY OF CHICAGO I
+129951,facilitytype,CANDY/GELATO
+129951,dbaname,GIOIA CANDY
+129953,dbaname,ILLINOIS SPORTSERVICE INC.
+129960,dbaname,GIOIA CANDY
+129970,dbaname,ILLINOIS SPORTSERVICE INC.
+129976,address,2032-2034 W DEVON AVE 
+129981,dbaname,ILLINOIS SPORTSERVICE INC.
+130002,dbaname,ILLINOIS SPORTSERVICE INC.
+130003,dbaname,ILLINOIS SPORTSERVICE INC.
+130005,facilitytype,Restaurant
+130005,dbaname,ILLINOIS SPORTSERVICE INC
+130025,facilitytype,Restaurant
+130025,dbaname,ILLINOIS SPORTSERVICE INC
+130058,facilitytype,COMMISSARY
+130058,dbaname,ILLINOIS SPORTSERVICE INC
+130065,dbaname,ILLINOIS SPORTSERVICE INC.
+130066,dbaname,ILLINOIS SPORTSERVICE INC.
+130068,facilitytype,Restaurant
+130068,dbaname,ILLINOIS SPORTSERVICE INC
+130075,facilitytype,Restaurant
+130075,dbaname,ILLINOIS SPORTSERVICE INC
+130077,facilitytype,Restaurant
+130077,dbaname,ILLINOIS SPORTSERVICE INC
+130080,dbaname,ILLINOIS SPORTSERVICE INC
+130082,dbaname,ILLINOIS SPORTSERVICE INC
+130083,facilitytype,COMMISSARY
+130083,dbaname,ILLINOIS SPORTSERVICE INC
+130084,dbaname,ILLINOIS SPORTSERVICE INC
+130085,dbaname,ILLINOIS SPORTSERVICE INC
+130086,facilitytype,Restaurant
+130086,dbaname,ILLINOIS SPORTSERVICE INC
+130087,dbaname,ILLINOIS SPORTSERVICE INC
+130093,dbaname,ILLINOIS SPORTSERVICE INC
+130093,address,333 W 35TH ST 
+130094,dbaname,ILLINOIS SPORTSERVICE INC.
+130095,dbaname,ILLINOIS SPORTSERVICE INC
+130095,address,333 W 35TH ST 
+130096,dbaname,ILLINOIS SPORTSERVICE INC
+130096,address,333 W 35TH ST 
+130098,facilitytype,Restaurant
+130098,dbaname,ILLINOIS SPORTSERVICE INC
+130098,address,333 W 35TH ST 
+130102,facilitytype,Restaurant
+130102,dbaname,ILLINOIS SPORTSERVICE INC
+130103,dbaname,ILLINOIS SPORTSERVICE INC
+130103,address,333 W 35TH ST 
+130105,dbaname,ILLINOIS SPORTSERVICE INC.
+130106,dbaname,ILLINOIS SPORTSERVICE INC
+130106,address,333 W 35TH ST 
+130107,facilitytype,Restaurant
+130107,dbaname,ILLINOIS SPORTSERVICE INC
+130107,address,333 W 35TH ST 
+130109,dbaname,ILLINOIS SPORTSERVICE INC
+130109,address,333 W 35TH ST 
+130113,dbaname,ILLINOIS SPORTSERVICE INC
+130113,address,333 W 35TH ST 
+130115,dbaname,ILLINOIS SPORTSERVICE INC
+130115,address,333 W 35TH ST 
+130117,dbaname,ILLINOIS SPORTSERVICE INC
+130117,address,333 W 35TH ST 
+130119,dbaname,ILLINOIS SPORTSERVICE INC
+130119,address,333 W 35TH ST 
+130125,dbaname,ILLINOIS SPORTSERVICE INC
+130125,address,333 W 35TH ST 
+130129,dbaname,ILLINOIS SPORTSERVICE INC
+130129,address,333 W 35TH ST 
+130131,facilitytype,Restaurant
+130131,dbaname,ILLINOIS SPORTSERVICE INC
+130131,address,333 W 35TH ST 
+130133,dbaname,ILLINOIS SPORTSERVICE INC
+130133,address,333 W 35TH ST 
+130135,dbaname,ILLINOIS SPORTSERVICE INC
+130135,address,333 W 35TH ST 
+130137,facilitytype,Restaurant
+130137,dbaname,ILLINOIS SPORTSERVICE INC
+130137,address,333 W 35TH ST 
+130143,dbaname,ILLINOIS SPORTSERVICE INC
+130143,address,333 W 35TH ST 
+130144,facilitytype,Restaurant
+130144,dbaname,ILLINOIS SPORTSERVICE INC
+130144,address,333 W 35TH ST 
+130149,dbaname,ILLINOIS SPORTSERVICE INC
+130149,address,333 W 35TH ST 
+130160,dbaname,"MONTESSORI ACADEMY OF CHICAGO I
+130175,dbaname,"MONTESSORI ACADEMY OF CHICAGO I
+130239,address,2401-2405 W DEVON AVE
+130239,address,2401-2405 W DEVON AVE
+130283,address,2637 S THROOP ST 
+130401,address,2827-2831 N BROADWAY
+130414,dbaname,TAYLOR TOTS CHILD DEVELOPMENT
+130688,address,333 S STATE ST
+130688,facilitytype,CANDY/GELATO
+130688,dbaname,GIOIA CANDY
+130781,dbaname,EX LIBRIS SCIENCE DIGEST COFFEE
+130869,facilitytype,Children's Services Facility
+130890,facilitytype,Grocery Store
+130902,address,6319 S DR. MARTIN LUTHER KING JR DR 
+130939,address,5133 W NORTH AVE 
+130951,address,6319 S DR. MARTIN LUTHER KING JR DR 
+130952,address,2637 S THROOP ST 
+130954,address,2637 S THROOP ST 
+130958,address,2637 S THROOP ST 
+131013,address,2637 S THROOP ST 
+131015,address,2637 S THROOP ST 
+131050,address,1938-1940 W DIVISION ST
+131081,address,2032-2034 W DEVON AVE
+131245,address,1825 W IRVING PARK
+131245,address,1825 W IRVING PARK
+131276,facilitytype,Restaurant
+131298,address,11601 W TOUHY AVE
+131358,address,5133 W NORTH AVE 
+131382,facilitytype,Long Term Care
+131484,facilitytype,Grocery Store
+131506,dbaname,JIM NOODLE & RICE
+131543,zip,60623
+131543,dbaname,SUN FOOD MART
+131583,facilitytype,Restaurant
+131593,address,1825 W IRVING PARK
+131618,address,2637 S THROOP ST 
+131636,facilitytype,Restaurant
+131686,address,900 N NORTH BRANCH ST 
+131694,facilitytype,Restaurant
+131696,facilitytype,School
+131696,address,900 N NORTH BRANCH ST 
+131771,address,900 N NORTH BRANCH ST 
+131772,address,900 N NORTH BRANCH ST 
+131802,facilitytype,School
+131802,facilitytype,School
+131802,address,900 N NORTH BRANCH ST
+131805,address,900 N NORTH BRANCH ST 
+131810,facilitytype,School
+131810,address,900 N NORTH BRANCH ST 
+131811,address,900 N NORTH BRANCH ST 
+131813,facilitytype,Mobile Food Dispenser
+131815,facilitytype,School
+131815,address,900 N NORTH BRANCH ST 
+131817,address,900 N NORTH BRANCH ST 
+131821,address,2032-2034 W DEVON AVE
+131824,facilitytype,School
+131824,address,900 N NORTH BRANCH ST 
+131832,address,900 N NORTH BRANCH ST 
+131835,facilitytype,School
+131835,address,900 N NORTH BRANCH ST 
+131837,dbaname,ALTGELD GARDENS DAYCARE
+131967,address,100 W RANDOLPH ST STE C-19
+131978,address,100 W RANDOLPH ST STE C-19
+132011,facilitytype,Restaurant
+132011,location,"(41.88222093835454
+132013,facilitytype,Restaurant
+132013,facilitytype,Restaurant
+132014,facilitytype,Restaurant
+132017,location,"(41.88222093835454
+132058,facilitytype,Grocery Store
+132058,location,"(41.88007510168006
+132061,location,"(41.88007510168006
+132065,location,"(41.85094352340354
+132162,location,"(41.736759925543325
+132234,facilitytype,School
+132234,facilitytype,School
+132234,city,Chicago
+132240,address,900 N NORTH BRANCH ST
+132277,zip,60608
+132283,location,"(41.85094352340354
+132386,facilitytype,Restaurant
+132461,address,2637 S THROOP ST 
+132467,address,2637 S THROOP ST 
+132468,address,2637 S THROOP ST 
+132481,address,2637 S THROOP ST 
+132489,address,3800-3804 N CLARK ST
+132500,address,2637 S THROOP ST
+132539,location,"(41.89319255965124
+132543,facilitytype,MOBILE FOOD
+132543,facilitytype,Mobile Food Dispenser
+132666,facilitytype,Restaurant
+132713,location,"(41.75074999598463
+132716,dbaname,GATEWAY NEWSTAND
+132736,facilitytype,Restaurant
+132793,facilitytype,Restaurant
+132795,facilitytype,Restaurant
+132795,facilitytype,Restaurant
+132809,facilitytype,Mobile Food Dispenser
+132817,facilitytype,Mobile Food Dispenser
+132842,address,1400-1402 W BELMONT AVE
+132842,address,1400-1402 W BELMONT AVE
+132852,facilitytype,Mobile Food Dispenser
+132919,facilitytype,Wholesale
+132966,facilitytype,Restaurant
+132966,location,"(41.89319255965124
+132981,dbaname,J'S VITAMINS & MORE
+133041,dbaname,ADLER SCHOOL INC
+133143,facilitytype,Grocery Store
+133166,facilitytype,Restaurant
+133166,facilitytype,Restaurant
+133167,facilitytype,Restaurant
+133167,facilitytype,Restaurant
+133170,facilitytype,Restaurant
+133172,facilitytype,Restaurant
+133182,facilitytype,Grocery Store
+133226,address,1400-1402 W BELMONT AVE
+133288,facilitytype,Restaurant
+133289,location,"(41.879391313239694
+133290,facilitytype,Restaurant
+133307,address,2 W 103RD ST
+133307,address,2 W 103RD ST
+133342,dbaname,HORIZON CAFE
+133410,address,958 - 960 W BELMONT AVE
+133422,address,3904 N CICERO
+133422,dbaname,HONG KONG CHINESE RESTAURANT
+133446,address,3800-3804 N CLARK ST
+133472,dbaname,OBAMA FOOD MART
+133488,address,958 - 960 W BELMONT AVE
+133504,dbaname,INDIE CAFE
+133505,facilitytype,Restaurant
+133506,facilitytype,Restaurant
+133514,address,3632-3640 N PULASKI RD
+133514,address,3632-3640 N PULASKI RD
+133551,dbaname,HALSTED FOODS
+133588,dbaname,HALSTED FOODS
+133604,dbaname,HORIZON CAFE
+133612,address,1800 E 79TH ST
+133612,dbaname,OBAMA FOOD MART
+133676,facilitytype,Grocery Store
+133676,dbaname,TAYLOR MADE DELI
+133707,zip,60623
+133755,dbaname,HALSTED FOODS
+133758,facilitytype,ICE CREAM SHOP
+133860,address,11919 S Avenue O AVE FRNT
+133860,address,11919 S Avenue O AVE FRNT
+133914,dbaname,OBAMA FOOD MART
+133937,facilitytype,Daycare (2 - 6 Years)
