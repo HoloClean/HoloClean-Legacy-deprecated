@@ -25,10 +25,10 @@ class LogReg(torch.nn.Module):
 
         # setup cooccur
 
-        self.cooc_W = Parameter(torch.ones(self.input_dim_non_dc - 1, 1).
-                                expand(-1, self.output_dim))
-
-        self.W = torch.cat((self.init_W, self.cooc_W), 0)
+        # self.cooc_W = Parameter(torch.ones(self.input_dim_non_dc - 1, 1).
+        #                         expand(-1, self.output_dim))
+        #
+        # self.W = torch.cat((self.init_W), 0)
 
         # setup dc
         if self.input_dim_dc > 0:
@@ -40,7 +40,7 @@ class LogReg(torch.nn.Module):
                 self.dc_W = Parameter(
                     torch.randn(self.input_dim_dc, self.output_dim))
 
-            self.W = torch.cat((self.W, self.dc_W), 0)
+            self.W = torch.cat((self.init_W, self.dc_W), 0)
 
     def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init,
                  tie_dc):
@@ -76,12 +76,12 @@ class LogReg(torch.nn.Module):
         if self.input_dim_dc > 0:
             self.W = torch.cat(
                 (self.init_W.expand(
-                    1, self.output_dim), self.cooc_W, self.dc_W.expand(
+                    1, self.output_dim), self.dc_W.expand(
                     self.input_dim_dc, self.output_dim)), 0)
         else:
             self.W = torch.cat(
                 (self.init_W.expand(
-                    1, self.output_dim), self.cooc_W), 0)
+                    1, self.output_dim)), 0)
 
         # calculates n x l matrix output
         output = X.mul(self.W)

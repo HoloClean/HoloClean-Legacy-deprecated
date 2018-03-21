@@ -404,7 +404,7 @@ class Session:
         cooccur_signal = SignalCooccur(attr_constrained,
                                        self.holo_env.dataengine,
                                        self.dataset)
-        self._add_featurizer(cooccur_signal)
+        # self._add_featurizer(cooccur_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
