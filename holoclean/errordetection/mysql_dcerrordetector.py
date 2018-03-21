@@ -31,7 +31,7 @@ class MysqlDCErrorDetection(ErrorDetection):
 
     # Internals
 
-    def _is_symetric(self, dc_name):
+    def _is_symmetric(self, dc_name):
         result = True
         non_sym_ops = ['<=', '>=', '<', '>']
         for op in non_sym_ops:
