@@ -63,7 +63,8 @@ class DatabaseWorker(Thread):
 
             if query == -1:
                 break
-            insert_signal_query = "INSERT INTO " + table_name + "(" + query + ");"
+            insert_signal_query = "INSERT INTO " + table_name + \
+                                  "(" + query + ");"
 
             start_time = time.time()
             if self.holo_env.verbose:

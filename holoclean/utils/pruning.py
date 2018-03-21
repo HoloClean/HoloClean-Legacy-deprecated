@@ -54,12 +54,13 @@ class Pruning:
         self._create_dataframe()
         t7 = time.time()
 
-        session.holo_env.logger.info("_preprop " + str(t2-t1))
-        session.holo_env.logger.info("_analyze_entries " + str(t3-t2))
-        session.holo_env.logger.info("_generate_assignments " + str(t4-t3))
-        session.holo_env.logger.info("_generate_coocurences " + str(t5-t4))
-        session.holo_env.logger.info("_find_cell_domain " + str(t6-t5))
-        session.holo_env.logger.info("_create_dataframe " + str(t7-t6))
+        if session.holo_env.verbose:
+            session.holo_env.logger.info("_preprop " + str(t2-t1))
+            session.holo_env.logger.info("_analyze_entries " + str(t3-t2))
+            session.holo_env.logger.info("_generate_assignments " + str(t4-t3))
+            session.holo_env.logger.info("_generate_coocurences " + str(t5-t4))
+            session.holo_env.logger.info("_find_cell_domain " + str(t6-t5))
+            session.holo_env.logger.info("_create_dataframe " + str(t7-t6))
 
     # Internal Method
     def _d_cell(self):
@@ -512,8 +513,11 @@ class Pruning:
 
         self.dataengine.query(query_observed)
 
-        print "Create dataframe part 1 ", t1 - t0
-        print "Create dataframe part 2 ", time.time() - t1
-        print "Create dataframe total ", time.time() - t0
-
+        if self.session.holo_env.verbose:
+            print "Create dataframe part 1 ", t1 - t0
+            self.session.holo_env.logger.info(" Create dataframe part 1  " +
+                                              str(t1 - t0))
+            print " Persistance ", time.time() - t1
+            self.session.holo_env.logger.info(" Persistance " +
+                                              str(time.time() - t1))
         return

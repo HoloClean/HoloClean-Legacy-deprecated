@@ -389,8 +389,8 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Domain Pruning: ' + str(end - start) + '\n'
+            self.holo_env.logger.info("Total  pruning time:"+str(end - start))
             print log
-            self._timing_to_file(log)
             start = time.time()
 
         attr_constrained = self.parser.get_all_constraint_attributes(
@@ -415,7 +415,9 @@ class Session:
             end = time.time()
             log = 'Time for Featurization: ' + str(end - start) + '\n'
             print log
-            self._timing_to_file(log)
+            self.holo_env.logger.info("Time for Featurization:" +
+                                      str(end - start))
+
             start = time.time()
 
         soft = SoftMax(self.holo_env.dataengine, self.dataset,
@@ -427,7 +429,8 @@ class Session:
             end = time.time()
             log = 'Time for Training Model: ' + str(end - start) + '\n'
             print log
-            self._timing_to_file(log)
+            self.holo_env.logger.info('Time for Training Model: ' +
+                                      str(end - start))
             start = time.time()
 
         self._ds_featurize(clean=0)
@@ -436,18 +439,18 @@ class Session:
             end = time.time()
             log = 'Time for Test Featurization: ' + str(end - start) + '\n'
             print log
-            self._timing_to_file(log)
+            self.holo_env.logger.info('Time for Test Featurization dk: '
+                                      + str(end - start))
             start = time.time()
-
         Y = soft.predict(soft.model, self.X_testing,
                          soft.setupMask(0, self.N, self.L))
-        soft.save_prediction(Y)
 
+        soft.save_prediction(Y)
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Inference: ' + str(end - start) + '\n'
             print log
-            self._timing_to_file(log)
+            self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
         self._create_corrected_dataset()
 
@@ -622,10 +625,11 @@ class Session:
         self.holo_env.logger.info(
             'starting domain pruning with threshold %s',
             pruning_threshold)
+
         self.pruning = Pruning(
             self,
             pruning_threshold)
-        self.holo_env.logger.info('Domain pruning is finished')
+        self.holo_env.logger.info('Domain pruning is finished :')
         return
 
     def _parallel_queries(self,

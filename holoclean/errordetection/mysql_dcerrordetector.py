@@ -1,6 +1,8 @@
 from holoclean.utils.dcparser import DCParser
 from errordetector import ErrorDetection
 from holoclean.global_variables import GlobalVariables
+import time
+
 
 __metaclass__ = type
 
@@ -48,7 +50,10 @@ class MysqlDCErrorDetection(ErrorDetection):
                 :return: spark_dataframe
                 """
 
-        self.holo_obj.logger.info('Denial Constraint Queries For ' + dc_name)
+        if self.holo_obj.verbose:
+            self.holo_obj.logger.info(
+                'Denial Constraint Queries For ' + dc_name)
+        t3 = time.time()
         temp_table = "tmp" + self.dataset.dataset_id
         query = "CREATE TABLE " + temp_table +\
                 " AS SELECT " \
@@ -62,6 +67,10 @@ class MysqlDCErrorDetection(ErrorDetection):
                 " as  t2 " + "WHERE t1." + self.index + \
                 " != t2." + self.index + "  AND " + dc_name
         self.dataengine.query(query)
+        t4 = time.time()
+        if self.holo_obj.verbose:
+            self.holo_obj.logger.info("Time for executing query "
+                                      + dc_name + ":" + str(t4-t3))
 
         t1_attributes = set()
         t2_attributes = set()
