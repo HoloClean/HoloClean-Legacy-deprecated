@@ -99,7 +99,7 @@ class DataEngine:
 
         """
         try:
-            self.db_backend.connect()
+            self.connection = self.db_backend.connect()
             self.holo_env.logger.\
                 info("Connection established to data database")
         except Exception as e:
