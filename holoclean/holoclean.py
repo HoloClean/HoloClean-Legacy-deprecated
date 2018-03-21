@@ -261,6 +261,7 @@ class Session:
         self.pruning = None
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
+        self.cooccur = None
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -702,8 +703,10 @@ class Session:
     def _cooccur_signal(self, clean=1):
         '''
         TO DO: this function should be replace as it bypass the database worker
+        This method updated the X_tensor
 
-        :param clean: variable that show if we are in the training or testing phase
+        :param clean: variable that show if we are in the training or
+        testing phase
         '''
         if clean:
             dictionary = self.cooccur_dicts[0]
@@ -716,7 +719,6 @@ class Session:
             for cooccurance in range(1, len(list_information)):
                 X_tensor[int(vid) - 1, list_information[cooccurance]-1,
                          list_information[0]-1] = 1
-
         if clean:
             self.X_training = X_tensor
         else:

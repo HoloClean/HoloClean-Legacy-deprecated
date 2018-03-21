@@ -375,7 +375,8 @@ class Pruning:
                                                  self.all_cells_temp[
                                                      tmp_cell_index].
                                                 columnname, k_ij])
-  # Create possible table
+        # Create possible table
+
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_clean, StructType([
                 StructField("vid", IntegerType(), True),
