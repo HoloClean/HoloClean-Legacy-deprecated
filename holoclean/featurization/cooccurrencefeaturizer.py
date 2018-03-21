@@ -1,5 +1,7 @@
 from featurizer import Featurizer
 from holoclean.global_variables import GlobalVariables
+from pyspark.sql.types import *
+
 
 
 __metaclass__ = type
@@ -69,7 +71,7 @@ class SignalCooccur(Featurizer):
 
         # Create co-occur feature
         query_for_featurization = \
-            " ( " \
+            "  " \
             "SELECT DISTINCT " \
             "t1.vid as vid, " \
             "t1.domain_id AS assigned_val," \
@@ -88,13 +90,7 @@ class SignalCooccur(Featurizer):
             " t3.value=t2.value AND " + \
             self._get_constraint_attribute('t1', 'attr_name')
 
-        # this will be removed and it will be just an empty list
-        # after the pull request
-        query_for_featurization = \
-            "(select tid, attribute, value, attribute " \
-            " from 514300401728_C_clean_flat where attribute = 'TEMP'"
-
-        return query_for_featurization
+        return [query_for_featurization]
 
     def get_dictionary_cooccur(self):
         """
@@ -125,7 +121,7 @@ class SignalCooccur(Featurizer):
                     vid = cell_informations[0]
                     k_ij = cell_informations[1]
                     clean = cell_informations[2]
-                    if clean:
+                    if clean == 1:
                         cooccur_dict_clean[vid] = []
                         cooccur_dict_clean[vid].append(k_ij)
                         for all_other_attribute in all_attr:
@@ -162,4 +158,7 @@ class SignalCooccur(Featurizer):
                                                 dictionary[all_other_attribute])
                                         cooccur_dict_dk[vid].append(
                                             feature_id)
+
+
         return [cooccur_dict_clean, cooccur_dict_dk]
+

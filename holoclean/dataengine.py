@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 import sqlalchemy as sqla
 from pyspark.sql.types import *
-from utils.reader import Reader
-from pyspark.sql.functions import monotonically_increasing_id
 from global_variables import GlobalVariables
+import csv
 
 
 class DataEngine:
@@ -245,6 +244,10 @@ class DataEngine:
                     create_table = create_table + "INT,"
                 else:
                     create_table = create_table + "VARCHAR(255),"
+            if GlobalVariables.index_name in dataframe.schema.names:
+                create_table = \
+                    create_table + \
+                    " PRIMARY KEY (`" + GlobalVariables.index_name + "`) "
             create_table = create_table[:-1] + " );"
             self.query(create_table)
             self.holo_env.logger.info(create_table)
@@ -392,7 +395,7 @@ class DataEngine:
         """
         index_id = table_name+"_"+attr_name
         sql = "CREATE INDEX " + index_id + " ON " + table_name + \
-              " (" + attr_name + ");"
+              " (`" + attr_name + "`);"
         self.db_backend.execute(sql)
 
     def ingest_data(self, filepath, dataset):
@@ -410,12 +413,24 @@ class DataEngine:
         -------
         No Return
         """
+
         # Spawn new reader and load data into dataframe
-        file_reader = Reader(self.holo_env.spark_session)
-        df = file_reader.read(filepath)
-        if GlobalVariables.index_name in df.schema.names:
+
+        with open(filepath, 'rb') as f:
+            reader = csv.reader(f)
+            read_list = list(reader)
+        attributes = read_list[0]
+        if GlobalVariables.index_name in attributes:
             raise Exception("attribute + " + GlobalVariables.index_name + " not allowed in dataset")
-        df = df.select("*").withColumn(GlobalVariables.index_name, monotonically_increasing_id() + 1)
+        attributes.append(GlobalVariables.index_name)
+        init_list = []
+        for i in range(1, len(read_list)):
+            read_list[i].append(i)
+            init_list.append(read_list[i])
+
+        df = self.holo_env.spark_session.createDataFrame(
+            init_list, attributes
+        )
 
         # Store dataframe to DB table
         schema = df.schema.names
