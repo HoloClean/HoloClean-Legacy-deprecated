@@ -455,7 +455,7 @@ class DataEngine:
 
         for table_tuple in map_schema:
             self.attribute_map[table_tuple[1]] = table_tuple[0]
-        return
+        return df
 
     def query(self, sql_query, spark_flag=0):
         """

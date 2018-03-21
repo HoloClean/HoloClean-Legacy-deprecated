@@ -1,4 +1,4 @@
-akaname,inspectionid,City,State,Results,longitude,latitude,InspectionDate,risk,Location,license,FacilityType,Address,inspectiontype,DBAName,Zip
+akaname,inspectionid,city,state,results,longitude,latitude,inspectiondate,risk,location,license,facilitytype,address,inspectiontype,dbaname,zip
 SUNRISE GYROS INC.,1967112,CHICAGO,IL,Pass,-87.65378117,41.74659471,20161024,Risk 2 (Medium),(41.746594707551054,1959206,Restaurant,8106 S RACINE AVE ,Complaint,SUNRISE GYROS INC.,60620
 TAQUERIA LOS COMALES # 12,1967089,CHICAGO,IL,Pass,-87.72273813,41.7830976,20161024,Risk 1 (High),(41.78309760160854,65987,Restaurant,6035 S PULASKI RD ,Complaint Re-Inspection,TAQUERIA LOS COMALES # 12,60629
 RENALDI'S PIZZA,1967085,CHICAGO,IL,Pass,-87.64454293,41.93353571,20161024,Risk 1 (High),(41.933535705306504,2252464,Restaurant,2827-2831 N BROADWAY ,Complaint Re-Inspection,RENALDI'S PIZZA,60657

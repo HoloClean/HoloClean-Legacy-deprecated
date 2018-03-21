@@ -277,8 +277,7 @@ class Session:
 
         self._ingest_dataset(file_path)
 
-        init = self.holo_env.dataengine.get_table_to_dataframe(
-            'Init', self.dataset)
+        init = self.init_dataset
 
         if self.holo_env.verbose:
             end = time.time()
@@ -361,10 +360,8 @@ class Session:
         self._add_error_detector(err_detector)
         self._ds_detect_errors()
 
-        clean = self.holo_env.dataengine.get_table_to_dataframe(
-            'C_clean', self.dataset)
-        dk = self.holo_env.dataengine.get_table_to_dataframe(
-            'C_dk', self.dataset)
+        clean = self.clean_df
+        dk = self.dk_df
 
         if self.holo_env.verbose:
             end = time.time()
@@ -485,7 +482,7 @@ class Session:
         No Return
         """
         self.holo_env.logger.info('ingesting file:' + src_path)
-        self.holo_env.dataengine.ingest_data(src_path, self.dataset)
+        self.init_dataset = self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         self.holo_env.logger.info(
             'creating dataset with id:' +
             self.dataset.print_id())
@@ -590,6 +587,8 @@ class Session:
             union_clean_cells = union_clean_cells.unionAll(
                 clean_cells[detector_counter])
 
+        self.clean_df = union_clean_cells
+
         self.holo_env.dataengine.add_db_table(
             'C_clean', union_clean_cells, self.dataset)
 
@@ -598,8 +597,11 @@ class Session:
                                   " has been created")
         self.holo_env.logger.info("  ")
 
+        self.dk_df = intersect_dk_cells
+
         self.holo_env.dataengine.add_db_table(
             'C_dk', intersect_dk_cells, self.dataset)
+
 
         self.holo_env.logger.info('The table: ' +
                                   self.dataset.table_specific_name('C_dk') +

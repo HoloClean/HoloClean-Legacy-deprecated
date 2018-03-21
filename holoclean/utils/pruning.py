@@ -67,8 +67,7 @@ class Pruning:
         """
                 Create noisy_cell list from the C_dk table
         """
-        dataframe_dont_know = \
-            self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
+        dataframe_dont_know = self.session.dk_df
         noisy_cells = []
         self.noisy_list = []
         for cell in dataframe_dont_know.collect():
@@ -84,8 +83,7 @@ class Pruning:
         """
                 Create clean_cell list from the C_clean table
         """
-        dataframe_clean = \
-            self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
+        dataframe_clean = self.session.clean_df
         clean_cells = []
         self.clean_list = []
         for cell in dataframe_clean.collect():
@@ -100,7 +98,7 @@ class Pruning:
                 Create c_value list from the init table
         """
         dataframe_init = \
-            self.dataengine.get_table_to_dataframe("Init", self.dataset)
+            self.session.init_dataset
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
