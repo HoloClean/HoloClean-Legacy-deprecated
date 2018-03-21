@@ -1,4 +1,5 @@
 from threading import Thread, Lock, Condition
+from holoclean.dataengine import DataEngine
 import threading
 import time
 from collections import deque
@@ -21,7 +22,7 @@ class DatabaseWorker(Thread):
         Thread.__init__(self)
         self.session = session
         self.holo_env = self.session.holo_env
-        self.dataengine = self.holo_env.dataengine
+        self.dataengine = DataEngine(self.holo_env)
         self.dataset = self.session.dataset
         self.barrier = barrier
         self.X = None
