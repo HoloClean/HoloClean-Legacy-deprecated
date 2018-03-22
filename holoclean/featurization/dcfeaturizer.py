@@ -145,7 +145,6 @@ class SignalDC(Featurizer):
                                    + " < t2." + \
                                    GlobalVariables.index_name
 
-
                 for predicate_index_temp in range(0, len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
                         relax_dc = relax_dc + " AND  " + \
