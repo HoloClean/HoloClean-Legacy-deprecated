@@ -45,8 +45,8 @@ This file will go through the steps needed to install the required packages and 
  <b>For 32 bit machines, run:</b>
  
  ```
- wget https://3230d63b5fc54e62148ec95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86.sh
-bash Anaconda-2.3.0-Linux-x86.sh
+ wget  wget https://repo.continuum.io/archive/Anaconda-2.3.0-Linux-x86.sh
+ bash Anaconda-2.3.0-Linux-x86.sh
  ```
 
 <b>For 64 bit machines, run: </b>
