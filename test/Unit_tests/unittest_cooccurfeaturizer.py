@@ -36,9 +36,9 @@ class TestCooccurFeaturizer(unittest.TestCase):
         del self.session
 
     def test_Cooccur_query_for_clean(self):
-        query = self.cooccur_signal.get_query()
+        query = self.cooccur_signal.get_query()[0]
         Cooccur_feature_dataframe = \
-            holo_obj.dataengine.query(query[2:], 1)
+            holo_obj.dataengine.query(query, 1)
 
         anticipated_C_clean_cells = [["1", "2", "7", "1", ],
                                      ["1", "2", "9", "1"],
@@ -55,9 +55,9 @@ class TestCooccurFeaturizer(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_Cooccur_query_for_dk(self):
-        query = self.cooccur_signal.get_query(0)
+        query = self.cooccur_signal.get_query(0)[0]
         Cooccur_feature_dataframe = \
-            holo_obj.dataengine.query(query[2:], 1)
+            holo_obj.dataengine.query(query, 1)
 
         anticipated_C_dk_cells = [[1, 1, 3, 1], [1, 1, 5, 1],
                                   [1, 1, 8, 1], [2, 1, 1, 1],
