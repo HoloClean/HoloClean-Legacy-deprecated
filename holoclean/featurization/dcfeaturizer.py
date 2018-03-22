@@ -69,6 +69,7 @@ class SignalDC(Featurizer):
         :return: A list of all relaxed DC's for dc_name
         """
         relax_dcs = []
+        index_name = GlobalVariables.index_name
         dc_predicates = dictionary_dc[dc_name]
         for predicate_index in range(0, len(dc_predicates)):
             predicate_type = dc_predicates[predicate_index][4]
@@ -98,52 +99,37 @@ class SignalDC(Featurizer):
                 table_name = self._comparison_table_name(name_attribute[0])
                 if relax_index == 2:
                     relax_dc = "postab.tid = " + name_attribute[0] +\
-                               "." + GlobalVariables.index_name + " AND " + \
+                               "." + index_name + " AND " + \
                                "postab.attr_name ='" + name_attribute[1] +\
                                "' AND " + "postab.attr_val" + operation + \
                                component2
 
-                    name_attribute_temp = \
-                        component2.split(".")
-
-                    if len(name_attribute_temp) > 1:
-                        if name_attribute_temp[1] != name_attribute[1]:
-                            relax_dc = relax_dc + " AND  t1." +\
-                                       GlobalVariables.index_name + " <> t2." +\
-                                       GlobalVariables.index_name
-                        else:
-                            relax_dc = relax_dc + " AND  t1." +\
-                                       GlobalVariables.index_name + " < t2." +\
-                                       GlobalVariables.index_name
-                    else:
-                        relax_dc = relax_dc + " AND  t1." + \
-                                   GlobalVariables.index_name + " < t2." + \
-                                   GlobalVariables.index_name
-
+                    name_attribute_temp = component2.split(".")
                 else:
                     relax_dc = "postab.tid = " + name_attribute[0] + \
-                               "." + GlobalVariables.index_name + " AND " + \
+                               "." + index_name + " AND " + \
                                "postab.attr_name = '" + name_attribute[1] + \
                                "' AND " + component1 + operation + \
                                "postab.attr_val"
 
                     name_attribute_temp = component1.split(".")
-                    if len(name_attribute_temp) > 1:
-                        if name_attribute_temp[1] != name_attribute[1]:
-                            relax_dc = relax_dc + " AND  t1." + \
-                                       GlobalVariables.index_name +\
-                                       " <> t2." + \
-                                       GlobalVariables.index_name
-                        else:
-                            relax_dc = relax_dc + " AND  t1." + \
-                                       GlobalVariables.index_name \
-                                       + " < t2." + \
-                                       GlobalVariables.index_name
+
+                if predicate_type == 0:
+                    if name_attribute_temp[1] != name_attribute[1]:
+                        relax_dc = relax_dc + " AND  t1." + \
+                                   index_name +\
+                                   " <> t2." + \
+                                   index_name
                     else:
                         relax_dc = relax_dc + " AND  t1." + \
-                                   GlobalVariables.index_name \
+                                   index_name \
                                    + " < t2." + \
-                                   GlobalVariables.index_name
+                                   index_name
+                else:
+                    relax_dc = relax_dc + " AND  t1." + \
+                               index_name \
+                               + " < t2." + \
+                               index_name
 
                 for predicate_index_temp in range(0, len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
