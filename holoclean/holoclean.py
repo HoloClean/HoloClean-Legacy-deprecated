@@ -261,6 +261,7 @@ class Session:
         self.pruning = None
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
+        self.cooccur = None
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -269,6 +270,7 @@ class Session:
 
     def load_data(self, file_path):
         """ Loads a dataset from file into the database
+
         :param file_path: path to data file
         :return: pyspark dataframe
         """
@@ -401,9 +403,7 @@ class Session:
                                  self.dataset)
         self._add_featurizer(init_signal)
 
-        cooccur_signal = SignalCooccur(attr_constrained,
-                                       self.holo_env.dataengine,
-                                       self.dataset)
+        cooccur_signal = SignalCooccur(self, attr_constrained)
         self._add_featurizer(cooccur_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
@@ -522,11 +522,15 @@ class Session:
             ).collect()[0]['max']
             index = maximum + 1
             list_domain_map = []
+            self.cooccur_dict_feature = {}
             for attribute in self.pruning.domain_dict:
                 value_index = 1
                 for value in self.pruning.domain_dict[attribute]:
                     list_domain_map.append(
                         [index, attribute, unicode(value), 'cooccur'])
+                    if attribute not in self.cooccur_dict_feature:
+                        self.cooccur_dict_feature[attribute] = {}
+                    self.cooccur_dict_feature[attribute][unicode(value)] = index
                     value_index += 1
                     index += 1
             df_domain_map = self.holo_env.spark_session.createDataFrame(
@@ -536,13 +540,19 @@ class Session:
                     StructField("value", StringType(), False),
                     StructField("Type", StringType(), False),
                 ]))
+            self.cooccur = True
             self.holo_env.dataengine.add_db_table(
                 'Feature_id_map', df_domain_map, self.dataset, append=1)
+            self.cooccur_dicts = new_featurizer.get_dictionary_cooccur()
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
         self.holo_env.logger.info(
             'getting new signal for featurization is finished')
         return
+
+    def feature_id_cooccur(self, attribute, value):
+        return self.cooccur_dict_feature[attribute][value]
+
 
     def _add_error_detector(self, new_error_detector):
         """Add a new error detector
@@ -680,10 +690,39 @@ class Session:
             self.X_training = X_training
             self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
+            if self.cooccur:
+                self._cooccur_signal(clean)
         else:
             self.X_testing = X_testing
             self.holo_env.logger.info("The X-Tensor_testing has been created")
             self.holo_env.logger.info("  ")
+            if self.cooccur:
+                self._cooccur_signal(clean)
+        return
+
+    def _cooccur_signal(self, clean=1):
+        '''
+        TO DO: this function should be replace as it bypass the database worker
+        This method updated the X_tensor
+
+        :param clean: variable that show if we are in the training or
+        testing phase
+        '''
+        if clean:
+            dictionary = self.cooccur_dicts[0]
+            X_tensor = self.X_training
+        else:
+            dictionary = self.cooccur_dicts[1]
+            X_tensor = self.X_testing
+        for vid in dictionary:
+            list_information = dictionary[vid]
+            for cooccurance in range(1, len(list_information)):
+                X_tensor[int(vid) - 1, list_information[cooccurance]-1,
+                         list_information[0]-1] = 1
+        if clean:
+            self.X_training = X_tensor
+        else:
+            self.X_testing = X_tensor
         return
 
     def _ds_featurize(self, clean=1):
