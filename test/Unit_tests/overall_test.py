@@ -23,9 +23,7 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        self.detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                              holo_obj,
-                                              self.session.dataset)
+        self.detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(self.detector)
         self.attr_constrained = \
             self.session.parser.get_all_constraint_attributes(
@@ -33,9 +31,6 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.init_signal = SignalInit(self.attr_constrained,
                                       holo_obj.dataengine,
                                       self.session.dataset)
-
-    def tearDown(self):
-        del self.session
 
     def test_number_of_dk_cells(self):
         dataframe_C_dk = holo_obj.dataengine.get_table_to_dataframe(
@@ -82,15 +77,17 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_load_denial_constraints(self):
-        dcs = self.session.load_denial_constraints(
+        session = Session(holo_obj)
+        dataset = "../../datasets/unit_test/unit_test_dataset.csv"
+        session.load_data(dataset)
+        dcs = session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
         expected = ['t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)',
                     't1&t2&EQ(t1.C,"f")&EQ(t2.C,"m")&EQ(t1.E,t2.E)']
         self.assertEqual(dcs, expected)
 
     def test_check_dc_format(self):
-        dcs = self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
+        dcs = self.session.Denial_constraints
 
         dc = 't1&t2&EQ(t1.A,t2.A)&IQ(t1.,t2.B)'
         try:
@@ -117,16 +114,13 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.assertEqual(dc, self.session.parser.check_dc_format(dc, dcs))
 
     def test_get_CNF_of_dcs(self):
-        dcs = self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
+        dcs = self.session.Denial_constraints
         expected = ['t1.A=t2.A AND t1.B<>t2.B',
                     't1.C="f" AND t2.C="m" AND t1.E=t2.E']
         self.assertEqual(self.session.parser.get_CNF_of_dcs(dcs), expected)
 
     def test_create_dc_map(self):
-        dcs = self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt"
-        )
+        dcs = self.session.Denial_constraints
         cnf_dcs = self.session.parser.get_CNF_of_dcs(dcs)
         expected = {
             't1.A=t2.A AND t1.B<>t2.B':
@@ -157,8 +151,6 @@ class TestMysqlErrordetector(unittest.TestCase):
                 ]
         }
         self.assertEqual(self.session.parser.create_dc_map(cnf_dcs), expected)
-
-
 
 
 if __name__ == "__main__":
