@@ -7,6 +7,9 @@ class Dataset:
         'Init',
         'C_clean',
         'C_dk',
+        'C_dk_temp',
+        'T1_attributes',
+        'T2_attributes',
         'Possible_values_clean',
         'Possible_values_dk',
         'Observed_Possible_values_clean',
@@ -40,6 +43,7 @@ class Dataset:
             C_clean : table with index of clean cells
             C_dk : is table of indices that we don't know they
              are noisy or clean
+            C_dk_temp: table used for temporary result of error detectors
             Possible_values_clean:  table of all possible values
              for the clean cells
             Possible_values_dk: is the table of all possible

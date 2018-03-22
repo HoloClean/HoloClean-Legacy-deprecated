@@ -70,6 +70,7 @@ class DatabaseWorker(Thread):
                 msg = str(threading.currentThread().getName()) +\
                     " Query Started "
                 self.holo_env.logger.info(msg)
+                print insert_signal_query
                 printLock.release()
             self.dataengine.query(insert_signal_query)
 

@@ -21,9 +21,7 @@ class TestInitFeaturizer(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session.Denial_constraints,
-                                         holo_obj,
-                                         self.session.dataset)
+        detector = MysqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
         self.attr_constrained = \
             self.session.parser.get_all_constraint_attributes(
@@ -36,10 +34,10 @@ class TestInitFeaturizer(unittest.TestCase):
         del self.session
 
     def test_Init_query_for_clean(self):
-        query = self.init_signal.get_query()
+        query = self.init_signal.get_query()[0]
         self.session._ds_domain_pruning(0.5)
         Int_feature_dataframe = \
-            holo_obj.dataengine.query(query[2:], 1)
+            holo_obj.dataengine.query(query, 1)
 
         anticipated_Init_feature_C_clean_cells = [
             ["1", "2", "1", "1"], ["2", "1", "1", "1"]]
@@ -55,10 +53,10 @@ class TestInitFeaturizer(unittest.TestCase):
         self.assertEquals(incorrect.count(), 0)
 
     def test_Init_query_for_dk(self):
-        query = self.init_signal.get_query(0)
+        query = self.init_signal.get_query(0)[0]
         self.session._ds_domain_pruning(0.5)
         Int_feature_dataframe = \
-            holo_obj.dataengine.query(query[2:], 1)
+            holo_obj.dataengine.query(query, 1)
 
         anticipated_Init_feature_C_dk_cells = [["1", "1", "1", "1"],
                                                ["2", "1", "1", "1"],
