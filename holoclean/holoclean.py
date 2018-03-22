@@ -776,6 +776,16 @@ class Session:
             self.N = dimension_dict['N']
             self.L = dimension_dict['L']
         return
+    
+    def reset_database(self):
+        """
+           we drop and re-create the database
+        """
+        query = "DROP DATABASE " + self.holo_env.db_name + ";"
+        self.holo_env.dataengine.query(query)
+
+        query = "CREATE DATABASE " + self.holo_env.db_name + ";"
+        self.holo_env.dataengine.query(query)
 
     def _create_corrected_dataset(self):
         """
