@@ -9,8 +9,11 @@ class Testing:
     def __init__(self):
         self.holo_obj = HoloClean(
             mysql_driver="../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
-            verbose=False,
-            timing_file='execution_time.txt')
+            verbose=True,
+            timing_file='execution_time.txt',
+            learning_iterations=100,
+            learning_rate=0.0005,
+            batch_size=20)
         self.session = Session(self.holo_obj)
 
     def test(self):

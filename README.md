@@ -73,7 +73,7 @@ Then the environment can be activated by running:
 update and upgrade your apt-get:
 ```
 sudo apt-get update	
-sudo apt-get upgrade
+sudo apt-get install libmysqlclient-dev
 ```
 Install MySQL by running:
 ```
@@ -100,14 +100,7 @@ Go to the root directory and run the script:
 ```
 ./mysql_script.sh
 ```
-
-### 3. Installing Required Packages
-Again go to the repo's root directory directory and run:
-```
-pip install -r python-package-requirement.txt
-```
-
-### 4. Installing Pytorch
+### 3. Installing Pytorch
 
 Follow instructions for your OS at:
 http://pytorch.org/
@@ -117,6 +110,14 @@ make sure to use Python 2.7 for installation (the other settings can be left as 
 <br>
 Make sure to install <b>version 0.3.0</b> or later
 <br>
+
+### 4. Installing Required Packages
+Again go to the repo's root directory directory and run:
+```
+pip install -r python-package-requirement.txt
+```
+
+
 
 ### 5. Install JDK 8
 <b> 5.1 For Ubuntu: </b>
