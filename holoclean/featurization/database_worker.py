@@ -109,6 +109,7 @@ class DatabaseWorker(Thread):
             printLock.release()
         drop_table = "DROP TABLE " + table_name
         self.dataengine.query(drop_table)
+        self.dataengine.connection.close()
 
 
 class QueryProducer(Thread):

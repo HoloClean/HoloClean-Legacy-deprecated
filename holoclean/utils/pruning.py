@@ -343,7 +343,6 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-
                 self.domain_dict[attribute].add(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
