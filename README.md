@@ -100,6 +100,33 @@ Go to the root directory and run the script:
 ```
 ./mysql_script.sh
 ```
+This script sets up the mysql database 'holo' and the user 'holocleaunUser' that HoloClean uses.
+
+<b> 2.4 Using MySQL User </b>
+
+To access the tables Holoclean creates, open MySQL with:
+```
+mysql -u holocleanUser -p
+```
+The default password for holocleanUser is abcd1234
+Once MySQL has started you can access the holo database with the command
+```
+use holo
+```
+<b> 2.5 Clearning the database holo </b>
+
+HoloClean currently appends new tables to the database holo with each instance that is ran.
+To clear the database, open MySql with holocleanUser and run:
+```
+drop database holo;
+create database holo;
+```
+
+Or alternatively use the function <b>reset_database()</b> function in the Session class in holoclean/holoclean.py
+
+
+
+
 ### 3. Installing Pytorch
 
 Follow instructions for your OS at:
