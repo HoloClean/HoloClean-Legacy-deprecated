@@ -9,7 +9,7 @@ class Testing:
     def __init__(self):
         self.holo_obj = HoloClean(
             mysql_driver="../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
-            verbose=True,
+            verbose=False,
             timing_file='execution_time.txt')
         self.session = Session(self.holo_obj)
 
@@ -23,7 +23,7 @@ class Testing:
 
         denial_constraints = "../tutorial/data/hospital_constraints.txt"
         # denial_constraints = "../datasets/flights/flight_constraints.txt"
-        # denial_constraints = "../datasets/food/food_constraints1.txt"
+        # denial_constraints = "../datasets/food/food_constraints.txt"
         # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
 
         flattening = 0
