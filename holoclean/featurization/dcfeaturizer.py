@@ -92,12 +92,12 @@ class SignalDC(Featurizer):
                     '1: if the predicate has a literal in the left side,'
                     '2: if the predicate has a literal in right side'
                 )
-            for relax_index in relax_indices:
+            for component_index in relax_indices:
                 name_attribute = \
-                    dc_predicates[predicate_index][relax_index].split(".")
+                    dc_predicates[predicate_index][component_index].split(".")
                 self.attributes_list.append(name_attribute[1])
                 table_name = self._comparison_table_name(name_attribute[0])
-                if relax_index == 2:
+                if component_index == 2:
                     relax_dc = "postab.tid = " + name_attribute[0] +\
                                "." + index_name + " AND " + \
                                "postab.attr_name ='" + name_attribute[1] +\
