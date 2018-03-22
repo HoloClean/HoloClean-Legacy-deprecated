@@ -108,15 +108,15 @@ class SignalDC(Featurizer):
 
                     if len(name_attribute_temp) > 1:
                         if name_attribute_temp[1] != name_attribute[1]:
-                            relax_dc = relax_dc + " and  t1." +\
+                            relax_dc = relax_dc + " AND  t1." +\
                                        GlobalVariables.index_name + " <> t2." +\
                                        GlobalVariables.index_name
                         else:
-                            relax_dc = relax_dc + " and  t1." +\
+                            relax_dc = relax_dc + " AND  t1." +\
                                        GlobalVariables.index_name + " < t2." +\
                                        GlobalVariables.index_name
                     else:
-                        relax_dc = relax_dc + " and  t1." + \
+                        relax_dc = relax_dc + " AND  t1." + \
                                    GlobalVariables.index_name + " < t2." + \
                                    GlobalVariables.index_name
 
@@ -130,17 +130,17 @@ class SignalDC(Featurizer):
                     name_attribute_temp = component1.split(".")
                     if len(name_attribute_temp) > 1:
                         if name_attribute_temp[1] != name_attribute[1]:
-                            relax_dc = relax_dc + " and  t1." + \
+                            relax_dc = relax_dc + " AND  t1." + \
                                        GlobalVariables.index_name +\
                                        " <> t2." + \
                                        GlobalVariables.index_name
                         else:
-                            relax_dc = relax_dc + " and  t1." + \
+                            relax_dc = relax_dc + " AND  t1." + \
                                        GlobalVariables.index_name \
                                        + " < t2." + \
                                        GlobalVariables.index_name
                     else:
-                        relax_dc = relax_dc + " and  t1." + \
+                        relax_dc = relax_dc + " AND  t1." + \
                                    GlobalVariables.index_name \
                                    + " < t2." + \
                                    GlobalVariables.index_name
