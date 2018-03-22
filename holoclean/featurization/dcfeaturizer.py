@@ -102,12 +102,49 @@ class SignalDC(Featurizer):
                                "postab.attr_name ='" + name_attribute[1] +\
                                "' AND " + "postab.attr_val" + operation + \
                                component2
+
+                    name_attribute_temp = \
+                        component2.split(".")
+
+                    if len(name_attribute_temp) > 1:
+                        if name_attribute_temp[1] != name_attribute[1]:
+                            relax_dc = relax_dc + " and  t1." +\
+                                       GlobalVariables.index_name + " <> t2." +\
+                                       GlobalVariables.index_name
+                        else:
+                            relax_dc = relax_dc + " and  t1." +\
+                                       GlobalVariables.index_name + " < t2." +\
+                                       GlobalVariables.index_name
+                    else:
+                        relax_dc = relax_dc + " and  t1." + \
+                                   GlobalVariables.index_name + " < t2." + \
+                                   GlobalVariables.index_name
+
                 else:
                     relax_dc = "postab.tid = " + name_attribute[0] + \
                                "." + GlobalVariables.index_name + " AND " + \
                                "postab.attr_name = '" + name_attribute[1] + \
                                "' AND " + component1 + operation + \
                                "postab.attr_val"
+
+                    name_attribute_temp = component1.split(".")
+                    if len(name_attribute_temp) > 1:
+                        if name_attribute_temp[1] != name_attribute[1]:
+                            relax_dc = relax_dc + " and  t1." + \
+                                       GlobalVariables.index_name +\
+                                       " <> t2." + \
+                                       GlobalVariables.index_name
+                        else:
+                            relax_dc = relax_dc + " and  t1." + \
+                                       GlobalVariables.index_name \
+                                       + " < t2." + \
+                                       GlobalVariables.index_name
+                    else:
+                        relax_dc = relax_dc + " and  t1." + \
+                                   GlobalVariables.index_name \
+                                   + " < t2." + \
+                                   GlobalVariables.index_name
+
 
                 for predicate_index_temp in range(0, len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
@@ -156,7 +193,8 @@ class SignalDC(Featurizer):
                                       "postab.domain_id AS assigned_val, " + \
                                       str(count) + " AS feature, " \
                                       "  count(" + table_name + \
-                                      "." + GlobalVariables.index_name + ") as count " \
+                                      "." + GlobalVariables.index_name +\
+                                      ") as count " \
                                       "  FROM " + \
                                       self.dataset. \
                                       table_specific_name('Init') + \
@@ -166,7 +204,6 @@ class SignalDC(Featurizer):
                                       " as t2," + \
                                       possible_table_name + " as postab" \
                                       " WHERE (" + \
-                                      " t1." + GlobalVariables.index_name + " < t2." + GlobalVariables.index_name + " AND " + \
                                       relax_dc + \
                                       ") GROUP BY postab.vid, postab.domain_id"
             dc_queries.append(query_for_featurization)
