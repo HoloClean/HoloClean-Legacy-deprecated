@@ -1,3 +1,4 @@
+
 import sys
 sys.path.append("..")
 from holoclean.holoclean import HoloClean, Session
@@ -10,28 +11,32 @@ class Testing:
         self.holo_obj = HoloClean(
             mysql_driver="../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
             verbose=True,
-            timing_file='execution_time.txt')
+            timing_file='execution_time.txt',
+            learning_iterations=100,
+            learning_rate=0.0005,
+            batch_size=20)
         self.session = Session(self.holo_obj)
 
     def test(self):
 
         t1 = time.time()
-        dataset = "../tutorial/data/hospital_dataset.csv"
-        # dataset = "../datasets/flights/flight_input_holo.csv"
-        # dataset = "../datasets/food/food_input_holo.csv"
+        #dataset = "../tutorial/data/hospital_dataset.csv"
+        #dataset = "../datasets/flights/flight_input_holo.csv"
+        dataset = "../datasets/food/food_input_medium.csv"
+
         # dataset = "../datasets/unit_test/unit_test_dataset.csv"
 
-        denial_constraints = "../tutorial/data/hospital_constraints.txt"
+        # denial_constraints = "../tutorial/data/hospital_constraints.txt"
         # denial_constraints = "../datasets/flights/flight_constraints.txt"
-        # denial_constraints = "../datasets/food/food_constraints1.txt"
+        denial_constraints = "../datasets/food/food_constraints.txt"
         # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
 
         flattening = 0
         # flattening = 1
 
-        ground_truth = "../tutorial/data/groundtruth.csv"
+        #ground_truth = "../tutorial/data/groundtruth.csv"
         # ground_truth = "../datasets/flights/flights_clean.csv"
-        # ground_truth = "../datasets/food/food_clean.csv"
+        ground_truth = "../datasets/food/food_clean.csv"
         # ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints

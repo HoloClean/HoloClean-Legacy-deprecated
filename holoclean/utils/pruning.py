@@ -331,7 +331,7 @@ class Pruning:
         domain_kij_dk = []
         for attribute in attributes:
             if attribute != GlobalVariables.index_name:
-                self.domain_dict[attribute] = []
+                self.domain_dict[attribute] = set()
 
         possible_values_clean = []
         possible_values_dirty = []
@@ -343,8 +343,8 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-                if value not in self.domain_dict[attribute]:
-                    self.domain_dict[attribute].append(value)
+
+                self.domain_dict[attribute].add(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     c_dk.append([tuple_id + 1, attribute, value])
