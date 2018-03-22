@@ -510,11 +510,4 @@ class Pruning:
 
         self.dataengine.query(query_observed)
 
-        if self.session.holo_env.verbose:
-            print "Create dataframe part 1 ", t1 - t0
-            self.session.holo_env.logger.info(" Create dataframe part 1  " +
-                                              str(t1 - t0))
-            print " Persistance ", time.time() - t1
-            self.session.holo_env.logger.info(" Persistance " +
-                                              str(time.time() - t1))
         return
