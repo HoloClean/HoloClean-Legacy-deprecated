@@ -2,12 +2,8 @@
 import sqlalchemy as sqla
 from pyspark.sql.types import *
 from global_variables import GlobalVariables
-<<<<<<< HEAD
 from utils.reader import Reader
-=======
-import csv
 import psycopg2
->>>>>>> origin/pg-ihab
 
 
 class DataEngine:
