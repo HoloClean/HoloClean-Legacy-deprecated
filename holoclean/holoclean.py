@@ -287,7 +287,7 @@ class Session:
                 t_file = open(self.holo_env.timing_file, 'w')
                 t_file.write(log)
         attributes = \
-            self.holo_env.dataengine.get_schema(self.dataset, 'Init').split(',')
+            self.holo_env.dataengine.get_schema(self.dataset).split(',')
         for attribute in attributes:
             self.holo_env.dataengine.add_db_table_index(
                 self.dataset.table_specific_name('Init'), attribute)

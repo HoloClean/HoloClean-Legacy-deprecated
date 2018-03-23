@@ -325,7 +325,7 @@ class Pruning:
         :return:
         """
         t0 = time.time()
-        attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
+        attributes = self.dataengine.get_schema(self.dataset).split(',')
         self.domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []

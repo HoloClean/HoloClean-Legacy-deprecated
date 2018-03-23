@@ -92,6 +92,7 @@ class Dataset:
         No Return
         """
         self.attribute = {}
+        self.schema = ""
         self.dataset_tables_specific_name = []
         for a in Dataset.attributes:
             self.attribute[a] = 0

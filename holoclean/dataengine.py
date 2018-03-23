@@ -278,7 +278,7 @@ class DataEngine:
         return dataframe
 
     # Getters
-    def get_schema(self, dataset, table_general_name):
+    def get_schema(self, dataset):
         """
         Getting the schema of MySQL table using "table_general_name" and
                 "dataset" to identify the table specific name
@@ -288,27 +288,15 @@ class DataEngine:
         :param dataset: DataSet
             A dataset object used to store the ID
             of the current HoloClean Session
-        :param table_general_name: String
-            The string literal of the table name
 
         Returns
         -------
         :return: dataframe : String
             If successful will return a string of the schema with the
             column names separated by commas otherwise
-            will return "No such element"
+            will return empty string
         """
-        sql_query = "SELECT schem FROM metatable Where dataset_id = '" + \
-                    dataset.dataset_id + "' AND  tablename = '" + \
-                    table_general_name + "';"
-
-        df = self.query(sql_query, 0)
-
-        try:
-            return df.cursor._rows[0][0]
-        except Exception as e:
-            self.holo_env.logger.error('No such element', exc_info=e)
-            return "No such element"
+        return dataset.schema
 
     def get_table_to_dataframe(self, table_name, dataset):
         """
@@ -422,12 +410,10 @@ class DataEngine:
         schema = df.schema.names
         name_table = self._add_info_to_meta('Init', schema, dataset)
         self._dataframe_to_table(name_table, df)
-        table_attribute_string = self.get_schema(
-            dataset, "Init")
+        dataset.schema = ','.join(schema)
         count = 0
         map_schema = []
-        attributes = table_attribute_string.split(',')
-        for attribute in attributes:
+        for attribute in schema:
             if attribute != GlobalVariables.index_name:
                 count = count + 1
                 map_schema.append([count, attribute])

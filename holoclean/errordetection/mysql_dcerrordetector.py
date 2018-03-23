@@ -257,7 +257,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         Return a dataframe that consist of index of clean cells index,attribute
         :return:
         """
-        all_attr = self.dataengine.get_schema(self.dataset, "Init").split(
+        all_attr = self.dataengine.get_schema(self.dataset).split(
             ',')
         all_attr.remove(self.index)
         number_of_tuples = \

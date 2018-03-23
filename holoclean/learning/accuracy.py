@@ -40,7 +40,7 @@ class Accuracy:
     def _flatting(self):
 
         table_rv_attr_string = self.dataengine.get_schema(
-            self.dataset, "Correct")
+            self.dataset).remove(GlobalVariables.index_name)
         rv_attrs = table_rv_attr_string.split(',')
         print rv_attrs
 

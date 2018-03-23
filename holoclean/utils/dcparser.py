@@ -161,7 +161,7 @@ class DCParser:
         :param dataset:
         :return: list of all attributes
         """
-        all_list = dataengine.get_schema(dataset, "Init")
+        all_list = dataengine.get_schema(dataset)
         all_attributes = all_list.split(',')
         all_attributes.remove(GlobalVariables.index_name)
         return all_attributes
