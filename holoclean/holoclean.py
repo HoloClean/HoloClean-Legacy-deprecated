@@ -462,10 +462,7 @@ class Session:
             print log
             self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
-        self._create_corrected_dataset()
-
-        return self.holo_env.dataengine.get_table_to_dataframe(
-            'Repaired_dataset', self.dataset)
+        return self._create_corrected_dataset()
 
     def compare_to_truth(self, truth_path):
         """
@@ -821,4 +818,4 @@ class Session:
         correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
-        return correct
+        return correct_dataframe
