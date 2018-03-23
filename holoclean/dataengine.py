@@ -4,6 +4,7 @@ from pyspark.sql.types import *
 from global_variables import GlobalVariables
 from utils.reader import Reader
 import psycopg2
+import sys
 
 
 class DataEngine:
@@ -198,8 +199,8 @@ class DataEngine:
 
         url = self.sparkSqlUrl
 
-        dataframe = self.sql_ctxt.read.format('jdbc').\
-            options(url=url[0], dbtable="(" + sql_query + ") as tablename", properties=url[1]).load()
+        dataframe = self.sql_ctxt.read.\
+            jdbc (url=url[0], table="(" + sql_query + ") as tablename", properties=url[1])
 
         return dataframe
 
@@ -362,5 +363,5 @@ class DataEngine:
                 return result
         except Exception as e:
             self.holo_env.logger.error('Could not execute Query' + sql_query,exc_info=e)
-            return 0
+            sys.exit(0)
 

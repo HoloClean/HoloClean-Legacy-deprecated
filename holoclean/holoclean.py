@@ -464,9 +464,8 @@ class Session:
 
         self._create_corrected_dataset()
 
-        return self.holo_env.dataengine.get_table_to_dataframe(
-            'Repaired_dataset', self.dataset)
-
+        return 0
+    
     def compare_to_truth(self, truth_path):
         """
         compares our repaired set to the truth
@@ -807,22 +806,5 @@ class Session:
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
-        final = self.holo_env.dataengine.get_table_to_dataframe(
-            "Inferred_values", self.dataset).select(
-            "tid", "attr_name", "attr_val")
-        init = self.holo_env.dataengine.get_table_to_dataframe(
-            "Init", self.dataset)
-        correct = init.collect()
-        final = final.collect()
-        for i in range(len(correct)):
-            d = correct[i].asDict()
-            correct[i] = Row(**d)
-        for cell in final:
-            d = correct[cell.tid - 1].asDict()
-            d[cell.attr_name] = cell.attr_val
-            correct[cell.tid - 1] = Row(**d)
 
-        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
-        self.holo_env.dataengine.add_db_table("Repaired_dataset",
-                                              correct_dataframe, self.dataset)
-        return correct
+        return 1
