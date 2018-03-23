@@ -3,6 +3,7 @@ import sqlalchemy as sqla
 from pyspark.sql.types import *
 from global_variables import GlobalVariables
 import csv
+import psycopg2
 
 
 class DataEngine:
@@ -31,7 +32,6 @@ class DataEngine:
 
         # Init database backend
         self.db_backend = self._start_db()
-        self._db_connect()
         self.sparkSqlUrl = self._init_sparksql_url()
         self.sql_ctxt = self.holo_env.spark_sql_ctxt
 
@@ -58,10 +58,19 @@ class DataEngine:
         pwd = self.holo_env.db_pwd
         host = self.holo_env.db_host
         dbname = self.holo_env.db_name
-        connection = "mysql+mysqldb://" + user + ":" + pwd + \
-                     "@" + host + "/" + dbname
-        sql_eng = sqla.create_engine(connection)
-        return sql_eng
+
+        connection_string = "dbname= '" + dbname + "' user='" + user + "' host='" + host +"' password='" + pwd +"'"
+        try:
+            conn = psycopg2.connect(connection_string)
+
+        except Exception as e:
+            self.holo_env.logger.error('No connection to data database',
+                                       exc_info=e)
+            exit(1)
+
+        cur = conn.cursor()
+
+        return (cur,conn)
 
     def _init_sparksql_url(self):
         """
@@ -80,32 +89,16 @@ class DataEngine:
         pwd = self.holo_env.db_pwd
         host = self.holo_env.db_host
         dbname = self.holo_env.db_name
-        jdbc_url = "jdbc:mysql://" + host + "/" + \
-                   dbname + "?user=" + user + "&password=" + \
-                   pwd + "&useSSL=false"
-        return jdbc_url
 
-    def _db_connect(self):
-        """
-        Connecting to MySQL database
+        jdbc_url = "jdbc:postgresql://" + host + "/" +  dbname
 
-        Parameters
-        ----------
-        No parameter
+        db_properties = {
+            "user": user,
+            "password": pwd,
+            "useSSL": "false",
+        }
 
-        Returns
-        -------
-        No Return
-
-        """
-        try:
-            self.connection = self.db_backend.connect()
-            self.holo_env.logger.\
-                info("Connection established to data database")
-        except Exception as e:
-            self.holo_env.logger.error('No connection to data database',
-                                       exc_info=e)
-            pass
+        return (jdbc_url,db_properties)
 
     def _add_info_to_meta(self, table_name, table_schema, dataset):
         """
@@ -167,8 +160,9 @@ class DataEngine:
             # there are no tables named "metatable"
             create_table = 'CREATE TABLE metatable ' \
                            '(dataset_id TEXT,tablename TEXT,schem TEXT);'
-            self.db_backend.execute(create_table)
-            self.db_backend.execute(add_row)
+            self.db_backend[0].execute(create_table)
+            self.db_backend[0].execute(add_row)
+            self.db_backend[1].commit()
 
     def _table_column_to_dataframe(self, table_name, columns_name_list,
                                    dataset):
@@ -198,7 +192,6 @@ class DataEngine:
                         dataset.attributes.index(table_name)]
         use_spark = 1
         return self.query(table_get, use_spark)
-
     def _dataframe_to_table(self, spec_table_name, dataframe, append=0):
         """
         Adding spark dataframe with specific table name "spec_table_name"
@@ -221,19 +214,14 @@ class DataEngine:
         -------
         No Return
         """
-        jdbc_url = "jdbc:mysql://" + self.holo_env.db_host + "/" + \
-                   self.holo_env.db_name
-        db_properties = {
-            "user": self.holo_env.db_user,
-            "password": self.holo_env.db_pwd,
-            "useSSL": "false",
-        }
+        jdbc_url = self.sparkSqlUrl
+
         if append:
             dataframe.write.jdbc(
-                jdbc_url,
+                jdbc_url[0],
                 spec_table_name,
                 "append",
-                properties=db_properties)
+                properties=jdbc_url[1])
         else:
             create_table = "CREATE TABLE " + spec_table_name + " ("
             for i in range(len(dataframe.schema.names)):
@@ -253,10 +241,10 @@ class DataEngine:
             self.holo_env.logger.info(create_table)
             self.holo_env.logger.info("  ")
             dataframe.write.jdbc(
-                jdbc_url,
+                jdbc_url[0],
                 spec_table_name,
                 "append",
-                properties=db_properties)
+                properties=jdbc_url[1])
 
     def _query_spark(self, sql_query):
         """
@@ -272,9 +260,12 @@ class DataEngine:
         :return: dataframe : Dataframe
                 The results of sql_query in a dataframe
         """
-        dataframe = self.sql_ctxt.read.format('jdbc').options(
-            url=self._init_sparksql_url(),
-            dbtable="(" + sql_query + ") as tablename").load()
+
+        url = self.sparkSqlUrl
+
+        dataframe = self.sql_ctxt.read.format('jdbc').\
+            options(url=url[0], dbtable="(" + sql_query + ") as tablename", properties=url[1]).load()
+
         return dataframe
 
     # Getters
@@ -303,12 +294,11 @@ class DataEngine:
                     table_general_name + "';"
 
         df = self.query(sql_query, 0)
-
-        try:
-            return df.cursor._rows[0][0]
-        except Exception as e:
+        if ( df == 0)
             self.holo_env.logger.error('No such element', exc_info=e)
             return "No such element"
+        else
+        return df.cursor._rows[0][0]
 
     def get_table_to_dataframe(self, table_name, dataset):
         """
@@ -396,7 +386,9 @@ class DataEngine:
         index_id = table_name+"_"+attr_name
         sql = "CREATE INDEX " + index_id + " ON " + table_name + \
               " (`" + attr_name + "`);"
-        self.db_backend.execute(sql)
+        self.db_backend[0].execute(sql)
+        self.db_backend[1].commit()
+
 
     def ingest_data(self, filepath, dataset):
         """
@@ -472,15 +464,19 @@ class DataEngine:
 
         Returns
         -------
-        :return: dataframe: DataFrame
-            The DataFrame representing the result of the query if
-            spark_flag = 0
+        :return: dataframe: DataFrame if spark_flag = 1
             otherwise None
 
 
         """
+        try:
+            if spark_flag == 1:
+                return self._query_spark(sql_query)
+            else:
+                result = self.db_backend[0].execute(sql_query)
+                self.db_backend[1].commit()
+                return result
+        except  Exception as e:
+            self.holo_env.logger.error('Could not execute Query' + sql_query,exc_info=e)
+            return 0
 
-        if spark_flag == 1:
-            return self._query_spark(sql_query)
-        else:
-            return self.db_backend.execute(sql_query)
