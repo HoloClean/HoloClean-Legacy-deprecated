@@ -2,7 +2,7 @@
 import sqlalchemy as sqla
 from pyspark.sql.types import *
 from global_variables import GlobalVariables
-import csv
+from utils.reader import Reader
 
 
 class DataEngine:
@@ -415,22 +415,8 @@ class DataEngine:
         """
 
         # Spawn new reader and load data into dataframe
-
-        with open(filepath, 'rb') as f:
-            reader = csv.reader(f)
-            read_list = list(reader)
-        attributes = read_list[0]
-        if GlobalVariables.index_name in attributes:
-            raise Exception("attribute + " + GlobalVariables.index_name + " not allowed in dataset")
-        attributes.append(GlobalVariables.index_name)
-        init_list = []
-        for i in range(1, len(read_list)):
-            read_list[i].append(i)
-            init_list.append(read_list[i])
-
-        df = self.holo_env.spark_session.createDataFrame(
-            init_list, attributes
-        )
+        fileReader = Reader(self.holo_env.spark_session)
+        df = fileReader.read(filepath)
 
         # Store dataframe to DB table
         schema = df.schema.names

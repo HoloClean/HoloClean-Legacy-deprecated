@@ -1,3 +1,7 @@
+from holoclean.global_variables import GlobalVariables
+from pyspark.sql.types import *
+from pyspark.sql.functions import Column
+
 class Reader:
 
     """Reader class:
@@ -49,5 +53,23 @@ class CSVReader:
 
         """
         df = spark_session.read.csv(file_path, header=True)
+        number_of_rows = df.count()
+        def f(x):
+            return [x]
+        index_list = range(1, number_of_rows + 1)
+        df_list = map(f,index_list)
+        index_dataframe = spark_session.createDataFrame(
+            df_list, StructType([
+                StructField(GlobalVariables.index_name, IntegerType(), False)
+            ]))
 
-        return df
+        index_name = GlobalVariables.index_name
+
+        new_cols = df.schema.names + [index_name]
+        ix_df = df.rdd.zipWithIndex().map(lambda (row, ix): row + (ix,)).toDF()
+        tmp_cols = ix_df.schema.names
+        new_df = reduce(lambda data, idx: data.withColumnRenamed(tmp_cols[idx],
+                                                               new_cols[idx]),
+                      xrange(len(tmp_cols)), ix_df)
+
+        return new_df
