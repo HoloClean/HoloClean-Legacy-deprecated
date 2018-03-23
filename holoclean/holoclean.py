@@ -31,7 +31,7 @@ arguments = [
     (('-u', '--db_user'),
         {'metavar': 'DB_USER',
          'dest': 'db_user',
-         'default': 'holocleanUser',
+         'default': 'holocleanuser',
          'type': str,
          'help': 'User for DB used to persist state'}),
     (('-p', '--password', '--pass'),
@@ -58,6 +58,13 @@ arguments = [
          'default': 'holoclean/lib/mysql-connector-java-5.1.44-bin.jar',
          'type': str,
          'help': 'Path for MySQL driver'}),
+    (('-pg', '--pg_driver'),
+     {'metavar': 'PG_DRIVER',
+      'dest': 'pg_driver',
+      'default': 'holoclean/lib/postgresql-42.2.2.jar',
+      'type': str,
+      'help': 'Path for Postgresql PySpark driver'}),
+
     (('-s', '--spark_cluster'),
         {'metavar': 'SPARK',
          'dest': 'spark_cluster',
@@ -217,9 +224,15 @@ class HoloClean:
     def _init_spark(self):
         # Set spark configuration
         conf = SparkConf()
+
         # Link MySQL driver to Spark Engine
-        conf.set("spark.executor.extraClassPath", self.mysql_driver)
-        conf.set("spark.driver.extraClassPath", self.mysql_driver)
+        #conf.set("spark.executor.extraClassPath", self.mysql_driver)
+        #conf.set("spark.driver.extraClassPath", self.mysql_driver)
+
+        # Link PG driver to Spark
+        conf.set("spark.executor.extraClassPath", self.pg_driver)
+        conf.set("spark.driver.extraClassPath", self.pg_driver)
+
         conf.set('spark.driver.memory', '20g')
         conf.set('spark.executor.memory', '20g')
         conf.set("spark.network.timeout", "6000")
