@@ -280,6 +280,7 @@ class Session:
         self.pruning = None
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
+        self.inferred_values = None
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -430,8 +431,7 @@ class Session:
 
             start = time.time()
 
-        soft = SoftMax(self.holo_env.dataengine, self.dataset,
-                       self.holo_env, self.X_training)
+        soft = SoftMax(self, self.X_training)
 
         soft.logreg()
 
@@ -477,8 +477,7 @@ class Session:
 
         flattening = 0
 
-        acc = Accuracy(self.holo_env.dataengine, truth_path, self.dataset,
-                       self.holo_env.spark_session)
+        acc = Accuracy(self, truth_path)
         acc.accuracy_calculation(flattening)
 
     # Setters
@@ -807,11 +806,8 @@ class Session:
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
-        final = self.holo_env.dataengine.get_table_to_dataframe(
-            "Inferred_values", self.dataset).select(
-            "tid", "attr_name", "attr_val")
-        init = self.holo_env.dataengine.get_table_to_dataframe(
-            "Init", self.dataset)
+        final = self.inferred_values
+        init = self.init_dataset
         correct = init.collect()
         final = final.collect()
         for i in range(len(correct)):

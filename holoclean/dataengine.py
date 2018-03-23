@@ -64,11 +64,11 @@ class DataEngine:
             conn = psycopg2.connect(connection_string)
 
         except Exception as e:
-            self.holo_env.logger.error('No connection to data database',exc_info=e)
+            self.holo_env.logger.error('No connection to data database', exc_info=e)
             exit(1)
 
         cur = conn.cursor()
-        return (cur,conn)
+        return (cur, conn)
 
     def _init_sparksql_url(self):
         """
@@ -197,9 +197,8 @@ class DataEngine:
         """
 
         url = self.sparkSqlUrl
-
-        dataframe = self.sql_ctxt.read.format('jdbc').\
-            options(url=url[0], dbtable="(" + sql_query + ") as tablename", properties=url[1]).load()
+        dataframe = self.sql_ctxt.read.jdbc(
+            url=url[0], table="(" + sql_query + ") as tablename", properties=url[1])
 
         return dataframe
 
@@ -362,5 +361,6 @@ class DataEngine:
                 return result
         except Exception as e:
             self.holo_env.logger.error('Could not execute Query' + sql_query,exc_info=e)
-            return 0
+            print "Could not execute Query ", sql_query, "Check log for info"
+            exit(5)
 
