@@ -8,3 +8,4 @@ mysql-connector-python-rf
 numba
 torchvision
 tqdm
+psycopg2
