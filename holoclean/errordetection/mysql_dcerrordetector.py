@@ -30,6 +30,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.operationsarr = DCParser.operationsArr
         self.noisy_cells = None
         self.dictionary_dc = self.dc_parser.create_dc_map(self.all_dcs)
+        self.Denial_constraints = session.Denial_constraints
 
     # Internals
 
@@ -252,12 +253,14 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.noisy_cells = c_dk_drataframe['ind', 'attr'].distinct()
         return self.noisy_cells
 
+
+
     def get_clean_cells(self):
         """
         Return a dataframe that consist of index of clean cells index,attribute
         :return:
         """
-        all_attr = self.dataengine.get_schema(self.dataset).split(
+        all_attr = self.dataset.schema.split(
             ',')
         all_attr.remove(self.index)
         number_of_tuples = \

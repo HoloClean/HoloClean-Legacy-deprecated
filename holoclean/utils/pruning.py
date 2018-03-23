@@ -146,7 +146,12 @@ class Pruning:
         # Compute counter
         number_of_cooccurence = cooccur_count
         total_number_of_original_attr_value = v_cnt
-        return number_of_cooccurence / total_number_of_original_attr_value
+        if original_attr_value is None or cooccured_attr_value is None:
+            probability = 0
+        else:
+            probability = number_of_cooccurence /\
+                          total_number_of_original_attr_value
+        return probability
 
     def _find_domain(self, assignment, trgt_attr):
         """ This method finds the domain for each cell
@@ -325,7 +330,7 @@ class Pruning:
         :return:
         """
         t0 = time.time()
-        attributes = self.dataengine.get_schema(self.dataset).split(',')
+        attributes = self.dataset.schema.split(',')
         self.domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []

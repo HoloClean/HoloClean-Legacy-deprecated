@@ -278,25 +278,6 @@ class DataEngine:
         return dataframe
 
     # Getters
-    def get_schema(self, dataset):
-        """
-        Getting the schema of MySQL table using "table_general_name" and
-                "dataset" to identify the table specific name
-
-        Parameters
-        ----------
-        :param dataset: DataSet
-            A dataset object used to store the ID
-            of the current HoloClean Session
-
-        Returns
-        -------
-        :return: dataframe : String
-            If successful will return a string of the schema with the
-            column names separated by commas otherwise
-            will return empty string
-        """
-        return dataset.schema
 
     def get_table_to_dataframe(self, table_name, dataset):
         """
