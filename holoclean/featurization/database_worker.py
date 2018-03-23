@@ -38,8 +38,8 @@ class DatabaseWorker(Thread):
         name_list[6] = "_"
         name = "".join(name_list)
 
-        table_name = self.dataset.return_id() +\
-            "_" + name
+        table_name = name + "_" + self.dataset.return_id()
+
         query_for_featurization = "CREATE TABLE " + table_name + \
                                   "(vid INT, assigned_val INT," \
                                   " feature INT ,count INT);"
@@ -109,7 +109,7 @@ class DatabaseWorker(Thread):
             printLock.release()
         drop_table = "DROP TABLE " + table_name
         self.dataengine.query(drop_table)
-        self.dataengine.connection.close()
+        self.dataengine.db_backend[1].close()
 
 
 class QueryProducer(Thread):

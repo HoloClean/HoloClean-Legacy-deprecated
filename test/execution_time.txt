@@ -1,2 +1,2 @@
-Time to Load Data: 33.8758268356
-Time for Error Detection: 788.185713053
+Time to Load Data: 7.39032483101
+Time for Error Detection: 14.7774119377

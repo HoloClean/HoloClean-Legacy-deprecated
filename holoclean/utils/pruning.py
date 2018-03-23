@@ -490,7 +490,7 @@ class Pruning:
         query_observed = "CREATE TABLE " + \
                          self.dataset.table_specific_name(
                              'Observed_Possible_values_clean') + \
-                         " SELECT * FROM ( " \
+                         " AS SELECT * FROM ( " \
                          "SELECT *  \
                          FROM " + \
                          self.dataset.table_specific_name(
@@ -504,7 +504,7 @@ class Pruning:
         query_observed = "CREATE TABLE " + \
                          self.dataset.table_specific_name(
                              'Observed_Possible_values_dk') + \
-                         " SELECT * FROM ( " \
+                         "  AS SELECT * FROM ( " \
                          "SELECT *  \
                          FROM " + \
                          self.dataset.table_specific_name('Possible_values_dk')\

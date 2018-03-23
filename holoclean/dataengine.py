@@ -64,12 +64,10 @@ class DataEngine:
             conn = psycopg2.connect(connection_string)
 
         except Exception as e:
-            self.holo_env.logger.error('No connection to data database',
-                                       exc_info=e)
+            self.holo_env.logger.error('No connection to data database',exc_info=e)
             exit(1)
 
         cur = conn.cursor()
-
         return (cur,conn)
 
     def _init_sparksql_url(self):
@@ -95,74 +93,11 @@ class DataEngine:
         db_properties = {
             "user": user,
             "password": pwd,
-            "useSSL": "false",
+            "ssl": "false",
         }
 
         return (jdbc_url,db_properties)
 
-    def _add_info_to_meta(self, table_name, table_schema, dataset):
-        """
-        Storing information of a table to the meta table
-
-        Parameters
-        ----------
-        :param table_name: String
-                    The name of table that we want to same its schema in
-                    meta table
-        :param table_schema: String
-                The schema of table table_name
-        :param dataset: The data set object to put schema in correct meta table
-
-        Returns
-        -------
-        :return: table_name_spc : String
-                After putting table schema in meta table it returns the
-                specific name of the table
-        """
-        schema = ''
-        for attribute in table_schema:
-            schema = schema + "," + str(attribute)
-
-        table_name_spc = dataset.table_specific_name(table_name)
-        self._add_meta(table_name, schema[1:], dataset)
-        return table_name_spc
-
-    def _add_meta(self, table_name, table_schema, dataset):
-        """
-        Checking if the meta table exists (if not, the code creates it first)
-        and add a new row with the information (the id of the data set,
-        the name of the table, and its schema) for a new table
-
-        Parameters
-        ----------
-        :param table_name: The name of table that we want to same its schema in
-                            meta table
-        :param table_schema: The schema of table table_name
-        :param dataset: The data set object to put schema in correct meta table
-
-        Returns
-        -------
-        No Return
-        """
-        tmp_conn = self.db_backend.raw_connection()
-        dbcur = tmp_conn.cursor()
-        stmt = "SHOW TABLES LIKE 'metatable'"
-        dbcur.execute(stmt)
-        result = dbcur.fetchone()
-        add_row = "INSERT INTO metatable (dataset_id, tablename, schem) " \
-                  "VALUES('" + dataset.dataset_id + "','" + str(table_name) + \
-                  "','" + str(table_schema) + "');"
-        if result:
-            # There is a table named "metatable"
-            self.db_backend.execute(add_row)
-        else:
-            # create db with columns 'dataset_id' , 'tablename' , 'schem'
-            # there are no tables named "metatable"
-            create_table = 'CREATE TABLE metatable ' \
-                           '(dataset_id TEXT,tablename TEXT,schem TEXT);'
-            self.db_backend[0].execute(create_table)
-            self.db_backend[0].execute(add_row)
-            self.db_backend[1].commit()
 
     def _table_column_to_dataframe(self, table_name, columns_name_list,
                                    dataset):
@@ -192,6 +127,7 @@ class DataEngine:
                         dataset.attributes.index(table_name)]
         use_spark = 1
         return self.query(table_get, use_spark)
+
     def _dataframe_to_table(self, spec_table_name, dataframe, append=0):
         """
         Adding spark dataframe with specific table name "spec_table_name"
@@ -225,8 +161,7 @@ class DataEngine:
         else:
             create_table = "CREATE TABLE " + spec_table_name + " ("
             for i in range(len(dataframe.schema.names)):
-                create_table = create_table + " `" + \
-                               dataframe.schema.names[i] + "` "
+                create_table = create_table  + " " + dataframe.schema.names[i] + " "
                 if dataframe.schema.fields[i].dataType == IntegerType() \
                         or dataframe.schema.names[i] == GlobalVariables.index_name:
                     create_table = create_table + "INT,"
@@ -235,7 +170,7 @@ class DataEngine:
             if GlobalVariables.index_name in dataframe.schema.names:
                 create_table = \
                     create_table + \
-                    " PRIMARY KEY (`" + GlobalVariables.index_name + "`) "
+                    " PRIMARY KEY (" + GlobalVariables.index_name + ") "
             create_table = create_table[:-1] + " );"
             self.query(create_table)
             self.holo_env.logger.info(create_table)
@@ -330,10 +265,7 @@ class DataEngine:
         -------
         No Return
         """
-
-        schema = spark_dataframe.schema.names
-        specific_table_name = self._add_info_to_meta(
-            table_name, schema, dataset)
+        specific_table_name = dataset.table_specific_name(table_name)
         self._dataframe_to_table(specific_table_name, spark_dataframe, append)
 
     def add_db_table_index(self, table_name, attr_name):
@@ -353,7 +285,7 @@ class DataEngine:
         """
         index_id = table_name+"_"+attr_name
         sql = "CREATE INDEX " + index_id + " ON " + table_name + \
-              " (`" + attr_name + "`);"
+              " (" + attr_name + ");"
         self.db_backend[0].execute(sql)
         self.db_backend[1].commit()
 
@@ -380,7 +312,7 @@ class DataEngine:
 
         # Store dataframe to DB table
         schema = df.schema.names
-        name_table = self._add_info_to_meta('Init', schema, dataset)
+        name_table = dataset.table_specific_name('Init')
         self._dataframe_to_table(name_table, df)
         dataset.schema = ','.join(schema)
         count = 0
@@ -428,7 +360,7 @@ class DataEngine:
                 result = self.db_backend[0].execute(sql_query)
                 self.db_backend[1].commit()
                 return result
-        except  Exception as e:
+        except Exception as e:
             self.holo_env.logger.error('Could not execute Query' + sql_query,exc_info=e)
             return 0
 

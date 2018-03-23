@@ -12,10 +12,14 @@ cur.execute("""INSERT INTO tryfromholo values (1,1)""")
 
 cur.execute("""select * from tryfromholo""")
 
-conn.commit()
+conn.close()
 
+conn.
 cur.
 
 rows = cur.fetchall()
+
 for row in rows:
     print "   ", row[0]
+
+    row = cur.

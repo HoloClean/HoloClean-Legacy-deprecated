@@ -28,6 +28,12 @@ from learning.accuracy import Accuracy
 
 # Define arguments for HoloClean
 arguments = [
+    (('-path', '--holoclean_path'),
+        {'metavar': 'HOLOCLEAN_PATH',
+         'dest': 'holoclean_path',
+         'default': '.',
+         'type': str,
+         'help': 'Path of HoloCLean'}),
     (('-u', '--db_user'),
         {'metavar': 'DB_USER',
          'dest': 'db_user',
@@ -43,7 +49,7 @@ arguments = [
     (('-h', '--host'),
         {'metavar': 'HOST',
          'dest': 'db_host',
-         'default': '127.0.0.1',
+         'default': 'localhost',
          'type': str,
          'help': 'Host for DB used to persist state'}),
     (('-d', '--database'),
@@ -230,8 +236,8 @@ class HoloClean:
         #conf.set("spark.driver.extraClassPath", self.mysql_driver)
 
         # Link PG driver to Spark
-        conf.set("spark.executor.extraClassPath", self.pg_driver)
-        conf.set("spark.driver.extraClassPath", self.pg_driver)
+        conf.set("spark.executor.extraClassPath", self.holoclean_path + "/"+ self.pg_driver)
+        conf.set("spark.driver.extraClassPath", self.holoclean_path + "/"+self.pg_driver)
 
         conf.set('spark.driver.memory', '20g')
         conf.set('spark.executor.memory', '20g')
@@ -816,8 +822,7 @@ class Session:
             d[cell.attr_name] = cell.attr_val
             correct[cell.tid - 1] = Row(**d)
 
-        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(
-            correct)
+        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
         return correct

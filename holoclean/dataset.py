@@ -100,7 +100,7 @@ class Dataset:
         self.dataset_tables_specific_name.append(self.dataset_id)
         for i in range(1, len(self.attributes)):
             self.dataset_tables_specific_name.append(
-                self.dataset_id + '_' + self.attributes[i])
+                self.attributes[i]+ '_' + self.dataset_id  )
 
     # Internal methods
     @staticmethod
