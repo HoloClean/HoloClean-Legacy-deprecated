@@ -365,17 +365,17 @@ class Session:
 
         return dirty
 
-    def detect_errors(self, detector):
+    def detect_errors(self, detector_list):
         """ separates cells that violate DC's from those that don't
 
         :return: clean dataframe and don't know dataframe
         """
         if self.holo_env.verbose:
             start = time.time()
+        for detector in detector_list:
+            err_detector = ErrorDetectorsWrapper(detector)
+            self._add_error_detector(err_detector)
 
-        err_detector = ErrorDetectorsWrapper(detector)
-
-        self._add_error_detector(err_detector)
         self._ds_detect_errors()
 
         clean = self.clean_df
@@ -591,28 +591,29 @@ class Session:
             dk_cells.append(temp[0])
 
         num_of_error_detectors = len(dk_cells)
-        intersect_dk_cells = dk_cells[0]
-        union_clean_cells = clean_cells[0]
+        union_dk_cells = dk_cells[0]
+        intersect_clean_cells = clean_cells[0]
         for detector_counter in range(1, num_of_error_detectors):
-            intersect_dk_cells = intersect_dk_cells.intersect(
+            union_dk_cells = union_dk_cells.unionAll(
                 dk_cells[detector_counter])
-            union_clean_cells = union_clean_cells.unionAll(
+            intersect_clean_cells = intersect_clean_cells.intersect(
                 clean_cells[detector_counter])
 
-        self.clean_df = union_clean_cells
+        self.clean_df = intersect_clean_cells
 
         self.holo_env.dataengine.add_db_table(
-            'C_clean', union_clean_cells, self.dataset)
+            'C_clean', intersect_clean_cells, self.dataset)
 
         self.holo_env.logger.info('The table: ' +
                                   self.dataset.table_specific_name('C_clean') +
                                   " has been created")
         self.holo_env.logger.info("  ")
 
-        self.dk_df = intersect_dk_cells
+        self.dk_df = union_dk_cells
 
         self.holo_env.dataengine.add_db_table(
-            'C_dk', intersect_dk_cells, self.dataset)
+            'C_dk', union_dk_cells, self.dataset)
+
 
 
         self.holo_env.logger.info('The table: ' +
@@ -620,8 +621,8 @@ class Session:
                                   " has been created")
         self.holo_env.logger.info("  ")
         self.holo_env.logger.info('error detection is finished')
-        del union_clean_cells
-        del intersect_dk_cells
+        del intersect_clean_cells
+        del union_dk_cells
         del self.error_detectors
         return
 
