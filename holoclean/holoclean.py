@@ -409,12 +409,7 @@ class Session:
             print log
             start = time.time()
 
-        attr_constrained = self.parser.get_all_constraint_attributes(
-            self.Denial_constraints)
-
-        init_signal = SignalInit(attr_constrained,
-                                 self.holo_env.dataengine,
-                                 self.dataset)
+        init_signal = SignalInit(self.holo_env.dataengine, self.dataset)
         self._add_featurizer(init_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
