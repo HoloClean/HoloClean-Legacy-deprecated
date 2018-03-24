@@ -9,14 +9,12 @@ __metaclass__ = type
 class MysqlnullErrorDetection(ErrorDetection):
     """
     This class is a subclass of the errordetector class and
-    will return  error  cells and clean cells based on the
-    denial constraint
+    will return  error  cells and clean cells based on if they have null value
     """
 
     def __init__(self, session):
         """
-        This constructor  converts all denial constraints
-        to the form of SQL constraints
+
 
         :param session: Holoclean session
         """
@@ -48,7 +46,7 @@ class MysqlnullErrorDetection(ErrorDetection):
         """
 
         all_attr = self.session.dataset.schema.split(",")
-        all_attr = all_attr.remove(GlobalVariables.index_name)
+        all_attr.remove(self.index)
         for attribute in all_attr:
             t3 = time.time()
             t_name = self.dataset.table_specific_name("Init")
