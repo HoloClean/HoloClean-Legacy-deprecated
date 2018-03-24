@@ -23,6 +23,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         """
         super(MysqlDCErrorDetection, self).\
             __init__(session.holo_env, session.dataset)
+        self.session = session
         self.index = GlobalVariables.index_name
         self.dc_parser = session.parser
         self.all_dcs = \
@@ -260,21 +261,6 @@ class MysqlDCErrorDetection(ErrorDetection):
         Return a dataframe that consist of index of clean cells index,attribute
         :return:
         """
-        all_attr = self.dataset.schema.split(
-            ',')
-        all_attr.remove(self.index)
-        number_of_tuples = \
-            self.dataengine.query(
-                "Select count(*) as size FROM " +
-                self.dataset.table_specific_name("Init"),
-                1).collect()[0].size
-        tuples = [[i] for i in range(1, number_of_tuples + 1)]
-        attr = [[a] for a in all_attr]
-
-        tuples_dataframe = self.spark_session.createDataFrame(
-            tuples, ['ind'])
-        attr_dataframe = self.spark_session.createDataFrame(
-            attr, ['attr'])
-        c_clean_dataframe = tuples_dataframe.crossJoin(attr_dataframe).\
+        c_clean_dataframe = self.session.init_flat.\
             subtract(self.noisy_cells)
         return c_clean_dataframe
