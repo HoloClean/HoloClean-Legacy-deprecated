@@ -21,7 +21,7 @@ from pyspark.sql.types import *
 from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
 from featurization.initfeaturizer import SignalInit
 from featurization.dcfeaturizer import SignalDC
-from featurization.cooccurrencefeaturizer import SignalCooccur
+from global_variables import GlobalVariables
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
 
@@ -495,6 +495,18 @@ class Session:
         self.holo_env.logger.info(
             'creating dataset with id:' +
             self.dataset.print_id())
+        all_attr = self.dataset.schema.split(
+            ',')
+        all_attr.remove(GlobalVariables.index_name)
+        number_of_tuples = len(self.init_dataset.collect())
+        tuples = [[i] for i in range(1, number_of_tuples + 1)]
+        attr = [[a] for a in all_attr]
+
+        tuples_dataframe = self.holo_env.spark_session.createDataFrame(
+            tuples, ['ind'])
+        attr_dataframe = self.holo_env.spark_session.createDataFrame(
+            attr, ['attr'])
+        self.init_flat = tuples_dataframe.crossJoin(attr_dataframe)
         return
 
     def _add_featurizer(self, new_featurizer):

@@ -288,7 +288,6 @@ class DataEngine:
         self.db_backend[0].execute(sql)
         self.db_backend[1].commit()
 
-
     def ingest_data(self, filepath, dataset):
         """
         load data from a file to a dataframe and store it on the db
@@ -330,6 +329,7 @@ class DataEngine:
 
         for table_tuple in map_schema:
             self.attribute_map[table_tuple[1]] = table_tuple[0]
+
         return df
 
     def query(self, sql_query, spark_flag=0):
