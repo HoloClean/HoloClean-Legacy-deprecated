@@ -8,6 +8,7 @@ class Dataset:
         'C_clean',
         'C_dk',
         'C_dk_temp',
+        'C_dk_temp_null',
         'T1_attributes',
         'T2_attributes',
         'Possible_values_clean',
