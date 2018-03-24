@@ -1,18 +1,19 @@
 from holoclean.global_variables import GlobalVariables
+from holoclean.utils.reader import Reader
 
 
 class Accuracy:
 
     def __init__(
             self,
-            dataengine,
-            path_to_grand_truth,
-            dataset,
-            spark_session):
-        self.dataengine = dataengine
-        self.dataset = dataset
+            session,
+            path_to_grand_truth
+    ):
+        self.dataengine = session.holo_env.dataengine
+        self.dataset = session.dataset
         self.path_to_grand_truth = path_to_grand_truth
-        self.spark_session = spark_session
+        self.spark_session = session.holo_env.spark_session
+        self.ground_truth_flat = None
 
     def accuracy_calculation(self, flattening=1):
         final = self.dataengine.get_table_to_dataframe(
@@ -79,7 +80,7 @@ class Accuracy:
         Takes as argument the full path name of the csv file
         and the spark_session
         """
-        self.ground_truth_flat = self.spark_session.read.csv(
-            self.path_to_grand_truth, header=True)
+        filereader = Reader(self.spark_session)
+        self.ground_truth_flat = filereader.read(self.path_to_grand_truth).drop(GlobalVariables.index_name)
         self.dataengine.add_db_table(
             'Correct', self.ground_truth_flat, self.dataset)

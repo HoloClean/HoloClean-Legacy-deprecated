@@ -94,7 +94,7 @@ class LogReg(torch.nn.Module):
 
 class SoftMax:
 
-    def __init__(self, dataengine, dataset, holo_obj, X_training):
+    def __init__(self, session, X_training):
         """ Constructor for our softmax model
 
         :param dataengine: a HoloClean object's dataengine
@@ -102,10 +102,11 @@ class SoftMax:
         :param holo_obj: a HoloClean object
         :param X_training: x tensor used for training the model
         """
-        self.dataengine = dataengine
-        self.dataset = dataset
-        self.holo_obj = holo_obj
-        self.spark_session = holo_obj.spark_session
+        self.session = session
+        self.dataengine = session.holo_env.dataengine
+        self.dataset = session.dataset
+        self.holo_obj = session.holo_env
+        self.spark_session = self.holo_obj.spark_session
         query = "SELECT COUNT(*) AS dc FROM " + \
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
@@ -384,7 +385,7 @@ class SoftMax:
         df_inference.schema.fields[1] = StructField('vid', StringType(), True)
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
-
+        self.session.inferred_values = df_inference
         self.dataengine.holo_env.logger.info(
             'The table: ' +
             self.dataset.table_specific_name('Inferred_values') +

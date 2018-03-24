@@ -280,6 +280,7 @@ class Session:
         self.pruning = None
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
+        self.inferred_values = None
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -430,8 +431,7 @@ class Session:
 
             start = time.time()
 
-        soft = SoftMax(self.holo_env.dataengine, self.dataset,
-                       self.holo_env, self.X_training)
+        soft = SoftMax(self, self.X_training)
 
         soft.logreg()
 
@@ -462,10 +462,8 @@ class Session:
             print log
             self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
-        self._create_corrected_dataset()
+        return self._create_corrected_dataset()
 
-        return 0
-    
     def compare_to_truth(self, truth_path):
         """
         compares our repaired set to the truth
@@ -476,8 +474,7 @@ class Session:
 
         flattening = 0
 
-        acc = Accuracy(self.holo_env.dataengine, truth_path, self.dataset,
-                       self.holo_env.spark_session)
+        acc = Accuracy(self, truth_path)
         acc.accuracy_calculation(flattening)
 
     # Setters
@@ -807,5 +804,19 @@ class Session:
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
+        final = self.inferred_values
+        init = self.init_dataset
+        correct = init.collect()
+        final = final.collect()
+        for i in range(len(correct)):
+            d = correct[i].asDict()
+            correct[i] = Row(**d)
+        for cell in final:
+            d = correct[cell.tid - 1].asDict()
+            d[cell.attr_name] = cell.attr_val
+            correct[cell.tid - 1] = Row(**d)
 
-        return 1
+        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
+        self.holo_env.dataengine.add_db_table("Repaired_dataset",
+                                              correct_dataframe, self.dataset)
+        return correct_dataframe
