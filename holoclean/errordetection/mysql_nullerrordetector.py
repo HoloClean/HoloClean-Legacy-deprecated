@@ -48,6 +48,7 @@ class MysqlnullErrorDetection(ErrorDetection):
         """
 
         all_attr = self.session.dataset.schema.split(",")
+        all_attr = all_attr.remove(GlobalVariables.index_name)
         for attribute in all_attr:
             t3 = time.time()
             t_name = self.dataset.table_specific_name("Init")
