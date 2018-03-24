@@ -21,6 +21,7 @@ class MysqlnullErrorDetection(ErrorDetection):
         super(MysqlnullErrorDetection, self).\
             __init__(session.holo_env, session.dataset)
         self.index = GlobalVariables.index_name
+
         self.session = session
 
     def get_noisy_cells(self):
@@ -48,19 +49,19 @@ class MysqlnullErrorDetection(ErrorDetection):
         all_attr = self.session.dataset.schema.split(",")
         all_attr.remove(self.index)
         for attribute in all_attr:
-            t3 = time.time()
+            time_start = time.time()
             t_name = self.dataset.table_specific_name("Init")
             query_null = "INSERT INTO " + \
-                          self.dataset.table_specific_name("C_dk_temp_null") + \
+                         self.dataset.table_specific_name("C_dk_temp_null") + \
                          " SELECT t1.__ind as ind,'" + attribute +\
                          "' as attr  " \
                          "FROM " + t_name + " AS t1 " \
-                                            "WHERE t1." + attribute + " is NULL"
+                         "WHERE t1." + attribute + " is NULL"
             self.dataengine.query(query_null)
-            t4 = time.time()
+            time_end = time.time()
             if self.holo_obj.verbose:
                 self.holo_obj.logger.info("Time for executing query "
-                                          + query_null + ":" + str(t4 - t3))
+                                          + query_null + ":" + str(time_end - time_start))
 
     def get_clean_cells(self):
         """

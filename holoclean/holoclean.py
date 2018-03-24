@@ -603,7 +603,7 @@ class Session:
         union_dk_cells = dk_cells[0]
         intersect_clean_cells = clean_cells[0]
         for detector_counter in range(1, num_of_error_detectors):
-            union_dk_cells = union_dk_cells.unionAll(
+            union_dk_cells = union_dk_cells.union(
                 dk_cells[detector_counter])
             intersect_clean_cells = intersect_clean_cells.intersect(
                 clean_cells[detector_counter])
@@ -622,8 +622,6 @@ class Session:
 
         self.holo_env.dataengine.add_db_table(
             'C_dk', union_dk_cells, self.dataset)
-
-
 
         self.holo_env.logger.info('The table: ' +
                                   self.dataset.table_specific_name('C_dk') +
