@@ -11,7 +11,7 @@ class SignalInit(Featurizer):
     clean and dk cells
     """
 
-    def __init__(self, dataengine, dataset):
+    def __init__(self, session):
 
         """
 
@@ -20,7 +20,7 @@ class SignalInit(Featurizer):
         :param dataset: list of tables name
         """
 
-        super(SignalInit, self).__init__(dataengine, dataset)
+        super(SignalInit, self).__init__(session)
         self.id = "SignalInit"
         self.table_name = self.dataset.table_specific_name('Init')
 
@@ -35,15 +35,29 @@ class SignalInit(Featurizer):
         :return a list of length 1 with string with the query for this feature
         """
         if clean:
+            self.offset = self.session.feature_count
+        count = self.offset + 1
+        if clean:
             name = "Observed_Possible_values_clean"
         else:
             name = "Observed_Possible_values_dk"
 
-        query_for_featurization = """ SELECT  \
+        query_for_featurization = " SELECT  \
             init_flat.vid as vid, init_flat.domain_id AS assigned_val, \
-            '1' AS feature, \
+            '" + str(count) + "' AS feature, \
             1 as count\
             FROM """ + \
             self.dataset.table_specific_name(name) + \
             " AS init_flat "
+
+        # if clean add signal fo Feature_id_map
+        if clean:
+            self.session.feature_count += count
+
+            index = self.offset + count
+            list_domain_map = [[index, 'Init', 'Init', 'Init']]
+            df_domain_map = self.session.holo_env.spark_session.createDataFrame(
+                list_domain_map, self.dataset.attributes['Feature_id_map'])
+            self.session.holo_env.dataengine.add_db_table(
+                'Feature_id_map', df_domain_map, self.dataset, append=1)
         return [query_for_featurization]

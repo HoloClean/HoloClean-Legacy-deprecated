@@ -9,13 +9,16 @@ class Featurizer:
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, dataengine, dataset):
+    def __init__(self, session):
         """
         :param dataengine: a connector to database
         :param dataset: list of tables name
         """
-        self.dataengine = dataengine
-        self.dataset = dataset
+        self.session = session
+        self.dataengine = session.holo_env.dataengine
+        self.dataset = session.dataset
+        # offset on the feature_id_map, value must be overridden in subclass
+        self.offset = 0
 
     @abstractmethod
     def get_query(self):

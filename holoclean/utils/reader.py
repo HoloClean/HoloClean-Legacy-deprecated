@@ -24,7 +24,6 @@ class Reader:
         extention = filepath.split('.')[-1]
         return extention
 
-    # Setters
     def read(self, filepath):
         """Calls the appropriate reader for the file
 

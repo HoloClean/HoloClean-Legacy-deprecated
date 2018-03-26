@@ -156,13 +156,12 @@ class DCParser:
     @staticmethod
     def get_all_attribute(dataengine, dataset):
         """
-        This method return all attributes in the initial table
+        This method return all attributes in the initial table excluding the index table
         :param dataengine:
         :param dataset:
         :return: list of all attributes
         """
-        all_list = dataset.schema
-        all_attributes = all_list.split(',')
+        all_attributes = dataset.get_schema('Init')
         all_attributes.remove(GlobalVariables.index_name)
         return all_attributes
 

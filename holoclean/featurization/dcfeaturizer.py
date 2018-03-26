@@ -20,8 +20,7 @@ class SignalDC(Featurizer):
         :param session: a Holoclean session
         """
 
-        super(SignalDC, self).__init__(session.holo_env.dataengine,
-                                       session.dataset)
+        super(SignalDC, self).__init__(session)
         self.id = "SignalDC"
         self.denial_constraints = denial_constraints
         self.spark_session = session.holo_env.spark_session
@@ -157,26 +156,19 @@ class SignalDC(Featurizer):
 
         all_relax_dcs = self._create_all_relaxed_dc()
         dc_queries = []
-
+        count = 0
         if clean:
-            count = self.dataengine.query(
-                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
-                self.dataset.table_specific_name("Feature_id_map") +
-                " WHERE Type != 'DC'", 1).collect()[0]['max']
-            count += 1
-        else:
-            count = self.dataengine.query(
-                "SELECT COALESCE(MIN(feature_ind), 0) as max FROM " +
-                self.dataset.table_specific_name("Feature_id_map") +
-                " WHERE Type = 'DC'", 1).collect()[0]['max']
+            self.offset = self.session.feature_count
+
         feature_map = []
         for index_dc in range(0, len(all_relax_dcs)):
             relax_dc = all_relax_dcs[index_dc][0]
             table_name = all_relax_dcs[index_dc][1]
+            count += 1
             query_for_featurization = "SELECT" \
                                       " postab.vid as vid, " \
                                       "postab.domain_id AS assigned_val, " + \
-                                      str(count) + " AS feature, " \
+                                      str(count + self.offset) + " AS feature, " \
                                       "  count(" + table_name + \
                                       "." + GlobalVariables.index_name +\
                                       ") as count " \
@@ -194,19 +186,14 @@ class SignalDC(Featurizer):
             dc_queries.append(query_for_featurization)
 
             if clean:
-                feature_map.append([count, self.attributes_list[index_dc],
+                feature_map.append([count + self.offset, self.attributes_list[index_dc],
                                     relax_dc, "DC"])
-            count += 1
 
         if clean:
             df_feature_map_dc = self.spark_session.createDataFrame(
-                feature_map, StructType([
-                    StructField("feature_ind", IntegerType(), True),
-                    StructField("attribute", StringType(), False),
-                    StructField("value", StringType(), False),
-                    StructField("Type", StringType(), False),
-                ]))
+                feature_map, self.dataset.attributes['Feature_id_map'])
             self.dataengine.add_db_table('Feature_id_map',
                                          df_feature_map_dc, self.dataset, 1)
+            self.session.feature_count += count
 
         return dc_queries

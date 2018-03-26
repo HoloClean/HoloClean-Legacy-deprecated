@@ -46,7 +46,7 @@ class MysqlnullErrorDetection(ErrorDetection):
         Adds to C_dk_temp_null table all the cells that are NULL
         """
 
-        all_attr = self.session.dataset.schema.split(",")
+        all_attr = self.session.dataset.get_schema('Init')
         all_attr.remove(self.index)
         for attribute in all_attr:
             time_start = time.time()

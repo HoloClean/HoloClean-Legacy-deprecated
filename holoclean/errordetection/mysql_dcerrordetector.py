@@ -115,8 +115,8 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         t1_name = self.dataset.table_specific_name("T1_attributes")
         t2_name = self.dataset.table_specific_name("T2_attributes")
-        self.dataengine._dataframe_to_table(t1_name, t1_attributes_dataframe)
-        self.dataengine._dataframe_to_table(t2_name, t2_attributes_dataframe)
+        self.dataengine.dataframe_to_table(t1_name, t1_attributes_dataframe)
+        self.dataengine.dataframe_to_table(t2_name, t2_attributes_dataframe)
 
         # Left part of predicates
         distinct_left = \
@@ -212,7 +212,7 @@ class MysqlDCErrorDetection(ErrorDetection):
             left_attributes, ['attr_name'])
 
         t1_name = self.dataset.table_specific_name("T1_attributes")
-        self.dataengine._dataframe_to_table(t1_name, t1_attributes_dataframe)
+        self.dataengine.dataframe_to_table(t1_name, t1_attributes_dataframe)
 
         # Left part of predicates
         distinct_left = \
@@ -232,8 +232,6 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         drop_temp_table = "DROP TABLE " + temp_table
         self.dataengine.query(drop_temp_table)
-
-    # Getters
 
     def get_noisy_cells(self):
         """
