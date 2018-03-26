@@ -121,7 +121,6 @@ class TestMysqlErrordetector(unittest.TestCase):
 
     def test_create_dc_map(self):
         dcs = self.session.Denial_constraints
-        cnf_dcs = self.session.parser.get_CNF_of_dcs(dcs)
         expected = {
             't1.A=t2.A AND t1.B<>t2.B':
                 [
@@ -150,7 +149,7 @@ class TestMysqlErrordetector(unittest.TestCase):
                     ]
                 ]
         }
-        self.assertEqual(self.session.parser.create_dc_map(cnf_dcs), expected)
+        self.assertEqual(self.session.parser.create_dc_map(dcs), expected)
 
 
 if __name__ == "__main__":

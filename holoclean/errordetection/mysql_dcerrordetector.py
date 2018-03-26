@@ -26,15 +26,12 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.session = session
         self.index = GlobalVariables.index_name
         self.dc_parser = session.parser
-        self.all_dcs = \
-            self.dc_parser.get_CNF_of_dcs(session.Denial_constraints)
         self.operationsarr = DCParser.operationsArr
         self.noisy_cells = None
-        self.dictionary_dc = self.dc_parser.create_dc_map(self.all_dcs)
+        self.dictionary_dc = self.dc_parser.create_dc_map(session.Denial_constraints)
         self.Denial_constraints = session.Denial_constraints
 
     # Internals
-
     def _is_symmetric(self, dc_name):
         result = True
         non_sym_ops = ['<=', '>=', '<', '>']
@@ -251,8 +248,6 @@ class MysqlDCErrorDetection(ErrorDetection):
             get_table_to_dataframe("C_dk_temp", self.dataset)
         self.noisy_cells = c_dk_drataframe['ind', 'attr'].distinct()
         return self.noisy_cells
-
-
 
     def get_clean_cells(self):
         """

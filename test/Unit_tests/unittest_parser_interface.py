@@ -5,7 +5,7 @@ from holoclean.holoclean import HoloClean, Session
 from holoclean.DCFormatException import DCFormatException
 
 holo_obj = HoloClean(
-    mysql_driver="../../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
+    holoclean_path='../..',
     verbose=True,
     timing_file='execution_time.txt')
 
@@ -63,7 +63,6 @@ class TestParserInterface(unittest.TestCase):
         dcs = self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt"
         )
-        cnf_dcs = self.session.parser.get_CNF_of_dcs(dcs)
         expected = {
             't1.A=t2.A AND t1.B<>t2.B':
                 [
@@ -92,7 +91,7 @@ class TestParserInterface(unittest.TestCase):
                     ]
                 ]
         }
-        self.assertEqual(self.session.parser.create_dc_map(cnf_dcs), expected)
+        self.assertEqual(self.session.parser.create_dc_map(dcs), expected)
 
 
 if __name__ == "__main__":

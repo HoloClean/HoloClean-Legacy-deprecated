@@ -12,7 +12,7 @@ from dataengine import DataEngine
 from dataset import Dataset
 from featurization.database_worker import DatabaseWorker, QueryProducer
 from utils.pruning import Pruning
-from utils.parser_interface import ParserInterface
+from utils.parser_interface import ParserInterface, DenialConstraint
 from threading import Condition, Semaphore
 import multiprocessing
 
@@ -244,7 +244,8 @@ class Session:
         # Initialize members
         self.name = name
         self.holo_env = holo_env
-        self.Denial_constraints = []
+        self.Denial_constraints = []  # Denial Constraint strings
+        self.dc_objects = {}  # Denial Constraint Objects
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
@@ -289,9 +290,11 @@ class Session:
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        new_denial_constraints = self.parser.load_denial_constraints(
-            file_path, self.Denial_constraints)
+        new_denial_constraints, new_dc_objects = \
+            self.parser.load_denial_constraints(
+                file_path, self.Denial_constraints)
         self.Denial_constraints.extend(new_denial_constraints)
+        self.dc_objects.update(new_dc_objects)
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
@@ -299,8 +302,9 @@ class Session:
         :param dc: string in dc format
         :return: string array of dc's
         """
-        checked_dc = self.parser.check_dc_format(dc, self.Denial_constraints)
-        self.Denial_constraints.append(checked_dc)
+        dc_object = DenialConstraint(dc)
+        self.Denial_constraints.append(dc)
+        self.dc_objects.append(dc_object)
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):

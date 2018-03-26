@@ -1,5 +1,4 @@
 from featurizer import Featurizer
-from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
@@ -36,7 +35,7 @@ class SignalDC(Featurizer):
         all_dcs = self.parser.get_CNF_of_dcs(self.denial_constraints)
         all_relax_dc = []
         self.attributes_list = []
-        dictionary_dc = self.parser.create_dc_map(all_dcs)
+        dictionary_dc = self.parser.create_dc_map(self.denial_constraints)
         for dc in all_dcs:
             relax_dcs = self._create_relaxed_dc(dictionary_dc, dc)
             for relax_dc in relax_dcs:
