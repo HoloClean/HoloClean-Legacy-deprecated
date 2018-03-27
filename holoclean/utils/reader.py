@@ -1,6 +1,6 @@
 from holoclean.global_variables import GlobalVariables
-from pyspark.sql.types import *
 from pyspark.sql.functions import *
+
 
 class Reader:
 
