@@ -23,6 +23,7 @@ class SignalInit(Featurizer):
         super(SignalInit, self).__init__(session)
         self.id = "SignalInit"
         self.table_name = self.dataset.table_specific_name('Init')
+        self.count = 1
 
     def get_query(self, clean=1):
         """

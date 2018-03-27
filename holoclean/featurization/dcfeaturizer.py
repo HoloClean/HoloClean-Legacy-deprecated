@@ -184,4 +184,5 @@ class SignalDC(Featurizer):
                                          df_feature_map_dc, self.dataset, 1)
             self.session.feature_count += count
 
+        self.count = len(dc_queries)
         return dc_queries

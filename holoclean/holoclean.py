@@ -404,7 +404,7 @@ class Session:
 
         soft = SoftMax(self, self.X_training)
 
-        soft.logreg()
+        soft.logreg(self.featurizers)
 
         if self.holo_env.verbose:
             end = time.time()

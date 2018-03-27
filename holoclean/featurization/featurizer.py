@@ -17,8 +17,11 @@ class Featurizer:
         self.session = session
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
-        # offset on the feature_id_map, value must be overridden in subclass
-        self.offset = 0
+
+        # these value must be overridden in subclass
+        self.offset = 0  # offset on the feature_id_map
+        self.id = 'Base'
+        self.count = 0
 
     @abstractmethod
     def get_query(self):
