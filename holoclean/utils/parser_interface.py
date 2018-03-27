@@ -169,6 +169,7 @@ class Predicate:
     def __init__(self, predicate_string, tuple_names, schema):
         self.schema = schema
         self.tuple_names = tuple_names
+        self.cnf_form = ""
         op_index = DenialConstraint.contains_operation(predicate_string)
         if op_index is not None:
             self.operation_string = DenialConstraint.operationSign[op_index]
@@ -176,6 +177,16 @@ class Predicate:
         else:
             raise DCFormatException('Cannot find Operation in Predicate: ' + predicate_string)
         self.components = self.parse_components(predicate_string)
+
+        for i in range(len(self.components)):
+            component = self.components[i]
+            if isinstance(component, str):
+                self.cnf_form += component
+            else:
+                self.cnf_form += component[0] + "." + component[1]
+            if i < len(self.components) - 1:
+                self.cnf_form += self.operation
+
         return
 
     def parse_components(self, predicate_string):
@@ -252,15 +263,8 @@ class DenialConstraint:
 
         # Create CNF form of the DC
         for predicate in self.predicates:
-            for i in range(len(predicate.components)):
-                component = predicate.components[i]
-                if isinstance(component, str):
-                    self.cnf_form += component + " "
-                else:
-                    self.cnf_form += component[0] + "." + component[1] + " "
-                if i < len(predicate.components) - 1:
-                    self.cnf_form += predicate.operation + " "
-            self.cnf_form += "AND "
+            self.cnf_form += predicate.cnf_form
+            self.cnf_form += " AND "
         self.cnf_form = self.cnf_form[:-5]  # remove AND and spaces at the end
         return
 
