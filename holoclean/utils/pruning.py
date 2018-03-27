@@ -396,18 +396,19 @@ class Pruning:
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_clean, self.dataset.attributes['Possible_values']
         )
+        self.session.possible_values_clean = possible_values_clean
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_clean'),
             'attr_name')
         
-
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, self.dataset.attributes['Possible_values']
         )
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible, self.dataset)
+        self.session.possible_values_dk = possible_values_dirty
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
