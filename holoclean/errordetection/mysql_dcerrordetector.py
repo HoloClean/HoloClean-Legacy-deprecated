@@ -28,7 +28,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.dc_parser = session.parser
         self.operationsarr = DCParser.operationsArr
         self.noisy_cells = None
-        self.dictionary_dc = self.dc_parser.create_dc_map(session.Denial_constraints)
+        self.dc_objects = session.dc_objects
         self.Denial_constraints = session.Denial_constraints
 
     # Internals
@@ -53,101 +53,70 @@ class MysqlDCErrorDetection(ErrorDetection):
             self.holo_obj.logger.info(
                 'Denial Constraint Queries For ' + dc_name)
         t3 = time.time()
+        dc_object = self.dc_objects[dc_name]
         temp_table = "tmp" + self.dataset.dataset_id
         query = "CREATE TABLE " + temp_table +\
-                " AS SELECT " \
-                "t1." + self.index + \
-                " as t1_ind, " \
-                "t2." + self.index + " as t2_ind " \
-                " FROM  " + \
-                self.dataset.table_specific_name("Init") + \
-                " as t1, " + \
-                self.dataset.table_specific_name("Init") + \
-                " as  t2 " + "WHERE t1." + self.index + \
-                " != t2." + self.index + "  AND " + dc_name
+                " AS SELECT "
+        for tuple_name in dc_object.tuple_names:
+            query += tuple_name + "." + self.index + " as " + tuple_name + "_ind,"
+        query = query[:-1]
+        query += " FROM  "
+        for tuple_name in dc_object.tuple_names:
+            query += self.dataset.table_specific_name("Init") + \
+                 " as " + tuple_name + ","
+        query = query[:-1]
+        query += " WHERE "
+        if len(dc_object.tuple_names) == 2:
+            query += dc_object.tuple_names[0] + "." + self.index + \
+                 " != " + dc_object.tuple_names[1] + "." + self.index + " AND "
+        query += dc_object.cnf_form
         self.dataengine.query(query)
+
         t4 = time.time()
         if self.holo_obj.verbose:
             self.holo_obj.logger.info("Time for executing query "
                                       + dc_name + ":" + str(t4-t3))
 
-        t1_attributes = set()
-        t2_attributes = set()
+        tuple_attributes = {}
+        for tuple_name in dc_object.tuple_names:
+            tuple_attributes[tuple_name] = set()
 
-        dc_predicates = self.dictionary_dc[dc_name]
-        for predicate_index in range(0, len(dc_predicates)):
-            predicate_type = dc_predicates[predicate_index][4]
-            # predicate_type 0 : we do not have a literal in this predicate
-            # predicate_type 1 : literal on the left side of the predicate
-            # predicate_type 2 : literal on the right side of the predicate
-            if predicate_type == 0:
-                relax_indices = range(2, 4)
-            elif predicate_type == 1:
-                relax_indices = range(3, 4)
-            elif predicate_type == 2:
-                relax_indices = range(2, 3)
-            else:
-                raise ValueError(
-                    'predicate type can only be 0: '
-                    'if the predicate does not have a literal'
-                    '1: if the predicate has a literal in the left side,'
-                    '2: if the predicate has a literal in right side'
-                )
-            for relax_index in relax_indices:
-                name_attribute = \
-                    dc_predicates[predicate_index][relax_index].split(".")
-                if name_attribute[0] == "t1":
-                    t1_attributes.add(name_attribute[1])
-                elif name_attribute[0] == "t2":
-                    t2_attributes.add(name_attribute[1])
+        for predicate in dc_object.predicates:
 
-        left_attributes = [[i] for i in t1_attributes]
-        right_attributes = [[i] for i in t2_attributes]
+            for component in predicate.components:
+                if isinstance(component, str):
+                    pass
+                else:
+                    tuple_attributes[component[0]].add(component[1])
 
-        t1_attributes_dataframe = self.spark_session.createDataFrame(
-            left_attributes, ['attr_name'])
+        tuple_attributes_lists ={}
+        tuple_attributes_dfs = {}
+        for tuple_name in dc_object.tuple_names:
+            tuple_attributes_lists[tuple_name] = [[i] for i in tuple_attributes[tuple_name]]
+            tuple_attributes_dfs[tuple_name] = self.spark_session.createDataFrame(
+                tuple_attributes_lists[tuple_name], ['attr_name'])
 
-        t2_attributes_dataframe = self.spark_session.createDataFrame(
-            right_attributes, ['attr_name'])
+            name = self.dataset.table_specific_name(tuple_name + "_attributes")
+            attribute_dataframe = tuple_attributes_dfs[tuple_name]
 
-        t1_name = self.dataset.table_specific_name("T1_attributes")
-        t2_name = self.dataset.table_specific_name("T2_attributes")
-        self.dataengine.dataframe_to_table(t1_name, t1_attributes_dataframe)
-        self.dataengine.dataframe_to_table(t2_name, t2_attributes_dataframe)
+            self.dataengine.dataframe_to_table(name, attribute_dataframe)
 
-        # Left part of predicates
-        distinct_left = \
-            "(SELECT DISTINCT t1_ind  FROM " + temp_table + ") AS row_table"
+            distinct = \
+                "(SELECT DISTINCT " + tuple_name + "_ind  FROM " + temp_table + ") AS row_table"
 
-        query_left = "INSERT INTO " + \
+            query = "INSERT INTO " + \
                      self.dataset.table_specific_name("C_dk_temp") + \
-                     " SELECT row_table.t1_ind as ind," \
-                     " a.attr_name as attr FROM " + \
-                     t1_name + \
-                     " AS a," + \
-                     distinct_left
-        self.dataengine.query(query_left)
-
-        self.holo_obj.logger.info('Denial Constraint Query Left ' +
-                                  dc_name + ":" + query_left)
-        # Right part of predicates
-
-        distinct_right = \
-            "(SELECT DISTINCT t2_ind  FROM " + temp_table + ") AS row_table"
-        query_right = "INSERT INTO " + \
-                      self.dataset.table_specific_name("C_dk_temp") + \
-                      " SELECT row_table.t2_ind as ind, " \
-                      "a.attr_name as attr " \
-                      "FROM " + \
-                      t2_name + " AS a," + distinct_right
-
-        self.dataengine.query(query_right)
-
-        self.holo_obj.logger.info('Denial Constraint Query Right ' +
-                                  dc_name + ":" + query_right)
-
-        drop_temp_table = "DROP TABLE " + temp_table + ";DROP TABLE " + \
-                          t1_name + ";DROP TABLE " + t2_name
+                    " SELECT row_table. " + tuple_name + "_ind as ind," \
+                    " a.attr_name as attr FROM " + \
+                    name + \
+                    " AS a," + \
+                    distinct
+            self.dataengine.query(query)
+            self.holo_obj.logger.info('Denial Constraint Query Left ' +
+                                      dc_name + ":" + query)
+            drop_temp_table = "DROP TABLE " + name
+            self.dataengine.query(drop_temp_table)
+        drop_temp_table = "DROP TABLE " + temp_table
         self.dataengine.query(drop_temp_table)
 
     def _get_sym_noisy_cells_for_dc(self, dc_name):
@@ -241,7 +210,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         query_for_creation_table = "CREATE TABLE " + table_name + \
                                    "(ind INT, attr VARCHAR(255));"
         self.dataengine.query(query_for_creation_table)
-        for dc_name in self.dictionary_dc:
+        for dc_name in self.dc_objects:
             self._get_noisy_cells_for_dc(dc_name)
 
         c_dk_drataframe = self.dataengine.\
