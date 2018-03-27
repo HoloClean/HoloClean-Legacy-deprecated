@@ -16,7 +16,7 @@
 
 from holoclean.holoclean import HoloClean, Session
 
-holo = HoloClean(mysql_driver = "../holoclean/lib/mysql-connector-java-5.1.44-bin.jar" )
+holo = HoloClean(holoclean_path=".." )
 session = Session(holo)
 
 
