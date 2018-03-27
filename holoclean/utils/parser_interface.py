@@ -237,6 +237,7 @@ class DenialConstraint:
         split = dc_string.split('&')
         self.tuple_names = []
         self.predicates = []
+        self.cnf_form = ""
 
         # Find all tuple names used in DC
         for component in split:
@@ -248,6 +249,20 @@ class DenialConstraint:
         # Make a predicate for each component that's not a tuple name
         for i in range(len(self.tuple_names), len(split)):
             self.predicates.append(Predicate(split[i], self.tuple_names, schema))
+
+        # Create CNF form of the DC
+        for predicate in self.predicates:
+            for i in range(len(predicate.components)):
+                component = predicate.components[i]
+                if isinstance(component, str):
+                    self.cnf_form += component + " "
+                else:
+                    self.cnf_form += component[0] + "." + component[1] + " "
+                if i < len(predicate.components) - 1:
+                    self.cnf_form += predicate.operation + " "
+            self.cnf_form += "AND "
+        self.cnf_form = self.cnf_form[:-5]  # remove AND and spaces at the end
+        return
 
     @staticmethod
     def contains_operation(string):
