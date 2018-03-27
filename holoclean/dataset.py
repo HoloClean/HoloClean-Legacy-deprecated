@@ -127,7 +127,14 @@ class Dataset:
             'Inferred_values': [],
             'Repaired_dataset': [],
             'Correct': [],
-            'Correct_flat': []}
+            'Correct_flat': [],
+            'Feature':
+                StructType([
+                    StructField("vid", IntegerType(), False),
+                    StructField("assigned_val", IntegerType(), False),
+                    StructField("feature", IntegerType(), False),
+                    StructField("count", IntegerType(), False)
+                ]) }
 
     # Internal methods
     @staticmethod

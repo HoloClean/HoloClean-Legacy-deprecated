@@ -19,6 +19,7 @@ import multiprocessing
 from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
 from featurization.initfeaturizer import SignalInit
 from featurization.dcfeaturizer import SignalDC
+from featurization.cooccurrencefeaturizer import  SignalCooccur
 from global_variables import GlobalVariables
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
@@ -385,11 +386,17 @@ class Session:
             print log
             start = time.time()
 
+        cooccur_signal = SignalCooccur(self)
+        self._add_featurizer(cooccur_signal)
+
         init_signal = SignalInit(self)
         self._add_featurizer(init_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
+
+
+
 
         self._ds_featurize(clean=1)
 
