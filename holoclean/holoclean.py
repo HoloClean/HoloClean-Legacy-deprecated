@@ -665,8 +665,8 @@ class Session:
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
-        obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 \
-            else 'Observed_Possible_values_dk'
+        possible_values = 'Possible_values_clean' if clean == 1 \
+            else 'Possible_values_dk'
         feature_id_map = 'Feature_id_map'
         query_for_create_offset = "CREATE TABLE \
                     " + self.dataset.table_specific_name(dimensions) \
@@ -676,9 +676,9 @@ class Session:
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'N' as dimension, (" \
-            " SELECT COUNT(*) " \
+            " SELECT MAX(vid) " \
             "FROM " + \
-            self.dataset.table_specific_name(obs_possible_values) + \
+            self.dataset.table_specific_name(possible_values) + \
             ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
 

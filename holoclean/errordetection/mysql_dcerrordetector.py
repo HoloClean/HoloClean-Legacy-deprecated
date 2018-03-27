@@ -55,6 +55,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         t3 = time.time()
         dc_object = self.dc_objects[dc_name]
         temp_table = "tmp" + self.dataset.dataset_id
+        # Create Query for temp table
         query = "CREATE TABLE " + temp_table +\
                 " AS SELECT "
         for tuple_name in dc_object.tuple_names:
@@ -77,6 +78,7 @@ class MysqlDCErrorDetection(ErrorDetection):
             self.holo_obj.logger.info("Time for executing query "
                                       + dc_name + ":" + str(t4-t3))
 
+        # For each predicate add attributes
         tuple_attributes = {}
         for tuple_name in dc_object.tuple_names:
             tuple_attributes[tuple_name] = set()

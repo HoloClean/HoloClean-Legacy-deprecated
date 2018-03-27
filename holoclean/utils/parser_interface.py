@@ -226,7 +226,7 @@ class Predicate:
                     current_component.append(str_so_far)
                     str_so_far = ""
                 else:
-                    raise DCFormatException('Tuple name ' + str_so_far + ' not defined in ') + predicate_string
+                    raise DCFormatException('Tuple name ' + str_so_far + ' not defined in ' + predicate_string)
             elif (predicate_string[i + 1] == ',' or predicate_string[i + 1] == ')')\
                     and predicate_string[i] != "'":
                 if str_so_far in self.schema:
