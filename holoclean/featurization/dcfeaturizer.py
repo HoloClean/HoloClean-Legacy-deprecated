@@ -41,20 +41,6 @@ class SignalDC(Featurizer):
                 all_relax_dc.append(relax_dc)
         return all_relax_dc
 
-    def _comparison_table_name(self, name):
-        """
-        This method chooses the appropriate name of the table for the query
-
-        :param name: shows the name of table that we have on the comparison
-
-        :return return the name of the table that we will use in the query
-        """
-        if name == "t1":
-            table_name = "t2"
-        else:
-            table_name = "t1"
-        return table_name
-
     def _create_relaxed_dc(self, dc_object):
         """
         This method creates a list of all the relaxed DC's for a specific DC
@@ -86,19 +72,19 @@ class SignalDC(Featurizer):
                             component2, list):
 
                         if component1[1] != component2[1]:
-                            relax_dc = relax_dc + " AND  t1." + \
+                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                        index_name + \
-                                       " <> t2." + \
+                                       " <> " + dc_object.tuple_names[1] + "." + \
                                        index_name
                         else:
-                            relax_dc = relax_dc + " AND  t1." + \
+                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                        index_name \
-                                       + " < t2." + \
+                                       + " < " + dc_object.tuple_names[1] + "." + \
                                        index_name
                     else:
-                        relax_dc = relax_dc + " AND  t1." + \
+                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                    index_name \
-                                   + " < t2." + \
+                                   + " < " + dc_object.tuple_names[1] + "." + \
                                    index_name
 
                 for other_predicate in dc_predicates:
@@ -118,19 +104,19 @@ class SignalDC(Featurizer):
                     if isinstance(component1, list) and isinstance(
                             component2, list):
                         if component1[1] != component2[1]:
-                            relax_dc = relax_dc + " AND  t1." + \
+                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                        index_name + \
-                                       " <> t2." + \
+                                       " <> " + dc_object.tuple_names[1] + "." + \
                                        index_name
                         else:
-                            relax_dc = relax_dc + " AND  t1." + \
+                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                        index_name \
-                                       + " < t2." + \
+                                       + " < " + dc_object.tuple_names[1] + "." + \
                                        index_name
                     else:
-                        relax_dc = relax_dc + " AND  t1." + \
+                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
                                    index_name \
-                                   + " < t2." + \
+                                   + " < " + dc_object.tuple_names[1] + "." + \
                                    index_name
 
                 for other_predicate in dc_predicates:
