@@ -159,7 +159,10 @@ class Pruning:
            :param assignment: the values for every attribute
            :param trgt_attr: the name of attribute
         """
-        cell_values = {(assignment[trgt_attr])}
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
