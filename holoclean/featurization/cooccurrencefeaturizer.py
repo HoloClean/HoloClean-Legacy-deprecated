@@ -1,8 +1,6 @@
 from featurizer import Featurizer
 from holoclean.global_variables import GlobalVariables
 
-
-
 __metaclass__ = type
 
 
@@ -29,29 +27,30 @@ class SignalCooccur(Featurizer):
         self.all_attr = list(self.session.init_dataset.schema.names)
         self.all_attr.remove(self.index_name)
 
-        self.count = len(self.all_attr)
+        self.count = 0
         self.pruning_object = self.session.pruning
         self.domain_pair_stats = self.pruning_object.domain_pair_stats
         self.dirty_cells_attributes = \
             self.pruning_object.dirty_cells_attributes
-        self._create_cooccur_feature_table()
 
-    def _create_cooccur_dataframe(self, dataframe ):
+    def _create_cooccur_dataframe(self, dataframe):
+
+        init = self.session.init_dataset
+        cooccur_df = dataframe.join(init, dataframe['tid'] == init[self.index_name])
 
         cooccur_list = []
-        for row in dataframe.collect():
+        for row in cooccur_df.collect():
             vid = row[0]
-            tid = row[1]
             attr_name = row[2]
             attr_val = row[3]
             domain_id = row[5]
-            for attribute in self.dirty_cells_attributes :
+            for attribute in self.dirty_cells_attributes:
                 if attribute != attr_name:
-                    cooccur_value = 0
+                    cooccur_value = row[attribute]
                     try:
                         cooccur_count = \
-                            self.domain_pair_stats[attr_name][attribute][
-                                (attr_val, cooccur_value)]
+                            int(self.domain_pair_stats[attr_name][attribute][
+                                (attr_val, cooccur_value)])
                     except:
                         cooccur_count = 0
                     cooccur_list.append(
@@ -59,36 +58,46 @@ class SignalCooccur(Featurizer):
                          cooccur_count])
         return cooccur_list
 
-    def _create_cooccur_feature_table(self):
+    def _create_cooccur_feature_table(self, clean):
         """
 
         :param clean: flag if we are in the training or testing phase
         """
-        self.offset = self.session.feature_count
-        self.attribute_feature_id = {}
-        self.count = self.offset
-        for attribute in self.dirty_cells_attributes:
-            self.count = self.count + 1
-            self.attribute_feature_id[attribute] = self.count
+        if clean:
+            table_name = 'Feature_cooccur_clean'
+            self.offset = self.session.feature_count
+            self.attribute_feature_id = {}
+            feature_id_list = []
+            for attribute in self.dirty_cells_attributes:
+                self.count += 1
+                self.attribute_feature_id[attribute] = self.count + self.offset
+                feature_id_list.append\
+                    ([self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
+            feature_df = self.session.holo_env.spark_session.createDataFrame(
+                feature_id_list,
+                self.session.dataset.attributes['Feature_id_map']
+            )
+            self.dataengine.add_db_table(
+                'Feature_id_map',
+                feature_df,
+                self.session.dataset,
+                append=1
+            )
+            dataframe = self.session.possible_values_clean
+            self.session.feature_count += self.count
 
-        cooccur_clean = self._create_cooccur_dataframe(
-            self.session.possible_values_clean)
-        cooccur_dk = self._create_cooccur_dataframe(
-            self.session.possible_values_dk)
+        else:
+            table_name = 'Feature_cooccur_dk'
+            dataframe = self.session.possible_values_dk
 
-        new_df_cooccur_clean = self.session.holo_env.spark_session.createDataFrame(
-            cooccur_clean, self.dataset.attributes['Feature']
+        cooccur = self._create_cooccur_dataframe(dataframe)
+
+        new_df_cooccur = self.session.holo_env.spark_session.createDataFrame(
+            cooccur, self.dataset.attributes['Feature']
         )
 
-        new_df_cooccur_dk = self.session.holo_env.spark_session.createDataFrame(
-            cooccur_dk, self.dataset.attributes['Feature']
-        )
+        self.dataengine.add_db_table(table_name, new_df_cooccur, self.dataset)
 
-        self.dataengine.add_db_table('Feature_cooccur_clean',
-                                     new_df_cooccur_clean, self.dataset)
-
-        self.dataengine.add_db_table('Feature_cooccur_dk',
-                                     new_df_cooccur_dk, self.dataset)
         return
 
     def get_query(self, clean=1):
@@ -101,8 +110,13 @@ class SignalCooccur(Featurizer):
 
         :return a string with the query for this feature
         """
-
+        self._create_cooccur_feature_table(clean)
         # Create co-occur feature
-        query_for_featurization = " "
+        if clean:
+            table_name = "Feature_cooccur_clean"
+        else:
+            table_name = "Feature_cooccur_dk"
+        query_for_featurization = "SELECT * FROM " + \
+                                  self.session.dataset.table_specific_name(table_name)
 
         return [query_for_featurization]

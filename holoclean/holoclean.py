@@ -386,17 +386,14 @@ class Session:
             print log
             start = time.time()
 
-        cooccur_signal = SignalCooccur(self)
-        self._add_featurizer(cooccur_signal)
-
         init_signal = SignalInit(self)
         self._add_featurizer(init_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
 
-
-
+        cooccur_signal = SignalCooccur(self)
+        self._add_featurizer(cooccur_signal)
 
         self._ds_featurize(clean=1)
 
