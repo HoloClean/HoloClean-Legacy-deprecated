@@ -1,6 +1,6 @@
-from holoclean.utils.dcparser import DCParser
 from errordetector import ErrorDetection
 from holoclean.global_variables import GlobalVariables
+from holoclean.utils.parser_interface import DenialConstraint
 import time
 
 
@@ -26,7 +26,7 @@ class MysqlDCErrorDetection(ErrorDetection):
         self.session = session
         self.index = GlobalVariables.index_name
         self.dc_parser = session.parser
-        self.operationsarr = DCParser.operationsArr
+        self.operationsarr = DenialConstraint.operationsArr
         self.noisy_cells = None
         self.dc_objects = session.dc_objects
         self.Denial_constraints = session.Denial_constraints
