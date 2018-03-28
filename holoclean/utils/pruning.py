@@ -103,18 +103,22 @@ class Pruning:
         row_id = 0
         cell_values = {}
         self.attribute_map = {}
+        self.cell_values_init = []
         number_id = 0
         for column in dataframe_init.drop(GlobalVariables.index_name).collect():
             row = {}
             column_id = 0
+            dict_collumns = {}
             for column_value in column:
                 self.attribute_map[table_attribute[column_id]] = column_id
                 cell_variable = RandomVar(columnname=table_attribute[column_id],
                                           value=column_value, tupleid=row_id,
                                           cellid=number_id, dirty=0, domain=0)
+                dict_collumns[table_attribute[column_id]] = column_value
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
+            self.cell_values_init.append(dict_collumns)
             cell_values[row_id] = row
             row_id = row_id + 1
         return cell_values

@@ -34,21 +34,20 @@ class SignalCooccur(Featurizer):
             self.pruning_object.dirty_cells_attributes
         self.domain_stats = self.pruning_object.domain_stats
         self.threshold = self.pruning_object.threshold
+        self.cell_values_init = self.pruning_object.cell_values_init
 
     def _create_cooccur_dataframe(self, dataframe):
 
-        init = self.session.init_dataset
-        cooccur_df = dataframe.join(init, dataframe['tid'] == init[self.index_name])
-
         cooccur_list = []
-        for row in cooccur_df.collect():
+        for row in dataframe.collect():
             vid = row[0]
+            tid = row[1]
             attr_name = row[2]
             attr_val = row[3]
             domain_id = row[5]
             for attribute in self.dirty_cells_attributes:
                 if attribute != attr_name:
-                    cooccur_value = row[attribute]
+                    cooccur_value = self.cell_values_init[tid-1][attribute]
                     try:
                         c_cooccur_counts = self.domain_pair_stats[attr_name][attribute][
                                 (attr_val, cooccur_value)]
