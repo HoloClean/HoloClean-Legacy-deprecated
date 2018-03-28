@@ -39,7 +39,7 @@ class SignalCooccur(Featurizer):
     def _create_cooccur_dataframe(self, dataframe):
 
         cooccur_list = []
-        for row in dataframe.collect():
+        for row in dataframe:
             vid = row[0]
             tid = row[1]
             attr_name = row[2]
@@ -48,16 +48,17 @@ class SignalCooccur(Featurizer):
             for attribute in self.dirty_cells_attributes:
                 if attribute != attr_name:
                     cooccur_value = self.cell_values_init[tid-1][attribute]
-                    try:
+
+                    if (attr_val, cooccur_value) in self.domain_pair_stats[attr_name][attribute]:
                         c_cooccur_counts = self.domain_pair_stats[attr_name][attribute][
                                 (attr_val, cooccur_value)]
-                        v_cooccur_counts =self.domain_stats[attribute][cooccur_value]
-                        cooccur_prob = c_cooccur_counts / v_cooccur_counts
+                        v_cooccur_counts = self.domain_stats[attribute][cooccur_value]
+                        cooccur_prob = int(c_cooccur_counts) / v_cooccur_counts
                         if cooccur_prob > self.threshold :
                             cooccur_count = 1
                         else:
                             cooccur_count = 0
-                    except:
+                    else:
                         cooccur_count = 0
                     cooccur_list.append(
                         [vid, domain_id, self.attribute_feature_id[attribute],

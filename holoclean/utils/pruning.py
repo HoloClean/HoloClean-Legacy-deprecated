@@ -397,7 +397,7 @@ class Pruning:
             possible_values_clean, self.dataset.attributes['Possible_values']
         )
 
-        self.session.possible_values_clean = new_df_possible
+        self.session.possible_values_clean = possible_values_clean
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
         self.dataengine.add_db_table_index(
@@ -410,7 +410,7 @@ class Pruning:
 
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible_dk, self.dataset)
-        self.session.possible_values_dk = new_df_possible_dk
+        self.session.possible_values_dk = possible_values_dirty
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
