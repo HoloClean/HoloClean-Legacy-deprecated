@@ -13,7 +13,7 @@ class RandomVar:
 class Pruning:
     """Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, session, threshold=0.5):
+    def __init__(self, session, threshold1=0.5 , threshold2  = 0):
         """
 
             :param session: Holoclean session
@@ -22,7 +22,8 @@ class Pruning:
         self.session = session
         self.spark_session = session.holo_env.spark_session
         self.dataengine = session.holo_env.dataengine
-        self.threshold = threshold
+        self.threshold1 = threshold1
+        self.threshold2 = threshold2
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
@@ -175,9 +176,11 @@ class Pruning:
                 if attr_val in self.cooocurance_for_first_attribute[attr]:
                     if trgt_attr in self.cooocurance_for_first_attribute[
                                     attr][attr_val]:
-                        cell_values |= set(
-                            self.cooocurance_for_first_attribute[attr][
-                                attr_val][trgt_attr].keys())
+                        set_domain = set()
+                        for domain_val in self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr]:
+                            if self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr][domain_val] > self.threshold1:
+                                set_domain.add(domain_val)
+                        cell_values |= set_domain
 
         return cell_values
 
@@ -266,7 +269,7 @@ class Pruning:
                     cooccure_number = self._compute_number_of_coocurences(
                         original_attribute, assgn_tuple[0], cooccured_attribute,
                         assgn_tuple[1])
-                    if cooccure_number > self.threshold:
+                    if cooccure_number > self.threshold2:
                         if assgn_tuple[0] not in\
                                 self.cooocurance_for_first_attribute[
                                      original_attribute]:
