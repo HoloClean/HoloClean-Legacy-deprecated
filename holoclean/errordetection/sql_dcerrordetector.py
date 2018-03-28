@@ -7,7 +7,7 @@ import time
 __metaclass__ = type
 
 
-class MysqlDCErrorDetection(ErrorDetection):
+class SqlDCErrorDetection(ErrorDetection):
     """
     This class is a subclass of the errordetector class and
     will return  error  cells and clean cells based on the
@@ -21,7 +21,7 @@ class MysqlDCErrorDetection(ErrorDetection):
 
         :param session: Holoclean session
         """
-        super(MysqlDCErrorDetection, self).\
+        super(SqlDCErrorDetection, self).\
             __init__(session.holo_env, session.dataset)
         self.session = session
         self.index = GlobalVariables.index_name

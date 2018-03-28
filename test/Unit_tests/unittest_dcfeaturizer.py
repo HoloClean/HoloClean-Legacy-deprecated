@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
-from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
+from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from holoclean.featurization.dcfeaturizer import SignalDC
 from holoclean.global_variables import GlobalVariables
 
@@ -21,7 +21,7 @@ class TestDCFeaturizer(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session)
+        detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
     def test_DC_query_for_clean(self):
@@ -67,7 +67,7 @@ class TestDCFeaturizerNonSymmetric(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_non_symmetric_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session)
+        detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
     def test_DC_query_for_clean(self):
@@ -116,7 +116,7 @@ class TestDCFeaturizerWeirdTableName(unittest.TestCase):
             "../../datasets/unit_test/"
             "unit_test_constraints_weird_table_name.txt")
 
-        detector = MysqlDCErrorDetection(self.session)
+        detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
 
 

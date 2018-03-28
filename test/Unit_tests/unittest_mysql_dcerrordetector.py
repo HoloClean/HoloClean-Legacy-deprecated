@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
-from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
+from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from pyspark.sql.types import *
 
 holo_obj = HoloClean(
@@ -22,7 +22,7 @@ class TestMysqlErrordetector(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        self.detector = MysqlDCErrorDetection(self.session)
+        self.detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors([self.detector])
 
     def tearDown(self):

@@ -83,8 +83,6 @@ class Predicate:
                         break
                 else:
                     raise DCFormatException('Closed an unopened (' + predicate_string)
-            elif str_so_far == ',' or str_so_far == '.':
-                str_so_far = ''
             elif predicate_string[i + 1] == '.':
                 if str_so_far in self.tuple_names:
                     current_component.append(str_so_far)
@@ -100,6 +98,8 @@ class Predicate:
                     current_component = []
                 else:
                     raise DCFormatException('Attribute name ' + str_so_far + ' not in schema')
+            elif str_so_far == ',' or str_so_far == '.':
+                str_so_far = ''
         return components
 
 

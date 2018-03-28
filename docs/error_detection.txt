@@ -10,7 +10,7 @@ ErrorDetector
 
 DCErrorDetector
 ---------------
-.. automodule:: holoclean.errordetection.mysql_dcerrordetector
+.. automodule:: holoclean.errordetection.sql_dcerrordetector
     :members:
 
 
