@@ -63,9 +63,9 @@ class SignalDC(Featurizer):
                 relax_dc = "postab.tid = " + component1[0] + \
                            "." + index_name + " AND " + \
                            "postab.attr_name = '" + component1[1] + \
-                           "' AND " + full_form_components[1] \
+                           "' AND " + "postab.attr_val"   \
                            + predicate.operation + \
-                           "postab.attr_val"
+                           full_form_components[1]
 
                 if len(dc_object.tuple_names) > 1:
                     if isinstance(component1, list) and isinstance(
@@ -97,9 +97,9 @@ class SignalDC(Featurizer):
                 relax_dc = "postab.tid = " + component2[0] +\
                            "." + index_name + " AND " + \
                            "postab.attr_name ='" + component2[1] +\
-                           "' AND " + "postab.attr_val" + \
+                           "' AND " + full_form_components[0] + \
                            predicate.operation + \
-                           full_form_components[0]
+                           "postab.attr_val"
                 if len(dc_object.tuple_names) > 1:
                     if isinstance(component1, list) and isinstance(
                             component2, list):
