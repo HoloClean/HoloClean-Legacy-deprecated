@@ -7,9 +7,12 @@ from holoclean.featurization.initfeaturizer import SignalInit
 from pyspark.sql.types import *
 
 holo_obj = HoloClean(
-    mysql_driver="../../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
-    verbose=True,
-    timing_file='execution_time.txt')
+            holoclean_path="../..",
+            verbose=True,
+            timing_file='execution_time.txt',
+            learning_iterations=50,
+            learning_rate=0.001,
+            batch_size=20)
 
 
 class TestInitFeaturizer(unittest.TestCase):
@@ -22,20 +25,18 @@ class TestInitFeaturizer(unittest.TestCase):
             "../../datasets/unit_test/unit_test_constraints.txt")
 
         detector = SqlDCErrorDetection(self.session)
-        self.session.detect_errors(detector)
-        self.attr_constrained = \
-            self.session.parser.get_all_constraint_attributes(
-                 self.session.Denial_constraints)
-        self.init_signal = SignalInit(self.attr_constrained,
-                                      holo_obj.dataengine,
-                                      self.session.dataset)
+        self.session.detect_errors([detector])
+        self.session._ds_domain_pruning(0.5)
+
+        self.init_signal = SignalInit(self.session)
+
 
     def tearDown(self):
         del self.session
 
     def test_Init_query_for_clean(self):
         query = self.init_signal.get_query()[0]
-        self.session._ds_domain_pruning(0.5)
+
         Int_feature_dataframe = \
             holo_obj.dataengine.query(query, 1)
 
@@ -54,7 +55,6 @@ class TestInitFeaturizer(unittest.TestCase):
 
     def test_Init_query_for_dk(self):
         query = self.init_signal.get_query(0)[0]
-        self.session._ds_domain_pruning(0.5)
         Int_feature_dataframe = \
             holo_obj.dataengine.query(query, 1)
 
