@@ -68,53 +68,37 @@ Then the environment can be activated by running:
 	source activate py27Env
 <b> Make sure to keep the environment activated for the rest of the installation process </b>
 
-### 2. Install MySQL Server
-<b> 2.1 For Ubuntu: </b>
-update and upgrade your apt-get:
+### 2. Install Postgresql
+<b> 2.1 Ubuntu Installation: </b>
+
+Install Postgres by running:
 ```
-sudo apt-get update	
-sudo apt-get install libmysqlclient-dev
-```
-Install MySQL by running:
-```
-sudo apt-get install mysql-server
+sudo apt-get install postgresql postgresql-contrib
 ```
 <br>
-<b> 2.2 For MacOS </b>
+<b> 2.2 Using Postgres on Ubuntu </b>
 
-Install and run the MySQL .dmg file for MacOS from https://dev.mysql.com/downloads/mysql/
+To start postgres run:
+```
+sudo -u postgres psql
+```
+<b> 2.3 Mac Installation </b>
 <br>
-After the installation is finished: 
+<b> 2.3 Using Postgres on Mac</b>
 <br>
-<b>open system preferences and click on the MySQL icon and make sure the MySQL Server Instance is running.</b>
+<b> 2.4 Setup Postgres for Holoclean </b>
 
-Next run :
+Create the database and user by running the following on the Postgres console:
 ```
-sudo /usr/local/mysql/bin/mysql_secure_installation
+CREATE database holo;
+CREATE user holocleanuser;
+ALTER USER holocleanuser WITH PASSWORD 'abcd1234';
+GRANT ALL PRIVILEGES on database holo to holocleanUser ;
 ```
-Set a new root password and use the default options for other prompts
-
-<b> 2.3 Create MySQL User and Database </b>
-
-Go to the root directory and run the script:
+To Connect to the holo database run:
 ```
-./mysql_script.sh
+\c holo
 ```
-This script sets up the mysql database 'holo' and the user 'holocleaunUser' that HoloClean uses.
-
-<b> 2.4 Using MySQL User </b>
-
-To access the tables Holoclean creates, open MySQL with:
-```
-mysql -u holocleanUser -p
-```
-The default password for holocleanUser is abcd1234
-Once MySQL has started you can access the holo database with the command
-```
-use holo
-```
-<b> 2.5 Clearning the database holo </b>
-
 HoloClean currently appends new tables to the database holo with each instance that is ran.
 To clear the database, open MySql with holocleanUser and run:
 ```
