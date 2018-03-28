@@ -36,7 +36,7 @@ class SignalCooccur(Featurizer):
         self.threshold = self.pruning_object.threshold
         self.cell_values_init = self.pruning_object.cell_values_init
 
-    def _create_cooccur_dataframe(self, dataframe):
+    def _create_cooccur_list(self, dataframe):
 
         cooccur_list = []
         for row in dataframe:
@@ -49,10 +49,13 @@ class SignalCooccur(Featurizer):
                 if attribute != attr_name:
                     cooccur_value = self.cell_values_init[tid-1][attribute]
 
-                    if (attr_val, cooccur_value) in self.domain_pair_stats[attr_name][attribute]:
-                        c_cooccur_counts = self.domain_pair_stats[attr_name][attribute][
+                    if (attr_val, cooccur_value) in self.domain_pair_stats[
+                        attr_name][attribute]:
+                        c_cooccur_counts = self.domain_pair_stats[attr_name][
+                            attribute][
                                 (attr_val, cooccur_value)]
-                        v_cooccur_counts = self.domain_stats[attribute][cooccur_value]
+                        v_cooccur_counts = self.domain_stats[attribute][
+                            cooccur_value]
                         cooccur_prob = int(c_cooccur_counts) / v_cooccur_counts
                         if cooccur_prob > self.threshold :
                             cooccur_count = 1
@@ -95,7 +98,7 @@ class SignalCooccur(Featurizer):
         else:
             dataframe = self.session.possible_values_dk
 
-        cooccur_list = self._create_cooccur_dataframe(dataframe)
+        cooccur_list = self._create_cooccur_list(dataframe)
 
         self.feature_list = cooccur_list
 
