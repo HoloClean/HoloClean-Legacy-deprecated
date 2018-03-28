@@ -732,8 +732,6 @@ class Session:
             self.N = dimension_dict['N']
             self.L = dimension_dict['L']
         return
-    
-
 
     def _create_corrected_dataset(self):
         """

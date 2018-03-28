@@ -343,8 +343,6 @@ class Pruning:
 
         possible_values_clean = []
         possible_values_dirty = []
-        c_clean = []
-        c_dk = []
         v_id_clean = v_id_dk = 0
 
         for tuple_id in self.cellvalues:
@@ -354,7 +352,6 @@ class Pruning:
                 self.domain_dict[attribute].add(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
-                    c_dk.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = \
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
@@ -371,7 +368,6 @@ class Pruning:
                                 self.all_cells_temp[tmp_cell_index].columnname,
                                 k_ij])
                 else:
-                    c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = \
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
@@ -415,19 +411,6 @@ class Pruning:
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
 
-        # Create Clean and DK flats
-        new_df_clean = self.spark_session.createDataFrame(
-            c_clean, self.dataset.attributes['C_clean_flat']
-        )
-        self.dataengine.add_db_table('C_clean_flat',
-                                     new_df_clean, self.dataset)
-
-        new_df_dk = self.spark_session.createDataFrame(
-            c_dk, self.dataset.attributes['C_dk_flat']
-        )
-        self.dataengine.add_db_table('C_dk_flat',
-                                     new_df_dk, self.dataset)
-
         new_df_kij = self.spark_session.createDataFrame(
             domain_kij_dk, self.dataset.attributes['Kij_lookup'])
         self.dataengine.add_db_table('Kij_lookup_dk',
@@ -450,8 +433,6 @@ class Pruning:
         self.dataengine.holo_env.logger.info("  ")
 
         del new_df_kij
-        del new_df_clean
-        del new_df_dk
 
         create_feature_id_map = "Create TABLE " + \
                                 self.dataset.table_specific_name(
