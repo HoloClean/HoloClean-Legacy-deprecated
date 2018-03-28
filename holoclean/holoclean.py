@@ -546,6 +546,9 @@ class Session:
             intersect_clean_cells = intersect_clean_cells.intersect(
                 clean_cells[detector_counter])
 
+        del dk_cells
+        del clean_cells
+
         self.clean_df = intersect_clean_cells
 
         # Persist all clean and dk cells to Database

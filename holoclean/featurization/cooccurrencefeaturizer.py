@@ -71,7 +71,6 @@ class SignalCooccur(Featurizer):
         :param clean: flag if we are in the training or testing phase
         """
         if clean:
-            table_name = 'Feature_cooccur_clean'
             self.offset = self.session.feature_count
             self.attribute_feature_id = {}
             feature_id_list = []
@@ -94,17 +93,11 @@ class SignalCooccur(Featurizer):
             self.session.feature_count += self.count
 
         else:
-            table_name = 'Feature_cooccur_dk'
             dataframe = self.session.possible_values_dk
 
         cooccur_list = self._create_cooccur_dataframe(dataframe)
 
         self.feature_list = cooccur_list
-        # new_df_cooccur = self.session.holo_env.spark_session.createDataFrame(
-        #     cooccur, self.dataset.attributes['Feature']
-        # )
-        #
-        # self.dataengine.add_db_table(table_name, new_df_cooccur, self.dataset)
 
         return
 
@@ -119,12 +112,4 @@ class SignalCooccur(Featurizer):
         :return a string with the query for this feature
         """
         self._create_cooccur_feature_table(clean)
-        # Create co-occur feature
-        # if clean:
-        #     table_name = "Feature_cooccur_clean"
-        # else:
-        #     table_name = "Feature_cooccur_dk"
-        # query_for_featurization = "SELECT * FROM " + \
-        #                           self.session.dataset.table_specific_name(table_name)
-
         return []
