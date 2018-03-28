@@ -6,7 +6,7 @@ import time
 __metaclass__ = type
 
 
-class MysqlnullErrorDetection(ErrorDetection):
+class SqlnullErrorDetection(ErrorDetection):
     """
     This class is a subclass of the errordetector class and
     will return  error  cells and clean cells based on if they have null value
@@ -18,7 +18,7 @@ class MysqlnullErrorDetection(ErrorDetection):
 
         :param session: Holoclean session
         """
-        super(MysqlnullErrorDetection, self).\
+        super(SqlnullErrorDetection, self).\
             __init__(session.holo_env, session.dataset)
         self.index = GlobalVariables.index_name
 
@@ -46,7 +46,7 @@ class MysqlnullErrorDetection(ErrorDetection):
         Adds to C_dk_temp_null table all the cells that are NULL
         """
 
-        all_attr = self.session.dataset.schema.split(",")
+        all_attr = self.session.dataset.get_schema('Init')
         all_attr.remove(self.index)
         for attribute in all_attr:
             time_start = time.time()

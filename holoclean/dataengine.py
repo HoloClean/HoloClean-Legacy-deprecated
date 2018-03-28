@@ -96,39 +96,9 @@ class DataEngine:
             "ssl": "false",
         }
 
-        return (jdbc_url,db_properties)
+        return jdbc_url, db_properties
 
-
-    def _table_column_to_dataframe(self, table_name, columns_name_list,
-                                   dataset):
-        """
-        This method gets table general name and returns a spark dataframe
-            contains the column of that table
-
-        Parameters
-        ----------
-        :param table_name: The name of table that we want some of its columns
-        :param columns_name_list: The list of columns that we want from
-                                table_name
-        :param dataset: The data set object to access the correct project
-                        tables
-
-        Returns
-        -------
-        :return: Dataframe
-            A dataframe that contains "columns_name_list" columns data
-        """
-        columns_string = ""
-        for c in columns_name_list:
-            columns_string += c + ","
-        columns_string = columns_string[:-1]
-        table_get = "Select " + columns_string + " from " + \
-                    dataset.dataset_tables_specific_name[
-                        dataset.attributes.index(table_name)]
-        use_spark = 1
-        return self.query(table_get, use_spark)
-
-    def _dataframe_to_table(self, spec_table_name, dataframe, append=0):
+    def dataframe_to_table(self, spec_table_name, dataframe, append=0):
         """
         Adding spark dataframe with specific table name "spec_table_name"
         to the data database with spark session
@@ -221,8 +191,7 @@ class DataEngine:
         """
 
         table_get = "Select * from " + \
-                    dataset.dataset_tables_specific_name[
-                        dataset.attributes.index(table_name)]
+                    dataset.table_specific_name(table_name)
 
         use_spark = 1
         return self.query(table_get, use_spark)
@@ -240,8 +209,6 @@ class DataEngine:
             Sql engine
         """
         return self.db_backend
-
-    # Setters
 
     def add_db_table(self, table_name, spark_dataframe, dataset, append=0):
         """
@@ -265,7 +232,7 @@ class DataEngine:
         No Return
         """
         specific_table_name = dataset.table_specific_name(table_name)
-        self._dataframe_to_table(specific_table_name, spark_dataframe, append)
+        self.dataframe_to_table(specific_table_name, spark_dataframe, append)
 
     def add_db_table_index(self, table_name, attr_name):
         """
@@ -311,26 +278,25 @@ class DataEngine:
         # Store dataframe to DB table
         schema = df.schema.names
         name_table = dataset.table_specific_name('Init')
-        self._dataframe_to_table(name_table, df)
-        dataset.schema = ','.join(schema)
+        self.dataframe_to_table(name_table, df)
+        dataset.attributes['Init'] = schema
         count = 0
         map_schema = []
+        attribute_map = {}
         for attribute in schema:
             if attribute != GlobalVariables.index_name:
                 count = count + 1
                 map_schema.append([count, attribute])
+                attribute_map[attribute] = count
 
         dataframe_map_schema = self.holo_env.spark_session.createDataFrame(
-            map_schema, StructType([
-                StructField(GlobalVariables.index_name, IntegerType(), False),
-                StructField("attribute", StringType(), True)
-            ]))
+            map_schema, dataset.attributes['Map_schema'])
         self.add_db_table('Map_schema', dataframe_map_schema, dataset)
 
         for table_tuple in map_schema:
             self.attribute_map[table_tuple[1]] = table_tuple[0]
 
-        return df
+        return df, attribute_map
 
     def query(self, sql_query, spark_flag=0):
         """

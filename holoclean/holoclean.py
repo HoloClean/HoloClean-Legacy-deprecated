@@ -12,15 +12,14 @@ from dataengine import DataEngine
 from dataset import Dataset
 from featurization.database_worker import DatabaseWorker, QueryProducer
 from utils.pruning import Pruning
-from utils.parser_interface import ParserInterface
+from utils.parser_interface import ParserInterface, DenialConstraint
 from threading import Condition, Semaphore
-from collections import deque
 import multiprocessing
-from pyspark.sql.types import *
 
 from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
 from featurization.initfeaturizer import SignalInit
 from featurization.dcfeaturizer import SignalDC
+from featurization.cooccurrencefeaturizer import  SignalCooccur
 from global_variables import GlobalVariables
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
@@ -132,7 +131,7 @@ arguments = [
       'dest': 'timing_file',
       'default': None,
       'type': str,
-      'help': 'File to save timing infomrmation'})
+      'help': 'File to save timing infomrmation'}),
 ]
 
 
@@ -148,28 +147,6 @@ flags = [
          'action': 'store_true',
          'help': 'verbose'})
 ]
-
-
-class _Barrier:
-    def __init__(self, n):
-        self.n = n
-        self.count = 0
-        self.mutex = Semaphore(1)
-        self.barrier = Condition()
-
-    def wait(self):
-        self.mutex.acquire()
-        self.count = self.count + 1
-        count = self.count
-        self.mutex.release()
-        if count == self.n:
-            self.barrier.acquire()
-            self.barrier.notifyAll()
-            self.barrier.release()
-        else:
-            self.barrier.acquire()
-            self.barrier.wait()
-            self.barrier.release()
 
 
 class HoloClean:
@@ -220,7 +197,6 @@ class HoloClean:
 
         # Init empty session collection
         self.session = {}
-        self.session_id = 0
 
     # Internal methods
     def _init_dataengine(self):
@@ -231,13 +207,9 @@ class HoloClean:
         # Set spark configuration
         conf = SparkConf()
 
-        # Link MySQL driver to Spark Engine
-        #conf.set("spark.executor.extraClassPath", self.mysql_driver)
-        #conf.set("spark.driver.extraClassPath", self.mysql_driver)
-
         # Link PG driver to Spark
-        conf.set("spark.executor.extraClassPath", self.holoclean_path + "/"+ self.pg_driver)
-        conf.set("spark.driver.extraClassPath", self.holoclean_path + "/"+self.pg_driver)
+        conf.set("spark.executor.extraClassPath", self.holoclean_path + "/" + self.pg_driver)
+        conf.set("spark.driver.extraClassPath", self.holoclean_path + "/" + self.pg_driver)
 
         conf.set('spark.driver.memory', '20g')
         conf.set('spark.executor.memory', '20g')
@@ -273,7 +245,8 @@ class Session:
         # Initialize members
         self.name = name
         self.holo_env = holo_env
-        self.Denial_constraints = []
+        self.Denial_constraints = []  # Denial Constraint strings
+        self.dc_objects = {}  # Denial Constraint Objects
         self.featurizers = []
         self.error_detectors = []
         self.cv = None
@@ -281,6 +254,7 @@ class Session:
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
         self.inferred_values = None
+        self.feature_count = 0
 
     def _timing_to_file(self, log):
         if self.holo_env.timing_file:
@@ -306,7 +280,7 @@ class Session:
             if self.holo_env.timing_file:
                 t_file = open(self.holo_env.timing_file, 'w')
                 t_file.write(log)
-        attributes = self.dataset.schema.split(',')
+        attributes = self.dataset.get_schema('Init')
         for attribute in attributes:
             self.holo_env.dataengine.add_db_table_index(
                 self.dataset.table_specific_name('Init'), attribute)
@@ -317,9 +291,11 @@ class Session:
         :param file_path: path to dc file
         :return: string array of dc's
         """
-        new_denial_constraints = self.parser.load_denial_constraints(
-            file_path, self.Denial_constraints)
+        new_denial_constraints, new_dc_objects = \
+            self.parser.load_denial_constraints(
+                file_path, self.Denial_constraints)
         self.Denial_constraints.extend(new_denial_constraints)
+        self.dc_objects.update(new_dc_objects)
         return self.Denial_constraints
 
     def add_denial_constraint(self, dc):
@@ -327,8 +303,9 @@ class Session:
         :param dc: string in dc format
         :return: string array of dc's
         """
-        checked_dc = self.parser.check_dc_format(dc, self.Denial_constraints)
-        self.Denial_constraints.append(checked_dc)
+        dc_object = DenialConstraint(dc, self.dataset.get_schema("Init"))
+        self.Denial_constraints.append(dc)
+        self.dc_objects[dc] = dc_object
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):
@@ -409,11 +386,14 @@ class Session:
             print log
             start = time.time()
 
-        init_signal = SignalInit(self.holo_env.dataengine, self.dataset)
+        init_signal = SignalInit(self)
         self._add_featurizer(init_signal)
 
         dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
+
+        cooccur_signal = SignalCooccur(self)
+        self._add_featurizer(cooccur_signal)
 
         self._ds_featurize(clean=1)
 
@@ -428,7 +408,7 @@ class Session:
 
         soft = SoftMax(self, self.X_training)
 
-        soft.logreg()
+        soft.logreg(self.featurizers)
 
         if self.holo_env.verbose:
             end = time.time()
@@ -457,6 +437,7 @@ class Session:
             print log
             self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
+        soft.log_weights()
         return self._create_corrected_dataset()
 
     def compare_to_truth(self, truth_path):
@@ -472,7 +453,6 @@ class Session:
         acc = Accuracy(self, truth_path)
         acc.accuracy_calculation(flattening)
 
-    # Setters
     def _ingest_dataset(self, src_path):
         """ Load, Ingest, a dataset from a src_path
         Tables created: Init
@@ -486,12 +466,12 @@ class Session:
         No Return
         """
         self.holo_env.logger.info('ingesting file:' + src_path)
-        self.init_dataset = self.holo_env.dataengine.ingest_data(src_path, self.dataset)
+        self.init_dataset, self.attribute_map = \
+            self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         self.holo_env.logger.info(
             'creating dataset with id:' +
             self.dataset.print_id())
-        all_attr = self.dataset.schema.split(
-            ',')
+        all_attr = self.dataset.get_schema('Init')
         all_attr.remove(GlobalVariables.index_name)
         number_of_tuples = len(self.init_dataset.collect())
         tuples = [[i] for i in range(1, number_of_tuples + 1)]
@@ -515,45 +495,6 @@ class Session:
         -------
         No Return
         """
-        if new_featurizer.id == 'SignalInit':
-            maximum = self.holo_env.dataengine.query(
-                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
-                self.dataset.table_specific_name("Feature_id_map"), 1
-            ).collect()[0]['max']
-            index = maximum + 1
-            list_domain_map = [[index, 'Init', 'Init', 'Init']]
-            df_domain_map = self.holo_env.spark_session.createDataFrame(
-                list_domain_map, StructType([
-                    StructField("feature_ind", IntegerType(), True),
-                    StructField("attribute", StringType(), False),
-                    StructField("value", StringType(), False),
-                    StructField("Type", StringType(), False),
-                ]))
-            self.holo_env.dataengine.add_db_table(
-                'Feature_id_map', df_domain_map, self.dataset, append=1)
-        elif new_featurizer.id == 'SignalCooccur':
-            maximum = self.holo_env.dataengine.query(
-                "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
-                self.dataset.table_specific_name("Feature_id_map"), 1
-            ).collect()[0]['max']
-            index = maximum + 1
-            list_domain_map = []
-            for attribute in self.pruning.domain_dict:
-                value_index = 1
-                for value in self.pruning.domain_dict[attribute]:
-                    list_domain_map.append(
-                        [index, attribute, unicode(value), 'cooccur'])
-                    value_index += 1
-                    index += 1
-            df_domain_map = self.holo_env.spark_session.createDataFrame(
-                list_domain_map, StructType([
-                    StructField("feature_ind", IntegerType(), True),
-                    StructField("attribute", StringType(), False),
-                    StructField("value", StringType(), False),
-                    StructField("Type", StringType(), False),
-                ]))
-            self.holo_env.dataengine.add_db_table(
-                'Feature_id_map', df_domain_map, self.dataset, append=1)
         self.holo_env.logger.info('getting new signal for featurization...')
         self.featurizers.append(new_featurizer)
         self.holo_env.logger.info(
@@ -589,11 +530,13 @@ class Session:
         dk_cells = []
 
         self.holo_env.logger.info('starting error detection...')
+        # Get clean and dk cells from each error detector
         for err_detector in self.error_detectors:
             temp = err_detector.get_noisy_dknow_dataframe()
             clean_cells.append(temp[1])
             dk_cells.append(temp[0])
 
+        # Union all dk cells and intersect all clean cells
         num_of_error_detectors = len(dk_cells)
         union_dk_cells = dk_cells[0]
         intersect_clean_cells = clean_cells[0]
@@ -603,8 +546,12 @@ class Session:
             intersect_clean_cells = intersect_clean_cells.intersect(
                 clean_cells[detector_counter])
 
+        del dk_cells
+        del clean_cells
+
         self.clean_df = intersect_clean_cells
 
+        # Persist all clean and dk cells to Database
         self.holo_env.dataengine.add_db_table(
             'C_clean', intersect_clean_cells, self.dataset)
 
@@ -623,9 +570,6 @@ class Session:
                                   " has been created")
         self.holo_env.logger.info("  ")
         self.holo_env.logger.info('error detection is finished')
-        del intersect_clean_cells
-        del union_dk_cells
-        del self.error_detectors
         return
 
     def _ds_domain_pruning(self, pruning_threshold=0):
@@ -656,6 +600,7 @@ class Session:
         list_of_threads = []
 
         cvX = Condition()
+
         if clean:
             b = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
@@ -674,35 +619,37 @@ class Session:
 
             b_dk.wait()
 
-
-
         query_prod.join()
         if clean:
             self._create_dimensions(clean)
-            X_training = torch.zeros(self.N, self.M, self.L)
-            for thread in list_of_threads:
-                thread.getX(X_training)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
+
         else:
             self._create_dimensions(clean)
-            X_testing = torch.zeros(self.N, self.M, self.L)
-            for thread in list_of_threads:
-                thread.getX(X_testing)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
+
+        X_tensor = torch.zeros(self.N, self.M, self.L)
+        for thread in list_of_threads:
+            thread.getX(X_tensor)
+        for feature in self.featurizers:
+            if feature.feature_list is not None:
+                for factor in feature.feature_list:
+                    vid = factor[0] - 1
+                    assigned_val = factor[1] - 1
+                    feature = factor[2] - 1
+                    count = factor[3]
+                    X_tensor[vid][feature][assigned_val] = count
+        cvX.acquire()
+        cvX.notifyAll()
+        cvX.release()
 
         for thread in list_of_threads:
             thread.join()
 
         if clean:
-            self.X_training = X_training
+            self.X_training = X_tensor
             self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
         else:
-            self.X_testing = X_testing
+            self.X_testing = X_tensor
             self.holo_env.logger.info("The X-Tensor_testing has been created")
             self.holo_env.logger.info("  ")
         return
@@ -721,15 +668,17 @@ class Session:
         self.holo_env.logger.info('Start executing queries for featurization')
         self.holo_env.logger.info(' ')
         num_of_threads = multiprocessing.cpu_count()
+        # Produce all queries needed to be run for featurization
         query_prod = QueryProducer(self.featurizers, clean, num_of_threads)
         query_prod.start()
 
+        # Create multiple threads to execute all queries
         self._parallel_queries(query_prod, num_of_threads, clean)
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
-        obs_possible_values = 'Observed_Possible_values_clean' if clean == 1 \
-            else 'Observed_Possible_values_dk'
+        possible_values = 'Possible_values_clean' if clean == 1 \
+            else 'Possible_values_dk'
         feature_id_map = 'Feature_id_map'
         query_for_create_offset = "CREATE TABLE \
                     " + self.dataset.table_specific_name(dimensions) \
@@ -739,9 +688,9 @@ class Session:
         insert_signal_query = \
             "INSERT INTO " + self.dataset.table_specific_name(dimensions) + \
             " SELECT 'N' as dimension, (" \
-            " SELECT COUNT(*) " \
+            " SELECT MAX(vid) " \
             "FROM " + \
-            self.dataset.table_specific_name(obs_possible_values) + \
+            self.dataset.table_specific_name(possible_values) + \
             ") as length;"
         self.holo_env.dataengine.query(insert_signal_query)
 
@@ -791,8 +740,6 @@ class Session:
             self.N = dimension_dict['N']
             self.L = dimension_dict['L']
         return
-    
-
 
     def _create_corrected_dataset(self):
         """
@@ -817,3 +764,27 @@ class Session:
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
         return correct_dataframe
+
+
+# Barrier class used for synchronization
+# Only needed for Python 2.7
+class _Barrier:
+    def __init__(self, n):
+        self.n = n
+        self.count = 0
+        self.mutex = Semaphore(1)
+        self.barrier = Condition()
+
+    def wait(self):
+        self.mutex.acquire()
+        self.count = self.count + 1
+        count = self.count
+        self.mutex.release()
+        if count == self.n:
+            self.barrier.acquire()
+            self.barrier.notifyAll()
+            self.barrier.release()
+        else:
+            self.barrier.acquire()
+            self.barrier.wait()
+            self.barrier.release()

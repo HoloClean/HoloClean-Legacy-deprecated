@@ -1,38 +1,8 @@
 import random
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
 
 class Dataset:
-    attributes = [
-        'id',
-        'Init',
-        'C_clean',
-        'C_dk',
-        'C_dk_temp',
-        'C_dk_temp_null',
-        'T1_attributes',
-        'T2_attributes',
-        'Possible_values_clean',
-        'Possible_values_dk',
-        'Observed_Possible_values_clean',
-        'Observed_Possible_values_dk',
-        'C_clean_flat',
-        'C_dk_flat',
-        'Kij_lookup_clean',
-        'Kij_lookup_dk',
-        'Init_join',
-        'Map_schema',
-        'Init_flat_join_dk',
-        'Init_flat_join',
-        'Feature_id_map',
-        'Sources',
-        'Sources_temp',
-        'Attribute_temp',
-        'Dimensions_clean',
-        'Dimensions_dk',
-        'Inferred_values',
-        'Repaired_dataset',
-        'Correct',
-        'Correct_flat']
 
     """
         Each element stand for some data that the holoclean needs or create:
@@ -95,13 +65,76 @@ class Dataset:
         self.attribute = {}
         self.schema = ""
         self.dataset_tables_specific_name = []
-        for a in Dataset.attributes:
-            self.attribute[a] = 0
         self.dataset_id = self._id_generator()
-        self.dataset_tables_specific_name.append(self.dataset_id)
-        for i in range(1, len(self.attributes)):
-            self.dataset_tables_specific_name.append(
-                self.attributes[i]+ '_' + self.dataset_id  )
+        self.attributes = {
+            'id': [],
+            'Init': [],
+            'C_clean': [],
+            'C_dk': [],
+            'C_dk_temp': [],
+            'C_dk_temp_null': [],
+            'T1_attributes': [],
+            'T2_attributes': [],
+            'Possible_values':
+                StructType([
+                    StructField("vid", IntegerType(), True),
+                    StructField("tid", IntegerType(), False),
+                    StructField("attr_name", StringType(), False),
+                    StructField("attr_val", StringType(), False),
+                    StructField("observed", IntegerType(), False),
+                    StructField("domain_id", IntegerType(), False)
+                ]),
+            'Observed_Possible_values_clean': [],
+            'Observed_Possible_values_dk': [],
+            'C_clean_flat':
+                StructType([
+                    StructField("tid", IntegerType(), False),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), True)
+                ]),
+            'C_dk_flat':
+                StructType([
+                    StructField("tid", IntegerType(), False),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), True)
+                ]),
+            'Kij_lookup':
+                StructType([
+                    StructField("vid", IntegerType(), True),
+                    StructField("tid", IntegerType(), False),
+                    StructField("attr_name", StringType(), False),
+                    StructField("k_ij", IntegerType(), False),
+                ]),
+            'Init_join': [],
+            'Map_schema':
+                StructType([
+                    StructField("attr_id", IntegerType(), False),
+                    StructField("attribute", StringType(), True)
+                ]),
+            'Init_flat_join_dk': [],
+            'Init_flat_join': [],
+            'Feature_id_map': StructType([
+                    StructField("feature_ind", IntegerType(), True),
+                    StructField("attribute", StringType(), False),
+                    StructField("value", StringType(), False),
+                    StructField("Type", StringType(), False),
+                ]),
+            'Sources': [],
+            'Sources_temp': [],
+            'Attribute_temp': [],
+            'Dimensions_clean': [],
+            'Dimensions_dk': [],
+            'Inferred_values': [],
+            'Repaired_dataset': [],
+            'Correct': [],
+            'Correct_flat': [],
+            'Feature':
+                StructType([
+                    StructField("vid", IntegerType(), False),
+                    StructField("assigned_val", IntegerType(), False),
+                    StructField("feature", IntegerType(), False),
+                    StructField("count", IntegerType(), False)
+                ]) }
 
     # Internal methods
     @staticmethod
@@ -153,24 +186,6 @@ class Dataset:
         """
         return str(self.dataset_id)
 
-    # Getters
-
-    def get_specific_name_by_index(self, table_index):
-        """
-        Returning the table specific name using index
-
-        Parameters
-        ----------
-        :param table_index: String
-                The index of table we want its specific name
-
-        Returns
-        -------
-        :return: table specific name : String
-                The specific name of table
-        """
-        return self.dataset_tables_specific_name[table_index]
-
     def table_specific_name(self, table_general_name):
         """
         Returning the name of the table for this dataset
@@ -185,7 +200,15 @@ class Dataset:
         :return: String
                 Specific name correspond to table general name
         """
-        return self.dataset_tables_specific_name[self.attributes.index(
-            table_general_name)]
+        return table_general_name + "_" + self.return_id()
 
-    # Setters
+    def get_schema(self, table_name):
+        """
+        Returns a copy of a list of attributes for the given table_name
+
+        :param table_name: Name of the table
+
+        :return: list of string if table
+        """
+
+        return list(self.attributes[table_name])

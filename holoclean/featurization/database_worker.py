@@ -38,7 +38,7 @@ class DatabaseWorker(Thread):
         name_list[6] = "_"
         name = "".join(name_list)
 
-        table_name = name + "_" + self.dataset.return_id()
+        table_name = self.dataset.table_specific_name(name)
 
         query_for_featurization = "CREATE TABLE " + table_name + \
                                   "(vid INT, assigned_val INT," \

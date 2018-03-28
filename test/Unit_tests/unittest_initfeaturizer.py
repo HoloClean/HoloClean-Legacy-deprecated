@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
-from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
+from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from holoclean.featurization.initfeaturizer import SignalInit
 from pyspark.sql.types import *
 
@@ -21,7 +21,7 @@ class TestInitFeaturizer(unittest.TestCase):
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
 
-        detector = MysqlDCErrorDetection(self.session)
+        detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors(detector)
         self.attr_constrained = \
             self.session.parser.get_all_constraint_attributes(

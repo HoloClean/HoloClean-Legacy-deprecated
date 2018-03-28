@@ -1,6 +1,6 @@
 from holoclean.global_variables import GlobalVariables
-from pyspark.sql.types import *
-from pyspark.sql.functions import Column
+from pyspark.sql.functions import *
+
 
 class Reader:
 
@@ -24,7 +24,6 @@ class Reader:
         extention = filepath.split('.')[-1]
         return extention
 
-    # Setters
     def read(self, filepath):
         """Calls the appropriate reader for the file
 
@@ -62,4 +61,29 @@ class CSVReader:
                         new_cols[idx]),
                         xrange(len(tmp_cols)), ix_df)
 
+        new_df = self.clean_up_dataframe(new_df)
+
+        return new_df
+
+    def clean_up_dataframe(self, df):
+        """
+
+        :param df: a dataframe that we want to change
+        :return: a new dataframe where have clean up its context
+        """
+        df.toDF(*[c.lower() for c in df.columns])
+        list_attributes = df.schema.names
+        index_name = GlobalVariables.index_name
+
+        for attribute in list_attributes:
+            if attribute != index_name:
+                df = df.withColumn(
+                    attribute, regexp_replace(attribute, '  +', ' '))
+                df = df.withColumn(
+                    attribute, regexp_replace(attribute, '\n', ''))
+                df = df.withColumn(
+                    attribute, regexp_replace(attribute, '"', ''))
+                df = df.withColumn(
+                    attribute, regexp_replace(attribute, "'", ''))
+                new_df = df.withColumn(attribute, trim(col(attribute)))
         return new_df

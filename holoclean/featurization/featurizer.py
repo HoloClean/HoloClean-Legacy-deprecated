@@ -9,13 +9,22 @@ class Featurizer:
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, dataengine, dataset):
+    def __init__(self, session):
         """
         :param dataengine: a connector to database
         :param dataset: list of tables name
         """
-        self.dataengine = dataengine
-        self.dataset = dataset
+        self.session = session
+        self.dataengine = session.holo_env.dataengine
+        self.dataset = session.dataset
+
+        # Replace this variable with a list of factors if the Signal creates a dataframe instead of using SQL
+        self.feature_list = None
+
+        # these value must be overridden in subclass
+        self.offset = 0  # offset on the feature_id_map
+        self.id = 'Base'
+        self.count = 0
 
     @abstractmethod
     def get_query(self):

@@ -1,10 +1,9 @@
 import torch
-from torch.nn import Parameter
+from torch.nn import Parameter, ParameterList
 from torch.autograd import Variable
 from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
-import numpy as np
 from tqdm import tqdm
 
 
@@ -18,32 +17,37 @@ class LogReg(torch.nn.Module):
         """
         torch.manual_seed(42)
         # setup init
-        if self.tie_init:
-            self.init_W = Parameter(torch.randn(1).expand(1, self.output_dim))
-        else:
-            self.init_W = Parameter(torch.randn(1, self.output_dim))
-
-        # setup cooccur
-
-        # self.cooc_W = Parameter(torch.ones(self.input_dim_non_dc - 1, 1).
-        #                         expand(-1, self.output_dim))
-        #
-        # self.W = torch.cat((self.init_W), 0)
-
-        # setup dc
-        if self.input_dim_dc > 0:
-            if (self.tie_dc):
-                self.dc_W = Parameter(
-                    torch.randn(self.input_dim_dc, 1)
-                    .expand(self.input_dim_dc, self.output_dim))
+        self.weight_tensors = ParameterList()
+        self.tensor_tuple = ()
+        self.feature_id = []
+        self.W = None
+        for featurizer in self.featurizers:
+            self.feature_id.append(featurizer.id)
+            if featurizer.id == 'SignalInit':
+                if self.tie_init:
+                    signals_W = Parameter(torch.randn(1).expand(
+                        1, self.output_dim))
+                else:
+                    signals_W = Parameter(torch.randn(1, self.output_dim))
+            elif featurizer.id == 'SignalDC':
+                if self.tie_dc:
+                    signals_W = Parameter(
+                        torch.randn(featurizer.count, 1).expand(
+                            -1, self.output_dim))
+                else:
+                    signals_W = Parameter(
+                        torch.randn(featurizer.count, self.output_dim))
             else:
-                self.dc_W = Parameter(
-                    torch.randn(self.input_dim_dc, self.output_dim))
+                signals_W = \
+                    Parameter(
+                        torch.randn(featurizer.count, 1).expand(-1, self.output_dim)
+                    )
+            self.weight_tensors.append(signals_W)
 
-            self.W = torch.cat((self.init_W, self.dc_W), 0)
+        return
 
-    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init,
-                 tie_dc):
+    def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
+                 tie_init, tie_dc):
         """ constructor for our logistic regression
 
         :param input_dim_non_dc: number of init + cooccur features
@@ -53,6 +57,8 @@ class LogReg(torch.nn.Module):
         :param tie_dc: boolean, determines weight tying for dc features
         """
         super(LogReg, self).__init__()
+
+        self.featurizers = featurizers
 
         self.input_dim_non_dc = input_dim_non_dc
         self.input_dim_dc = input_dim_dc
@@ -73,15 +79,8 @@ class LogReg(torch.nn.Module):
         """
 
         # reties the weights - need to do on every pass
-        if self.input_dim_dc > 0:
-            self.W = torch.cat(
-                (self.init_W.expand(
-                    1, self.output_dim), self.dc_W.expand(
-                    self.input_dim_dc, self.output_dim)), 0)
-        else:
-            self.W = torch.cat(
-                (self.init_W.expand(
-                    1, self.output_dim)), 0)
+
+        self.concat_weights()
 
         # calculates n x l matrix output
         output = X.mul(self.W)
@@ -91,10 +90,25 @@ class LogReg(torch.nn.Module):
             output.index_add_(0, index, mask)
         return output
 
+    def concat_weights(self):
+        for feature_index in range(0, len(self.weight_tensors)):
+            if self.feature_id[feature_index] == 'SignalInit':
+                tensor = self.weight_tensors[feature_index].expand(
+                    1, self.output_dim)
+            elif self.feature_id[feature_index] == 'SignalDC':
+                tensor = self.weight_tensors[feature_index].expand(
+                    -1, self.output_dim)
+            else:
+                tensor = self.weight_tensors[feature_index].expand(
+                    -1, self.output_dim)
+            if feature_index == 0:
+                self.W = tensor + 0
+            else:
+                self.W = torch.cat((self.W, tensor), 0)
 
 class SoftMax:
 
-    def __init__(self, session, X_training):
+    def __init__(self, session, X_training, training_data_path=None, key=None):
         """ Constructor for our softmax model
 
         :param dataengine: a HoloClean object's dataengine
@@ -243,7 +257,7 @@ class SoftMax:
             self.testmask = mask
         return mask
 
-    def build_model(self, input_dim_non_dc, input_dim_dc,
+    def build_model(self,  featurizers, input_dim_non_dc, input_dim_dc,
                     output_dim, tie_init=True, tie_DC=True):
         """ initializes the logreg part of our model
 
@@ -255,6 +269,7 @@ class SoftMax:
         :return: newly created LogReg model
         """
         model = LogReg(
+            featurizers,
             input_dim_non_dc,
             input_dim_dc,
             output_dim,
@@ -318,13 +333,13 @@ class SoftMax:
         output = softmax(output, 1)
         return output
 
-    def logreg(self):
+    def logreg(self, featurizers):
         """ trains our model on clean cells and predicts vals for clean cells
 
         :return: predictions
         """
         n_examples, n_features, n_classes = self.X.size()
-        self.model = self.build_model(
+        self.model = self.build_model(featurizers,
             self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
@@ -382,13 +397,25 @@ class SoftMax:
                 df1.vid2 == df2.vid,
                 df1.domain_id2 == df2.domain_id], 'inner')\
             .drop("vid2", "domain_id2")
-        df_inference.schema.fields[1] = StructField('vid', StringType(), True)
+
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
-        self.session.inferred_values = df_inference
-        self.dataengine.holo_env.logger.info(
+
+        self.session.holo_env.logger.info(
             'The table: ' +
             self.dataset.table_specific_name('Inferred_values') +
             " has been created")
-        self.dataengine.holo_env.logger.info("  ")
+        self.session.holo_env.logger.info("  ")
+        self.session.inferred_values = df_inference
+        return
+
+    def log_weights(self):
+        self.model.concat_weights()
+        weights = self.model.W
+        self.session.holo_env.logger.info("Tensor weights")
+        count = 0
+        for weight in torch.index_select(weights, 1, Variable(torch.LongTensor([0]))):
+            count += 1
+            msg = "Feature " + str(count) + ": " + str(weight[0].data[0])
+            self.session.holo_env.logger.info(msg)
         return
