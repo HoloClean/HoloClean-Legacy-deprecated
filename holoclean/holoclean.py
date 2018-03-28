@@ -303,9 +303,9 @@ class Session:
         :param dc: string in dc format
         :return: string array of dc's
         """
-        dc_object = DenialConstraint(dc)
+        dc_object = DenialConstraint(dc, self.dataset.get_schema("Init"))
         self.Denial_constraints.append(dc)
-        self.dc_objects.append(dc_object)
+        self.dc_objects[dc] = dc_object
         return self.Denial_constraints
 
     def remove_denial_constraint(self, index):

@@ -6,10 +6,12 @@ from holoclean.errordetection.mysql_dcerrordetector import MysqlDCErrorDetection
 from pyspark.sql.types import *
 
 holo_obj = HoloClean(
-    mysql_driver="../../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
-    verbose=True,
-    timing_file='execution_time.txt')
-
+            holoclean_path="../..",
+            verbose=True,
+            timing_file='execution_time.txt',
+            learning_iterations=50,
+            learning_rate=0.001,
+            batch_size=20)
 
 class TestMysqlErrordetector(unittest.TestCase):
     def setUp(self):
@@ -21,7 +23,7 @@ class TestMysqlErrordetector(unittest.TestCase):
             "../../datasets/unit_test/unit_test_constraints.txt")
 
         self.detector = MysqlDCErrorDetection(self.session)
-        self.session.detect_errors(self.detector)
+        self.session.detect_errors([self.detector])
 
     def tearDown(self):
         del self.session
