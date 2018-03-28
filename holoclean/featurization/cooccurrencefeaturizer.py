@@ -97,13 +97,14 @@ class SignalCooccur(Featurizer):
             table_name = 'Feature_cooccur_dk'
             dataframe = self.session.possible_values_dk
 
-        cooccur = self._create_cooccur_dataframe(dataframe)
+        cooccur_list = self._create_cooccur_dataframe(dataframe)
 
-        new_df_cooccur = self.session.holo_env.spark_session.createDataFrame(
-            cooccur, self.dataset.attributes['Feature']
-        )
-
-        self.dataengine.add_db_table(table_name, new_df_cooccur, self.dataset)
+        self.feature_list = cooccur_list
+        # new_df_cooccur = self.session.holo_env.spark_session.createDataFrame(
+        #     cooccur, self.dataset.attributes['Feature']
+        # )
+        #
+        # self.dataengine.add_db_table(table_name, new_df_cooccur, self.dataset)
 
         return
 
@@ -119,11 +120,11 @@ class SignalCooccur(Featurizer):
         """
         self._create_cooccur_feature_table(clean)
         # Create co-occur feature
-        if clean:
-            table_name = "Feature_cooccur_clean"
-        else:
-            table_name = "Feature_cooccur_dk"
-        query_for_featurization = "SELECT * FROM " + \
-                                  self.session.dataset.table_specific_name(table_name)
+        # if clean:
+        #     table_name = "Feature_cooccur_clean"
+        # else:
+        #     table_name = "Feature_cooccur_dk"
+        # query_for_featurization = "SELECT * FROM " + \
+        #                           self.session.dataset.table_specific_name(table_name)
 
-        return [query_for_featurization]
+        return []

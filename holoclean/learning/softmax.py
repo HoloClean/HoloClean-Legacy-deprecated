@@ -80,6 +80,17 @@ class LogReg(torch.nn.Module):
 
         # reties the weights - need to do on every pass
 
+        self.concat_weights()
+
+        # calculates n x l matrix output
+        output = X.mul(self.W)
+        output = output.sum(1)
+        # changes values to extremely negative at specified indices
+        if index is not None and mask is not None:
+            output.index_add_(0, index, mask)
+        return output
+
+    def concat_weights(self):
         for feature_index in range(0, len(self.weight_tensors)):
             if self.feature_id[feature_index] == 'SignalInit':
                 tensor = self.weight_tensors[feature_index].expand(
@@ -94,15 +105,6 @@ class LogReg(torch.nn.Module):
                 self.W = tensor + 0
             else:
                 self.W = torch.cat((self.W, tensor), 0)
-
-        # calculates n x l matrix output
-        output = X.mul(self.W)
-        output = output.sum(1)
-        # changes values to extremely negative at specified indices
-        if index is not None and mask is not None:
-            output.index_add_(0, index, mask)
-        return output
-
 
 class SoftMax:
 
@@ -405,4 +407,15 @@ class SoftMax:
             " has been created")
         self.session.holo_env.logger.info("  ")
         self.session.inferred_values = df_inference
+        return
+
+    def log_weights(self):
+        self.model.concat_weights()
+        weights = self.model.W
+        self.session.holo_env.logger.info("Tensor weights")
+        count = 0
+        for weight in torch.index_select(weights, 1, Variable(torch.LongTensor([0]))):
+            count += 1
+            msg = "Feature " + str(count) + ": " + str(weight[0].data[0])
+            self.session.holo_env.logger.info(msg)
         return

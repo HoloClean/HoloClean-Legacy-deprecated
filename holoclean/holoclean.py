@@ -437,6 +437,7 @@ class Session:
             print log
             self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
+        soft.log_weights()
         return self._create_corrected_dataset()
 
     def compare_to_truth(self, truth_path):
@@ -618,30 +619,34 @@ class Session:
         query_prod.join()
         if clean:
             self._create_dimensions(clean)
-            X_training = torch.zeros(self.N, self.M, self.L)
-            for thread in list_of_threads:
-                thread.getX(X_training)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
+
         else:
             self._create_dimensions(clean)
-            X_testing = torch.zeros(self.N, self.M, self.L)
-            for thread in list_of_threads:
-                thread.getX(X_testing)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
+
+        X_tensor = torch.zeros(self.N, self.M, self.L)
+        for thread in list_of_threads:
+            thread.getX(X_tensor)
+        for feature in self.featurizers:
+            if feature.feature_list is not None:
+                for factor in feature.feature_list:
+                    vid = factor[0] - 1
+                    assigned_val = factor[1] - 1
+                    feature = factor[2] - 1
+                    count = factor[3]
+                    X_tensor[vid][feature][assigned_val] = count
+        cvX.acquire()
+        cvX.notifyAll()
+        cvX.release()
 
         for thread in list_of_threads:
             thread.join()
 
         if clean:
-            self.X_training = X_training
+            self.X_training = X_tensor
             self.holo_env.logger.info("The X-Tensor_training has been created")
             self.holo_env.logger.info("  ")
         else:
-            self.X_testing = X_testing
+            self.X_testing = X_tensor
             self.holo_env.logger.info("The X-Tensor_testing has been created")
             self.holo_env.logger.info("  ")
         return
