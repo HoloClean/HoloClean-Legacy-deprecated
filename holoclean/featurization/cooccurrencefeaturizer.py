@@ -54,7 +54,7 @@ class SignalCooccur(Featurizer):
                         value = domain[n + 1, k + 1]
                         co_attribute = self.attribute_feature_id[f + 1]
                         co_value = self.cell_values_init[vid_list[n][0] - 1][co_attribute]
-                        c = cooccurences[attribute][value][co_attribute][co_value]
+                        c = cooccurences[co_attribute][co_value][attribute][value]
                         tensor[n, f, k] = c
                     except:
                         pass
