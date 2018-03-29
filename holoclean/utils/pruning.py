@@ -45,28 +45,32 @@ class Pruning:
         t1 =time.time()
         self._preprop()
         t2 =time.time()
-        print "_preprop " + str(t2-t1)
-        self._analyze_entries()
-        t3 =time.time()
-        print "_analyze_entries " + str(t3-t2)
-        self._generate_assignments()
-        t4 =time.time()
-        print "_generate_assignments " + str(t4-t3)
-        self._generate_coocurences()
-        t5 =time.time()
-        print "_generate_coocurences " + str(t5-t4)
-        self._find_cell_domain()
-        t6 =time.time()
-        print "_find_cell_domain " + str(t6 - t5)
-        self._create_dataframe()
-        t7 = time.time()
-
         if session.holo_env.verbose:
             session.holo_env.logger.info("_preprop " + str(t2-t1))
+
+        self._analyze_entries()
+        t3 =time.time()
+        if session.holo_env.verbose:
             session.holo_env.logger.info("_analyze_entries " + str(t3-t2))
+
+        self._generate_assignments()
+        t4 =time.time()
+        if session.holo_env.verbose:
             session.holo_env.logger.info("_generate_assignments " + str(t4-t3))
+
+        self._generate_coocurences()
+        t5 =time.time()
+        if session.holo_env.verbose:
             session.holo_env.logger.info("_generate_coocurences " + str(t5-t4))
+
+        self._find_cell_domain()
+        t6 =time.time()
+        if session.holo_env.verbose:
             session.holo_env.logger.info("_find_cell_domain " + str(t6-t5))
+
+        self._create_dataframe()
+        t7 = time.time()
+        if session.holo_env.verbose:
             session.holo_env.logger.info("_create_dataframe " + str(t7-t6))
 
     # Internal Method
