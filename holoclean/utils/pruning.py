@@ -277,6 +277,7 @@ class Pruning:
                     cooccure_number = self._compute_number_of_coocurences(
                         original_attribute, assgn_tuple[0], cooccured_attribute,
                         assgn_tuple[1])
+                    '''
                     if cooccure_number > self.threshold2:
                         if assgn_tuple[0] not in\
                                 self.coocurence_for_first_attribute[
@@ -294,6 +295,7 @@ class Pruning:
                             cooccured_attribute][
                             assgn_tuple[1]] = cooccure_number
                     '''
+
                     if cooccure_number > self.threshold1:
                             if assgn_tuple[0] not in \
                                     self.coocurence_for_first_attribute_small[
@@ -310,7 +312,7 @@ class Pruning:
                                 original_attribute][assgn_tuple[0]][
                                 cooccured_attribute][
                                 assgn_tuple[1]] = cooccure_number
-                    '''
+
         return
 
     def _generate_assignments(self):
