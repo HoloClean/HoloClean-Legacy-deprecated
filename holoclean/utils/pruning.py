@@ -81,8 +81,7 @@ class Pruning:
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
             self.noisy_list.append([cell[1], int(cell[0])])
-            self.cellvalues[int(cell[0])-1][
-                 self.attribute_map[cell[1]]].dirty = 1
+            self.cellvalues[int(cell[0])-1][self.attribute_map[cell[1]]].dirty = 1
 
         return noisy_cells
 
