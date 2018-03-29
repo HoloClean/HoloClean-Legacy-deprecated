@@ -46,19 +46,18 @@ class SignalCooccur(Featurizer):
         else:
             vid_list = self.pruning_object.v_id_dk_list
             domain = self.pruning_object.domain_dk
-        for n in range(variables):
+        for entry in domain:
             for f in range(self.offset, self.offset + self.count):
-                for k in range(domain_size):
-                    try:
-                        attribute = vid_list[n][1]
-                        value = domain[n + 1, k + 1]
-                        co_attribute = self.attribute_feature_id[f + 1]
-                        co_value = self.cell_values_init[vid_list[n][0] - 1][co_attribute]
-                        c = cooccurences[co_attribute][co_value][attribute][value]
-                        tensor[n, f, k] = c
-                    except:
-                        pass
-
+                vid = entry[0] - 1
+                attribute = vid_list[vid][1]
+                value = domain[entry]
+                co_attribute = self.attribute_feature_id[f + 1]
+                co_value = self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
+                try:
+                    c = cooccurences[co_attribute][co_value][attribute][value]
+                    tensor[vid, f, entry[1] - 1] = c
+                except:
+                    pass
         return
 
     def get_query(self, clean=1):
