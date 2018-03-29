@@ -630,13 +630,8 @@ class Session:
         for thread in list_of_threads:
             thread.getX(X_tensor)
         for feature in self.featurizers:
-            if feature.feature_list is not None:
-                for factor in feature.feature_list:
-                    vid = factor[0] - 1
-                    assigned_val = factor[1] - 1
-                    feature = factor[2] - 1
-                    count = factor[3]
-                    X_tensor[vid][feature][assigned_val] = count
+            if feature.direct_insert:
+                feature.insert_to_tensor(X_tensor, clean)
         cvX.acquire()
         cvX.notifyAll()
         cvX.release()

@@ -7,7 +7,7 @@ from holoclean.featurization.dcfeaturizer import SignalDC
 from holoclean.global_variables import GlobalVariables
 
 holo_obj = HoloClean(
-    mysql_driver="../../holoclean/lib/mysql-connector-java-5.1.44-bin.jar",
+    holoclean_path="../..",
     verbose=True,
     timing_file='execution_time.txt')
 
@@ -20,15 +20,14 @@ class TestDCFeaturizer(unittest.TestCase):
         self.session.load_data(self.dataset)
         self.session.load_denial_constraints(
             "../../datasets/unit_test/unit_test_constraints.txt")
-
-        detector = SqlDCErrorDetection(self.session)
-        self.session.detect_errors(detector)
+        self.detector_list = []
+        self.detector_list.append(SqlDCErrorDetection(self.session))
+        self.session.detect_errors(self.detector_list)
 
     def test_DC_query_for_clean(self):
 
-        dc_signal = SignalDC(self.session.Denial_constraints, self.session)
-
         self.session._ds_domain_pruning(0.5)
+        dc_signal = SignalDC(self.session.Denial_constraints, self.session)
         self.session._add_featurizer(dc_signal)
 
         temp_list = dc_signal._create_all_relaxed_dc()
@@ -71,8 +70,6 @@ class TestDCFeaturizerNonSymmetric(unittest.TestCase):
         self.session.detect_errors(detector)
 
     def test_DC_query_for_clean(self):
-        attr_constrained = self.session.parser.get_all_constraint_attributes(
-            self.session.Denial_constraints)
 
         dc_signal = SignalDC(self.session.Denial_constraints, self.session)
 

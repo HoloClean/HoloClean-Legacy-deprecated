@@ -33,74 +33,31 @@ class SignalCooccur(Featurizer):
         self.dirty_cells_attributes = \
             self.pruning_object.dirty_cells_attributes
         self.domain_stats = self.pruning_object.domain_stats
-        self.threshold = self.pruning_object.threshold
+        self.threshold = self.pruning_object.threshold1
         self.cell_values_init = self.pruning_object.cell_values_init
+        self.direct_insert = True
 
-    def _create_cooccur_list(self, dataframe):
-
-        cooccur_list = []
-        for row in dataframe:
-            vid = row[0]
-            tid = row[1]
-            attr_name = row[2]
-            attr_val = row[3]
-            domain_id = row[5]
-            for attribute in self.dirty_cells_attributes:
-                if attribute != attr_name:
-                    cooccur_value = self.cell_values_init[tid-1][attribute]
-
-                    if (attr_val, cooccur_value) in self.domain_pair_stats[
-                        attr_name][attribute]:
-                        c_cooccur_counts = self.domain_pair_stats[attr_name][
-                            attribute][
-                                (attr_val, cooccur_value)]
-                        v_cooccur_counts = self.domain_stats[attribute][
-                            cooccur_value]
-                        cooccur_prob = int(c_cooccur_counts) / v_cooccur_counts
-                        if cooccur_prob > self.threshold :
-                            cooccur_count = 1
-                        else:
-                            cooccur_count = 0
-                    else:
-                        cooccur_count = 0
-                    cooccur_list.append(
-                        [vid, domain_id, self.attribute_feature_id[attribute],
-                         cooccur_count])
-        return cooccur_list
-
-    def _create_cooccur_feature_table(self, clean):
-        """
-
-        :param clean: flag if we are in the training or testing phase
-        """
+    def insert_to_tensor(self, tensor, clean):
+        variables, features, domain_size = tensor.size()
+        cooccurences = self.pruning_object.coocurence_for_first_attribute
         if clean:
-            self.offset = self.session.feature_count
-            self.attribute_feature_id = {}
-            feature_id_list = []
-            for attribute in self.dirty_cells_attributes:
-                self.count += 1
-                self.attribute_feature_id[attribute] = self.count + self.offset
-                feature_id_list.append\
-                    ([self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
-            feature_df = self.session.holo_env.spark_session.createDataFrame(
-                feature_id_list,
-                self.session.dataset.attributes['Feature_id_map']
-            )
-            self.dataengine.add_db_table(
-                'Feature_id_map',
-                feature_df,
-                self.session.dataset,
-                append=1
-            )
-            dataframe = self.session.possible_values_clean
-            self.session.feature_count += self.count
-
+            vid_list = self.pruning_object.v_id_clean_list
+            domain = self.pruning_object.domain_clean
         else:
-            dataframe = self.session.possible_values_dk
-
-        cooccur_list = self._create_cooccur_list(dataframe)
-
-        self.feature_list = cooccur_list
+            vid_list = self.pruning_object.v_id_dk_list
+            domain = self.pruning_object.domain_dk
+        for n in range(variables):
+            for f in range(self.offset, self.offset + self.count):
+                for k in range(domain_size):
+                    try:
+                        attribute = vid_list[n][1]
+                        value = domain[n + 1, k + 1]
+                        co_attribute = self.attribute_feature_id[f + 1]
+                        co_value = self.cell_values_init[vid_list[n][0] - 1][co_attribute]
+                        c = cooccurences[attribute][value][co_attribute][co_value]
+                        tensor[n, f, k] = c
+                    except:
+                        pass
 
         return
 
@@ -114,5 +71,24 @@ class SignalCooccur(Featurizer):
 
         :return a string with the query for this feature
         """
-        self._create_cooccur_feature_table(clean)
+        if clean:
+            self.offset = self.session.feature_count
+            self.attribute_feature_id = {}
+            feature_id_list = []
+            for attribute in self.dirty_cells_attributes:
+                self.count += 1
+                self.attribute_feature_id[self.count + self.offset] = attribute
+                feature_id_list.append\
+                    ([self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
+            feature_df = self.session.holo_env.spark_session.createDataFrame(
+                feature_id_list,
+                self.session.dataset.attributes['Feature_id_map']
+            )
+            self.dataengine.add_db_table(
+                'Feature_id_map',
+                feature_df,
+                self.session.dataset,
+                append=1
+            )
+            self.session.feature_count += self.count
         return []

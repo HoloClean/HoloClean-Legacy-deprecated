@@ -19,7 +19,7 @@ class Featurizer:
         self.dataset = session.dataset
 
         # Replace this variable with a list of factors if the Signal creates a dataframe instead of using SQL
-        self.feature_list = None
+        self.direct_insert = False
 
         # these value must be overridden in subclass
         self.offset = 0  # offset on the feature_id_map

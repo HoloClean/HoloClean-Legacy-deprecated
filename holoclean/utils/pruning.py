@@ -33,7 +33,7 @@ class Pruning:
         self.attribute_to_be_pruned = {}
         self.dirty_cells_attributes = set([])
         self.cell_nbs = {}
-        self.cooocurance_for_first_attribute = {}
+        self.coocurence_for_first_attribute = {}
         self.cell_domain = {}
         self.all_cells = []
         self.all_cells_temp = {}
@@ -172,14 +172,14 @@ class Pruning:
             if attr == trgt_attr:
                 continue
             attr_val = assignment[attr]
-            if attr in self.cooocurance_for_first_attribute:
-                if attr_val in self.cooocurance_for_first_attribute[attr]:
-                    if trgt_attr in self.cooocurance_for_first_attribute[
+            if attr in self.coocurence_for_first_attribute:
+                if attr_val in self.coocurence_for_first_attribute[attr]:
+                    if trgt_attr in self.coocurence_for_first_attribute[
                                     attr][attr_val]:
                         set_domain = set()
-                        for domain_val in self.cooocurance_for_first_attribute[
+                        for domain_val in self.coocurence_for_first_attribute[
                             attr][attr_val][trgt_attr]:
-                            if self.cooocurance_for_first_attribute[
+                            if self.coocurence_for_first_attribute[
                                 attr][attr_val][trgt_attr][domain_val] > \
                                     self.threshold1:
                                 set_domain.add(domain_val)
@@ -259,7 +259,7 @@ class Pruning:
         """
         for original_attribute in self.domain_pair_stats:
             # For each column in the cooccurences
-            self.cooocurance_for_first_attribute[original_attribute] = {}
+            self.coocurence_for_first_attribute[original_attribute] = {}
             # It creates a dictionary
             for cooccured_attribute in \
                     self.domain_pair_stats[original_attribute]:
@@ -274,17 +274,17 @@ class Pruning:
                         assgn_tuple[1])
                     if cooccure_number > self.threshold2:
                         if assgn_tuple[0] not in\
-                                self.cooocurance_for_first_attribute[
+                                self.coocurence_for_first_attribute[
                                      original_attribute]:
-                            self.cooocurance_for_first_attribute[
+                            self.coocurence_for_first_attribute[
                                 original_attribute][assgn_tuple[0]] = {}
                         if cooccured_attribute not in \
-                                self.cooocurance_for_first_attribute[
+                                self.coocurence_for_first_attribute[
                                     original_attribute][assgn_tuple[0]]:
-                            self.cooocurance_for_first_attribute[
+                            self.coocurence_for_first_attribute[
                                 original_attribute][
                                 assgn_tuple[0]][cooccured_attribute] = {}
-                        self.cooocurance_for_first_attribute[
+                        self.coocurence_for_first_attribute[
                             original_attribute][assgn_tuple[0]][
                             cooccured_attribute][
                             assgn_tuple[1]] = cooccure_number
