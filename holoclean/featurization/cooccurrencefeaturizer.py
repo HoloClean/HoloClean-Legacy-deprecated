@@ -51,20 +51,18 @@ class SignalCooccur(Featurizer):
         for vid in range(len(domain)):
             for f in range(self.offset, self.offset + self.count):
                 attribute = vid_list[vid][1]
-                for domain_id in range(len(domain[vid])):
-                    value = domain[vid][domain_id]
-                    co_attribute = self.attribute_feature_id[f + 1]
-                    co_value =\
-                        self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
-                    v_count = domain_stats[co_attribute][co_value]
-                    try:
-                        count = domain_pair_stats[co_attribute][attribute][(
-                            co_value, value)]
+                co_attribute = self.attribute_feature_id[f + 1]
+                if co_attribute != attribute:
+                    for domain_id in range(len(domain[vid])):
+                        value = domain[vid][domain_id]
+                        co_value =\
+                            self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
+                        v_count = domain_stats[co_attribute][co_value]
+                        count = domain_pair_stats[co_attribute][attribute].get((
+                            co_value, value), 0)
                         probability = count / v_count
                         #c = cooccurences[co_attribute][co_value][attribute][value]
                         tensor[vid, f, domain_id] = probability
-                    except:
-                        pass
         return
 
     def get_query(self, clean=1):
