@@ -392,8 +392,10 @@ class Session:
         dc_signal = SignalDC(self.Denial_constraints, self)
         self._add_featurizer(dc_signal)
 
+        '''
         cooccur_signal = SignalCooccur(self)
         self._add_featurizer(cooccur_signal)
+        '''
 
         self._ds_featurize(clean=1)
 
