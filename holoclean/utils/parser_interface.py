@@ -109,6 +109,7 @@ class DenialConstraint:
     operationSign = ['IQ', 'LTE', 'GTE', 'EQ', 'LT', 'GT']
 
     def __init__(self, dc_string, schema):
+        dc_string = dc_string.replace('"', "'")
         split = dc_string.split('&')
         self.tuple_names = []
         self.predicates = []
