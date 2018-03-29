@@ -347,12 +347,12 @@ class Pruning:
         """
 
         attributes = self.dataset.get_schema('Init')
-        self.domain_dict = {}
+        domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []
         for attribute in attributes:
             if attribute != GlobalVariables.index_name:
-                self.domain_dict[attribute] = set()
+                domain_dict[attribute] = set()
 
         possible_values_clean = []
         possible_values_dirty = []
@@ -360,11 +360,15 @@ class Pruning:
         self.v_id_dk_list = []
         v_id_clean = v_id_dk = 0
 
+        self.assignments = None
+        self.attribute_to_be_pruned = None
+        self.attribute_map = None
+
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-                self.domain_dict[attribute].add(value)
+                domain_dict[attribute].add(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
                     tmp_cell_index = \
@@ -412,7 +416,8 @@ class Pruning:
                                                      tmp_cell_index].columnname,
                                                  k_ij])
 
-        t1 = time.time()
+        self.all_cells = None
+        self.all_cells_temp = None
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
@@ -433,7 +438,6 @@ class Pruning:
                                      new_df_possible_dk, self.dataset)
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
-        del new_df_possible
 
         new_df_kij = self.spark_session.createDataFrame(
             domain_kij_dk, self.dataset.attributes['Kij_lookup'])
@@ -455,8 +459,6 @@ class Pruning:
                                                 'Possible_values_dk') +
                                             " has been created")
         self.dataengine.holo_env.logger.info("  ")
-
-        del new_df_kij
 
         create_feature_id_map = "Create TABLE " + \
                                 self.dataset.table_specific_name(
@@ -494,5 +496,4 @@ class Pruning:
                          "AS table1;"
 
         self.dataengine.query(query_observed)
-
         return
