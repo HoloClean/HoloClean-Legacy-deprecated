@@ -177,8 +177,11 @@ class Pruning:
                     if trgt_attr in self.cooocurance_for_first_attribute[
                                     attr][attr_val]:
                         set_domain = set()
-                        for domain_val in self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr]:
-                            if self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr][domain_val] > self.threshold1:
+                        for domain_val in self.cooocurance_for_first_attribute[
+                            attr][attr_val][trgt_attr]:
+                            if self.cooocurance_for_first_attribute[
+                                attr][attr_val][trgt_attr][domain_val] > \
+                                    self.threshold1:
                                 set_domain.add(domain_val)
                         cell_values |= set_domain
 
@@ -350,6 +353,10 @@ class Pruning:
 
         possible_values_clean = []
         possible_values_dirty = []
+        self.v_id_clean_list = []
+        self.v_id_dk_list = []
+        self.domain_clean = {}
+        self.domain_dk = {}
         v_id_clean = v_id_dk = 0
 
         for tuple_id in self.cellvalues:
@@ -364,8 +371,14 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
+                        self.v_id_dk_list.append([(self.all_cells_temp[
+                                                      tmp_cell_index].tupleid
+                                                  + 1),
+                                                 self.all_cells_temp[
+                                                     tmp_cell_index].columnname])
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
+                            self.domain_dk[v_id_dk, k_ij] = value
                             self._append_possible(v_id_dk, value,
                                                   possible_values_dirty,
                                                   tmp_cell_index, k_ij)
@@ -380,8 +393,14 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_clean = v_id_clean + 1
+                        self.v_id_clean_list.append([(self.all_cells_temp[
+                                                      tmp_cell_index].tupleid
+                                                  + 1),
+                                                 self.all_cells_temp[
+                                                     tmp_cell_index].columnname])
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
+                            self.domain_clean[v_id_clean, k_ij] = value
                             self._append_possible(v_id_clean, value,
                                                   possible_values_clean,
                                                   tmp_cell_index, k_ij)
@@ -400,7 +419,6 @@ class Pruning:
             possible_values_clean, self.dataset.attributes['Possible_values']
         )
 
-        self.session.possible_values_clean = possible_values_clean
         self.dataengine.add_db_table('Possible_values_clean',
                                      new_df_possible, self.dataset)
         self.dataengine.add_db_table_index(
@@ -413,7 +431,6 @@ class Pruning:
 
         self.dataengine.add_db_table('Possible_values_dk',
                                      new_df_possible_dk, self.dataset)
-        self.session.possible_values_dk = possible_values_dirty
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
         del new_df_possible
