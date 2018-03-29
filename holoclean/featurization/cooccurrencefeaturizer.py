@@ -41,25 +41,27 @@ class SignalCooccur(Featurizer):
         domain_pair_stats = self.pruning_object.domain_pair_stats
         domain_stats = self.pruning_object.domain_stats
         cell_domain = self.pruning_object.cell_domain
+        cell_values = self.pruning_object.cellvalues
 
         if clean:
             vid_list = self.pruning_object.v_id_clean_list
         else:
             vid_list = self.pruning_object.v_id_dk_list
+
         for vid in range(len(vid_list)):
-            for f in range(self.offset, self.offset + self.count):
+            for cell_index in cell_values[vid_list[vid][0] - 1]:
+                co_attribute = cell_values[vid_list[vid][0] - 1][cell_index].columnname
                 attribute = vid_list[vid][1]
-                co_attribute = self.attribute_feature_id[f + 1]
-                if co_attribute != attribute:
+                feature = self.attribute_feature_id.get(co_attribute, -1)
+                if co_attribute != attribute and feature != -1:
                     domain_id = 0
+                    co_value = cell_values[vid_list[vid][0] - 1][cell_index].value
                     for value in cell_domain[vid_list[vid][2]]:
-                        co_value =\
-                            self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
                         v_count = domain_stats[co_attribute][co_value]
                         count = domain_pair_stats[co_attribute][attribute].get((
                             co_value, value), 0)
                         probability = count / v_count
-                        tensor[vid, f, domain_id] = probability
+                        tensor[vid, feature-1, domain_id] = probability
                         domain_id = domain_id + 1
         return
 
@@ -79,7 +81,7 @@ class SignalCooccur(Featurizer):
             feature_id_list = []
             for attribute in self.dirty_cells_attributes:
                 self.count += 1
-                self.attribute_feature_id[self.count + self.offset] = attribute
+                self.attribute_feature_id[attribute] = self.count + self.offset
                 feature_id_list.append\
                     ([self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
             feature_df = self.session.holo_env.spark_session.createDataFrame(
