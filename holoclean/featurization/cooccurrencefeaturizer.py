@@ -38,7 +38,10 @@ class SignalCooccur(Featurizer):
         self.direct_insert = True
 
     def insert_to_tensor(self, tensor, clean):
-        cooccurences = self.pruning_object.coocurence_for_first_attribute
+        # cooccurences = self.pruning_object.coocurence_for_first_attribute
+        domain_pair_stats = self.pruning_object.domain_pair_stats
+        domain_stats = self.pruning_object.domain_stats
+
         if clean:
             vid_list = self.pruning_object.v_id_clean_list
             domain = self.pruning_object.domain_clean
@@ -51,10 +54,15 @@ class SignalCooccur(Featurizer):
                 for domain_id in range(len(domain[vid])):
                     value = domain[vid][domain_id]
                     co_attribute = self.attribute_feature_id[f + 1]
-                    co_value = self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
+                    co_value =\
+                        self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
+                    v_count = domain_stats[co_attribute][co_value]
                     try:
-                        c = cooccurences[co_attribute][co_value][attribute][value]
-                        tensor[vid, f, domain_id] = c
+                        count = domain_pair_stats[co_attribute][attribute][(
+                            co_value, value)]
+                        probability = count / v_count
+                        #c = cooccurences[co_attribute][co_value][attribute][value]
+                        tensor[vid, f, domain_id] = probability
                     except:
                         pass
         return
