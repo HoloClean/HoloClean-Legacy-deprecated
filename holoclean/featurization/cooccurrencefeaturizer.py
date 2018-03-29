@@ -38,7 +38,6 @@ class SignalCooccur(Featurizer):
         self.direct_insert = True
 
     def insert_to_tensor(self, tensor, clean):
-        variables, features, domain_size = tensor.size()
         cooccurences = self.pruning_object.coocurence_for_first_attribute
         if clean:
             vid_list = self.pruning_object.v_id_clean_list
@@ -50,7 +49,7 @@ class SignalCooccur(Featurizer):
             for f in range(self.offset, self.offset + self.count):
                 vid = entry[0] - 1
                 attribute = vid_list[vid][1]
-                value = domain[entry]
+                value = entry[2]
                 co_attribute = self.attribute_feature_id[f + 1]
                 co_value = self.cell_values_init[vid_list[vid][0] - 1][co_attribute]
                 try:

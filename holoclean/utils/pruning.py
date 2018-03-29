@@ -376,8 +376,8 @@ class Pruning:
         possible_values_dirty = []
         self.v_id_clean_list = []
         self.v_id_dk_list = []
-        self.domain_clean = {}
-        self.domain_dk = {}
+        self.domain_clean = []
+        self.domain_dk = []
         v_id_clean = v_id_dk = 0
 
         for tuple_id in self.cellvalues:
@@ -399,7 +399,7 @@ class Pruning:
                                                      tmp_cell_index].columnname])
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self.domain_dk[v_id_dk, k_ij] = value
+                            self.domain_dk.append((v_id_dk, k_ij, value))
                             self._append_possible(v_id_dk, value,
                                                   possible_values_dirty,
                                                   tmp_cell_index, k_ij)
@@ -421,7 +421,7 @@ class Pruning:
                                                      tmp_cell_index].columnname])
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self.domain_clean[v_id_clean, k_ij] = value
+                            self.domain_clean.append((v_id_clean, k_ij, value))
                             self._append_possible(v_id_clean, value,
                                                   possible_values_clean,
                                                   tmp_cell_index, k_ij)
