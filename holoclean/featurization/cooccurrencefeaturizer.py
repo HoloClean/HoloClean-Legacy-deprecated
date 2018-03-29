@@ -34,7 +34,6 @@ class SignalCooccur(Featurizer):
             self.pruning_object.dirty_cells_attributes
         self.domain_stats = self.pruning_object.domain_stats
         self.threshold = self.pruning_object.threshold1
-        self.cell_values_init = self.pruning_object.cell_values_init
         self.direct_insert = True
 
     def insert_to_tensor(self, tensor, clean):
