@@ -9,7 +9,8 @@ def lowercase(s):
         return ''
     if type(s) != str and type(s) != unicode:
         return s
-    return s.lower()
+    return str(s.encode('utf-8')).lower()
+
 
 
 @udf(returnType=StringType())
