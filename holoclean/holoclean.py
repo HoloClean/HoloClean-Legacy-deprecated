@@ -256,11 +256,6 @@ class Session:
         self.inferred_values = None
         self.feature_count = 0
 
-    def _timing_to_file(self, log):
-        if self.holo_env.timing_file:
-            t_file = open(self.holo_env.timing_file, 'a')
-            t_file.write(log)
-
     def load_data(self, file_path):
         """ Loads a dataset from file into the database
         :param file_path: path to data file
@@ -277,10 +272,7 @@ class Session:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
             print log
-            if self.holo_env.timing_file:
-                t_file = open(self.holo_env.timing_file, 'w')
-                t_file.write(log)
-        attributes = self.dataset.get_schema('Init')
+            attributes = self.dataset.get_schema('Init')
         for attribute in attributes:
             self.holo_env.dataengine.add_db_table_index(
                 self.dataset.table_specific_name('Init'), attribute)
@@ -363,7 +355,7 @@ class Session:
             end = time.time()
             log = 'Time for Error Detection: ' + str(end - start) + '\n'
             print log
-            self._timing_to_file(log)
+
 
         return clean, dk
 
