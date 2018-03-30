@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import sqlalchemy as sqla
 from pyspark.sql.types import *
 from global_variables import GlobalVariables
 from utils.reader import Reader

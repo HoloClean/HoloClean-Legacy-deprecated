@@ -1,8 +1,6 @@
 #!/bin/bash
 
-pg_ctl -D /Users/ilyas/HC/pg-holo -l logfile start
-
-psql <<PGSCRIPT
+sudo -u postgres psql <<PGSCRIPT
  
 CREATE database holo;
 CREATE user holocleanuser;
