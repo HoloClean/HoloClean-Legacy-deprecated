@@ -13,7 +13,7 @@ class Testing:
             holoclean_path="..",
             verbose=True,
             timing_file='execution_time.txt',
-            learning_iterations=50,
+            learning_iterations=20,
             learning_rate=0.001,
             batch_size=20)
         self.session = Session(self.holo_obj)
@@ -67,3 +67,4 @@ class Testing:
         t2 = time.time()
         if self.holo_obj.verbose:
             self.holo_obj.logger.info("Total time:" + str(t2-t1))
+        exit(0)

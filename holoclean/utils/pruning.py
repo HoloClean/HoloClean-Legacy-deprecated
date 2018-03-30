@@ -32,7 +32,6 @@ class Pruning:
         self.column_to_col_index_dict = {}
         self.attribute_to_be_pruned = {}
         self.dirty_cells_attributes = set([])
-        self.cell_nbs = {}
         self.coocurence_for_first_attribute = {}
         self.coocurence_for_first_attribute_small = {}
         self.cell_domain = {}
