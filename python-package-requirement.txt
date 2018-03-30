@@ -9,3 +9,6 @@ numba
 torchvision
 tqdm
 psycopg2
+distance
+click
+scipy

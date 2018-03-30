@@ -21,13 +21,13 @@ class Testing:
     def test(self):
         
         t1 = time.time()
-        #dataset = "../tutorial/data/hospital_dataset.csv"
+        # dataset = "../datasets/hospital1k/hospital_dataset_norm.csv"
         # dataset = "../datasets/flights/flight_input_holo.csv"
-        dataset = "../datasets/food/food_input_holo.csv"
+        dataset = "../datasets/food/food_input_large_norm.csv"
         # dataset = "../datasets/unit_test/unit_test_dataset.csv"
         # dataset = "../datasets/unit_test/unit_test_one_tuple.csv"
 
-        #denial_constraints = "../tutorial/data/hospital_constraints.txt"
+        # denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
         # denial_constraints = "../datasets/flights/flight_constraints.txt"
         denial_constraints = "../datasets/food/food_constraints.txt"
         # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
@@ -36,7 +36,7 @@ class Testing:
         flattening = 0
         # flattening = 1
 
-        #ground_truth = "../tutorial/data/groundtruth.csv"
+        # ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
         # ground_truth = "../datasets/flights/flights_clean.csv"
         ground_truth = "../datasets/food/food_clean.csv"
         # ground_truth = 0
