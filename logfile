@@ -1,0 +1,11 @@
+2018-03-30 13:18:38.778 EDT [5089] LOG:  listening on IPv6 address "::1", port 5432
+2018-03-30 13:18:38.778 EDT [5089] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2018-03-30 13:18:38.779 EDT [5089] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2018-03-30 13:18:38.805 EDT [5090] LOG:  database system was shut down at 2018-03-30 13:05:06 EDT
+2018-03-30 13:18:38.814 EDT [5089] LOG:  database system is ready to accept connections
+2018-03-30 13:21:26.591 EDT [5195] FATAL:  lock file "postmaster.pid" already exists
+2018-03-30 13:21:26.591 EDT [5195] HINT:  Is another postmaster (PID 5089) running in data directory "/Users/ilyas/HC/pg-holo"?
+2018-03-30 13:21:26.698 EDT [5197] ERROR:  database "holo" already exists
+2018-03-30 13:21:26.698 EDT [5197] STATEMENT:  CREATE database holo;
+2018-03-30 13:21:26.698 EDT [5197] ERROR:  role "holocleanuser" already exists
+2018-03-30 13:21:26.698 EDT [5197] STATEMENT:  CREATE user holocleanuser;
