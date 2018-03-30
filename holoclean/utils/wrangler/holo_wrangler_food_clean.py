@@ -10,8 +10,8 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
 
-data = spark.read.csv("../../../datasets/hospital1k/groundtruth.csv", header=True, encoding='utf-8')
-out_path ="../../../datasets/hospital1k/groundtruth_norm.csv"
+data = spark.read.csv("../../../datasets/food/food_clean.csv", header=True, encoding='utf-8')
+out_path ="../../../datasets/food/food_clean_norm.csv"
 
 
 # Take note of the large number of variants on 'Chicago' in this dataset. Our wrangler attempts to merge these values into one.
@@ -32,7 +32,7 @@ from transformer import Transformer
 from transform_functions import lowercase, trim
 
 functions = [lowercase, trim]
-columns = ["val"]
+columns = ["correct_value"]
 
 transformer = Transformer(functions, columns)
 
