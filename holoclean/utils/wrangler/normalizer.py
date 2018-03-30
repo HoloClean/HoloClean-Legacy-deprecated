@@ -23,12 +23,12 @@ class Normalizer:
         col_name = ci.col_name
         col = df.select(col_name).collect()
 
-        col = [str(row[col_name]) if row[col_name] is not None else ''
-               for row in col]
+        col = [row[col_name].encode('utf-8', 'replace')
+               if row[col_name] is not None else ''for row in col]
 
         distinct = list(set(col))
 
-        if len(distinct) > self.max_distinct:
+        if len(distinct) > self.max_distinct or len(distinct) <= 1:
             return df
 
         similarity = self._compute_distances(distinct, ci.distance_fcn)
