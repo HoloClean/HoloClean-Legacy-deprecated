@@ -10,8 +10,8 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
 
-data = spark.read.csv("/home/gmichalo/Desktop/dokimi/HoloClean/tutorial/data/groundtruth.csv", header=True, encoding='utf-8')
-out_path ="/home/gmichalo/Desktop/dokimi/HoloClean/tutorial/data/groundtruth_norm.csv"
+data = spark.read.csv("../../../tutorial/data/groundtruth.csv", header=True, encoding='utf-8')
+out_path ="../../../tutorial/data/groundtruth_norm.csv"
 
 
 # Take note of the large number of variants on 'Chicago' in this dataset. Our wrangler attempts to merge these values into one.
