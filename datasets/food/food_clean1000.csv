@@ -1,0 +1,923 @@
+3,inspectiondate,20161024
+3,location,(41.933535705306504
+3,dbaname,RENALDIS PIZZA
+10,inspectiondate,20161024
+10,location,(41.99570960302507
+10,dbaname,BURGER KING +ACM-215
+35,inspectiondate,20161020
+35,location,(42.008536400868735
+35,dbaname,FARMERS MARKET
+42,inspectiondate,20161020
+42,location,(41.9977653535896
+42,address,2548+AC0-2550 W DEVON AVE 
+42,dbaname,MYSORE WOODLANDS
+51,inspectiondate,20161020
+51,location,(41.92250793561497
+51,dbaname,COOK AU VIN
+53,inspectiondate,20161020
+53,location,(42.008536400868735
+53,facilitytype,Restaurant
+53,address,11601 W TOUHY AVE 
+53,dbaname,HOST INTERNATIONAL INC
+55,risk,Risk 2 (Medium)
+55,facilitytype,Restaurant
+67,inspectiondate,20161020
+67,location,(41.99798375025185
+67,address,2032+AC0-2036 W Devon AVE 
+67,dbaname,GHAREEB NAWAZ RESTAURANT
+70,results,Out of Business
+70,inspectiondate,20161019
+70,location,(41.736776054766636
+70,dbaname,GRAND CHINESE KITCHEN
+71,city,CHICAGO
+71,risk,Risk 1 (High)
+71,facilitytype,Restaurant
+80,inspectiondate,20161019
+80,location,(41.736776054766636
+80,dbaname,GRAND CHINESE KITCHEN
+88,inspectiondate,20161018
+88,location,(42.008536400868735
+88,dbaname,UNITED CLUB
+92,facilitytype,Restaurant
+109,location,(42.008536400868735
+109,facilitytype,Restaurant
+109,dbaname,ROCKY MOUNTAIN CHOCOLATE FACTORY
+116,facilitytype,Restaurant
+127,inspectiondate,20161018
+127,location,(41.8735218856565
+127,dbaname,DANISH GAS +ACY- FOOD MART
+136,city,CHICAGO
+140,results,Out of Business
+140,inspectiondate,20161017
+140,location,(42.008536400868735
+140,dbaname,UNITED CLUB
+144,inspectiondate,20161017
+144,location,(42.008536400868735
+144,dbaname,UNITED CLUB
+149,inspectiondate,20161017
+149,location,(42.008536400868735
+149,dbaname,UNITED CLUB
+153,location,(41.961499265953364
+153,facilitytype,Childrens Services Facility
+153,dbaname,CHICAGO WALDORF SCHOOL
+160,inspectiondate,20161014
+160,location,(41.88123342371891
+160,address,2550+AC0-2602 W MADISON ST 
+160,dbaname,JOHNNYS ICE HOUSE
+176,inspectiondate,20161014
+176,location,(41.99798375025185
+176,address,2032+AC0-2036 W Devon AVE 
+176,dbaname,GHAREEB NAWAZ RESTAURANT
+179,inspectiondate,20161014
+179,location,(42.019407874043075
+179,dbaname,CHEZ VIOLETTE RESTAURANT
+186,inspectiondate,20161014
+186,location,(41.89561531354531
+186,dbaname,SEE THRU CHINESE RESTAURANT
+203,inspectiondate,20161013
+203,location,(41.77224374332345
+203,dbaname,ISLAND FISH +ACY- CHICKEN
+231,inspectiondate,20161013
+231,location,(42.008536400868735
+231,dbaname,UNITED CLUB
+235,inspectiondate,20161013
+235,location,(41.87666157989593
+235,dbaname,ARTISTS SNACK SHOP
+236,inspectiondate,20161013
+236,location,(42.008536400868735
+236,dbaname,UNITED CLUB
+245,inspectiondate,20161013
+245,location,(41.8735218856565
+245,dbaname,DANISH GAS +ACY- FOOD MART
+263,inspectiondate,20161011
+263,location,(41.85297382613197
+263,dbaname,PAPA JOHNS PIZZA
+283,location,(41.86959706650426
+283,facilitytype,Mobile Food Dispenser
+283,dbaname,FLIRTY CUPCAKES
+302,inspectiondate,20161007
+302,location,(41.806665605305
+302,dbaname,ST JOSEPH CHILD CARE
+303,location,(42.008536400868735
+303,facilitytype,Grocery Store
+303,dbaname,GARRETT POPCORN SHOPS
+307,inspectiondate,20161007
+307,location,(42.0078836440726
+307,dbaname,LEONAS PIZZERIA
+310,inspectiondate,20161007
+310,location,(41.883252799966726
+310,dbaname,HAROLDS CHICKEN
+319,longitude,+AC0-87.70908029
+319,latitude,41.92480871
+319,location,(41.92480871086895
+326,inspectiondate,20161006
+326,location,(41.933535705306504
+326,dbaname,RENALDIS PIZZA
+327,location,(41.80281073000951
+327,facilitytype,Restaurant
+327,dbaname,YOLIS TAMALES
+329,location,(42.008536400868735
+329,facilitytype,Restaurant
+329,dbaname,ROCKY MOUNTAIN CHOCOLATE FACTORY
+338,inspectiondate,20161006
+338,location,(41.75466012439374
+338,dbaname,MEME WOK
+339,results,Out of Business
+339,inspectiondate,20161006
+339,location,(41.75466012439374
+339,dbaname,MEME WOK
+355,city,CHICAGO
+368,results,Out of Business
+368,inspectiondate,20161005
+368,location,(41.96933589360574
+368,dbaname,CAFE ORIENT 33
+369,city,CHICAGO
+369,risk,Risk 1 (High)
+369,facilitytype,Restaurant
+370,akaname,WALGREENS
+376,inspectiondate,20161005
+376,location,(41.96933589360574
+376,dbaname,CAFE ORIENT 33
+383,location,(41.931094868682656
+383,address,5805+AC0-5807 W DIVERSEY AVE 
+383,dbaname,AVENIDA DEL SABOR
+394,inspectiondate,20161005
+394,location,(41.85297382613197
+394,dbaname,PAPA JOHNS PIZZA
+400,location,(41.90349669933936
+400,facilitytype,Restaurant
+400,dbaname,NEAR NORTH MONTESSORI SCHOOL
+408,inspectiondate,20161005
+408,location,(42.008536400868735
+408,facilitytype,Restaurant
+408,address,11601 W TOUHY AVE 
+408,dbaname,HOST INTERNATIONAL INC
+431,inspectiondate,20161004
+431,location,(41.85297382613197
+431,dbaname,PAPA JOHNS PIZZA
+434,inspectiondate,20161004
+434,location,(41.8735218856565
+434,dbaname,DANISH GAS +ACY- FOOD MART
+446,inspectiondate,20161004
+446,location,(41.948062734364164
+446,facilitytype,ROOFTOP
+446,dbaname,SKYBOX ON SHEFFIELD
+462,location,(41.931094868682656
+462,address,5805 W DIVERSEY AVE 
+462,dbaname,AVENIDA DEL SABOR
+463,facilitytype,Restaurant
+469,city,CHICAGO
+479,inspectiondate,20160930
+479,location,(41.722565784499146
+479,dbaname,SUBWAY
+487,city,CHICAGO
+495,inspectiondate,20160930
+495,location,(41.894208809612294
+495,dbaname,BELLAS PIZZA
+503,inspectiondate,20160930
+503,location,(42.008536400868735
+503,facilitytype,Restaurant
+503,address,11601 W TOUHY AVE 
+503,dbaname,HOST INTERNATIONAL INC
+521,inspectiondate,20160929
+521,location,(42.008536400868735
+521,facilitytype,Restaurant
+521,dbaname,HUDSON NEWS
+558,results,Out of Business
+558,inspectiondate,20160928
+558,location,(42.008536400868735
+558,dbaname,Gategourmet
+569,inspectiondate,20160929
+569,location,(41.948062734364164
+569,facilitytype,ROOFTOP
+569,dbaname,SKYBOX ON SHEFFIELD
+571,inspectiondate,20160929
+571,location,(41.968390431264375
+571,dbaname,MAYAN SOL RESTAURANT
+573,results,Out of Business
+573,inspectiondate,20160928
+573,location,(41.9677627944592
+573,dbaname,PIZZERIA BY ALEX
+574,results,Out of Business
+574,inspectiondate,20160928
+574,location,(41.9677627944592
+574,dbaname,PIZZERIA BY ALEX
+577,inspectiondate,20160928
+577,location,(41.75663165072997
+577,dbaname,SEE THRU CHINESE KITCHEN
+579,results,Out of Business
+579,inspectiondate,20160928
+579,location,(42.008536400868735
+579,dbaname,Gategourmet
+582,inspectiondate,20160928
+582,location,(41.99798866563551
+582,dbaname,VINCES PIZZERIA +ACY- TAQUERIA
+596,inspectiondate,20160928
+596,location,(41.799629744251135
+596,dbaname,PAPA JOHNS PIZZA
+614,inspectiondate,20160927
+614,location,(41.96857277212391
+614,address,3142+AC0-3148 W LAWRENCE AVE 
+614,dbaname,LINDO MICHOACAN
+639,inspectiondate,20160927
+639,location,(42.008536400868735
+639,dbaname,FRONTERA TORTAS BY RICK BAYLESS
+655,location,(41.94550975342797
+655,facilitytype,Restaurant
+655,address,3501+AC0-3505 N HALSTED ST FL 1
+655,dbaname,LITTLE JIMS
+669,location,(41.80934190042302
+669,facilitytype,Restaurant
+669,dbaname,CARNITAS DON RAFA INC
+683,inspectiondate,20160926
+683,location,(41.96857277212391
+683,address,3142+AC0-3148 W LAWRENCE AVE 
+683,dbaname,LINDO MICHOACAN
+684,inspectiondate,20160926
+684,location,(41.88031245756281
+684,dbaname,HAPPY FISH +ACY- CHICKEN
+686,inspectiondate,20160926
+686,location,(41.97974084969391
+686,dbaname,QUICK STOP PANTRY
+708,inspectiondate,20160923
+708,location,(41.97974084969391
+708,dbaname,QUICK STOP PANTRY
+739,inspectiondate,20160923
+739,location,(41.960534729547824
+739,dbaname,ARCADIAN SUSHI
+741,results,Out of Business
+741,inspectiondate,20160922
+741,location,(42.008536400868735
+741,dbaname,UNITED CLUB
+746,results,Out of Business
+746,inspectiondate,20160922
+746,location,(41.8874927940704
+746,dbaname,REAL GOOD JUICE CO
+750,inspectiondate,20160922
+750,location,(42.008536400868735
+750,dbaname,UNITED CLUB
+752,inspectiondate,20160922
+752,location,(41.791761831643065
+752,facilitytype,Childrens Services Facility
+752,dbaname,LITTLE PEOPLE LEARNING
+786,facilitytype,Grocery Store
+789,inspectiondate,20160922
+789,location,(41.894798370283404
+789,dbaname,CAFE DESCARTES COMPANY
+795,inspectiondate,20160922
+795,location,(41.8874927940704
+795,dbaname,REAL GOOD JUICE CO
+798,inspectiondate,20160922
+798,location,(41.80299620586828
+798,dbaname,KAM ISAIAH ISRAEL CONGREGATION
+827,inspectiondate,20160921
+827,location,(41.79141056942301
+827,dbaname,HARPER FOODS
+828,inspectiondate,20160921
+828,location,(41.9611185795829
+828,dbaname,BREAKROOM BREWERY
+864,inspectiondate,20160920
+864,location,(41.95419279485841
+864,dbaname,KEREN KITCHEN
+882,inspectiondate,20160919
+882,location,(41.89012300513693
+882,dbaname,EPIC
+893,inspectiondate,20160919
+893,location,(41.88031245756281
+893,dbaname,HAPPY FISH +ACY- CHICKEN
+895,inspectiondate,20160919
+895,location,(41.87503334144109
+895,dbaname,AU BON PAIN
+902,inspectiondate,20160919
+902,location,(41.99563177556418
+902,dbaname,LITTLE QUIAPO RESTAURANT
+910,inspectiondate,20160919
+910,location,(41.79141056942301
+910,dbaname,HARPER FOODS
+920,inspectiondate,20160919
+920,location,(41.791761831643065
+920,facilitytype,Childrens Services Facility
+920,dbaname,LITTLE PEOPLE LEARNING
+929,inspectiondate,20160831
+929,location,(41.92510714850457
+929,dbaname,BURGER KING +ACM-1455
+958,results,Out of Business
+958,inspectiondate,20160916
+958,location,(41.943251259237634
+958,facilitytype,RETAIL WINE/WINE BAR
+958,address,2232 W ROSCOE ST 
+958,dbaname,LUSH WINE +ACY- SPIRITS
+964,results,Out of Business
+964,inspectiondate,20160916
+964,location,(41.943251259237634
+964,facilitytype,RETAIL WINE/WINE BAR
+964,address,2232 W ROSCOE ST 
+964,dbaname,LUSH WINE +ACY- SPIRITS
+967,akaname,HOT FIRE N COOL ICE STEAK +ACY- LEMONADE
+1029,akaname,FRESHII
+1029,inspectiondate,20160915
+1029,location,(41.898079920503314
+1029,dbaname,FRESHII
+1035,inspectiondate,20160915
+1035,location,(41.92051353555901
+1035,dbaname,ZOOM PIZZA FACTORY
+1044,inspectiondate,20160915
+1044,location,(41.951064053085005
+1044,address,3800+AC0-3804 N CLARK ST 
+1044,dbaname,UNCOMMON GROUND
+1048,inspectiondate,20160915
+1048,location,(41.89935173506942
+1048,dbaname,HILTON SUITES CHICAGO MAGNIFICENT MILE
+1049,inspectiondate,20160915
+1049,location,(42.008536400868735
+1049,dbaname,UNITED CLUB
+1086,inspectiondate,20160914
+1086,location,(41.9853615288893
+1086,dbaname,WESTERN CAFE
+1090,inspectiondate,20160914
+1090,location,(41.86775146722659
+1090,dbaname,ARTISTS CAFE
+1091,location,(41.952524165498154
+1091,facilitytype,Restaurant
+1091,dbaname,CAPONIES TRATTORIA
+1095,location,(41.80934190042302
+1095,facilitytype,Restaurant
+1095,dbaname,CARNITAS DON RAFA INC
+1097,location,(41.80934190042302
+1097,facilitytype,Mobile Food Dispenser
+1097,dbaname,CARNITAS DON RAFA INC
+1113,inspectiondate,20160914
+1113,location,(41.86775146722659
+1113,dbaname,ARTISTS CAFE
+1128,inspectiondate,20160914
+1128,location,(41.951064053085005
+1128,address,3800+AC0-3804 N CLARK ST 
+1128,dbaname,UNCOMMON GROUND
+1130,akaname,THE HALAL GUYS
+1186,inspectiondate,20160913
+1186,location,(41.946716898376835
+1186,dbaname,NEW CHINA BUFFET
+1196,inspectiondate,20160913
+1196,location,(42.008536400868735
+1196,facilitytype,Restaurant
+1196,address,11601 W TOUHY AVE 
+1196,dbaname,HOST INTERNATIONAL INC
+1209,inspectiondate,20160913
+1209,location,(41.96461176175771
+1209,dbaname,WOK CUISINE
+1213,facilitytype,Restaurant
+1231,results,Out of Business
+1231,inspectiondate,20160909
+1231,location,(41.9853615288893
+1231,dbaname,WESTERN CAFE
+1232,inspectiondate,20160909
+1232,location,(42.008536400868735
+1232,dbaname,MCDONALDS
+1233,inspectiondate,20160909
+1233,location,(41.9853615288893
+1233,dbaname,WESTERN CAFE
+1241,inspectiondate,20160909
+1241,location,(41.89561531354531
+1241,dbaname,SEE THRU CHINESE RESTAURANT
+1249,facilitytype,Restaurant
+1256,inspectiondate,20160909
+1256,location,(41.96315679416602
+1256,address,4503+AC0-4505 N KEDZIE AVE 
+1256,dbaname,EL ORIGINAL GALLO BRAVO
+1284,inspectiondate,20160908
+1284,location,(42.008536400868735
+1284,dbaname,MCDONALDS
+1291,inspectiondate,20160908
+1291,location,(41.997164131325896
+1291,dbaname,LITTLE ANGELS EARLY CHILDHOOD
+1295,inspectiondate,20160908
+1295,location,(41.76457363288262
+1295,dbaname,GRAND PALACE SUPERMARKET
+1302,akaname,HOT FIRE N COOL ICE STEAK +ACY- LEMONADE
+1305,inspectiondate,20160908
+1305,location,(41.75599945329588
+1305,dbaname,MR. J FISH +ACY- CHICKEN
+1325,inspectiondate,20160908
+1325,location,(42.008536400868735
+1325,dbaname,MCDONALDS
+1355,city,CHICAGO
+1373,results,Out of Business
+1373,inspectiondate,20160906
+1373,location,(41.960534729547824
+1373,dbaname,ARCADIAN SUSHI
+1381,inspectiondate,20160906
+1381,location,(41.87961077820512
+1381,dbaname,FALAFEL ISLAND
+1384,inspectiondate,20160906
+1384,location,(41.89561531354531
+1384,dbaname,SEE THRU CHINESE RESTAURANT
+1388,location,(41.968380582424096
+1388,facilitytype,Restaurant
+1388,dbaname,Paleteria Reina De Sabores
+1399,inspectiondate,20160906
+1399,location,(41.895260950237294
+1399,dbaname,BURGER KING +ACM-12371
+1418,inspectiondate,20160906
+1418,location,(41.94914775918886
+1418,dbaname,SUBWAY
+1435,inspectiondate,20160902
+1435,location,(41.909962883396176
+1435,dbaname,TASTY CHINA
+1466,inspectiondate,20160902
+1466,location,(41.94231341336203
+1466,address,3313+AC0-3319 N BROADWAY 
+1466,dbaname,WAKAMONO
+1488,inspectiondate,20160901
+1488,location,(41.939998356700194
+1488,dbaname,GIORDANOS ON BELMONT
+1500,inspectiondate,20160901
+1500,location,(41.9845361933454
+1500,address,5633+AC0-5635 N ASHLAND AVE 
+1500,dbaname,LALIBELA RESTAURANT
+1508,results,Out of Business
+1508,inspectiondate,20160901
+1508,location,(41.939998356700194
+1508,dbaname,GIORDANOS ON BELMONT
+1518,results,Out of Business
+1518,inspectiondate,20151207
+1518,location,(41.88309915782265
+1518,facilitytype,Restaurant
+1518,dbaname,225 CAFE
+1529,inspectiondate,20160901
+1529,location,(41.907572250968755
+1529,facilitytype,Childrens Services Facility
+1529,dbaname,BRITISH SCHOOL OF CHICAGO
+1557,akaname,PEETS COFFEE +ACY- TEA
+1566,akaname,MARATHON
+1566,facilitytype,Restaurant
+1578,inspectiondate,20160830
+1578,location,(42.008536400868735
+1578,dbaname,MCDONALDS
+1579,facilitytype,Restaurant
+1587,inspectiondate,20160830
+1587,location,(41.8783126806928
+1587,dbaname,JIMMY JOHNS+AC0-JACKSON
+1589,inspectiondate,20160830
+1589,location,(42.008536400868735
+1589,dbaname,MCDONALDS
+1594,inspectiondate,20160830
+1594,location,(42.008536400868735
+1594,dbaname,MCDONALDS
+1630,facilitytype,Restaurant
+1657,location,(41.894662670242106
+1657,facilitytype,Daycare Above and Under 2 Years
+1657,dbaname,CHICAGO CHILDRENS HOUSE
+1659,location,(42.00803844718281
+1659,facilitytype,Restaurant
+1659,dbaname,ALBERTOS PIZZA
+1666,inspectiondate,20160830
+1666,location,(41.877791648104406
+1666,dbaname,FRESHII
+1688,inspectiondate,20160829
+1688,location,(41.94026958072296
+1688,dbaname,FIZZ BAR +ACY- GRILL
+1706,location,(41.80281073000951
+1706,facilitytype,Restaurant
+1706,dbaname,YOLIS TAMALES
+1709,inspectiondate,20160829
+1709,location,(42.008536400868735
+1709,dbaname,MCDONALDS
+1720,location,(41.849379215218015
+1720,facilitytype,Restaurant
+1720,dbaname,CONNIES PIZZA
+1732,facilitytype,Restaurant
+1737,inspectiondate,20160826
+1737,location,(41.86621301898216
+1737,dbaname,POPEYES
+1753,inspectiondate,20160826
+1753,location,(41.94628081101039
+1753,dbaname,Red Ivy
+1755,location,(41.85167565466277
+1755,facilitytype,Mobile Food Dispenser
+1755,dbaname,PALETERIA AZTECA +ACM-2
+1781,inspectiondate,20160826
+1781,location,(41.9611185795829
+1781,dbaname,BREAKROOM BREWERY
+1785,inspectiondate,20160826
+1785,location,(41.718354119253824
+1785,dbaname,MARIS BUMBLE BEE DAY CARE CORP.
+1789,akaname,LUCKY STRIKE LANES
+1789,inspectiondate,20160826
+1789,location,(41.891133170854566
+1789,dbaname,LUCKY STRIKE LANES
+1818,akaname,MAMA MADE SWEET POTATA PIE
+1821,inspectiondate,20160826
+1821,location,(41.93121715112931
+1821,facilitytype,Childrens Services Facility
+1821,dbaname,ONWARD NEIGHBORHOOD HOUSE
+1832,inspectiondate,20160824
+1832,location,(41.692573148327895
+1832,dbaname,EXPRESS FOOD MART +ACY- CELLULAR
+1834,inspectiondate,20160824
+1834,location,(41.77776928832673
+1834,dbaname,MERMAID FISH +ACY- CHICKEN
+1840,location,(41.909676222517476
+1840,facilitytype,Grocery Store
+1840,address,4301+AC0-4305 W NORTH AVE 
+1840,dbaname,BUY LOW LIQUORS
+1843,location,(41.909676222517476
+1843,facilitytype,Grocery Store
+1843,address,4301+AC0-4305 W NORTH AVE 
+1843,dbaname,BUY LOW LIQUORS
+1853,facilitytype,Restaurant
+1872,inspectiondate,20160823
+1872,location,(41.94497417145062
+1872,address,3463+AC0-3467 N BROADWAY BLDG 
+1872,dbaname,ROCKS LAKEVIEW
+1878,results,Out of Business
+1878,inspectiondate,20151207
+1878,location,(41.87800139503827
+1878,facilitytype,Restaurant
+1878,dbaname,GIORDANOS RESTAURANT +ACY- PIZZAERIA
+1887,results,Out of Business
+1887,inspectiondate,20151207
+1887,location,(41.878003146826956
+1887,dbaname,SUBWAY
+1898,inspectiondate,20160823
+1898,location,(41.800409523947955
+1898,dbaname,NATIVE FOODS CAFE
+1924,results,Out of Business
+1924,inspectiondate,20160823
+1924,location,(41.86775146722659
+1924,dbaname,ARTISTS CAFE
+1929,inspectiondate,20160823
+1929,location,(41.86775146722659
+1929,dbaname,ARTISTS CAFE
+1931,inspectiondate,20160823
+1931,location,(41.86775146722659
+1931,dbaname,ARTISTS CAFE
+1949,inspectiondate,20160822
+1949,location,(41.86607358683167
+1949,dbaname,PITA HEAVEN
+1984,inspectiondate,20160822
+1984,location,(41.9380068184394
+1984,dbaname,DOMINOS PIZZA
+1992,inspectiondate,20160822
+1992,location,(41.97988428297559
+1992,dbaname,HAMBURGER MARYS CHICAGO
+1996,inspectiondate,20160822
+1996,location,(41.94231341336203
+1996,address,3313+AC0-3319 N BROADWAY 
+1996,dbaname,WAKAMONO
+1998,inspectiondate,20160822
+1998,location,(41.87881482219489
+1998,dbaname,NATIVE FOODS CAFE
+2002,inspectiondate,20160822
+2002,location,(41.88058226633408
+2002,dbaname,ARAMARK SERVICES +AEA- HARRIS BANK
+2005,inspectiondate,20160822
+2005,location,(41.88058226633408
+2005,dbaname,ARAMARK SERVICES INC+AC0- HARRIS BANK
+2008,facilitytype,Restaurant
+2009,facilitytype,Restaurant
+2010,facilitytype,Restaurant
+2013,inspectiondate,20160822
+2013,location,(41.94619141735405
+2013,dbaname,JOHN BARLEYCORN MEMORIAL PUB
+2039,inspectiondate,20160819
+2039,location,(41.938946633610854
+2039,dbaname,BURRITO KING
+2062,inspectiondate,20160819
+2062,location,(41.773871250304225
+2062,dbaname,CHABLAYS EXPRESS +ACY- CATERING
+2107,inspectiondate,20160818
+2107,location,(42.008536400868735
+2107,facilitytype,Restaurant
+2107,address,11601 W TOUHY AVE 
+2107,dbaname,HOST INTERNATIONAL INC
+2111,inspectiondate,20160816
+2111,location,(42.008536400868735
+2111,dbaname,REGGIOS PIZZA EXPRESS
+2115,inspectiondate,20160818
+2115,location,(42.008536400868735
+2115,dbaname,REGGIOS PIZZA EXPRESS
+2117,inspectiondate,20160818
+2117,location,(42.008536400868735
+2117,dbaname,REGGIOS PIZZA EXPRESS
+2131,inspectiondate,20160818
+2131,location,(41.77776928832673
+2131,dbaname,MERMAID FISH +ACY- CHICKEN
+2135,akaname,GILHOOLEYS GRANDE SALOON
+2137,inspectiondate,20160816
+2137,location,(41.960534729547824
+2137,dbaname,ARCADIAN SUSHI
+2149,akaname,GILHOOLEYS GRANDE SALOON
+2152,results,Out of Business
+2152,inspectiondate,20160811
+2152,location,(41.961754803527974
+2152,dbaname,CARLTON AT THE LAKE
+2155,location,(42.00803844718281
+2155,facilitytype,Restaurant
+2155,dbaname,ALBERTOS PIZZA
+2165,location,(41.85167565466277
+2165,facilitytype,Restaurant
+2165,dbaname,PALETERIA AZTECA +ACM-2
+2215,inspectiondate,20160817
+2215,location,(41.773871250304225
+2215,dbaname,CHABLAYS EXPRESS +ACY- CATERING
+2237,inspectiondate,20160816
+2237,location,(41.92682182928185
+2237,dbaname,GASLIGHT BAR +ACY- GRILLE
+2255,inspectiondate,20160816
+2255,location,(42.008536400868735
+2255,facilitytype,Restaurant
+2255,address,11601 W TOUHY AVE 
+2255,dbaname,HOST INTERNATIONAL INC
+2260,inspectiondate,20160816
+2260,location,(41.82034950030901
+2260,dbaname,KING SUPERMARKET
+2263,results,Out of Business
+2263,inspectiondate,20160816
+2263,location,(41.92051353555901
+2263,dbaname,ZOOM PIZZA FACTORY
+2269,location,(41.892094136861786
+2269,facilitytype,Restaurant
+2269,dbaname,CHURRO FACTORY
+2275,location,(41.892094136861786
+2275,facilitytype,Restaurant
+2275,dbaname,CHURRO FACTORY
+2276,location,(41.85193447241584
+2276,facilitytype,Restaurant
+2276,dbaname,LA AZTECA PALETERIA
+2283,inspectiondate,20160816
+2283,location,(42.008536400868735
+2283,dbaname,REGGIOS PIZZA EXPRESS
+2286,inspectiondate,20160816
+2286,location,(41.76789331709745
+2286,dbaname,SUBWAY
+2298,facilitytype,Restaurant
+2318,inspectiondate,20160815
+2318,location,(41.86607358683167
+2318,dbaname,PITA HEAVEN
+2326,inspectiondate,20160815
+2326,location,(41.98258310472735
+2326,dbaname,ROSATIS PIZZA
+2328,inspectiondate,20160815
+2328,location,(41.97988428297559
+2328,dbaname,HAMBURGER MARYS CHICAGO
+2344,inspectiondate,20160815
+2344,location,(41.87881482219489
+2344,dbaname,NATIVE FOODS CAFE
+2399,inspectiondate,20160812
+2399,location,(41.94619141735405
+2399,dbaname,JOHN BARLEYCORN MEMORIAL PUB
+2410,inspectiondate,20160812
+2410,location,(42.002978321714274
+2410,dbaname,THE CURRAGH IRISH PUB
+2420,inspectiondate,20160812
+2420,location,(41.95974034065365
+2420,dbaname,EL MICHOACANITO
+2429,inspectiondate,20160812
+2429,location,(41.8532702235994
+2429,dbaname,MINGHIN CUISINE
+2448,inspectiondate,20160811
+2448,location,(41.961754803527974
+2448,dbaname,CARLTON AT THE LAKE
+2464,location,(41.93572546803459
+2464,facilitytype,Restaurant
+2464,dbaname,HERITAGE BICYCLES GENERAL STORE
+2466,inspectiondate,20160811
+2466,location,(42.008536400868735
+2466,facilitytype,Restaurant
+2466,address,11601 W TOUHY AVE 
+2466,dbaname,HOST INTERNATIONAL INC
+2489,inspectiondate,20160810
+2489,location,(41.8972543988917
+2489,dbaname,THE MOODY BIBLE INSTITUTE OF CHICAGO
+2491,results,Out of Business
+2491,inspectiondate,20160811
+2491,location,(41.93411787418876
+2491,dbaname,YENS ON CLARK
+2492,inspectiondate,20160811
+2492,location,(41.82034950030901
+2492,dbaname,KING SUPERMARKET
+2493,location,(41.909676222517476
+2493,facilitytype,Grocery Store
+2493,address,4301+AC0-4305 W NORTH AVE 
+2493,dbaname,BUY LOW LIQUORS
+2495,inspectiondate,20160811
+2495,location,(41.99781439642854
+2495,dbaname,MADNI MART U.S.A. INC.
+2496,results,Out of Business
+2496,inspectiondate,20160810
+2496,location,(41.93163369511654
+2496,dbaname,THE GROVE AT LINCOLN PARK
+2498,inspectiondate,20160811
+2498,location,(41.93411787418876
+2498,dbaname,YENS ON CLARK
+2500,inspectiondate,20160811
+2500,location,(41.86621301898216
+2500,dbaname,POPEYES
+2504,results,Out of Business
+2504,inspectiondate,20151207
+2504,location,(41.87800139503827
+2504,facilitytype,Grocery Store
+2504,dbaname,GIORDANOS RESTAURANT +ACY- PIZZAERIA
+2505,location,(41.909676222517476
+2505,facilitytype,Restaurant
+2505,address,4301+AC0-4305 W NORTH AVE 
+2505,dbaname,BUY LOW LIQUORS
+2508,inspectiondate,20160811
+2508,location,(41.93411787418876
+2508,dbaname,YENS ON CLARK
+2509,location,(41.97533413581096
+2509,facilitytype,Hospital
+2509,dbaname,SWEDISH COVENANT HOSPITAL
+2520,results,Out of Business
+2520,inspectiondate,20151207
+2520,location,(41.878003146826956
+2520,dbaname,SUBWAY
+2522,location,(41.97533413581096
+2522,facilitytype,/
+2522,dbaname,SWEDISH COVENANT HOSPITAL
+2530,akaname,FITZGERALD LIQUOR
+2535,inspectiondate,20160810
+2535,location,(42.01556106270311
+2535,dbaname,CHALET LIVING +ACY- REHABILITATION
+2536,results,Out of Business
+2536,inspectiondate,20151207
+2536,location,(41.881241456803345
+2536,facilitytype,Restaurant
+2536,address,1901 W MADISON ST 
+2536,dbaname,BISMARCK ENTERPRISES/UNITED
+2540,risk,Risk 1 (High)
+2545,inspectiondate,20160810
+2545,location,(41.99563177556418
+2545,dbaname,LITTLE QUIAPO RESTAURANT
+2547,inspectiondate,20160810
+2547,location,(41.96853042842271
+2547,dbaname,CHINA HUT
+2548,inspectiondate,20160810
+2548,location,(41.99563177556418
+2548,dbaname,LITTLE QUIAPO RESTAURANT
+2561,inspectiondate,20160810
+2561,location,(41.93163369511654
+2561,dbaname,THE GROVE AT LINCOLN PARK
+2572,results,Out of Business
+2572,inspectiondate,20151207
+2572,location,(41.881241456803345
+2572,address,1901 W MADISON ST BLDG 
+2572,dbaname,BISMARCK ENTERPRISES/UNITED
+2574,facilitytype,Grocery Store
+2577,city,CHICAGO
+2577,zip,60610
+2579,inspectiondate,20160809
+2579,location,(41.9858096493191
+2579,dbaname,GOLDEN WOK RESTAURANT
+2587,inspectiondate,20160809
+2587,location,(41.87797513796852
+2587,dbaname,ALONTI CAFE
+2597,inspectiondate,20160809
+2597,location,(41.99563177556418
+2597,dbaname,LITTLE QUIAPO RESTAURANT
+2604,inspectiondate,20160809
+2604,location,(41.96405105576206
+2604,dbaname,THE GREAT AMERICAN BAGEL
+2612,inspectiondate,20160809
+2612,location,(41.92682182928185
+2612,dbaname,GASLIGHT BAR +ACY- GRILLE
+2616,location,(41.69234712576441
+2616,facilitytype,Grocery Store
+2616,address,1200+AC0-1210 W 111TH ST 
+2616,dbaname,MARATHON
+2648,inspectiondate,20160808
+2648,location,(41.96853042842271
+2648,dbaname,CHINA HUT
+2662,akaname,LAPAZ RESTAURANT
+2672,inspectiondate,20160808
+2672,location,(41.95974034065365
+2672,dbaname,EL MICHOACANITO
+2695,inspectiondate,20160805
+2695,location,(41.94738145671126
+2695,address,3632+AC0-3640 N PULASKI RD 
+2695,dbaname,LA VILLA
+2722,facilitytype,Grocery Store
+2726,inspectiondate,20160805
+2726,location,(41.9858096493191
+2726,dbaname,GOLDEN WOK RESTAURANT
+2757,facilitytype,Restaurant
+2778,facilitytype,Restaurant
+2783,longitude,+AC0-87.55126653
+2783,latitude,41.73661152
+2783,location,(41.73661151916399
+2836,inspectiondate,20160803
+2836,location,(41.89179678289696
+2836,dbaname,HOMEWOOD SUITES HOTEL
+2857,inspectiondate,20160803
+2857,location,(41.97080642960141
+2857,dbaname,ROSATIS PIZZA
+2860,inspectiondate,20160803
+2860,location,(42.01556106270311
+2860,dbaname,CHALET LIVING +ACY- REHABILITATION
+2863,inspectiondate,20160803
+2863,location,(41.75807784384386
+2863,dbaname,POPEYES FRIED CHICKEN
+2867,results,Out of Business
+2867,inspectiondate,20160803
+2867,location,(41.78333925312805
+2867,dbaname,SEE THRU CHINESE KITCHEN
+2868,inspectiondate,20160803
+2868,location,(41.78333925312805
+2868,dbaname,SEE THRU CHINESE KITCHEN
+2931,inspectiondate,20160802
+2931,location,(41.99563177556418
+2931,dbaname,LITTLE QUIAPO RESTAURANT
+2965,inspectiondate,20160802
+2965,location,(41.96405105576206
+2965,dbaname,THE GREAT AMERICAN BAGEL
+2992,inspectiondate,20160802
+2992,location,(41.884280843147536
+2992,dbaname,SUSHI DOKKU
+3024,inspectiondate,20160729
+3024,location,(41.93157849671675
+3024,dbaname,SAPORI
+3038,inspectiondate,20160729
+3038,location,(41.86951345807196
+3038,dbaname,TAYLOR MADE PIZZA
+3043,inspectiondate,20160729
+3043,location,(41.92690699536436
+3043,address,2453 N HALSTED ST 
+3043,dbaname,NOODLES IN THE POT
+3046,inspectiondate,20160729
+3046,location,(41.88945828010943
+3046,dbaname,SHERATON CHICAGO HOTEL +ACY- TOWER
+3048,inspectiondate,20160729
+3048,location,(42.008536400868735
+3048,dbaname,UNITED CLUB
+3050,inspectiondate,20160729
+3050,location,(41.88945828010943
+3050,dbaname,SHERATON CHICAGO HOTEL +ACY- TOWER
+3060,inspectiondate,20160729
+3060,location,(41.995855875363404
+3060,facilitytype,Long Term Care
+3060,address,6300+AC0-6320 N CALIFORNIA AVE 
+3060,dbaname,ASTORIA PLACE LIVING AND REHAB
+3068,inspectiondate,20160729
+3068,location,(41.80824449155079
+3068,dbaname,NICKYS HOT DOGS
+3098,akaname,AMSTAR
+3101,akaname,BROTHERS SUBMARINE +ACY- CHICKEN
+3105,inspectiondate,20160729
+3105,location,(41.88143690693931
+3105,facilitytype,Daycare (2 +AC0- 6 Years)
+3105,dbaname,SALVATION ARMY TEMPLE HEAD START
+3114,akaname,BURGER KING
+3116,inspectiondate,20160728
+3116,location,(41.92593792180545
+3116,dbaname,LINCOLN HALL
+3140,inspectiondate,20160728
+3140,location,(41.94041749168562
+3140,dbaname,OUTDOOR GRILL
+3152,inspectiondate,20160728
+3152,location,(41.92593792180545
+3152,dbaname,LINCOLN HALL
+3168,longitude,+AC0-87.6684632
+3168,latitude,41.93825331
+3168,location,(41.938253305553516
+3171,inspectiondate,20160728
+3171,location,(41.80861587986066
+3171,dbaname,PIZZA HUT
+3195,inspectiondate,20160727
+3195,location,(41.75082437907816
+3195,dbaname,PIZZA HUT
+3213,inspectiondate,20160727
+3213,location,(41.73369956100708
+3213,dbaname,PIZZA HUT
+3214,akaname,PIZZA HUT
+3218,inspectiondate,20160727
+3218,location,(41.92510714850457
+3218,dbaname,BURGER KING +ACM-1455
+3223,akaname,PEETS COFFEE +ACY- TEA
+3227,results,Out of Business
+3227,inspectiondate,20151006
+3227,location,(42.00258143308993
+3227,dbaname,ARMANDS PIZZERIA
+3234,inspectiondate,20160726
+3234,location,(41.92172346276781
+3234,dbaname,JIMMY JOHNS
+3241,inspectiondate,20160726
+3241,location,(41.77329289585066
+3241,dbaname,PIZZA HUT
+3264,location,(41.87686736408027
+3264,facilitytype,Restaurant
+3264,dbaname,ROBERT MORRIS COLLEGE
+3270,inspectiondate,20160726
+3270,location,(41.87679979571103
+3270,dbaname,DUNKIN DONUTS
+3274,inspectiondate,20160726
+3274,location,(41.879562663527345
+3274,address,118+AC0-130 S ASHLAND AVE 
+3274,dbaname,THE LITTLE GREEN TREEHOUSE
+3281,inspectiondate,20160726
+3281,location,(41.95310433686163
+3281,address,3920 N CLARK ST APT 
+3281,dbaname,CLARK/IRVING APARTMENTS
+3282,location,(41.87686736408027
+3282,facilitytype,Restaurant
+3282,dbaname,ROBERT MORRIS COLLEGE
+3300,inspectiondate,20160726
