@@ -1,1000 +1,1000 @@
-1,location,(41.9977653535896,42
-2,address,2548-2550 w devon ave,42
-3,dbaname,mysore woodlands,42
-4,location,(42.008536400868735,53
-5,address,11601 w touhy ave,53
-6,dbaname,host international inc,53
-7,location,(41.99798375025185,67
-8,address,2032-2036 w devon ave,67
-9,dbaname,ghareeb nawaz restaurant,67
-10,location,(41.961499265953364,153
-11,facilitytype,restaurant,153
-12,dbaname,chicago waldorf school,153
-13,location,(41.88123342371891,160
-14,address,2550-2602 w madison st,160
-15,dbaname,johnnys ice house,160
-16,location,(41.99798375025185,176
-17,address,2032-2036 w devon ave,176
-18,dbaname,ghareeb nawaz restaurant,176
-19,location,(42.008536400868735,303
-20,facilitytype,restaurant,303
-21,dbaname,garrett popcorn shops,303
-22,location,(41.931094868682656,383
-23,address,5805-5807 w diversey ave,383
-24,dbaname,avenida del sabor,383
-25,location,(41.90349669933936,400
-26,facilitytype,restaurant,400
-27,dbaname,near north montessori school,400
-28,location,(42.008536400868735,408
-29,address,11601 w touhy ave,408
-30,dbaname,host international inc,408
-31,location,(41.931094868682656,462
-32,address,5805 w diversey ave,462
-33,dbaname,avenida del sabor,462
-34,location,(42.008536400868735,503
-35,address,11601 w touhy ave,503
-36,dbaname,host international inc,503
-37,location,(41.96857277212391,614
-38,address,3142-3148 w lawrence ave,614
-39,dbaname,lindo michoacan,614
-40,location,(41.94550975342797,655
-41,address,3501-3505 n halsted st fl 1,655
-42,dbaname,little jims,655
-43,location,(41.96857277212391,683
-44,address,3142-3148 w lawrence ave,683
-45,dbaname,lindo michoacan,683
-46,location,(41.791761831643065,752
-47,facilitytype,restaurant,752
-48,dbaname,little people learning,752
-49,location,(41.791761831643065,920
-50,facilitytype,restaurant,920
-51,dbaname,little people learning,920
-52,location,(41.943251259237634,958
-53,address,2232 w roscoe st,958
-54,dbaname,lush wine & spirits,958
-55,location,(41.943251259237634,964
-56,address,2232 w roscoe st,964
-57,dbaname,lush wine & spirits,964
-58,location,(41.951064053085005,1044
-59,address,3800-3804 n clark st,1044
-60,dbaname,uncommon ground,1044
-61,location,(41.951064053085005,1128
-62,address,3800-3804 n clark st,1128
-63,dbaname,uncommon ground,1128
-64,location,(42.008536400868735,1196
-65,address,11601 w touhy ave,1196
-66,dbaname,host international inc,1196
-67,location,(41.96315679416602,1256
-68,address,4503-4505 n kedzie ave,1256
-69,dbaname,el original gallo bravo,1256
-70,location,(41.94231341336203,1466
-71,address,3313-3319 n broadway,1466
-72,dbaname,wakamono,1466
-73,location,(41.9845361933454,1500
-74,address,5633-5635 n ashland ave,1500
-75,dbaname,lalibela restaurant,1500
-76,location,(41.907572250968755,1529
-77,facilitytype,school,1529
-78,dbaname,british school of chicago,1529
-79,location,(41.894662670242106,1657
-80,facilitytype,daycare above and under 2 years,1657
-81,dbaname,chicago childrens house,1657
-82,location,(41.93121715112931,1821
-83,facilitytype,restaurant,1821
-84,dbaname,onward neighborhood house,1821
-85,location,(41.909676222517476,1840
-86,facilitytype,restaurant,1840
-87,address,4301-4305 w north ave,1840
-88,dbaname,buy low liquors,1840
-89,location,(41.909676222517476,1843
-90,facilitytype,restaurant,1843
-91,address,4301-4305 w north ave,1843
-92,dbaname,buy low liquors,1843
-93,location,(41.94497417145062,1872
-94,address,3463-3467 n broadway bldg,1872
-95,dbaname,rocks lakeview,1872
-96,location,(41.94231341336203,1996
-97,address,3313-3319 n broadway,1996
-98,dbaname,wakamono,1996
-99,location,(42.008536400868735,2107
-100,address,11601 w touhy ave,2107
-101,dbaname,host international inc,2107
-102,location,(42.008536400868735,2255
-103,address,11601 w touhy ave,2255
-104,dbaname,host international inc,2255
-105,location,(41.892094136861786,2269
-106,facilitytype,restaurant,2269
-107,dbaname,churro factory,2269
-108,location,(41.892094136861786,2275
-109,facilitytype,restaurant,2275
-110,dbaname,churro factory,2275
-111,location,(42.008536400868735,2466
-112,address,11601 w touhy ave,2466
-113,dbaname,host international inc,2466
-114,location,(41.909676222517476,2493
-115,facilitytype,restaurant,2493
-116,address,4301-4305 w north ave,2493
-117,dbaname,buy low liquors,2493
-118,location,(41.909676222517476,2505
-119,facilitytype,restaurant,2505
-120,address,4301-4305 w north ave,2505
-121,dbaname,buy low liquors,2505
-122,location,(41.97533413581096,2509
-123,facilitytype,hospital,2509
-124,dbaname,swedish covenant hospital,2509
-125,location,(41.97533413581096,2522
-126,facilitytype,restaurant,2522
-127,dbaname,swedish covenant hospital,2522
-128,location,(41.881241456803345,2536
-129,address,1901 w madison st,2536
-130,dbaname,bismarck enterprises/united,2536
-131,location,(41.881241456803345,2572
-132,address,1901 w madison st bldg,2572
-133,dbaname,bismarck enterprises/united,2572
-134,location,(41.69234712576441,2616
-135,address,1200-1210 w 111th st,2616
-136,dbaname,marathon,2616
-137,location,(41.94738145671126,2695
-138,address,3632-3640 n pulaski rd,2695
-139,dbaname,la villa,2695
-140,location,(41.92690699536436,3043
-141,address,2453 n halsted st,3043
-142,dbaname,noodles in the pot,3043
-143,location,(41.995855875363404,3060
-144,facilitytype,restaurant,3060
-145,address,6300-6320 n california ave,3060
-146,dbaname,astoria place living and rehab,3060
-147,location,(41.87686736408027,3264
-148,facilitytype,school,3264
-149,dbaname,robert morris college,3264
-150,location,(41.879562663527345,3274
-151,address,118-130 s ashland ave,3274
-152,dbaname,the little green treehouse,3274
-153,location,(41.95310433686163,3281
-154,address,3920 n clark st apt,3281
-155,dbaname,clark/irving apartments,3281
-156,location,(41.87686736408027,3282
-157,facilitytype,restaurant,3282
-158,dbaname,robert morris college,3282
-159,location,(41.961499265953364,3318
-160,facilitytype,restaurant,3318
-161,dbaname,chicago waldorf school,3318
-162,location,(41.92690699536436,3426
-163,address,2453 n halsted st,3426
-164,dbaname,noodles in the pot,3426
-165,location,(41.95310433686163,3438
-166,address,3920 n clark st apt,3438
-167,dbaname,clark/irving apartments,3438
-168,location,(41.9977653535896,3626
-169,address,2548-2550 w devon ave,3626
-170,dbaname,mysore woodlands,3626
-171,location,(41.879562663527345,3658
-172,address,118-130 s ashland ave,3658
-173,dbaname,the little green treehouse,3658
-174,location,(41.894662670242106,3726
-175,facilitytype,restaurant,3726
-176,dbaname,chicago childrens house,3726
-177,location,(41.85104667463312,3808
-178,address,2301 s indiana ave,3808
-179,dbaname,mccormick place,3808
-180,location,(41.88362128098054,3923
-181,facilitytype,bakery,3923
-182,dbaname,sugar bliss cake boutique,3923
-183,location,(41.9977653535896,3976
-184,address,2548-2550 w devon ave,3976
-185,dbaname,mysore woodlands,3976
-186,location,(41.943251259237634,4049
-187,address,2232-2234 w roscoe st,4049
-188,dbaname,lush wine & spirits,4049
-189,location,(41.73204913540182,4053
-190,address,8940-8944 s stony island ave,4053
-191,dbaname,family den,4053
-192,location,(41.89925505559848,4114
-193,address,10-20 e delaware st,4114
-194,dbaname,the talbott hotel,4114
-195,location,(41.749873806501896,4243
-196,facilitytype,restaurant,4243
-197,dbaname,pathways to learning child care center,4243
-198,location,(41.8806992461244,4324
-199,facilitytype,restaurant,4324
-200,dbaname,bright horizons chicago west loop,4324
-201,location,(41.99496878030707,4461
-202,address,6249-6251 n milwaukee,4461
-203,dbaname,ings china king,4461
-204,location,(41.89925505559848,4527
-205,address,10-20 e delaware st,4527
-206,dbaname,the talbott hotel,4527
-207,location,(41.933388339085965,4713
-208,facilitytype,restaurant,4713
-209,dbaname,wee care daycare preschool,4713
-210,location,(41.78040624754399,4720
-211,facilitytype,restaurant,4720
-212,address,1167-69 e 63rd st,4720
-213,dbaname,tiny scholars academy,4720
-214,location,(41.94738145671126,4849
-215,address,3632-3640 n pulaski rd,4849
-216,dbaname,la villa,4849
-217,location,(41.96766364582441,4851
-218,address,5619-5621 w lawrence ave,4851
-219,dbaname,smakosz inc,4851
-220,location,(41.91767649798009,4900
-221,address,2003-2011 n western ave,4900
-222,dbaname,lazos tacos,4900
-223,location,(41.961499265953364,4978
-224,facilitytype,restaurant,4978
-225,dbaname,chicago waldorf school,4978
-226,location,(41.892249163400116,5044
-227,facilitytype,restaurant,5044
-228,dbaname,giordanos navy pier,5044
-229,location,(41.878014487249544,5181
-230,facilitytype,restaurant,5181
-231,dbaname,gateway newstand,5181
-232,location,(41.91767649798009,5286
-233,address,2003-2011 n western ave,5286
-234,dbaname,lazos tacos,5286
-235,location,(41.83827010545886,5359
-236,address,420-422 w 31st st,5359
-237,dbaname,chinese kitchen and sushi,5359
-238,location,(41.73204913540182,5381
-239,address,8940-8944 s stony island ave,5381
-240,dbaname,family den,5381
-241,location,(41.77110726848157,5396
-242,address,4531-4535 w marquette rd,5396
-243,dbaname,supermercado los cuates,5396
-244,location,(41.8716986890444,5485
-245,address,805 s state st,5485
-246,dbaname,lou malnatis pizzeria,5485
-247,location,(41.93300409973139,5536
-248,address,420-422 w diversey pkwy,5536
-249,dbaname,duffys tavern & grille,5536
-250,location,(41.97192459527153,5552
-251,facilitytype,restaurant,5552
-252,dbaname,south-east asia center,5552
-253,location,(41.75128530466005,5654
-254,address,522-524 e 79th st,5654
-255,dbaname,caribbean spice,5654
-256,location,(41.88362128098054,5736
-257,facilitytype,bakery,5736
-258,dbaname,sugar bliss cake boutique,5736
-259,location,(41.87279886935482,5751
-260,facilitytype,restaurant,5751
-261,dbaname,chicago hilton & towers,5751
-262,location,(41.83827010545886,5823
-263,address,420-422 w 31st st,5823
-264,dbaname,chinese kitchen and sushi,5823
-265,location,(41.884187507127805,6012
-266,facilitytype,restaurant,6012
-267,dbaname,beavers coffee & donuts,6012
-268,location,(41.884187507127805,6080
-269,facilitytype,restaurant,6080
-270,dbaname,beavers coffee & donuts,6080
-271,location,(41.9977653535896,6111
-272,address,2548-2550 w devon ave,6111
-273,dbaname,mysore woodlands,6111
-274,location,(41.74988142522215,6126
-275,facilitytype,restaurant,6126
-276,dbaname,pathways to learning,6126
-277,location,(41.91477744637897,6139
-278,facilitytype,daycare (2 - 6 years),6139
-279,dbaname,the chalkboard inc,6139
-280,location,(41.91849213778706,6205
-281,address,2008 n halsted st,6205
-282,dbaname,subway,6205
-283,location,(41.9845361933454,6274
-284,address,5633-5635 n ashland ave,6274
-285,dbaname,lalibela restaurant,6274
-286,location,(41.83674601465663,6313
-287,facilitytype,restaurant,6313
-288,dbaname,panchos ice cream,6313
-289,location,(42.00273166409286,6368
-290,address,6727-6733 n olmsted ave,6368
-291,dbaname,morettis,6368
-292,location,(41.888096290381576,6473
-293,facilitytype,restaurant,6473
-294,dbaname,londonhouse hotel,6473
-295,location,(41.89983492074242,6515
-296,facilitytype,restaurant,6515
-297,dbaname,waldorf astoria chicago,6515
-298,location,(41.89896533484934,6620
-299,facilitytype,restaurant,6620
-300,address,900 n north branch st,6620
-301,dbaname,kendall college,6620
-302,location,(41.892094136861786,6684
-303,facilitytype,restaurant,6684
-304,dbaname,completely nuts,6684
-305,location,(41.892094136861786,6704
-306,facilitytype,restaurant,6704
-307,dbaname,completely nuts,6704
-308,location,(41.88188622746245,6775
-309,facilitytype,restaurant,6775
-310,dbaname,lloyds chicago restaurant,6775
-311,location,(41.99798375025185,6790
-312,address,2032-2036 w devon ave,6790
-313,dbaname,ghareeb nawaz restaurant,6790
-314,location,(41.91849213778706,6848
-315,address,2008 n halsted st,6848
-316,dbaname,subway,6848
-317,location,(41.7943165619035,6882
-318,address,305-307 e garfield,6882
-319,dbaname,currency exchange cafe,6882
-320,location,(41.92259746567477,6886
-321,address,2294-94 1/2 n milwaukee ave,6886
-322,dbaname,cozy corner diner and pancake house,6886
-323,location,(41.7943165619035,6887
-324,address,305-307 e garfield,6887
-325,dbaname,currency exchange cafe,6887
-326,location,(42.00273166409286,6890
-327,address,6727-6733 n olmsted ave,6890
-328,dbaname,morettis,6890
-329,location,(41.92259746567477,6974
-330,address,2294-94 1/2 n milwaukee ave,6974
-331,dbaname,cozy corner diner and pancake house,6974
-332,location,(41.89896533484934,7060
-333,facilitytype,restaurant,7060
-334,address,900 n north branch,7060
-335,dbaname,kendall college,7060
-336,location,(41.89896533484934,7080
-337,facilitytype,college,7080
-338,address,900 n north branch st,7080
-339,dbaname,kendall college,7080
-340,location,(41.99798375025185,7096
-341,address,2032-2036 w devon ave,7096
-342,dbaname,ghareeb nawaz restaurant,7096
-343,location,(41.931981578313795,7219
-344,address,2815-2817 w diversey ave,7219
-345,dbaname,l patron,7219
-346,location,(41.87984160939149,7228
-347,facilitytype,daycare (2 - 6 years),7228
-348,dbaname,intercultural montessori language school,7228
-349,location,(41.888096290381576,7240
-350,facilitytype,banquet/kitchen,7240
-351,dbaname,londonhouse hotel,7240
-352,location,(41.87984160939149,7249
-353,facilitytype,daycare (2 - 6 years),7249
-354,dbaname,intercultural montessori language school,7249
-355,location,(41.77139058907717,7298
-356,address,4308-4310 w marquette rd,7298
-357,dbaname,mis tacos mexican food,7298
-358,location,(41.888096290381576,7320
-359,facilitytype,restaurant,7320
-360,dbaname,londonhouse hotel,7320
-361,location,(41.888096290381576,7420
-362,facilitytype,banquet/kitchen,7420
-363,dbaname,londonhouse hotel,7420
-364,location,(41.7943165619035,7473
-365,address,305-307 e garfield,7473
-366,dbaname,currency exchange cafe,7473
-367,location,(41.888096290381576,7492
-368,facilitytype,restaurant,7492
-369,dbaname,londonhouse hotel,7492
-370,location,(41.888096290381576,7496
-371,facilitytype,banquet/kitchen,7496
-372,dbaname,londonhouse hotel,7496
-373,location,(41.888096290381576,7498
-374,facilitytype,restaurant,7498
-375,dbaname,londonhouse hotel,7498
-376,location,(41.7943165619035,7500
-377,address,305-307 e garfield,7500
-378,dbaname,currency exchange cafe,7500
-379,location,(41.7943165619035,7512
-380,address,305 e garfield blvd,7512
-381,dbaname,currency exchange cafe,7512
-382,location,(41.961499265953364,7829
-383,facilitytype,school,7829
-384,dbaname,chicago waldorf school,7829
-385,location,(41.88188622746245,7983
-386,facilitytype,restaurant,7983
-387,dbaname,lloyds chicago restaurant,7983
-388,location,(41.85094352340354,8000
-389,facilitytype,daycare (2 - 6 years),8000
-390,dbaname,pui tak christian school,8000
-391,location,(41.7943165619035,8054
-392,address,305-307 e garfield,8054
-393,dbaname,currency exchange cafe,8054
-394,location,(41.884083234870886,8360
-395,facilitytype,daycare combo 1586,8360
-396,dbaname,montessori academy of chicago i,8360
-397,location,(41.88188622746245,8502
-398,facilitytype,restaurant,8502
-399,dbaname,lloyds chicago restaurant,8502
-400,location,(41.80839591793109,8611
-401,facilitytype,restaurant,8611
-402,dbaname,bambi,8611
-403,location,(41.878014487249544,8639
-404,facilitytype,restaurant,8639
-405,dbaname,gateway newstand,8639
-406,location,(41.78027237989979,8748
-407,address,717-719 e 63rd st,8748
-408,dbaname,kidz creative concepts learning center,8748
-409,location,(41.78027237989979,8757
-410,address,717-723 e 63rd st,8757
-411,dbaname,kidz creative concepts learning center,8757
-412,location,(41.655906736353224,8799
-413,facilitytype,daycare above and under 2 years,8799
-414,dbaname,altgeld gardens daycare,8799
-415,location,(41.80839591793109,8801
-416,facilitytype,push carts,8801
-417,dbaname,bambi,8801
-418,location,(41.80839591793109,8805
-419,facilitytype,restaurant,8805
-420,dbaname,bambi,8805
-421,location,(41.84467072147077,8855
-422,address,2637 s throop st,8855
-423,dbaname,helados mundos,8855
-424,location,(41.884083234870886,8872
-425,facilitytype,school,8872
-426,dbaname,montessori academy of chicago i,8872
-427,location,(41.884083234870886,8875
-428,facilitytype,daycare combo 1586,8875
-429,dbaname,montessori academy of chicago i,8875
-430,location,(41.884083234870886,8884
-431,facilitytype,restaurant,8884
-432,dbaname,montessori academy of chicago i,8884
-433,location,(41.951064053085005,8912
-434,address,3800-3804 n clark st,8912
-435,dbaname,uncommon ground,8912
-436,location,(41.84467072147077,8932
-437,address,2637 s throop st,8932
-438,dbaname,helados mundos,8932
-439,location,(41.729071788192,9044
-440,facilitytype,restaurant,9044
-441,dbaname,moore house,9044
-442,location,(41.91767649798009,9073
-443,address,2003-2011 n western ave,9073
-444,dbaname,lazos tacos,9073
-445,location,(41.943432313397565,9150
-446,address,3400 n ashland ave,9150
-447,dbaname,cafe el tapatio,9150
-448,location,(41.943432313397565,9152
-449,address,3400-3402 n ashland ave,9152
-450,dbaname,cafe el tapatio,9152
-451,location,(41.943432313397565,9158
-452,address,3400-3402 n ashland ave,9158
-453,dbaname,cafe el tapatio,9158
-454,location,(41.884187507127805,9170
-455,facilitytype,restaurant,9170
-456,dbaname,beavers coffee & donuts,9170
-457,location,(42.008536400868735,9265
-458,address,11601 w touhy ave,9265
-459,dbaname,host international inc,9265
-460,location,(41.951064053085005,9405
-461,address,3800-3804 n clark st,9405
-462,dbaname,uncommon ground,9405
-463,location,(41.93624830273888,9528
-464,address,2945-2947 n broadway ave,9528
-465,dbaname,pastoral,9528
-466,location,(42.008536400868735,9598
-467,address,11601 w touhy ave,9598
-468,dbaname,host international inc,9598
-469,location,(41.85094352340354,9625
-470,facilitytype,school,9625
-471,dbaname,pui tak christian school,9625
-472,location,(41.931094868682656,9803
-473,address,5805 w diversey ave,9803
-474,dbaname,avenida del sabor,9803
-475,location,(41.77868468007933,9835
-476,facilitytype,daycare (2 - 6 years),9835
-477,dbaname,the learning circle,9835
-478,location,(41.93575126195393,10053
-479,address,3018-3020 n cicero ave,10053
-480,dbaname,sol de mexico tierra azteca,10053
-481,location,(41.99800008495619,10059
-482,facilitytype,daycare combo 1586,10059
-483,dbaname,little kiddies inc.,10059
-484,location,(41.99800008495619,10061
-485,facilitytype,daycare combo 1586,10061
-486,dbaname,little kiddies inc.,10061
-487,location,(41.903372713964224,10231
-488,address,1804-1806 w division st,10231
-489,dbaname,smoke daddy,10231
-490,location,(41.91795127107318,10376
-491,facilitytype,daycare above and under 2 years,10376
-492,dbaname,the goddard school chicago,10376
-493,location,(41.87532906210967,10455
-494,address,3435 w van buren,10455
-495,dbaname,rml chicago,10455
-496,location,(41.87532906210967,10470
-497,address,3435 w van buren,10470
-498,dbaname,rml chicago,10470
-499,location,(41.92793172691967,10584
-500,address,2555-2557 n pulaski rd,10584
-501,dbaname,el cubanito,10584
-502,location,(41.80839591793109,10621
-503,facilitytype,push carts,10621
-504,dbaname,bambi,10621
-505,location,(41.903372713964224,10667
-506,address,1804-1806 w division st,10667
-507,dbaname,smoke daddy,10667
-508,location,(41.994458784776384,11045
-509,facilitytype,convenience,11045
-510,dbaname,ins market,11045
-511,location,(41.994458784776384,11153
-512,facilitytype,convenience,11153
-513,dbaname,ins market,11153
-514,location,(41.88458626715456,11247
-515,address,100 w randolph st ste c-19,11247
-516,dbaname,dunkin donuts,11247
-517,location,(41.93624830273888,11557
-518,address,2945-2947 n broadway ave,11557
-519,dbaname,pastoral,11557
-520,location,(41.994458784776384,11633
-521,facilitytype,convenience,11633
-522,dbaname,ins market,11633
-523,location,(41.994458784776384,11636
-524,facilitytype,convenience,11636
-525,dbaname,ins market,11636
-526,location,(41.91767649798009,11658
-527,address,2003-2011 n western ave,11658
-528,dbaname,lazos tacos,11658
-529,location,(41.91767649798009,11662
-530,address,2003-2011 n western ave,11662
-531,dbaname,lazos tacos,11662
-532,location,(41.91767649798009,11679
-533,address,2003-2009 n western ave,11679
-534,dbaname,lazos tacos,11679
-535,location,(41.89983492074242,11706
-536,facilitytype,restaurant,11706
-537,dbaname,waldorf astoria chicago,11706
-538,location,(41.880225571810314,11780
-539,facilitytype,restaurant,11780
-540,dbaname,little folks cottage inc,11780
-541,location,(41.77883224217794,11786
-542,address,3816-3818 w 63rd st,11786
-543,dbaname,la quebrada #5,11786
-544,location,(41.92259746567477,11828
-545,address,2294 1/2 n milwaukee ave,11828
-546,dbaname,cozy corner diner and pancake house,11828
-547,location,(41.994458784776384,12086
-548,facilitytype,convenience,12086
-549,dbaname,ins market,12086
-550,location,(41.994458784776384,12091
-551,facilitytype,convenience,12091
-552,dbaname,ins market,12091
-553,location,(41.88458626715456,12254
-554,address,100 w randolph st,12254
-555,dbaname,dunkin donuts,12254
-556,location,(41.95453268893165,12739
-557,address,4000-4004 n sheridan rd,12739
-558,dbaname,holiday club,12739
-559,location,(42.00273166409286,12850
-560,address,6727-6733 n olmsted ave,12850
-561,dbaname,morettis,12850
-562,location,(41.998008500459655,12970
-563,facilitytype,daycare (2 - 6 years),12970
-564,dbaname,out on faith learning center,12970
-565,location,(42.00273166409286,12971
-566,address,6727-6733 n olmsted ave,12971
-567,dbaname,morettis,12971
-568,location,(41.998008500459655,12975
-569,facilitytype,daycare (2 - 6 years),12975
-570,dbaname,out on faith learning center,12975
-571,location,(41.88183546590967,13049
-572,facilitytype,bakery,13049
-573,dbaname,dunkin donuts,13049
-574,location,(41.7943165619035,13324
-575,address,305 e garfield blvd,13324
-576,dbaname,currency exchange cafe,13324
-577,location,(41.89983492074242,13458
-578,facilitytype,restaurant,13458
-579,dbaname,waldorf astoria chicago,13458
-580,location,(41.89983492074242,13461
-581,facilitytype,restaurant,13461
-582,dbaname,waldorf astoria chicago,13461
-583,location,(41.99496878030707,13499
-584,address,6249-6251 n milwaukee,13499
-585,dbaname,ings china king,13499
-586,location,(41.95453268893165,13504
-587,address,4000-4004 n sheridan rd,13504
-588,dbaname,holiday club,13504
-589,location,(41.75128530466005,13629
-590,address,522 e 79th st,13629
-591,dbaname,caribbean spice,13629
-592,location,(41.88183546590967,13642
-593,facilitytype,restaurant,13642
-594,dbaname,dunkin donuts,13642
-595,location,(41.75128530466005,13727
-596,address,522 e 79th st,13727
-597,dbaname,caribbean spice,13727
-598,location,(41.7943165619035,13769
-599,address,305 e garfield blvd,13769
-600,dbaname,currency exchange cafe,13769
-601,location,(41.884187507127805,13771
-602,facilitytype,restaurant,13771
-603,dbaname,beavers coffee & donuts,13771
-604,location,(41.87655166174297,13805
-605,address,815 w van buren,13805
-606,dbaname,giordanos of greektown,13805
-607,location,(41.99496878030707,13833
-608,address,6249-6251 n milwaukee,13833
-609,dbaname,ings china king,13833
-610,location,(41.94002723561704,14008
-611,address,958 - 960 w belmont ave,14008
-612,dbaname,cheesies pub & grub,14008
-613,location,(41.70727358161855,14016
-614,address,2 w 103rd st,14016
-615,dbaname,sky lake chinese kitchen,14016
-616,location,(41.94002723561704,14147
-617,address,958 - 960 w belmont ave,14147
-618,dbaname,cheesies pub & grub,14147
-619,location,(41.87279886935482,14301
-620,facilitytype,restaurant,14301
-621,dbaname,chicago hilton & towers,14301
-622,location,(41.75128530466005,14349
-623,address,522 e 79th st,14349
-624,dbaname,caribbean spice,14349
-625,location,(41.990520089587605,14421
-626,address,5951-5953 n broadway,14421
-627,dbaname,indie cafe,14421
-628,location,(41.884187507127805,14422
-629,facilitytype,restaurant,14422
-630,dbaname,beavers coffee & donuts,14422
-631,location,(42.008536400868735,14589
-632,address,11601 w touhy ave,14589
-633,dbaname,host international inc,14589
-634,location,(41.94002723561704,14638
-635,address,958 - 960 w belmont ave,14638
-636,dbaname,cheesies pub & grub,14638
-637,location,(41.87279886935482,14640
-638,facilitytype,restaurant,14640
-639,dbaname,chicago hilton & towers,14640
-640,location,(41.87279886935482,14650
-641,facilitytype,employee kitchen,14650
-642,dbaname,chicago hilton & towers,14650
-643,location,(41.8716986890444,14871
-644,address,805 s state st,14871
-645,dbaname,lou malnatis pizzeria,14871
-646,location,(41.931981578313795,14962
-647,address,2815-2817 w diversey ave,14962
-648,dbaname,l patron,14962
-649,location,(41.90367478181266,14995
-650,facilitytype,restaurant,14995
-651,dbaname,chicago q,14995
-652,location,(41.90367478181266,15063
-653,facilitytype,restaurant,15063
-654,dbaname,chicago q,15063
-655,location,(41.89983492074242,15091
-656,facilitytype,restaurant,15091
-657,dbaname,waldorf astoria chicago,15091
-658,location,(42.008536400868735,15173
-659,address,11601 w touhy ave,15173
-660,dbaname,host international inc,15173
-661,location,(41.77110726848157,15198
-662,address,4531-35 w marquette rd,15198
-663,dbaname,supermercado los cuates,15198
-664,location,(42.008536400868735,15218
-665,address,11601 w touhy ave,15218
-666,dbaname,host international inc,15218
-667,location,(41.71334157464564,15336
-668,facilitytype,school,15336
-669,dbaname,beverly montessori school,15336
-670,location,(41.706792177425825,15392
-671,facilitytype,daycare above and under 2 years,15392
-672,dbaname,the lords hands daycare,15392
-673,location,(41.706792177425825,15524
-674,facilitytype,daycare above and under 2 years,15524
-675,dbaname,the lords hands daycare,15524
-676,location,(41.77110726848157,15526
-677,address,4531-4535 w marquette rd,15526
-678,dbaname,supermercado los cuates,15526
-679,location,(41.71334157464564,15538
-680,facilitytype,daycare (2 - 6 years),15538
-681,dbaname,beverly montessori school,15538
-682,location,(41.91849213778706,15544
-683,address,2008 n halsted st,15544
-684,dbaname,subway,15544
-685,location,(41.706792177425825,15698
-686,facilitytype,daycare above and under 2 years,15698
-687,dbaname,the lords hands daycare,15698
-688,location,(41.79510461857906,15756
-689,facilitytype,restaurant,15756
-690,dbaname,open produce,15756
-691,location,(41.94550975342797,15851
-692,address,3501-3505 n halsted st fl 1,15851
-693,dbaname,little jims,15851
-694,location,(41.94550975342797,15887
-695,address,3501 n halsted st,15887
-696,dbaname,little jims,15887
-697,location,(41.89983492074242,15936
-698,facilitytype,restaurant,15936
-699,dbaname,waldorf astoria chicago,15936
-700,location,(41.89983492074242,15938
-701,facilitytype,restaurant,15938
-702,dbaname,waldorf astoria chicago,15938
-703,location,(41.998008500459655,16213
-704,facilitytype,daycare (2 - 6 years),16213
-705,dbaname,out on faith learning center,16213
-706,location,(41.909676222517476,16237
-707,facilitytype,restaurant,16237
-708,address,4301-4305 w north ave,16237
-709,dbaname,buy low liquors,16237
-710,location,(41.99798375025185,16350
-711,address,2032-2036 w devon ave,16350
-712,dbaname,ghareeb nawaz restaurant,16350
-713,location,(41.909676222517476,16538
-714,facilitytype,restaurant,16538
-715,address,4301-4305 w north ave,16538
-716,dbaname,buy low liquors,16538
-717,location,(41.69234712576441,16862
-718,address,1200-1210 w 111th st,16862
-719,dbaname,marathon,16862
-720,location,(41.69234712576441,16865
-721,address,1200 w 111th st,16865
-722,dbaname,marathon,16865
-723,location,(41.69234712576441,16866
-724,address,1200 w 111th st,16866
-725,dbaname,marathon,16866
-726,location,(41.91767649798009,16884
-727,address,2003-2009 n western ave,16884
-728,dbaname,lazos tacos,16884
-729,location,(42.008536400868735,17023
-730,address,11601 w touhy ave,17023
-731,dbaname,host international inc,17023
-732,location,(41.81621346608599,17046
-733,address,4310-4314 s prairie ave,17046
-734,dbaname,the game,17046
-735,location,(42.008536400868735,17179
-736,address,11601 w touhy ave,17179
-737,dbaname,host international inc,17179
-738,location,(41.943432313397565,17264
-739,address,3400 n ashland ave,17264
-740,dbaname,cafe el tapatio,17264
-741,location,(41.69234712576441,17284
-742,address,1200 w 111th st,17284
-743,dbaname,marathon,17284
-744,location,(41.88183546590967,17304
-745,facilitytype,restaurant,17304
-746,dbaname,dunkin donuts,17304
-747,location,(41.91767649798009,17307
-748,address,2003-2009 n western ave,17307
-749,dbaname,lazos tacos,17307
-750,location,(41.749914910076974,17476
-751,facilitytype,restaurant,17476
-752,dbaname,lordanchild christian day care inc.,17476
-753,location,(42.008536400868735,17640
-754,facilitytype,restaurant,17640
-755,dbaname,garrett popcorn shops,17640
-756,location,(41.87984160939149,17697
-757,facilitytype,school,17697
-758,dbaname,intercultural montessori language school,17697
-759,location,(41.892094136861786,17714
-760,facilitytype,restaurant,17714
-761,dbaname,completely nuts,17714
-762,location,(41.88458626715456,17728
-763,address,100 w randolph st ste c-19,17728
-764,dbaname,dunkin donuts,17728
-765,location,(41.88458626715456,17748
-766,address,100 w randolph st,17748
-767,dbaname,dunkin donuts,17748
-768,location,(41.93575126195393,17819
-769,address,3018-3020 n cicero ave,17819
-770,dbaname,sol de mexico tierra azteca,17819
-771,location,(42.008536400868735,17830
-772,address,11601 w touhy ave,17830
-773,dbaname,host international inc,17830
-774,location,(41.883040604417964,18144
-775,address,101 n western ave,18144
-776,dbaname,dunkin donuts,18144
-777,location,(41.883040604417964,18147
-778,address,101-111 n western ave,18147
-779,dbaname,dunkin donuts,18147
-780,location,(42.008536400868735,18245
-781,address,11601 w touhy ave,18245
-782,dbaname,host international inc,18245
-783,location,(41.87655166174297,18299
-784,address,815 w van buren,18299
-785,dbaname,giordanos of greektown,18299
-786,location,(41.909404662965976,18305
-787,address,5133-5153 w north ave,18305
-788,dbaname,bp,18305
-789,location,(41.94000063078428,18344
-790,address,3246 n central ave,18344
-791,dbaname,retro cafe restaurant,18344
-792,location,(41.94000063078428,18347
-793,address,3246-3248 n central ave,18347
-794,dbaname,retro cafe restaurant,18347
-795,location,(41.94000063078428,18352
-796,address,3246-3248 n central ave,18352
-797,dbaname,retro cafe restaurant,18352
-798,location,(41.909404662965976,18390
-799,address,5133 w north ave,18390
-800,dbaname,bp,18390
-801,location,(41.94231341336203,18426
-802,address,3313-3319 n broadway,18426
-803,dbaname,wakamono,18426
-804,location,(41.93624830273888,18429
-805,address,2945-2947 n broadway ave,18429
-806,dbaname,pastoral,18429
-807,location,(42.008536400868735,18440
-808,dbaname,host international inc.,18440
-809,zip,60606,18440
-810,location,(41.89983492074242,18543
-811,facilitytype,restaurant,18543
-812,dbaname,waldorf astoria chicago,18543
-813,location,(41.89983492074242,18552
-814,facilitytype,restaurant,18552
-815,dbaname,waldorf astoria chicago,18552
-816,location,(41.89983492074242,18570
-817,facilitytype,restaurant,18570
-818,dbaname,waldorf astoria chicago,18570
-819,location,(41.88188622746245,18610
-820,facilitytype,restaurant,18610
-821,dbaname,lloyds chicago restaurant,18610
-822,location,(41.87655166174297,18690
-823,address,815 w van buren,18690
-824,dbaname,giordanos of greektown,18690
-825,location,(41.90790946673667,18799
-826,facilitytype,daycare above and under 2 years,18799
-827,dbaname,american kidz academy,18799
-828,location,(41.94231341336203,18829
-829,address,3313-3319 n broadway,18829
-830,dbaname,wakamono,18829
-831,location,(41.94000063078428,18869
-832,address,3246-3248 n central ave,18869
-833,dbaname,retro cafe restaurant,18869
-834,location,(41.94000063078428,18899
-835,address,3246-3248 n central ave,18899
-836,dbaname,retro cafe restaurant,18899
-837,location,(41.94231341336203,18944
-838,address,3313-3319 n broadway,18944
-839,dbaname,wakamono,18944
-840,location,(41.93624830273888,18952
-841,address,2945-2947 n broadway ave,18952
-842,dbaname,pastoral,18952
-843,location,(41.89983492074242,19051
-844,facilitytype,restaurant,19051
-845,dbaname,waldorf astoria chicago,19051
-846,location,(41.74988142522215,19119
-847,facilitytype,restaurant,19119
-848,dbaname,pathways to learning,19119
-849,location,(41.749873806501896,19127
-850,facilitytype,restaurant,19127
-851,dbaname,pathways to learning child care center,19127
-852,location,(41.89983492074242,19156
-853,facilitytype,restaurant,19156
-854,dbaname,waldorf astoria chicago,19156
-855,location,(41.88123342371891,19212
-856,address,2550-2602 w madison st,19212
-857,dbaname,johnnys ice house,19212
-858,location,(41.89983492074242,19256
-859,facilitytype,restaurant,19256
-860,dbaname,waldorf astoria chicago,19256
-861,location,(41.733410005055205,19622
-862,facilitytype,bakery,19622
-863,dbaname,marzeya bakery,19622
-864,location,(41.94231341336203,19624
-865,address,3313-3319 n broadway,19624
-866,dbaname,wakamono,19624
-867,location,(41.69234712576441,19754
-868,address,1200-1210 w 111th st,19754
-869,dbaname,marathon,19754
-870,location,(41.98857518279947,19819
-871,facilitytype,daycare (2 - 6 years),19819
-872,dbaname,resurrection medical center,19819
-873,location,(41.96857277212391,20226
-874,address,3142-3148 w lawrence ave,20226
-875,dbaname,lindo michoacan,20226
-876,location,(41.83920683228708,20305
-877,address,3020-3022 s halsted st,20305
-878,dbaname,mcdonalds,20305
-879,location,(41.75111680314462,20342
-880,facilitytype,restaurant,20342
-881,dbaname,perfect beginnings child development center,20342
-882,location,(41.73945838739822,20356
-883,facilitytype,restaurant,20356
-884,dbaname,new knowledge learning center,20356
-885,location,(42.00273166409286,20459
-886,address,6727-6733 n olmsted ave,20459
-887,dbaname,morettis,20459
-888,location,(41.655906736353224,20789
-889,facilitytype,daycare above and under 2 years,20789
-890,dbaname,altgeld gardens daycare,20789
-891,location,(41.96766364582441,20871
-892,address,5619 w lawrence ave,20871
-893,dbaname,smakosz inc,20871
-894,location,(41.951064053085005,21022
-895,address,3800-3804 n clark st,21022
-896,dbaname,uncommon ground,21022
-897,location,(41.9793096533148,21215
-898,facilitytype,school,21215
-899,dbaname,brickton montessori school,21215
-900,location,(41.9793096533148,21220
-901,facilitytype,school,21220
-902,dbaname,brickton montessori school,21220
-903,location,(41.8806992461244,21257
-904,facilitytype,restaurant,21257
-905,dbaname,bright horizons chicago west loop,21257
-906,location,(41.8806992461244,21261
-907,facilitytype,daycare (2 - 6 years),21261
-908,dbaname,bright horizons chicago west loop,21261
-909,location,(41.8806992461244,21263
-910,facilitytype,restaurant,21263
-911,dbaname,bright horizons chicago west loop,21263
-912,location,(41.791761831643065,21368
-913,facilitytype,restaurant,21368
-914,dbaname,little people learning,21368
-915,location,(41.90349669933936,21370
-916,facilitytype,restaurant,21370
-917,dbaname,near north montessori school,21370
-918,location,(41.90349669933936,21378
-919,facilitytype,restaurant,21378
-920,dbaname,near north montessori school,21378
-921,location,(41.73684776335349,21515
-922,facilitytype,daycare combo 1586,21515
-923,dbaname,tots express learning center,21515
-924,location,(41.80058537744086,21531
-925,address,4334-4338 w 51st st,21531
-926,dbaname,supermercado rivera inc.,21531
-927,location,(41.894662670242106,21648
-928,facilitytype,restaurant,21648
-929,dbaname,chicago childrens house,21648
-930,location,(41.87686736408027,21700
-931,facilitytype,school,21700
-932,dbaname,robert morris college,21700
-933,location,(42.00273166409286,21747
-934,address,6727-6733 n olmsted ave,21747
-935,dbaname,morettis,21747
-936,location,(41.99798375025185,21762
-937,address,2032-2034 w devon ave,21762
-938,dbaname,ghareeb nawaz restaurant,21762
-939,location,(41.99798375025185,21771
-940,address,2032-2036 w devon ave,21771
-941,dbaname,ghareeb nawaz restaurant,21771
-942,location,(41.968553831007675,21887
-943,facilitytype,restaurant,21887
-944,dbaname,adler school inc,21887
-945,location,(41.94497417145062,22048
-946,address,3463-3467 n broadway bldg,22048
-947,dbaname,rocks lakeview,22048
-948,location,(41.73684776335349,22098
-949,facilitytype,daycare combo 1586,22098
-950,dbaname,tots express learning center,22098
-951,location,(41.89896533484934,22105
-952,facilitytype,restaurant,22105
-953,address,900 n north branch,22105
-954,dbaname,kendall college,22105
-955,location,(41.89896533484934,22110
-956,facilitytype,restaurant,22110
-957,address,900 n north branch st,22110
-958,dbaname,kendall college,22110
-959,location,(41.73684776335349,22157
-960,facilitytype,daycare combo 1586,22157
-961,dbaname,tots express learning center,22157
-962,location,(41.951064053085005,22164
-963,address,3800-3804 n clark st,22164
-964,dbaname,uncommon ground,22164
-965,location,(41.90367478181266,22284
-966,facilitytype,restaurant,22284
-967,dbaname,chicago q,22284
-968,location,(41.892094136861786,22313
-969,facilitytype,restaurant,22313
-970,dbaname,churro factory,22313
-971,location,(41.96048824521629,22316
-972,facilitytype,restaurant,22316
-973,dbaname,kids world day care,22316
-974,location,(41.892094136861786,22564
-975,facilitytype,restaurant,22564
-976,dbaname,churro factory,22564
-977,location,(41.83827010545886,22577
-978,address,420-422 w 31st st,22577
-979,dbaname,chinese kitchen and sushi,22577
-980,location,(41.8806992461244,22817
-981,facilitytype,restaurant,22817
-982,dbaname,bright horizons chicago west loop,22817
-983,location,(41.78040624754399,22847
-984,facilitytype,daycare above and under 2 years,22847
-985,address,1167 e 63rd st,22847
-986,dbaname,tiny scholars academy,22847
-987,location,(41.95453268893165,22852
-988,address,4000-4004 n sheridan rd,22852
-989,dbaname,holiday club,22852
-990,location,(41.78040624754399,22954
-991,facilitytype,restaurant,22954
-992,address,1167-69 e 63rd st,22954
-993,dbaname,tiny scholars academy,22954
-994,location,(42.008536400868735,23208
-995,address,11601 w touhy ave,23208
-996,dbaname,host international inc,23208
-997,location,(41.95453268893165,23341
-998,address,4000-4004 n sheridan rd,23341
-999,dbaname,holiday club,23341
-1000,location,(41.78027237989979,23397
+42,location,(41.9977653535896
+42,address,2548+AC0-2550 w devon ave
+42,dbaname,mysore woodlands
+53,location,(42.008536400868735
+53,address,11601 w touhy ave
+53,dbaname,host international inc
+67,location,(41.99798375025185
+67,address,2032+AC0-2036 w devon ave
+67,dbaname,ghareeb nawaz restaurant
+153,location,(41.961499265953364
+153,facilitytype,restaurant
+153,dbaname,chicago waldorf school
+160,location,(41.88123342371891
+160,address,2550+AC0-2602 w madison st
+160,dbaname,johnnys ice house
+176,location,(41.99798375025185
+176,address,2032+AC0-2036 w devon ave
+176,dbaname,ghareeb nawaz restaurant
+303,location,(42.008536400868735
+303,facilitytype,restaurant
+303,dbaname,garrett popcorn shops
+383,location,(41.931094868682656
+383,address,5805+AC0-5807 w diversey ave
+383,dbaname,avenida del sabor
+400,location,(41.90349669933936
+400,facilitytype,restaurant
+400,dbaname,near north montessori school
+408,location,(42.008536400868735
+408,address,11601 w touhy ave
+408,dbaname,host international inc
+462,location,(41.931094868682656
+462,address,5805 w diversey ave
+462,dbaname,avenida del sabor
+503,location,(42.008536400868735
+503,address,11601 w touhy ave
+503,dbaname,host international inc
+614,location,(41.96857277212391
+614,address,3142+AC0-3148 w lawrence ave
+614,dbaname,lindo michoacan
+655,location,(41.94550975342797
+655,address,3501+AC0-3505 n halsted st fl 1
+655,dbaname,little jims
+683,location,(41.96857277212391
+683,address,3142+AC0-3148 w lawrence ave
+683,dbaname,lindo michoacan
+752,location,(41.791761831643065
+752,facilitytype,restaurant
+752,dbaname,little people learning
+920,location,(41.791761831643065
+920,facilitytype,restaurant
+920,dbaname,little people learning
+958,location,(41.943251259237634
+958,address,2232 w roscoe st
+958,dbaname,lush wine +ACY- spirits
+964,location,(41.943251259237634
+964,address,2232 w roscoe st
+964,dbaname,lush wine +ACY- spirits
+1044,location,(41.951064053085005
+1044,address,3800+AC0-3804 n clark st
+1044,dbaname,uncommon ground
+1128,location,(41.951064053085005
+1128,address,3800+AC0-3804 n clark st
+1128,dbaname,uncommon ground
+1196,location,(42.008536400868735
+1196,address,11601 w touhy ave
+1196,dbaname,host international inc
+1256,location,(41.96315679416602
+1256,address,4503+AC0-4505 n kedzie ave
+1256,dbaname,el original gallo bravo
+1466,location,(41.94231341336203
+1466,address,3313+AC0-3319 n broadway
+1466,dbaname,wakamono
+1500,location,(41.9845361933454
+1500,address,5633+AC0-5635 n ashland ave
+1500,dbaname,lalibela restaurant
+1529,location,(41.907572250968755
+1529,facilitytype,school
+1529,dbaname,british school of chicago
+1657,location,(41.894662670242106
+1657,facilitytype,daycare above and under 2 years
+1657,dbaname,chicago childrens house
+1821,location,(41.93121715112931
+1821,facilitytype,restaurant
+1821,dbaname,onward neighborhood house
+1840,location,(41.909676222517476
+1840,facilitytype,restaurant
+1840,address,4301+AC0-4305 w north ave
+1840,dbaname,buy low liquors
+1843,location,(41.909676222517476
+1843,facilitytype,restaurant
+1843,address,4301+AC0-4305 w north ave
+1843,dbaname,buy low liquors
+1872,location,(41.94497417145062
+1872,address,3463+AC0-3467 n broadway bldg
+1872,dbaname,rocks lakeview
+1996,location,(41.94231341336203
+1996,address,3313+AC0-3319 n broadway
+1996,dbaname,wakamono
+2107,location,(42.008536400868735
+2107,address,11601 w touhy ave
+2107,dbaname,host international inc
+2255,location,(42.008536400868735
+2255,address,11601 w touhy ave
+2255,dbaname,host international inc
+2269,location,(41.892094136861786
+2269,facilitytype,restaurant
+2269,dbaname,churro factory
+2275,location,(41.892094136861786
+2275,facilitytype,restaurant
+2275,dbaname,churro factory
+2466,location,(42.008536400868735
+2466,address,11601 w touhy ave
+2466,dbaname,host international inc
+2493,location,(41.909676222517476
+2493,facilitytype,restaurant
+2493,address,4301+AC0-4305 w north ave
+2493,dbaname,buy low liquors
+2505,location,(41.909676222517476
+2505,facilitytype,restaurant
+2505,address,4301+AC0-4305 w north ave
+2505,dbaname,buy low liquors
+2509,location,(41.97533413581096
+2509,facilitytype,hospital
+2509,dbaname,swedish covenant hospital
+2522,location,(41.97533413581096
+2522,facilitytype,restaurant
+2522,dbaname,swedish covenant hospital
+2536,location,(41.881241456803345
+2536,address,1901 w madison st
+2536,dbaname,bismarck enterprises/united
+2572,location,(41.881241456803345
+2572,address,1901 w madison st bldg
+2572,dbaname,bismarck enterprises/united
+2616,location,(41.69234712576441
+2616,address,1200+AC0-1210 w 111th st
+2616,dbaname,marathon
+2695,location,(41.94738145671126
+2695,address,3632+AC0-3640 n pulaski rd
+2695,dbaname,la villa
+3043,location,(41.92690699536436
+3043,address,2453 n halsted st
+3043,dbaname,noodles in the pot
+3060,location,(41.995855875363404
+3060,facilitytype,restaurant
+3060,address,6300+AC0-6320 n california ave
+3060,dbaname,astoria place living and rehab
+3264,location,(41.87686736408027
+3264,facilitytype,school
+3264,dbaname,robert morris college
+3274,location,(41.879562663527345
+3274,address,118+AC0-130 s ashland ave
+3274,dbaname,the little green treehouse
+3281,location,(41.95310433686163
+3281,address,3920 n clark st apt
+3281,dbaname,clark/irving apartments
+3282,location,(41.87686736408027
+3282,facilitytype,restaurant
+3282,dbaname,robert morris college
+3318,location,(41.961499265953364
+3318,facilitytype,restaurant
+3318,dbaname,chicago waldorf school
+3426,location,(41.92690699536436
+3426,address,2453 n halsted st
+3426,dbaname,noodles in the pot
+3438,location,(41.95310433686163
+3438,address,3920 n clark st apt
+3438,dbaname,clark/irving apartments
+3626,location,(41.9977653535896
+3626,address,2548+AC0-2550 w devon ave
+3626,dbaname,mysore woodlands
+3658,location,(41.879562663527345
+3658,address,118+AC0-130 s ashland ave
+3658,dbaname,the little green treehouse
+3726,location,(41.894662670242106
+3726,facilitytype,restaurant
+3726,dbaname,chicago childrens house
+3808,location,(41.85104667463312
+3808,address,2301 s indiana ave
+3808,dbaname,mccormick place
+3923,location,(41.88362128098054
+3923,facilitytype,bakery
+3923,dbaname,sugar bliss cake boutique
+3976,location,(41.9977653535896
+3976,address,2548+AC0-2550 w devon ave
+3976,dbaname,mysore woodlands
+4049,location,(41.943251259237634
+4049,address,2232+AC0-2234 w roscoe st
+4049,dbaname,lush wine +ACY- spirits
+4053,location,(41.73204913540182
+4053,address,8940+AC0-8944 s stony island ave
+4053,dbaname,family den
+4114,location,(41.89925505559848
+4114,address,10+AC0-20 e delaware st
+4114,dbaname,the talbott hotel
+4243,location,(41.749873806501896
+4243,facilitytype,restaurant
+4243,dbaname,pathways to learning child care center
+4324,location,(41.8806992461244
+4324,facilitytype,restaurant
+4324,dbaname,bright horizons chicago west loop
+4461,location,(41.99496878030707
+4461,address,6249+AC0-6251 n milwaukee
+4461,dbaname,ings china king
+4527,location,(41.89925505559848
+4527,address,10+AC0-20 e delaware st
+4527,dbaname,the talbott hotel
+4713,location,(41.933388339085965
+4713,facilitytype,restaurant
+4713,dbaname,wee care daycare preschool
+4720,location,(41.78040624754399
+4720,facilitytype,restaurant
+4720,address,1167+AC0-69 e 63rd st
+4720,dbaname,tiny scholars academy
+4849,location,(41.94738145671126
+4849,address,3632+AC0-3640 n pulaski rd
+4849,dbaname,la villa
+4851,location,(41.96766364582441
+4851,address,5619+AC0-5621 w lawrence ave
+4851,dbaname,smakosz inc
+4900,location,(41.91767649798009
+4900,address,2003+AC0-2011 n western ave
+4900,dbaname,lazos tacos
+4978,location,(41.961499265953364
+4978,facilitytype,restaurant
+4978,dbaname,chicago waldorf school
+5044,location,(41.892249163400116
+5044,facilitytype,restaurant
+5044,dbaname,giordanos navy pier
+5181,location,(41.878014487249544
+5181,facilitytype,restaurant
+5181,dbaname,gateway newstand
+5286,location,(41.91767649798009
+5286,address,2003+AC0-2011 n western ave
+5286,dbaname,lazos tacos
+5359,location,(41.83827010545886
+5359,address,420+AC0-422 w 31st st
+5359,dbaname,chinese kitchen and sushi
+5381,location,(41.73204913540182
+5381,address,8940+AC0-8944 s stony island ave
+5381,dbaname,family den
+5396,location,(41.77110726848157
+5396,address,4531+AC0-4535 w marquette rd
+5396,dbaname,supermercado los cuates
+5485,location,(41.8716986890444
+5485,address,805 s state st
+5485,dbaname,lou malnatis pizzeria
+5536,location,(41.93300409973139
+5536,address,420+AC0-422 w diversey pkwy
+5536,dbaname,duffys tavern +ACY- grille
+5552,location,(41.97192459527153
+5552,facilitytype,restaurant
+5552,dbaname,south+AC0-east asia center
+5654,location,(41.75128530466005
+5654,address,522+AC0-524 e 79th st
+5654,dbaname,caribbean spice
+5736,location,(41.88362128098054
+5736,facilitytype,bakery
+5736,dbaname,sugar bliss cake boutique
+5751,location,(41.87279886935482
+5751,facilitytype,restaurant
+5751,dbaname,chicago hilton +ACY- towers
+5823,location,(41.83827010545886
+5823,address,420+AC0-422 w 31st st
+5823,dbaname,chinese kitchen and sushi
+6012,location,(41.884187507127805
+6012,facilitytype,restaurant
+6012,dbaname,beavers coffee +ACY- donuts
+6080,location,(41.884187507127805
+6080,facilitytype,restaurant
+6080,dbaname,beavers coffee +ACY- donuts
+6111,location,(41.9977653535896
+6111,address,2548+AC0-2550 w devon ave
+6111,dbaname,mysore woodlands
+6126,location,(41.74988142522215
+6126,facilitytype,restaurant
+6126,dbaname,pathways to learning
+6139,location,(41.91477744637897
+6139,facilitytype,daycare (2 +AC0- 6 years)
+6139,dbaname,the chalkboard inc
+6205,location,(41.91849213778706
+6205,address,2008 n halsted st
+6205,dbaname,subway
+6274,location,(41.9845361933454
+6274,address,5633+AC0-5635 n ashland ave
+6274,dbaname,lalibela restaurant
+6313,location,(41.83674601465663
+6313,facilitytype,restaurant
+6313,dbaname,panchos ice cream
+6368,location,(42.00273166409286
+6368,address,6727+AC0-6733 n olmsted ave
+6368,dbaname,morettis
+6473,location,(41.888096290381576
+6473,facilitytype,restaurant
+6473,dbaname,londonhouse hotel
+6515,location,(41.89983492074242
+6515,facilitytype,restaurant
+6515,dbaname,waldorf astoria chicago
+6620,location,(41.89896533484934
+6620,facilitytype,restaurant
+6620,address,900 n north branch st
+6620,dbaname,kendall college
+6684,location,(41.892094136861786
+6684,facilitytype,restaurant
+6684,dbaname,completely nuts
+6704,location,(41.892094136861786
+6704,facilitytype,restaurant
+6704,dbaname,completely nuts
+6775,location,(41.88188622746245
+6775,facilitytype,restaurant
+6775,dbaname,lloyds chicago restaurant
+6790,location,(41.99798375025185
+6790,address,2032+AC0-2036 w devon ave
+6790,dbaname,ghareeb nawaz restaurant
+6848,location,(41.91849213778706
+6848,address,2008 n halsted st
+6848,dbaname,subway
+6882,location,(41.7943165619035
+6882,address,305+AC0-307 e garfield
+6882,dbaname,currency exchange cafe
+6886,location,(41.92259746567477
+6886,address,2294+AC0-94 1/2 n milwaukee ave
+6886,dbaname,cozy corner diner and pancake house
+6887,location,(41.7943165619035
+6887,address,305+AC0-307 e garfield
+6887,dbaname,currency exchange cafe
+6890,location,(42.00273166409286
+6890,address,6727+AC0-6733 n olmsted ave
+6890,dbaname,morettis
+6974,location,(41.92259746567477
+6974,address,2294+AC0-94 1/2 n milwaukee ave
+6974,dbaname,cozy corner diner and pancake house
+7060,location,(41.89896533484934
+7060,facilitytype,restaurant
+7060,address,900 n north branch
+7060,dbaname,kendall college
+7080,location,(41.89896533484934
+7080,facilitytype,college
+7080,address,900 n north branch st
+7080,dbaname,kendall college
+7096,location,(41.99798375025185
+7096,address,2032+AC0-2036 w devon ave
+7096,dbaname,ghareeb nawaz restaurant
+7219,location,(41.931981578313795
+7219,address,2815+AC0-2817 w diversey ave
+7219,dbaname,l patron
+7228,location,(41.87984160939149
+7228,facilitytype,daycare (2 +AC0- 6 years)
+7228,dbaname,intercultural montessori language school
+7240,location,(41.888096290381576
+7240,facilitytype,banquet/kitchen
+7240,dbaname,londonhouse hotel
+7249,location,(41.87984160939149
+7249,facilitytype,daycare (2 +AC0- 6 years)
+7249,dbaname,intercultural montessori language school
+7298,location,(41.77139058907717
+7298,address,4308+AC0-4310 w marquette rd
+7298,dbaname,mis tacos mexican food
+7320,location,(41.888096290381576
+7320,facilitytype,restaurant
+7320,dbaname,londonhouse hotel
+7420,location,(41.888096290381576
+7420,facilitytype,banquet/kitchen
+7420,dbaname,londonhouse hotel
+7473,location,(41.7943165619035
+7473,address,305+AC0-307 e garfield
+7473,dbaname,currency exchange cafe
+7492,location,(41.888096290381576
+7492,facilitytype,restaurant
+7492,dbaname,londonhouse hotel
+7496,location,(41.888096290381576
+7496,facilitytype,banquet/kitchen
+7496,dbaname,londonhouse hotel
+7498,location,(41.888096290381576
+7498,facilitytype,restaurant
+7498,dbaname,londonhouse hotel
+7500,location,(41.7943165619035
+7500,address,305+AC0-307 e garfield
+7500,dbaname,currency exchange cafe
+7512,location,(41.7943165619035
+7512,address,305 e garfield blvd
+7512,dbaname,currency exchange cafe
+7829,location,(41.961499265953364
+7829,facilitytype,school
+7829,dbaname,chicago waldorf school
+7983,location,(41.88188622746245
+7983,facilitytype,restaurant
+7983,dbaname,lloyds chicago restaurant
+8000,location,(41.85094352340354
+8000,facilitytype,daycare (2 +AC0- 6 years)
+8000,dbaname,pui tak christian school
+8054,location,(41.7943165619035
+8054,address,305+AC0-307 e garfield
+8054,dbaname,currency exchange cafe
+8360,location,(41.884083234870886
+8360,facilitytype,daycare combo 1586
+8360,dbaname,montessori academy of chicago i
+8502,location,(41.88188622746245
+8502,facilitytype,restaurant
+8502,dbaname,lloyds chicago restaurant
+8611,location,(41.80839591793109
+8611,facilitytype,restaurant
+8611,dbaname,bambi
+8639,location,(41.878014487249544
+8639,facilitytype,restaurant
+8639,dbaname,gateway newstand
+8748,location,(41.78027237989979
+8748,address,717+AC0-719 e 63rd st
+8748,dbaname,kidz creative concepts learning center
+8757,location,(41.78027237989979
+8757,address,717+AC0-723 e 63rd st
+8757,dbaname,kidz creative concepts learning center
+8799,location,(41.655906736353224
+8799,facilitytype,daycare above and under 2 years
+8799,dbaname,altgeld gardens daycare
+8801,location,(41.80839591793109
+8801,facilitytype,push carts
+8801,dbaname,bambi
+8805,location,(41.80839591793109
+8805,facilitytype,restaurant
+8805,dbaname,bambi
+8855,location,(41.84467072147077
+8855,address,2637 s throop st
+8855,dbaname,helados mundos
+8872,location,(41.884083234870886
+8872,facilitytype,school
+8872,dbaname,montessori academy of chicago i
+8875,location,(41.884083234870886
+8875,facilitytype,daycare combo 1586
+8875,dbaname,montessori academy of chicago i
+8884,location,(41.884083234870886
+8884,facilitytype,restaurant
+8884,dbaname,montessori academy of chicago i
+8912,location,(41.951064053085005
+8912,address,3800+AC0-3804 n clark st
+8912,dbaname,uncommon ground
+8932,location,(41.84467072147077
+8932,address,2637 s throop st
+8932,dbaname,helados mundos
+9044,location,(41.729071788192
+9044,facilitytype,restaurant
+9044,dbaname,moore house
+9073,location,(41.91767649798009
+9073,address,2003+AC0-2011 n western ave
+9073,dbaname,lazos tacos
+9150,location,(41.943432313397565
+9150,address,3400 n ashland ave
+9150,dbaname,cafe el tapatio
+9152,location,(41.943432313397565
+9152,address,3400+AC0-3402 n ashland ave
+9152,dbaname,cafe el tapatio
+9158,location,(41.943432313397565
+9158,address,3400+AC0-3402 n ashland ave
+9158,dbaname,cafe el tapatio
+9170,location,(41.884187507127805
+9170,facilitytype,restaurant
+9170,dbaname,beavers coffee +ACY- donuts
+9265,location,(42.008536400868735
+9265,address,11601 w touhy ave
+9265,dbaname,host international inc
+9405,location,(41.951064053085005
+9405,address,3800+AC0-3804 n clark st
+9405,dbaname,uncommon ground
+9528,location,(41.93624830273888
+9528,address,2945+AC0-2947 n broadway ave
+9528,dbaname,pastoral
+9598,location,(42.008536400868735
+9598,address,11601 w touhy ave
+9598,dbaname,host international inc
+9625,location,(41.85094352340354
+9625,facilitytype,school
+9625,dbaname,pui tak christian school
+9803,location,(41.931094868682656
+9803,address,5805 w diversey ave
+9803,dbaname,avenida del sabor
+9835,location,(41.77868468007933
+9835,facilitytype,daycare (2 +AC0- 6 years)
+9835,dbaname,the learning circle
+10053,location,(41.93575126195393
+10053,address,3018+AC0-3020 n cicero ave
+10053,dbaname,sol de mexico tierra azteca
+10059,location,(41.99800008495619
+10059,facilitytype,daycare combo 1586
+10059,dbaname,little kiddies inc.
+10061,location,(41.99800008495619
+10061,facilitytype,daycare combo 1586
+10061,dbaname,little kiddies inc.
+10231,location,(41.903372713964224
+10231,address,1804+AC0-1806 w division st
+10231,dbaname,smoke daddy
+10376,location,(41.91795127107318
+10376,facilitytype,daycare above and under 2 years
+10376,dbaname,the goddard school chicago
+10455,location,(41.87532906210967
+10455,address,3435 w van buren
+10455,dbaname,rml chicago
+10470,location,(41.87532906210967
+10470,address,3435 w van buren
+10470,dbaname,rml chicago
+10584,location,(41.92793172691967
+10584,address,2555+AC0-2557 n pulaski rd
+10584,dbaname,el cubanito
+10621,location,(41.80839591793109
+10621,facilitytype,push carts
+10621,dbaname,bambi
+10667,location,(41.903372713964224
+10667,address,1804+AC0-1806 w division st
+10667,dbaname,smoke daddy
+11045,location,(41.994458784776384
+11045,facilitytype,convenience
+11045,dbaname,ins market
+11153,location,(41.994458784776384
+11153,facilitytype,convenience
+11153,dbaname,ins market
+11247,location,(41.88458626715456
+11247,address,100 w randolph st ste c+AC0-19
+11247,dbaname,dunkin donuts
+11557,location,(41.93624830273888
+11557,address,2945+AC0-2947 n broadway ave
+11557,dbaname,pastoral
+11633,location,(41.994458784776384
+11633,facilitytype,convenience
+11633,dbaname,ins market
+11636,location,(41.994458784776384
+11636,facilitytype,convenience
+11636,dbaname,ins market
+11658,location,(41.91767649798009
+11658,address,2003+AC0-2011 n western ave
+11658,dbaname,lazos tacos
+11662,location,(41.91767649798009
+11662,address,2003+AC0-2011 n western ave
+11662,dbaname,lazos tacos
+11679,location,(41.91767649798009
+11679,address,2003+AC0-2009 n western ave
+11679,dbaname,lazos tacos
+11706,location,(41.89983492074242
+11706,facilitytype,restaurant
+11706,dbaname,waldorf astoria chicago
+11780,location,(41.880225571810314
+11780,facilitytype,restaurant
+11780,dbaname,little folks cottage inc
+11786,location,(41.77883224217794
+11786,address,3816+AC0-3818 w 63rd st
+11786,dbaname,la quebrada +ACM-5
+11828,location,(41.92259746567477
+11828,address,2294 1/2 n milwaukee ave
+11828,dbaname,cozy corner diner and pancake house
+12086,location,(41.994458784776384
+12086,facilitytype,convenience
+12086,dbaname,ins market
+12091,location,(41.994458784776384
+12091,facilitytype,convenience
+12091,dbaname,ins market
+12254,location,(41.88458626715456
+12254,address,100 w randolph st
+12254,dbaname,dunkin donuts
+12739,location,(41.95453268893165
+12739,address,4000+AC0-4004 n sheridan rd
+12739,dbaname,holiday club
+12850,location,(42.00273166409286
+12850,address,6727+AC0-6733 n olmsted ave
+12850,dbaname,morettis
+12970,location,(41.998008500459655
+12970,facilitytype,daycare (2 +AC0- 6 years)
+12970,dbaname,out on faith learning center
+12971,location,(42.00273166409286
+12971,address,6727+AC0-6733 n olmsted ave
+12971,dbaname,morettis
+12975,location,(41.998008500459655
+12975,facilitytype,daycare (2 +AC0- 6 years)
+12975,dbaname,out on faith learning center
+13049,location,(41.88183546590967
+13049,facilitytype,bakery
+13049,dbaname,dunkin donuts
+13324,location,(41.7943165619035
+13324,address,305 e garfield blvd
+13324,dbaname,currency exchange cafe
+13458,location,(41.89983492074242
+13458,facilitytype,restaurant
+13458,dbaname,waldorf astoria chicago
+13461,location,(41.89983492074242
+13461,facilitytype,restaurant
+13461,dbaname,waldorf astoria chicago
+13499,location,(41.99496878030707
+13499,address,6249+AC0-6251 n milwaukee
+13499,dbaname,ings china king
+13504,location,(41.95453268893165
+13504,address,4000+AC0-4004 n sheridan rd
+13504,dbaname,holiday club
+13629,location,(41.75128530466005
+13629,address,522 e 79th st
+13629,dbaname,caribbean spice
+13642,location,(41.88183546590967
+13642,facilitytype,restaurant
+13642,dbaname,dunkin donuts
+13727,location,(41.75128530466005
+13727,address,522 e 79th st
+13727,dbaname,caribbean spice
+13769,location,(41.7943165619035
+13769,address,305 e garfield blvd
+13769,dbaname,currency exchange cafe
+13771,location,(41.884187507127805
+13771,facilitytype,restaurant
+13771,dbaname,beavers coffee +ACY- donuts
+13805,location,(41.87655166174297
+13805,address,815 w van buren
+13805,dbaname,giordanos of greektown
+13833,location,(41.99496878030707
+13833,address,6249+AC0-6251 n milwaukee
+13833,dbaname,ings china king
+14008,location,(41.94002723561704
+14008,address,958 +AC0- 960 w belmont ave
+14008,dbaname,cheesies pub +ACY- grub
+14016,location,(41.70727358161855
+14016,address,2 w 103rd st
+14016,dbaname,sky lake chinese kitchen
+14147,location,(41.94002723561704
+14147,address,958 +AC0- 960 w belmont ave
+14147,dbaname,cheesies pub +ACY- grub
+14301,location,(41.87279886935482
+14301,facilitytype,restaurant
+14301,dbaname,chicago hilton +ACY- towers
+14349,location,(41.75128530466005
+14349,address,522 e 79th st
+14349,dbaname,caribbean spice
+14421,location,(41.990520089587605
+14421,address,5951+AC0-5953 n broadway
+14421,dbaname,indie cafe
+14422,location,(41.884187507127805
+14422,facilitytype,restaurant
+14422,dbaname,beavers coffee +ACY- donuts
+14589,location,(42.008536400868735
+14589,address,11601 w touhy ave
+14589,dbaname,host international inc
+14638,location,(41.94002723561704
+14638,address,958 +AC0- 960 w belmont ave
+14638,dbaname,cheesies pub +ACY- grub
+14640,location,(41.87279886935482
+14640,facilitytype,restaurant
+14640,dbaname,chicago hilton +ACY- towers
+14650,location,(41.87279886935482
+14650,facilitytype,employee kitchen
+14650,dbaname,chicago hilton +ACY- towers
+14871,location,(41.8716986890444
+14871,address,805 s state st
+14871,dbaname,lou malnatis pizzeria
+14962,location,(41.931981578313795
+14962,address,2815+AC0-2817 w diversey ave
+14962,dbaname,l patron
+14995,location,(41.90367478181266
+14995,facilitytype,restaurant
+14995,dbaname,chicago q
+15063,location,(41.90367478181266
+15063,facilitytype,restaurant
+15063,dbaname,chicago q
+15091,location,(41.89983492074242
+15091,facilitytype,restaurant
+15091,dbaname,waldorf astoria chicago
+15173,location,(42.008536400868735
+15173,address,11601 w touhy ave
+15173,dbaname,host international inc
+15198,location,(41.77110726848157
+15198,address,4531+AC0-35 w marquette rd
+15198,dbaname,supermercado los cuates
+15218,location,(42.008536400868735
+15218,address,11601 w touhy ave
+15218,dbaname,host international inc
+15336,location,(41.71334157464564
+15336,facilitytype,school
+15336,dbaname,beverly montessori school
+15392,location,(41.706792177425825
+15392,facilitytype,daycare above and under 2 years
+15392,dbaname,the lords hands daycare
+15524,location,(41.706792177425825
+15524,facilitytype,daycare above and under 2 years
+15524,dbaname,the lords hands daycare
+15526,location,(41.77110726848157
+15526,address,4531+AC0-4535 w marquette rd
+15526,dbaname,supermercado los cuates
+15538,location,(41.71334157464564
+15538,facilitytype,daycare (2 +AC0- 6 years)
+15538,dbaname,beverly montessori school
+15544,location,(41.91849213778706
+15544,address,2008 n halsted st
+15544,dbaname,subway
+15698,location,(41.706792177425825
+15698,facilitytype,daycare above and under 2 years
+15698,dbaname,the lords hands daycare
+15756,location,(41.79510461857906
+15756,facilitytype,restaurant
+15756,dbaname,open produce
+15851,location,(41.94550975342797
+15851,address,3501+AC0-3505 n halsted st fl 1
+15851,dbaname,little jims
+15887,location,(41.94550975342797
+15887,address,3501 n halsted st
+15887,dbaname,little jims
+15936,location,(41.89983492074242
+15936,facilitytype,restaurant
+15936,dbaname,waldorf astoria chicago
+15938,location,(41.89983492074242
+15938,facilitytype,restaurant
+15938,dbaname,waldorf astoria chicago
+16213,location,(41.998008500459655
+16213,facilitytype,daycare (2 +AC0- 6 years)
+16213,dbaname,out on faith learning center
+16237,location,(41.909676222517476
+16237,facilitytype,restaurant
+16237,address,4301+AC0-4305 w north ave
+16237,dbaname,buy low liquors
+16350,location,(41.99798375025185
+16350,address,2032+AC0-2036 w devon ave
+16350,dbaname,ghareeb nawaz restaurant
+16538,location,(41.909676222517476
+16538,facilitytype,restaurant
+16538,address,4301+AC0-4305 w north ave
+16538,dbaname,buy low liquors
+16862,location,(41.69234712576441
+16862,address,1200+AC0-1210 w 111th st
+16862,dbaname,marathon
+16865,location,(41.69234712576441
+16865,address,1200 w 111th st
+16865,dbaname,marathon
+16866,location,(41.69234712576441
+16866,address,1200 w 111th st
+16866,dbaname,marathon
+16884,location,(41.91767649798009
+16884,address,2003+AC0-2009 n western ave
+16884,dbaname,lazos tacos
+17023,location,(42.008536400868735
+17023,address,11601 w touhy ave
+17023,dbaname,host international inc
+17046,location,(41.81621346608599
+17046,address,4310+AC0-4314 s prairie ave
+17046,dbaname,the game
+17179,location,(42.008536400868735
+17179,address,11601 w touhy ave
+17179,dbaname,host international inc
+17264,location,(41.943432313397565
+17264,address,3400 n ashland ave
+17264,dbaname,cafe el tapatio
+17284,location,(41.69234712576441
+17284,address,1200 w 111th st
+17284,dbaname,marathon
+17304,location,(41.88183546590967
+17304,facilitytype,restaurant
+17304,dbaname,dunkin donuts
+17307,location,(41.91767649798009
+17307,address,2003+AC0-2009 n western ave
+17307,dbaname,lazos tacos
+17476,location,(41.749914910076974
+17476,facilitytype,restaurant
+17476,dbaname,lordanchild christian day care inc.
+17640,location,(42.008536400868735
+17640,facilitytype,restaurant
+17640,dbaname,garrett popcorn shops
+17697,location,(41.87984160939149
+17697,facilitytype,school
+17697,dbaname,intercultural montessori language school
+17714,location,(41.892094136861786
+17714,facilitytype,restaurant
+17714,dbaname,completely nuts
+17728,location,(41.88458626715456
+17728,address,100 w randolph st ste c+AC0-19
+17728,dbaname,dunkin donuts
+17748,location,(41.88458626715456
+17748,address,100 w randolph st
+17748,dbaname,dunkin donuts
+17819,location,(41.93575126195393
+17819,address,3018+AC0-3020 n cicero ave
+17819,dbaname,sol de mexico tierra azteca
+17830,location,(42.008536400868735
+17830,address,11601 w touhy ave
+17830,dbaname,host international inc
+18144,location,(41.883040604417964
+18144,address,101 n western ave
+18144,dbaname,dunkin donuts
+18147,location,(41.883040604417964
+18147,address,101+AC0-111 n western ave
+18147,dbaname,dunkin donuts
+18245,location,(42.008536400868735
+18245,address,11601 w touhy ave
+18245,dbaname,host international inc
+18299,location,(41.87655166174297
+18299,address,815 w van buren
+18299,dbaname,giordanos of greektown
+18305,location,(41.909404662965976
+18305,address,5133+AC0-5153 w north ave
+18305,dbaname,bp
+18344,location,(41.94000063078428
+18344,address,3246 n central ave
+18344,dbaname,retro cafe restaurant
+18347,location,(41.94000063078428
+18347,address,3246+AC0-3248 n central ave
+18347,dbaname,retro cafe restaurant
+18352,location,(41.94000063078428
+18352,address,3246+AC0-3248 n central ave
+18352,dbaname,retro cafe restaurant
+18390,location,(41.909404662965976
+18390,address,5133 w north ave
+18390,dbaname,bp
+18426,location,(41.94231341336203
+18426,address,3313+AC0-3319 n broadway
+18426,dbaname,wakamono
+18429,location,(41.93624830273888
+18429,address,2945+AC0-2947 n broadway ave
+18429,dbaname,pastoral
+18440,location,(42.008536400868735
+18440,dbaname,host international inc.
+18440,zip,60606
+18543,location,(41.89983492074242
+18543,facilitytype,restaurant
+18543,dbaname,waldorf astoria chicago
+18552,location,(41.89983492074242
+18552,facilitytype,restaurant
+18552,dbaname,waldorf astoria chicago
+18570,location,(41.89983492074242
+18570,facilitytype,restaurant
+18570,dbaname,waldorf astoria chicago
+18610,location,(41.88188622746245
+18610,facilitytype,restaurant
+18610,dbaname,lloyds chicago restaurant
+18690,location,(41.87655166174297
+18690,address,815 w van buren
+18690,dbaname,giordanos of greektown
+18799,location,(41.90790946673667
+18799,facilitytype,daycare above and under 2 years
+18799,dbaname,american kidz academy
+18829,location,(41.94231341336203
+18829,address,3313+AC0-3319 n broadway
+18829,dbaname,wakamono
+18869,location,(41.94000063078428
+18869,address,3246+AC0-3248 n central ave
+18869,dbaname,retro cafe restaurant
+18899,location,(41.94000063078428
+18899,address,3246+AC0-3248 n central ave
+18899,dbaname,retro cafe restaurant
+18944,location,(41.94231341336203
+18944,address,3313+AC0-3319 n broadway
+18944,dbaname,wakamono
+18952,location,(41.93624830273888
+18952,address,2945+AC0-2947 n broadway ave
+18952,dbaname,pastoral
+19051,location,(41.89983492074242
+19051,facilitytype,restaurant
+19051,dbaname,waldorf astoria chicago
+19119,location,(41.74988142522215
+19119,facilitytype,restaurant
+19119,dbaname,pathways to learning
+19127,location,(41.749873806501896
+19127,facilitytype,restaurant
+19127,dbaname,pathways to learning child care center
+19156,location,(41.89983492074242
+19156,facilitytype,restaurant
+19156,dbaname,waldorf astoria chicago
+19212,location,(41.88123342371891
+19212,address,2550+AC0-2602 w madison st
+19212,dbaname,johnnys ice house
+19256,location,(41.89983492074242
+19256,facilitytype,restaurant
+19256,dbaname,waldorf astoria chicago
+19622,location,(41.733410005055205
+19622,facilitytype,bakery
+19622,dbaname,marzeya bakery
+19624,location,(41.94231341336203
+19624,address,3313+AC0-3319 n broadway
+19624,dbaname,wakamono
+19754,location,(41.69234712576441
+19754,address,1200+AC0-1210 w 111th st
+19754,dbaname,marathon
+19819,location,(41.98857518279947
+19819,facilitytype,daycare (2 +AC0- 6 years)
+19819,dbaname,resurrection medical center
+20226,location,(41.96857277212391
+20226,address,3142+AC0-3148 w lawrence ave
+20226,dbaname,lindo michoacan
+20305,location,(41.83920683228708
+20305,address,3020+AC0-3022 s halsted st
+20305,dbaname,mcdonalds
+20342,location,(41.75111680314462
+20342,facilitytype,restaurant
+20342,dbaname,perfect beginnings child development center
+20356,location,(41.73945838739822
+20356,facilitytype,restaurant
+20356,dbaname,new knowledge learning center
+20459,location,(42.00273166409286
+20459,address,6727+AC0-6733 n olmsted ave
+20459,dbaname,morettis
+20789,location,(41.655906736353224
+20789,facilitytype,daycare above and under 2 years
+20789,dbaname,altgeld gardens daycare
+20871,location,(41.96766364582441
+20871,address,5619 w lawrence ave
+20871,dbaname,smakosz inc
+21022,location,(41.951064053085005
+21022,address,3800+AC0-3804 n clark st
+21022,dbaname,uncommon ground
+21215,location,(41.9793096533148
+21215,facilitytype,school
+21215,dbaname,brickton montessori school
+21220,location,(41.9793096533148
+21220,facilitytype,school
+21220,dbaname,brickton montessori school
+21257,location,(41.8806992461244
+21257,facilitytype,restaurant
+21257,dbaname,bright horizons chicago west loop
+21261,location,(41.8806992461244
+21261,facilitytype,daycare (2 +AC0- 6 years)
+21261,dbaname,bright horizons chicago west loop
+21263,location,(41.8806992461244
+21263,facilitytype,restaurant
+21263,dbaname,bright horizons chicago west loop
+21368,location,(41.791761831643065
+21368,facilitytype,restaurant
+21368,dbaname,little people learning
+21370,location,(41.90349669933936
+21370,facilitytype,restaurant
+21370,dbaname,near north montessori school
+21378,location,(41.90349669933936
+21378,facilitytype,restaurant
+21378,dbaname,near north montessori school
+21515,location,(41.73684776335349
+21515,facilitytype,daycare combo 1586
+21515,dbaname,tots express learning center
+21531,location,(41.80058537744086
+21531,address,4334+AC0-4338 w 51st st
+21531,dbaname,supermercado rivera inc.
+21648,location,(41.894662670242106
+21648,facilitytype,restaurant
+21648,dbaname,chicago childrens house
+21700,location,(41.87686736408027
+21700,facilitytype,school
+21700,dbaname,robert morris college
+21747,location,(42.00273166409286
+21747,address,6727+AC0-6733 n olmsted ave
+21747,dbaname,morettis
+21762,location,(41.99798375025185
+21762,address,2032+AC0-2034 w devon ave
+21762,dbaname,ghareeb nawaz restaurant
+21771,location,(41.99798375025185
+21771,address,2032+AC0-2036 w devon ave
+21771,dbaname,ghareeb nawaz restaurant
+21887,location,(41.968553831007675
+21887,facilitytype,restaurant
+21887,dbaname,adler school inc
+22048,location,(41.94497417145062
+22048,address,3463+AC0-3467 n broadway bldg
+22048,dbaname,rocks lakeview
+22098,location,(41.73684776335349
+22098,facilitytype,daycare combo 1586
+22098,dbaname,tots express learning center
+22105,location,(41.89896533484934
+22105,facilitytype,restaurant
+22105,address,900 n north branch
+22105,dbaname,kendall college
+22110,location,(41.89896533484934
+22110,facilitytype,restaurant
+22110,address,900 n north branch st
+22110,dbaname,kendall college
+22157,location,(41.73684776335349
+22157,facilitytype,daycare combo 1586
+22157,dbaname,tots express learning center
+22164,location,(41.951064053085005
+22164,address,3800+AC0-3804 n clark st
+22164,dbaname,uncommon ground
+22284,location,(41.90367478181266
+22284,facilitytype,restaurant
+22284,dbaname,chicago q
+22313,location,(41.892094136861786
+22313,facilitytype,restaurant
+22313,dbaname,churro factory
+22316,location,(41.96048824521629
+22316,facilitytype,restaurant
+22316,dbaname,kids world day care
+22564,location,(41.892094136861786
+22564,facilitytype,restaurant
+22564,dbaname,churro factory
+22577,location,(41.83827010545886
+22577,address,420+AC0-422 w 31st st
+22577,dbaname,chinese kitchen and sushi
+22817,location,(41.8806992461244
+22817,facilitytype,restaurant
+22817,dbaname,bright horizons chicago west loop
+22847,location,(41.78040624754399
+22847,facilitytype,daycare above and under 2 years
+22847,address,1167 e 63rd st
+22847,dbaname,tiny scholars academy
+22852,location,(41.95453268893165
+22852,address,4000+AC0-4004 n sheridan rd
+22852,dbaname,holiday club
+22954,location,(41.78040624754399
+22954,facilitytype,restaurant
+22954,address,1167+AC0-69 e 63rd st
+22954,dbaname,tiny scholars academy
+23208,location,(42.008536400868735
+23208,address,11601 w touhy ave
+23208,dbaname,host international inc
+23341,location,(41.95453268893165
+23341,address,4000+AC0-4004 n sheridan rd
+23341,dbaname,holiday club
+23397,location,(41.78027237989979
