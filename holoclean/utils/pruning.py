@@ -379,6 +379,7 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
+
                         self.v_id_dk_list.append([(self.all_cells_temp[
                                                       tmp_cell_index].tupleid
                                                   + 1),
@@ -386,10 +387,11 @@ class Pruning:
                                                      tmp_cell_index].columnname,
                                                   tmp_cell_index])
                         for value in self.cell_domain[tmp_cell_index]:
-                            k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value,
-                                                  possible_values_dirty,
-                                                  tmp_cell_index, k_ij)
+                            if value != ():
+                                k_ij = k_ij + 1
+                                self._append_possible(v_id_dk, value,
+                                                      possible_values_dirty,
+                                                      tmp_cell_index, k_ij)
                         domain_kij_dk.append([v_id_dk, (
                                 self.all_cells_temp[tmp_cell_index].tupleid
                                 + 1),
@@ -407,10 +409,11 @@ class Pruning:
                                                  self.all_cells_temp[
                                                      tmp_cell_index].columnname, tmp_cell_index])
                         for value in self.cell_domain[tmp_cell_index]:
-                            k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value,
-                                                  possible_values_clean,
-                                                  tmp_cell_index, k_ij)
+                            if value != 0:
+                                k_ij = k_ij + 1
+                                self._append_possible(v_id_clean, value,
+                                                      possible_values_clean,
+                                                      tmp_cell_index, k_ij)
                         domain_kij_clean.append([v_id_clean,
                                                  (self.all_cells_temp[
                                                       tmp_cell_index].tupleid
