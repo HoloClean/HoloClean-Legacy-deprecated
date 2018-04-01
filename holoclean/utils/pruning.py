@@ -31,7 +31,7 @@ class Pruning:
         self.column_to_col_index_dict = {}
         self.attribute_to_be_pruned = {}
         self.dirty_cells_attributes = set([])
-        self.coocurence_for_first_attribute_small = {}
+        self.coocurence_lookup = {}
         self.cell_domain = {}
         self.all_cells = []
         self.all_cells_temp = {}
@@ -152,10 +152,10 @@ class Pruning:
     # such that it does not limit the domain to the possible values
     # above the threshold
     # first iteration, use a low threshold (i.e. 0) and limit using k
-    
+
 
     def _find_domain(self, assignment, trgt_attr):
-        """ This method finds the domain for each cell
+        """ This method finds the domain for each dirty cell for inference
 
            :param assignment: the values for every attribute
            :param trgt_attr: the name of attribute
@@ -169,19 +169,33 @@ class Pruning:
                 continue
             attr_val = assignment[attr]
 
-            if attr in self.coocurence_for_first_attribute_small:
-                if attr_val in self.coocurence_for_first_attribute_small[attr]:
-                    if trgt_attr in self.coocurence_for_first_attribute_small[
+            if attr in self.coocurence_lookup:
+                if attr_val in self.coocurence_lookup[attr]:
+                    if trgt_attr in self.coocurence_lookup[
                                     attr][attr_val]:
                         if trgt_attr in \
-                                self.coocurence_for_first_attribute_small[attr][
+                                self.coocurence_lookup[attr][
                                     attr_val]:
                             cell_values |= set(
-                                self.coocurence_for_first_attribute_small[attr][
+                                self.coocurence_lookup[attr][
                                     attr_val][trgt_attr].keys())
         # sort cell_values and chop after k
 
         return cell_values
+
+
+    def _find_clean_domain (self, assignment, trgt_attr):
+        """ This method finds the domain for each clean cell for learning
+
+             :param assignment: the values for every attribute
+             :param trgt_attr: the name of attribute
+        """
+        cell_values = {()}
+
+
+
+        return cell_values
+
 
     def _preprop(self):
         """
@@ -255,11 +269,11 @@ class Pruning:
         """
         for original_attribute in self.domain_pair_stats:
             # For each column in the cooccurences
-            self.coocurence_for_first_attribute_small[original_attribute] = {}
+            self.coocurence_lookup[original_attribute] = {}
             # It creates a dictionary
             for cooccured_attribute in self.domain_pair_stats[original_attribute]:
                 # For second column in the cooccurences Over
-                # Pair of values that happend with each other
+                # Pair of values that happened with each other
                 # (original_attribute value , cooccured_attribute value)
                 for assgn_tuple in self.domain_pair_stats[
                                         original_attribute][
@@ -270,19 +284,19 @@ class Pruning:
 
                     if cooccure_number > self.threshold1:
                             if assgn_tuple[0] not in \
-                                    self.coocurence_for_first_attribute_small[
+                                    self.coocurence_lookup[
                                         original_attribute]:
-                                self.coocurence_for_first_attribute_small[
+                                self.coocurence_lookup[
                                     original_attribute][assgn_tuple[0]] = {}
 
                             if cooccured_attribute not in \
-                                    self.coocurence_for_first_attribute_small[
+                                    self.coocurence_lookup[
                                         original_attribute][assgn_tuple[0]]:
-                                self.coocurence_for_first_attribute_small[
+                                self.coocurence_lookup[
                                     original_attribute][
                                     assgn_tuple[0]][cooccured_attribute] = {}
 
-                            self.coocurence_for_first_attribute_small[
+                            self.coocurence_lookup[
                                 original_attribute][assgn_tuple[0]][
                                 cooccured_attribute][
                                 assgn_tuple[1]] = cooccure_number
