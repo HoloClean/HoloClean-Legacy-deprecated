@@ -356,6 +356,8 @@ class Pruning:
         self.attribute_to_be_pruned = None
         self.attribute_map = None
 
+        self.simplepredictions= {}
+
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
@@ -366,22 +368,25 @@ class Pruning:
                     tmp_cell_index = \
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
-                        k_ij = 0
-                        v_id_dk = v_id_dk + 1
+                        if len(self.cell_domain[tmp_cell_index]) == 1:
+                            self.simplepredictions [tuple_id][attribute] = self.cell_domain[tmp_cell_index][0]
+                        else:
+                            k_ij = 0
+                            v_id_dk = v_id_dk + 1
 
-                        self.v_id_dk_list.append([(self.all_cells_temp[
+                            self.v_id_dk_list.append([(self.all_cells_temp[
                                                       tmp_cell_index].tupleid
                                                   + 1),
                                                  self.all_cells_temp[
                                                      tmp_cell_index].columnname,
                                                   tmp_cell_index])
-                        for value in self.cell_domain[tmp_cell_index]:
-                            if value != ():
-                                k_ij = k_ij + 1
-                                self._append_possible(v_id_dk, value,
+                            for value in self.cell_domain[tmp_cell_index]:
+                                if value != ():
+                                    k_ij = k_ij + 1
+                                    self._append_possible(v_id_dk, value,
                                                       possible_values_dirty,
                                                       tmp_cell_index, k_ij)
-                        domain_kij_dk.append([v_id_dk, (
+                            domain_kij_dk.append([v_id_dk, (
                                 self.all_cells_temp[tmp_cell_index].tupleid
                                 + 1),
                                 self.all_cells_temp[tmp_cell_index].columnname,
