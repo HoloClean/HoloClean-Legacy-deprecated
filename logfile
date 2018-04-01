@@ -9,3 +9,14 @@
 2018-03-30 13:21:26.698 EDT [5197] STATEMENT:  CREATE database holo;
 2018-03-30 13:21:26.698 EDT [5197] ERROR:  role "holocleanuser" already exists
 2018-03-30 13:21:26.698 EDT [5197] STATEMENT:  CREATE user holocleanuser;
+2018-04-01 12:56:49.277 EDT [5089] LOG:  received smart shutdown request
+2018-04-01 12:56:49.279 EDT [5089] LOG:  worker process: logical replication launcher (PID 5096) exited with exit code 1
+2018-04-01 12:56:49.279 EDT [5091] LOG:  shutting down
+2018-04-01 12:56:50.026 EDT [5089] LOG:  database system is shut down
+2018-04-01 15:18:31.027 EDT [1198] LOG:  listening on IPv6 address "::1", port 5432
+2018-04-01 15:18:31.027 EDT [1198] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2018-04-01 15:18:31.028 EDT [1198] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2018-04-01 15:18:31.053 EDT [1199] LOG:  database system was shut down at 2018-04-01 12:56:49 EDT
+2018-04-01 15:18:31.066 EDT [1198] LOG:  database system is ready to accept connections
+2018-04-01 15:22:09.473 EDT [1358] LOG:  could not receive data from client: Connection reset by peer
+2018-04-01 15:22:09.473 EDT [1358] LOG:  unexpected EOF on client connection with an open transaction

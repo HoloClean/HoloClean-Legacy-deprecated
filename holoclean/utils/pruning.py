@@ -23,7 +23,6 @@ class Pruning:
         self.spark_session = session.holo_env.spark_session
         self.dataengine = session.holo_env.dataengine
         self.threshold1 = threshold1
-        self.threshold2 = threshold2
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
@@ -79,28 +78,14 @@ class Pruning:
         """
         dataframe_dont_know = self.session.dk_df
         noisy_cells = []
-        self.noisy_list = []
         for cell in dataframe_dont_know.collect():
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
-            self.noisy_list.append([cell[1], int(cell[0])])
             self.cellvalues[int(cell[0])-1][self.attribute_map[cell[1]]].dirty = 1
 
         return noisy_cells
 
-    def _c_cell(self):
-        """
-                Create clean_cell list from the C_clean table
-        """
-        dataframe_clean = self.session.clean_df
-        clean_cells = []
-        self.clean_list = []
-        for cell in dataframe_clean.collect():
-            cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
-            clean_cells.append(cell_variable)
-            self.clean_list.append([cell[1], int(cell[0])])
 
-        return clean_cells
 
     def _c_values(self):
         """
@@ -113,16 +98,17 @@ class Pruning:
         cell_values = {}
         self.attribute_map = {}
         number_id = 0
-        for column in dataframe_init.drop(GlobalVariables.index_name).collect():
+
+        for record in dataframe_init.drop(GlobalVariables.index_name).collect():
+            # for each record creates a new row
             row = {}
             column_id = 0
-            dict_collumns = {}
-            for column_value in column:
+            for column_value in record:
+                # For each column
                 self.attribute_map[table_attribute[column_id]] = column_id
                 cell_variable = RandomVar(columnname=table_attribute[column_id],
                                           value=column_value, tupleid=row_id,
                                           cellid=number_id, dirty=0, domain=0)
-                dict_collumns[table_attribute[column_id]] = column_value
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
@@ -152,16 +138,14 @@ class Pruning:
         cooccur_count = \
             self.domain_pair_stats[original_attribute][cooccured_attribute][(
                  original_attr_value, cooccured_attr_value)]
-        v_cnt = self.domain_stats[original_attribute][original_attr_value]
+        value_count = self.domain_stats[original_attribute][original_attr_value]
 
         # Compute counter
-        number_of_cooccurence = cooccur_count
-        total_number_of_original_attr_value = v_cnt
+
         if original_attr_value is None or cooccured_attr_value is None:
             probability = 0
         else:
-            probability = number_of_cooccurence /\
-                          total_number_of_original_attr_value
+            probability = cooccur_count/ value_count
         return probability
 
     def _find_domain(self, assignment, trgt_attr):
@@ -178,6 +162,7 @@ class Pruning:
             if attr == trgt_attr:
                 continue
             attr_val = assignment[attr]
+
             if attr in self.coocurence_for_first_attribute_small:
                 if attr_val in self.coocurence_for_first_attribute_small[attr]:
                     if trgt_attr in self.coocurence_for_first_attribute_small[
@@ -188,6 +173,7 @@ class Pruning:
                             cell_values |= set(
                                 self.coocurence_for_first_attribute_small[attr][
                                     attr_val][trgt_attr].keys())
+        # sort cell_values and chop after k
 
         return cell_values
 
@@ -266,8 +252,7 @@ class Pruning:
             self.coocurence_for_first_attribute[original_attribute] = {}
             self.coocurence_for_first_attribute_small[original_attribute] = {}
             # It creates a dictionary
-            for cooccured_attribute in \
-                    self.domain_pair_stats[original_attribute]:
+            for cooccured_attribute in self.domain_pair_stats[original_attribute]:
                 # For second column in the cooccurences Over
                 # Pair of values that happend with each other
                 # (original_attribute value , cooccured_attribute value)
@@ -277,22 +262,26 @@ class Pruning:
                     cooccure_number = self._compute_number_of_coocurences(
                         original_attribute, assgn_tuple[0], cooccured_attribute,
                         assgn_tuple[1])
+
                     if cooccure_number > self.threshold1:
                             if assgn_tuple[0] not in \
                                     self.coocurence_for_first_attribute_small[
                                         original_attribute]:
                                 self.coocurence_for_first_attribute_small[
                                     original_attribute][assgn_tuple[0]] = {}
+
                             if cooccured_attribute not in \
                                     self.coocurence_for_first_attribute_small[
                                         original_attribute][assgn_tuple[0]]:
                                 self.coocurence_for_first_attribute_small[
                                     original_attribute][
                                     assgn_tuple[0]][cooccured_attribute] = {}
-                                self.coocurence_for_first_attribute_small[
+
+                            self.coocurence_for_first_attribute_small[
                                 original_attribute][assgn_tuple[0]][
                                 cooccured_attribute][
                                 assgn_tuple[1]] = cooccure_number
+
 
         return
 
