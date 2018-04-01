@@ -31,7 +31,6 @@ class Pruning:
         self.column_to_col_index_dict = {}
         self.attribute_to_be_pruned = {}
         self.dirty_cells_attributes = set([])
-        self.coocurence_for_first_attribute = {}
         self.coocurence_for_first_attribute_small = {}
         self.cell_domain = {}
         self.all_cells = []
@@ -249,7 +248,6 @@ class Pruning:
         """
         for original_attribute in self.domain_pair_stats:
             # For each column in the cooccurences
-            self.coocurence_for_first_attribute[original_attribute] = {}
             self.coocurence_for_first_attribute_small[original_attribute] = {}
             # It creates a dictionary
             for cooccured_attribute in self.domain_pair_stats[original_attribute]:
@@ -399,7 +397,6 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
 
                         if len(self.cell_domain[tmp_cell_index]) >  1:
-
                             k_ij = 0
                             v_id_clean = v_id_clean + 1
                             self.v_id_clean_list.append([(self.all_cells_temp[
