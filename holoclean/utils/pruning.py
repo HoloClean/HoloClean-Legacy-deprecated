@@ -400,20 +400,20 @@ class Pruning:
 
                         if len(self.cell_domain[tmp_cell_index]) >  1:
 
-                        k_ij = 0
-                        v_id_clean = v_id_clean + 1
-                        self.v_id_clean_list.append([(self.all_cells_temp[
+                            k_ij = 0
+                            v_id_clean = v_id_clean + 1
+                            self.v_id_clean_list.append([(self.all_cells_temp[
                                                       tmp_cell_index].tupleid
                                                   + 1),
                                                  self.all_cells_temp[
                                                      tmp_cell_index].columnname, tmp_cell_index])
-                        for value in self.cell_domain[tmp_cell_index]:
-                              if value != 0:
-                                 k_ij = k_ij + 1
-                                 self._append_possible(v_id_clean, value,
+                            for value in self.cell_domain[tmp_cell_index]:
+                                  if value != 0:
+                                     k_ij = k_ij + 1
+                                    self._append_possible(v_id_clean, value,
                                                       possible_values_clean,
                                                       tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean,
+                            domain_kij_clean.append([v_id_clean,
                                                  (self.all_cells_temp[
                                                       tmp_cell_index].tupleid
                                                   + 1),
