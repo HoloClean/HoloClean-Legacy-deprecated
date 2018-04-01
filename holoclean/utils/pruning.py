@@ -147,6 +147,13 @@ class Pruning:
             probability = cooccur_count/ value_count
         return probability
 
+
+    # we need a new function like find_domain for clean cells
+    # such that it does not limit the domain to the possible values
+    # above the threshold
+    # first iteration, use a low threshold (i.e. 0) and limit using k
+    
+
     def _find_domain(self, assignment, trgt_attr):
         """ This method finds the domain for each cell
 
@@ -313,6 +320,9 @@ class Pruning:
         for cell_index in self.assignments:
             # In this part we get all values for cell_index's
             # attribute_to_be_pruned
+
+            # if the cell is dirty call find domain
+            # else, call get negative examples (domain for clean cells)
             self.cell_domain[cell_index] = self._find_domain(
                 self.assignments[cell_index],
                 self.attribute_to_be_pruned[cell_index])
