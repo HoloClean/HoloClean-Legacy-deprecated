@@ -32,12 +32,11 @@ class MysqlDCErrorDetection(ErrorDetection):
     # Internals
 
     def _is_symmetric(self, dc_name):
-        result = True
         non_sym_ops = ['<=', '>=', '<', '>']
         for op in non_sym_ops:
             if op in dc_name:
-                result = False
-        return result
+                return False
+        return True
 
     def _get_noisy_cells_for_dc(self, dc_name):
         """
