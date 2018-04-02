@@ -754,7 +754,7 @@ class Session:
 
         prob_simple_predictions = \
             self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5)). \
-                select('probability', 'vid', 'attr_name', 'attr_val', 'domain_id')
+                select('probability', 'vid', 'attr_name', 'attr_val', 'tid', 'domain_id')
 
         final = self.inferred_values.union(prob_simple_predictions)
         init = self.init_dataset
