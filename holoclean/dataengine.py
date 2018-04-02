@@ -100,11 +100,14 @@ class DataEngine:
         """
         try:
             self.db_backend.connect()
-            self.holo_env.logger.\
-                info("Connection established to data database")
+            self.holo_env.logger.info(
+                "Connection established to data database"
+            )
         except Exception as e:
-            self.holo_env.logger.error('No connection to data database',
-                                       exc_info=e)
+            self.holo_env.logger.error(
+                'No connection to data database',
+                exc_info=e
+            )
             pass
 
     def _add_info_to_meta(self, table_name, table_schema, dataset):
@@ -126,12 +129,10 @@ class DataEngine:
                 After putting table schema in meta table it returns the
                 specific name of the table
         """
-        schema = ''
-        for attribute in table_schema:
-            schema = schema + "," + str(attribute)
+        schema = ",".join(table_schema)
 
         table_name_spc = dataset.table_specific_name(table_name)
-        self._add_meta(table_name, schema[1:], dataset)
+        self._add_meta(table_name, schema, dataset)
         return table_name_spc
 
     def _add_meta(self, table_name, table_schema, dataset):
@@ -189,10 +190,7 @@ class DataEngine:
         :return: Dataframe
             A dataframe that contains "columns_name_list" columns data
         """
-        columns_string = ""
-        for c in columns_name_list:
-            columns_string += c + ","
-        columns_string = columns_string[:-1]
+        columns_string = ",".join(columns_name_list)
         table_get = "Select " + columns_string + " from " + \
                     dataset.dataset_tables_specific_name[
                         dataset.attributes.index(table_name)]
@@ -375,7 +373,9 @@ class DataEngine:
 
         schema = spark_dataframe.schema.names
         specific_table_name = self._add_info_to_meta(
-            table_name, schema, dataset)
+            table_name, schema,
+            dataset
+        )
         self._dataframe_to_table(specific_table_name, spark_dataframe, append)
 
     def add_db_table_index(self, table_name, attr_name):
@@ -393,7 +393,7 @@ class DataEngine:
         -------
         No Return
         """
-        index_id = table_name+"_"+attr_name
+        index_id = table_name + "_" + attr_name
         sql = "CREATE INDEX " + index_id + " ON " + table_name + \
               " (`" + attr_name + "`);"
         self.db_backend.execute(sql)
