@@ -179,7 +179,7 @@ class Pruning:
                             cell_values |= set(
                                 self.coocurence_lookup[attr][
                                     attr_val][trgt_attr].keys())
-        # sort cell_values and chop after k
+        # sort cell_values and chop after k and chop below threshold2
 
         return cell_values
 
@@ -431,7 +431,7 @@ class Pruning:
                             for value in self.cell_domain[tmp_cell_index]:
                                   if value != 0:
                                      k_ij = k_ij + 1
-                                    self._append_possible(v_id_clean, value,
+                                     self._append_possible(v_id_clean, value,
                                                       possible_values_clean,
                                                       tmp_cell_index, k_ij)
                             domain_kij_clean.append([v_id_clean,
