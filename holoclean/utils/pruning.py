@@ -205,7 +205,7 @@ class Pruning:
 
         # first iteration
         # get l values from the lookup exactly  like in dirty where l < k
-        # get k-l randome once from the domain
+        # get k-l random once from the domain
 
 
         return cell_values
@@ -292,11 +292,11 @@ class Pruning:
                 for assgn_tuple in self.domain_pair_stats[
                                         original_attribute][
                                         cooccured_attribute]:
-                    cooccure_number = self._compute_number_of_coocurences(
+                    cooccure_prob = self._compute_number_of_coocurences(
                         original_attribute, assgn_tuple[0], cooccured_attribute,
                         assgn_tuple[1])
 
-                    if cooccure_number > self.threshold1:
+                    if cooccure_prob > self.threshold1:
                             if assgn_tuple[0] not in \
                                     self.coocurence_lookup[
                                         original_attribute]:
@@ -313,7 +313,7 @@ class Pruning:
                             self.coocurence_lookup[
                                 original_attribute][assgn_tuple[0]][
                                 cooccured_attribute][
-                                assgn_tuple[1]] = cooccure_number
+                                assgn_tuple[1]] = cooccure_prob
 
 
         return
