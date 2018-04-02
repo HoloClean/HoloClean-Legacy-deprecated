@@ -154,7 +154,7 @@ class Pruning:
     # first iteration, use a low threshold (i.e. 0) and limit using k
 
 
-    def _find_domain(self, assignment, trgt_attr):
+    def _find_dk_domain(self, assignment, trgt_attr):
         """ This method finds the domain for each dirty cell for inference
 
            :param assignment: the values for every attribute
@@ -202,7 +202,7 @@ class Pruning:
                         if trgt_attr in self.coocurence_lookup[attr][attr_val]:
                             cell_values |= set( self.coocurence_lookup[attr]
                                                 [attr_val][trgt_attr].keys())
-                            
+
         # first iteration
         # get l values from the lookup exactly  like in dirty where l < k
         # get k-l randome once from the domain
@@ -351,7 +351,7 @@ class Pruning:
 
             # if the cell is dirty call find domain
             # else, call get negative examples (domain for clean cells)
-            self.cell_domain[cell_index] = self._find_domain(
+            self.cell_domain[cell_index] = self._find_dk_domain(
                 self.assignments[cell_index],
                 self.attribute_to_be_pruned[cell_index])
         return
