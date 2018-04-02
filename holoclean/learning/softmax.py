@@ -401,10 +401,7 @@ class SoftMax:
 
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
-        simple_predictions = \
-            self.session.simple_predictions.drop('observed').withColumn('probability', sf.lit(1.0))
-        self.dataengine.add_db_table('Inferred_values',
-                                     simple_predictions, self.dataset, append=1)
+
         self.session.holo_env.logger.info(
             'The table: ' +
             self.dataset.table_specific_name('Inferred_values') +

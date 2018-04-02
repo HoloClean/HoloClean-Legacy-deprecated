@@ -100,7 +100,19 @@ arguments = [
       'dest': 'pruning_threshold2',
       'default': 0.3,
       'type': float,
-      'help': 'Threshold1 used for domain pruning step'}),
+      'help': 'Threshold2 used for domain pruning step'}),
+    (('-p', '--pruning-dk-breakoff'),
+     {'metavar': 'DK_BREAKOFF',
+      'dest': 'pruning_dk_breakoff',
+      'default': 5,
+      'type': float,
+      'help': 'DK breakoff used for domain pruning step'}),
+    (('-p', '--pruning-clean-breakoff'),
+     {'metavar': 'CLEAN_BREAKOFF',
+      'dest': 'pruning_clean_breakoff',
+      'default': 5,
+      'type': float,
+      'help': 'Clean breakoff used for domain pruning step'}),
     (('-it', '--learning-iterations'),
      {'metavar': 'LEARNING_ITERATIONS',
       'dest': 'learning_iterations',
@@ -368,7 +380,8 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        self._ds_domain_pruning(self.holo_env.pruning_threshold1, self.holo_env.pruning_threshold2)
+        self._ds_domain_pruning\
+            (self.holo_env.pruning_threshold1, self.holo_env.pruning_threshold2, self.holo_env.pruning_dk_breakoff, self.holo_env.pruning_clean_breakoff)
 
         if self.holo_env.verbose:
             end = time.time()
@@ -565,7 +578,7 @@ class Session:
         self.holo_env.logger.info('error detection is finished')
         return
 
-    def _ds_domain_pruning(self, pruning_threshold1, pruning_threshold2):
+    def _ds_domain_pruning(self, pruning_threshold1, pruning_threshold2, pruning_dk_breakoff, pruning_clean_breakoff):
         """
         Prunes domain based off of threshold to give each cell
         repair candidates
@@ -582,7 +595,7 @@ class Session:
 
         self.pruning = Pruning(
             self,
-            pruning_threshold1, pruning_threshold2)
+            pruning_threshold1, pruning_threshold2, pruning_dk_breakoff, pruning_clean_breakoff)
         self.holo_env.logger.info('Domain pruning is finished :')
         return
 
@@ -736,7 +749,12 @@ class Session:
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
-        final = self.inferred_values
+        #change the simple predictions with prob. 0.5
+
+        prob_simple_predictions = \
+            self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5))
+
+        final = self.inferred_values.union(prob_simple_predictions)
         init = self.init_dataset
         correct = init.collect()
         final = final.collect()

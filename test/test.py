@@ -12,7 +12,10 @@ class Testing:
         self.holo_obj = HoloClean(
             holoclean_path="..",
             verbose=True,
-            pruning_threshold=0.5,
+            pruning_threshold1=0.01,
+            pruning_threshold1=0.4,
+            pruning_dk_breakoff=5,
+            pruning_clean_breakoff=10,
             learning_iterations=20,
             learning_rate=0.001,
             batch_size=20

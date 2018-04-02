@@ -13,7 +13,7 @@ class RandomVar:
 class Pruning:
     """Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, session, threshold1=0.0, threshold2=0.3, breakoff=3):
+    def __init__(self, session, threshold1=0.0, threshold2=0.3, dk_breakoff=3,clean_breakoff = 10):
         """
 
             :param session: Holoclean session
@@ -24,7 +24,8 @@ class Pruning:
         self.dataengine = session.holo_env.dataengine
         self.threshold1 = threshold1
         self.threshold2 = threshold2
-        self.breakoff = breakoff
+        self.dk_breakoff = dk_breakoff
+        self.clean_breakoff = clean_breakoff
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
@@ -164,6 +165,7 @@ class Pruning:
         """
         # cell_probabilities will hold domain values and their probabilities
         cell_probabilities = []
+        #always have the initial value in the returned domain values
         cell_values = {(assignment[trgt_attr])}
         for attr in assignment:
             if attr == trgt_attr:
@@ -182,7 +184,7 @@ class Pruning:
         for tuple in cell_probabilities:
             value = tuple[0]
             probability = tuple[1]
-            if len(cell_values) == self.breakoff or probability < self.threshold2:
+            if len(cell_values) == self.dk_breakoff or probability < self.threshold2:
                 break
             cell_values.add(value)
         return cell_values
@@ -212,12 +214,14 @@ class Pruning:
         # get l values from the lookup exactly  like in dirty where l < k
         # get k-l random once from the domain
         cell_probabilities.sort(key=lambda t: t[1])
-        while len(cell_values) < self.breakoff/2 and len(cell_probabilities) > 0:  # for now l = k/2
+        while len(cell_values) < self.clean_breakoff/2 and len(cell_probabilities) > 0:  # for now l = k/2
             tuple = cell_probabilities.pop()
             value = tuple[0]
             cell_values.add(value)
-        while len(cell_probabilities) > 0 and len(cell_values) < self.breakoff:
-            random.shuffle(cell_probabilities)
+
+        random.shuffle(cell_probabilities)
+
+        while len(cell_probabilities) > 0 and len(cell_values) < self.clean_breakoff:
             tuple = cell_probabilities.pop()
             value = tuple[0]
             cell_values.add(value)
@@ -424,13 +428,14 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
 
                         if len(self.cell_domain[tmp_cell_index]) == 1:
+                            #cell kept its initial value
                             self.simplepredictions.append(
                                 [
                                     None,  # vid
                                     tuple_id + 1,  # tid
                                     attribute,  # attr_name
                                     list(self.cell_domain[tmp_cell_index])[0],  # attr_val
-                                    1,  # observed
+                                    1, # observed
                                     None  # domain_id
                                 ]
                             )
@@ -456,62 +461,64 @@ class Pruning:
                                 self.all_cells_temp[tmp_cell_index].columnname,
                                 k_ij])
                 else:
-                    tmp_cell_index = \
-                        self.cellvalues[tuple_id][cell_index].cellid
-                    if self.cellvalues[tuple_id][cell_index].domain == 1:
-                        k_ij = 0
-                        v_id_clean = v_id_clean + 1
-                        self.v_id_clean_list.append([(self.all_cells_temp[
-                                                  tmp_cell_index].tupleid
-                                              + 1),
-                                             self.all_cells_temp[
-                                                 tmp_cell_index].columnname, tmp_cell_index])
-                        for value in self.cell_domain[tmp_cell_index]:
-                              if value != 0:
-                                 k_ij = k_ij + 1
-                                 self._append_possible(v_id_clean, value,
-                                                  possible_values_clean,
-                                                  tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean,
-                                             (self.all_cells_temp[
-                                                  tmp_cell_index].tupleid
-                                              + 1),
-                                             self.all_cells_temp[
-                                                 tmp_cell_index].columnname,
-                                             k_ij])
+
+                    if len(self.cell_domain[tmp_cell_index]) > 1:
+                        tmp_cell_index = \
+                            self.cellvalues[tuple_id][cell_index].cellid
+                        if self.cellvalues[tuple_id][cell_index].domain == 1:
+                            k_ij = 0
+                            v_id_clean = v_id_clean + 1
+                            self.v_id_clean_list.append([(self.all_cells_temp[
+                                                      tmp_cell_index].tupleid
+                                                  + 1),
+                                                 self.all_cells_temp[
+                                                     tmp_cell_index].columnname, tmp_cell_index])
+                            for value in self.cell_domain[tmp_cell_index]:
+                                  if value != 0:
+                                     k_ij = k_ij + 1
+                                     self._append_possible(v_id_clean, value,
+                                                      possible_values_clean,
+                                                      tmp_cell_index, k_ij)
+                            domain_kij_clean.append([v_id_clean,
+                                                 (self.all_cells_temp[
+                                                      tmp_cell_index].tupleid
+                                                  + 1),
+                                                 self.all_cells_temp[
+                                                     tmp_cell_index].columnname,
+                                                 k_ij])
 
         self.all_cells = None
         self.all_cells_temp = None
 
         # Create possible table
-        new_df_possible = self.spark_session.createDataFrame(
+        df_possible_clean = self.spark_session.createDataFrame(
             possible_values_clean, self.dataset.attributes['Possible_values']
         )
 
         self.dataengine.add_db_table('Possible_values_clean',
-                                     new_df_possible, self.dataset)
+                                     df_possible_clean, self.dataset)
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_clean'),
             'attr_name')
         
-        new_df_possible_dk = self.spark_session.createDataFrame(
+        df_possible_dk = self.spark_session.createDataFrame(
             possible_values_dirty, self.dataset.attributes['Possible_values']
         )
 
         self.dataengine.add_db_table('Possible_values_dk',
-                                     new_df_possible_dk, self.dataset)
+                                     df_possible_dk, self.dataset)
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
 
-        new_df_kij = self.spark_session.createDataFrame(
+        df_kij = self.spark_session.createDataFrame(
             domain_kij_dk, self.dataset.attributes['Kij_lookup'])
         self.dataengine.add_db_table('Kij_lookup_dk',
-                                     new_df_kij, self.dataset)
+                                     df_kij, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(
+        df_kij = self.spark_session.createDataFrame(
             domain_kij_clean, self.dataset.attributes['Kij_lookup'])
         self.dataengine.add_db_table('Kij_lookup_clean',
-                                     new_df_kij, self.dataset)
+                                     df_kij, self.dataset)
 
         self.dataengine.holo_env.logger.info('The table: ' +
                                             self.dataset.table_specific_name(
@@ -559,10 +566,10 @@ class Pruning:
                          " t1.observed=1 ) " \
                          "AS table1;"
         self.dataengine.query(query_observed)
-        new_df_simple_predictions = self.spark_session.createDataFrame(
+        df_simple_predictions = self.spark_session.createDataFrame(
             self.simplepredictions, self.dataset.attributes['Possible_values']
         )
-        self.session.simple_predictions = new_df_simple_predictions
+        self.session.simple_predictions = df_simple_predictions
         self.dataengine.add_db_table('Observed_Possible_values_dk',
-                                     new_df_simple_predictions, self.dataset, append=1)
+                                     df_simple_predictions, self.dataset, append=1)
         return
