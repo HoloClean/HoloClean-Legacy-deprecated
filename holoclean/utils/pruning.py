@@ -435,7 +435,7 @@ class Pruning:
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
 
-                        if len(self.cell_domain[tmp_cell_index]) >  1:
+                        if len(self.cell_domain[tmp_cell_index]) > 1:
                             k_ij = 0
                             v_id_clean = v_id_clean + 1
                             self.v_id_clean_list.append([(self.all_cells_temp[
