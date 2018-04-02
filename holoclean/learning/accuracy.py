@@ -27,6 +27,11 @@ class Accuracy:
 
         inferred = inferred_multivalues.union (inferred_singlevalues)
 
+        inferred_count = inferred.count()
+        inferred_multivalues_count = inferred_multivalues.count()
+        inferred_singlevalues_count = inferred_singlevalues.count()
+
+
         init = self.dataengine.get_table_to_dataframe(
             "Observed_Possible_values_dk", self.dataset).select(
             "tid", "attr_name", "attr_val")
@@ -45,17 +50,21 @@ class Accuracy:
 
         errors = init.subtract(self.ground_truth_flat)
 
-        never_touched = errors.drop('attr_val').subtract(incorrect_inferred.drop('attr_val'))
+        uncorrected = errors.drop('attr_val').intersect(incorrect_inferred.drop('attr_val'))
 
-        remaining_incorrect_multivalues = errors.drop('attr_val').intersect(incorrect_multivalues.drop('attr_val'))
-        remaining_incorrect_singlevalues = errors.drop('attr_val').intersect(incorrect_singlevalues.drop('attr_val'))
-        remaining_incorrect = errors.drop('attr_val').intersect(incorrect_inferred.drop('attr_val'))
+        recall = 1.0 - (float(uncorrected.count()) / errors.count())
 
-        inferred_count = inferred.count()
 
         precision = float((inferred_count - incorrect_count)) / inferred_count
-        recall = 1.0 - (float(remaining_incorrect.count()) / errors.count())
+        multivalues_precision = float(inferred_multivalues_count - incorrect_multivalues_count) / inferred_multivalues_count
+        singlevalues_precision = float( inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_multivalues_count
+
+
         print ("The precision that we have is :" + str(precision))
+        print ("The single-value precision that we have is :" + str(singlevalues_precision))
+        print ("The multiple-values precision that we have is :" + str(multivalues_precision))
+
+
         print ("The recall that we have is :" + str(recall))
 
     def _flatting(self):

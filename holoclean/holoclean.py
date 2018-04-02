@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-
+import pyspark.sql.functions as sf
 import logging
 
 from pyspark import SparkContext, SparkConf
@@ -751,8 +751,10 @@ class Session:
         """
         #change the simple predictions with prob. 0.5
 
+
         prob_simple_predictions = \
-            self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5))
+            self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5)). \
+                select('probability', 'vid', 'attr_name', 'attr_val', 'domain_id')
 
         final = self.inferred_values.union(prob_simple_predictions)
         init = self.init_dataset

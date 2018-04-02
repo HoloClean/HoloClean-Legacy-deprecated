@@ -3,7 +3,6 @@ from torch.nn import Parameter, ParameterList
 from torch.autograd import Variable
 from torch import optim
 from torch.nn.functional import softmax
-import pyspark.sql.functions as sf
 from pyspark.sql.types import *
 from tqdm import tqdm
 

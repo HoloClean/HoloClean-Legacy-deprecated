@@ -13,7 +13,7 @@ class Testing:
             holoclean_path="..",
             verbose=True,
             pruning_threshold1=0.01,
-            pruning_threshold1=0.4,
+            pruning_threshold2=0.4,
             pruning_dk_breakoff=5,
             pruning_clean_breakoff=10,
             learning_iterations=20,
