@@ -23,6 +23,7 @@ class Pruning:
         self.spark_session = session.holo_env.spark_session
         self.dataengine = session.holo_env.dataengine
         self.threshold1 = threshold1
+        self.threshold2 = threshold2
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
