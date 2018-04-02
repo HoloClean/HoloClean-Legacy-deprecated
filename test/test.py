@@ -15,7 +15,8 @@ class Testing:
             pruning_threshold=0.5,
             learning_iterations=20,
             learning_rate=0.001,
-            batch_size=20)
+            batch_size=20
+        )
         self.session = Session(self.holo_obj)
 
     def test(self):

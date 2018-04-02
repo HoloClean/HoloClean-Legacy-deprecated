@@ -49,7 +49,7 @@ class SignalInit(Featurizer):
             1 as count\
             FROM """ + \
             self.dataset.table_specific_name(name) + \
-            " AS init_flat "
+            " AS init_flat WHERE vid IS NOT NULL"
 
         # if clean add signal fo Feature_id_map
         if clean:

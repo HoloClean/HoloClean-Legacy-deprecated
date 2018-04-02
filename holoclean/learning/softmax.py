@@ -3,6 +3,7 @@ from torch.nn import Parameter, ParameterList
 from torch.autograd import Variable
 from torch import optim
 from torch.nn.functional import softmax
+import pyspark.sql.functions as sf
 from pyspark.sql.types import *
 from tqdm import tqdm
 
@@ -400,7 +401,10 @@ class SoftMax:
 
         self.dataengine.add_db_table('Inferred_values',
                                      df_inference, self.dataset)
-
+        simple_predictions = \
+            self.session.simple_predictions.drop('observed').withColumn('probability', sf.lit(1.0))
+        self.dataengine.add_db_table('Inferred_values',
+                                     simple_predictions, self.dataset, append=1)
         self.session.holo_env.logger.info(
             'The table: ' +
             self.dataset.table_specific_name('Inferred_values') +

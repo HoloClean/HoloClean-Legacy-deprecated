@@ -134,6 +134,9 @@ class DataEngine:
                 if dataframe.schema.fields[i].dataType == IntegerType() \
                         or dataframe.schema.names[i] == GlobalVariables.index_name:
                     create_table = create_table + "INT,"
+                elif dataframe.schema.fields[i].dataType == DoubleType() \
+                        or dataframe.schema.names[i] == GlobalVariables.index_name:
+                    create_table = create_table + "DOUBLE PRECISION,"
                 else:
                     create_table = create_table + "VARCHAR(255),"
             if GlobalVariables.index_name in dataframe.schema.names:

@@ -1,4 +1,4 @@
-from pyspark.sql.types import *
+import random
 from holoclean.global_variables import GlobalVariables
 import time
 
@@ -13,7 +13,7 @@ class RandomVar:
 class Pruning:
     """Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, session, threshold1=0.5 , threshold2  = 0):
+    def __init__(self, session, threshold1=0.0, threshold2=0.5, breakoff=3):
         """
 
             :param session: Holoclean session
@@ -24,6 +24,7 @@ class Pruning:
         self.dataengine = session.holo_env.dataengine
         self.threshold1 = threshold1
         self.threshold2 = threshold2
+        self.breakoff = breakoff
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
@@ -161,10 +162,9 @@ class Pruning:
            :param assignment: the values for every attribute
            :param trgt_attr: the name of attribute
         """
-        if assignment[trgt_attr] is not None:
-            cell_values = {(assignment[trgt_attr])}
-        else:
-            cell_values = {()}
+        # cell_probabilities will hold domain values and their probabilities
+        cell_probabilities = []
+        cell_values = {(assignment[trgt_attr])}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -174,11 +174,17 @@ class Pruning:
                 if attr_val in self.coocurence_lookup[attr]:
                     if trgt_attr in self.coocurence_lookup[attr][attr_val]:
                         if trgt_attr in self.coocurence_lookup[attr][attr_val]:
-                            cell_values |= set( self.coocurence_lookup[attr]
-                                                [attr_val][trgt_attr].keys())
+                            cell_probabilities += \
+                                [(k,v) for k,v in self.coocurence_lookup[attr][attr_val][trgt_attr].iteritems()]
 
         # sort cell_values and chop after k and chop below threshold2
-
+        cell_probabilities.sort(key=lambda t: t[1], reverse=True)
+        for tuple in cell_probabilities:
+            value = tuple[0]
+            probability = tuple[1]
+            if len(cell_values) == self.breakoff or probability < 0.3:
+                break
+            cell_values.add(value)
         return cell_values
 
 
@@ -188,10 +194,8 @@ class Pruning:
              :param assignment: the values for every attribute
              :param trgt_attr: the name of attribute
         """
-        if assignment[trgt_attr] is not None:
-            cell_values = {(assignment[trgt_attr])}
-        else:
-            cell_values = {()}
+        cell_probabilities = []
+        cell_values = {(assignment[trgt_attr])}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -201,14 +205,22 @@ class Pruning:
                 if attr_val in self.coocurence_lookup[attr]:
                     if trgt_attr in self.coocurence_lookup[attr][attr_val]:
                         if trgt_attr in self.coocurence_lookup[attr][attr_val]:
-                            cell_values |= set( self.coocurence_lookup[attr]
-                                                [attr_val][trgt_attr].keys())
+                            cell_probabilities += \
+                                [(k, v) for k, v in self.coocurence_lookup[attr][attr_val][trgt_attr].iteritems()]
 
         # first iteration
         # get l values from the lookup exactly  like in dirty where l < k
         # get k-l random once from the domain
-
-
+        cell_probabilities.sort(key=lambda t: t[1])
+        while len(cell_values) < self.breakoff/2 and len(cell_probabilities) > 0:  # for now l = k/2
+            tuple = cell_probabilities.pop()
+            value = tuple[0]
+            cell_values.add(value)
+        while len(cell_probabilities) > 0 and len(cell_values) < self.breakoff:
+            random.shuffle(cell_probabilities)
+            tuple = cell_probabilities.pop()
+            value = tuple[0]
+            cell_values.add(value)
         return cell_values
 
 
@@ -337,7 +349,7 @@ class Pruning:
             for cid in self.cellvalues[tplid]:
                 c = self.cellvalues[tplid][cid]
                 assignment[c.columnname] = c.value
-            self.assignments[cell.cellid] = assignment
+            self.assignments[cell] = assignment
             self.attribute_to_be_pruned[cell.cellid] = trgt_attr
         return
 
@@ -346,15 +358,20 @@ class Pruning:
         find_cell_domain finds the domain for each cell
         :return:
         """
-        for cell_index in self.assignments:
+        for cell in self.assignments:
             # In this part we get all values for cell_index's
             # attribute_to_be_pruned
 
             # if the cell is dirty call find domain
             # else, call get negative examples (domain for clean cells)
-            self.cell_domain[cell_index] = self._find_dk_domain(
-                self.assignments[cell_index],
-                self.attribute_to_be_pruned[cell_index])
+            if cell.dirty == 1:
+                self.cell_domain[cell.cellid] = self._find_dk_domain(
+                    self.assignments[cell],
+                    self.attribute_to_be_pruned[cell.cellid])
+            else:
+                self.cell_domain[cell.cellid] = self._find_clean_domain(
+                    self.assignments[cell],
+                    self.attribute_to_be_pruned[cell.cellid])
         return
 
     def _append_possible(self, v_id, value, dataframe, cell_index, k_ij):
@@ -393,7 +410,7 @@ class Pruning:
         self.attribute_to_be_pruned = None
         self.attribute_map = None
 
-        self.simplepredictions= {}
+        self.simplepredictions = []
 
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
@@ -407,8 +424,16 @@ class Pruning:
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
 
                         if len(self.cell_domain[tmp_cell_index]) == 1:
-                            self.simplepredictions [(tuple_id, attribute)] = \
-                               list(self.cell_domain[tmp_cell_index])[0]
+                            self.simplepredictions.append(
+                                [
+                                    None,  # vid
+                                    tuple_id + 1,  # tid
+                                    attribute,  # attr_name
+                                    list(self.cell_domain[tmp_cell_index])[0],  # attr_val
+                                    1,  # observed
+                                    None  # domain_id
+                                ]
+                            )
                         else:
                             k_ij = 0
                             v_id_dk = v_id_dk + 1
@@ -434,28 +459,26 @@ class Pruning:
                     tmp_cell_index = \
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
-
-                        if len(self.cell_domain[tmp_cell_index]) >= 1:
-                            k_ij = 0
-                            v_id_clean = v_id_clean + 1
-                            self.v_id_clean_list.append([(self.all_cells_temp[
-                                                      tmp_cell_index].tupleid
-                                                  + 1),
-                                                 self.all_cells_temp[
-                                                     tmp_cell_index].columnname, tmp_cell_index])
-                            for value in self.cell_domain[tmp_cell_index]:
-                                  if value != 0:
-                                     k_ij = k_ij + 1
-                                     self._append_possible(v_id_clean, value,
-                                                      possible_values_clean,
-                                                      tmp_cell_index, k_ij)
-                            domain_kij_clean.append([v_id_clean,
-                                                 (self.all_cells_temp[
-                                                      tmp_cell_index].tupleid
-                                                  + 1),
-                                                 self.all_cells_temp[
-                                                     tmp_cell_index].columnname,
-                                                 k_ij])
+                        k_ij = 0
+                        v_id_clean = v_id_clean + 1
+                        self.v_id_clean_list.append([(self.all_cells_temp[
+                                                  tmp_cell_index].tupleid
+                                              + 1),
+                                             self.all_cells_temp[
+                                                 tmp_cell_index].columnname, tmp_cell_index])
+                        for value in self.cell_domain[tmp_cell_index]:
+                              if value != 0:
+                                 k_ij = k_ij + 1
+                                 self._append_possible(v_id_clean, value,
+                                                  possible_values_clean,
+                                                  tmp_cell_index, k_ij)
+                        domain_kij_clean.append([v_id_clean,
+                                             (self.all_cells_temp[
+                                                  tmp_cell_index].tupleid
+                                              + 1),
+                                             self.all_cells_temp[
+                                                 tmp_cell_index].columnname,
+                                             k_ij])
 
         self.all_cells = None
         self.all_cells_temp = None
@@ -535,6 +558,11 @@ class Pruning:
                          " WHERE " \
                          " t1.observed=1 ) " \
                          "AS table1;"
-
         self.dataengine.query(query_observed)
+        new_df_simple_predictions = self.spark_session.createDataFrame(
+            self.simplepredictions, self.dataset.attributes['Possible_values']
+        )
+        self.session.simple_predictions = new_df_simple_predictions
+        self.dataengine.add_db_table('Observed_Possible_values_dk',
+                                     new_df_simple_predictions, self.dataset, append=1)
         return

@@ -82,7 +82,7 @@ class Dataset:
                     StructField("attr_name", StringType(), False),
                     StructField("attr_val", StringType(), False),
                     StructField("observed", IntegerType(), False),
-                    StructField("domain_id", IntegerType(), False)
+                    StructField("domain_id", IntegerType(), True)
                 ]),
             'Observed_Possible_values_clean': [],
             'Observed_Possible_values_dk': [],

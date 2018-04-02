@@ -76,13 +76,6 @@ arguments = [
          'default': None,
          'type': str,
          'help': 'Spark cluster address'}),
-    (('-t', '--threshold'),
-     {'metavar': 'THRESHOLD',
-      'dest': 'threshold',
-      'default': 0,
-      'type': float,
-      'help': 'The threshold of the probabilities '
-              'which are shown in the results'}),
     (('-k', '--first_k'),
      {'metavar': 'FIRST_K',
       'dest': 'first_k',
@@ -96,12 +89,18 @@ arguments = [
       'default': 0.001,
       'type': float,
       'help': 'The learning rate holoclean will use during training'}),
-    (('-p', '--pruning-threshold'),
-     {'metavar': 'PRUNING_THRESHOLD',
-      'dest': 'pruning_threshold',
-      'default': 0.5,
+    (('-p', '--pruning-threshold1'),
+     {'metavar': 'PRUNING_THRESHOLD1',
+      'dest': 'pruning_threshold1',
+      'default': 0.0,
       'type': float,
-      'help': 'Threshold used for domain pruning step'}),
+      'help': 'Threshold1 used for domain pruning step'}),
+    (('-p', '--pruning-threshold2'),
+     {'metavar': 'PRUNING_THRESHOLD2',
+      'dest': 'pruning_threshold2',
+      'default': 0.3,
+      'type': float,
+      'help': 'Threshold1 used for domain pruning step'}),
     (('-it', '--learning-iterations'),
      {'metavar': 'LEARNING_ITERATIONS',
       'dest': 'learning_iterations',
@@ -369,7 +368,7 @@ class Session:
         if self.holo_env.verbose:
             start = time.time()
 
-        self._ds_domain_pruning(self.holo_env.pruning_threshold)
+        self._ds_domain_pruning(self.holo_env.pruning_threshold1, self.holo_env.pruning_threshold2)
 
         if self.holo_env.verbose:
             end = time.time()
@@ -566,7 +565,7 @@ class Session:
         self.holo_env.logger.info('error detection is finished')
         return
 
-    def _ds_domain_pruning(self, pruning_threshold=0):
+    def _ds_domain_pruning(self, pruning_threshold1, pruning_threshold2):
         """
         Prunes domain based off of threshold to give each cell
         repair candidates
@@ -579,11 +578,11 @@ class Session:
         """
         self.holo_env.logger.info(
             'starting domain pruning with threshold %s',
-            pruning_threshold)
+            pruning_threshold1)
 
         self.pruning = Pruning(
             self,
-            pruning_threshold)
+            pruning_threshold1, pruning_threshold2)
         self.holo_env.logger.info('Domain pruning is finished :')
         return
 
