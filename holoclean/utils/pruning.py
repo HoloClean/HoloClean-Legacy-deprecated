@@ -87,23 +87,23 @@ class Pruning:
         dataframe_init = \
             self.dataengine.get_table_to_dataframe("Init", self.dataset)
         table_attribute = dataframe_init.columns
-        row_id = 0
         cell_values = {}
         self.attribute_map = {}
-        number_id = 0
-        for column in dataframe_init.drop(GlobalVariables.index_name).collect():
+        for row_id, column in enumerate(dataframe_init.drop(GlobalVariables.index_name).collect()):
             row = {}
-            column_id = 0
-            for column_value in column:
-                self.attribute_map[table_attribute[column_id]] = column_id
-                cell_variable = RandomVar(columnname=table_attribute[column_id],
-                                          value=column_value, tupleid=row_id,
-                                          cellid=number_id, dirty=0, domain=0)
-                row[column_id] = cell_variable
-                number_id = number_id + 1
-                column_id = column_id + 1
+            for cell_num, column_value in enumerate(column):
+                self.attribute_map[table_attribute[cell_num]] = cell_num
+                cell_variable = RandomVar(
+                    columnname=table_attribute[cell_num],
+                    value=column_value,
+                    tupleid=row_id,
+                    cellid=cell_num,
+                    dirty=0,
+                    domain=0
+                )
+                row[cell_num] = cell_variable
             cell_values[row_id] = row
-            row_id = row_id + 1
+
         return cell_values
 
     def _compute_number_of_coocurences(
@@ -173,17 +173,21 @@ class Pruning:
         for cell in self.noisycells:
             self.dirty_cells_attributes.add(cell.columnname)
 
-        # This part makes empty dictionary for each atribute
-        for col in self.column_to_col_index_dict:
-            self.domain_stats[col] = {}
-
-        # This part adds other (dirty) attributes
-        # to the dictionary of the key attribute
         for column_name_key in self.column_to_col_index_dict:
+            # This part makes empty dictionary for each attribute
+            self.domain_stats[column_name_key] = {}
+            # This part adds other (dirty) attributes
+            # to the dictionary of the key attribute
             self.domain_pair_stats[column_name_key] = {}
-            for col2 in self.dirty_cells_attributes:
-                if col2 != column_name_key:
-                    self.domain_pair_stats[column_name_key][col2] = {}
+
+            dirty_cells = list(self.dirty_cells_attributes)
+            try:
+                dirty_cells.remove(column_name_key)
+            except Exception:
+                pass
+
+            for k, v in zip(dirty_cells, [{} for _ in range(len(dirty_cells))]):
+                self.domain_pair_stats[column_name_key][k] = v
         return
 
     def _analyze_entries(self):
@@ -313,12 +317,12 @@ class Pruning:
         """
         attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
         self.domain_dict = {}
-        domain_kij_clean = []
-        domain_kij_dk = []
         for attribute in attributes:
             if attribute != GlobalVariables.index_name:
                 self.domain_dict[attribute] = []
 
+        domain_kij_clean = []
+        domain_kij_dk = []
         possible_values_clean = []
         possible_values_dirty = []
         c_clean = []
@@ -328,6 +332,7 @@ class Pruning:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
+
                 if value not in self.domain_dict[attribute]:
                     self.domain_dict[attribute].append(value)
 
@@ -340,33 +345,42 @@ class Pruning:
                         v_id_dk = v_id_dk + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value,
-                                                  possible_values_dirty,
-                                                  tmp_cell_index, k_ij)
-                        domain_kij_dk.append([v_id_dk, (
-                                self.all_cells_temp[tmp_cell_index].tupleid
-                                + 1),
-                                self.all_cells_temp[tmp_cell_index].columnname,
-                                k_ij])
+                            self._append_possible(
+                                v_id_dk,
+                                value,
+                                possible_values_dirty,
+                                tmp_cell_index,
+                                k_ij
+                            )
+                        domain_kij_dk.append([
+                            v_id_dk,
+                            self.all_cells_temp[tmp_cell_index].tupleid + 1,
+                            self.all_cells_temp[tmp_cell_index].columnname,
+                            k_ij
+                        ])
                 else:
                     c_clean.append([tuple_id + 1, attribute, value])
                     tmp_cell_index = \
                         self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
+
                         k_ij = 0
                         v_id_clean = v_id_clean + 1
                         for value in self.cell_domain[tmp_cell_index]:
                             k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value,
-                                                  possible_values_clean,
-                                                  tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean,
-                                                 (self.all_cells_temp[
-                                                      tmp_cell_index].tupleid
-                                                  + 1),
-                                                 self.all_cells_temp[
-                                                     tmp_cell_index].columnname,
-                                                 k_ij])
+                            self._append_possible(
+                                v_id_clean,
+                                value,
+                                possible_values_clean,
+                                tmp_cell_index,
+                                k_ij
+                            )
+                        domain_kij_clean.append([
+                            v_id_clean,
+                            self.all_cells_temp[tmp_cell_index].tupleid + 1,
+                            self.all_cells_temp[tmp_cell_index].columnname,
+                            k_ij
+                        ])
 
         # Create possible table
         new_df_possible = self.spark_session.createDataFrame(
@@ -379,11 +393,15 @@ class Pruning:
                 StructField("domain_id", IntegerType(), False),
             ])
         )
-        self.dataengine.add_db_table('Possible_values_clean',
-                                     new_df_possible, self.dataset)
+        self.dataengine.add_db_table(
+            'Possible_values_clean',
+            new_df_possible,
+            self.dataset
+        )
         self.dataengine.add_db_table_index(
             self.dataset.table_specific_name('Possible_values_clean'),
-            'attr_name')
+            'attr_name'
+        )
 
         new_df_possible = self.spark_session.createDataFrame(
             possible_values_dirty, StructType([
@@ -395,10 +413,15 @@ class Pruning:
                 StructField("domain_id", IntegerType(), False),
             ])
         )
-        self.dataengine.add_db_table('Possible_values_dk',
-                                     new_df_possible, self.dataset)
+        self.dataengine.add_db_table(
+            'Possible_values_dk',
+            new_df_possible,
+            self.dataset
+        )
         self.dataengine.add_db_table_index(
-            self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
+            self.dataset.table_specific_name('Possible_values_dk'),
+            'attr_name'
+        )
         del new_df_possible
 
         # Create Clean and DK flats
@@ -409,8 +432,11 @@ class Pruning:
                 StructField("value", StringType(), True)
             ])
         )
-        self.dataengine.add_db_table('C_clean_flat',
-                                     new_df_clean, self.dataset)
+        self.dataengine.add_db_table(
+            'C_clean_flat',
+            new_df_clean,
+            self.dataset
+        )
 
         new_df_dk = self.spark_session.createDataFrame(
             c_dk, StructType([
@@ -419,8 +445,11 @@ class Pruning:
                 StructField("value", StringType(), True)
             ])
         )
-        self.dataengine.add_db_table('C_dk_flat',
-                                     new_df_dk, self.dataset)
+        self.dataengine.add_db_table(
+            'C_dk_flat',
+            new_df_dk,
+            self.dataset
+        )
 
         new_df_kij = self.spark_session.createDataFrame(
             domain_kij_dk, StructType([
@@ -429,8 +458,11 @@ class Pruning:
                 StructField("attr_name", StringType(), False),
                 StructField("k_ij", IntegerType(), False),
             ]))
-        self.dataengine.add_db_table('Kij_lookup_dk',
-                                     new_df_kij, self.dataset)
+        self.dataengine.add_db_table(
+            'Kij_lookup_dk',
+            new_df_kij,
+            self.dataset
+        )
 
         new_df_kij = self.spark_session.createDataFrame(
             domain_kij_clean, StructType([
@@ -439,18 +471,23 @@ class Pruning:
                 StructField("attr_name", StringType(), False),
                 StructField("k_ij", IntegerType(), False),
             ]))
-        self.dataengine.add_db_table('Kij_lookup_clean',
-                                     new_df_kij, self.dataset)
+        self.dataengine.add_db_table(
+            'Kij_lookup_clean',
+            new_df_kij,
+            self.dataset
+        )
 
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                                'Kij_lookup_clean') +
-                                            " has been created")
+        self.dataengine.holo_env.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Kij_lookup_clean') +
+            " has been created"
+        )
         self.dataengine.holo_env.logger.info("  ")
-        self.dataengine.holo_env.logger.info('The table: ' +
-                                            self.dataset.table_specific_name(
-                                                'Possible_values_dk') +
-                                            " has been created")
+        self.dataengine.holo_env.logger.info(
+            'The table: ' +
+            self.dataset.table_specific_name('Possible_values_dk') +
+            " has been created"
+        )
         self.dataengine.holo_env.logger.info("  ")
 
         del new_df_kij

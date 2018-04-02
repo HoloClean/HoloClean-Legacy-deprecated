@@ -117,20 +117,14 @@ class DCParser:
             andlist = []
             result, dc = self._dc_to_sql_condition()
             for parts in result:
-                str_res = str(parts[0])
-                if len(parts) > 1:
-                    for i in range(1, len(parts)):
-                        str_res = str_res + " AND " + str(parts[i])
+                str_res = " AND ".join(parts)
                 andlist.append(str_res)
             return andlist
 
         else:
             result, dc = self._dc_to_sql_condition()
             parts = result[condition_ind]
-            str_res = str(parts[0])
-            if len(parts) > 1:
-                for i in range(1, len(parts)):
-                    str_res = str_res + " AND " + str(parts[i])
+            str_res = " AND ".join(parts)
             return str_res
 
     @staticmethod
@@ -205,7 +199,7 @@ class DCParser:
     def get_operators(denial_constraint):
         operators = denial_constraint.split('&')
         operators = operators[2:]
-        for i in range(0, len(operators)):
+        for i in range(len(operators)):
             operators[i] = operators[i].partition('(')[0]
         return operators
 
@@ -214,7 +208,7 @@ class DCParser:
         operators = denial_constraint.split('&')
         operators = operators[2:]
         columns = []
-        for i in range(0, len(operators)):
+        for i in range(len(operators)):
             dc = operators[i].split('.')
             operators[i] = operators[i].partition('(')[0]
             columns.append([])
