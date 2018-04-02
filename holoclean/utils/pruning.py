@@ -293,11 +293,11 @@ class Pruning:
                 for assgn_tuple in self.domain_pair_stats[
                                         original_attribute][
                                         cooccured_attribute]:
-                    cooccure_prob = self._compute_number_of_coocurences(
+                    co_prob = self._compute_number_of_coocurences(
                         original_attribute, assgn_tuple[0], cooccured_attribute,
                         assgn_tuple[1])
 
-                    if cooccure_prob > self.threshold1:
+                    if co_prob > self.threshold1:
                             if assgn_tuple[0] not in \
                                     self.coocurence_lookup[
                                         original_attribute]:
@@ -314,7 +314,7 @@ class Pruning:
                             self.coocurence_lookup[
                                 original_attribute][assgn_tuple[0]][
                                 cooccured_attribute][
-                                assgn_tuple[1]] = cooccure_prob
+                                assgn_tuple[1]] = co_prob
 
 
         return
