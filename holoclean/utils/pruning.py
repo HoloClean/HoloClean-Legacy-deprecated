@@ -13,7 +13,7 @@ class RandomVar:
 class Pruning:
     """Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, session, threshold1=0.0, threshold2=0.5, breakoff=3):
+    def __init__(self, session, threshold1=0.0, threshold2=0.3, breakoff=3):
         """
 
             :param session: Holoclean session
@@ -182,7 +182,7 @@ class Pruning:
         for tuple in cell_probabilities:
             value = tuple[0]
             probability = tuple[1]
-            if len(cell_values) == self.breakoff or probability < 0.3:
+            if len(cell_values) == self.breakoff or probability < self.threshold2:
                 break
             cell_values.add(value)
         return cell_values
