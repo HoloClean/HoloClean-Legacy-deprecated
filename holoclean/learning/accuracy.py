@@ -45,14 +45,16 @@ class Accuracy:
 
         errors = init.subtract(self.ground_truth_flat)
 
-        corrected_multivalues = errors.intersect(incorrect_multivalues)
-        corrected_singlevalues = errors.intersect(incorrect_singlevalues)
-        corrected = errors.intersect(incorrect)
+        remaining_incorrect_multivalues = errors.drop('attr_val').intersect(incorrect_multivalues.drop('attr_val'))
+        remaining_incorrect_singlevalues = errors.drop('attr_val').intersect(incorrect_singlevalues.drop('attr_val'))
+        remaining_incorrect = errors.drop('attr_val').intersect(incorrect.drop('attr_val'))
+
+
 
         inferred_count = inferred.count()
 
         precision = float((inferred_count - incorrect_count)) / inferred_count
-        recall = 1.0 - (float(corrected.count()) / errors.count())
+        recall = 1.0 - (float(incorrect.count()) / errors.count())
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))
 
