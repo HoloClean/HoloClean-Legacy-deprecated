@@ -171,14 +171,11 @@ class Pruning:
 
             if attr in self.coocurence_lookup:
                 if attr_val in self.coocurence_lookup[attr]:
-                    if trgt_attr in self.coocurence_lookup[
-                                    attr][attr_val]:
-                        if trgt_attr in \
-                                self.coocurence_lookup[attr][
-                                    attr_val]:
-                            cell_values |= set(
-                                self.coocurence_lookup[attr][
-                                    attr_val][trgt_attr].keys())
+                    if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                        if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                            cell_values |= set( self.coocurence_lookup[attr]
+                                                [attr_val][trgt_attr].keys())
+
         # sort cell_values and chop after k and chop below threshold2
 
         return cell_values
@@ -190,8 +187,25 @@ class Pruning:
              :param assignment: the values for every attribute
              :param trgt_attr: the name of attribute
         """
-        cell_values = {()}
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
+        for attr in assignment:
+            if attr == trgt_attr:
+                continue
+            attr_val = assignment[attr]
 
+            if attr in self.coocurence_lookup:
+                if attr_val in self.coocurence_lookup[attr]:
+                    if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                        if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                            cell_values |= set( self.coocurence_lookup[attr]
+                                                [attr_val][trgt_attr].keys())
+                            
+        # first iteration
+        # get l values from the lookup exactly  like in dirty where l < k
+        # get k-l randome once from the domain
 
 
         return cell_values
