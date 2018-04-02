@@ -66,17 +66,17 @@ class MysqlDCErrorDetection(ErrorDetection):
         t2_attributes = set()
 
         dc_predicates = self.dictionary_dc[dc_name]
-        for predicate_index in range(0, len(dc_predicates)):
+        for predicate_index in range(len(dc_predicates)):
             predicate_type = dc_predicates[predicate_index][4]
             # predicate_type 0 : we do not have a literal in this predicate
             # predicate_type 1 : literal on the left side of the predicate
             # predicate_type 2 : literal on the right side of the predicate
             if predicate_type == 0:
-                relax_indices = range(2, 4)
+                relax_indices = [2, 3]
             elif predicate_type == 1:
-                relax_indices = range(3, 4)
+                relax_indices = [3]
             elif predicate_type == 2:
-                relax_indices = range(2, 3)
+                relax_indices = [2]
             else:
                 raise ValueError(
                     'predicate type can only be 0: '
@@ -170,17 +170,17 @@ class MysqlDCErrorDetection(ErrorDetection):
         t1_attributes = set()
 
         dc_predicates = self.dictionary_dc[dc_name]
-        for predicate_index in range(0, len(dc_predicates)):
+        for predicate_index in range(len(dc_predicates)):
             predicate_type = dc_predicates[predicate_index][4]
             # predicate_type 0 : we do not have a literal in this predicate
             # predicate_type 1 : literal on the left side of the predicate
             # predicate_type 2 : literal on the right side of the predicate
             if predicate_type == 0:
-                relax_indices = range(2, 4)
+                relax_indices = [2, 3]
             elif predicate_type == 1:
-                relax_indices = range(3, 4)
+                relax_indices = [3]
             elif predicate_type == 2:
-                relax_indices = range(2, 3)
+                relax_indices = [2]
             else:
                 raise ValueError(
                     'predicate type can only be 0: '
