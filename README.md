@@ -77,7 +77,7 @@ sudo apt-get upgrade
 ```
 Install MySQL by running:
 ```
-sudo apt-get install mysql-server
+sudo apt-get install mysql-server libmysqlclient-dev
 ```
 <br>
 <b> 2.2 For MacOS </b>
