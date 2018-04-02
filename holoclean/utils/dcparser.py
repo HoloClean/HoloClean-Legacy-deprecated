@@ -35,7 +35,7 @@ class DCParser:
         usedOperations = []
         num_of_contraints = len(self.denial_constraints)
 
-        for dc_count in range(0, num_of_contraints):
+        for dc_count in range(num_of_contraints):
             # Divide the string by & cause the meaningful parts separated
             rule_parts = self.denial_constraints[dc_count].split('&')
             first_tuple = rule_parts[0]  # first tuple identifier
@@ -116,14 +116,12 @@ class DCParser:
         if condition_ind == 'all':
             andlist = []
             result, dc = self._dc_to_sql_condition()
-            count = 0
             for parts in result:
                 str_res = str(parts[0])
                 if len(parts) > 1:
                     for i in range(1, len(parts)):
                         str_res = str_res + " AND " + str(parts[i])
                 andlist.append(str_res)
-                count += 1
             return andlist
 
         else:
