@@ -37,24 +37,24 @@ class Accuracy:
 
         incorrect_multivalues = inferred_multivalues.subtract(self.ground_truth_flat)
         incorrect_singlevalues = inferred_singlevalues.subtract(self.ground_truth_flat)
-        incorrect = inferred.subtract(self.ground_truth_flat)
+        incorrect_inferred = inferred.subtract(self.ground_truth_flat)
 
-        incorrect_count = incorrect.count()
+        incorrect_count = incorrect_inferred.count()
         incorrect_multivalues_count = incorrect_multivalues.count()
         incorrect_singlevalues_count = incorrect_singlevalues.count()
 
         errors = init.subtract(self.ground_truth_flat)
 
+        never_touched = errors.drop('attr_val').subtract(incorrect_inferred.drop('attr_val'))
+
         remaining_incorrect_multivalues = errors.drop('attr_val').intersect(incorrect_multivalues.drop('attr_val'))
         remaining_incorrect_singlevalues = errors.drop('attr_val').intersect(incorrect_singlevalues.drop('attr_val'))
-        remaining_incorrect = errors.drop('attr_val').intersect(incorrect.drop('attr_val'))
-
-
+        remaining_incorrect = errors.drop('attr_val').intersect(incorrect_inferred.drop('attr_val'))
 
         inferred_count = inferred.count()
 
         precision = float((inferred_count - incorrect_count)) / inferred_count
-        recall = 1.0 - (float(incorrect.count()) / errors.count())
+        recall = 1.0 - (float(remaining_incorrect.count()) / errors.count())
         print ("The precision that we have is :" + str(precision))
         print ("The recall that we have is :" + str(recall))
 
