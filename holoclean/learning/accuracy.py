@@ -57,7 +57,7 @@ class Accuracy:
 
         precision = float((inferred_count - incorrect_count)) / inferred_count
         multivalues_precision = float(inferred_multivalues_count - incorrect_multivalues_count) / inferred_multivalues_count
-        singlevalues_precision = float( inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_multivalues_count
+        singlevalues_precision = float( inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_singlevalues_count
 
 
         print ("The precision that we have is :" + str(precision))
