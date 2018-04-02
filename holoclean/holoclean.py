@@ -283,7 +283,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
-            print log
+            print(log)
             if self.holo_env.timing_file:
                 t_file = open(self.holo_env.timing_file, 'w')
                 t_file.write(log)
@@ -369,7 +369,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Error Detection: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
 
         return clean, dk
@@ -389,7 +389,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Domain Pruning: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
             start = time.time()
 
@@ -414,7 +414,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Featurization: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
             start = time.time()
 
@@ -426,7 +426,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Training Model: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
             start = time.time()
 
@@ -435,24 +435,29 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Test Featurization: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
             start = time.time()
 
-        Y = soft.predict(soft.model, self.X_testing,
-                         soft.setupMask(0, self.N, self.L))
+        Y = soft.predict(
+            soft.model,
+            self.X_testing,
+            soft.setupMask(0, self.N, self.L)
+        )
         soft.save_prediction(Y)
 
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Inference: ' + str(end - start) + '\n'
-            print log
+            print(log)
             self._timing_to_file(log)
 
         self._create_corrected_dataset()
 
         return self.holo_env.dataengine.get_table_to_dataframe(
-            'Repaired_dataset', self.dataset)
+            'Repaired_dataset',
+            self.dataset
+        )
 
     def compare_to_truth(self, truth_path):
         """
@@ -485,7 +490,8 @@ class Session:
         self.holo_env.dataengine.ingest_data(src_path, self.dataset)
         self.holo_env.logger.info(
             'creating dataset with id:' +
-            self.dataset.print_id())
+            self.dataset.print_id()
+        )
         return
 
     def _add_featurizer(self, new_featurizer):
@@ -514,7 +520,11 @@ class Session:
                     StructField("Type", StringType(), False),
                 ]))
             self.holo_env.dataengine.add_db_table(
-                'Feature_id_map', df_domain_map, self.dataset, append=1)
+                'Feature_id_map',
+                df_domain_map,
+                self.dataset,
+                append=1
+            )
         elif new_featurizer.id == 'SignalCooccur':
             maximum = self.holo_env.dataengine.query(
                 "SELECT COALESCE(MAX(feature_ind), 0) as max FROM " +
@@ -523,12 +533,15 @@ class Session:
             index = maximum + 1
             list_domain_map = []
             for attribute in self.pruning.domain_dict:
-                value_index = 1
-                for value in self.pruning.domain_dict[attribute]:
-                    list_domain_map.append(
-                        [index, attribute, unicode(value), 'cooccur'])
-                    value_index += 1
+                for value_index, value in enumerate(self.pruning.domain_dict[attribute], 1):
+                    list_domain_map.append([
+                        index,
+                        attribute,
+                        unicode(value),
+                        'cooccur'
+                    ])
                     index += 1
+
             df_domain_map = self.holo_env.spark_session.createDataFrame(
                 list_domain_map, StructType([
                     StructField("feature_ind", IntegerType(), True),
@@ -583,9 +596,11 @@ class Session:
         union_clean_cells = clean_cells[0]
         for detector_counter in range(1, num_of_error_detectors):
             intersect_dk_cells = intersect_dk_cells.intersect(
-                dk_cells[detector_counter])
+                dk_cells[detector_counter]
+            )
             union_clean_cells = union_clean_cells.unionAll(
-                clean_cells[detector_counter])
+                clean_cells[detector_counter]
+            )
 
         self.holo_env.dataengine.add_db_table(
             'C_clean', union_clean_cells, self.dataset)
@@ -621,10 +636,12 @@ class Session:
         """
         self.holo_env.logger.info(
             'starting domain pruning with threshold %s',
-            pruning_threshold)
+            pruning_threshold
+        )
         self.pruning = Pruning(
             self,
-            pruning_threshold)
+            pruning_threshold
+        )
         self.holo_env.logger.info('Domain pruning is finished')
         return
 
@@ -637,20 +654,21 @@ class Session:
         cvX = Condition()
         if clean:
             b = _Barrier(number_of_threads + 1)
-            for i in range(0, number_of_threads):
+            for i in range(number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(self, b, cvX))
+                    DatabaseWorker(self, b, cvX)
+                )
             for thread in list_of_threads:
                 thread.start()
             b.wait()
         else:
             b_dk = _Barrier(number_of_threads + 1)
-            for i in range(0, number_of_threads):
+            for i in range(number_of_threads):
                 list_of_threads.append(
-                    DatabaseWorker(self, b_dk, cvX))
+                    DatabaseWorker(self, b_dk, cvX)
+                )
             for thread in list_of_threads:
                 thread.start()
-
             b_dk.wait()
 
 

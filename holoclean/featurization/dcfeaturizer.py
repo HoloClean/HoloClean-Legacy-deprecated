@@ -70,7 +70,7 @@ class SignalDC(Featurizer):
         """
         relax_dcs = []
         dc_predicates = dictionary_dc[dc_name]
-        for predicate_index in range(0, len(dc_predicates)):
+        for predicate_index in range(len(dc_predicates)):
             predicate_type = dc_predicates[predicate_index][4]
             operation = dc_predicates[predicate_index][1]
             component1 = dc_predicates[predicate_index][2]
@@ -79,11 +79,11 @@ class SignalDC(Featurizer):
             # predicate_type 1 : literal on the left side of the predicate
             # predicate_type 2 : literal on the right side of the predicate
             if predicate_type == 0:
-                relax_indices = range(2, 4)
+                relax_indices = [2, 3]
             elif predicate_type == 1:
-                relax_indices = range(3, 4)
+                relax_indices = [3]
             elif predicate_type == 2:
-                relax_indices = range(2, 3)
+                relax_indices = [2]
             else:
                 raise ValueError(
                     'predicate type can only be 0: '
@@ -109,7 +109,7 @@ class SignalDC(Featurizer):
                                "' AND " + component1 + operation + \
                                "postab.attr_val"
 
-                for predicate_index_temp in range(0, len(dc_predicates)):
+                for predicate_index_temp in range(len(dc_predicates)):
                     if predicate_index_temp != predicate_index:
                         relax_dc = relax_dc + " AND  " + \
                                    dc_predicates[predicate_index_temp][0]
@@ -148,7 +148,7 @@ class SignalDC(Featurizer):
                 self.dataset.table_specific_name("Feature_id_map") +
                 " WHERE Type = 'DC'", 1).collect()[0]['max']
         feature_map = []
-        for index_dc in range(0, len(all_relax_dcs)):
+        for index_dc in range(len(all_relax_dcs)):
             relax_dc = all_relax_dcs[index_dc][0]
             table_name = all_relax_dcs[index_dc][1]
             query_for_featurization = "SELECT" \

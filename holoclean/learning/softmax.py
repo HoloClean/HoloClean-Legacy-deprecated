@@ -227,9 +227,13 @@ class SoftMax:
         :param L: number of classes
         :return: masking tensor
         """
-        lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
-        N = self.N if clean else N
-        L = self.L if clean else L
+        lookup = "Kij_lookup_clean"
+        if clean:
+            N = self.N
+            L = self.L
+        else:
+            lookup = "Kij_lookup_dk"
+
         K_ij_lookup = self.dataengine.get_table_to_dataframe(
             lookup, self.dataset).select("vid", "k_ij").collect()
         mask = torch.zeros(N, L)

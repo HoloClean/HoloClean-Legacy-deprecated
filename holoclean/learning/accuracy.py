@@ -42,7 +42,7 @@ class Accuracy:
         table_rv_attr_string = self.dataengine.get_schema(
             self.dataset, "Correct")
         rv_attrs = table_rv_attr_string.split(',')
-        print rv_attrs
+        print (rv_attrs)
 
         query_for_flattening = "CREATE TABLE \
                     " + self.dataset.table_specific_name('Correct_flat') \
