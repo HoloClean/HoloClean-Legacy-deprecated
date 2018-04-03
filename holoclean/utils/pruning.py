@@ -187,7 +187,7 @@ class Pruning:
         for tuple in cell_probabilities:
             value = tuple[0]
             probability = tuple[1]
-            if len(cell_values) >= self.dk_breakoff or probability < self.threshold2:
+            if len(cell_values) == self.dk_breakoff or probability < self.threshold2:
                 break
             cell_values.add(value)
         return cell_values
