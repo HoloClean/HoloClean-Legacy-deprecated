@@ -5,6 +5,7 @@ from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
 from tqdm import tqdm
+import numpy as np
 
 
 class LogReg(torch.nn.Module):
@@ -147,6 +148,7 @@ class SoftMax:
         self.testmask = None
         self.setupMask()
         self.Y = None
+        self.grdt = None
         self._setupY()
         self.model = None
         return
@@ -162,6 +164,7 @@ class SoftMax:
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
+        self.grdt = self.Y.numpy().flatten()
         return
 
     # Will create the X-value tensor of size nxmxl
@@ -361,11 +364,12 @@ class SoftMax:
                                    self.Y[start:end],
                                    self.mask[start:end])
             predY = self.predict(self.model, self.X, self.mask)
-            map = predY.data.numpy().argmax(axis=1)
-
-            if self.holo_obj.verbose:
-                print("Epoch %d, cost = %f" %
-                      (i + 1, cost / num_batches))
+            map = predY.data.numpy().argmax(axis=1)            
+            
+            if self.holo_obj.verbose:                
+                print("Epoch %d, cost = %f, acc = %.2f%%" %
+                      (i + 1, cost / num_batches,
+                       100. * np.mean(map == self.grdt)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
