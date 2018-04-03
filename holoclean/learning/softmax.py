@@ -5,6 +5,7 @@ from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
 from tqdm import tqdm
+import numpy as np
 
 
 class LogReg(torch.nn.Module):
@@ -364,8 +365,12 @@ class SoftMax:
             map = predY.data.numpy().argmax(axis=1)
 
             if self.holo_obj.verbose:
-                print("Epoch %d, cost = %f" %
-                      (i + 1, cost / num_batches))
+                # print("Epoch %d, cost = %f" %
+                #       (i + 1, cost / num_batches))
+                if self.holo_obj.verbose:
+                    print("Epoch %d, cost = %f, acc = %.2f%%" %
+                          (i + 1, cost / num_batches,
+                           100. * np.mean(map == self.Y)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
