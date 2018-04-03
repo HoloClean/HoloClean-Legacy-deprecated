@@ -265,6 +265,7 @@ class Session:
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
         self.inferred_values = None
+        self.simple_predictions = None  # Will be initialized in pruning
         self.feature_count = 0
 
     def load_data(self, file_path):
@@ -759,19 +760,37 @@ class Session:
         Inferred_values table
         """
 
-        final = self.inferred_values
-        init = self.init_dataset
-        correct = init.collect()
-        final = final.collect()
-        for i in range(len(correct)):
-            d = correct[i].asDict()
-            correct[i] = Row(**d)
-        for cell in final:
-            d = correct[cell.tid - 1].asDict()
-            d[cell.attr_name] = cell.attr_val
-            correct[cell.tid - 1] = Row(**d)
+        multi_value_predictions = self.inferred_values.collect()
+        single_value_predictions = self.simple_predictions.collect()
+        init = self.init_dataset.collect()
+        attribute_map = {}
+        index = 0
+        for attribute in self.dataset.attributes['Init']:
+            attribute_map[attribute] = index
+            index += 1
+        corrected_dataset = []
 
-        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
+        for i in range(len(init)):
+            row = []
+            for attribute in self.dataset.attributes['Init']:
+                row.append(init[i][attribute])
+            corrected_dataset.append(row)
+
+        # Replace values with the inferred values from multi value predictions
+        for j in range(len(multi_value_predictions)):
+            tid = multi_value_predictions[j]['tid'] - 1
+            column = attribute_map[multi_value_predictions[j]['attr_name']]
+            corrected_dataset[tid][column] = multi_value_predictions[j]['attr_val']
+
+        # Replace values with the inferred vlaues from the simple prediction
+        for k in range(len(single_value_predictions)):
+            tid = single_value_predictions[k]['tid'] - 1
+            column = attribute_map[single_value_predictions[k]['attr_name']]
+            corrected_dataset[tid][column] = single_value_predictions[k]['attr_val']
+
+        correct_dataframe = \
+            self.holo_env.spark_sql_ctxt.createDataFrame(
+                corrected_dataset, self.dataset.attributes['Init'])
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
         return correct_dataframe
