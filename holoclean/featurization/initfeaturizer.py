@@ -12,14 +12,11 @@ class SignalInit(Featurizer):
     """
 
     def __init__(self, session):
-
         """
+        Initialize initial value signal object
 
-        :param attr_constrained: list of atttributes that are part of a dc
-        :param dataengine: a connector to database
-        :param dataset: list of tables name
+        :param session: session object
         """
-
         super(SignalInit, self).__init__(session)
         self.id = "SignalInit"
         self.table_name = self.dataset.table_specific_name('Init')

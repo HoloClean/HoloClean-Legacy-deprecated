@@ -24,7 +24,10 @@ class ParserInterface:
                 if line in all_current_dcs:
                     raise DCFormatException('DC already added')
                 denial_constraints_strings.append(line)
-                denial_constraints[line] = (DenialConstraint(line, self.session.dataset.attributes['Init']))
+                denial_constraints[line] = \
+                    (DenialConstraint(
+                        line,
+                        self.session.dataset.attributes['Init']))
         return denial_constraints_strings, denial_constraints
 
 

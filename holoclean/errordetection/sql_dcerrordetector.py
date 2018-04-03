@@ -32,7 +32,8 @@ class SqlDCErrorDetection(ErrorDetection):
         self.Denial_constraints = session.Denial_constraints
 
     # Internals
-    def _is_symmetric(self, dc_name):
+    @staticmethod
+    def _is_symmetric( dc_name):
         result = True
         non_sym_ops = ['<=', '>=', '<', '>']
         for op in non_sym_ops:
@@ -55,11 +56,14 @@ class SqlDCErrorDetection(ErrorDetection):
         t3 = time.time()
         dc_object = self.dc_objects[dc_name]
         temp_table = "tmp" + self.dataset.dataset_id
+
         # Create Query for temp table
         query = "CREATE TABLE " + temp_table +\
                 " AS SELECT "
         for tuple_name in dc_object.tuple_names:
-            query += tuple_name + "." + self.index + " as " + tuple_name + "_ind,"
+            query += tuple_name + "." + self.index + " as " + \
+                     tuple_name + "_ind,"
+
         query = query[:-1]
         query += " FROM  "
         for tuple_name in dc_object.tuple_names:
@@ -94,8 +98,10 @@ class SqlDCErrorDetection(ErrorDetection):
         tuple_attributes_lists ={}
         tuple_attributes_dfs = {}
         for tuple_name in dc_object.tuple_names:
-            tuple_attributes_lists[tuple_name] = [[i] for i in tuple_attributes[tuple_name]]
-            tuple_attributes_dfs[tuple_name] = self.spark_session.createDataFrame(
+            tuple_attributes_lists[tuple_name] = [[i] for i in
+                                                  tuple_attributes[tuple_name]]
+            tuple_attributes_dfs[
+                tuple_name] = self.spark_session.createDataFrame(
                 tuple_attributes_lists[tuple_name], ['attr_name'])
 
             name = self.dataset.table_specific_name(tuple_name + "_attributes")
@@ -104,10 +110,12 @@ class SqlDCErrorDetection(ErrorDetection):
             self.dataengine.dataframe_to_table(name, attribute_dataframe)
 
             distinct = \
-                "(SELECT DISTINCT " + tuple_name + "_ind  FROM " + temp_table + ") AS row_table"
+                "(SELECT DISTINCT " + tuple_name + "_ind " \
+                                                   " FROM " + \
+                temp_table + ") AS row_table"
 
             query = "INSERT INTO " + \
-                     self.dataset.table_specific_name("C_dk_temp") + \
+                    self.dataset.table_specific_name("C_dk_temp") + \
                     " SELECT row_table. " + tuple_name + "_ind as ind," \
                     " a.attr_name as attr FROM " + \
                     name + \
@@ -203,7 +211,7 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def get_noisy_cells(self):
         """
-        Return a dataframe that consist of index of noisy cells index,attribute
+        Returns a dataframe that consist of index of noisy cells index,attribute
 
         :return: spark_dataframe
         """

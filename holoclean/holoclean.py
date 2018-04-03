@@ -19,7 +19,7 @@ import multiprocessing
 from errordetection.errordetector_wrapper import ErrorDetectorsWrapper
 from featurization.initfeaturizer import SignalInit
 from featurization.dcfeaturizer import SignalDC
-from featurization.cooccurrencefeaturizer import  SignalCooccur
+from featurization.cooccurrencefeaturizer import SignalCooccur
 from global_variables import GlobalVariables
 from learning.softmax import SoftMax
 from learning.accuracy import Accuracy
@@ -637,7 +637,7 @@ class Session:
 
 
             for thread in list_of_threads:
-                thread.getX(X_tensor)
+                thread.get_x(X_tensor)
             for feature in self.featurizers:
                 if feature.direct_insert:
                     feature.insert_to_tensor(X_tensor, clean)
