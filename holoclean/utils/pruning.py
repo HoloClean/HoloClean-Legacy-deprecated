@@ -165,8 +165,11 @@ class Pruning:
         """
         # cell_probabilities will hold domain values and their probabilities
         cell_probabilities = []
-        #always have the initial value in the returned domain values
-        cell_values = {(assignment[trgt_attr])}
+        # always have the initial value in the returned domain values unless it is null
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -197,7 +200,11 @@ class Pruning:
              :param trgt_attr: the name of attribute
         """
         cell_probabilities = []
-        cell_values = {(assignment[trgt_attr])}
+        # always have the initial value in the returned domain values unless it is null
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
@@ -438,27 +445,26 @@ class Pruning:
                                     None  # domain_id
                                 ]
                             )
-                        else:
-                            k_ij = 0
-                            v_id_dk = v_id_dk + 1
+                        k_ij = 0
+                        v_id_dk = v_id_dk + 1
 
-                            self.v_id_dk_list.append([(self.all_cells_temp[
-                                                      tmp_cell_index].tupleid
-                                                  + 1),
-                                                 self.all_cells_temp[
-                                                     tmp_cell_index].columnname,
-                                                  tmp_cell_index])
-                            for value in self.cell_domain[tmp_cell_index]:
-                                if value != ():
-                                    k_ij = k_ij + 1
-                                    self._append_possible(v_id_dk, value,
-                                                      possible_values_dirty,
-                                                      tmp_cell_index, k_ij)
-                            domain_kij_dk.append([v_id_dk, (
-                                self.all_cells_temp[tmp_cell_index].tupleid
-                                + 1),
-                                self.all_cells_temp[tmp_cell_index].columnname,
-                                k_ij])
+                        self.v_id_dk_list.append([(self.all_cells_temp[
+                                                  tmp_cell_index].tupleid
+                                              + 1),
+                                             self.all_cells_temp[
+                                                 tmp_cell_index].columnname,
+                                              tmp_cell_index])
+                        for value in self.cell_domain[tmp_cell_index]:
+                            if value != ():
+                                k_ij = k_ij + 1
+                                self._append_possible(v_id_dk, value,
+                                                  possible_values_dirty,
+                                                  tmp_cell_index, k_ij)
+                        domain_kij_dk.append([v_id_dk, (
+                            self.all_cells_temp[tmp_cell_index].tupleid
+                            + 1),
+                            self.all_cells_temp[tmp_cell_index].columnname,
+                            k_ij])
                 else:
 
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
@@ -568,6 +574,5 @@ class Pruning:
             self.simplepredictions, self.dataset.attributes['Possible_values']
         )
         self.session.simple_predictions = df_simple_predictions
-        self.dataengine.add_db_table('Observed_Possible_values_dk',
-                                     df_simple_predictions, self.dataset, append=1)
+
         return

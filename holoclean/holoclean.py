@@ -445,7 +445,7 @@ class Session:
 
             soft.log_weights()
         except:
-            self.holo_env.logger.error('Error Creating Tensor: nothing to infer - using Simple')
+            self.holo_env.logger.error('Error Creating Tensor: nothing to infer')
 
         return self._create_corrected_dataset()
 
@@ -758,38 +758,23 @@ class Session:
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
-        #change the simple predictions with prob. 0.5
 
-        if self.simple_predictions :
-            prob_simple_predictions = \
-                self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5)). \
-                    select('probability', 'vid', 'attr_name', 'attr_val', 'tid', 'domain_id')
-        else:
-            prob_simple_predictions = None
+        final = self.inferred_values
+        init = self.init_dataset
+        correct = init.collect()
+        final = final.collect()
+        for i in range(len(correct)):
+            d = correct[i].asDict()
+            correct[i] = Row(**d)
+        for cell in final:
+            d = correct[cell.tid - 1].asDict()
+            d[cell.attr_name] = cell.attr_val
+            correct[cell.tid - 1] = Row(**d)
 
-        if self.inferred_values:
-            final = self.inferred_values.union(prob_simple_predictions)
-        else:
-            final = prob_simple_predictions
-
-        if final:
-            init = self.init_dataset
-            correct = init.collect()
-            final = final.collect()
-            for i in range(len(correct)):
-                d = correct[i].asDict()
-                correct[i] = Row(**d)
-            for cell in final:
-                d = correct[cell.tid - 1].asDict()
-                d[cell.attr_name] = cell.attr_val
-                correct[cell.tid - 1] = Row(**d)
-
-            correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
-            self.holo_env.dataengine.add_db_table("Repaired_dataset",
-                                                  correct_dataframe, self.dataset)
-            return correct_dataframe
-        else:
-            return None
+        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
+        self.holo_env.dataengine.add_db_table("Repaired_dataset",
+                                              correct_dataframe, self.dataset)
+        return correct_dataframe
 
 
 # Barrier class used for synchronization

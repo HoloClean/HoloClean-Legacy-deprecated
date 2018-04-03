@@ -12,8 +12,8 @@ class Testing:
         self.holo_obj = HoloClean(
             holoclean_path="..",
             verbose=True,
-            pruning_threshold1=1.0,
-            pruning_threshold2=0.5,
+            pruning_threshold1=0.1,
+            pruning_threshold2=0.4,
             pruning_dk_breakoff=5,
             pruning_clean_breakoff=10,
             learning_iterations=20,
@@ -25,24 +25,24 @@ class Testing:
     def test(self):
         
         t1 = time.time()
-        dataset = "../datasets/hospital1k/hospital_dataset_norm.csv"
+        # dataset = "../datasets/hospital1k/hospital_dataset_norm.csv"
         # dataset = "../datasets/flights/flight_input_holo.csv"
-        #dataset = "../datasets/food/food_input_large_norm.csv"
+        dataset = "../datasets/food/food_input_large_norm.csv"
         # dataset = "../datasets/unit_test/unit_test_dataset.csv"
         # dataset = "../datasets/unit_test/unit_test_one_tuple.csv"
 
-        denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
+        # denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
         # denial_constraints = "../datasets/flights/flight_constraints.txt"
-        #denial_constraints = "../datasets/food/food_constraints.txt"
+        denial_constraints = "../datasets/food/food_constraints.txt"
         # denial_constraints = "../datasets/unit_test/unit_test_constraints.txt"
         # denial_constraints = "../datasets/unit_test/one_tuple_constraints.txt"
 
         flattening = 0
         # flattening = 1
 
-        ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
+        # ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
         # ground_truth = "../datasets/flights/flights_clean.csv"
-        #ground_truth = "../datasets/food/food_clean.csv"
+        ground_truth = "../datasets/food/food_clean.csv"
         # ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
@@ -71,3 +71,5 @@ class Testing:
         t2 = time.time()
         if self.holo_obj.verbose:
             self.holo_obj.logger.info("Total time:" + str(t2-t1))
+
+        exit(0)
