@@ -109,7 +109,7 @@ ind,attr,val
 6,EmergencyService,yes
 6,Condition,surgical infection prevention
 6,MeasureCode,scip-inf-6
-6,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+6,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 6,Score,empty
 6,Sample,empty
 6,Stateavg,al_scip-inf-6
@@ -793,7 +793,7 @@ ind,attr,val
 42,EmergencyService,yes
 42,Condition,surgical infection prevention
 42,MeasureCode,scip-inf-6
-42,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+42,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 42,Score,90%
 42,Sample,537 patients
 42,Stateavg,al_scip-inf-6
@@ -1268,7 +1268,7 @@ ind,attr,val
 67,EmergencyService,yes
 67,Condition,surgical infection prevention
 67,MeasureCode,scip-inf-6
-67,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+67,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 67,Score,100%
 67,Sample,237 patients
 67,Stateavg,al_scip-inf-6
@@ -1743,7 +1743,7 @@ ind,attr,val
 92,EmergencyService,yes
 92,Condition,surgical infection prevention
 92,MeasureCode,scip-inf-6
-92,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+92,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 92,Score,100%
 92,Sample,619 patients
 92,Stateavg,al_scip-inf-6
@@ -2218,7 +2218,7 @@ ind,attr,val
 117,EmergencyService,no
 117,Condition,surgical infection prevention
 117,MeasureCode,scip-inf-6
-117,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+117,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 117,Score,100%
 117,Sample,123 patients
 117,Stateavg,al_scip-inf-6
@@ -2693,7 +2693,7 @@ ind,attr,val
 142,EmergencyService,yes
 142,Condition,surgical infection prevention
 142,MeasureCode,scip-inf-6
-142,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+142,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 142,Score,100%
 142,Sample,4 patients
 142,Stateavg,al_scip-inf-6
@@ -3168,7 +3168,7 @@ ind,attr,val
 167,EmergencyService,yes
 167,Condition,surgical infection prevention
 167,MeasureCode,scip-inf-6
-167,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+167,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 167,Score,100%
 167,Sample,11 patients
 167,Stateavg,al_scip-inf-6
@@ -3643,7 +3643,7 @@ ind,attr,val
 192,EmergencyService,yes
 192,Condition,surgical infection prevention
 192,MeasureCode,scip-inf-6
-192,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+192,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 192,Score,100%
 192,Sample,155 patients
 192,Stateavg,al_scip-inf-6
@@ -4118,7 +4118,7 @@ ind,attr,val
 217,EmergencyService,yes
 217,Condition,surgical infection prevention
 217,MeasureCode,scip-inf-6
-217,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+217,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 217,Score,100%
 217,Sample,601 patients
 217,Stateavg,al_scip-inf-6
@@ -4593,7 +4593,7 @@ ind,attr,val
 242,EmergencyService,yes
 242,Condition,surgical infection prevention
 242,MeasureCode,scip-inf-6
-242,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+242,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 242,Score,100%
 242,Sample,179 patients
 242,Stateavg,al_scip-inf-6
@@ -5068,7 +5068,7 @@ ind,attr,val
 267,EmergencyService,yes
 267,Condition,surgical infection prevention
 267,MeasureCode,scip-inf-6
-267,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+267,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 267,Score,100%
 267,Sample,15 patients
 267,Stateavg,al_scip-inf-6
@@ -5543,7 +5543,7 @@ ind,attr,val
 292,EmergencyService,yes
 292,Condition,surgical infection prevention
 292,MeasureCode,scip-inf-6
-292,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+292,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 292,Score,100%
 292,Sample,588 patients
 292,Stateavg,al_scip-inf-6
@@ -6569,7 +6569,7 @@ ind,attr,val
 346,EmergencyService,yes
 346,Condition,surgical infection prevention
 346,MeasureCode,scip-inf-6
-346,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+346,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 346,Score,100%
 346,Sample,1295 patients
 346,Stateavg,al_scip-inf-6
@@ -7158,7 +7158,7 @@ ind,attr,val
 377,EmergencyService,yes
 377,Condition,surgical infection prevention
 377,MeasureCode,scip-inf-6
-377,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+377,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 377,Score,100%
 377,Sample,146 patients
 377,Stateavg,al_scip-inf-6
@@ -8507,7 +8507,7 @@ ind,attr,val
 448,EmergencyService,yes
 448,Condition,surgical infection prevention
 448,MeasureCode,scip-inf-6
-448,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+448,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 448,Score,100%
 448,Sample,690 patients
 448,Stateavg,ak_scip-inf-6
@@ -8811,7 +8811,7 @@ ind,attr,val
 464,EmergencyService,yes
 464,Condition,surgical infection prevention
 464,MeasureCode,scip-inf-6
-464,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+464,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 464,Score,97%
 464,Sample,369 patients
 464,Stateavg,al_scip-inf-6
@@ -9286,7 +9286,7 @@ ind,attr,val
 489,EmergencyService,yes
 489,Condition,surgical infection prevention
 489,MeasureCode,scip-inf-6
-489,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+489,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 489,Score,100%
 489,Sample,94 patients
 489,Stateavg,al_scip-inf-6
@@ -9761,7 +9761,7 @@ ind,attr,val
 514,EmergencyService,yes
 514,Condition,surgical infection prevention
 514,MeasureCode,scip-inf-6
-514,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+514,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 514,Score,100%
 514,Sample,6 patients
 514,Stateavg,al_scip-inf-6
@@ -10236,7 +10236,7 @@ ind,attr,val
 539,EmergencyService,yes
 539,Condition,surgical infection prevention
 539,MeasureCode,scip-inf-6
-539,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+539,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 539,Score,100%
 539,Sample,575 patients
 539,Stateavg,al_scip-inf-6
@@ -10711,7 +10711,7 @@ ind,attr,val
 564,EmergencyService,yes
 564,Condition,surgical infection prevention
 564,MeasureCode,scip-inf-6
-564,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+564,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 564,Score,97%
 564,Sample,1062 patients
 564,Stateavg,al_scip-inf-6
@@ -11186,7 +11186,7 @@ ind,attr,val
 589,EmergencyService,yes
 589,Condition,surgical infection prevention
 589,MeasureCode,scip-inf-6
-589,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+589,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 589,Score,96%
 589,Sample,172 patients
 589,Stateavg,al_scip-inf-6
@@ -11661,7 +11661,7 @@ ind,attr,val
 614,EmergencyService,yes
 614,Condition,surgical infection prevention
 614,MeasureCode,scip-inf-6
-614,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+614,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 614,Score,empty
 614,Sample,empty
 614,Stateavg,al_scip-inf-6
@@ -12136,7 +12136,7 @@ ind,attr,val
 639,EmergencyService,yes
 639,Condition,surgical infection prevention
 639,MeasureCode,scip-inf-6
-639,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+639,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 639,Score,100%
 639,Sample,1421 patients
 639,Stateavg,al_scip-inf-6
@@ -12611,7 +12611,7 @@ ind,attr,val
 664,EmergencyService,no
 664,Condition,surgical infection prevention
 664,MeasureCode,scip-inf-6
-664,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+664,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 664,Score,empty
 664,Sample,empty
 664,Stateavg,al_scip-inf-6
@@ -13086,7 +13086,7 @@ ind,attr,val
 689,EmergencyService,yes
 689,Condition,surgical infection prevention
 689,MeasureCode,scip-inf-6
-689,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+689,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 689,Score,97%
 689,Sample,585 patients
 689,Stateavg,al_scip-inf-6
@@ -13561,7 +13561,7 @@ ind,attr,val
 714,EmergencyService,no
 714,Condition,surgical infection prevention
 714,MeasureCode,scip-inf-6
-714,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+714,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 714,Score,100%
 714,Sample,33 patients
 714,Stateavg,al_scip-inf-6
@@ -14036,7 +14036,7 @@ ind,attr,val
 739,EmergencyService,yes
 739,Condition,surgical infection prevention
 739,MeasureCode,scip-inf-6
-739,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+739,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 739,Score,100%
 739,Sample,598 patients
 739,Stateavg,al_scip-inf-6
@@ -14511,7 +14511,7 @@ ind,attr,val
 764,EmergencyService,no
 764,Condition,surgical infection prevention
 764,MeasureCode,scip-inf-6
-764,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+764,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 764,Score,100%
 764,Sample,204 patients
 764,Stateavg,al_scip-inf-6
@@ -14663,7 +14663,7 @@ ind,attr,val
 772,EmergencyService,yes
 772,Condition,surgical infection prevention
 772,MeasureCode,scip-inf-6
-772,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+772,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 772,Score,100%
 772,Sample,195 patients
 772,Stateavg,al_scip-inf-6
@@ -15195,7 +15195,7 @@ ind,attr,val
 800,EmergencyService,yes
 800,Condition,surgical infection prevention
 800,MeasureCode,scip-inf-6
-800,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+800,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 800,Score,99%
 800,Sample,852 patients
 800,Stateavg,al_scip-inf-6
@@ -15670,7 +15670,7 @@ ind,attr,val
 825,EmergencyService,yes
 825,Condition,surgical infection prevention
 825,MeasureCode,scip-inf-6
-825,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+825,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 825,Score,100%
 825,Sample,854 patients
 825,Stateavg,al_scip-inf-6
@@ -16145,7 +16145,7 @@ ind,attr,val
 850,EmergencyService,yes
 850,Condition,surgical infection prevention
 850,MeasureCode,scip-inf-6
-850,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+850,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 850,Score,100%
 850,Sample,5 patients
 850,Stateavg,al_scip-inf-6
@@ -16620,7 +16620,7 @@ ind,attr,val
 875,EmergencyService,yes
 875,Condition,surgical infection prevention
 875,MeasureCode,scip-inf-6
-875,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+875,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 875,Score,100%
 875,Sample,19 patients
 875,Stateavg,al_scip-inf-6
@@ -17095,7 +17095,7 @@ ind,attr,val
 900,EmergencyService,yes
 900,Condition,surgical infection prevention
 900,MeasureCode,scip-inf-6
-900,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+900,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 900,Score,100%
 900,Sample,7 patients
 900,Stateavg,al_scip-inf-6
@@ -17627,7 +17627,7 @@ ind,attr,val
 928,EmergencyService,yes
 928,Condition,surgical infection prevention
 928,MeasureCode,scip-inf-6
-928,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+928,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 928,Score,100%
 928,Sample,607 patients
 928,Stateavg,al_scip-inf-6
@@ -18102,7 +18102,7 @@ ind,attr,val
 953,EmergencyService,no
 953,Condition,surgical infection prevention
 953,MeasureCode,scip-inf-6
-953,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+953,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 953,Score,empty
 953,Sample,empty
 953,Stateavg,al_scip-inf-6
@@ -18577,7 +18577,7 @@ ind,attr,val
 978,EmergencyService,yes
 978,Condition,surgical infection prevention
 978,MeasureCode,scip-inf-6
-978,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream ï¿½c not a razor)
+978,MeasureName,surgery patients needing hair removed from the surgical area before surgery who had hair removed using a safer method (electric clippers or hair removal cream C not a razor)
 978,Score,100%
 978,Sample,485 patients
 978,Stateavg,al_scip-inf-6
