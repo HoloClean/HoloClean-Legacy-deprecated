@@ -12,13 +12,13 @@ class Testing:
         self.holo_obj = HoloClean(
             holoclean_path="..",
             verbose=True,
-            pruning_threshold1=0.1,
-            pruning_threshold2=0.5,
+            pruning_threshold1=1.0,
+            pruning_threshold2=1.0,
             pruning_dk_breakoff=10,
             pruning_clean_breakoff=20,
             learning_iterations=20,
             learning_rate=0.001,
-            batch_size=5
+            batch_size=1
         )
         self.session = Session(self.holo_obj)
 
@@ -40,8 +40,13 @@ class Testing:
         flattening = 0
         # flattening = 1
 
+<<<<<<< Updated upstream
         # ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
         # ground_truth = "../datasets/hospital1k/groundtruth_transform.csv"
+=======
+        ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
+        #ground_truth = "../datasets/hospital1k/groundtruth_transform.csv"
+>>>>>>> Stashed changes
         # ground_truth = "../datasets/flights/flights_clean.csv"
         ground_truth = "../datasets/food/food_clean.csv"
         # ground_truth = 0

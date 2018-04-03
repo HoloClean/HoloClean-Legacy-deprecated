@@ -18,100 +18,98 @@ class Accuracy:
 
     def accuracy_calculation(self, flattening=1):
 
-        try:
-            inferred = self.dataengine.get_table_to_dataframe(
-                "Inferred_values", self.dataset).select(
-                "tid", "attr_name", "attr_val")
-        except:
+        if self.session.inferred_values is None:
             self.session.holo_env.logger.error('No Inferred values')
             print ("The precision and recall cannot be calculated")
-            return
 
-        try:
-            inferred_singlevalues= \
-                self.session.simple_predictions.select("tid", "attr_name", "attr_val")
-        except:
-            self.session.holo_env.logger.error('No Simple values ')
-            inferred_singlevalues = None
+        else:
+            inferred = self.session.inferred_values.select("tid", "attr_name", "attr_val")
 
-        inferred_multivalues = inferred.subtract(inferred_singlevalues)
-
-        init = self.dataengine.get_table_to_dataframe(
-            "Observed_Possible_values_dk", self.dataset).select(
-            "tid", "attr_name", "attr_val")
-
-        self.read()
-        if flattening:
-            self._flatting()
-
-        incorrect_singlevalues_count = 0
-        original_singlevalues_errors_count = 0
-        uncorrected_singlevalues_count = 0
-
-        incorrect_multivalues_count = 0
-        original_multivalues_errors_count = 0
-        uncorrected_multivalues_count= 0
-
-        inferred_multivalues_count = inferred_multivalues.count()
-
-        if inferred_multivalues_count:
-            incorrect_multivalues = inferred_multivalues.subtract(self.ground_truth_flat)
-            incorrect_multivalues_count = incorrect_multivalues.count()
-
-            #inferred_singlevalues has the intitial values ( will it as init for single values)
-
-            original_multivalues_errors = init.subtract(inferred_singlevalues).subtract(self.ground_truth_flat)
-            original_multivalues_errors_count = original_multivalues_errors.count()
-            uncorrected_multivalues = original_multivalues_errors.drop('attr_val').intersect(
-                incorrect_multivalues.drop('attr_val'))
-
-            uncorrected_multivalues_count = uncorrected_multivalues.count()
-
-            if original_multivalues_errors_count:
-                multivalues_recall = 1.0 - (float(uncorrected_multivalues_count) / original_multivalues_errors_count)
+            if self.session.simple_predictions:
+                inferred_singlevalues= \
+                    self.session.simple_predictions.select("tid", "attr_name", "attr_val")
             else:
-                multivalues_recall = 1.0
-            multivalues_precision = float(
-            inferred_multivalues_count - incorrect_multivalues_count) / inferred_multivalues_count
-            print ("The multiple-values precision that we have is :" + str(multivalues_precision))
-            print ("The multiple-values recall that we have is :" + str(multivalues_recall) + " out of " + str(
-                original_multivalues_errors_count))
+                self.session.holo_env.logger.error('No Simple values ')
+                inferred_singlevalues = None
+
+            inferred_multivalues = inferred.subtract(inferred_singlevalues)
+
+            init = self.dataengine.get_table_to_dataframe(
+                "Observed_Possible_values_dk", self.dataset).select(
+                "tid", "attr_name", "attr_val")
+
+            self.read()
+            if flattening:
+                self._flatting()
+
+            incorrect_singlevalues_count = 0
+            original_singlevalues_errors_count = 0
+            uncorrected_singlevalues_count = 0
+
+            incorrect_multivalues_count = 0
+            original_multivalues_errors_count = 0
+            uncorrected_multivalues_count= 0
+
+            inferred_multivalues_count = inferred_multivalues.count()
+
+            if inferred_multivalues_count:
+                incorrect_multivalues = inferred_multivalues.subtract(self.ground_truth_flat)
+                incorrect_multivalues_count = incorrect_multivalues.count()
+
+                #inferred_singlevalues has the intitial values ( will it as init for single values)
+
+                original_multivalues_errors = init.subtract(inferred_singlevalues).subtract(self.ground_truth_flat)
+                original_multivalues_errors_count = original_multivalues_errors.count()
+                uncorrected_multivalues = original_multivalues_errors.drop('attr_val').intersect(
+                    incorrect_multivalues.drop('attr_val'))
+
+                uncorrected_multivalues_count = uncorrected_multivalues.count()
+
+                if original_multivalues_errors_count:
+                    multivalues_recall = 1.0 - (float(uncorrected_multivalues_count) / original_multivalues_errors_count)
+                else:
+                    multivalues_recall = 1.0
+                multivalues_precision = float(
+                inferred_multivalues_count - incorrect_multivalues_count) / inferred_multivalues_count
+                print ("The multiple-values precision that we have is :" + str(multivalues_precision))
+                print ("The multiple-values recall that we have is :" + str(multivalues_recall) + " out of " + str(
+                    original_multivalues_errors_count))
 
 
-        inferred_singlevalues_count = inferred_singlevalues.count()
-        if inferred_singlevalues_count:
-            incorrect_singlevalues = inferred_singlevalues.subtract(self.ground_truth_flat)
+            inferred_singlevalues_count = inferred_singlevalues.count()
+            if inferred_singlevalues_count:
+                incorrect_singlevalues = inferred_singlevalues.subtract(self.ground_truth_flat)
 
-            # simple predictions has zero recall since it kept all errors
+                # simple predictions has zero recall since it kept all errors
 
-            incorrect_singlevalues_count = incorrect_singlevalues.count()
-            original_singlevalues_errors_count = incorrect_singlevalues_count
-            uncorrected_singlevalues_count = incorrect_singlevalues_count
+                incorrect_singlevalues_count = incorrect_singlevalues.count()
+                original_singlevalues_errors_count = incorrect_singlevalues_count
+                uncorrected_singlevalues_count = incorrect_singlevalues_count
 
-            if original_singlevalues_errors_count:
-                singlevalues_recall = 1.0 - (float(uncorrected_singlevalues_count) / original_singlevalues_errors_count)
-            else:
-                singlevalues_recall = 1.0
+                if original_singlevalues_errors_count:
+                    singlevalues_recall = 1.0 - (float(uncorrected_singlevalues_count) / original_singlevalues_errors_count)
+                else:
+                    singlevalues_recall = 1.0
 
-            singlevalues_precision = float(
-                inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_singlevalues_count
-            print ("The single-value precision that we have is :" + str(singlevalues_precision))
-            print ("The single-value recall that we have is :" + str(singlevalues_recall) + " out of " + str(
-                original_singlevalues_errors_count))
+                singlevalues_precision = float(
+                    inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_singlevalues_count
+                print ("The single-value precision that we have is :" + str(singlevalues_precision))
+                print ("The single-value recall that we have is :" + str(singlevalues_recall) + " out of " + str(
+                    original_singlevalues_errors_count))
 
 
-        inferred_count = inferred_multivalues_count + inferred_singlevalues_count
-        if inferred_count:
-            incorrect_count = incorrect_multivalues_count + incorrect_singlevalues_count
-            original_errors_count = original_multivalues_errors_count + original_singlevalues_errors_count
-            uncorrected_count = uncorrected_multivalues_count + uncorrected_singlevalues_count
-            if original_errors_count:
-                recall = 1.0 - (float(uncorrected_count) / original_errors_count)
-            else:
-                recall = 1.0
-            precision = float((inferred_count - incorrect_count)) / inferred_count
-            print ("The precision that we have is :" + str(precision))
-            print ("The recall that we have is :" + str(recall) + " out of " + str(original_errors_count) )
+            inferred_count = inferred_multivalues_count + inferred_singlevalues_count
+            if inferred_count:
+                incorrect_count = incorrect_multivalues_count + incorrect_singlevalues_count
+                original_errors_count = original_multivalues_errors_count + original_singlevalues_errors_count
+                uncorrected_count = uncorrected_multivalues_count + uncorrected_singlevalues_count
+                if original_errors_count:
+                    recall = 1.0 - (float(uncorrected_count) / original_errors_count)
+                else:
+                    recall = 1.0
+                precision = float((inferred_count - incorrect_count)) / inferred_count
+                print ("The precision that we have is :" + str(precision))
+                print ("The recall that we have is :" + str(recall) + " out of " + str(original_errors_count) )
 
 
 

@@ -426,6 +426,10 @@ class Session:
                 self.holo_env.logger.info('Time for Training Model: ' +
                                           str(end - start))
                 start = time.time()
+        except:
+            self.holo_env.logger.error('Error Creating Training Tensor: nothing to learn')
+
+        try:
 
             self._ds_featurize(clean=0)
             if self.holo_env.verbose:
@@ -446,9 +450,10 @@ class Session:
 
             soft.log_weights()
         except:
-            self.holo_env.logger.error('Error Creating Tensor: nothing to infer')
+            self.holo_env.logger.error('Error Creating Prediction Tensor: nothing to infer')
 
         return self._create_corrected_dataset()
+
 
     def compare_to_truth(self, truth_path):
         """
@@ -632,32 +637,36 @@ class Session:
 
         self._create_dimensions(clean)
 
-        X_tensor = torch.zeros(self.N, self.M, self.L)
+        try:
+
+            X_tensor = torch.zeros(self.N, self.M, self.L)
 
 
-        for thread in list_of_threads:
-            thread.get_x(X_tensor)
-        for feature in self.featurizers:
-            if feature.direct_insert:
-                feature.insert_to_tensor(X_tensor, clean)
-        cvX.acquire()
-        cvX.notifyAll()
-        cvX.release()
+            for thread in list_of_threads:
+                thread.get_x(X_tensor)
+            for feature in self.featurizers:
+                if feature.direct_insert:
+                    feature.insert_to_tensor(X_tensor, clean)
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
 
-        for thread in list_of_threads:
-            thread.join()
-            if thread.exit_code == 1:
-                raise Exception("Thread raised an exception check logger for info")
+            for thread in list_of_threads:
+                thread.join()
 
-        if clean:
-            self.X_training = X_tensor
-            self.holo_env.logger.info("The X-Tensor_training has been created")
-            self.holo_env.logger.info("  ")
-        else:
-            self.X_testing = X_tensor
-            self.holo_env.logger.info("The X-Tensor_testing has been created")
-            self.holo_env.logger.info("  ")
+            if clean:
+                self.X_training = X_tensor
+                self.holo_env.logger.info("The X-Tensor_training has been created")
+                self.holo_env.logger.info("  ")
+            else:
+                self.X_testing = X_tensor
+                self.holo_env.logger.info("The X-Tensor_testing has been created")
+                self.holo_env.logger.info("  ")
 
+        except:
+            self.holo_env.logger.info('Errors creating tensors - Stopping all threads')
+            for thread in list_of_threads:
+                thread.exit()
         return
 
     def _ds_featurize(self, clean=1):
@@ -757,7 +766,13 @@ class Session:
         Inferred_values table
         """
 
-        inferred_values = self.inferred_values.collect()
+        if self.inferred_values:
+            # will contain simple value predictions
+            value_predictions = self.inferred_values.collect()
+        else:
+            self.inferred_values = self.simple_predictions
+            value_predictions = self.simple_predictions.collect()
+
         init = self.init_dataset.collect()
         attribute_map = {}
         index = 0
@@ -772,11 +787,12 @@ class Session:
                 row.append(init[i][attribute])
             corrected_dataset.append(row)
 
-        # Replace values with the inferred values
-        for j in range(len(inferred_values)):
-            tid = inferred_values[j]['tid'] - 1
-            column = attribute_map[inferred_values[j]['attr_name']]
-            corrected_dataset[tid][column] = inferred_values[j]['attr_val']
+        # Replace values with the inferred values from multi value predictions
+        if value_predictions:
+            for j in range(len(value_predictions)):
+                tid = value_predictions[j]['tid'] - 1
+                column = attribute_map[value_predictions[j]['attr_name']]
+                corrected_dataset[tid][column] = value_predictions[j]['attr_val']
 
         correct_dataframe = \
             self.holo_env.spark_sql_ctxt.createDataFrame(

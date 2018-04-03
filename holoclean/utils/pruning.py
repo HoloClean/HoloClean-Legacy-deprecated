@@ -450,6 +450,7 @@ class Pruning:
                                     None  # domain_id
                                 ]
                             )
+                        # put it anyways in the prediction table even if simple values
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
 

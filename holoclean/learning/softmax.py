@@ -373,9 +373,9 @@ class SoftMax:
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
-        """ stores our predicted avlues in the database
+        """ stores our predicted values in the database
 
-        :param Y: tensor with probabilty for each class
+        :param Y: tensor with probability for each class
         :return: N/A
         """
         max_result = torch.max(Y, 1)
