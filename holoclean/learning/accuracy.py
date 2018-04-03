@@ -18,12 +18,10 @@ class Accuracy:
 
     def accuracy_calculation(self, flattening=1):
 
-
         try:
             inferred = self.dataengine.get_table_to_dataframe(
                 "Inferred_values", self.dataset).select(
                 "tid", "attr_name", "attr_val")
-
         except:
             self.session.holo_env.logger.error('No Inferred values')
             print ("The precision and recall cannot be calculated")
