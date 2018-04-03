@@ -757,8 +757,7 @@ class Session:
         Inferred_values table
         """
 
-        multi_value_predictions = self.inferred_values.collect()
-        single_value_predictions = self.simple_predictions.collect()
+        inferred_values = self.inferred_values.collect()
         init = self.init_dataset.collect()
         attribute_map = {}
         index = 0
@@ -773,17 +772,11 @@ class Session:
                 row.append(init[i][attribute])
             corrected_dataset.append(row)
 
-        # Replace values with the inferred values from multi value predictions
-        for j in range(len(multi_value_predictions)):
-            tid = multi_value_predictions[j]['tid'] - 1
-            column = attribute_map[multi_value_predictions[j]['attr_name']]
-            corrected_dataset[tid][column] = multi_value_predictions[j]['attr_val']
-
-        # Replace values with the inferred vlaues from the simple prediction
-        for k in range(len(single_value_predictions)):
-            tid = single_value_predictions[k]['tid'] - 1
-            column = attribute_map[single_value_predictions[k]['attr_name']]
-            corrected_dataset[tid][column] = single_value_predictions[k]['attr_val']
+        # Replace values with the inferred values
+        for j in range(len(inferred_values)):
+            tid = inferred_values[j]['tid'] - 1
+            column = attribute_map[inferred_values[j]['attr_name']]
+            corrected_dataset[tid][column] = inferred_values[j]['attr_val']
 
         correct_dataframe = \
             self.holo_env.spark_sql_ctxt.createDataFrame(
