@@ -18,7 +18,7 @@ class DatabaseWorker(Thread):
 
     cv = Condition()
 
-    def __init__(self, session, barrier, cvX):
+    def __init__(self, session, barrier, cv_x):
         Thread.__init__(self)
         self.session = session
         self.holo_env = self.session.holo_env
@@ -26,10 +26,10 @@ class DatabaseWorker(Thread):
         self.dataset = self.session.dataset
         self.barrier = barrier
         self.X = None
-        self.cvX = cvX
+        self.cvX = cv_x
 
-    def getX(self, X):
-        self.X = X
+    def get_x(self, x):
+        self.X = x
 
     def run(self):
         # Get the table name of this thread

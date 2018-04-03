@@ -11,17 +11,19 @@ class Featurizer:
 
     def __init__(self, session):
         """
-        :param dataengine: a connector to database
-        :param dataset: list of tables name
+        Initialize Featurizer object abstraction
+
+        :param session: session object
         """
         self.session = session
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
 
-        # Replace this variable with a list of factors if the Signal creates a dataframe instead of using SQL
+        # Replace this variable with a list of factors
+        # if the Signal creates a dataframe instead of using SQL
         self.direct_insert = False
 
-        # these value must be overridden in subclass
+        # These value must be overridden in subclass
         self.offset = 0  # offset on the feature_id_map
         self.id = 'Base'
         self.count = 0

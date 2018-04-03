@@ -32,30 +32,35 @@ sys.path.insert(0, os.path.abspath('../'))
 os.environ['HOLOCLEANHOME'] = os.path.abspath('..')
 
 # Mock imports for troublesome modules (i.e. any that use C code)
-# See: http://blog.rtwilson.com/how-to-make-your-sphinx-documentation-compile-with-readthedocs-when-youre-using-numpy-and-scipy/
+# See: http://blog.rtwilson.com/how-to-make-your-sphinx-documentation
+# -compile-with-readthedocs-when-youre-using-numpy-and-scipy/
 import mock
-MOCK_MODULES = ['numpy','scipy','py4j','tqdm', 'py4j.protocol', 'py4j.java_gateway', 'py4j.java_collections','pandas','sqlalchemy',
-  'nltk.stem.porter', 'nltk','torch','pyspark.sql.types','pyspark.sql.types.StructType','pyspark.sql.types.StructType',
-  'pyspark.sql.types.IntegerType','pyspark.sql.types.DoubleType','torch.nn',
-  'torch.autograd','torch.nn.functional','tqdm.tqdm',
-  'torch.nn.functional.softmax','torch.optim', 'torch.autograd.Variable','torch.nn.Parameter'
-]
+MOCK_MODULES = ['numpy', 'scipy', 'py4j', 'tqdm', 'py4j.protocol',
+                'py4j.java_gateway', 'py4j.java_collections', 'pandas',
+                'sqlalchemy', 'nltk.stem.porter', 'nltk', 'torch',
+                'pyspark.sql.types', 'pyspark.sql.types.StructType',
+                'pyspark.sql.types.StructType',
+                'pyspark.sql.types.IntegerType',
+                'pyspark.sql.types.DoubleType', 'torch.nn',
+                'torch.autograd', 'torch.nn.functional', 'tqdm.tqdm',
+                'torch.nn.functional.softmax', 'torch.optim',
+                'torch.autograd.Variable', 'torch.nn.Parameter']
 for mod_name in MOCK_MODULES:
-  sys.modules[mod_name] = mock.Mock()
+    sys.modules[mod_name] = mock.Mock()
 
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
+# needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-#    'sphinx.ext.autosummary',
+    'sphinx.ext.autosummary',
     'sphinx.ext.coverage',
-#    'sphinx.ext.pngmath',
+    'sphinx.ext.pngmath',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
 ]
