@@ -221,14 +221,18 @@ class Pruning:
         # get l values from the lookup exactly  like in dirty where l < k
         # get k-l random once from the domain
         cell_probabilities.sort(key=lambda t: t[1])
-        while len(cell_values) < self.clean_breakoff/2 and len(cell_probabilities) > 0:  # for now l = k/2
+        while len(cell_probabilities) > 0:  # for now l = k/2
+            if len(cell_values) == self.clean_breakoff/2:
+                break
             tuple = cell_probabilities.pop()
             value = tuple[0]
             cell_values.add(value)
 
         random.shuffle(cell_probabilities)
 
-        while len(cell_probabilities) > 0 and len(cell_values) < self.clean_breakoff:
+        while len(cell_probabilities) > 0:
+            if len(cell_values) == self.clean_breakoff:
+                break
             tuple = cell_probabilities.pop()
             value = tuple[0]
             cell_values.add(value)
