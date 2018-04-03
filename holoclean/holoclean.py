@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 
-import pyspark.sql.functions as sf
 import logging
 
 from pyspark import SparkContext, SparkConf
-from pyspark.sql import SQLContext, Row
+from pyspark.sql import SQLContext
 import time
 
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.database_worker import DatabaseWorker, QueryProducer, PopulateTensor
+from featurization.database_worker import DatabaseWorker, PopulateTensor
 from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface, DenialConstraint
 from threading import Condition, Semaphore
@@ -609,7 +608,6 @@ class Session:
         return
 
     def _parallel_queries(self,
-                          query_prod,
                           number_of_threads=multiprocessing.cpu_count(),
                           clean=1):
         list_of_threads = []
@@ -625,7 +623,6 @@ class Session:
             thread.join()
 
         feature_tables = list(DatabaseWorker.table_names)
-        query_prod.join()
         self._create_dimensions(clean)
 
         try:
@@ -675,11 +672,13 @@ class Session:
         self.holo_env.logger.info(' ')
         num_of_threads = multiprocessing.cpu_count()
         # Produce all queries needed to be run for featurization
-        query_prod = QueryProducer(self.featurizers, clean, num_of_threads)
-        query_prod.start()
+        for featurizer in self.featurizers:
+            queries_to_add = featurizer.get_query(clean)
+            for query in queries_to_add:
+                DatabaseWorker.queries.append(query)
 
         # Create multiple threads to execute all queries
-        self._parallel_queries(query_prod, num_of_threads, clean)
+        self._parallel_queries(num_of_threads, clean)
 
 
     def _create_dimensions(self, clean=1):

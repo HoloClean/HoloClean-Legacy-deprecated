@@ -5,8 +5,6 @@ import time
 from collections import deque
 
 printLock = Lock()
-query_cv = Condition()
-queries = deque([])
 
 
 class DatabaseWorker(Thread):
@@ -16,8 +14,8 @@ class DatabaseWorker(Thread):
     """
     __lock = Lock()
 
-    cv = Condition()
     table_names = []
+    queries = deque([])
 
     def __init__(self, session):
         Thread.__init__(self)
@@ -25,11 +23,7 @@ class DatabaseWorker(Thread):
         self.holo_env = self.session.holo_env
         self.dataengine = DataEngine(self.holo_env)
         self.dataset = self.session.dataset
-        self.X = None
         self.exit_code = 0
-
-    def get_x(self, x):
-        self.X = x
 
     def run(self):
 
@@ -38,6 +32,7 @@ class DatabaseWorker(Thread):
         name_list = list(string_name)
         name_list[6] = "_"
         name = "".join(name_list)
+        queries = DatabaseWorker.queries
         try:
             table_name = self.dataset.table_specific_name(name)
             DatabaseWorker.table_names.append(table_name)
@@ -56,15 +51,12 @@ class DatabaseWorker(Thread):
                 printLock.release()
 
             while True:
-                query_cv.acquire()
-                while len(queries) == 0:
-                    query_cv.wait()
-
-                query = queries.popleft()
-                query_cv.release()
-
-                if query == -1:
+                DatabaseWorker.__lock.acquire()
+                if len(queries) == 0:
+                    DatabaseWorker.__lock.release()
                     break
+                DatabaseWorker.__lock.release()
+                query = queries.popleft()
                 insert_signal_query = "INSERT INTO " + table_name + \
                                       "(" + query + ");"
 
@@ -135,40 +127,6 @@ class PopulateTensor(Thread):
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
             exit(1)
-
-
-class QueryProducer(Thread):
-    """
-    QueryProducer will loop through the featurizers given from session
-    To append all queries produced by featurizers into a List that
-    Database worker will retrieve from
-    """
-    __lock = Lock()
-
-    def __init__(self, featurizers, clean, num_of_threads):
-        Thread.__init__(self)
-        self.clean = clean
-        self.featurizers = featurizers
-        self.num_of_threads = num_of_threads
-
-    def run(self):
-        global queries
-
-        # Loop through featurizers to append queries to shared list
-        for featurizer in self.featurizers:
-            queries_to_add = featurizer.get_query(self.clean)
-            for query in queries_to_add:
-                query_cv.acquire()
-                queries.append(query)
-                query_cv.notify()
-                query_cv.release()
-
-        # Send -1 to shared list to indicated end
-        for i in range(self.num_of_threads):
-            query_cv.acquire()
-            queries.append(-1)
-            query_cv.notify()
-            query_cv.release()
 
 
 class RunQuery(Thread):
