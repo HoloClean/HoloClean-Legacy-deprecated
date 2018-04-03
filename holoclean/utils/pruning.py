@@ -417,9 +417,7 @@ class Pruning:
         self.v_id_dk_list = []
         v_id_clean = v_id_dk = 0
 
-        self.assignments = None
-        self.attribute_to_be_pruned = None
-        self.attribute_map = None
+
 
         self.simplepredictions = []
 
@@ -433,8 +431,11 @@ class Pruning:
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
 
-                        if len(self.cell_domain[tmp_cell_index]) == 1:
-                            #cell kept its initial value
+                        if len(self.cell_domain[tmp_cell_index]) == 1 \
+                                and self.cellvalues[tuple_id][cell_index].value is not None:
+
+                            # cell kept its initial value when the possible values len is 1
+                            #  init value was not null
                             self.simplepredictions.append(
                                 [
                                     None,  # vid
@@ -469,7 +470,7 @@ class Pruning:
 
                     tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
-                        if len(self.cell_domain[tmp_cell_index]) >= 1:
+                        if len(self.cell_domain[tmp_cell_index]) > 1:
                             k_ij = 0
                             v_id_clean = v_id_clean + 1
                             self.v_id_clean_list.append([(self.all_cells_temp[
@@ -574,5 +575,9 @@ class Pruning:
             self.simplepredictions, self.dataset.attributes['Possible_values']
         )
         self.session.simple_predictions = df_simple_predictions
+
+        self.assignments = None
+        self.attribute_to_be_pruned = None
+        self.attribute_map = None
 
         return

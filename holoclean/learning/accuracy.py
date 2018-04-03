@@ -46,24 +46,27 @@ class Accuracy:
         if flattening:
             self._flatting()
 
-        inferred_singlevalues_count = 0
         incorrect_singlevalues_count = 0
         original_singlevalues_errors_count = 0
         uncorrected_singlevalues_count = 0
 
-        inferred_multivalues_count = 0
         incorrect_multivalues_count = 0
         original_multivalues_errors_count = 0
         uncorrected_multivalues_count= 0
 
         inferred_multivalues_count = inferred_multivalues.count()
+
         if inferred_multivalues_count:
             incorrect_multivalues = inferred_multivalues.subtract(self.ground_truth_flat)
             incorrect_multivalues_count = incorrect_multivalues.count()
+
+            #inferred_singlevalues has the intitial values ( will it as init for single values)
+
             original_multivalues_errors = init.subtract(inferred_singlevalues).subtract(self.ground_truth_flat)
             original_multivalues_errors_count = original_multivalues_errors.count()
             uncorrected_multivalues = original_multivalues_errors.drop('attr_val').intersect(
                 incorrect_multivalues.drop('attr_val'))
+
             uncorrected_multivalues_count = uncorrected_multivalues.count()
 
             if original_multivalues_errors_count:
@@ -76,20 +79,22 @@ class Accuracy:
             print ("The multiple-values recall that we have is :" + str(multivalues_recall) + " out of " + str(
                 original_multivalues_errors_count))
 
+
         inferred_singlevalues_count = inferred_singlevalues.count()
         if inferred_singlevalues_count:
             incorrect_singlevalues = inferred_singlevalues.subtract(self.ground_truth_flat)
+
+            # simple predictions has zero recall since it kept all errors
+
             incorrect_singlevalues_count = incorrect_singlevalues.count()
-            original_singlevalues_errors = inferred_singlevalues.subtract(self.ground_truth_flat)
-            original_singlevalues_errors_count = original_singlevalues_errors.count()
-            uncorrected_singlevalues = original_singlevalues_errors.drop('attr_val').intersect(
-                incorrect_singlevalues.drop('attr_val'))
-            uncorrected_singlevalues_count = uncorrected_singlevalues.count()
+            original_singlevalues_errors_count = incorrect_singlevalues_count
+            uncorrected_singlevalues_count = incorrect_singlevalues_count
 
             if original_singlevalues_errors_count:
                 singlevalues_recall = 1.0 - (float(uncorrected_singlevalues_count) / original_singlevalues_errors_count)
             else:
                 singlevalues_recall = 1.0
+
             singlevalues_precision = float(
                 inferred_singlevalues_count - incorrect_singlevalues_count) / inferred_singlevalues_count
             print ("The single-value precision that we have is :" + str(singlevalues_precision))
