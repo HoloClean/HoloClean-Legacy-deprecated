@@ -632,35 +632,32 @@ class Session:
 
         self._create_dimensions(clean)
 
-        try:
-            X_tensor = torch.zeros(self.N, self.M, self.L)
+        X_tensor = torch.zeros(self.N, self.M, self.L)
 
 
-            for thread in list_of_threads:
-                thread.get_x(X_tensor)
-            for feature in self.featurizers:
-                if feature.direct_insert:
-                    feature.insert_to_tensor(X_tensor, clean)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
+        for thread in list_of_threads:
+            thread.get_x(X_tensor)
+        for feature in self.featurizers:
+            if feature.direct_insert:
+                feature.insert_to_tensor(X_tensor, clean)
+        cvX.acquire()
+        cvX.notifyAll()
+        cvX.release()
 
-            for thread in list_of_threads:
-                thread.join()
+        for thread in list_of_threads:
+            thread.join()
+            if thread.exit_code == 1:
+                raise Exception("Thread raised an exception check logger for info")
 
-            if clean:
-                self.X_training = X_tensor
-                self.holo_env.logger.info("The X-Tensor_training has been created")
-                self.holo_env.logger.info("  ")
-            else:
-                self.X_testing = X_tensor
-                self.holo_env.logger.info("The X-Tensor_testing has been created")
-                self.holo_env.logger.info("  ")
+        if clean:
+            self.X_training = X_tensor
+            self.holo_env.logger.info("The X-Tensor_training has been created")
+            self.holo_env.logger.info("  ")
+        else:
+            self.X_testing = X_tensor
+            self.holo_env.logger.info("The X-Tensor_testing has been created")
+            self.holo_env.logger.info("  ")
 
-        except:
-            self.holo_env.logger.info('Errors creating tensors - Stopping all threads')
-            for thread in list_of_threads:
-                thread.exit()
         return
 
     def _ds_featurize(self, clean=1):
