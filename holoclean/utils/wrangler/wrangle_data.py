@@ -19,10 +19,13 @@ def wrangle(path, out_path):
     functions = [lowercase, trim]
 
     # food cols
-    columns = ["city", "facilitytype"]
+    #columns = ["city", "facilitytype"]
+    columns = data.columns
 
     # hospital cols
-    #columns = data.columns
+    columns = data.columns
+    #columns = ["val"]
+    #columns = ["correct_value"]
 
     transformer = Transformer(functions, columns)
 
@@ -41,8 +44,7 @@ def wrangle(path, out_path):
 
     data = normalizer.normalize(data)
 
-    data.toPandas().to_csv(out_path, index=False, header=True,
-                           encoding='utf-8')
+    data.toPandas().to_csv(out_path, index=False, header=True)
 
 
 if __name__ == '__main__':
