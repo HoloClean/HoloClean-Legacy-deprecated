@@ -20,3 +20,15 @@
 2018-04-01 15:18:31.066 EDT [1198] LOG:  database system is ready to accept connections
 2018-04-01 15:22:09.473 EDT [1358] LOG:  could not receive data from client: Connection reset by peer
 2018-04-01 15:22:09.473 EDT [1358] LOG:  unexpected EOF on client connection with an open transaction
+2018-04-02 20:46:43.925 EDT [56194] ERROR:  relation "inferred_values_229954674673" does not exist at character 30
+2018-04-02 20:46:43.925 EDT [56194] STATEMENT:  SELECT * FROM (Select * from Inferred_values_229954674673) as tablename WHERE 1=0
+2018-04-02 21:25:22.429 EDT [57192] ERROR:  relation "inferred_values_578969636964" does not exist at character 30
+2018-04-02 21:25:22.429 EDT [57192] STATEMENT:  SELECT * FROM (Select * from Inferred_values_578969636964) as tablename WHERE 1=0
+2018-04-02 21:30:16.730 EDT [57919] ERROR:  relation "inferred_values_229303872526" does not exist at character 30
+2018-04-02 21:30:16.730 EDT [57919] STATEMENT:  SELECT * FROM (Select * from Inferred_values_229303872526) as tablename WHERE 1=0
+2018-04-02 21:48:54.492 EDT [59889] ERROR:  relation "inferred_values_407844486799" does not exist at character 30
+2018-04-02 21:48:54.492 EDT [59889] STATEMENT:  SELECT * FROM (Select * from Inferred_values_407844486799) as tablename WHERE 1=0
+2018-04-02 21:57:27.574 EDT [60662] ERROR:  relation "inferred_values_048106836853" does not exist at character 30
+2018-04-02 21:57:27.574 EDT [60662] STATEMENT:  SELECT * FROM (Select * from Inferred_values_048106836853) as tablename WHERE 1=0
+2018-04-02 22:03:32.595 EDT [61361] ERROR:  relation "inferred_values_027814720916" does not exist at character 30
+2018-04-02 22:03:32.595 EDT [61361] STATEMENT:  SELECT * FROM (Select * from Inferred_values_027814720916) as tablename WHERE 1=0

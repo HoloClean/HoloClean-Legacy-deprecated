@@ -399,51 +399,54 @@ class Session:
         
         cooccur_signal = SignalCooccur(self)
         self._add_featurizer(cooccur_signal)
-        
 
-        self._ds_featurize(clean=1)
 
-        if self.holo_env.verbose:
-            end = time.time()
-            log = 'Time for Featurization: ' + str(end - start) + '\n'
-            print log
-            self.holo_env.logger.info("Time for Featurization:" +
-                                      str(end - start))
+        # Trying to infer or to learn
+        # catch errors when tensors are none
 
-            start = time.time()
+        try:
+            self._ds_featurize(clean=1)
 
-        soft = SoftMax(self, self.X_training)
+            if self.holo_env.verbose:
+                end = time.time()
+                log = 'Time for Featurization: ' + str(end - start) + '\n'
+                print log
+                self.holo_env.logger.info("Time for Featurization:" +
+                                          str(end - start))
 
-        soft.logreg(self.featurizers)
+                start = time.time()
+            soft = SoftMax(self, self.X_training)
+            soft.logreg(self.featurizers)
 
-        if self.holo_env.verbose:
-            end = time.time()
-            log = 'Time for Training Model: ' + str(end - start) + '\n'
-            print log
-            self.holo_env.logger.info('Time for Training Model: ' +
-                                      str(end - start))
-            start = time.time()
+            if self.holo_env.verbose:
+                end = time.time()
+                log = 'Time for Training Model: ' + str(end - start) + '\n'
+                print log
+                self.holo_env.logger.info('Time for Training Model: ' +
+                                          str(end - start))
+                start = time.time()
 
-        self._ds_featurize(clean=0)
+            self._ds_featurize(clean=0)
+            if self.holo_env.verbose:
+                end = time.time()
+                log = 'Time for Test Featurization: ' + str(end - start) + '\n'
+                print log
+                self.holo_env.logger.info('Time for Test Featurization dk: '
+                                          + str(end - start))
+                start = time.time()
+            Y = soft.predict(soft.model, self.X_testing,
+                             soft.setupMask(0, self.N, self.L))
+            soft.save_prediction(Y)
+            if self.holo_env.verbose:
+                end = time.time()
+                log = 'Time for Inference: ' + str(end - start) + '\n'
+                print log
+                self.holo_env.logger.info('Time for Inference: ' + str(end - start))
 
-        if self.holo_env.verbose:
-            end = time.time()
-            log = 'Time for Test Featurization: ' + str(end - start) + '\n'
-            print log
-            self.holo_env.logger.info('Time for Test Featurization dk: '
-                                      + str(end - start))
-            start = time.time()
-        Y = soft.predict(soft.model, self.X_testing,
-                         soft.setupMask(0, self.N, self.L))
+            soft.log_weights()
+        except:
+            self.holo_env.logger.error('Error Creating Tensor: nothing to infer - using Simple')
 
-        soft.save_prediction(Y)
-        if self.holo_env.verbose:
-            end = time.time()
-            log = 'Time for Inference: ' + str(end - start) + '\n'
-            print log
-            self.holo_env.logger.info('Time for Inference: ' + str(end - start))
-
-        soft.log_weights()
         return self._create_corrected_dataset()
 
     def compare_to_truth(self, truth_path):
@@ -610,49 +613,53 @@ class Session:
         if clean:
             b = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
-                list_of_threads.append(
-                    DatabaseWorker(self, b, cvX))
+                list_of_threads.append(DatabaseWorker(self, b, cvX))
             for thread in list_of_threads:
                 thread.start()
             b.wait()
+
         else:
             b_dk = _Barrier(number_of_threads + 1)
             for i in range(0, number_of_threads):
-                list_of_threads.append(
-                    DatabaseWorker(self, b_dk, cvX))
+                list_of_threads.append(DatabaseWorker(self, b_dk, cvX))
             for thread in list_of_threads:
                 thread.start()
 
             b_dk.wait()
 
         query_prod.join()
-        if clean:
-            self._create_dimensions(clean)
 
-        else:
-            self._create_dimensions(clean)
+        self._create_dimensions(clean)
 
-        X_tensor = torch.zeros(self.N, self.M, self.L)
-        for thread in list_of_threads:
-            thread.getX(X_tensor)
-        for feature in self.featurizers:
-            if feature.direct_insert:
-                feature.insert_to_tensor(X_tensor, clean)
-        cvX.acquire()
-        cvX.notifyAll()
-        cvX.release()
+        try:
+            X_tensor = torch.zeros(self.N, self.M, self.L)
 
-        for thread in list_of_threads:
-            thread.join()
 
-        if clean:
-            self.X_training = X_tensor
-            self.holo_env.logger.info("The X-Tensor_training has been created")
-            self.holo_env.logger.info("  ")
-        else:
-            self.X_testing = X_tensor
-            self.holo_env.logger.info("The X-Tensor_testing has been created")
-            self.holo_env.logger.info("  ")
+            for thread in list_of_threads:
+                thread.getX(X_tensor)
+            for feature in self.featurizers:
+                if feature.direct_insert:
+                    feature.insert_to_tensor(X_tensor, clean)
+            cvX.acquire()
+            cvX.notifyAll()
+            cvX.release()
+
+            for thread in list_of_threads:
+                thread.join()
+
+            if clean:
+                self.X_training = X_tensor
+                self.holo_env.logger.info("The X-Tensor_training has been created")
+                self.holo_env.logger.info("  ")
+            else:
+                self.X_testing = X_tensor
+                self.holo_env.logger.info("The X-Tensor_testing has been created")
+                self.holo_env.logger.info("  ")
+
+        except:
+            self.holo_env.logger.info('Errors creating tensors - Stopping all threads')
+            for thread in list_of_threads:
+                thread.exit()
         return
 
     def _ds_featurize(self, clean=1):
@@ -675,6 +682,7 @@ class Session:
 
         # Create multiple threads to execute all queries
         self._parallel_queries(query_prod, num_of_threads, clean)
+
 
     def _create_dimensions(self, clean=1):
         dimensions = 'Dimensions_clean' if clean == 1 else 'Dimensions_dk'
@@ -740,6 +748,7 @@ class Session:
             self.M = dimension_dict['M']
             self.N = dimension_dict['N']
             self.L = dimension_dict['L']
+
         return
 
     def _create_corrected_dataset(self):
@@ -751,27 +760,36 @@ class Session:
         """
         #change the simple predictions with prob. 0.5
 
+        if self.simple_predictions :
+            prob_simple_predictions = \
+                self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5)). \
+                    select('probability', 'vid', 'attr_name', 'attr_val', 'tid', 'domain_id')
+        else:
+            prob_simple_predictions = None
 
-        prob_simple_predictions = \
-            self.simple_predictions.drop('observed').withColumn('probability', sf.lit(0.5)). \
-                select('probability', 'vid', 'attr_name', 'attr_val', 'tid', 'domain_id')
+        if self.inferred_values:
+            final = self.inferred_values.union(prob_simple_predictions)
+        else:
+            final = prob_simple_predictions
 
-        final = self.inferred_values.union(prob_simple_predictions)
-        init = self.init_dataset
-        correct = init.collect()
-        final = final.collect()
-        for i in range(len(correct)):
-            d = correct[i].asDict()
-            correct[i] = Row(**d)
-        for cell in final:
-            d = correct[cell.tid - 1].asDict()
-            d[cell.attr_name] = cell.attr_val
-            correct[cell.tid - 1] = Row(**d)
+        if final:
+            init = self.init_dataset
+            correct = init.collect()
+            final = final.collect()
+            for i in range(len(correct)):
+                d = correct[i].asDict()
+                correct[i] = Row(**d)
+            for cell in final:
+                d = correct[cell.tid - 1].asDict()
+                d[cell.attr_name] = cell.attr_val
+                correct[cell.tid - 1] = Row(**d)
 
-        correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
-        self.holo_env.dataengine.add_db_table("Repaired_dataset",
-                                              correct_dataframe, self.dataset)
-        return correct_dataframe
+            correct_dataframe = self.holo_env.spark_sql_ctxt.createDataFrame(correct)
+            self.holo_env.dataengine.add_db_table("Repaired_dataset",
+                                                  correct_dataframe, self.dataset)
+            return correct_dataframe
+        else:
+            return None
 
 
 # Barrier class used for synchronization

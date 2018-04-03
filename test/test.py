@@ -12,7 +12,7 @@ class Testing:
         self.holo_obj = HoloClean(
             holoclean_path="..",
             verbose=True,
-            pruning_threshold1=0.5,
+            pruning_threshold1=1.0,
             pruning_threshold2=0.5,
             pruning_dk_breakoff=5,
             pruning_clean_breakoff=10,
@@ -71,4 +71,3 @@ class Testing:
         t2 = time.time()
         if self.holo_obj.verbose:
             self.holo_obj.logger.info("Total time:" + str(t2-t1))
-        exit(0)
