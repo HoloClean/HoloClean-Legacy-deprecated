@@ -17,16 +17,15 @@ class DatabaseWorker(Thread):
     __lock = Lock()
 
     cv = Condition()
+    table_names = []
 
-    def __init__(self, session, barrier, cv_x):
+    def __init__(self, session):
         Thread.__init__(self)
         self.session = session
         self.holo_env = self.session.holo_env
         self.dataengine = DataEngine(self.holo_env)
         self.dataset = self.session.dataset
-        self.barrier = barrier
         self.X = None
-        self.cvX = cv_x
         self.exit_code = 0
 
     def get_x(self, x):
@@ -41,6 +40,7 @@ class DatabaseWorker(Thread):
         name = "".join(name_list)
         try:
             table_name = self.dataset.table_specific_name(name)
+            DatabaseWorker.table_names.append(table_name)
 
             query_for_featurization = "CREATE TABLE " + table_name + \
                                       "(vid INT, assigned_val INT," \
@@ -88,13 +88,28 @@ class DatabaseWorker(Thread):
                     self.holo_env.logger.info(str(insert_signal_query))
                     self.holo_env.logger.info("  ")
                     printLock.release()
+            self.dataengine.db_backend[1].close()
+        except Exception as e:
+            print ("Exception in Thread: " + string_name)
+            self.holo_env.logger.info("Exception in Thread: " + string_name)
+            self.holo_env.logger.info(str(e))
+            self.exit_code = 1
+            exit(1)
 
-            self.barrier.wait()
 
-            self.cvX.acquire()
-            self.cvX.wait()
-            self.cvX.release()
+class PopulateTensor(Thread):
+    __lock = Lock()
 
+    def __init__(self, table_name, X_tensor, session):
+        Thread.__init__(self)
+        self.table_name = table_name
+        self.X = X_tensor
+        self.holo_env = session.holo_env
+        self.dataengine = DataEngine(self.holo_env)
+
+    def run(self):
+        table_name = self.table_name
+        try:
             if self.X is None:
                 raise Exception("X tensor does not exist yet")
 
@@ -105,16 +120,18 @@ class DatabaseWorker(Thread):
                        factor.assigned_val - 1] = factor['count']
             if self.holo_env.verbose:
                 printLock.acquire()
-                msg = str(threading.currentThread().getName()) +\
-                    " Done executing queries"
+                msg = str(threading.currentThread().getName()) + \
+                      " Done executing queries"
                 self.holo_env.logger.info(msg)
                 printLock.release()
             drop_table = "DROP TABLE " + table_name
             self.dataengine.query(drop_table)
             self.dataengine.db_backend[1].close()
+            exit(0)
+
         except Exception as e:
-            print ("Exception in Thread: " + string_name)
-            self.holo_env.logger.info("Exception in Thread: " + string_name)
+            print ("Exception in Thread: " + table_name)
+            self.holo_env.logger.info("Exception in Thread: " + table_name)
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
             exit(1)

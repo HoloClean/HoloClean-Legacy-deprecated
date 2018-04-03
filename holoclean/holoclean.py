@@ -10,7 +10,7 @@ import time
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
-from featurization.database_worker import DatabaseWorker, QueryProducer
+from featurization.database_worker import DatabaseWorker, QueryProducer, PopulateTensor
 from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface, DenialConstraint
 from threading import Condition, Semaphore
@@ -614,44 +614,37 @@ class Session:
                           clean=1):
         list_of_threads = []
 
-        cvX = Condition()
+        DatabaseWorker.table_names = []
+        for i in range(0, number_of_threads):
+            list_of_threads.append(DatabaseWorker(self))
 
-        if clean:
-            b = _Barrier(number_of_threads + 1)
-            for i in range(0, number_of_threads):
-                list_of_threads.append(DatabaseWorker(self, b, cvX))
-            for thread in list_of_threads:
-                thread.start()
-            b.wait()
+        for thread in list_of_threads:
+            thread.start()
 
-        else:
-            b_dk = _Barrier(number_of_threads + 1)
-            for i in range(0, number_of_threads):
-                list_of_threads.append(DatabaseWorker(self, b_dk, cvX))
-            for thread in list_of_threads:
-                thread.start()
+        for thread in list_of_threads:
+            thread.join()
 
-            b_dk.wait()
-
+        feature_tables = list(DatabaseWorker.table_names)
         query_prod.join()
-
         self._create_dimensions(clean)
 
         try:
 
             X_tensor = torch.zeros(self.N, self.M, self.L)
 
+            # Create Threads to populate tensor
+            tensor_threads = []
+            for thread_num in range(len(list_of_threads)):
+                thread = PopulateTensor(feature_tables[thread_num], X_tensor, self)
+                tensor_threads.append(thread)
+                thread.start()
 
-            for thread in list_of_threads:
-                thread.get_x(X_tensor)
             for feature in self.featurizers:
                 if feature.direct_insert:
                     feature.insert_to_tensor(X_tensor, clean)
-            cvX.acquire()
-            cvX.notifyAll()
-            cvX.release()
 
-            for thread in list_of_threads:
+            # Wait for Threads that are populating tensor to be finished
+            for thread in tensor_threads:
                 thread.join()
 
             if clean:
@@ -664,9 +657,7 @@ class Session:
                 self.holo_env.logger.info("  ")
 
         except:
-            self.holo_env.logger.info('Errors creating tensors - Stopping all threads')
-            for thread in list_of_threads:
-                thread.exit()
+            raise Exception("Error creating Tensor")
         return
 
     def _ds_featurize(self, clean=1):
