@@ -17,7 +17,6 @@ class ErrorDetectorsWrapper:
         """
         Return tuple of noisy cells and clean cells dataframes
 
-        :param data_dataframe: get dataframe of data
         :return: return noisy cells and
         """
 

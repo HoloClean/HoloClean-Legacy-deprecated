@@ -14,7 +14,7 @@ class SqlnullErrorDetection(ErrorDetection):
 
     def __init__(self, session):
         """
-
+        Initialize the error detection for null detection
 
         :param session: Holoclean session
         """
@@ -26,7 +26,7 @@ class SqlnullErrorDetection(ErrorDetection):
 
     def get_noisy_cells(self):
         """
-        Return a dataframe that consist of index of noisy cells index,attribute
+        Returns a dataframe that consist of index of noisy cells index,attribute
 
         :return: spark_dataframe
         """
@@ -61,12 +61,13 @@ class SqlnullErrorDetection(ErrorDetection):
             time_end = time.time()
             if self.holo_obj.verbose:
                 self.holo_obj.logger.info("Time for executing query "
-                                          + query_null + ":" + str(time_end - time_start))
+                                          + query_null + ":" +
+                                          str(time_end - time_start))
 
     def get_clean_cells(self):
         """
-        Return a dataframe that consist of index of clean cells index,attribute
-        :return:
+        Returns a dataframe that consist of index of clean cells index,attribute
+        :return: dataframe
         """
         c_clean_dataframe = self.session.init_flat.\
             subtract(self.noisy_cells)

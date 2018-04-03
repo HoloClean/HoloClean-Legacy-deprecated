@@ -14,6 +14,7 @@ class SignalDC(Featurizer):
     def __init__(self, denial_constraints, session):
 
         """
+        Initialize dc signal object
 
         :param denial_constraints: list of denial_constraints
         :param session: a Holoclean session
@@ -45,9 +46,7 @@ class SignalDC(Featurizer):
         """
         This method creates a list of all the relaxed DC's for a specific DC
 
-        :param dictionary_dc: Dictionary mapping DC's to a list of their
-         predicates
-        :param dc_name: The dc that we want to relax
+        :param dc_object: The dc object that we want to relax
 
         :return: A list of all relaxed DC's for dc_name
         """
@@ -57,7 +56,8 @@ class SignalDC(Featurizer):
         for predicate in dc_predicates:
             component1 = predicate.components[0]
             component2 = predicate.components[1]
-            full_form_components = predicate.cnf_form.split(predicate.operation)
+            full_form_components = \
+                predicate.cnf_form.split(predicate.operation)
             if not isinstance(component1, str):
                 self.attributes_list.append(component1[1])
                 relax_dc = "postab.tid = " + component1[0] + \
@@ -72,17 +72,21 @@ class SignalDC(Featurizer):
                             component2, list):
 
                         if component1[1] != component2[1]:
-                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                            relax_dc = relax_dc + " AND  " + \
+                                       dc_object.tuple_names[0] + "." + \
                                        index_name + \
-                                       " <> " + dc_object.tuple_names[1] + "." + \
-                                       index_name
+                                       " <> " + dc_object.tuple_names[1] + "."\
+                                       + index_name
                         else:
-                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                            relax_dc = relax_dc + " AND  " + \
+                                       dc_object.tuple_names[0] + "." + \
                                        index_name \
-                                       + " < " + dc_object.tuple_names[1] + "." + \
+                                       + " < " + dc_object.tuple_names[
+                                           1] + "." + \
                                        index_name
                     else:
-                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[
+                            0] + "." + \
                                    index_name \
                                    + " < " + dc_object.tuple_names[1] + "." + \
                                    index_name
@@ -92,6 +96,7 @@ class SignalDC(Featurizer):
                         relax_dc = relax_dc + " AND  " + \
                                    other_predicate.cnf_form
                 relax_dcs.append([relax_dc, dc_object.tuple_names])
+
             if not isinstance(component2, str):
                 self.attributes_list.append(component2[1])
                 relax_dc = "postab.tid = " + component2[0] +\
@@ -104,17 +109,21 @@ class SignalDC(Featurizer):
                     if isinstance(component1, list) and isinstance(
                             component2, list):
                         if component1[1] != component2[1]:
-                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                            relax_dc = relax_dc + " AND  " + \
+                                       dc_object.tuple_names[0] + "." + \
                                        index_name + \
-                                       " <> " + dc_object.tuple_names[1] + "." + \
-                                       index_name
+                                       " <> " + dc_object.tuple_names[1] \
+                                       + "." + index_name
                         else:
-                            relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                            relax_dc = relax_dc + " AND  " + \
+                                       dc_object.tuple_names[0] + "." + \
                                        index_name \
-                                       + " < " + dc_object.tuple_names[1] + "." + \
+                                       + " < " + dc_object.tuple_names[
+                                           1] + "." + \
                                        index_name
                     else:
-                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[0] + "." + \
+                        relax_dc = relax_dc + " AND  " + dc_object.tuple_names[
+                            0] + "." + \
                                    index_name \
                                    + " < " + dc_object.tuple_names[1] + "." + \
                                    index_name
@@ -168,8 +177,8 @@ class SignalDC(Featurizer):
             query_for_featurization += self.dataset.table_specific_name(name) \
                                        + " as postab"
 
-            query_for_featurization += " WHERE " +relax_dc + \
-                     " GROUP BY postab.vid, postab.domain_id"
+            query_for_featurization += " WHERE " + relax_dc + \
+                                       " GROUP BY postab.vid, postab.domain_id"
             dc_queries.append(query_for_featurization)
 
             if clean:

@@ -12,12 +12,10 @@ class SignalCooccur(Featurizer):
     """
 
     def __init__(self, session):
-
         """
+        Initialize co-occur signal object
 
-        :param attr_constrained: list of attributes that are part of a dc
-        :param dataengine: a connector to database
-        :param dataset: list of tables name
+        :param session: session object
         """
 
         super(SignalCooccur, self).__init__(session)
@@ -37,6 +35,15 @@ class SignalCooccur(Featurizer):
         self.direct_insert = True
 
     def insert_to_tensor(self, tensor, clean):
+        """
+        Insert co-occur data into tensor
+
+        :param tensor: tensor object
+        :param clean: Nat value that identify we are calculating feature
+        value for training data (clean cells) or testing data
+
+        :return: None
+        """
         domain_pair_stats = self.pruning_object.domain_pair_stats
         domain_stats = self.pruning_object.domain_stats
         cell_domain = self.pruning_object.cell_domain
@@ -81,8 +88,8 @@ class SignalCooccur(Featurizer):
             for attribute in self.dirty_cells_attributes:
                 self.count += 1
                 self.attribute_feature_id[attribute] = self.count + self.offset
-                feature_id_list.append\
-                    ([self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
+                feature_id_list.append(
+                    [self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
             feature_df = self.session.holo_env.spark_session.createDataFrame(
                 feature_id_list,
                 self.session.dataset.attributes['Feature_id_map']
