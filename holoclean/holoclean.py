@@ -283,7 +283,7 @@ class Session:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
             print log
-            attributes = self.dataset.get_schema('Init')
+        attributes = self.dataset.get_schema('Init')
         for attribute in attributes:
             self.holo_env.dataengine.add_db_table_index(
                 self.dataset.table_specific_name('Init'), attribute)
