@@ -1,7 +1,8 @@
-from threading import Thread, Lock, Condition
+from threading import Thread, Lock
 from holoclean.dataengine import DataEngine
 import threading
 import time
+import sys
 from collections import deque
 
 printLock = Lock()
@@ -86,7 +87,7 @@ class DatabaseWorker(Thread):
             self.holo_env.logger.info("Exception in Thread: " + string_name)
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
-            exit(1)
+            sys.exit(1)
 
 
 class PopulateTensor(Thread):
@@ -119,14 +120,13 @@ class PopulateTensor(Thread):
             drop_table = "DROP TABLE " + table_name
             self.dataengine.query(drop_table)
             self.dataengine.db_backend[1].close()
-            exit(0)
 
         except Exception as e:
             print ("Exception in Thread: " + table_name)
             self.holo_env.logger.info("Exception in Thread: " + table_name)
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
-            exit(1)
+            sys.exit(1)
 
 
 class RunQuery(Thread):
