@@ -52,7 +52,6 @@ class Accuracy:
 
             init = self.dataengine.query(checkable_original_query, 1)
 
-
             if self.session.simple_predictions:
                 inferred_singlevalues = \
                     self.session.simple_predictions.select("tid", "attr_name",
@@ -83,6 +82,9 @@ class Accuracy:
                     self.ground_truth_flat)
                 incorrect_multivalues_count = incorrect_multivalues.count()
 
+                self.dataengine.add_db_table("wrong_multi",
+                                             incorrect_multivalues,
+                                             self.dataset)
                 # inferred_singlevalues has the intitial values
                 # (will use it as init for single values)
 
@@ -118,6 +120,10 @@ class Accuracy:
             if inferred_singlevalues_count:
                 incorrect_singlevalues = inferred_singlevalues.subtract(
                     self.ground_truth_flat)
+
+                self.dataengine.add_db_table("wrong_single",
+                                             incorrect_singlevalues,
+                                             self.dataset)
 
                 # simple predictions has zero recall since it kept all errors
 
