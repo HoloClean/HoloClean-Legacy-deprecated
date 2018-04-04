@@ -19,7 +19,6 @@
 #     Batch Size: batch_size
 # For a list of all possible arguements check the holoclean.py file
 
-# In[1]:
 
 
 from holoclean.holoclean import HoloClean, Session
