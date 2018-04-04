@@ -3,64 +3,13 @@ from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
 
 class Dataset:
-
     """
-        Each element stand for some data that the holoclean needs or create:
-
-            id : unique id for the dataset and it will be used in
-             registering and retrieving data
-            Init : initial data that get to the database from a file
-             that user gives
-            C_clean : table with index of clean cells
-            C_dk : is table of indices that we don't know they
-             are noisy or clean
-            C_dk_temp: table used for temporary result of error detectors
-            Possible_values_clean:  table of all possible values
-             for the clean cells
-            Possible_values_dk: is the table of all possible
-             values for the do not know cell
-            Observed_Possible_values_clean : table with the observed
-             values for the clean cells
-            Observed_Possible_values_dk : table with the observed
-             values for the do now know cells
-            C_clean_flat: table for the clean cells that are
-             flatted on three columns index, attribute, and value
-            C_dk_flat: table for the dk cells that are flatted
-             on three columns index, attribute, and value
-            Kij_lookup_clean: table with  the lenght of the
-             domain for each clean cell
-            Kij_lookup_dk: table with  the lenght of the domain
-             for each do not know cell
-            Init_flat_join: self join of C_clean_flat table
-            Init_flat_join_dk: self join of C_dk_flat table
-            Map_schema: table with the schema of the Init table
-            Feature_id_map: table that maps each feature to a number
-            Sources: table that maps each source to a number
-            Sources_temp: a temporary table for saving the sources
-            Attribute_temp: a temporary table for saving the attributes
-            Dimensions_clean: a table with the dimensions for the
-             X tensor for training
-            Dimensions_dk: a table with the dimensions for the
-             X tensor for learning
-            Inferred_values: tables with the inferred values
-            Repaired_dataset: dataset table after we apply
-             repairs to initial data
-            Correct: table with the correct values for our dataset
-            Correct_flat: table with the correct data that
-             are flatted on three columns index, attribute, and value
-        """
+    This class keep the name of tables in Holoclean project
+    """
 
     def __init__(self):
         """
-        The constructor for Dataset class
-
-        Parameters
-        ----------
-        No parameter
-
-        Returns
-        -------
-        No Return
+                The constructor for Dataset class
         """
         self.attribute = {}
         self.schema = ""
@@ -134,20 +83,14 @@ class Dataset:
                     StructField("assigned_val", IntegerType(), False),
                     StructField("feature", IntegerType(), False),
                     StructField("count", IntegerType(), False)
-                ]) }
+                ])}
 
     # Internal methods
     @staticmethod
     def _id_generator():
         """
-        This function create a random id from the system time
+        This function creates a random id from the system time
 
-        Parameters
-        ----------
-        No parameter
-
-        Returns
-        -------
         :return: random_str : String
              Generating a string of random numbers
         """
@@ -158,12 +101,6 @@ class Dataset:
         """
         Writes dataset id inside dataset_id.txt file and returns that id
 
-        Parameters
-        ----------
-        No parameter
-
-        Returns
-        -------
         :return: dataset id : String
         """
         fx = open('dataset_id.txt', 'w')
@@ -173,14 +110,8 @@ class Dataset:
 
     def return_id(self):
         """
-        Returns detaset id as string
+        Returns dataset id as string
 
-        Parameters
-        ----------
-        No parameter
-
-        Returns
-        -------
         :return: dataset id : String
                 The id of data set
         """
@@ -190,13 +121,9 @@ class Dataset:
         """
         Returning the name of the table for this dataset
 
-        Parameters
-        ----------
         :param table_general_name: String
                 This the general name of table
 
-        Returns
-        -------
         :return: String
                 Specific name correspond to table general name
         """

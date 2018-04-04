@@ -6,15 +6,30 @@ import unicodedata
 
 @udf(returnType=StringType())
 def lowercase(s):
+    """
+    Changes string to lower case
+
+    :param s: input string
+
+    :return: string
+    """
     if s is None:
         return ''
     if type(s) != str and type(s) != unicode:
         return s
-    return str(unicodedata.normalize('NFKD', s).encode('ASCII', 'ignore')).lower()
+    return \
+        str(unicodedata.normalize('NFKD', s).encode('ASCII', 'ignore')).lower()
 
 
 @udf(returnType=StringType())
 def trim(s):
+    """
+    Removing spaces
+
+    :param s: input string
+
+    :return: string
+    """
     if s is None:
         return ''
     if type(s) != str and type(s) != unicode:

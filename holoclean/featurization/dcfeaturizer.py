@@ -7,14 +7,14 @@ __metaclass__ = type
 class SignalDC(Featurizer):
     """
     This class is a subclass of the Featurizer class and
-    will return a list of mysql queries which represent the DC Signal for the
-    clean and dk cells
+    will return a list of queries which represent the DC Signal for the
+    clean and don't know cells
     """
 
     def __init__(self, denial_constraints, session):
 
         """
-        Initialize dc signal object
+        Initializing dc signal object
 
         :param denial_constraints: list of denial_constraints
         :param session: a Holoclean session
@@ -139,7 +139,7 @@ class SignalDC(Featurizer):
     def get_query(self, clean=1, dcquery_prod=None):
         """
         Creates a list of strings for the queries that are used to create the
-        DC Signal
+        DC Signals
 
         :param clean: shows if we create the feature table for the clean or the
         dk cells
@@ -174,8 +174,8 @@ class SignalDC(Featurizer):
                 query_for_featurization += \
                     self.dataset.table_specific_name("Init") + \
                     " as " + tuple_name + ","
-            query_for_featurization += self.dataset.table_specific_name(name) \
-                                       + " as postab"
+            query_for_featurization += \
+                self.dataset.table_specific_name(name) + " as postab"
 
             query_for_featurization += " WHERE " + relax_dc + \
                                        " GROUP BY postab.vid, postab.domain_id"

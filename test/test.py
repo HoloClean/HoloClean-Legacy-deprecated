@@ -12,11 +12,16 @@ class Testing:
         self.holo_obj = HoloClean(
             holoclean_path="..",         # path to holoclean package
             verbose=True,
-            pruning_threshold1=0.1,       # to limit possible values for training data
-            pruning_clean_breakoff=20,    # to limit possible values for training data to less than k values
-            pruning_threshold2=0.5,       # to limit possible values for dirty data
-            pruning_dk_breakoff=10,       # to limit possible values for dirty data to less than k values
-            learning_iterations=20,       # learning parameters
+            # to limit possible values for training data
+            pruning_threshold1=0.1,
+            # to limit possible values for training data to less than k values
+            pruning_clean_breakoff=20,
+            # to limit possible values for dirty data
+            pruning_threshold2=0.5,
+            # to limit possible values for dirty data to less than k values
+            pruning_dk_breakoff=10,
+            # learning parameters
+            learning_iterations=20,
             learning_rate=0.001,
             batch_size=5
         )

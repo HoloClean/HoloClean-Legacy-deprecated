@@ -11,6 +11,13 @@ import distance
 @click.argument('path')
 @click.argument('out_path')
 def wrangle(path, out_path):
+    """
+    An example to show how to use wrangler
+
+    :param path: path to input data file
+    :param out_path: path to store normalized data
+
+    """
 
     spark = SparkSession.builder.getOrCreate()
 
@@ -18,27 +25,18 @@ def wrangle(path, out_path):
 
     functions = [lowercase, trim]
 
-    # food cols
-    #columns = ["city", "facilitytype"]
-    columns = data.columns
-
     # hospital cols
     columns = data.columns
-    #columns = ["val"]
-    #columns = ["correct_value"]
 
     transformer = Transformer(functions, columns)
 
     data = transformer.transform(data)
 
-    # food cols
     cols_info = list()
-    cols_info.append(ColNormInfo("city"))
-    cols_info.append(ColNormInfo("facilitytype", distance.jaccard, 0.3))
 
     # hospital cols
-    #for col in data.columns:
-    #    cols_info.append(ColNormInfo(col))
+    for col in data.columns:
+        cols_info.append(ColNormInfo(col))
 
     normalizer = Normalizer(cols_info)
 

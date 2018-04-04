@@ -6,14 +6,14 @@ __metaclass__ = type
 
 class SignalInit(Featurizer):
     """
-    This class is a subclass of the Featurizer class and
-    will return the mysql query which represent the Initial Signal for the
-    clean and dk cells
+    This class is a subclass of Featurizer class and
+    will return the  query which represent the Initial Signal for the
+    clean and don't know cells
     """
 
     def __init__(self, session):
         """
-        Initialize initial value signal object
+        Constructing initial values signal object
 
         :param session: session object
         """
@@ -27,10 +27,11 @@ class SignalInit(Featurizer):
         Creates a string for the query that it is used to create the Initial
         Signal
 
-        :param clean: shows if create the feature table for the clean or the dk
-         cells
+        :param clean: shows if create the feature table for the clean or
+        the don't know cells
 
-        :return a list of length 1 with string with the query for this feature
+        :return a list of length 1 with a string with the query
+        for this feature
         """
         if clean:
             self.offset = self.session.feature_count
@@ -54,8 +55,9 @@ class SignalInit(Featurizer):
 
             index = self.offset + count
             list_domain_map = [[index, 'Init', 'Init', 'Init']]
-            df_domain_map = self.session.holo_env.spark_session.createDataFrame(
-                list_domain_map, self.dataset.attributes['Feature_id_map'])
+            df_domain_map = self.session.holo_env.spark_session.\
+                createDataFrame(list_domain_map,
+                                self.dataset.attributes['Feature_id_map'])
             self.session.holo_env.dataengine.add_db_table(
                 'Feature_id_map', df_domain_map, self.dataset, append=1)
         return [query_for_featurization]

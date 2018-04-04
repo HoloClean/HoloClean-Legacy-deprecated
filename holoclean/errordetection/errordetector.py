@@ -11,8 +11,10 @@ class ErrorDetection:
 
     def __init__(self, holo_obj, dataset):
         """
+        Construct error detection object
+
         :param holo_obj: a holoclean object
-        :param dataset: list of tables name
+        :param dataset: list of table names
         """
         self.dataengine = holo_obj.dataengine
         self.dataset = dataset
@@ -22,7 +24,7 @@ class ErrorDetection:
     @abstractmethod
     def get_noisy_cells(self):
         """
-         This method creates a dataframe which has the informations
+         This method creates a dataframe which has the information
          (index,attribute) for the dk_cells
 
         :return dataframe  for the dk_cell
@@ -32,7 +34,7 @@ class ErrorDetection:
     @abstractmethod
     def get_clean_cells(self):
         """
-         This method creates a dataframe which has the informations
+         This method creates a dataframe which has the information
          (index,attribute) for the clean_cells
 
         :return dataframe  for the clean_cells

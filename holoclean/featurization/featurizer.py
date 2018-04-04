@@ -4,14 +4,13 @@ from abc import ABCMeta, abstractmethod
 class Featurizer:
     """
     This class is an abstract class for general featurizer, it requires for
-    every sub-class to implement the
-    get_query method
+    every sub-class to implement the get_query method
     """
     __metaclass__ = ABCMeta
 
     def __init__(self, session):
         """
-        Initialize Featurizer object abstraction
+        Initializing Featurizer object abstraction
 
         :param session: session object
         """
@@ -19,11 +18,11 @@ class Featurizer:
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
 
-        # Replace this variable with a list of factors
+        # Replacing this variable with a list of factors
         # if the Signal creates a dataframe instead of using SQL
         self.direct_insert = False
 
-        # These value must be overridden in subclass
+        # These values must be overridden in subclass
         self.offset = 0  # offset on the feature_id_map
         self.id = 'Base'
         self.count = 0

@@ -5,13 +5,29 @@ from collections import Counter
 
 
 class Normalizer:
+    """
+
+    """
 
     def __init__(self, col_infos, max_distinct=1000):
+        """
+        Initilizing normalizer class
+
+        :param col_infos: columns attribute
+        :param max_distinct: maximum distinct values
+        """
         self.col_infos = col_infos
         self.dist_dict = {}
         self.max_distinct = max_distinct
 
     def normalize(self, df):
+        """
+        Creates normalized dataframe with respect to each column
+
+        :param df: input dataframe
+
+        :return: normalized dataframe
+        """
 
         new_df = df
         for ci in self.col_infos:
@@ -19,6 +35,14 @@ class Normalizer:
         return new_df
 
     def _normalize_col(self, df, ci):
+        """
+        Normalizing column in given dataframe
+
+        :param df: input dataframe
+        :param ci: column name
+
+        :return: normalized dataframe with respect to given column
+        """
 
         col_name = ci.col_name
         col = df.select(col_name).collect()
@@ -47,6 +71,15 @@ class Normalizer:
         return df
 
     def _compute_distance(self, w1, w2, dist_fcn):
+        """
+        Computing distance between two strings
+
+        :param w1: string one
+        :param w2: string two
+        :param dist_fcn: distance function
+
+        :return: distance
+        """
         key = frozenset((w1, w2))
         if key in self.dist_dict:
             return self.dist_dict[key]
@@ -56,11 +89,29 @@ class Normalizer:
             return distance
 
     def _compute_distances(self, col, dist_fcn):
+
+        """
+        Creates distance for all pairs elements in column
+
+        :param col: target column
+        :param dist_fcn: distance function
+
+        :return: distance matrix
+        """
         distances = np.array([[self._compute_distance(w1, w2, dist_fcn)
                                for w1 in col] for w2 in col])
         return squareform(distances, force='tovector', checks=False)
 
     def _get_exemplars(self, col, labels, distinct):
+        """
+        Generates most common values from clustering
+
+        :param col: column
+        :param labels: label of elements in column
+        :param distinct: distinct values in column
+
+        :return: center of the cluster (most common)
+        """
         clusters = dict()
         for label in np.unique(labels):
             cluster_indices = [i for i, val in enumerate(labels)

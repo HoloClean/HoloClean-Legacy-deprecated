@@ -9,12 +9,16 @@ import numpy as np
 
 
 class LogReg(torch.nn.Module):
+    """
+    Class to generate weights
+    """
 
     def _setup_weights(self):
-        """ Initializes weight tensor with random values
+        """
+        Initializes weight tensor with random values
         ties init and dc weights if specified
 
-        :return: N/A
+        :return: Null
         """
         torch.manual_seed(42)
         # setup init
@@ -41,15 +45,16 @@ class LogReg(torch.nn.Module):
             else:
                 signals_W = \
                     Parameter(
-                        torch.randn(featurizer.count, 1).expand(-1, self.output_dim)
-                    )
+                        torch.randn(
+                            featurizer.count, 1).expand(-1, self.output_dim))
             self.weight_tensors.append(signals_W)
 
         return
 
     def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
                  tie_init, tie_dc):
-        """ constructor for our logistic regression
+        """
+        Constructor for our logistic regression
 
         :param input_dim_non_dc: number of init + cooccur features
         :param input_dim_dc: number of dc features
@@ -71,7 +76,8 @@ class LogReg(torch.nn.Module):
         self._setup_weights()
 
     def forward(self, X, index, mask):
-        """ runs the forward pass of our logreg.
+        """
+        Runs the forward pass of our logreg.
 
         :param X: values of the features
         :param index: indices to mask at
@@ -79,19 +85,22 @@ class LogReg(torch.nn.Module):
         :return: output - X * W after masking
         """
 
-        # reties the weights - need to do on every pass
+        # Reties the weights - need to do on every pass
 
         self.concat_weights()
 
-        # calculates n x l matrix output
+        # Calculates n x l matrix output
         output = X.mul(self.W)
         output = output.sum(1)
-        # changes values to extremely negative at specified indices
+        # Changes values to extremely negative at specified indices
         if index is not None and mask is not None:
             output.index_add_(0, index, mask)
         return output
 
     def concat_weights(self):
+        """
+        Reties the weight
+        """
         for feature_index in range(0, len(self.weight_tensors)):
             if self.feature_id[feature_index] == 'SignalInit':
                 tensor = self.weight_tensors[feature_index].expand(
@@ -107,15 +116,16 @@ class LogReg(torch.nn.Module):
             else:
                 self.W = torch.cat((self.W, tensor), 0)
 
+
 class SoftMax:
 
-    def __init__(self, session, X_training, training_data_path=None, key=None):
-        """ Constructor for our softmax model
+    def __init__(self, session, X_training):
+        """
+        Constructor for our softmax model
 
-        :param dataengine: a HoloClean object's dataengine
-        :param dataset: session's dataset
-        :param holo_obj: a HoloClean object
         :param X_training: x tensor used for training the model
+        :param session: session object
+
         """
         self.session = session
         self.dataengine = session.holo_env.dataengine
@@ -151,13 +161,13 @@ class SoftMax:
         self.grdt = None
         self._setupY()
         self.model = None
-        return
 
     # Will create the Y tensor of size NxL
     def _setupY(self):
-        """ Initializes a y tensor to compare to our model's output
+        """
+        Initializes a y tensor to compare to our model's output
 
-        :return: N/A
+        :return: Null
         """
         possible_values = self.dataengine .get_table_to_dataframe(
             "Observed_Possible_values_clean", self.dataset) .collect()
@@ -169,10 +179,12 @@ class SoftMax:
 
     # Will create the X-value tensor of size nxmxl
     def _setupX(self, sparse=0):
-        """ initializes an X tensor of features for prediction
+        """
+        Initializes an X tensor of features for prediction
 
         :param sparse: 0 if dense tensor, 1 if sparse
-        :return:
+
+        :return: Null
         """
         feature_table = self .dataengine.get_table_to_dataframe(
             "Feature_clean", self.dataset).collect()
@@ -197,9 +209,11 @@ class SoftMax:
         return
 
     def setuptrainingX(self, sparse=0):
-        """ initializes an X tensor of features for training
+        """
+        Initializes an X tensor of features for training
 
         :param sparse: 0 if dense tensor, 1 if sparse
+
         :return: x tensor of features
         """
         dataframe_offset = self.dataengine.get_table_to_dataframe(
@@ -238,11 +252,13 @@ class SoftMax:
         return X
 
     def setupMask(self, clean=1, N=1, L=1):
-        """ initializes a masking tensor for ignoring impossible classes
+        """
+        Initializes a masking tensor for ignoring impossible classes
 
         :param clean: 1 if clean cells, 0 if don't-know
         :param N: number of examples
         :param L: number of classes
+
         :return: masking tensor
         """
         lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
@@ -262,13 +278,16 @@ class SoftMax:
 
     def build_model(self,  featurizers, input_dim_non_dc, input_dim_dc,
                     output_dim, tie_init=True, tie_DC=True):
-        """ initializes the logreg part of our model
+        """
+        Initializes the logreg part of our model
 
         :param input_dim_non_dc: number of init + cooccur features
+        :param featurizers: list of featurizers
         :param input_dim_dc: number of dc features
         :param output_dim: number of classes
         :param tie_init: boolean to decide weight tying for init features
         :param tie_DC: boolean to decide weight tying for dc features
+
         :return: newly created LogReg model
         """
         model = LogReg(
@@ -281,7 +300,8 @@ class SoftMax:
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
-        """ trains our model on the clean cells
+        """
+        Trains our model on the clean cells
 
         :param model: logistic regression model
         :param loss: loss function used for evaluating performance
@@ -289,6 +309,7 @@ class SoftMax:
         :param x_val: x tensor - features
         :param y_val: y tensor - output for comparison
         :param mask: masking tensor
+
         :return: cost of traininng
         """
         x = Variable(x_val, requires_grad=False)
@@ -317,11 +338,13 @@ class SoftMax:
         return output.data[0]
 
     def predict(self, model, x_val, mask=None):
-        """ runs our model on the test set
+        """
+        Runs our model on the test set
 
         :param model: trained logreg model
         :param x_val: test x tensor
         :param mask: masking tensor to restrict domain
+
         :return: predicted classes with probabilities
         """
         x = Variable(x_val, requires_grad=False)
@@ -337,20 +360,22 @@ class SoftMax:
         return output
 
     def logreg(self, featurizers):
-        """ trains our model on clean cells and predicts vals for clean cells
+        """
+        Trains our model on clean cells and predicts vals for clean cells
 
         :return: predictions
         """
         n_examples, n_features, n_classes = self.X.size()
-        self.model = self.build_model(featurizers,
-            self.M - self.DC_count, self.DC_count, n_classes)
+        self.model = self.build_model(
+            featurizers, self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
             self.model.parameters(),
             lr=self.holo_obj.learning_rate,
             momentum=self.holo_obj.momentum,
             weight_decay=self.holo_obj.weight_decay)
-        # experiment with different batch sizes. no hard rule on this
+
+        # Experiment with different batch sizes. no hard rule on this
         batch_size = self.holo_obj.batch_size
         for i in tqdm(range(self.holo_obj.learning_iterations)):
             cost = 0.
@@ -364,19 +389,21 @@ class SoftMax:
                                    self.Y[start:end],
                                    self.mask[start:end])
             predY = self.predict(self.model, self.X, self.mask)
-            map = predY.data.numpy().argmax(axis=1)            
-            
-            if self.holo_obj.verbose:                
+            map = predY.data.numpy().argmax(axis=1)
+
+            if self.holo_obj.verbose:
                 print("Epoch %d, cost = %f, acc = %.2f%%" %
                       (i + 1, cost / num_batches,
                        100. * np.mean(map == self.grdt)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
-        """ stores our predicted values in the database
+        """
+        Stores our predicted values in the database
 
         :param Y: tensor with probability for each class
-        :return: N/A
+
+        :return: Null
         """
         max_result = torch.max(Y, 1)
         max_indexes = max_result[1].data.tolist()
@@ -414,12 +441,22 @@ class SoftMax:
         return
 
     def log_weights(self):
+        """
+        Writes weights in the logger
+
+        :return: Null
+        """
         self.model.concat_weights()
         weights = self.model.W
         self.session.holo_env.logger.info("Tensor weights")
         count = 0
-        for weight in torch.index_select(weights, 1, Variable(torch.LongTensor([0]))):
+        for weight in \
+                torch.index_select(
+                    weights, 1, Variable(torch.LongTensor([0]))
+                ):
+
             count += 1
             msg = "Feature " + str(count) + ": " + str(weight[0].data[0])
             self.session.holo_env.logger.info(msg)
+
         return

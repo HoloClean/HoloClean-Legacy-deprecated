@@ -9,14 +9,14 @@ __metaclass__ = type
 
 class SqlDCErrorDetection(ErrorDetection):
     """
-    This class is a subclass of the errordetector class and
-    will return  error  cells and clean cells based on the
-    denial constraint
+    This class is a subclass of ErrorDetection class and
+    will returns don't know cells and clean cells based on the
+    denial constraints
     """
 
     def __init__(self, session):
         """
-        This constructor  converts all denial constraints
+        This constructor converts all denial constraints
         to the form of SQL constraints
 
         :param session: Holoclean session
@@ -31,9 +31,15 @@ class SqlDCErrorDetection(ErrorDetection):
         self.dc_objects = session.dc_objects
         self.Denial_constraints = session.Denial_constraints
 
-    # Internals
+    # Internals Methods
     @staticmethod
-    def _is_symmetric( dc_name):
+    def _is_symmetric(dc_name):
+        """
+        Identifying symmetric denial constraint
+
+        :param dc_name: denial constraint
+        :return: boolean value
+        """
         result = True
         non_sym_ops = ['<=', '>=', '<', '>']
         for op in non_sym_ops:
@@ -43,12 +49,12 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def _get_noisy_cells_for_dc(self, dc_name):
         """
-                Return a dataframe that consist of index of noisy cells index,
-                attribute
+        Returns a dataframe that consist of index of noisy cells index and
+        attribute
 
-                :param dc_name: String
-                :return: spark_dataframe
-                """
+        :param dc_name: denial constraint
+        :return: spark_dataframe
+        """
 
         if self.holo_obj.verbose:
             self.holo_obj.logger.info(
@@ -79,8 +85,8 @@ class SqlDCErrorDetection(ErrorDetection):
 
         t4 = time.time()
         if self.holo_obj.verbose:
-            self.holo_obj.logger.info("Time for executing query "
-                                      + dc_name + ":" + str(t4-t3))
+            self.holo_obj.logger.\
+                info("Time for executing query " + dc_name + ":" + str(t4-t3))
 
         # For each predicate add attributes
         tuple_attributes = {}
@@ -95,7 +101,7 @@ class SqlDCErrorDetection(ErrorDetection):
                 else:
                     tuple_attributes[component[0]].add(component[1])
 
-        tuple_attributes_lists ={}
+        tuple_attributes_lists = {}
         tuple_attributes_dfs = {}
         for tuple_name in dc_object.tuple_names:
             tuple_attributes_lists[tuple_name] = [[i] for i in
@@ -131,12 +137,12 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def _get_sym_noisy_cells_for_dc(self, dc_name):
         """
-                Return a dataframe that consist of index of noisy cells index,
-                attribute
+        Returns a dataframe that consists of index of noisy cells index,
+        attribute
 
-                :param dc_name: String
-                :return: spark_dataframe
-                """
+        :param dc_name: denial constraint
+        :return: spark_dataframe
+        """
 
         self.holo_obj.logger.info('Denial Constraint Queries For ' + dc_name)
         temp_table = "tmp" + self.dataset.dataset_id
@@ -209,9 +215,11 @@ class SqlDCErrorDetection(ErrorDetection):
         drop_temp_table = "DROP TABLE " + temp_table
         self.dataengine.query(drop_temp_table)
 
+    # Getters
     def get_noisy_cells(self):
         """
-        Returns a dataframe that consist of index of noisy cells index,attribute
+        Returns a dataframe that consists of index of noisy cells index,
+         attribute
 
         :return: spark_dataframe
         """
@@ -230,8 +238,10 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def get_clean_cells(self):
         """
-        Return a dataframe that consist of index of clean cells index,attribute
-        :return:
+        Returns a dataframe that consists of index of clean cells index,
+         attribute
+
+        :return: spark dataframe
         """
         c_clean_dataframe = self.session.init_flat.\
             subtract(self.noisy_cells)

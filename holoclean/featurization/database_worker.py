@@ -19,6 +19,11 @@ class DatabaseWorker(Thread):
     queries = deque([])
 
     def __init__(self, session):
+        """
+        Initialization of data base worker
+
+        :param session: session object
+        """
         Thread.__init__(self)
         self.session = session
         self.holo_env = self.session.holo_env
@@ -27,6 +32,9 @@ class DatabaseWorker(Thread):
         self.exit_code = 0
 
     def run(self):
+        """
+        Runs the database queries
+        """
 
         # Get the table name of this thread
         string_name = str(threading.currentThread().getName())
@@ -83,7 +91,7 @@ class DatabaseWorker(Thread):
                     printLock.release()
             self.dataengine.db_backend[1].close()
         except Exception as e:
-            print ("Exception in Thread: " + string_name)
+            print("Exception in Thread: " + string_name)
             self.holo_env.logger.info("Exception in Thread: " + string_name)
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
@@ -91,9 +99,18 @@ class DatabaseWorker(Thread):
 
 
 class PopulateTensor(Thread):
+    """
+    This class populates the tensor
+    """
     __lock = Lock()
 
     def __init__(self, table_name, X_tensor, session):
+        """
+        Constructor for populate tensor
+        :param table_name: string to refer accessed table
+        :param X_tensor: tensor for input data into the model
+        :param session: session object
+        """
         Thread.__init__(self)
         self.table_name = table_name
         self.X = X_tensor
@@ -101,6 +118,9 @@ class PopulateTensor(Thread):
         self.dataengine = DataEngine(self.holo_env)
 
     def run(self):
+        """
+        Run method for populating the tensor
+        """
         table_name = self.table_name
         try:
             if self.X is None:
@@ -113,8 +133,10 @@ class PopulateTensor(Thread):
                        factor.assigned_val - 1] = factor['count']
             if self.holo_env.verbose:
                 printLock.acquire()
-                msg = str(threading.currentThread().getName()) + \
-                      " Done executing queries"
+                msg = \
+                    str(threading.currentThread().getName()) + \
+                    " Done executing queries"
+
                 self.holo_env.logger.info(msg)
                 printLock.release()
             drop_table = "DROP TABLE " + table_name
@@ -122,7 +144,7 @@ class PopulateTensor(Thread):
             self.dataengine.db_backend[1].close()
 
         except Exception as e:
-            print ("Exception in Thread: " + table_name)
+            print("Exception in Thread: " + table_name)
             self.holo_env.logger.info("Exception in Thread: " + table_name)
             self.holo_env.logger.info(str(e))
             self.exit_code = 1
@@ -136,9 +158,17 @@ class RunQuery(Thread):
     __lock = Lock()
 
     def __init__(self, query, session):
+        """
+        Constructor for running the queries inside threads
+        :param query: given query
+        :param session: session object
+        """
         Thread.__init__(self)
         self.query = query
         self.dataengine = session.holo_env.dataengine
 
     def run(self):
+        """
+        Run method to execute query
+        """
         self.dataengine.query(self.query)

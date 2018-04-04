@@ -6,14 +6,13 @@ __metaclass__ = type
 
 class SignalCooccur(Featurizer):
     """
-    This class is a subclass of the Featurizer class and
-    will return the mysql query which represent the  Cooccur signal for
-     the clean and dk cells
+    This class is a subclass of Featurizer class for the co-occur signal and
+    will fill the tensor
     """
 
     def __init__(self, session):
         """
-        Initialize co-occur signal object
+        Initializing a co-occur signal object
 
         :param session: session object
         """
@@ -36,10 +35,10 @@ class SignalCooccur(Featurizer):
 
     def insert_to_tensor(self, tensor, clean):
         """
-        Insert co-occur data into tensor
+        Inserting co-occur data into tensor
 
         :param tensor: tensor object
-        :param clean: Nat value that identify we are calculating feature
+        :param clean: Nat value that identifies if we are calculating feature
         value for training data (clean cells) or testing data
 
         :return: None
@@ -56,16 +55,24 @@ class SignalCooccur(Featurizer):
 
         for vid in range(len(vid_list)):
             for cell_index in cell_values[vid_list[vid][0] - 1]:
-                co_attribute = cell_values[vid_list[vid][0] - 1][cell_index].columnname
+
+                co_attribute = \
+                    cell_values[vid_list[vid][0] - 1][cell_index].columnname
                 attribute = vid_list[vid][1]
                 feature = self.attribute_feature_id.get(co_attribute, -1)
+
                 if co_attribute != attribute and feature != -1:
+
                     domain_id = 0
-                    co_value = cell_values[vid_list[vid][0] - 1][cell_index].value
+                    co_value = \
+                        cell_values[vid_list[vid][0] - 1][cell_index].value
+
                     for value in cell_domain[vid_list[vid][2]]:
+
                         v_count = domain_stats[co_attribute][co_value]
-                        count = domain_pair_stats[co_attribute][attribute].get((
-                            co_value, value), 0)
+                        count = domain_pair_stats[co_attribute][attribute].get(
+                            (
+                                co_value, value), 0)
                         probability = count / v_count
                         tensor[vid, feature-1, domain_id] = probability
                         domain_id = domain_id + 1
@@ -73,13 +80,12 @@ class SignalCooccur(Featurizer):
 
     def get_query(self, clean=1):
         """
-        Creates a string for the query that it is used to create the  Cooccur
-        Signal
+        Adding co-occur feature
 
         :param clean: shows if create the feature table for the clean or the dk
          cells
 
-        :return a string with the query for this feature
+        :return list
         """
         if clean:
             self.offset = self.session.feature_count
@@ -89,7 +95,8 @@ class SignalCooccur(Featurizer):
                 self.count += 1
                 self.attribute_feature_id[attribute] = self.count + self.offset
                 feature_id_list.append(
-                    [self.count + self.offset, attribute, 'Cooccur', 'Cooccur'])
+                    [self.count + self.offset, attribute, 'Cooccur',
+                     'Cooccur'])
             feature_df = self.session.holo_env.spark_session.createDataFrame(
                 feature_id_list,
                 self.session.dataset.attributes['Feature_id_map']

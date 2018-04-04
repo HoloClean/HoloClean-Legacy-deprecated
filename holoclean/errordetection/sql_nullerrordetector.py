@@ -8,8 +8,9 @@ __metaclass__ = type
 
 class SqlnullErrorDetection(ErrorDetection):
     """
-    This class is a subclass of the errordetector class and
-    will return  error  cells and clean cells based on if they have null value
+    This class is a subclass of the error detection class and
+    will returns don't know cells and clean cells based on if
+    they have null value
     """
 
     def __init__(self, session):
@@ -24,9 +25,11 @@ class SqlnullErrorDetection(ErrorDetection):
 
         self.session = session
 
+    # Getters
     def get_noisy_cells(self):
         """
-        Returns a dataframe that consist of index of noisy cells index,attribute
+        Returns a dataframe that consists of index of noisy cells index,
+         attribute
 
         :return: spark_dataframe
         """
@@ -36,7 +39,7 @@ class SqlnullErrorDetection(ErrorDetection):
                                    "(ind INT, attr VARCHAR(255));"
         self.dataengine.query(query_for_creation_table)
         self.discovering_cells_with_null_values()
-        self.noisy_cells = self.dataengine.\
+        self.noisy_cells = self.dataengine. \
             get_table_to_dataframe("C_dk_temp_null", self.dataset)
 
         return self.noisy_cells
@@ -48,26 +51,31 @@ class SqlnullErrorDetection(ErrorDetection):
 
         all_attr = self.session.dataset.get_schema('Init')
         all_attr.remove(self.index)
+
         for attribute in all_attr:
             time_start = time.time()
             t_name = self.dataset.table_specific_name("Init")
             query_null = "INSERT INTO " + \
                          self.dataset.table_specific_name("C_dk_temp_null") + \
-                         " SELECT t1.__ind as ind,'" + attribute +\
+                         " SELECT t1.__ind as ind,'" + attribute + \
                          "' as attr  " \
                          "FROM " + t_name + " AS t1 " \
-                         "WHERE t1." + attribute + " is NULL"
+                                            "WHERE t1." + attribute + \
+                         " is NULL"
+
             self.dataengine.query(query_null)
             time_end = time.time()
             if self.holo_obj.verbose:
-                self.holo_obj.logger.info("Time for executing query "
-                                          + query_null + ":" +
-                                          str(time_end - time_start))
+                self.holo_obj.logger.\
+                    info("Time for executing query "
+                         "" + query_null + ":" + str(time_end - time_start))
 
     def get_clean_cells(self):
         """
-        Returns a dataframe that consist of index of clean cells index,attribute
-        :return: dataframe
+        Returns a dataframe that consists of index of clean cells index,
+        attribute
+
+        :return: spark dataframe
         """
         c_clean_dataframe = self.session.init_flat.\
             subtract(self.noisy_cells)

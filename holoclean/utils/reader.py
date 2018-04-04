@@ -4,20 +4,23 @@ from pyspark.sql.functions import *
 
 class Reader:
 
-    """Reader class:
+    """
+    Reader class:
     Finds the extension of the file and calls the appropriate reader
     """
 
     def __init__(self, spark_session):
         """
--
+        Constructing reader object
+
         :param spark_session: The spark_session we created in Holoclean object
         """
         self.spark_session = spark_session
 
     # Internal Methods
     def _findextesion(self, filepath):
-        """Finds the extesion of the file.
+        """
+        Finds the extesion of the file.
 
         :param filepath: The path to the file
         """
@@ -25,11 +28,12 @@ class Reader:
         return extention
 
     def read(self, filepath):
-        """Calls the appropriate reader for the file
+        """
+        Calls the appropriate reader for the file
 
         :param filepath: The path to the file
         """
-        if (self._findextesion(filepath) == "csv"):
+        if self._findextesion(filepath) == "csv":
             csv_obj = CSVReader()
             df = csv_obj.read(filepath, self.spark_session)
             return df
@@ -38,24 +42,29 @@ class Reader:
 
 
 class CSVReader:
-    """CSVReader class: Reads a csv file and send its content back"""
+    """
+    CSVReader class: Reads a csv file and send its content back
+    """
 
     def __init__(self):
         pass
 
     # Setters
     def read(self, file_path, spark_session):
-        """Creates a dataframe from the csv file
+        """
+        Creates a dataframe from the csv file
 
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
 
+        :return: dataframe
         """
         df = spark_session.read.csv(file_path, header=True)
         index_name = GlobalVariables.index_name
 
         new_cols = df.schema.names + [index_name]
-        ix_df = df.rdd.zipWithIndex().map(lambda (row, ix): row + (ix + 1,)).toDF()
+        ix_df = df.rdd.zipWithIndex().map(
+            lambda (row, ix): row + (ix + 1,)).toDF()
         tmp_cols = ix_df.schema.names
         new_df = reduce(lambda data, idx: data.withColumnRenamed(tmp_cols[idx],
                         new_cols[idx]),
@@ -67,8 +76,11 @@ class CSVReader:
 
     def clean_up_dataframe(self, df):
         """
+        This method creates dataframe that does not have wrong expression
+         characters
 
         :param df: a dataframe that we want to change
+
         :return: a new dataframe where have clean up its context
         """
         df.toDF(*[c.lower() for c in df.columns])
