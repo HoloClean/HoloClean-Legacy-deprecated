@@ -44,7 +44,7 @@ MOCK_MODULES = ['numpy', 'scipy', 'py4j', 'tqdm', 'py4j.protocol',
                 'pyspark.sql.types.DoubleType', 'torch.nn',
                 'torch.autograd', 'torch.nn.functional', 'tqdm.tqdm',
                 'torch.nn.functional.softmax', 'torch.optim',
-                'torch.autograd.Variable', 'torch.nn.Parameter']
+                'torch.autograd.Variable', 'torch.nn.Parameter','psycopg2']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
 
