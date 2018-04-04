@@ -34,7 +34,7 @@ class Testing:
 
         denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
 
-        ground_truth = "../datasets/hospital1k/groundtruth_norm.csv"
+        ground_truth = "../datasets/hospital1k/groundtruth_norm_c.csv"
 
         # Ingesting Dataset and Denial Constraints
         self.session.load_data(dataset)

@@ -494,10 +494,8 @@ class Session:
         :param truth_path: path to clean version of dataset
         """
 
-        flattening = 0
-
         acc = Accuracy(self, truth_path)
-        acc.accuracy_calculation(flattening)
+        acc.accuracy_calculation()
 
     def _ingest_dataset(self, src_path):
         """
@@ -842,6 +840,15 @@ class Session:
         correct_dataframe = \
             self.holo_env.spark_sql_ctxt.createDataFrame(
                 corrected_dataset, self.dataset.attributes['Init'])
+
+        self.holo_env.dataengine.add_db_table ("Inferred_values",
+                                               self.inferred_values,
+                                               self.dataset)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
+
+        self.holo_env.logger.info("The Inferred_values "
+                                  "and Repaired tables have been created")
+        self.holo_env.logger.info("  ")
+
         return correct_dataframe

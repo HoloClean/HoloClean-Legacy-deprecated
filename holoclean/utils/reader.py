@@ -27,15 +27,19 @@ class Reader:
         extention = filepath.split('.')[-1]
         return extention
 
-    def read(self, filepath):
+    def read(self, filepath, indexcol=0, schema=None):
         """
         Calls the appropriate reader for the file
 
+        :param schema: optional schema when known
         :param filepath: The path to the file
+
+        :return: data frame of the read data
+
         """
         if self._findextesion(filepath) == "csv":
             csv_obj = CSVReader()
-            df = csv_obj.read(filepath, self.spark_session)
+            df = csv_obj.read(filepath, self.spark_session, indexcol, schema)
             return df
         else:
             print("This extension doesn't support")
@@ -50,18 +54,26 @@ class CSVReader:
         pass
 
     # Setters
-    def read(self, file_path, spark_session):
+    def read(self, file_path, spark_session, indexcol=0, schema=None):
         """
         Creates a dataframe from the csv file
 
+        :param indexcol: if 1, create a tuple id column as auto increment
+        :param schema: optional schema of file if known
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
 
         :return: dataframe
         """
-        df = spark_session.read.csv(file_path, header=True)
-        index_name = GlobalVariables.index_name
+        if schema is None:
+            df = spark_session.read.csv(file_path, header=True)
+        else:
+            df = spark_session.read.csv(file_path, header=True, schema=schema)
 
+        if indexcol == 0:
+            return df
+
+        index_name = GlobalVariables.index_name
         new_cols = df.schema.names + [index_name]
         ix_df = df.rdd.zipWithIndex().map(
             lambda (row, ix): row + (ix + 1,)).toDF()
@@ -69,33 +81,7 @@ class CSVReader:
         new_df = reduce(lambda data, idx: data.withColumnRenamed(tmp_cols[idx],
                         new_cols[idx]),
                         xrange(len(tmp_cols)), ix_df)
-
-        new_df = self.clean_up_dataframe(new_df)
-
         return new_df
 
-    def clean_up_dataframe(self, df):
-        """
-        This method creates dataframe that does not have wrong expression
-         characters
 
-        :param df: a dataframe that we want to change
 
-        :return: a new dataframe where have clean up its context
-        """
-        df.toDF(*[c.lower() for c in df.columns])
-        list_attributes = df.schema.names
-        index_name = GlobalVariables.index_name
-
-        for attribute in list_attributes:
-            if attribute != index_name:
-                df = df.withColumn(
-                    attribute, regexp_replace(attribute, '  +', ' '))
-                df = df.withColumn(
-                    attribute, regexp_replace(attribute, '\n', ''))
-                df = df.withColumn(
-                    attribute, regexp_replace(attribute, '"', ''))
-                df = df.withColumn(
-                    attribute, regexp_replace(attribute, "'", ''))
-                new_df = df.withColumn(attribute, trim(col(attribute)))
-        return new_df

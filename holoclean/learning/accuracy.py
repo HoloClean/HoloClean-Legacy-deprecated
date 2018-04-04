@@ -1,21 +1,14 @@
 from holoclean.global_variables import GlobalVariables
 from holoclean.utils.reader import Reader
-
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
 class Accuracy:
-    """
-    This class calculates precision and recall
-    """
+
     def __init__(
             self,
             session,
             path_to_grand_truth
     ):
-        """
-        Constructor of accuracy object
-        :param session: session object
-        :param path_to_grand_truth: string of path to ground truth
-        """
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
         self.path_to_grand_truth = path_to_grand_truth
@@ -23,38 +16,57 @@ class Accuracy:
         self.ground_truth_flat = None
         self.session = session
 
-    def accuracy_calculation(self, flattening=1):
-        """
-        Calculating the accuracy and recall
-
-        :param flattening: flag if we need flatten the ground truth
-        """
+    def accuracy_calculation(self):
 
         if self.session.inferred_values is None:
             self.session.holo_env.logger.error('No Inferred values')
-            print("The precision and recall cannot be calculated")
+            print ("The precision and recall cannot be calculated")
 
         else:
-            inferred = self.session.inferred_values.select("tid", "attr_name",
-                                                           "attr_val")
+            self.read_groundtruth()
+
+            checkable_inferred_query = "SELECT I.tid,I.attr_name," \
+                                       "I.attr_val FROM " + \
+                                       self.dataset.table_specific_name(
+                                           'Inferred_Values') + " AS I , " + \
+                                       self.dataset.table_specific_name(
+                                           'Groundtruth') + " AS C WHERE " \
+                                                            "C.tid=I.tid " \
+                                                            "AND " \
+                                                            "C.attr_name= " \
+                                                            "I.attr_name"
+
+            inferred = self.dataengine.query(checkable_inferred_query, 1)
+
+            checkable_original_query = "SELECT I.tid,I.attr_name," \
+                                       "I.attr_val FROM " + \
+                                       self.dataset.table_specific_name(
+                                           'Observed_Possible_Values_dk') + \
+                                       " AS I , " + \
+                                       self.dataset.table_specific_name(
+                                           'Groundtruth') + " AS C WHERE " \
+                                                            "C.tid=I.tid " \
+                                                            "AND " \
+                                                            "C.attr_name= " \
+                                                            "I.attr_name"
+
+            init = self.dataengine.query(checkable_original_query, 1)
+
 
             if self.session.simple_predictions:
                 inferred_singlevalues = \
                     self.session.simple_predictions.select("tid", "attr_name",
                                                            "attr_val")
+
             else:
-                self.session.holo_env.logger.error('No Simple values ')
+                self.session.holo_env.logger.error('No Simple values')
                 inferred_singlevalues = None
 
             inferred_multivalues = inferred.subtract(inferred_singlevalues)
 
-            init = self.dataengine.get_table_to_dataframe(
-                "Observed_Possible_values_dk", self.dataset).select(
-                "tid", "attr_name", "attr_val")
+            # get the simple predictions that we can check
 
-            self.read()
-            if flattening:
-                self._flatting()
+            inferred_singlevalues = inferred.subtract(inferred_multivalues)
 
             incorrect_singlevalues_count = 0
             original_singlevalues_errors_count = 0
@@ -71,13 +83,14 @@ class Accuracy:
                     self.ground_truth_flat)
                 incorrect_multivalues_count = incorrect_multivalues.count()
 
-                # inferred_single values has the initial values
-                # (will it as init for single values)
+                # inferred_singlevalues has the intitial values
+                # (will use it as init for single values)
 
                 original_multivalues_errors = init.subtract(
                     inferred_singlevalues).subtract(self.ground_truth_flat)
                 original_multivalues_errors_count = \
                     original_multivalues_errors.count()
+
                 uncorrected_multivalues = original_multivalues_errors.drop(
                     'attr_val').intersect(
                     incorrect_multivalues.drop('attr_val'))
@@ -85,18 +98,19 @@ class Accuracy:
                 uncorrected_multivalues_count = uncorrected_multivalues.count()
 
                 if original_multivalues_errors_count:
-                    diff = \
-                        (float(uncorrected_multivalues_count) /
-                         original_multivalues_errors_count)
-                    multivalues_recall = 1.0 - diff
+                    multivalues_recall = \
+                        1.0 - (
+                            float(uncorrected_multivalues_count
+                                  ) / original_multivalues_errors_count)
                 else:
                     multivalues_recall = 1.0
                 multivalues_precision = float(
-                    inferred_multivalues_count -
-                    incorrect_multivalues_count) / inferred_multivalues_count
-                print("The multiple-values precision that we have is :" + str(
+                    inferred_multivalues_count - incorrect_multivalues_count
+                ) / inferred_multivalues_count
+
+                print ("The multiple-values precision that we have is :" + str(
                     multivalues_precision))
-                print("The multiple-values recall that we have is :" + str(
+                print ("The multiple-values recall that we have is :" + str(
                     multivalues_recall) + " out of " + str(
                     original_multivalues_errors_count))
 
@@ -108,100 +122,69 @@ class Accuracy:
                 # simple predictions has zero recall since it kept all errors
 
                 incorrect_singlevalues_count = incorrect_singlevalues.count()
-                original_singlevalues_errors_count =\
+                original_singlevalues_errors_count = \
                     incorrect_singlevalues_count
                 uncorrected_singlevalues_count = incorrect_singlevalues_count
 
                 if original_singlevalues_errors_count:
-                    diff = (float(uncorrected_singlevalues_count) /
-                            original_singlevalues_errors_count)
-                    singlevalues_recall = 1.0 - diff
+                    singlevalues_recall = 1.0 - (
+                        float(uncorrected_singlevalues_count
+                              ) / original_singlevalues_errors_count)
                 else:
                     singlevalues_recall = 1.0
 
                 singlevalues_precision = float(
                     inferred_singlevalues_count - incorrect_singlevalues_count
                 ) / inferred_singlevalues_count
+
                 print("The single-value precision that we have is :" + str(
                     singlevalues_precision))
+
                 print("The single-value recall that we have is :" + str(
-                    singlevalues_recall) + " out of " + str(
+                    singlevalues_recall) + " "
+                                           "out of " + str(
                     original_singlevalues_errors_count))
 
-            inferred_count = \
-                inferred_multivalues_count + inferred_singlevalues_count
+
+            inferred_count = inferred_multivalues_count + \
+                             inferred_singlevalues_count
             if inferred_count:
-
-                incorrect_count = \
-                    incorrect_multivalues_count + incorrect_singlevalues_count
-
+                incorrect_count = incorrect_multivalues_count + \
+                                  incorrect_singlevalues_count
                 original_errors_count = \
                     original_multivalues_errors_count + \
                     original_singlevalues_errors_count
 
-                uncorrected_count = \
-                    uncorrected_multivalues_count + \
-                    uncorrected_singlevalues_count
-
+                uncorrected_count = uncorrected_multivalues_count + \
+                                    uncorrected_singlevalues_count
                 if original_errors_count:
-                    recall = 1.0 - (float(
-                        uncorrected_count) / original_errors_count)
+                    recall = 1.0 - (float(uncorrected_count) /
+                                    original_errors_count)
                 else:
                     recall = 1.0
-                precision = float(
-                    (inferred_count - incorrect_count)) / inferred_count
-                print("The precision that we have is :" + str(precision))
-                print("The recall that we have is :" + str(
-                    recall) + " out of " + str(original_errors_count))
+                precision = float((inferred_count - incorrect_count)) / \
+                            inferred_count
+                print ("The precision that we have is :" + str(precision))
 
-    def _flatting(self):
-        """
-        Flattening ground truth
-        :return: Null
-        """
+                print ("The recall that we have is :"
+                       + str(recall) + " out of " + str(original_errors_count))
 
-        table_rv_attr_string = self.dataset.schema.remove(
-            GlobalVariables.index_name)
-        rv_attrs = table_rv_attr_string.split(',')
-        print(rv_attrs)
+    def read_groundtruth(self):
+        """Create a dataframe from the ground truth csv file
 
-        query_for_flattening = \
-            "CREATE TABLE " + \
-            self.dataset.table_specific_name('Correct_flat') + \
-            "( rv_index TEXT, rv_attr TEXT, attr_val TEXT);"
-
-        self.dataengine.query(query_for_flattening)
-
-        counter = 0
-
-        for rv_attr in rv_attrs:
-            if rv_attr != GlobalVariables.index_name:
-                query_for_flattening = """
-                (SELECT DISTINCT t1.__ind as tid,'""" + \
-                                       rv_attr + """'
-                                       AS attr_name, t1.""" + \
-                                       rv_attr + """
-                                       AS attr_val FROM """ +  \
-                                       self.dataset.\
-                                           table_specific_name('Correct') + \
-                                       " as t1)"
-
-                insert_query = "INSERT INTO " + self.dataset. \
-                    table_specific_name('Correct_flat') + \
-                               "( " + query_for_flattening + ");"
-                counter += 1
-
-                self.dataengine.query(insert_query)
-        self.ground_truth_flat = self.dataengine.get_table_to_dataframe(
-            'Correct_flat', self.dataset)
-        return
-
-    def read(self):
-        """
-        Creating a dataframe from the csv file
+        Takes as argument the full path name of the csv file
+        and the spark_session
         """
         filereader = Reader(self.spark_session)
-        self.ground_truth_flat = filereader.read(
-            self.path_to_grand_truth).drop(GlobalVariables.index_name)
+
+        groundtruth_schema = StructType([
+            StructField("tid", IntegerType(), False),
+            StructField("attr_name", StringType(), False),
+            StructField("attr_val", StringType(), False)])
+
+        self.ground_truth_flat = filereader.read(self.path_to_grand_truth, 0,
+                                                 groundtruth_schema).\
+            drop(GlobalVariables.index_name)
+
         self.dataengine.add_db_table(
-            'Correct', self.ground_truth_flat, self.dataset)
+            'Groundtruth', self.ground_truth_flat, self.dataset)

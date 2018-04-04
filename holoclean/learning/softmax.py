@@ -429,15 +429,11 @@ class SoftMax:
                 df1.domain_id2 == df2.domain_id], 'inner')\
             .drop("vid2", "domain_id2")
 
-        self.dataengine.add_db_table('Inferred_values',
-                                     df_inference, self.dataset)
-
-        self.session.holo_env.logger.info(
-            'The table: ' +
-            self.dataset.table_specific_name('Inferred_values') +
-            " has been created")
-        self.session.holo_env.logger.info("  ")
         self.session.inferred_values = df_inference
+
+        self.session.holo_env.logger.info\
+            ("The Inferred_values Dataframe has been created")
+        self.session.holo_env.logger.info("  ")
         return
 
     def log_weights(self):
