@@ -83,8 +83,9 @@ To start postgres run:
 sudo -u postgres psql
 ```
 <b> 2.3 Mac Installation </b>
+Check out the following page to install Postgres for MacOS
 <br>
-<b> 2.3 Using Postgres on Mac</b>
+https://www.postgresql.org/download/macosx/
 <br>
 <b> 2.4 Setup Postgres for Holoclean </b>
 
