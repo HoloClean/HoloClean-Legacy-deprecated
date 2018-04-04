@@ -16,21 +16,6 @@ HoloClean is a statistical inference engine to impute, clean, and enrich data. A
 </p>
 
 
-<p>HoloClean has three key properties:
-</p>
-<ul>
-<li><p>It is the first holistic data cleaning framework that combines a variety of heterogeneous signals, such as integrity constraints, external knowledge, and quantitative statistics, in a unified framework.</p></li>
-<li><p>It is the first data cleaning framework driven by probabilistic inference. Users only need to provide a dataset to be cleaned and describe high-level domain specific signals.</p></li>
-<li><p>It can scale to large real-world dirty datasets and perform automatic repairs that are two times more accurate than state-of-the-art methods.</p></li>
-</ul>
-
-<p>
-For more information read our <a href="https://holoclean.github.io/gh-pages/blog/holoclean.html">blog post</a>.
-</p>
-
-### References
-* _HoloClean:Holistic Data Repairs with Probabilistic Inference_, ([VLDB 2017](https://arxiv.org/pdf/1702.00820.pdf))
-
 
 ## Installation
 
