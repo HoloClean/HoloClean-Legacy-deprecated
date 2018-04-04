@@ -199,7 +199,7 @@ class Pruning:
         # cell_probabilities will hold domain values and their probabilities
         cell_probabilities = []
         # always have the initial value in the returned domain values unless
-        #  it is null
+        # it is null
         if assignment[trgt_attr] is not None:
             cell_values = {(assignment[trgt_attr])}
         else:
@@ -669,6 +669,9 @@ class Pruning:
             " as t1  WHERE  " \
             "t1.observed=1 ) AS " \
             "table1;"
+
+        # Simple predictions may be our only predictions if all kept the initial value
+        # Also used to compute separate accuracies for inference and pruning
 
         self.dataengine.query(query_observed)
         df_simple_predictions = self.spark_session.createDataFrame(

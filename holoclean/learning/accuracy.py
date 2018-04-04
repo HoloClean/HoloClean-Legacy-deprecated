@@ -71,7 +71,7 @@ class Accuracy:
                     self.ground_truth_flat)
                 incorrect_multivalues_count = incorrect_multivalues.count()
 
-                # inferred_singlevalues has the intitial values
+                # inferred_single values has the initial values
                 # (will it as init for single values)
 
                 original_multivalues_errors = init.subtract(
