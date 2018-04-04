@@ -1,7 +1,8 @@
 #!/bin/bash
 
 sudo -u postgres psql <<PGSCRIPT
- 
+
+DROP database holo;
 CREATE database holo;
 CREATE user holocleanuser;
 ALTER USER holocleanuser WITH PASSWORD 'abcd1234';
