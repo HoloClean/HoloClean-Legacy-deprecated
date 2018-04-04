@@ -151,7 +151,6 @@ class Accuracy:
                                            "out of " + str(
                     original_singlevalues_errors_count))
 
-
             inferred_count = inferred_multivalues_count + \
                              inferred_singlevalues_count
             if inferred_count:
