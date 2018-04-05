@@ -1,5 +1,5 @@
-# HoloClean
-HoloClean over Spark and PyTorch
+# HoloClean: A Machine Learning System for Data Enrichment
+HoloClean is built over Spark and PyTorch
 
 ### Status
 
@@ -9,7 +9,6 @@ HoloClean over Spark and PyTorch
 
 **_v0.1.0_**
 
-## A Machine Learning System for Data Enrichment
 <p>
 <br>
 HoloClean is a statistical inference engine to impute, clean, and enrich data. As a weakly supervised machine learning system, HoloClean leverages available quality rules, value correlations, reference data, and multiple other signals to build a probabilistic model that accurately captures the data generation process, and uses the model in a variety of data curation tasks. HoloClean allows data practitioners and scientists to save the enormous time they spend in building piecemeal cleaning solutions, and instead, effectively communicate their domain knowledge in a declarative way to enable accurate analytics, predictions, and insights form noisy, incomplete, and erroneous data.
