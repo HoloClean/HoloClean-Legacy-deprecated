@@ -17,7 +17,7 @@ class Testing:
             # to limit possible values for training data to less than k values
             pruning_clean_breakoff=20,
             # to limit possible values for dirty data
-            pruning_threshold2=0.5,
+            pruning_threshold2=0.2,
             # to limit possible values for dirty data to less than k values
             pruning_dk_breakoff=10,
             # learning parameters
@@ -30,15 +30,11 @@ class Testing:
     def test(self):
         
         t1 = time.time()
-        # dataset = "../datasets/hospital1k/hospital_transform.csv"
-        dataset = "../datasets/food/food_input_large_transform.csv"
+        dataset = "../datasets/hospital1k/hospital.csv"
 
-        # denial_constraints =
-        # "../datasets/hospital1k/hospital_constraints.txt"
-        denial_constraints = "../datasets/food/food_constraints.txt"
+        denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
 
-        #ground_truth = "../datasets/hospital1k/hospital_clean_norm.csv"
-        ground_truth = "../datasets/food/food_clean_norm.csv"
+        ground_truth = "../datasets/hospital1k/hospital_clean.csv"
 
         # Ingesting Dataset and Denial Constraints
         self.session.load_data(dataset)

@@ -82,7 +82,7 @@ class Accuracy:
                     self.ground_truth_flat)
                 incorrect_multivalues_count = incorrect_multivalues.count()
 
-                self.dataengine.add_db_table("wrong_multi",
+                self.dataengine.add_db_table("wrong_multivalues",
                                              incorrect_multivalues,
                                              self.dataset)
                 # inferred_singlevalues has the intitial values
@@ -121,7 +121,7 @@ class Accuracy:
                 incorrect_singlevalues = inferred_singlevalues.subtract(
                     self.ground_truth_flat)
 
-                self.dataengine.add_db_table("wrong_single",
+                self.dataengine.add_db_table("wrong_singlevalues",
                                              incorrect_singlevalues,
                                              self.dataset)
 
