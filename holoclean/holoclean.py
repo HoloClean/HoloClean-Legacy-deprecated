@@ -455,9 +455,10 @@ class Session:
                                           str(end - start))
                 start = time.time()
 
-        except Exception:
+        except Exception as e:
             self.holo_env.logger.\
-                error('Error Creating Training Tensor: nothing to learn')
+                error('Error Creating Training Tensor: nothing to learn',
+                      exc_info=e)
 
         try:
 
@@ -481,9 +482,10 @@ class Session:
 
             soft.log_weights()
 
-        except Exception:
+        except Exception as e:
             self.holo_env.logger.\
-                error('Error Creating Prediction Tensor: nothing to infer')
+                error('Error Creating Prediction Tensor: nothing to infer',
+                      exc_info=e)
 
         return self._create_corrected_dataset()
 
