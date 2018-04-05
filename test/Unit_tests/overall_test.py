@@ -19,10 +19,10 @@ class TestMysqlErrordetector(unittest.TestCase):
     def setUp(self):
 
         self.session = Session(holo_obj)
-        self.dataset = "../../datasets/unit_test/unit_test_dataset.csv"
+        self.dataset = "../data/unit_test/unit_test_dataset.csv"
         self.session.load_data(self.dataset)
         self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
+            "../data/unit_test/unit_test_constraints.txt")
         self.detector_list = []
         self.detector_list.append(SqlDCErrorDetection(self.session))
         self.session.detect_errors(self.detector_list)
@@ -75,10 +75,10 @@ class TestMysqlErrordetector(unittest.TestCase):
 
     def test_load_denial_constraints(self):
         session = Session(holo_obj)
-        dataset = "../../datasets/unit_test/unit_test_dataset.csv"
+        dataset = "../data/unit_test/unit_test_dataset.csv"
         session.load_data(dataset)
         dcs = session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_constraints.txt")
+            "../data/unit_test/unit_test_constraints.txt")
         expected = ["t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)",
                     "t1&t2&EQ(t1.C,'f')&EQ(t2.C,'m')&EQ(t1.E,t2.E)"]
         self.assertEqual(dcs, expected)
