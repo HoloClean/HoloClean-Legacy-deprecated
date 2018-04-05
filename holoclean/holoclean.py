@@ -347,6 +347,7 @@ class Session:
         if index < 0 or index >= len(self.Denial_constraints):
             raise IndexError("Given Index Out Of Bounds")
 
+        self.dc_objects.pop(self.Denial_constraints[index])
         return self.Denial_constraints.pop(index)
 
     def load_clean_data(self, file_path):
