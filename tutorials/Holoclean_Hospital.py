@@ -19,17 +19,28 @@
 #     Batch Size: batch_size
 # For a list of all possible arguements check the holoclean.py file
 
+# In[1]:
 
 
 from holoclean.holoclean import HoloClean, Session
 
-holo =      HoloClean(
-            holoclean_path="..",
+holo       = HoloClean(
+            holoclean_path="..",         # path to holoclean package
             verbose=False,
-            timing_file='execution_time.txt',
-            learning_iterations=50,
+            # to limit possible values for training data
+            pruning_threshold1=0.1,
+            # to limit possible values for training data to less than k values
+            pruning_clean_breakoff=6,
+            # to limit possible values for dirty data (applied after
+            # Threshold 1)
+            pruning_threshold2=0,
+            # to limit possible values for dirty data to less than k values
+            pruning_dk_breakoff=6,
+            # learning parameters
+            learning_iterations=30,
             learning_rate=0.001,
-            batch_size=20)
+            batch_size=5
+        )
 session = Session(holo)
 
 
@@ -38,7 +49,7 @@ session = Session(holo)
 # In[2]:
 
 
-data_path = "data/hospital_dataset.csv"
+data_path = "data/hospital.csv"
 
 ## loads data into our database and returns pyspark dataframe of initial data
 data = session.load_data(data_path)
@@ -129,5 +140,5 @@ repaired.sort('__ind').select('City').show(15)
 # In[10]:
 
 
-session.compare_to_truth("data/groundtruth.csv")
+session.compare_to_truth("data/hospital_clean.csv")
 

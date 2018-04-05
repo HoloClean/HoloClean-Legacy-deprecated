@@ -23,8 +23,10 @@ class TestDCFeaturizer(unittest.TestCase):
 
         detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors([detector])
-        self.session._ds_domain_pruning(0.5)
-
+        self.session._ds_domain_pruning(holo_obj.pruning_threshold1,
+                                        holo_obj.pruning_threshold2,
+                                        holo_obj.pruning_dk_breakoff,
+                                        holo_obj.pruning_clean_breakoff)
 
     def test_DC_query_for_clean(self):
 
