@@ -82,7 +82,7 @@ To Connect to the holo database run:
 \c holo
 ```
 HoloClean currently appends new tables to the database holo with each instance that is ran.
-To clear the database, open MySql with holocleanUser and run:
+To clear the database, open PSQL with holocleanUser and run:
 ```
 drop database holo;
 create database holo;
@@ -140,10 +140,87 @@ To run the tutorials in Jupyter Notebook go to the root directory in the termina
 ```
 ./start_notebook.sh
 ```
-[Data Loading & Denial Constraints Tutorial](tutorial/Tutorial_1.ipynb)
+[Data Loading & Denial Constraints Tutorial](tutorials/Tutorial_1.ipynb)
 <br>
-[Complete Pipeline](tutorial/Tutorial_2.ipynb)
+[Complete Pipeline](tutorials/Tutorial_2.ipynb)
 <br>
-[Error Detection](tutorial/Tutorial_3.ipynb)
+[Error Detection](tutorials/Tutorial_3.ipynb)
 <br>
 
+
+## Developing
+
+### Installation
+Follow the steps from Installation to configure your development environment.
+
+### Running Unit Tests
+To run unit tests
+```
+$ cd tests/unit_tests
+$ python unittest_dcfeaturizer.py 
+2018-04-05 15:15:22 WARN  Utils:66 - Your hostname, apollo resolves to a loopback address: 127.0.1.1; using 192.168.0.66 instead (on interface wlan0)
+2018-04-05 15:15:22 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2018-04-05 15:15:23 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Time to Load Data: 11.9292609692
+
+Time for Error Detection: 14.7168970108
+
+.
+----------------------------------------------------------------------
+Ran 1 test in 28.680s
+
+OK
+$
+$ python unittest_sql_dcerrordetector.py 
+2018-04-05 15:16:28 WARN  Utils:66 - Your hostname, apollo resolves to a loopback address: 127.0.1.1; using 192.168.0.66 instead (on interface wlan0)
+2018-04-05 15:16:28 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2018-04-05 15:16:29 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Time to Load Data: 12.6399619579
+
+Time for Error Detection: 14.1602239609
+
+.Time to Load Data: 1.38744020462
+
+Time for Error Detection: 8.26235389709
+
+.Time to Load Data: 0.998204946518
+
+Time for Error Detection: 8.1832909584
+
+.Time to Load Data: 1.46859908104
+
+Time for Error Detection: 6.7251560688
+
+.
+----------------------------------------------------------------------
+Ran 4 tests in 62.365s
+
+OK
+
+```
+
+### Running Integration Tests
+To run integration tests
+```
+cd tests
+python test.py
+```
+Successful tests run looks like:
+```
+<output>
+Time for Test Featurization: 3.3679060936
+
+Time for Inference: 0.249126911163
+
+The multiple-values precision that we have is :0.998899284535
+The multiple-values recall that we have is :0.972972972973 out of 185
+The single-value precision that we have is :1.0
+The single-value recall that we have is :1.0 out of 0
+The precision that we have is :0.999022801303
+The recall that we have is :0.972972972973 out of 185
+Execution finished
+```

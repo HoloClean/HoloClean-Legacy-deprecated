@@ -30,14 +30,15 @@ class Testing:
         self.session = Session(self.holo_obj)
 
     def test(self):
-        
+
         t1 = time.time()
 
         dataset = "data/hospital.csv"
-
+        print("using dataset: {}".format(dataset))
         denial_constraints = "data/hospital_constraints.txt"
-
+        print("using denial_constraints: {}".format(denial_constraints))
         ground_truth = "data/hospital_clean.csv"
+        print("using ground_truth: {}".format(ground_truth))
 
         # uncheck this if you dont have ground truth
         # ground_truth = 0
@@ -55,6 +56,7 @@ class Testing:
         detector_list.append(Dcdetector)
         detector_list.append(Nulldetector)
         self.session.detect_errors(detector_list)
+
         t4 = time.time()
         if self.holo_obj.verbose:
             self.holo_obj.logger.info("Error detection time:")
@@ -71,3 +73,7 @@ class Testing:
             print "Execution finished"
 
         exit(0)
+
+if __name__ == "__main__":
+    new_hc = Testing()
+    new_hc.test()
