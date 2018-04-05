@@ -36,6 +36,9 @@ class Testing:
 
         ground_truth = "../datasets/hospital1k/hospital_clean.csv"
 
+        # uncheck this if you dont have ground truth
+        # ground_truth = 0
+
         # Ingesting Dataset and Denial Constraints
         self.session.load_data(dataset)
         self.session.load_denial_constraints(denial_constraints)

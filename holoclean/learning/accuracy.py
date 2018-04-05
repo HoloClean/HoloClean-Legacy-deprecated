@@ -2,6 +2,7 @@ from holoclean.global_variables import GlobalVariables
 from holoclean.utils.reader import Reader
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 
+
 class Accuracy:
 
     def __init__(
@@ -85,7 +86,7 @@ class Accuracy:
                 self.dataengine.add_db_table("wrong_multivalues",
                                              incorrect_multivalues,
                                              self.dataset)
-                # inferred_singlevalues has the intitial values
+                # inferred_single values has the initial values
                 # (will use it as init for single values)
 
                 original_multivalues_errors = init.subtract(
@@ -175,7 +176,9 @@ class Accuracy:
                        + str(recall) + " out of " + str(original_errors_count))
 
     def read_groundtruth(self):
-        """Create a dataframe from the ground truth csv file
+
+        """
+        Create a dataframe from the ground truth csv file
 
         Takes as argument the full path name of the csv file
         and the spark_session
