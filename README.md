@@ -18,7 +18,7 @@ HoloClean is a statistical inference engine to impute, clean, and enrich data. A
 
 ## Installation
 
-This file will go through the steps needed to install the required packages and software to run HoloClean. For a more detailed installation guide check out the [Holoclean_Installation_v3.pdf](docs/Holoclean_Installation_v3.pdf) file in the git repo.
+This file will go through the steps needed to install the required packages and software to run HoloClean.
 
 ### 1. Setting Up and Using Conda 
  <b>1.1 Ubuntu: </b>
