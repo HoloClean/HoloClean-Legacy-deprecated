@@ -20,7 +20,7 @@ class Accuracy:
     def accuracy_calculation(self):
 
         if self.session.inferred_values is None:
-            self.session.holo_env.logger.error('No Inferred values')
+            self.session.holo_env.logger.error('No inferred values')
             print ("The precision and recall cannot be calculated")
 
         else:
@@ -38,6 +38,12 @@ class Accuracy:
                                                             "I.attr_name"
 
             inferred = self.dataengine.query(checkable_inferred_query, 1)
+
+            if inferred is None:
+                self.session.holo_env.logger.error('No checkable inferred '
+                                                   'values')
+                print ("The precision and recall cannot be calculated")
+                return
 
             checkable_original_query = "SELECT I.tid,I.attr_name," \
                                        "I.attr_val FROM " + \
