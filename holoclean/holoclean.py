@@ -687,7 +687,7 @@ class Session:
             for thread in tensor_threads:
                 thread.join()
 
-            #X_tensor = F.normalize(X_tensor, p=2, dim=1)
+            X_tensor = F.normalize(X_tensor, p=2, dim=1)
 
             if clean:
                 self.X_training = X_tensor

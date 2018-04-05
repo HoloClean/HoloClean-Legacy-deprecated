@@ -23,7 +23,7 @@ class Testing:
             # learning parameters
             learning_iterations=10,
             learning_rate=0.001,
-            batch_size=100
+            batch_size=500
         )
         self.session = Session(self.holo_obj)
 
