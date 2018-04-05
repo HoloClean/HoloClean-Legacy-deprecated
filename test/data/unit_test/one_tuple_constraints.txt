@@ -1,0 +1,4 @@
+t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)
+t1&EQ(t1.C,t1.D)&IQ(t1.A,t1.E)
+t1&IQ(t1.A,t1.B)
+t1&EQ(t1.A,'p')
