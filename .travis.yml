@@ -81,7 +81,7 @@ install:
 script:
 
   # Runs tutorial python tests
-  - cd tutorial
+  - cd tutorials
   - python Holoclean_Hospital.py
 
 after_success:

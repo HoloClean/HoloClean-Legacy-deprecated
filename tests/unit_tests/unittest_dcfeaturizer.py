@@ -16,15 +16,17 @@ class TestDCFeaturizer(unittest.TestCase):
     def setUp(self):
 
         self.session = Session(holo_obj)
-        self.dataset = "../../datasets/unit_test/unit_test_dataset.csv"
+        self.dataset = "../data/unit_test/unit_test_dataset.csv"
         self.session.load_data(self.dataset)
         self.session.load_denial_constraints(
-            "../../datasets/unit_test/unit_test_non_symmetric_constraints.txt")
+            "../data/unit_test/unit_test_non_symmetric_constraints.txt")
 
         detector = SqlDCErrorDetection(self.session)
         self.session.detect_errors([detector])
-        self.session._ds_domain_pruning(0.5)
-
+        self.session._ds_domain_pruning(holo_obj.pruning_threshold1,
+                                        holo_obj.pruning_threshold2,
+                                        holo_obj.pruning_dk_breakoff,
+                                        holo_obj.pruning_clean_breakoff)
 
     def test_DC_query_for_clean(self):
 

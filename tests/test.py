@@ -4,6 +4,7 @@ from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from holoclean.errordetection.sql_nullerrordetector import\
     SqlnullErrorDetection
+
 import time
 
 
@@ -15,13 +16,14 @@ class Testing:
             # to limit possible values for training data
             pruning_threshold1=0.1,
             # to limit possible values for training data to less than k values
-            pruning_clean_breakoff=20,
-            # to limit possible values for dirty data
-            pruning_threshold2=0.2,
+            pruning_clean_breakoff=6,
+            # to limit possible values for dirty data (applied after
+            # Threshold 1)
+            pruning_threshold2=0,
             # to limit possible values for dirty data to less than k values
-            pruning_dk_breakoff=10,
+            pruning_dk_breakoff=6,
             # learning parameters
-            learning_iterations=20,
+            learning_iterations=30,
             learning_rate=0.001,
             batch_size=5
         )
@@ -30,11 +32,12 @@ class Testing:
     def test(self):
         
         t1 = time.time()
-        dataset = "../datasets/hospital1k/hospital.csv"
 
-        denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
+        dataset = "data/hospital.csv"
 
-        ground_truth = "../datasets/hospital1k/hospital_clean.csv"
+        denial_constraints = "data/hospital_constraints.txt"
+
+        ground_truth = "data/hospital_clean.csv"
 
         # uncheck this if you dont have ground truth
         # ground_truth = 0

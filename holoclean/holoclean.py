@@ -6,6 +6,7 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
 import time
 
+import torch.nn.functional as F
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
@@ -455,9 +456,10 @@ class Session:
                                           str(end - start))
                 start = time.time()
 
-        except Exception:
+        except Exception as e:
             self.holo_env.logger.\
-                error('Error Creating Training Tensor: nothing to learn')
+                error('Error Creating Training Tensor: nothing to learn',
+                      exc_info=e)
 
         try:
 
@@ -481,9 +483,10 @@ class Session:
 
             soft.log_weights()
 
-        except Exception:
+        except Exception as e:
             self.holo_env.logger.\
-                error('Error Creating Prediction Tensor: nothing to infer')
+                error('Error Creating Prediction Tensor: nothing to infer',
+                      exc_info=e)
 
         return self._create_corrected_dataset()
 
@@ -683,6 +686,8 @@ class Session:
             # Waits for Threads that are populating tensor to be finished
             for thread in tensor_threads:
                 thread.join()
+
+            X_tensor = F.normalize(X_tensor, p=2, dim=1)
 
             if clean:
                 self.X_training = X_tensor
