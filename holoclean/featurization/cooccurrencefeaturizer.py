@@ -1,87 +1,111 @@
 from featurizer import Featurizer
-
+from holoclean.global_variables import GlobalVariables
 
 __metaclass__ = type
 
 
 class SignalCooccur(Featurizer):
     """
-    This class is a subclass of the Featurizer class and
-    will return the mysql query which represent the  Cooccur signal for
-     the clean and dk cells
+    This class is a subclass of Featurizer class for the co-occur signal and
+    will fill the tensor
     """
 
-    def __init__(self, attr_constrained, dataengine, dataset):
+    def __init__(self, session):
+        """
+        Initializing a co-occur signal object
 
+        :param session: session object
         """
 
-        :param attr_constrained: list of attributes that are part of a dc
-        :param dataengine: a connector to database
-        :param dataset: list of tables name
-        """
-
-        super(SignalCooccur, self).__init__(dataengine, dataset)
+        super(SignalCooccur, self).__init__(session)
         self.id = "SignalCooccur"
-        self.attr_constrained = attr_constrained
-        self.table_name = self.dataset.table_specific_name('Init')
+        self.offset = self.session.feature_count
+        self.index_name = GlobalVariables.index_name
+        self.all_attr = list(self.session.init_dataset.schema.names)
+        self.all_attr.remove(self.index_name)
 
-    def _get_constraint_attribute(self, table_name, attr_column_name):
+        self.count = 0
+        self.pruning_object = self.session.pruning
+        self.domain_pair_stats = self.pruning_object.domain_pair_stats
+        self.dirty_cells_attributes = \
+            self.pruning_object.dirty_cells_attributes
+        self.domain_stats = self.pruning_object.domain_stats
+        self.threshold = self.pruning_object.threshold1
+        self.direct_insert = True
+
+    def insert_to_tensor(self, tensor, clean):
         """
-        Creates a string with a condition for only checking the attributes that
-        are part of a DC
+        Inserting co-occur data into tensor
 
-        :param  table_name: the name of the table that we need to check
-        the attributes
-        :param  attr_column_name: the name of the columns of table that
-        we want to enforce the condition
+        :param tensor: tensor object
+        :param clean: Nat value that identifies if we are calculating feature
+        value for training data (clean cells) or testing data
 
-        :return a string with the condition
+        :return: None
         """
+        domain_pair_stats = self.pruning_object.domain_pair_stats
+        domain_stats = self.pruning_object.domain_stats
+        cell_domain = self.pruning_object.cell_domain
+        cell_values = self.pruning_object.cellvalues
 
-        specific_features = ""
-        for const in self.attr_constrained:
-            specific_features += table_name + "." + attr_column_name + " = '" \
-                                 + const + "' OR "
-        specific_features = specific_features[:-4]
-        specific_features = "(" + specific_features + ")"
-        return specific_features
+        if clean:
+            vid_list = self.pruning_object.v_id_clean_list
+        else:
+            vid_list = self.pruning_object.v_id_dk_list
+
+        for vid in range(len(vid_list)):
+            for cell_index in cell_values[vid_list[vid][0] - 1]:
+
+                co_attribute = \
+                    cell_values[vid_list[vid][0] - 1][cell_index].columnname
+                attribute = vid_list[vid][1]
+                feature = self.attribute_feature_id.get(co_attribute, -1)
+
+                if co_attribute != attribute and feature != -1:
+
+                    domain_id = 0
+                    co_value = \
+                        cell_values[vid_list[vid][0] - 1][cell_index].value
+
+                    for value in cell_domain[vid_list[vid][2]]:
+
+                        v_count = domain_stats[co_attribute][co_value]
+                        count = domain_pair_stats[co_attribute][attribute].get(
+                            (
+                                co_value, value), 0)
+                        probability = count / v_count
+                        tensor[vid, feature-1, domain_id] = probability
+                        domain_id = domain_id + 1
+        return
 
     def get_query(self, clean=1):
         """
-        Creates a string for the query that it is used to create the  Cooccur
-        Signal
+        Adding co-occur feature
 
         :param clean: shows if create the feature table for the clean or the dk
          cells
 
-        :return a string with the query for this feature
+        :return list
         """
         if clean:
-            name = "Observed_Possible_values_clean"
-            table_name = "C_clean_flat"
-        else:
-            name = "Observed_Possible_values_dk"
-            table_name = "C_dk_flat"
-
-        # Create co-occur feature
-        query_for_featurization = \
-            "  " \
-            "SELECT DISTINCT " \
-            "t1.vid as vid, " \
-            "t1.domain_id AS assigned_val," \
-            "t3.feature_ind as feature, " \
-            " 1 as count " \
-            "FROM " + \
-            self.dataset.table_specific_name(name) +\
-            " t1, " + \
-            self.dataset.\
-            table_specific_name(table_name) + " t2, " + \
-            self.dataset.\
-            table_specific_name('Feature_id_map') + " t3 " \
-            "WHERE t1.tid = t2.tid AND " \
-            "t1.attr_name != t2.attribute AND " \
-            " t3.attribute=t2.attribute AND " \
-            " t3.value=t2.value AND " + \
-            self._get_constraint_attribute('t1', 'attr_name')
-
-        return [query_for_featurization]
+            self.offset = self.session.feature_count
+            self.attribute_feature_id = {}
+            feature_id_list = []
+            for attribute in self.dirty_cells_attributes:
+                self.count += 1
+                self.attribute_feature_id[attribute] = self.count + self.offset
+                feature_id_list.append(
+                    [self.count + self.offset, attribute, 'Cooccur',
+                     'Cooccur'])
+            feature_df = self.session.holo_env.spark_session.createDataFrame(
+                feature_id_list,
+                self.session.dataset.attributes['Feature_id_map']
+            )
+            self.dataengine.add_db_table(
+                'Feature_id_map',
+                feature_df,
+                self.session.dataset,
+                append=1
+            )
+            self.session.feature_count += self.count
+        return []

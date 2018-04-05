@@ -2,9 +2,10 @@ future
 Jupyter
 numpy>=1.11
 pyspark
-MySQL-python
-sqlalchemy
-mysql-connector-python-rf
 numba
 torchvision
 tqdm
+psycopg2
+distance
+click
+scipy

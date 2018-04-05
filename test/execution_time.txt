@@ -1,7 +1,0 @@
-Time to Load Data: 6.5660071373
-Time for Error Detection: 16.3332910538
-Time for Domain Pruning: 5.90490698814
-Time for Featurization: 37.1950991154
-Time for Training Model: 14.9825799465
-Time for Test Featurization: 152.245706081
-Time for Inference: 3.19856500626

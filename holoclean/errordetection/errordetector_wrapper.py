@@ -1,24 +1,23 @@
 class ErrorDetectorsWrapper:
     """
-    This class call different error detection method that we needed
+    This class calls different error detection methods
     """
 
     def __init__(self, detect_obj):
         """
-        The general class for error detection
+        Constructor for error detector wrapper
 
-        :param detect_obj: an object which implements
-        get_noisy_cells, get_clean_cells
+        :param detect_obj: detector object
         """
         self.detect_obj = detect_obj
 
     def get_noisy_dknow_dataframe(self):
 
         """
-        Return tuple of noisy cells and clean cells dataframes
+        Returns tuple of noisy cells and clean cells dataframes
 
-        :param data_dataframe: get dataframe of data
-        :return: return noisy cells and
+        :return:  don't know cells
+        :return:  clean cells
         """
 
         noisy_cells = self.detect_obj.get_noisy_cells()
