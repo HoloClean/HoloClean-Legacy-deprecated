@@ -30,11 +30,15 @@ class Testing:
     def test(self):
         
         t1 = time.time()
-        dataset = "../datasets/hospital1k/hospital.csv"
+        # dataset = "../datasets/hospital1k/hospital.csv"
+        dataset = "../datasets/food/food_input_medium_transf.csv"
 
-        denial_constraints = "../datasets/hospital1k/hospital_constraints.txt"
+        # denial_constraints =
+        # "../datasets/hospital1k/hospital_constraints.txt"
+        denial_constraints = "../datasets/food/food_constraints.txt"
 
-        ground_truth = "../datasets/hospital1k/hospital_clean.csv"
+        # ground_truth = "../datasets/hospital1k/hospital_clean.csv"
+        ground_truth = "../datasets/food/food_clean_norm.csv"
 
         # uncheck this if you dont have ground truth
         # ground_truth = 0

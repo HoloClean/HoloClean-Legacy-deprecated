@@ -6,6 +6,7 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
 import time
 
+import torch.nn.functional as F
 import torch
 from dataengine import DataEngine
 from dataset import Dataset
@@ -685,6 +686,8 @@ class Session:
             # Waits for Threads that are populating tensor to be finished
             for thread in tensor_threads:
                 thread.join()
+
+            #X_tensor = F.normalize(X_tensor, p=2, dim=1)
 
             if clean:
                 self.X_training = X_tensor
