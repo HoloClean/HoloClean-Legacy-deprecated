@@ -1,5 +1,5 @@
 # HoloClean: A Machine Learning System for Data Enrichment
-HoloClean is built over Spark and PyTorch
+HoloClean is built over Spark and PyTorch.
 
 ### Status
 
