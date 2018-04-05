@@ -1,0 +1,2 @@
+t1&t2&EQ(t1.A,t2.A)&IQ(t1.B,t2.B)
+t1&t2&EQ(t1.C,"f")&EQ(t2.C,'m')&EQ(t1.E,t2.E)

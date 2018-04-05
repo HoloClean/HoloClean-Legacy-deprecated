@@ -1,16 +1,21 @@
 Error detection
 ===============
 
-HoloClean learns to clean data by first splitting it into two categories `clean` and `dont_know` or `dk` for short. It then uses the `clean` set to learn a factor graph. We've provided one kind of error detector, the `DCErrorDetector` which uses Denial Constraints to make these splits. However, HoloClean accepts arbitrary splits through the `ErrorDetector` class
+HoloClean learns to clean data by first splitting it into two categories `clean` and `dont_know` or `dk` for short. We've provided two kinds of error detectors, the `SqlDCErrorDetection` which uses Denial Constraints to make these splits and the `SqlnullErrorDetection` which labels all the cells that have null values as don't know cells. HoloClean also support custom or user-defined error detection methods by creating a new class that inherits from `ErrorDetection` and overrides the required methods.
 
 ErrorDetector 
 ----------------
 .. automodule:: holoclean.errordetection.errordetector
     :members:
 
-DCErrorDetector
+SqlDCErrorDetection
 ---------------
-.. automodule:: holoclean.errordetection.mysql_dcerrordetector
+.. automodule:: holoclean.errordetection.sql_dcerrordetector
+    :members:
+
+SqlnullErrorDetection
+---------------
+.. automodule:: holoclean.errordetection.sql_dcerrordetector
     :members:
 
 

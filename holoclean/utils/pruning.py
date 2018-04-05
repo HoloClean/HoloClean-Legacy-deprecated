@@ -1,26 +1,47 @@
-from pyspark.sql.types import *
+import random
+from holoclean.global_variables import GlobalVariables
+import time
 
 
 class RandomVar:
-    """TODO:RandomVar class: class for random variable"""
+    """RandomVar class: class for random variable"""
 
     def __init__(self, **kwargs):
+        """
+        Initializing random variable objects
+
+        :param kwargs: dictionary of properties
+        """
         self.__dict__.update(kwargs)
 
 
 class Pruning:
-    """TODO:Pruning class: Creates the domain table for all the cells"""
+    """Pruning class: Creates the domain table for all the cells"""
 
-    def __init__(self, session, threshold=0.5):
-        """TODO.
-                Parameters
-                --------
-                Session: the Holoclean session using the Pruning object
-                """
+    def __init__(self, session,
+                 threshold1=0.1,
+                 threshold2=0.3,
+                 dk_breakoff=3,
+                 clean_breakoff=10
+                 ):
+        """
+        Initializing the pruning object
+
+        :param session: session object
+        :param threshold1: to limit possible values for training data
+        :param threshold2: to limit possible values for dirty data
+        :param dk_breakoff: to limit possible values for dirty data to
+        less than k values
+        :param clean_breakoff: to limit possible values for training data to
+        less than k values
+        """
         self.session = session
         self.spark_session = session.holo_env.spark_session
         self.dataengine = session.holo_env.dataengine
-        self.threshold = threshold
+        self.threshold1 = threshold1
+        self.threshold2 = threshold2
+        self.dk_breakoff = dk_breakoff
+        self.clean_breakoff = clean_breakoff
         self.dataset = session.dataset
         self.assignments = {}
         self.cell_domain_nb = {}
@@ -29,8 +50,7 @@ class Pruning:
         self.column_to_col_index_dict = {}
         self.attribute_to_be_pruned = {}
         self.dirty_cells_attributes = set([])
-        self.cell_nbs = {}
-        self.cooocurance_for_first_attribute = {}
+        self.coocurence_lookup = {}
         self.cell_domain = {}
         self.all_cells = []
         self.all_cells_temp = {}
@@ -38,61 +58,82 @@ class Pruning:
 
         self.cellvalues = self._c_values()
         self.noisycells = self._d_cell()
-
+        t1 = time.time()
         self._preprop()
+        t2 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info("_preprop " + str(t2 - t1))
+
         self._analyze_entries()
+        t3 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info("_analyze_entries " + str(t3 - t2))
+
         self._generate_assignments()
+        t4 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info(
+                "_generate_assignments " + str(t4 - t3))
+
         self._generate_coocurences()
+        t5 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info(
+                "_generate_coocurences " + str(t5 - t4))
+
         self._find_cell_domain()
+        t6 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info("_find_cell_domain " + str(t6 - t5))
+
         self._create_dataframe()
+        t7 = time.time()
+        if session.holo_env.verbose:
+            session.holo_env.logger.info("_create_dataframe " + str(t7 - t6))
 
     # Internal Method
     def _d_cell(self):
         """
-                Create noisy_cell list from the C_dk table
+        Creates don't know cells list from the C_dk table
+
+        :return: list of don't know cells
         """
-        dataframe_dont_know = self.dataengine.get_table_to_dataframe("C_dk", self.dataset)
+        dataframe_dont_know = self.session.dk_df
         noisy_cells = []
-        self.noisy_list = []
         for cell in dataframe_dont_know.collect():
             cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
             noisy_cells.append(cell_variable)
-            self.noisy_list.append([cell[1], int(cell[0])])
-            self.cellvalues[int(cell[0])-1][self.attribute_map[cell[1]]].dirty = 1
+            self.cellvalues[int(cell[0]) - 1][
+                self.attribute_map[cell[1]]].dirty = 1
 
         return noisy_cells
 
-    def _c_cell(self):
-        """
-                Create clean_cell list from the C_clean table
-        """
-        dataframe_clean = self.dataengine.get_table_to_dataframe("C_clean", self.dataset)
-        clean_cells = []
-        self.clean_list = []
-        for cell in dataframe_clean.collect():
-            cell_variable = RandomVar(columnname=cell[1], row_id=int(cell[0]))
-            clean_cells.append(cell_variable)
-            self.clean_list.append([cell[1], int(cell[0])])
-
-        return clean_cells
-
     def _c_values(self):
         """
-                Create c_value list from the init table
+        Create cell value dictionary from the init table
+
+        :return: dictionary of cells values
         """
-        dataframe_init = self.dataengine.get_table_to_dataframe("Init", self.dataset)
+        dataframe_init = \
+            self.session.init_dataset
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
         self.attribute_map = {}
         number_id = 0
-        for column in dataframe_init.drop('index').collect():
+
+        for record in dataframe_init.drop(
+                GlobalVariables.index_name).collect():
+            # for each record creates a new row
             row = {}
-            column_id = 1
-            for column_value in column:
+            column_id = 0
+            for column_value in record:
+                # For each column
                 self.attribute_map[table_attribute[column_id]] = column_id
-                cell_variable = RandomVar(columnname=table_attribute[column_id],
-                                          value=column_value, tupleid=row_id, cellid=number_id, dirty=0, domain=0)
+                cell_variable = RandomVar(
+                    columnname=table_attribute[column_id],
+                    value=column_value, tupleid=row_id,
+                    cellid=number_id, dirty=0, domain=0)
                 row[column_id] = cell_variable
                 number_id = number_id + 1
                 column_id = column_id + 1
@@ -107,50 +148,159 @@ class Pruning:
             cooccured_attribute,
             cooccured_attr_value):
         """
-        generate_assignments creates assignment for each cell with the attribute and value
-                    of each other cell in the same row
-                    Parameters
+        _compute_number_of_coocurences creates conditional probabilities for
+        each cell with the attribute and value of each other cell in the same
+        row
+
         :param original_attribute: the name of first attribute
         :param original_attr_value: the initial value of the first attribute
         :param cooccured_attribute: the name of second attribute
         :param cooccured_attr_value: the initial value of the second attribute
-        :return:
+
+        :return: probability
         """
-        if (original_attr_value, cooccured_attr_value) not in \
-                self.domain_pair_stats[original_attribute][cooccured_attribute]:
+        if (original_attr_value, cooccured_attr_value) not \
+                in self.domain_pair_stats[
+            original_attribute
+        ][
+            cooccured_attribute
+        ]:
+
             return None
-        cooccur_count = self.domain_pair_stats[original_attribute][cooccured_attribute][(
-            original_attr_value, cooccured_attr_value)]
-        v_cnt = self.domain_stats[original_attribute][original_attr_value]
+        cooccur_count = \
+            self.domain_pair_stats[original_attribute][cooccured_attribute][(
+                 original_attr_value, cooccured_attr_value)]
+        value_count = self.domain_stats[original_attribute][
+            original_attr_value]
 
         # Compute counter
-        number_of_cooccurence = cooccur_count  # / len(self.cellvalues)
-        total_number_of_original_attr_value = v_cnt  # / len(self.cellvalues)
-        return number_of_cooccurence / total_number_of_original_attr_value
 
-    def _find_domain(self, assignment, trgt_attr):
-        """TO DO: _find_domain finds the domain for each cell
-                Parameters
-                --------
-                assignment: attributes with value
-                trgt_attr: the name of attribute
+        if original_attr_value is None or cooccured_attr_value is None:
+            probability = 0
+        else:
+            probability = cooccur_count / value_count
+        return probability
+
+    # We need a new function like find_domain for clean cells
+    # such that it does not limit the domain to the possible values
+    # above the threshold
+    # first iteration, use a low threshold (i.e. 0) and limit using k
+
+    def _find_dk_domain(self, assignment, trgt_attr):
         """
-        cell_values = {(assignment[trgt_attr])}
+        This method finds the domain for each dirty cell for inference
+
+
+        :param assignment: the values for every attribute
+        :param trgt_attr: the name of attribute
+
+        :return: dictionary of cells values
+        """
+        # cell_probabilities will hold domain values and their probabilities
+        cell_probabilities = []
+        # always have the initial value in the returned domain values unless
+        # it is null
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
         for attr in assignment:
             if attr == trgt_attr:
                 continue
             attr_val = assignment[attr]
-            if attr in self.cooocurance_for_first_attribute:
-                if attr_val in self.cooocurance_for_first_attribute[attr]:
-                    if trgt_attr in self.cooocurance_for_first_attribute[attr][attr_val]:
-                        cell_values |= set(
-                            self.cooocurance_for_first_attribute[attr][attr_val][trgt_attr].keys())
 
+            if attr in self.coocurence_lookup:
+                if attr_val in self.coocurence_lookup[attr]:
+                    if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                        if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+
+                            cell_probabilities += \
+                                [(k, v) for
+                                 k, v in
+                                 self.coocurence_lookup[
+                                     attr
+                                 ][
+                                     attr_val
+                                 ][
+                                     trgt_attr
+                                 ].iteritems()]
+
+        # Sort cell_values and chop after k and chop below threshold2
+        cell_probabilities.sort(key=lambda t: t[1], reverse=True)
+
+        for tuple in cell_probabilities:
+            value = tuple[0]
+            probability = tuple[1]
+            if len(cell_values) == self.dk_breakoff or \
+                    probability < self.threshold2:
+                break
+            cell_values.add(value)
+        return cell_values
+
+    def _find_clean_domain(self, assignment, trgt_attr):
+        """
+        This method finds the domain for each clean cell for learning
+
+        :param assignment: dictionary of values
+        :param trgt_attr: attribute of other column
+
+        :return: dictionary of cells values
+        """
+        cell_probabilities = []
+
+        # Always have the initial value in the returned domain values unless
+        # it is Null
+        if assignment[trgt_attr] is not None:
+            cell_values = {(assignment[trgt_attr])}
+        else:
+            cell_values = {()}
+        for attr in assignment:
+            if attr == trgt_attr:
+                continue
+            attr_val = assignment[attr]
+
+            if attr in self.coocurence_lookup:
+                if attr_val in self.coocurence_lookup[attr]:
+                    if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                        if trgt_attr in self.coocurence_lookup[attr][attr_val]:
+                            cell_probabilities += \
+                                [(k, v) for
+                                 k, v
+                                 in
+                                 self.coocurence_lookup[
+                                     attr
+                                 ][
+                                     attr_val
+                                 ][
+                                     trgt_attr
+                                 ].iteritems()]
+
+        # first iteration
+        # get l values from the lookup exactly  like in dirty where l < k
+        # get k-l random once from the domain
+        cell_probabilities.sort(key=lambda t: t[1])
+        while len(cell_probabilities) > 0:  # for now l = k/2
+            if len(cell_values) == self.clean_breakoff/2:
+                break
+            tuple = cell_probabilities.pop()
+            value = tuple[0]
+            cell_values.add(value)
+
+        random.shuffle(cell_probabilities)
+
+        while len(cell_probabilities) > 0:
+            if len(cell_values) == self.clean_breakoff:
+                break
+            tuple = cell_probabilities.pop()
+            value = tuple[0]
+            cell_values.add(value)
         return cell_values
 
     def _preprop(self):
-        """TO DO:
-               preprocessing phase. create the dictionary with all the attributes.
+        """
+        Preprocessing phase: create the dictionary with all the attributes.
+
+        :return: Null
         """
 
         # This part creates dictionary to find column index
@@ -168,7 +318,8 @@ class Pruning:
         for col in self.column_to_col_index_dict:
             self.domain_stats[col] = {}
 
-        # This part adds other (dirty) attributes to the dictionary of the key attribute
+        # This part adds other (dirty) attributes
+        # to the dictionary of the key attribute
         for column_name_key in self.column_to_col_index_dict:
             self.domain_pair_stats[column_name_key] = {}
             for col2 in self.dirty_cells_attributes:
@@ -177,13 +328,15 @@ class Pruning:
         return
 
     def _analyze_entries(self):
-        """TO DO:
-                analyzeEntries creates a dictionary with occurrences of the attributes
+        """
+        Analyze entries creates a dictionary with occurrences of the attributes
+
+        :return: Null
         """
         # Iterate over tuples to create to dictionary
         for tupleid in self.cellvalues:
-            # Iterate over attributes and grab counts for create dictionary that
-            #  show for each attribute how many times we see each value
+            # Iterate over attributes and grab counts for create dictionary
+            # that how for each attribute how many times we see each value
             for cid in self.cellvalues[tupleid]:
                 cell = self.cellvalues[tupleid][cid]
                 col = cell.columnname
@@ -197,7 +350,8 @@ class Pruning:
                     self.domain_stats[col][val] = 0.0
                 self.domain_stats[col][val] += 1.0
 
-            # Iterate over target attributes and grab counts of values with other attributes
+            # Iterate over target attributes and grab
+            # counts of values with other attributes
             for col in self.domain_pair_stats:
                 cid = self.column_to_col_index_dict[col]
                 for tgt_col in self.domain_pair_stats[col]:
@@ -211,61 +365,102 @@ class Pruning:
         return
 
     def _generate_coocurences(self):
-        """TO DO:
-                _generate_coocurences creates candidates repairs
         """
-        for original_attribute in self.domain_pair_stats:  # For each column in the cooccurences
-            self.cooocurance_for_first_attribute[original_attribute] = {}  # It creates a dictionary
-            for cooccured_attribute in self.domain_pair_stats[original_attribute]:
+        This method creates all value of co-occurences
+
+        :return: Null
+        """
+        for original_attribute in self.domain_pair_stats:
+            # For each column in the cooccurences
+            self.coocurence_lookup[original_attribute] = {}
+            # It creates a dictionary
+            for cooccured_attribute in \
+                    self.domain_pair_stats[original_attribute]:
                 # For second column in the cooccurences Over
-                # Pair of values that happend with each other
+                # Pair of values that happened with each other
                 # (original_attribute value , cooccured_attribute value)
-                for assgn_tuple in self.domain_pair_stats[original_attribute][cooccured_attribute]:
-                    cooccure_number = self._compute_number_of_coocurences(
-                        original_attribute, assgn_tuple[0], cooccured_attribute, assgn_tuple[1])
-                    if cooccure_number > self.threshold:
-                        if assgn_tuple[0] not in self.cooocurance_for_first_attribute[original_attribute]:
-                            self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]] = {}
-                        if cooccured_attribute not in \
-                                self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]]:
-                            self.cooocurance_for_first_attribute[original_attribute][
-                                assgn_tuple[0]][cooccured_attribute] = {}
-                        self.cooocurance_for_first_attribute[original_attribute][assgn_tuple[0]][cooccured_attribute][
-                            assgn_tuple[1]] = cooccure_number
+                for assgn_tuple in self.domain_pair_stats[
+                                        original_attribute][
+                                        cooccured_attribute]:
+                    co_prob = self._compute_number_of_coocurences(
+                        original_attribute, assgn_tuple[0],
+                        cooccured_attribute,
+                        assgn_tuple[1])
+
+                    if co_prob > self.threshold1:
+                            if assgn_tuple[0] not in \
+                                    self.coocurence_lookup[
+                                        original_attribute]:
+                                self.coocurence_lookup[
+                                    original_attribute][assgn_tuple[0]] = {}
+
+                            if cooccured_attribute not in \
+                                    self.coocurence_lookup[
+                                        original_attribute][assgn_tuple[0]]:
+                                self.coocurence_lookup[
+                                    original_attribute][
+                                    assgn_tuple[0]][cooccured_attribute] = {}
+
+                            self.coocurence_lookup[
+                                original_attribute][assgn_tuple[0]][
+                                cooccured_attribute][
+                                assgn_tuple[1]] = co_prob
         return
 
     def _generate_assignments(self):
         """
-        generate_assignments creates assignment for each cell with the attribute and value
-                of each other cell in the same row
-        :return:
+        Generate_assignments creates assignment for each cell with the
+        attribute and value of each other cell in the same row
+
+        :return: Null
         """
         for cell in self.all_cells:
             tplid = cell.tupleid
             trgt_attr = cell.columnname
 
-            # assignment is a dictionary for each cell copied the row of that cell
+            # assignment is a dictionary for each cell copied
+            # the row of that cell
             # with all attribute to find the cooccurance
             assignment = {}
             for cid in self.cellvalues[tplid]:
                 c = self.cellvalues[tplid][cid]
                 assignment[c.columnname] = c.value
-            self.assignments[cell.cellid] = assignment
+            self.assignments[cell] = assignment
             self.attribute_to_be_pruned[cell.cellid] = trgt_attr
         return
 
     def _find_cell_domain(self):
         """
-        find_cell_domain finds the domain for each cell
-        :return:
+        Find_cell_domain finds the domain for each cell
+
+        :return: Null
         """
-        for cell_index in self.assignments:
-            # In this part we get all values for cell_index's attribute_to_be_pruned
-            self.cell_domain[cell_index] = self._find_domain(
-                self.assignments[cell_index], self.attribute_to_be_pruned[cell_index])
+        for cell in self.assignments:
+            # In this part we get all values for cell_index's
+            # attribute_to_be_pruned
+
+            # if the cell is dirty call find domain
+            # else, call get negative examples (domain for clean cells)
+            if cell.dirty == 1:
+                self.cell_domain[cell.cellid] = self._find_dk_domain(
+                    self.assignments[cell],
+                    self.attribute_to_be_pruned[cell.cellid])
+            else:
+                self.cell_domain[cell.cellid] = self._find_clean_domain(
+                    self.assignments[cell],
+                    self.attribute_to_be_pruned[cell.cellid])
         return
 
     def _append_possible(self, v_id, value, dataframe, cell_index, k_ij):
+        """
+        Appends possible values to a list
+
+        :param v_id: variable id
+        :param value: value
+        :param dataframe: list
+        :param cell_index: index of cell
+        :param k_ij: domain id
+        """
         if value != self.all_cells_temp[cell_index].value:
             dataframe.append(
                 [v_id, (self.all_cells_temp[cell_index].tupleid + 1),
@@ -279,170 +474,213 @@ class Pruning:
 
     def _create_dataframe(self):
         """
-        creates a spark dataframe from cell_domain for all the cells
-        :return:
+        Creates spark dataframes from cell_domain for all the cells
+
+        :return: Null
         """
-        attributes = self.dataengine.get_schema(self.dataset, 'Init').split(',')
-        self.domain_dict = {}
+
+        attributes = self.dataset.get_schema('Init')
+        domain_dict = {}
         domain_kij_clean = []
         domain_kij_dk = []
         for attribute in attributes:
-            if attribute != 'index' and attribute != 'Index':
-                self.domain_dict[attribute] = []
+            if attribute != GlobalVariables.index_name:
+                domain_dict[attribute] = set()
 
         possible_values_clean = []
         possible_values_dirty = []
-        c_clean = []
-        c_dk = []
+        self.v_id_clean_list = []
+        self.v_id_dk_list = []
         v_id_clean = v_id_dk = 0
+
+        self.simplepredictions = []
+
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
                 value = self.cellvalues[tuple_id][cell_index].value
-                if value not in self.domain_dict[attribute]:
-                    self.domain_dict[attribute].append(value)
+                domain_dict[attribute].add(value)
 
                 if self.cellvalues[tuple_id][cell_index].dirty == 1:
-                    c_dk.append([tuple_id + 1, attribute, value])
-                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+                    tmp_cell_index = self.cellvalues[tuple_id][
+                        cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
+
+                        if len(self.cell_domain[tmp_cell_index]) == 1 \
+                                and \
+                                self.cellvalues[
+                                    tuple_id][cell_index].value is not None:
+                            # Cell kept its initial value when the possible
+                            # values len is 1
+                            # init value was not Null
+                            self.simplepredictions.append(
+                                [
+                                    None,  # vid
+                                    tuple_id + 1,  # tid
+                                    attribute,  # attr_name
+                                    list(self.cell_domain[tmp_cell_index])[0],
+                                    # attr_val
+                                    1,  # observed
+                                    None  # domain_id
+                                ]
+                            )
+                        # Put it anyways in the prediction table even if
+                        # simple values
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
+
+                        self.v_id_dk_list.append(
+                            [(
+                                    self.all_cells_temp[
+                                        tmp_cell_index
+                                    ].tupleid + 1),
+                                self.all_cells_temp[
+                                    tmp_cell_index
+                                ].columnname,
+                                tmp_cell_index])
+
                         for value in self.cell_domain[tmp_cell_index]:
-                            k_ij = k_ij + 1
-                            self._append_possible(v_id_dk, value, possible_values_dirty, tmp_cell_index, k_ij)
-                        domain_kij_dk.append([v_id_dk, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                              self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                            if value != ():
+                                k_ij = k_ij + 1
+
+                                self._append_possible(
+                                    v_id_dk,
+                                    value,
+                                    possible_values_dirty,
+                                    tmp_cell_index, k_ij
+                                )
+
+                        domain_kij_dk.append([v_id_dk, (
+                            self.all_cells_temp[tmp_cell_index].tupleid + 1),
+                            self.all_cells_temp[tmp_cell_index].columnname,
+                            k_ij])
                 else:
-                    c_clean.append([tuple_id + 1, attribute, value])
-                    tmp_cell_index = self.cellvalues[tuple_id][cell_index].cellid
+
+                    tmp_cell_index = self.cellvalues[tuple_id][
+                        cell_index].cellid
+
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
-                        k_ij = 0
-                        v_id_clean = v_id_clean + 1
-                        for value in self.cell_domain[tmp_cell_index]:
-                            k_ij = k_ij + 1
-                            self._append_possible(v_id_clean, value, possible_values_clean, tmp_cell_index, k_ij)
-                        domain_kij_clean.append([v_id_clean, (self.all_cells_temp[tmp_cell_index].tupleid + 1),
-                                                 self.all_cells_temp[tmp_cell_index].columnname, k_ij])
+                        if len(self.cell_domain[tmp_cell_index]) > 1:
+                            k_ij = 0
+                            v_id_clean = v_id_clean + 1
+
+                            self.v_id_clean_list.append([
+                                (self.all_cells_temp[
+                                     tmp_cell_index
+                                 ].tupleid + 1),
+                                self.all_cells_temp[
+                                    tmp_cell_index
+                                ].columnname, tmp_cell_index])
+
+                            for value in self.cell_domain[tmp_cell_index]:
+                                if value != 0:
+                                    k_ij = k_ij + 1
+
+                                    self._append_possible(
+                                        v_id_clean,
+                                        value,
+                                        possible_values_clean,
+                                        tmp_cell_index, k_ij
+                                    )
+
+                            domain_kij_clean.append([
+                                v_id_clean,
+                                (self.all_cells_temp[
+                                     tmp_cell_index
+                                 ].tupleid + 1),
+                                self.all_cells_temp[
+                                    tmp_cell_index
+                                ].columnname, k_ij])
+
+        self.all_cells = None
+        self.all_cells_temp = None
 
         # Create possible table
-        new_df_possible = self.spark_session.createDataFrame(
-            possible_values_clean, StructType([
-                StructField("vid", IntegerType(), True),
-                StructField("tid", IntegerType(), False),
-                StructField("attr_name", StringType(), False),
-                StructField("attr_val", StringType(), False),
-                StructField("observed", IntegerType(), False),
-                StructField("domain_id", IntegerType(), False),
-            ])
+        df_possible_clean = self.spark_session.createDataFrame(
+            possible_values_clean, self.dataset.attributes['Possible_values']
         )
+
         self.dataengine.add_db_table('Possible_values_clean',
-                                     new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_clean'), 'attr_name')
+                                     df_possible_clean, self.dataset)
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_clean'),
+            'attr_name')
 
-        new_df_possible = self.spark_session.createDataFrame(
-            possible_values_dirty, StructType([
-                StructField("vid", IntegerType(), True),
-                StructField("tid", IntegerType(), False),
-                StructField("attr_name", StringType(), False),
-                StructField("attr_val", StringType(), False),
-                StructField("observed", IntegerType(), False),
-                StructField("domain_id", IntegerType(), False),
-            ])
+        df_possible_dk = self.spark_session.createDataFrame(
+            possible_values_dirty, self.dataset.attributes['Possible_values']
         )
+
         self.dataengine.add_db_table('Possible_values_dk',
-                                     new_df_possible, self.dataset)
-        self.dataengine.add_db_table_index(self.dataset.table_specific_name('Possible_values_dk'), 'attr_name')
-        del new_df_possible
+                                     df_possible_dk, self.dataset)
+        self.dataengine.add_db_table_index(
+            self.dataset.table_specific_name('Possible_values_dk'),
+            'attr_name')
 
-        # Create Clean and DK flats
-        new_df_clean = self.spark_session.createDataFrame(
-            c_clean, StructType([
-                StructField("tid", IntegerType(), False),
-                StructField("attribute", StringType(), False),
-                StructField("value", StringType(), True)
-            ])
-        )
-        self.dataengine.add_db_table('C_clean_flat',
-                                     new_df_clean, self.dataset)
-
-        new_df_dk = self.spark_session.createDataFrame(
-            c_dk, StructType([
-                StructField("tid", IntegerType(), False),
-                StructField("attribute", StringType(), False),
-                StructField("value", StringType(), True)
-            ])
-        )
-        self.dataengine.add_db_table('C_dk_flat',
-                                     new_df_dk, self.dataset)
-
-        new_df_kij = self.spark_session.createDataFrame(domain_kij_dk, StructType([
-            StructField("vid", IntegerType(), True),
-            StructField("tid", IntegerType(), False),
-            StructField("attr_name", StringType(), False),
-            StructField("k_ij", IntegerType(), False),
-        ]))
+        df_kij = self.spark_session.createDataFrame(
+            domain_kij_dk, self.dataset.attributes['Kij_lookup'])
         self.dataengine.add_db_table('Kij_lookup_dk',
-                                     new_df_kij, self.dataset)
+                                     df_kij, self.dataset)
 
-        new_df_kij = self.spark_session.createDataFrame(domain_kij_clean, StructType([
-            StructField("vid", IntegerType(), False),
-            StructField("tid", IntegerType(), False),
-            StructField("attr_name", StringType(), False),
-            StructField("k_ij", IntegerType(), False),
-        ]))
+        df_kij = self.spark_session.createDataFrame(
+            domain_kij_clean, self.dataset.attributes['Kij_lookup'])
         self.dataengine.add_db_table('Kij_lookup_clean',
-                                     new_df_kij, self.dataset)
+                                     df_kij, self.dataset)
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Kij_lookup_clean') +
-                                            " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                            " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
-
-        del new_df_kij
-        del new_df_clean
-        del new_df_dk
+        self.dataengine.holo_env.logger.info('The table: ' +
+                                             self.dataset.table_specific_name(
+                                                 'Kij_lookup_clean') +
+                                             " has been created")
+        self.dataengine.holo_env.logger.info("  ")
+        self.dataengine.holo_env.logger.info('The table: ' +
+                                             self.dataset.table_specific_name(
+                                                 'Possible_values_dk') +
+                                             " has been created")
+        self.dataengine.holo_env.logger.info("  ")
 
         create_feature_id_map = "Create TABLE " + \
-                                self.dataset.table_specific_name("Feature_id_map") + \
+                                self.dataset.table_specific_name(
+                                    "Feature_id_map") + \
                                 "( feature_ind INT," \
                                 " attribute VARCHAR(255)," \
                                 " value VARCHAR(255)," \
                                 " type VARCHAR(255) );"
+
         self.dataengine.query(create_feature_id_map)
 
         query_observed = "CREATE TABLE " + \
-                         self.dataset.table_specific_name('Observed_Possible_values_clean') + \
-                         " SELECT * FROM ( " \
+                         self.dataset.table_specific_name(
+                             'Observed_Possible_values_clean') + \
+                         " AS SELECT * FROM ( " \
                          "SELECT *  \
                          FROM " + \
-                         self.dataset.table_specific_name('Possible_values_clean') + " as t1 " + \
+                         self.dataset.table_specific_name(
+                             'Possible_values_clean') + " as t1 " + \
                          " WHERE " \
                          " t1.observed=1 ) " \
                          "AS table1;"
 
         self.dataengine.query(query_observed)
 
-        query_observed = "CREATE TABLE " + \
-                         self.dataset.table_specific_name('Observed_Possible_values_dk') + \
-                         " SELECT * FROM ( " \
-                         "SELECT *  \
-                         FROM " + \
-                         self.dataset.table_specific_name('Possible_values_dk') + " as t1 " + \
-                         " WHERE " \
-                         " t1.observed=1 ) " \
-                         "AS table1;"
+        query_observed = \
+            "CREATE TABLE " + \
+            self.dataset.table_specific_name('Observed_Possible_values_dk') + \
+            " AS SELECT * FROM ( SELECT * FROM " + \
+            self.dataset.table_specific_name('Possible_values_dk') + \
+            " as t1  WHERE  " \
+            "t1.observed=1 ) AS " \
+            "table1;"
+
+        # Simple predictions may be our only predictions if all kept the initial value
+        # Also used to compute separate accuracies for inference and pruning
 
         self.dataengine.query(query_observed)
+        df_simple_predictions = self.spark_session.createDataFrame(
+            self.simplepredictions, self.dataset.attributes['Possible_values']
+        )
+        self.session.simple_predictions = df_simple_predictions
 
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_dk') +
-                                            " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
-
-        self.dataengine.holoEnv.logger.info('The table: ' + self.dataset.table_specific_name('Possible_values_clean') +
-                                            " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
+        self.assignments = None
+        self.attribute_to_be_pruned = None
+        self.attribute_map = None
 
         return

@@ -1,0 +1,26 @@
+Featurization
+===============
+
+Holoclean uses different signals to create the features for the model that it will use for the learning part. We've provided three kinds of signals: `SignalInit`, `SignalDC`, `SignalCooccur`. HoloClean also support custom or user-defined signal by creating a new class that inherits from `Featurizer` and overrides the required methods.
+
+Featurizer
+----------------
+.. automodule:: holoclean.featurization.featurizer
+    :members:
+
+SignalInit
+---------------
+.. automodule:: holoclean.featurization.initfeaturizer
+    :members:
+
+SignalDC
+---------------
+.. automodule:: holoclean.featurization.dcfeaturizer
+    :members:
+
+SignalCooccur
+---------------
+.. automodule:: holoclean.featurization.cooccurrencefeaturizer
+    :members:
+
+

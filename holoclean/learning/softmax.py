@@ -1,50 +1,60 @@
 import torch
-from torch.nn import Parameter
+from torch.nn import Parameter, ParameterList
 from torch.autograd import Variable
 from torch import optim
 from torch.nn.functional import softmax
 from pyspark.sql.types import *
-import numpy as np
 from tqdm import tqdm
+import numpy as np
 
 
 class LogReg(torch.nn.Module):
+    """
+    Class to generate weights
+    """
 
     def _setup_weights(self):
-        """ Initializes weight tensor with random values
+        """
+        Initializes weight tensor with random values
         ties init and dc weights if specified
 
-        :return: N/A
+        :return: Null
         """
         torch.manual_seed(42)
         # setup init
-        if self.tie_init:
-            self.init_W = Parameter(torch.randn(1).expand(1, self.output_dim))
-        else:
-            self.init_W = Parameter(torch.randn(1, self.output_dim))
-
-        # setup cooccur
-
-        self.cooc_W = Parameter(torch.ones(self.input_dim_non_dc - 1, 1).
-                                expand(-1, self.output_dim))
-
-        self.W = torch.cat((self.init_W, self.cooc_W), 0)
-
-        # setup dc
-        if self.input_dim_dc > 0:
-            if (self.tie_dc):
-                self.dc_W = Parameter(
-                    torch.randn(self.input_dim_dc, 1)
-                    .expand(self.input_dim_dc, self.output_dim))
+        self.weight_tensors = ParameterList()
+        self.tensor_tuple = ()
+        self.feature_id = []
+        self.W = None
+        for featurizer in self.featurizers:
+            self.feature_id.append(featurizer.id)
+            if featurizer.id == 'SignalInit':
+                if self.tie_init:
+                    signals_W = Parameter(torch.randn(1).expand(
+                        1, self.output_dim))
+                else:
+                    signals_W = Parameter(torch.randn(1, self.output_dim))
+            elif featurizer.id == 'SignalDC':
+                if self.tie_dc:
+                    signals_W = Parameter(
+                        torch.randn(featurizer.count, 1).expand(
+                            -1, self.output_dim))
+                else:
+                    signals_W = Parameter(
+                        torch.randn(featurizer.count, self.output_dim))
             else:
-                self.dc_W = Parameter(
-                    torch.randn(self.input_dim_dc, self.output_dim))
+                signals_W = \
+                    Parameter(
+                        torch.randn(
+                            featurizer.count, 1).expand(-1, self.output_dim))
+            self.weight_tensors.append(signals_W)
 
-            self.W = torch.cat((self.W, self.dc_W), 0)
+        return
 
-    def __init__(self, input_dim_non_dc, input_dim_dc, output_dim, tie_init,
-                 tie_dc):
-        """ constructor for our logistic regression
+    def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
+                 tie_init, tie_dc):
+        """
+        Constructor for our logistic regression
 
         :param input_dim_non_dc: number of init + cooccur features
         :param input_dim_dc: number of dc features
@@ -53,6 +63,8 @@ class LogReg(torch.nn.Module):
         :param tie_dc: boolean, determines weight tying for dc features
         """
         super(LogReg, self).__init__()
+
+        self.featurizers = featurizers
 
         self.input_dim_non_dc = input_dim_non_dc
         self.input_dim_dc = input_dim_dc
@@ -64,7 +76,8 @@ class LogReg(torch.nn.Module):
         self._setup_weights()
 
     def forward(self, X, index, mask):
-        """ runs the forward pass of our logreg.
+        """
+        Runs the forward pass of our logreg.
 
         :param X: values of the features
         :param index: indices to mask at
@@ -72,40 +85,53 @@ class LogReg(torch.nn.Module):
         :return: output - X * W after masking
         """
 
-        # reties the weights - need to do on every pass
-        if self.input_dim_dc > 0:
-            self.W = torch.cat(
-                (self.init_W.expand(
-                    1, self.output_dim), self.cooc_W, self.dc_W.expand(
-                    self.input_dim_dc, self.output_dim)), 0)
-        else:
-            self.W = torch.cat(
-                (self.init_W.expand(
-                    1, self.output_dim), self.cooc_W), 0)
+        # Reties the weights - need to do on every pass
 
-        # calculates n x l matrix output
+        self.concat_weights()
+
+        # Calculates n x l matrix output
         output = X.mul(self.W)
         output = output.sum(1)
-        # changes values to extremely negative at specified indices
+        # Changes values to extremely negative at specified indices
         if index is not None and mask is not None:
             output.index_add_(0, index, mask)
         return output
 
+    def concat_weights(self):
+        """
+        Reties the weight
+        """
+        for feature_index in range(0, len(self.weight_tensors)):
+            if self.feature_id[feature_index] == 'SignalInit':
+                tensor = self.weight_tensors[feature_index].expand(
+                    1, self.output_dim)
+            elif self.feature_id[feature_index] == 'SignalDC':
+                tensor = self.weight_tensors[feature_index].expand(
+                    -1, self.output_dim)
+            else:
+                tensor = self.weight_tensors[feature_index].expand(
+                    -1, self.output_dim)
+            if feature_index == 0:
+                self.W = tensor + 0
+            else:
+                self.W = torch.cat((self.W, tensor), 0)
+
 
 class SoftMax:
 
-    def __init__(self, dataengine, dataset, holo_obj, X_training):
-        """ Constructor for our softmax model
-
-        :param dataengine: a HoloClean object's dataengine
-        :param dataset: session's dataset
-        :param holo_obj: a HoloClean object
-        :param X_training: x tensor used for training the model
+    def __init__(self, session, X_training):
         """
-        self.dataengine = dataengine
-        self.dataset = dataset
-        self.holo_obj = holo_obj
-        self.spark_session = holo_obj.spark_session
+        Constructor for our softmax model
+
+        :param X_training: x tensor used for training the model
+        :param session: session object
+
+        """
+        self.session = session
+        self.dataengine = session.holo_env.dataengine
+        self.dataset = session.dataset
+        self.holo_obj = session.holo_env
+        self.spark_session = self.holo_obj.spark_session
         query = "SELECT COUNT(*) AS dc FROM " + \
                 self.dataset.table_specific_name("Feature_id_map") + \
                 " WHERE Type = 'DC'"
@@ -132,29 +158,33 @@ class SoftMax:
         self.testmask = None
         self.setupMask()
         self.Y = None
+        self.grdt = None
         self._setupY()
         self.model = None
-        return
 
     # Will create the Y tensor of size NxL
     def _setupY(self):
-        """ Initializes a y tensor to compare to our model's output
+        """
+        Initializes a y tensor to compare to our model's output
 
-        :return: N/A
+        :return: Null
         """
         possible_values = self.dataengine .get_table_to_dataframe(
             "Observed_Possible_values_clean", self.dataset) .collect()
         self.Y = torch.zeros(self.N, 1).type(torch.LongTensor)
         for value in possible_values:
             self.Y[value.vid - 1, 0] = value.domain_id - 1
+        self.grdt = self.Y.numpy().flatten()
         return
 
     # Will create the X-value tensor of size nxmxl
     def _setupX(self, sparse=0):
-        """ initializes an X tensor of features for prediction
+        """
+        Initializes an X tensor of features for prediction
 
         :param sparse: 0 if dense tensor, 1 if sparse
-        :return:
+
+        :return: Null
         """
         feature_table = self .dataengine.get_table_to_dataframe(
             "Feature_clean", self.dataset).collect()
@@ -179,9 +209,11 @@ class SoftMax:
         return
 
     def setuptrainingX(self, sparse=0):
-        """ initializes an X tensor of features for training
+        """
+        Initializes an X tensor of features for training
 
         :param sparse: 0 if dense tensor, 1 if sparse
+
         :return: x tensor of features
         """
         dataframe_offset = self.dataengine.get_table_to_dataframe(
@@ -220,11 +252,13 @@ class SoftMax:
         return X
 
     def setupMask(self, clean=1, N=1, L=1):
-        """ initializes a masking tensor for ignoring impossible classes
+        """
+        Initializes a masking tensor for ignoring impossible classes
 
         :param clean: 1 if clean cells, 0 if don't-know
         :param N: number of examples
         :param L: number of classes
+
         :return: masking tensor
         """
         lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
@@ -242,18 +276,22 @@ class SoftMax:
             self.testmask = mask
         return mask
 
-    def build_model(self, input_dim_non_dc, input_dim_dc,
+    def build_model(self,  featurizers, input_dim_non_dc, input_dim_dc,
                     output_dim, tie_init=True, tie_DC=True):
-        """ initializes the logreg part of our model
+        """
+        Initializes the logreg part of our model
 
         :param input_dim_non_dc: number of init + cooccur features
+        :param featurizers: list of featurizers
         :param input_dim_dc: number of dc features
         :param output_dim: number of classes
         :param tie_init: boolean to decide weight tying for init features
         :param tie_DC: boolean to decide weight tying for dc features
+
         :return: newly created LogReg model
         """
         model = LogReg(
+            featurizers,
             input_dim_non_dc,
             input_dim_dc,
             output_dim,
@@ -262,7 +300,8 @@ class SoftMax:
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
-        """ trains our model on the clean cells
+        """
+        Trains our model on the clean cells
 
         :param model: logistic regression model
         :param loss: loss function used for evaluating performance
@@ -270,6 +309,7 @@ class SoftMax:
         :param x_val: x tensor - features
         :param y_val: y tensor - output for comparison
         :param mask: masking tensor
+
         :return: cost of traininng
         """
         x = Variable(x_val, requires_grad=False)
@@ -298,11 +338,13 @@ class SoftMax:
         return output.data[0]
 
     def predict(self, model, x_val, mask=None):
-        """ runs our model on the test set
+        """
+        Runs our model on the test set
 
         :param model: trained logreg model
         :param x_val: test x tensor
         :param mask: masking tensor to restrict domain
+
         :return: predicted classes with probabilities
         """
         x = Variable(x_val, requires_grad=False)
@@ -317,23 +359,25 @@ class SoftMax:
         output = softmax(output, 1)
         return output
 
-    def logreg(self):
-        """ trains our model on clean cells and predicts vals for clean cells
+    def logreg(self, featurizers):
+        """
+        Trains our model on clean cells and predicts vals for clean cells
 
         :return: predictions
         """
         n_examples, n_features, n_classes = self.X.size()
         self.model = self.build_model(
-            self.M - self.DC_count, self.DC_count, n_classes)
+            featurizers, self.M - self.DC_count, self.DC_count, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
             self.model.parameters(),
             lr=self.holo_obj.learning_rate,
             momentum=self.holo_obj.momentum,
             weight_decay=self.holo_obj.weight_decay)
-        # experiment with different batch sizes. no hard rule on this
-        batch_size = 1
-        for i in tqdm(range(100)):
+
+        # Experiment with different batch sizes. no hard rule on this
+        batch_size = self.holo_obj.batch_size
+        for i in tqdm(range(self.holo_obj.learning_iterations)):
             cost = 0.
             num_batches = n_examples // batch_size
             for k in range(num_batches):
@@ -350,14 +394,16 @@ class SoftMax:
             if self.holo_obj.verbose:
                 print("Epoch %d, cost = %f, acc = %.2f%%" %
                       (i + 1, cost / num_batches,
-                       100. * np.mean(map == self.Y)))
+                       100. * np.mean(map == self.grdt)))
         return self.predict(self.model, self.X, self.mask)
 
     def save_prediction(self, Y):
-        """ stores our predicted avlues in the database
+        """
+        Stores our predicted values in the database
 
-        :param Y: tensor with probabilty for each class
-        :return: N/A
+        :param Y: tensor with probability for each class
+
+        :return: Null
         """
         max_result = torch.max(Y, 1)
         max_indexes = max_result[1].data.tolist()
@@ -383,12 +429,30 @@ class SoftMax:
                 df1.domain_id2 == df2.domain_id], 'inner')\
             .drop("vid2", "domain_id2")
 
-        self.dataengine.add_db_table('Inferred_values',
-                                     df_inference, self.dataset)
+        self.session.inferred_values = df_inference
 
-        self.dataengine.holoEnv.logger.info(
-            'The table: ' +
-            self.dataset.table_specific_name('Inferred_values') +
-            " has been created")
-        self.dataengine.holoEnv.logger.info("  ")
+        self.session.holo_env.logger.info\
+            ("The Inferred_values Dataframe has been created")
+        self.session.holo_env.logger.info("  ")
+        return
+
+    def log_weights(self):
+        """
+        Writes weights in the logger
+
+        :return: Null
+        """
+        self.model.concat_weights()
+        weights = self.model.W
+        self.session.holo_env.logger.info("Tensor weights")
+        count = 0
+        for weight in \
+                torch.index_select(
+                    weights, 1, Variable(torch.LongTensor([0]))
+                ):
+
+            count += 1
+            msg = "Feature " + str(count) + ": " + str(weight[0].data[0])
+            self.session.holo_env.logger.info(msg)
+
         return
