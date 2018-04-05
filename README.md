@@ -1,5 +1,5 @@
 # HoloClean: A Machine Learning System for Data Enrichment
-<a www.holoclean.io> HoloClean </a>  is built over Spark and PyTorch.
+<a href="www.holoclean.io"> HoloClean </a>  is built over Spark and PyTorch.
 
 ### Status
 
