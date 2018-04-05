@@ -17,13 +17,13 @@ class Testing:
             # to limit possible values for training data to less than k values
             pruning_clean_breakoff=20,
             # to limit possible values for dirty data
-            pruning_threshold2=0.2,
+            pruning_threshold2=0.3,
             # to limit possible values for dirty data to less than k values
             pruning_dk_breakoff=10,
             # learning parameters
-            learning_iterations=20,
+            learning_iterations=10,
             learning_rate=0.001,
-            batch_size=5
+            batch_size=100
         )
         self.session = Session(self.holo_obj)
 
@@ -31,7 +31,7 @@ class Testing:
         
         t1 = time.time()
         # dataset = "../datasets/hospital1k/hospital.csv"
-        dataset = "../datasets/food/food_input_medium_transf.csv"
+        dataset = "../datasets/food/food_input_large_transform.csv"
 
         # denial_constraints =
         # "../datasets/hospital1k/hospital_constraints.txt"
