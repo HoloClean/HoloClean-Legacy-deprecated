@@ -12,7 +12,7 @@ class Testing:
     def __init__(self):
         self.holo_obj = HoloClean(
             holoclean_path="..",         # path to holoclean package
-            verbose=True,
+            verbose=False,
             # to limit possible values for training data
             pruning_threshold1=0.1,
             # to limit possible values for training data to less than k values
