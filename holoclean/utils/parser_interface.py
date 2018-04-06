@@ -183,10 +183,8 @@ class DenialConstraint:
                 append(Predicate(split[i], self.tuple_names, schema))
 
         # Create CNF form of the DC
-        for predicate in self.predicates:
-            self.cnf_form += predicate.cnf_form
-            self.cnf_form += " AND "
-        self.cnf_form = self.cnf_form[:-5]  # remove AND and spaces at the end
+        cnf_forms = [predicate.cnf_form for predicate in self.predicates]
+        self.cnf_form = " AND ".join(cnf_forms)
         return
 
     @staticmethod
