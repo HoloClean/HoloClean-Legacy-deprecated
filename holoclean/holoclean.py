@@ -297,7 +297,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
-            print log
+            print(log)
         attributes = self.dataset.get_schema('Init')
         for attribute in attributes:
             self.holo_env.dataengine.add_db_table_index(
@@ -399,7 +399,7 @@ class Session:
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time for Error Detection: ' + str(end - start) + '\n'
-            print log
+            print(log)
 
         return clean, dk
 
@@ -452,7 +452,7 @@ class Session:
             if self.holo_env.verbose:
                 end = time.time()
                 log = 'Time for Training Model: ' + str(end - start) + '\n'
-                print log
+                print(log)
                 self.holo_env.logger.info('Time for Training Model: ' +
                                           str(end - start))
                 start = time.time()
@@ -468,7 +468,7 @@ class Session:
             if self.holo_env.verbose:
                 end = time.time()
                 log = 'Time for Test Featurization: ' + str(end - start) + '\n'
-                print log
+                print(log)
                 self.holo_env.logger.\
                     info('Time for Test Featurization dk: ' + str(end - start))
                 start = time.time()
@@ -478,7 +478,7 @@ class Session:
             if self.holo_env.verbose:
                 end = time.time()
                 log = 'Time for Inference: ' + str(end - start) + '\n'
-                print log
+                print(log)
                 self.holo_env.logger.info('Time for Inference: ' +
                                           str(end - start))
 
