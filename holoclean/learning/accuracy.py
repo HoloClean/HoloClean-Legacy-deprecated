@@ -46,7 +46,6 @@ class Accuracy:
                 print ("The precision and recall cannot be calculated")
                 return
 
-
             checkable_original_query = "SELECT I.tid,I.attr_name," \
                                        "I.attr_val, G.attr_val as " \
                                        "g_attr_val FROM " + \
@@ -87,11 +86,13 @@ class Accuracy:
                 uncorrected_inferred = incorrect_init.intersect(
                     incorrect_inferred)
                 uncorrected_count = uncorrected_inferred.count()
+
                 if incorrect_init_count:
-                    recall = 1.0 - (float(uncorrected_count) /
-                                   float(incorrect_init_count))
+                    recall = 1.0 - (float(uncorrected_count)/float(
+                        incorrect_init_count))
                 else:
                     recall = 1.0
+
                 print ("The top-" + str(self.session.holo_env.k_inferred) +
                        " recall is : " + str(recall) + " out of " + str(
                     incorrect_init_count))
@@ -133,8 +134,8 @@ class Accuracy:
                         incorrect_map)
                     uncorrected_map_count = uncorrected_map.count()
                     if incorrect_init_count:
-                        recall = 1.0 - (float(uncorrected_map_count) /
-                                        float(incorrect_init_count))
+                        recall = 1.0 - (float(uncorrected_map_count)/float(
+                            incorrect_init_count))
                     else:
                         recall = 1.0
                     print ("The MAP recall is : " + str(recall) + " out of " +

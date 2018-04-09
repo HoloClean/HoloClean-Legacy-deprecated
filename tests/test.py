@@ -35,7 +35,6 @@ class Testing:
 
         t1 = time.time()
 
-   
 
         dataset = "data/hospital.csv"
         print("using dataset: {}".format(dataset))

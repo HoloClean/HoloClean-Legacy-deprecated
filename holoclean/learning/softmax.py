@@ -406,7 +406,6 @@ class SoftMax:
         :return: Null
         """
         max_result = torch.topk(Y,self.session.holo_env.k_inferred,1)
-
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
 
@@ -421,7 +420,6 @@ class SoftMax:
                     if max_prob[i][j]:
                         vid_to_value.append([i + 1, max_indexes[i][j] + 1,
                                              max_prob[i][j]])
-
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
                 StructField("vid1", IntegerType(), False),
@@ -429,7 +427,6 @@ class SoftMax:
                 StructField("probability", DoubleType(), False)
             ])
         )
-
         df1 = df_vid_to_value
         df2 = df_possible_values
         df_inference = df1.join(
@@ -439,7 +436,6 @@ class SoftMax:
             .drop("vid1","domain_id1")
 
         self.session.inferred_values = df_inference
-
         self.session.holo_env.logger.info\
             ("The Inferred_values Dataframe has been created")
         self.session.holo_env.logger.info("  ")
