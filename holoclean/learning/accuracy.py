@@ -46,6 +46,7 @@ class Accuracy:
                 print ("The precision and recall cannot be calculated")
                 return
 
+
             checkable_original_query = "SELECT I.tid,I.attr_name," \
                                        "I.attr_val, G.attr_val as " \
                                        "g_attr_val FROM " + \
@@ -80,24 +81,65 @@ class Accuracy:
             incorrect_init_count = incorrect_init.count()
 
             if inferred_count:
-
                 precision = float(correct_count) / float(inferred_count)
-
-                print ("The  precision  is :" + str(precision))
-
+                print ("The top-" + str(self.session.holo_env.k_inferred) +
+                       " precision  is : " + str(precision))
                 uncorrected_inferred = incorrect_init.intersect(
                     incorrect_inferred)
-
                 uncorrected_count = uncorrected_inferred.count()
-
                 if incorrect_init_count:
                     recall = 1.0 - (float(uncorrected_count) /
-                                    float(incorrect_init_count))
+                                   float(incorrect_init_count))
                 else:
                     recall = 1.0
-
-                print ("The recall is :" + str(recall) + " out of " + str(
+                print ("The top-" + str(self.session.holo_env.k_inferred) +
+                       " recall is : " + str(recall) + " out of " + str(
                     incorrect_init_count))
+
+            # Report the MAP accuracy if you are predicting more than 1 value
+            if self.session.holo_env.k_inferred > 1:
+                checkable_map_query = "SELECT I.tid,I.attr_name," \
+                                           "I.attr_val, G.attr_val as " \
+                                      "g_attr_val  " \
+                                           "FROM " + \
+                                           self.dataset.table_specific_name(
+                                               'Inferred_map') + " AS I , " \
+                                                                 "" + \
+                                           self.dataset.table_specific_name(
+                                               'Groundtruth') + " AS G " \
+                                                                "WHERE " \
+                                                                "I.tid= " \
+                                                                "G.tid " \
+                                                                "AND " \
+                                                                "G.attr_name =" \
+                                                                "I.attr_name"
+                inferred_map = self.dataengine.query(checkable_map_query, 1)
+                correct_map = \
+                    inferred_map.where(inferred_map.attr_val ==
+                                       inferred_map.g_attr_val).drop(
+                        "attr_val", "g_attr_val")
+                incorrect_map = \
+                    inferred_map.drop("attr_val", "g_attr_val").subtract(
+                        correct_map).distinct()
+                correct_map_count = correct_map.count()
+                incorrect_map_count = incorrect_map.count()
+                inferred_map_count = correct_map_count + incorrect_map_count
+
+                if inferred_map_count:
+                    map_precision = float(correct_map_count) / float(
+                        inferred_map_count)
+                    print ("The  MAP precision  is : " + str(map_precision))
+                    uncorrected_map = incorrect_init.intersect(
+                        incorrect_map)
+                    uncorrected_map_count = uncorrected_map.count()
+                    if incorrect_init_count:
+                        recall = 1.0 - (float(uncorrected_map_count) /
+                                        float(incorrect_init_count))
+                    else:
+                        recall = 1.0
+                    print ("The MAP recall is : " + str(recall) + " out of " +
+                           str(
+                        incorrect_init_count))
 
     def read_groundtruth(self):
 

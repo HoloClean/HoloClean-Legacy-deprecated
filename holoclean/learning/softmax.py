@@ -414,11 +414,13 @@ class SoftMax:
         df_possible_values = self.dataengine.get_table_to_dataframe(
             'Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
+
+        # Save predictions upt to the specified k unless Prob = 0.0
         for i in range(len(max_indexes)):
-            for j in range(self.session.holo_env.k_inferred):
-                if max_prob[i][j]:
-                    vid_to_value.append([i + 1, max_indexes[i][j] + 1,
-                                         max_prob[i][j]])
+                for j in range(self.session.holo_env.k_inferred):
+                    if max_prob[i][j]:
+                        vid_to_value.append([i + 1, max_indexes[i][j] + 1,
+                                             max_prob[i][j]])
 
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
@@ -427,6 +429,7 @@ class SoftMax:
                 StructField("probability", DoubleType(), False)
             ])
         )
+
         df1 = df_vid_to_value
         df2 = df_possible_values
         df_inference = df1.join(

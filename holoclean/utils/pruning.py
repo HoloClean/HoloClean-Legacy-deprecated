@@ -525,7 +525,7 @@ class Pruning:
                                 ]
                             )
                         # Put it anyways in the prediction table even if
-                        # simple values
+                        # simple values to be inferred later in inferred_values
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
 
@@ -670,8 +670,9 @@ class Pruning:
             "t1.observed=1 ) AS " \
             "table1;"
 
-        # Simple predictions may be our only predictions if all kept the initial value
-        # Also used to compute separate accuracies for inference and pruning
+        # Simple predictions may be our only predictions if all kept
+        # the initial value.  Also can be used to compute separate
+        # accuracies for inference and pruning
 
         self.dataengine.query(query_observed)
         df_simple_predictions = self.spark_session.createDataFrame(

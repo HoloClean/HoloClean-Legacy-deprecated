@@ -23,9 +23,9 @@ class Testing:
             # to limit possible values for dirty data to less than k values
             pruning_dk_breakoff=6,
             # learning parameters
-            learning_iterations=10,
+            learning_iterations=30,
             learning_rate=0.001,
-            batch_size=500,
+            batch_size=5,
             # number of inferred values
             k_inferred=2
         )
@@ -35,19 +35,19 @@ class Testing:
 
         t1 = time.time()
 
-        dataset = "../../Datasets/food/food_input_transform.csv"
-        print("using dataset: {}".format(dataset))
-        denial_constraints = "../../Datasets/food/food_constraints.txt"
-        print("using denial_constraints: {}".format(denial_constraints))
-        ground_truth = "../../Datasets/food/food_clean_transform.csv"
-        print("using ground_truth: {}".format(ground_truth))
-
-        # dataset = "data/hospital.csv"
+        # dataset = "../../Datasets/food/food_input_transform.csv"
         # print("using dataset: {}".format(dataset))
-        # denial_constraints = "data/hospital_constraints.txt"
+        # denial_constraints = "../../Datasets/food/food_constraints.txt"
         # print("using denial_constraints: {}".format(denial_constraints))
-        # ground_truth = "data/hospital_clean.csv"
+        # ground_truth = "../../Datasets/food/food_clean_transform.csv"
         # print("using ground_truth: {}".format(ground_truth))
+
+        dataset = "data/hospital.csv"
+        print("using dataset: {}".format(dataset))
+        denial_constraints = "data/hospital_constraints.txt"
+        print("using denial_constraints: {}".format(denial_constraints))
+        ground_truth = "data/hospital_clean.csv"
+        print("using ground_truth: {}".format(ground_truth))
 
         # uncheck this if you dont have ground truth
         # ground_truth = 0
