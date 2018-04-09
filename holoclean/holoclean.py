@@ -477,6 +477,7 @@ class Session:
                 self.holo_env.logger.\
                     info('Time for Test Featurization dk: ' + str(end - start))
                 start = time.time()
+
             Y = soft.predict(soft.model, self.X_testing,
                              soft.setupMask(0, self.N, self.L))
             soft.save_prediction(Y)

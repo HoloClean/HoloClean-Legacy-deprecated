@@ -14,12 +14,12 @@ class Testing:
             holoclean_path="..",         # path to holoclean package
             verbose=True,
             # to limit possible values for training data
-            pruning_threshold1=0.001,
+            pruning_threshold1=0.01,
             # to limit possible values for training data to less than k values
             pruning_clean_breakoff=6,
             # to limit possible values for dirty data (applied after
             # Threshold 1)
-            pruning_threshold2=0,
+            pruning_threshold2=1.0,
             # to limit possible values for dirty data to less than k values
             pruning_dk_breakoff=6,
             # learning parameters
@@ -35,13 +35,7 @@ class Testing:
 
         t1 = time.time()
 
-        # dataset = "../../Datasets/food/food_input_transform.csv"
-        # print("using dataset: {}".format(dataset))
-        # denial_constraints = "../../Datasets/food/food_constraints.txt"
-        # print("using denial_constraints: {}".format(denial_constraints))
-        # ground_truth = "../../Datasets/food/food_clean_transform.csv"
-        # print("using ground_truth: {}".format(ground_truth))
-
+       
         dataset = "data/hospital.csv"
         print("using dataset: {}".format(dataset))
         denial_constraints = "data/hospital_constraints.txt"

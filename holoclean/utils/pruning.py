@@ -493,7 +493,6 @@ class Pruning:
         self.v_id_dk_list = []
         v_id_clean = v_id_dk = 0
 
-        self.simplepredictions = []
 
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
@@ -505,27 +504,6 @@ class Pruning:
                     tmp_cell_index = self.cellvalues[tuple_id][
                         cell_index].cellid
                     if self.cellvalues[tuple_id][cell_index].domain == 1:
-
-                        if len(self.cell_domain[tmp_cell_index]) == 1 \
-                                and \
-                                self.cellvalues[
-                                    tuple_id][cell_index].value is not None:
-                            # Cell kept its initial value when the possible
-                            # values len is 1
-                            # init value was not Null
-                            self.simplepredictions.append(
-                                [
-                                    None,  # vid
-                                    tuple_id + 1,  # tid
-                                    attribute,  # attr_name
-                                    list(self.cell_domain[tmp_cell_index])[0],
-                                    # attr_val
-                                    1,  # observed
-                                    None  # domain_id
-                                ]
-                            )
-                        # Put it anyways in the prediction table even if
-                        # simple values to be inferred later in inferred_values
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
 
@@ -670,15 +648,8 @@ class Pruning:
             "t1.observed=1 ) AS " \
             "table1;"
 
-        # Simple predictions may be our only predictions if all kept
-        # the initial value.  Also can be used to compute separate
-        # accuracies for inference and pruning
 
         self.dataengine.query(query_observed)
-        df_simple_predictions = self.spark_session.createDataFrame(
-            self.simplepredictions, self.dataset.attributes['Possible_values']
-        )
-        self.session.simple_predictions = df_simple_predictions
 
         self.assignments = None
         self.attribute_to_be_pruned = None
