@@ -405,19 +405,25 @@ class SoftMax:
 
         :return: Null
         """
-        max_result = torch.max(Y, 1)
+        max_result = torch.topk(Y,self.session.holo_env.k_inferred,1)
+
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
+
         vid_to_value = []
         df_possible_values = self.dataengine.get_table_to_dataframe(
             'Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
         for i in range(len(max_indexes)):
-            vid_to_value.append([i + 1, max_indexes[i] + 1, max_prob[i]])
+            for j in range(self.session.holo_env.k_inferred):
+                if max_prob[i][j]:
+                    vid_to_value.append([i + 1, max_indexes[i][j] + 1,
+                                         max_prob[i][j]])
+
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
-                StructField("vid2", IntegerType(), False),
-                StructField("domain_id2", IntegerType(), False),
+                StructField("vid1", IntegerType(), False),
+                StructField("domain_id1", IntegerType(), False),
                 StructField("probability", DoubleType(), False)
             ])
         )
@@ -425,9 +431,9 @@ class SoftMax:
         df2 = df_possible_values
         df_inference = df1.join(
             df2, [
-                df1.vid2 == df2.vid,
-                df1.domain_id2 == df2.domain_id], 'inner')\
-            .drop("vid2", "domain_id2")
+                df1.vid1 == df2.vid,
+                df1.domain_id1 == df2.domain_id], 'inner')\
+            .drop("vid1","domain_id1")
 
         self.session.inferred_values = df_inference
 
