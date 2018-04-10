@@ -4,8 +4,6 @@ sys.path.append("../..")
 from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from holoclean.errordetection.sql_nullerrordetector import SqlnullErrorDetection
-from holoclean.featurization.dcfeaturizer import SignalDC
-from holoclean.global_variables import GlobalVariables
 
 holo_obj = HoloClean(
     holoclean_path="../..",
