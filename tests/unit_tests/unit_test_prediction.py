@@ -5,6 +5,7 @@ from holoclean.holoclean import HoloClean, Session
 from holoclean.errordetection.sql_dcerrordetector import SqlDCErrorDetection
 from holoclean.errordetection.sql_nullerrordetector import SqlnullErrorDetection
 
+k_inferred = 2
 holo_obj = HoloClean(
     holoclean_path="../..",
     verbose=False,
@@ -15,7 +16,7 @@ holo_obj = HoloClean(
     learning_iterations=30,
     learning_rate=0.001,
     batch_size=5,
-    k_inferred=2)
+    k_inferred=k_inferred)
 
 session = Session(holo_obj)
 dataset = "../data/hospital.csv"
@@ -68,6 +69,14 @@ class UnitTestPredictions(unittest.TestCase):
             session.inferred_values.drop('probability').filter("vid = 1").intersect(df_test.drop('probability')).count(),
             2
         )
+
+    def test_k(self):
+        # test the max amount of rows for each vid in Inferred values is less than k
+        query = "SELECT MAX(c) as m FROM" \
+                " (SELECT count(*) as c from " + session.dataset.table_specific_name('Inferred_values') + \
+                "  Group by vid) t"
+        max_count = session.holo_env.dataengine.query(query, 1).collect()[0]['m']
+        self.assertLessEqual(max_count, k_inferred)
 
 
 if __name__ == "__main__":
