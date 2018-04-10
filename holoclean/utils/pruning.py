@@ -209,7 +209,6 @@ class Pruning:
                 if attr_val in self.coocurence_lookup[attr]:
                     if trgt_attr in self.coocurence_lookup[attr][attr_val]:
                         if trgt_attr in self.coocurence_lookup[attr][attr_val]:
-
                             cell_probabilities += \
                                 [(k, v) for
                                  k, v in
