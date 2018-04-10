@@ -43,12 +43,10 @@ class LogReg(torch.nn.Module):
                     signals_W = Parameter(
                         torch.randn(featurizer.count, self.output_dim))
             else:
-                signals_W = \
-                    Parameter(
-                        torch.randn(
-                            featurizer.count, 1).expand(-1, self.output_dim))
+                signals_W = Parameter(torch.randn(featurizer.count,
+                                                  1).expand(-1,
+                                                            self.output_dim))
             self.weight_tensors.append(signals_W)
-
         return
 
     def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
@@ -442,7 +440,7 @@ class SoftMax:
 
         self.session.inferred_values = df_inference
         self.session.holo_env.logger.info\
-            ("The Inferred_values Dataframe has been created")
+            ("The Inferred_values Data frame has been created")
         self.session.holo_env.logger.info("  ")
         return
 

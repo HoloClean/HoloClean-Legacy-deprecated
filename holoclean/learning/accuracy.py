@@ -81,6 +81,7 @@ class Accuracy:
 
             if inferred_count:
                 precision = float(correct_count) / float(inferred_count)
+
                 print ("The top-" + str(self.session.holo_env.k_inferred) +
                        " precision  is : " + str(precision))
                 uncorrected_inferred = incorrect_init.intersect(

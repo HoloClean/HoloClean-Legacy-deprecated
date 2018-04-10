@@ -114,8 +114,7 @@ class Pruning:
 
         :return: dictionary of cells values
         """
-        dataframe_init = \
-            self.session.init_dataset
+        dataframe_init = self.session.init_dataset
         table_attribute = dataframe_init.columns
         row_id = 0
         cell_values = {}
@@ -159,22 +158,19 @@ class Pruning:
 
         :return: probability
         """
-        if (original_attr_value, cooccured_attr_value) not \
-                in self.domain_pair_stats[
-            original_attribute
-        ][
-            cooccured_attribute
-        ]:
-
+        if (original_attr_value, cooccured_attr_value) not in \
+                self.domain_pair_stats[
+                    original_attribute][cooccured_attribute]:
             return None
+
         cooccur_count = \
             self.domain_pair_stats[original_attribute][cooccured_attribute][(
                  original_attr_value, cooccured_attr_value)]
+
         value_count = self.domain_stats[original_attribute][
             original_attr_value]
 
         # Compute counter
-
         if original_attr_value is None or cooccured_attr_value is None:
             probability = 0
         else:
@@ -213,17 +209,11 @@ class Pruning:
                 if attr_val in self.coocurence_lookup[attr]:
                     if trgt_attr in self.coocurence_lookup[attr][attr_val]:
                         if trgt_attr in self.coocurence_lookup[attr][attr_val]:
-
                             cell_probabilities += \
                                 [(k, v) for
                                  k, v in
-                                 self.coocurence_lookup[
-                                     attr
-                                 ][
-                                     attr_val
-                                 ][
-                                     trgt_attr
-                                 ].iteritems()]
+                                 self.coocurence_lookup[attr][attr_val][
+                                     trgt_attr].iteritems()]
 
         # Sort cell_values and chop after k and chop below threshold2
         cell_probabilities.sort(key=lambda t: t[1], reverse=True)
@@ -267,15 +257,9 @@ class Pruning:
                                 [(k, v) for
                                  k, v
                                  in
-                                 self.coocurence_lookup[
-                                     attr
-                                 ][
-                                     attr_val
-                                 ][
-                                     trgt_attr
-                                 ].iteritems()]
+                                 self.coocurence_lookup[attr][attr_val][
+                                     trgt_attr].iteritems()]
 
-        # first iteration
         # get l values from the lookup exactly  like in dirty where l < k
         # get k-l random once from the domain
         cell_probabilities.sort(key=lambda t: t[1])
@@ -314,7 +298,7 @@ class Pruning:
         for cell in self.noisycells:
             self.dirty_cells_attributes.add(cell.columnname)
 
-        # This part makes empty dictionary for each atribute
+        # This part makes empty dictionary for each attribute
         for col in self.column_to_col_index_dict:
             self.domain_stats[col] = {}
 
@@ -377,7 +361,7 @@ class Pruning:
             for cooccured_attribute in \
                     self.domain_pair_stats[original_attribute]:
                 # For second column in the cooccurences Over
-                # Pair of values that happened with each other
+                # Pair of values that appeared together
                 # (original_attribute value , cooccured_attribute value)
                 for assgn_tuple in self.domain_pair_stats[
                                         original_attribute][
@@ -493,7 +477,6 @@ class Pruning:
         self.v_id_dk_list = []
         v_id_clean = v_id_dk = 0
 
-
         for tuple_id in self.cellvalues:
             for cell_index in self.cellvalues[tuple_id]:
                 attribute = self.cellvalues[tuple_id][cell_index].columnname
@@ -507,8 +490,7 @@ class Pruning:
                         k_ij = 0
                         v_id_dk = v_id_dk + 1
 
-                        self.v_id_dk_list.append(
-                            [(
+                        self.v_id_dk_list.append([(
                                     self.all_cells_temp[
                                         tmp_cell_index
                                     ].tupleid + 1),
@@ -558,8 +540,7 @@ class Pruning:
                                         v_id_clean,
                                         value,
                                         possible_values_clean,
-                                        tmp_cell_index, k_ij
-                                    )
+                                        tmp_cell_index, k_ij)
 
                             domain_kij_clean.append([
                                 v_id_clean,
@@ -585,8 +566,7 @@ class Pruning:
             'attr_name')
 
         df_possible_dk = self.spark_session.createDataFrame(
-            possible_values_dirty, self.dataset.attributes['Possible_values']
-        )
+            possible_values_dirty, self.dataset.attributes['Possible_values'])
 
         self.dataengine.add_db_table('Possible_values_dk',
                                      df_possible_dk, self.dataset)
@@ -628,29 +608,23 @@ class Pruning:
         query_observed = "CREATE TABLE " + \
                          self.dataset.table_specific_name(
                              'Observed_Possible_values_clean') + \
-                         " AS SELECT * FROM ( " \
-                         "SELECT *  \
-                         FROM " + \
+                         " AS SELECT * FROM  " + \
                          self.dataset.table_specific_name(
                              'Possible_values_clean') + " as t1 " + \
                          " WHERE " \
-                         " t1.observed=1 ) " \
-                         "AS table1;"
+                         " t1.observed=1;"
 
         self.dataengine.query(query_observed)
 
         query_observed = \
             "CREATE TABLE " + \
             self.dataset.table_specific_name('Observed_Possible_values_dk') + \
-            " AS SELECT * FROM ( SELECT * FROM " + \
+            " AS SELECT * FROM " + \
             self.dataset.table_specific_name('Possible_values_dk') + \
             " as t1  WHERE  " \
-            "t1.observed=1 ) AS " \
-            "table1;"
-
+            "t1.observed=1;"
 
         self.dataengine.query(query_observed)
-
         self.assignments = None
         self.attribute_to_be_pruned = None
         self.attribute_map = None

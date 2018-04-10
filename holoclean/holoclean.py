@@ -560,9 +560,8 @@ class Session:
         :return: Null
 
         """
-        self.holo_env.logger.info('getting the  for error detection...')
         self.error_detectors.append(new_error_detector)
-        self.holo_env.logger.info('getting new for error detection')
+        self.holo_env.logger.info('Added new error detection')
         return
 
     # Methods data

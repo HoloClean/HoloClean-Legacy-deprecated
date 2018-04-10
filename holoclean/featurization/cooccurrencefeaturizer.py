@@ -62,17 +62,14 @@ class SignalCooccur(Featurizer):
                 feature = self.attribute_feature_id.get(co_attribute, -1)
 
                 if co_attribute != attribute and feature != -1:
-
                     domain_id = 0
                     co_value = \
                         cell_values[vid_list[vid][0] - 1][cell_index].value
 
                     for value in cell_domain[vid_list[vid][2]]:
-
                         v_count = domain_stats[co_attribute][co_value]
                         count = domain_pair_stats[co_attribute][attribute].get(
-                            (
-                                co_value, value), 0)
+                            (co_value, value), 0)
                         probability = count / v_count
                         tensor[vid, feature-1, domain_id] = probability
                         domain_id = domain_id + 1
