@@ -405,7 +405,12 @@ class SoftMax:
 
         :return: Null
         """
-        max_result = torch.topk(Y,self.session.holo_env.k_inferred,1)
+        k_inferred = self.session.holo_env.k_inferred
+
+        if k_inferred > Y.size()[1]:
+            k_inferred = Y.size()[1]
+
+        max_result = torch.topk(Y,k_inferred,1)
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
 
@@ -416,7 +421,7 @@ class SoftMax:
 
         # Save predictions upt to the specified k unless Prob = 0.0
         for i in range(len(max_indexes)):
-                for j in range(self.session.holo_env.k_inferred):
+                for j in range(k_inferred):
                     if max_prob[i][j]:
                         vid_to_value.append([i + 1, max_indexes[i][j] + 1,
                                              max_prob[i][j]])

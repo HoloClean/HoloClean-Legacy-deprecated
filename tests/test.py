@@ -27,14 +27,13 @@ class Testing:
             learning_rate=0.001,
             batch_size=5,
             # number of inferred values
-            k_inferred=2
+            k_inferred=10
         )
         self.session = Session(self.holo_obj)
 
     def test(self):
 
         t1 = time.time()
-
 
         dataset = "data/hospital.csv"
         print("using dataset: {}".format(dataset))
@@ -43,7 +42,7 @@ class Testing:
         ground_truth = "data/hospital_clean.csv"
         print("using ground_truth: {}".format(ground_truth))
 
-        # uncheck this if you dont have ground truth
+        # uncheck this if you don't have ground truth
         # ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
