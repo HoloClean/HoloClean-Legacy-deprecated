@@ -27,13 +27,20 @@ class Testing:
             learning_rate=0.001,
             batch_size=5,
             # number of inferred values
-            k_inferred=10
+            k_inferred=5
         )
         self.session = Session(self.holo_obj)
 
     def test(self):
 
         t1 = time.time()
+
+        # dataset = "../../Datasets/food/food_input_transform.csv"
+        # print("using dataset: {}".format(dataset))
+        # denial_constraints = "../../Datasets/food/food_constraints.txt"
+        # print("using denial_constraints: {}".format(denial_constraints))
+        # ground_truth = "../../Datasets/food/food_clean_transform.csv"
+        # print("using ground_truth: {}".format(ground_truth))
 
         dataset = "data/hospital.csv"
         print("using dataset: {}".format(dataset))
