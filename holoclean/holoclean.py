@@ -97,7 +97,7 @@ arguments = [
     (('-pt2', '--pruning-threshold2'),
      {'metavar': 'PRUNING_THRESHOLD2',
       'dest': 'pruning_threshold2',
-      'default': 0.3,
+      'default': 0.1,
       'type': float,
       'help': 'Threshold2 used for domain pruning step'}),
     (('-pdb', '--pruning-dk-breakoff'),
