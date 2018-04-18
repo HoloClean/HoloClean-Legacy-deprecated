@@ -425,4 +425,4 @@ class SoftMax:
             msg = "Feature " + str(count) + ": " + str(weight[0].data[0])
             self.session.holo_env.logger.info(msg)
 
-return
+        return
