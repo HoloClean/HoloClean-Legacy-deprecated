@@ -322,7 +322,10 @@ class Session:
                 file_path, self.Denial_constraints)
         self.Denial_constraints.extend(new_denial_constraints)
         self.dc_objects.update(new_dc_objects)
+
+
         return self.Denial_constraints
+
 
     def add_denial_constraint(self, dc):
         """
@@ -381,31 +384,7 @@ class Session:
 
         return dirty
 
-    def create_blocks(self):
-        max_number_block = 1
-        blocks = {}
-        objects = self.dc_objects
-        for dc_name in self.dc_objects:
-            group = {}
-            for index in range(len(self.dc_objects[dc_name].predicates)):
-                for lenght1 in range(len(
-                        self.dc_objects[dc_name].predicates[index].components)):
-                    if isinstance(self.dc_objects[dc_name].predicates[index].components[lenght1], list):
-                        if self.dc_objects[dc_name].predicates[index].components[lenght1][1] not in blocks:
-                            blocks[self.dc_objects[dc_name].predicates[index].components[lenght1][1]] = max_number_block
-                        else:
-                            group[
-                                self.dc_objects[dc_name].predicates[
-                                    index].components[lenght1][1]] = blocks[self.dc_objects[dc_name].predicates[index].components[lenght1][1]]
-            if len(group)>0:
-                pass
 
-
-            max_number_block = max_number_block + 1
-
-
-
-        print "mpika"
 
     def detect_errors(self, detector_list):
         """
