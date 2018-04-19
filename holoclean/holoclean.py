@@ -11,7 +11,7 @@ import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.database_worker import DatabaseWorker, PopulateTensor
-from utils.pruning import Pruning
+from utils.cooccurpruning import CooccurPruning
 from utils.parser_interface import ParserInterface, DenialConstraint
 import multiprocessing
 
@@ -88,25 +88,25 @@ arguments = [
       'default': 0.001,
       'type': float,
       'help': 'The learning rate holoclean will use during training'}),
-    (('-p', '--pruning-threshold1'),
+    (('-pt1', '--pruning-threshold1'),
      {'metavar': 'PRUNING_THRESHOLD1',
       'dest': 'pruning_threshold1',
       'default': 0.0,
       'type': float,
       'help': 'Threshold1 used for domain pruning step'}),
-    (('-p', '--pruning-threshold2'),
+    (('-pt2', '--pruning-threshold2'),
      {'metavar': 'PRUNING_THRESHOLD2',
       'dest': 'pruning_threshold2',
-      'default': 0.3,
+      'default': 0.1,
       'type': float,
       'help': 'Threshold2 used for domain pruning step'}),
-    (('-p', '--pruning-dk-breakoff'),
+    (('-pdb', '--pruning-dk-breakoff'),
      {'metavar': 'DK_BREAKOFF',
       'dest': 'pruning_dk_breakoff',
       'default': 5,
       'type': float,
       'help': 'DK breakoff used for domain pruning step'}),
-    (('-p', '--pruning-clean-breakoff'),
+    (('-pcb', '--pruning-clean-breakoff'),
      {'metavar': 'CLEAN_BREAKOFF',
       'dest': 'pruning_clean_breakoff',
       'default': 5,
@@ -136,6 +136,12 @@ arguments = [
       'default': 1,
       'type': int,
       'help': 'The batch size during training'}),
+    (('-ki', '--k-inferred'),
+     {'metavar': 'K_INFERRED',
+      'dest': 'k_inferred',
+      'default': 1,
+      'type': int,
+      'help': 'Number of inferred values'}),
     (('-t', '--timing-file'),
      {'metavar': 'TIMING_FILE',
       'dest': 'timing_file',
@@ -250,15 +256,6 @@ class HoloClean:
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
-    def reset_database(self):
-        """
-        This method will drop all the tables of the current database
-        """
-        query = "DROP SCHEMA public CASCADE;"
-        self.dataengine.query(query)
-        create_query = "CREATE SCHEMA public;"
-        self.dataengine.query(create_query)
-
 
 class Session:
     """
@@ -285,7 +282,6 @@ class Session:
         self.dataset = Dataset()
         self.parser = ParserInterface(self)
         self.inferred_values = None
-        self.simple_predictions = None  # Will be initialized in pruning
         self.feature_count = 0
 
     def load_data(self, file_path):
@@ -385,6 +381,32 @@ class Session:
 
         return dirty
 
+    def create_blocks(self):
+        max_number_block = 1
+        blocks = {}
+        objects = self.dc_objects
+        for dc_name in self.dc_objects:
+            group = {}
+            for index in range(len(self.dc_objects[dc_name].predicates)):
+                for lenght1 in range(len(
+                        self.dc_objects[dc_name].predicates[index].components)):
+                    if isinstance(self.dc_objects[dc_name].predicates[index].components[lenght1], list):
+                        if self.dc_objects[dc_name].predicates[index].components[lenght1][1] not in blocks:
+                            blocks[self.dc_objects[dc_name].predicates[index].components[lenght1][1]] = max_number_block
+                        else:
+                            group[
+                                self.dc_objects[dc_name].predicates[
+                                    index].components[lenght1][1]] = blocks[self.dc_objects[dc_name].predicates[index].components[lenght1][1]]
+            if len(group)>0:
+                pass
+
+
+            max_number_block = max_number_block + 1
+
+
+
+        print "mpika"
+
     def detect_errors(self, detector_list):
         """
         Separates cells that violate DC's from those that don't
@@ -394,6 +416,7 @@ class Session:
         :return: clean dataframe
         :return: don't know dataframe
         """
+        #self.create_blocks()
         if self.holo_env.verbose:
             start = time.time()
         for detector in detector_list:
@@ -481,6 +504,7 @@ class Session:
                 self.holo_env.logger.\
                     info('Time for Test Featurization dk: ' + str(end - start))
                 start = time.time()
+
             Y = soft.predict(soft.model, self.X_testing,
                              soft.setupMask(0, self.N, self.L))
             soft.save_prediction(Y)
@@ -563,9 +587,8 @@ class Session:
         :return: Null
 
         """
-        self.holo_env.logger.info('getting the  for error detection...')
         self.error_detectors.append(new_error_detector)
-        self.holo_env.logger.info('getting new for error detection')
+        self.holo_env.logger.info('Added new error detection')
         return
 
     # Methods data
@@ -645,10 +668,13 @@ class Session:
             'starting domain pruning with threshold %s',
             pruning_threshold1)
 
-        self.pruning = Pruning(
+        self.pruning = CooccurPruning(
             self,
             pruning_threshold1, pruning_threshold2,
             pruning_dk_breakoff, pruning_clean_breakoff)
+        self.pruning.get_domain()
+        self.pruning._create_dataframe()
+
         self.holo_env.logger.info('Domain pruning is finished :')
         return
 
@@ -818,17 +844,22 @@ class Session:
         """
         Will re-create the original dataset with the repaired values
         and save it to Repaired_dataset table in Postgress
+        Need to create the MAP first if we inferred more than 1 value
 
         :return: the original dataset with the repaired values from the
         Inferred_values table
         """
 
         if self.inferred_values:
-            # will contain simple value predictions
-            value_predictions = self.inferred_values.collect()
+            # Should not be empty has at least initial values
+            # Persist it to compute MAP as max prediction
+            self.holo_env.dataengine.add_db_table ("Inferred_values",
+                                               self.inferred_values,
+                                               self.dataset)
         else:
-            self.inferred_values = self.simple_predictions
-            value_predictions = self.simple_predictions.collect()
+            self.holo_env.logger.info(" No Inferred_values ")
+            self.holo_env.logger.info("  ")
+            return
 
         init = self.init_dataset.collect()
         attribute_map = {}
@@ -844,6 +875,39 @@ class Session:
                 row.append(init[i][attribute])
             corrected_dataset.append(row)
 
+        # Compute MAP if k_inferred > 1
+        if self.holo_env.k_inferred > 1:
+            map_inferred_query = "SELECT  I.* FROM " + \
+                                 self.dataset.table_specific_name(
+                                     'Inferred_Values') + " AS I , (SELECT " \
+                                                           "tid, attr_name, " \
+                                                           "MAX(probability) " \
+                                                           "AS max_prob FROM " + \
+                                 self.dataset.table_specific_name(
+                                     'Inferred_Values') + "  GROUP BY tid, " \
+                                                          "attr_name) AS M " \
+                                                          "WHERE I.tid = " \
+                                                          "M.tid AND " \
+                                                          "I.attr_name = " \
+                                                          "M.attr_name AND " \
+                                                          "I.probability = " \
+                                                          "M.max_prob"
+
+            self.inferred_map = self.holo_env.dataengine.query(
+                map_inferred_query, 1)
+        else:
+            # MAP is the inferred values when inferred k = 1
+            self.inferred_map = self.inferred_values
+
+        # persist another copy for now
+        # needed for accuracy calculations
+        self.holo_env.dataengine.add_db_table("Inferred_map",
+                                              self.inferred_map,
+                                              self.dataset)
+
+        # the corrections
+        value_predictions = self.inferred_map.collect()
+
         # Replace values with the inferred values from multi value predictions
         if value_predictions:
             for j in range(len(value_predictions)):
@@ -856,13 +920,10 @@ class Session:
             self.holo_env.spark_sql_ctxt.createDataFrame(
                 corrected_dataset, self.dataset.attributes['Init'])
 
-        self.holo_env.dataengine.add_db_table ("Inferred_values",
-                                               self.inferred_values,
-                                               self.dataset)
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
 
-        self.holo_env.logger.info("The Inferred_values "
+        self.holo_env.logger.info("The Inferred_values, MAP,  "
                                   "and Repaired tables have been created")
         self.holo_env.logger.info("  ")
 
