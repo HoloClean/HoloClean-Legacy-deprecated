@@ -72,10 +72,9 @@ class Pruning:
         Finds the attributes that appear in don't know cells and flags the cells
         in cellvalues that are dirty
 
-        :return:
+        :return: None
         """
         dataframe_dont_know = self.session.dk_df
-        noisy_cells = []
         for cell in dataframe_dont_know.collect():
 
             # This part gets the attributes of noisy cells
@@ -89,7 +88,7 @@ class Pruning:
     @abstractmethod
     def get_domain(self):
         """
-         This method os used to populate the cell_domain to get the possible
+         This method is used to populate the cell_domain to get the possible
          values for each cell
         """
         pass
