@@ -134,10 +134,14 @@ Check if you have JDK 8 by running
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 ### 6. Install  Spark
-<br/>
+<br>
+
 <b>6.1 For Ubuntu</b>
-To install Spark, you'll need to download it directly from the Spark [downloads](https://spark.apache.org/downloads.html) page
-<br/>
+
+To install Spark, you'll need to download it directly from the Spark [downloads](https://spark.apache.org/downloads.html) page.
+
+<br>
+
 <b>6.2 For MacOS</b>
 To install Spark on MacOS run
 
