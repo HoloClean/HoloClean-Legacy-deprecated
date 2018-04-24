@@ -133,7 +133,22 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 6. Getting Started
+### 6. Install  Spark
+<br/>
+<b>6.1 For Ubuntu</b>
+To install Spark, you'll need to download it directly from the Spark [downloads](https://spark.apache.org/downloads.html) page
+<br/>
+<b>6.2 For MacOS</b>
+To install Spark on MacOS run
+
+```
+brew install apache-spark
+```
+
+After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
+your python path.
+
+### 7. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
