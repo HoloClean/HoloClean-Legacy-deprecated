@@ -43,12 +43,10 @@ class LogReg(torch.nn.Module):
                     signals_W = Parameter(
                         torch.randn(featurizer.count, self.output_dim))
             else:
-                signals_W = \
-                    Parameter(
-                        torch.randn(
-                            featurizer.count, 1).expand(-1, self.output_dim))
+                signals_W = Parameter(torch.randn(featurizer.count,
+                                                  1).expand(-1,
+                                                            self.output_dim))
             self.weight_tensors.append(signals_W)
-
         return
 
     def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
@@ -405,19 +403,30 @@ class SoftMax:
 
         :return: Null
         """
-        max_result = torch.max(Y, 1)
+        k_inferred = self.session.holo_env.k_inferred
+
+        if k_inferred > Y.size()[1]:
+            k_inferred = Y.size()[1]
+
+        max_result = torch.topk(Y,k_inferred,1)
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
+
         vid_to_value = []
         df_possible_values = self.dataengine.get_table_to_dataframe(
             'Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
+
+        # Save predictions upt to the specified k unless Prob = 0.0
         for i in range(len(max_indexes)):
-            vid_to_value.append([i + 1, max_indexes[i] + 1, max_prob[i]])
+                for j in range(k_inferred):
+                    if max_prob[i][j]:
+                        vid_to_value.append([i + 1, max_indexes[i][j] + 1,
+                                             max_prob[i][j]])
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
-                StructField("vid2", IntegerType(), False),
-                StructField("domain_id2", IntegerType(), False),
+                StructField("vid1", IntegerType(), False),
+                StructField("domain_id1", IntegerType(), False),
                 StructField("probability", DoubleType(), False)
             ])
         )
@@ -425,14 +434,13 @@ class SoftMax:
         df2 = df_possible_values
         df_inference = df1.join(
             df2, [
-                df1.vid2 == df2.vid,
-                df1.domain_id2 == df2.domain_id], 'inner')\
-            .drop("vid2", "domain_id2")
+                df1.vid1 == df2.vid,
+                df1.domain_id1 == df2.domain_id], 'inner')\
+            .drop("vid1","domain_id1")
 
         self.session.inferred_values = df_inference
-
         self.session.holo_env.logger.info\
-            ("The Inferred_values Dataframe has been created")
+            ("The Inferred_values Data frame has been created")
         self.session.holo_env.logger.info("  ")
         return
 
