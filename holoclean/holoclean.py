@@ -322,9 +322,51 @@ class Session:
                 file_path, self.Denial_constraints)
         self.Denial_constraints.extend(new_denial_constraints)
         self.dc_objects.update(new_dc_objects)
-
+        self.create_block()
 
         return self.Denial_constraints
+
+    def create_block(self):
+        """
+        This method will create blocks of attributes that are connected through
+        the DCs
+
+        :return: None
+        """
+        self.block_dc = []
+        for dc_name in self.dc_objects:
+            attributes = set([])
+            for predicate in self.dc_objects[dc_name].predicates:
+                # we find the attributes for each dc
+                component1 = predicate.components[0]
+                component2 = predicate.components[1]
+                if not isinstance(component1, str):
+                    attributes.add(component1[1])
+                if not isinstance(component2, str):
+                    attributes.add(component2[1])
+            positions = set([])
+
+            for attribute in attributes:
+                appears = False
+                for index_block in range(len(self.block_dc)):
+                    if attribute in self.block_dc[index_block]:
+                        positions.add(index_block)
+                        appears = True
+                if not appears:
+                    positions.add(-1)
+            if len(positions) == 1 and -1 in positions:
+                self.block_dc.append(attributes)
+            else:
+                for index_block in sorted(positions, reverse=True):
+                    if index_block != -1:
+                        set_temp = self.block_dc[index_block]
+                        self.block_dc.pop(index_block)
+                        attributes = attributes | set_temp
+                self.block_dc.append(attributes)
+        return
+
+
+
 
 
     def add_denial_constraint(self, dc):
