@@ -256,6 +256,15 @@ class HoloClean:
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
+    def reset_database(self):
+        """
+        This method will drop all the tables of the current database
+        """
+        query = "DROP SCHEMA public CASCADE;"
+        self.dataengine.query(query)
+        create_query = "CREATE SCHEMA public;"
+        self.dataengine.query(create_query)
+
 
 class Session:
     """
