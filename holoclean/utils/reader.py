@@ -1,6 +1,5 @@
 from holoclean.global_variables import GlobalVariables
 from pyspark.sql.functions import *
-from pyspark.sql.types import StructField, StructType, StringType, LongType
 
 
 class Reader:
@@ -13,7 +12,6 @@ class Reader:
     def __init__(self, spark_session):
         """
         Constructing reader object
-
         :param spark_session: The spark_session we created in Holoclean object
         """
         self.spark_session = spark_session
@@ -22,7 +20,6 @@ class Reader:
     def _findextesion(self, filepath):
         """
         Finds the extesion of the file.
-
         :param filepath: The path to the file
         """
         extention = filepath.split('.')[-1]
@@ -31,12 +28,9 @@ class Reader:
     def read(self, filepath, indexcol=0, schema=None):
         """
         Calls the appropriate reader for the file
-
         :param schema: optional schema when known
         :param filepath: The path to the file
-
         :return: data frame of the read data
-
         """
         if self._findextesion(filepath) == "csv":
             csv_obj = CSVReader()
@@ -58,12 +52,10 @@ class CSVReader:
     def read(self, file_path, spark_session, indexcol=0, schema=None):
         """
         Creates a dataframe from the csv file
-
         :param indexcol: if 1, create a tuple id column as auto increment
         :param schema: optional schema of file if known
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
-
         :return: dataframe
         """
         if schema is None:
@@ -75,90 +67,11 @@ class CSVReader:
             return df
 
         index_name = GlobalVariables.index_name
-
         new_cols = df.schema.names + [index_name]
-        list_schema = []
-        for index_attribute in range(len(df.schema.names)):
-            list_schema.append(StructField("_" + str(index_attribute),
-                                           df.schema[
-                                               index_attribute].dataType,
-                                           True))
-        list_schema.append(
-            StructField("_" + str(len(new_cols)), LongType(), True))
-
-        schema = StructType(list_schema)
         ix_df = df.rdd.zipWithIndex().map(
-            lambda (row, ix): row + (ix + 1,)).toDF(schema)
+            lambda (row, ix): row + (ix + 1,)).toDF()
         tmp_cols = ix_df.schema.names
         new_df = reduce(lambda data, idx: data.withColumnRenamed(tmp_cols[idx],
                         new_cols[idx]),
                         xrange(len(tmp_cols)), ix_df)
-        new_df = self.checking_string_size(new_df)
         return new_df
-
-    def checking_string_size(self, dataframe):
-        """
-        This method checks if the dataframe has  columns with strings with more
-        than 250 characters
-
-        :param dataframe:  the initial dataframe
-        :return: dataframe: a new dataframe without the columns with strings
-        with more than 250 characters
-        """
-
-        columns = set([])
-        for row in dataframe.collect():
-            for attribute in dataframe.columns:
-                if isinstance(row[attribute], unicode) and\
-                       len(row[attribute]) > 250:
-                    columns.add(attribute)
-        if len(columns) > 0:
-            dataframe = self.ignore_columns(columns, dataframe)
-        return dataframe
-
-    def ignore_columns(self,  columns, dataframe):
-        """
-        This method asks the user if he wants to drop a column which has a
-        string with more than 250 characters
-
-        :param  columns: a set of columns with strings with more
-        than 250 characters
-        :param dataframe: the dataframe that we want to change
-
-        :return: dataframe: a new dataframe
-        """
-        print("Holoclean cannot use dataframes with strings "
-              "more than 250 characters")
-        for column in columns:
-            answer = raw_input(
-                "The column " + column + " has a string of length "
-                "more than 250 characters.Do you want to drop this column"
-                " (y/n)?")
-            while answer != "y" and answer != "n":
-                answer = raw_input(
-                    "the column " + column + " has a string of length"
-                    "more than 250 characters."
-                    "Do you want to drop this column"
-                    "(y/n)?")
-            if answer == "y":
-                dataframe = self.drop_column(column, dataframe)
-            else:
-                print \
-                    "Holoclean cannot use dataframes with strings " \
-                    "more than 250 characters. please check your dataset"
-                exit(5)
-        return dataframe
-
-    def drop_column(self, column, dataframe):
-        """
-        This method drop a specific column from a dataframe
-
-        :param column: a column that will be dropped
-        :param dataframe: the dataframe that will be change
-
-        :return: dataframe
-        """
-        return dataframe.drop(column)
-
-
-
