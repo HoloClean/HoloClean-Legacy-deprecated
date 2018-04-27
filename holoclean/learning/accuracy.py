@@ -16,7 +16,6 @@ class Accuracy:
         self.spark_session = session.holo_env.spark_session
         self.ground_truth_flat = None
         self.session = session
-        self.dc_objects = session.dc_objects
 
     def accuracy_calculation(self):
 
@@ -40,15 +39,6 @@ class Accuracy:
                                                             "I.attr_name"
 
             inferred = self.dataengine.query(checkable_inferred_query, 1)
-
-            #creates block of the inferred values
-            block_dataframes = []
-            for block in self.session.block_dc:
-                predicates = ["attr_name ==" + "'" + attribute + "'" for
-                              attribute in block]
-                query = " or ".join(predicates)
-                inferred_temp = inferred.filter(query)
-                block_dataframes.append(inferred_temp)
 
             if inferred is None:
                 self.session.holo_env.logger.error('No checkable inferred '

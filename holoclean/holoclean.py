@@ -11,7 +11,7 @@ import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.database_worker import DatabaseWorker, PopulateTensor
-from utils.cooccurpruning import CooccurPruning
+from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface, DenialConstraint
 import multiprocessing
 
@@ -256,6 +256,15 @@ class HoloClean:
         sql_ctxt = SQLContext(sc)
         return sql_ctxt.sparkSession, sql_ctxt
 
+    def reset_database(self):
+        """
+        This method will drop all the tables of the current database
+        """
+        query = "DROP SCHEMA public CASCADE;"
+        self.dataengine.query(query)
+        create_query = "CREATE SCHEMA public;"
+        self.dataengine.query(create_query)
+
 
 class Session:
     """
@@ -322,52 +331,7 @@ class Session:
                 file_path, self.Denial_constraints)
         self.Denial_constraints.extend(new_denial_constraints)
         self.dc_objects.update(new_dc_objects)
-        self.create_block()
-
         return self.Denial_constraints
-
-    def create_block(self):
-        """
-        This method will create blocks of attributes that are connected through
-        the DCs
-
-        :return: None
-        """
-        self.block_dc = []
-        for dc_name in self.dc_objects:
-            attributes = set([])
-            for predicate in self.dc_objects[dc_name].predicates:
-                # we find the attributes for each dc
-                component1 = predicate.components[0]
-                component2 = predicate.components[1]
-                if not isinstance(component1, str):
-                    attributes.add(component1[1])
-                if not isinstance(component2, str):
-                    attributes.add(component2[1])
-            positions = set([])
-
-            for attribute in attributes:
-                appears = False
-                for index_block in range(len(self.block_dc)):
-                    if attribute in self.block_dc[index_block]:
-                        positions.add(index_block)
-                        appears = True
-                if not appears:
-                    positions.add(-1)
-            if len(positions) == 1 and -1 in positions:
-                self.block_dc.append(attributes)
-            else:
-                for index_block in sorted(positions, reverse=True):
-                    if index_block != -1:
-                        set_temp = self.block_dc[index_block]
-                        self.block_dc.pop(index_block)
-                        attributes = attributes | set_temp
-                self.block_dc.append(attributes)
-        return
-
-
-
-
 
     def add_denial_constraint(self, dc):
         """
@@ -426,8 +390,6 @@ class Session:
 
         return dirty
 
-
-
     def detect_errors(self, detector_list):
         """
         Separates cells that violate DC's from those that don't
@@ -437,7 +399,6 @@ class Session:
         :return: clean dataframe
         :return: don't know dataframe
         """
-        #self.create_blocks()
         if self.holo_env.verbose:
             start = time.time()
         for detector in detector_list:
@@ -689,13 +650,10 @@ class Session:
             'starting domain pruning with threshold %s',
             pruning_threshold1)
 
-        self.pruning = CooccurPruning(
+        self.pruning = Pruning(
             self,
             pruning_threshold1, pruning_threshold2,
             pruning_dk_breakoff, pruning_clean_breakoff)
-        self.pruning.get_domain()
-        self.pruning._create_dataframe()
-
         self.holo_env.logger.info('Domain pruning is finished :')
         return
 
