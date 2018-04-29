@@ -12,6 +12,7 @@ class Reader:
     def __init__(self, spark_session):
         """
         Constructing reader object
+
         :param spark_session: The spark_session we created in Holoclean object
         """
         self.spark_session = spark_session
@@ -20,6 +21,7 @@ class Reader:
     def _findextesion(self, filepath):
         """
         Finds the extesion of the file.
+
         :param filepath: The path to the file
         """
         extention = filepath.split('.')[-1]
@@ -28,9 +30,12 @@ class Reader:
     def read(self, filepath, indexcol=0, schema=None):
         """
         Calls the appropriate reader for the file
+
         :param schema: optional schema when known
         :param filepath: The path to the file
+
         :return: data frame of the read data
+
         """
         if self._findextesion(filepath) == "csv":
             csv_obj = CSVReader()
@@ -52,10 +57,12 @@ class CSVReader:
     def read(self, file_path, spark_session, indexcol=0, schema=None):
         """
         Creates a dataframe from the csv file
+
         :param indexcol: if 1, create a tuple id column as auto increment
         :param schema: optional schema of file if known
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
+
         :return: dataframe
         """
         if schema is None:
@@ -75,3 +82,6 @@ class CSVReader:
                         new_cols[idx]),
                         xrange(len(tmp_cols)), ix_df)
         return new_df
+
+
+
