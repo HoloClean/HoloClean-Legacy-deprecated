@@ -11,7 +11,7 @@ import torch
 from dataengine import DataEngine
 from dataset import Dataset
 from featurization.database_worker import DatabaseWorker, PopulateTensor
-from utils.cooccurpruning import CooccurPruning
+from utils.pruning import Pruning
 from utils.parser_interface import ParserInterface, DenialConstraint
 import multiprocessing
 
@@ -650,14 +650,10 @@ class Session:
             'starting domain pruning with threshold %s',
             pruning_threshold1)
 
-        self.pruning = CooccurPruning(
+        self.pruning = Pruning(
             self,
             pruning_threshold1, pruning_threshold2,
             pruning_dk_breakoff, pruning_clean_breakoff)
-
-        self.pruning.get_domain()
-
-        self.pruning._create_dataframe()
         self.holo_env.logger.info('Domain pruning is finished :')
         return
 
