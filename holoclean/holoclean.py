@@ -899,6 +899,8 @@ class Session:
             self.holo_env.spark_sql_ctxt.createDataFrame(
                 corrected_dataset, self.dataset.attributes['Init'])
 
+        correct_dataframe = correct_dataframe.drop('__ind')
+
         self.holo_env.dataengine.add_db_table("Repaired_dataset",
                                               correct_dataframe, self.dataset)
 
