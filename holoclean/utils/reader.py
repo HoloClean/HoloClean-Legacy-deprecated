@@ -141,24 +141,13 @@ class CSVReader:
                     "Do you want to drop this column"
                     "(y/n)?")
             if answer == "y":
-                dataframe = self.drop_column(column, dataframe)
+                dataframe = dataframe.drop(column)
             else:
                 print \
                     "Holoclean cannot use dataframes with strings " \
                     "more than 250 characters. please check your dataset"
                 exit(5)
         return dataframe
-
-    def drop_column(self, column, dataframe):
-        """
-        This method drop a specific column from a dataframe
-
-        :param column: a column that will be dropped
-        :param dataframe: the dataframe that will be change
-
-        :return: dataframe
-        """
-        return dataframe.drop(column)
 
 
 
