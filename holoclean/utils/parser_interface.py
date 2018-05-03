@@ -84,6 +84,17 @@ class Predicate:
 
         :return: list of predicate components
         """
+
+        # HC currently only supports DCs with two tuples per predicate
+        # so raise an exception if a different number present
+        num_tuples = len(predicate_string.split(','))
+        if num_tuples < 2:
+            raise DCFormatException('Less than 2 tuples in predicate: ' +
+                                    predicate_string)
+        elif num_tuples > 2:
+            raise DCFormatException('More than 2 tuples in predicate: ' +
+                                    predicate_string)
+
         operation = self.operation_string
         if predicate_string[0:len(operation)] != operation:
             raise \
