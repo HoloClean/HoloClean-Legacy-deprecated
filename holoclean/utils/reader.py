@@ -110,7 +110,7 @@ class CSVReader:
         for row in dataframe.collect():
             for attribute in dataframe.columns:
                 if isinstance(row[attribute], unicode) and\
-                       len(row[attribute]) > 250:
+                       len(row[attribute]) > 255:
                     columns.add(attribute)
         if len(columns) > 0:
             dataframe = self.ignore_columns(columns, dataframe)
@@ -128,25 +128,12 @@ class CSVReader:
         :return: dataframe: a new dataframe
         """
         print("Holoclean cannot use dataframes with strings "
-              "more than 250 characters")
+              "more than 255 characters")
+        columns_message = " AND ".join(columns)
+        message = "The columns " + columns_message + " will be dropped"
+        print (message)
         for column in columns:
-            answer = raw_input(
-                "The column " + column + " has a string of length "
-                "more than 250 characters.Do you want to drop this column"
-                " (y/n)?")
-            while answer != "y" and answer != "n":
-                answer = raw_input(
-                    "the column " + column + " has a string of length"
-                    "more than 250 characters."
-                    "Do you want to drop this column"
-                    "(y/n)?")
-            if answer == "y":
                 dataframe = dataframe.drop(column)
-            else:
-                print \
-                    "Holoclean cannot use dataframes with strings " \
-                    "more than 250 characters. please check your dataset"
-                exit(5)
         return dataframe
 
 
