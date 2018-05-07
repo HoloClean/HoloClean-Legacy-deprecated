@@ -142,6 +142,12 @@ arguments = [
       'default': 1,
       'type': int,
       'help': 'Number of inferred values'}),
+    (('-inte', '--iteractive'),
+     {'metavar': 'Iteractive',
+      'dest': 'iteractive',
+      'default': 0,
+      'type': int,
+      'help': 'if 1 the user will evaluate performance of holoclean'}),
     (('-t', '--timing-file'),
      {'metavar': 'TIMING_FILE',
       'dest': 'timing_file',
@@ -514,7 +520,10 @@ class Session:
         """
 
         acc = Accuracy(self, truth_path)
-        acc.accuracy_calculation()
+        if self.holo_env.iteractive:
+            acc.interactive_calculation_accuracy()
+        else:
+            acc.accuracy_calculation()
 
     def _ingest_dataset(self, src_path):
         """
