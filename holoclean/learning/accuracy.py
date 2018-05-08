@@ -4,6 +4,7 @@ from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 from pyspark.sql.functions import *
 
 
+
 class Accuracy:
 
     def __init__(
@@ -179,7 +180,13 @@ class Accuracy:
 
             init = self.dataengine.query(checkable_original_query, 1)
 
+            correct_count = 0
+            incorrect_count = 0
+            correct_map_count = 0
+            incorrect_map_count = 0
+
             if self.session.holo_env.k_inferred > 1:
+
                 checkable_map_query = "SELECT I.tid,I.attr_name," \
                                            "I.attr_val "\
                                            "FROM " + \
@@ -187,37 +194,32 @@ class Accuracy:
                                                'Inferred_map') + " AS I "
                 inferred_map = self.dataengine.query(checkable_map_query, 1)
 
-            correct_count = 0
-            incorrect_count = 0
-            correct_map_count = 0
-            incorrect_map_count = 0
-
-            first = 1
-            for row in init.collect():
-                answer = raw_input("Is the init value " + str(row[2]) +
-                                   " for the cell with row id "
-                                   + str(row[0]) + " and attribute " +
-                                   str(row[1]) + "Correct (y/n or q to quit)?")
-
-                while answer != "y" and answer != "n" and answer != "q":
-                    print("Please answer with y, n or q \n")
+                first = 1
+                for row in init.collect():
                     answer = raw_input("Is the init value " + str(row[2]) +
                                        " for the cell with row id "
                                        + str(row[0]) + " and attribute " +
-                                       str(row[1])
-                                       + "Correct (y/n or q to quit)?")
+                                       str(row[
+                                               1]) + "Correct (y/n or q to quit)?")
 
-                if answer == "y":
-                    inferred_value = inferred.filter(
-                        col("tid")== row[0]).filter(col("attr_name") == row[1])
-                    if inferred_value.collect()[0].attr_val == row[2]:
-                        correct_count = correct_count + 1
-                    else:
-                        incorrect_count = incorrect_count + 1
-                    inferred.subtract(inferred_value)
+                    while answer != "y" and answer != "n" and answer != "q":
+                        print("Please answer with y, n or q \n")
+                        answer = raw_input("Is the init value " + str(row[2]) +
+                                           " for the cell with row id "
+                                           + str(row[0]) + " and attribute " +
+                                           str(row[1])
+                                           + "Correct (y/n or q to quit)?")
 
-                    if self.session.holo_env.k_inferred > 1:
-                        inferred_value = inferred_map.filter(
+                    if answer == "y":
+                        inferred_map_value = inferred_map.filter(
+                            col("tid") == row[0]).filter(
+                            col("attr_name") == row[1])
+                        if inferred_map_value.collect()[0].attr_val == row[2]:
+                            correct_map_count = correct_map_count + 1
+                        else:
+                            incorrect_map_count = incorrect_map_count + 1
+                        inferred_map.subtract(inferred_map_value)
+                        inferred_value = inferred.filter(
                             col("tid") == row[0]).filter(
                             col("attr_name") == row[1])
                         correct = 0
@@ -225,121 +227,135 @@ class Accuracy:
                             if row_block["attr_val"] == row[2]:
                                 correct = 1
                         if correct:
-                            correct_map_count = correct_map_count + 1
+                            correct_count = correct_count + 1
                         else:
-                            incorrect_map_count = incorrect_map_count +1
-                        inferred_map.subtract(inferred_value)
+                            incorrect_count = incorrect_count + 1
+                        inferred.subtract(inferred_value)
 
-                elif answer == "n":
-                    newRow = self.session.holo_env.spark_session.createDataFrame([row])
-                    if first:
-                        incorrect_init = newRow
-                        first = 0
+                    elif answer == "n":
+                        newRow = self.session.holo_env.spark_session.createDataFrame(
+                            [row])
+                        if first:
+                            incorrect_init = newRow
+                            first = 0
+                        else:
+                            incorrect_init = incorrect_init.union(newRow)
                     else:
-                        incorrect_init = incorrect_init.union(newRow)
-                else:
-                    break
-
-            first = 1
-            for row in inferred.collect():
-                answer = raw_input("Is the inferred value " + str(row[2]) +
-                                   " for the cell with row id "
-                                   + str(row[0]) + " and attribute " + str(row[1]) +
-                                   "Correct (y/n or q to quit)?")
-
-                while answer != "y" and answer != "n" and answer != "q":
-                    print("Please answer with y, n or q \n")
-                    answer = raw_input("Is the inferred value " + str(row[2]) +
-                                       " for the cell with row id "
-                                       + str(row[0]) + " and attribute " +
-                                       str(row[1]) +
-                                       "Correct (y/n or q to quit)?")
-
-                if answer == "y":
-                    correct_count = correct_count + 1
-                elif answer == "n":
-                    incorrect_count = incorrect_count + 1
-                    newRow = self.session.holo_env.spark_session.createDataFrame([row])
-                    if first:
-                        incorrect_inferred = newRow
-                        first = 0
-                    else:
-                        incorrect_inferred = incorrect_inferred.union(newRow)
-                else:
-                    break
-            inferred_count = correct_count + incorrect_count
-
-            if inferred_count:
-                precision = float(correct_count) / float(inferred_count)
-
-                print ("The top-" + str(self.session.holo_env.k_inferred) +
-                       " precision  is : " + str(precision))
-
-                if incorrect_init is not None and incorrect_inferred is not None:
-
-                    incorrect_init = incorrect_init.drop("attr_val",
-                                                         "g_attr_val")
-                    incorrect_inferred = \
-                        incorrect_inferred.drop("attr_val", "g_attr_val")
-
-                    uncorrected_inferred = incorrect_init.intersect(
-                        incorrect_inferred)
-                    uncorrected_count = uncorrected_inferred.count()
-                    incorrect_init_count = incorrect_init.count()
-
-                    if incorrect_init_count:
-                        recall = 1.0 - (float(uncorrected_count)/float(
-                            incorrect_init_count))
-                    else:
-                        recall = 1.0
-
-                    print ("The top-" + str(self.session.holo_env.k_inferred) +
-                           " recall is : " + str(recall) + " out of " + str(
-                        incorrect_init_count))
-
-            # Report the MAP accuracy if you are predicting more than 1 value
-            if self.session.holo_env.k_inferred > 1:
+                        break
 
                 first = 1
-                while inferred_map.count() > 0:
-                    row = inferred_map.collect()[0]
-                    inferred_map_block = inferred_map.filter(
-                        col("tid") == row[0]).filter(col("attr_name") == row[1])
+                while inferred.count() > 0:
+                    row = inferred.collect()[0]
+                    inferred_block = inferred.filter(
+                        col("tid") == row[0]).filter(
+                        col("attr_name") == row[1])
                     correct_flag = 0
-                    for row_block in inferred_map_block.collect():
-                        first_block = 1
-                        answer = raw_input("Is the inferred value " + str(row_block[2]) +
-                                           " for the cell with row id "
-                                           + str(row_block[0]) + " and attribute " + str(
-                            row_block[1]) +
-                                           "Correct (y/n or q to quit)?")
+                    for row_block in inferred_block.collect():
+                        answer = raw_input(
+                            "Is the inferred value " + str(row_block[2]) +
+                            " for the cell with row id "
+                            + str(row_block[0]) + " and attribute " + str(
+                                row_block[1]) +
+                            "Correct (y/n or q to quit)?")
                         while answer != "y" and answer != "n" and answer != "q":
                             print("Please answer with y, n or q \n")
                             answer = raw_input(
-                                "Is the inferred value " + str(row_block[2]) +
+                                "Is the inferred value " + str(
+                                    row_block[2]) +
                                 " for the cell with row id "
                                 + str(row_block[0]) + " and attribute " +
-                                str(row_block[1]) + "Correct (y/n or q to quit)?")
+                                str(row_block[
+                                        1]) + "Correct (y/n or q to quit)?")
                         if answer == "y":
                             correct_flag = 1
                             break
                         elif answer == "n":
                             pass
                         else:
+                            #quit
                             break
                     if answer == "q":
                         break
                     if correct_flag:
-                        correct_map_count = correct_map_count + 1
+                        correct_count = correct_count + 1
                     else:
-                        incorrect_map_count = incorrect_map_count + 1
+                        incorrect_count = incorrect_count + 1
+                        newRow = self.session.holo_env.spark_session.createDataFrame(
+                            [row_block])
                         if first:
-                            incorrect_map = inferred_map_block
+                            incorrect_inferred = newRow
                             first = 0
                         else:
-                            incorrect_map = incorrect_map.union(inferred_map_block)
-                    inferred_map = inferred_map.subtract(inferred_map_block)
+                            incorrect_inferred = incorrect_inferred.union(
+                                newRow)
+                    inferred = inferred.subtract(inferred_block)
 
+                inferred_count = correct_count + incorrect_count
+
+                if inferred_count:
+                    precision = float(correct_count) / float(inferred_count)
+
+                    print ("The top-" + str(
+                        self.session.holo_env.k_inferred) +
+                           " precision  is : " + str(precision))
+
+                    if incorrect_init is not None and incorrect_inferred is not None:
+
+                        incorrect_init = incorrect_init.drop("attr_val",
+                                                             "g_attr_val")
+                        incorrect_inferred = \
+                            incorrect_inferred.drop("attr_val",
+                                                    "g_attr_val")
+
+                        uncorrected_inferred = incorrect_init.intersect(
+                            incorrect_inferred)
+                        uncorrected_count = uncorrected_inferred.count()
+                        incorrect_init_count = incorrect_init.count()
+
+                        if incorrect_init_count:
+                            recall = 1.0 - (
+                                    float(uncorrected_count) / float(
+                                incorrect_init_count))
+                        else:
+                            recall = 1.0
+
+                        print ("The top-" + str(
+                            self.session.holo_env.k_inferred) +
+                               " recall is : " + str(
+                                    recall) + " out of " + str(
+                                    incorrect_init_count))
+                first = 1
+
+                # Report the MAP accuracy
+                for row in inferred_map.collect():
+                    answer = raw_input("Is the inferred value " + str(row[2]) +
+                                       " for the cell with row id "
+                                       + str(row[0]) + " and attribute " + str(
+                        row[1]) + "Correct (y/n or q to quit)?")
+
+                    while answer != "y" and answer != "n" and answer != "q":
+                        print("Please answer with y, n or q \n")
+                        answer = raw_input(
+                            "Is the inferred value " + str(row[2]) +
+                            " for the cell with row id "
+                            + str(row[0]) + " and attribute " +
+                            str(row[1]) +
+                            "Correct (y/n or q to quit)?")
+
+                    if answer == "y":
+                        correct_map_count = correct_map_count + 1
+                    elif answer == "n":
+                        incorrect_map_count = incorrect_map_count + 1
+                        newRow = self.session.holo_env.spark_session.createDataFrame(
+                            [row])
+                        if first:
+                            incorrect_map = newRow
+                            first = 0
+                        else:
+                            incorrect_map = incorrect_map.union(
+                                newRow)
+                    else:
+                        break
                 inferred_map_count = correct_map_count + incorrect_map_count
 
                 if inferred_map_count:
@@ -365,6 +381,97 @@ class Accuracy:
                             recall = 1.0
                         print ("The MAP recall is : " + str(recall) + " out of " +
                                str(incorrect_init_count))
+            else:
+                first = 1
+                for row in init.collect():
+                    answer = raw_input("Is the init value " + str(row[2]) +
+                                       " for the cell with row id "
+                                       + str(row[0]) + " and attribute " +
+                                       str(row[1]) + "Correct (y/n or q to quit)?")
+
+                    while answer != "y" and answer != "n" and answer != "q":
+                        print("Please answer with y, n or q \n")
+                        answer = raw_input("Is the init value " + str(row[2]) +
+                                           " for the cell with row id "
+                                           + str(row[0]) + " and attribute " +
+                                           str(row[1])
+                                           + "Correct (y/n or q to quit)?")
+
+                    if answer == "y":
+                        inferred_value = inferred.filter(
+                            col("tid")== row[0]).filter(col("attr_name") == row[1])
+                        if inferred_value.collect()[0].attr_val == row[2]:
+                            correct_count = correct_count + 1
+                        else:
+                            incorrect_count = incorrect_count + 1
+                        inferred.subtract(inferred_value)
+
+                    elif answer == "n":
+                        newRow = self.session.holo_env.spark_session.createDataFrame([row])
+                        if first:
+                            incorrect_init = newRow
+                            first = 0
+                        else:
+                            incorrect_init = incorrect_init.union(newRow)
+                    else:
+                        #quit
+                        break
+
+                first = 1
+                for row in inferred.collect():
+                    answer = raw_input("Is the inferred value " + str(row[2]) +
+                                       " for the cell with row id "
+                                       + str(row[0]) + " and attribute " + str(row[1]) +
+                                       "Correct (y/n or q to quit)?")
+
+                    while answer != "y" and answer != "n" and answer != "q":
+                        print("Please answer with y, n or q \n")
+                        answer = raw_input("Is the inferred value " + str(row[2]) +
+                                           " for the cell with row id "
+                                           + str(row[0]) + " and attribute " +
+                                           str(row[1]) +
+                                           "Correct (y/n or q to quit)?")
+
+                    if answer == "y":
+                        correct_count = correct_count + 1
+                    elif answer == "n":
+                        incorrect_count = incorrect_count + 1
+                        newRow = self.session.holo_env.spark_session.createDataFrame([row])
+                        if first:
+                            incorrect_inferred = newRow
+                            first = 0
+                        else:
+                            incorrect_inferred = incorrect_inferred.union(newRow)
+                    else:
+                        # quit
+                        break
+                inferred_count = correct_count + incorrect_count
+                if inferred_count:
+                    precision = float(correct_count) / float(inferred_count)
+
+                    print ("The top-" + str(self.session.holo_env.k_inferred) +
+                           " precision  is : " + str(precision))
+
+                    if incorrect_init is not None and incorrect_inferred is not None:
+                        incorrect_init = incorrect_init.drop("attr_val",
+                                                             "g_attr_val")
+                        incorrect_inferred = \
+                            incorrect_inferred.drop("attr_val", "g_attr_val")
+
+                        uncorrected_inferred = incorrect_init.intersect(
+                            incorrect_inferred)
+                        uncorrected_count = uncorrected_inferred.count()
+                        incorrect_init_count = incorrect_init.count()
+
+                        if incorrect_init_count:
+                            recall = 1.0 - (float(uncorrected_count)/float(
+                                incorrect_init_count))
+                        else:
+                            recall = 1.0
+
+                        print ("The top-" + str(self.session.holo_env.k_inferred) +
+                               " recall is : " + str(recall) + " out of " + str(
+                            incorrect_init_count))
 
     def read_groundtruth(self):
 
