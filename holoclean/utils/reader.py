@@ -99,11 +99,11 @@ class CSVReader:
     def checking_string_size(self, dataframe):
         """
         This method checks if the dataframe has  columns with strings with more
-        than 250 characters
+        than 255 characters
 
         :param dataframe:  the initial dataframe
         :return: dataframe: a new dataframe without the columns with strings
-        with more than 250 characters
+        with more than 255 characters
         """
 
         columns = set([])
@@ -119,10 +119,10 @@ class CSVReader:
     def ignore_columns(self,  columns, dataframe):
         """
         This method asks the user if he wants to drop a column which has a
-        string with more than 250 characters
+        string with more than 255 characters
 
         :param  columns: a set of columns with strings with more
-        than 250 characters
+        than 255 characters
         :param dataframe: the dataframe that we want to change
 
         :return: dataframe: a new dataframe
