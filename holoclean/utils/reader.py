@@ -129,7 +129,7 @@ class CSVReader:
         """
         print("Holoclean cannot use dataframes with strings "
               "more than 255 characters")
-        columns_message = " AND ".join(columns)
+        columns_message = " and ".join(columns)
         message = "The columns " + columns_message + " will be dropped"
         print (message)
         for column in columns:
