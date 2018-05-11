@@ -99,18 +99,18 @@ class CSVReader:
     def checking_string_size(self, dataframe):
         """
         This method checks if the dataframe has  columns with strings with more
-        than 250 characters
+        than 255 characters
 
         :param dataframe:  the initial dataframe
         :return: dataframe: a new dataframe without the columns with strings
-        with more than 250 characters
+        with more than 255 characters
         """
 
         columns = set([])
         for row in dataframe.collect():
             for attribute in dataframe.columns:
                 if isinstance(row[attribute], unicode) and\
-                       len(row[attribute]) > 250:
+                       len(row[attribute]) > 255:
                     columns.add(attribute)
         if len(columns) > 0:
             dataframe = self.ignore_columns(columns, dataframe)
@@ -119,34 +119,21 @@ class CSVReader:
     def ignore_columns(self,  columns, dataframe):
         """
         This method asks the user if he wants to drop a column which has a
-        string with more than 250 characters
+        string with more than 255 characters
 
         :param  columns: a set of columns with strings with more
-        than 250 characters
+        than 255 characters
         :param dataframe: the dataframe that we want to change
 
         :return: dataframe: a new dataframe
         """
         print("Holoclean cannot use dataframes with strings "
-              "more than 250 characters")
+              "more than 255 characters")
+        columns_message = " and ".join(columns)
+        message = "The columns " + columns_message + " will be dropped"
+        print (message)
         for column in columns:
-            answer = raw_input(
-                "The column " + column + " has a string of length "
-                "more than 250 characters.Do you want to drop this column"
-                " (y/n)?")
-            while answer != "y" and answer != "n":
-                answer = raw_input(
-                    "the column " + column + " has a string of length"
-                    "more than 250 characters."
-                    "Do you want to drop this column"
-                    "(y/n)?")
-            if answer == "y":
                 dataframe = dataframe.drop(column)
-            else:
-                print \
-                    "Holoclean cannot use dataframes with strings " \
-                    "more than 250 characters. please check your dataset"
-                exit(5)
         return dataframe
 
 
