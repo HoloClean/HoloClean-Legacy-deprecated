@@ -97,7 +97,32 @@ Then the environment can be activated by running:
 
 ### 3. Install HoloClean Using Virtualenv
 
+If you are already familiar with Virtualenv please create a new environment with **Python 2.7** with your preferred virtualenv wrapper, e.g.:
+
+- [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (Bourne-shells)
+- [virtualfish](https://virtualfish.readthedocs.io/en/latest/) (fish-shell)
+
+Otherwise, continue with the instructions on installing Virtualenv below.
+
 #### 3.1 Install Virtualenv
+
+Install `Virtualenv` following the instructions from [their homepage](https://virtualenv.pypa.io/en/stable/installation/).
+For example install globally via pip:
+
+    $ [sudo] pip install virtualenv
+
+#### 3.2 Create a new Virtualenv environment
+
+Create a new directory for your virtual environment with Python 2.7:
+
+    $ virtualenv --python=python2.7 py27Env
+
+Where `py27Env` is a folder, where all virtual environments will be stored and `python2.7` is a valid python executable.
+Activate the new `py27Env` envrionment with:
+
+    $ source bin/activate
+
+<b> Make sure to keep the environment activated for the rest of the installation process </b>
 
 
 ### 4. Installing Pytorch
