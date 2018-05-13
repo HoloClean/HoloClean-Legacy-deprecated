@@ -1,6 +1,6 @@
 # Repairing Erroneous Hospital Data
 
-In this tutorial, we will walk through the process of using HoloClean to clean a dataset with a significant amount of errors. We have broken this tutorial up into 3 separate notebooks, each discussing a different aspect of the problem.
+In this tutorial, we will walk through the process of using HoloClean to clean a dataset with a significant amount of errors. We have broken this tutorial up into 4 separate notebooks, each discussing a different aspect of the problem.
 
 1. **Data Loading & Denial Constraints[[Tutorial_1](Tutorial_1.ipynb)]:**
 First, we introduce the infrastructure of HoloClean and the primary source of information we use to perform repairs, Denial Constraints.
