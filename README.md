@@ -93,7 +93,7 @@ create database holo;
 Or alternatively use the function <b>reset_database()</b> function in the Holoclean class in holoclean/holoclean.py
 
 
-### 4. Installing Required Packages
+### 3. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
@@ -101,8 +101,8 @@ pip install -r python-package-requirement.txt
 
 
 
-### 5. Install JDK 8
-<b> 5.1 For Ubuntu: </b>
+### 4. Install JDK 8
+<b> 4.1 For Ubuntu: </b>
 <br>
 Check if you have JDK 8 installed by running
 ```
@@ -113,7 +113,7 @@ If you do not have JDK 8, run the following command:
 sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 5.2 For MacOS </b>
+<b> 4.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
 
@@ -122,7 +122,7 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 6. Getting Started
+### 5. Getting Started
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
