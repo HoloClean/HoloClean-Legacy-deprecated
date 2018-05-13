@@ -1,4 +1,4 @@
-tutorial/.ipynb_checkpoints/
+tutorials/.ipynb_checkpoints/
 /.idea
 *.log
 __pycache__/
@@ -10,3 +10,4 @@ _templates
 **/dataset_id.txt
 **/execution_time.txt
 .DS_store
+.venv
