@@ -93,19 +93,6 @@ create database holo;
 Or alternatively use the function <b>reset_database()</b> function in the Holoclean class in holoclean/holoclean.py
 
 
-
-
-### 3. Installing Pytorch
-
-Follow instructions for your OS at:
-http://pytorch.org/
-To install pytorch
-<br>
-make sure to use Python 2.7 for installation (the other settings can be left as default)
-<br>
-Make sure to install <b>version 0.3.0</b> or later
-<br>
-
 ### 4. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
