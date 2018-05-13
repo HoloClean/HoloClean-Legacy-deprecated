@@ -142,9 +142,9 @@ arguments = [
       'default': 1,
       'type': int,
       'help': 'Number of inferred values'}),
-    (('-inte', '--iteractive'),
-     {'metavar': 'Iteractive',
-      'dest': 'iteractive',
+    (('-inte', '--interactive'),
+     {'metavar': 'Interactive',
+      'dest': 'interactive',
       'default': 0,
       'type': int,
       'help': 'if 1 the user will evaluate performance of holoclean'}),
@@ -512,7 +512,7 @@ class Session:
 
         return self._create_corrected_dataset()
 
-    def compare_to_truth(self, truth_path):
+    def compare_to_truth(self, truth_path=None):
         """
         Compares our repaired set to the truth prints precision and recall
 
@@ -520,7 +520,7 @@ class Session:
         """
 
         acc = Accuracy(self, truth_path)
-        if self.holo_env.iteractive:
+        if self.holo_env.interactive:
             acc.interactive_calculation_accuracy()
         else:
             acc.accuracy_calculation()
