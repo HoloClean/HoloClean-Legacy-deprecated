@@ -48,8 +48,10 @@ CREATE database holo;
 CREATE user holocleanuser;
 ALTER USER holocleanuser WITH PASSWORD 'abcd1234';
 GRANT ALL PRIVILEGES on database holo to holocleanUser ;
+\c holo
+ALTER SCHEMA public OWNER TO holocleanUser;
 ```
-To Connect to the holo database run:
+In general, to connect to the holo database run:
 ```
 \c holo
 ```
@@ -60,7 +62,7 @@ drop database holo;
 create database holo;
 ```
 
-Or alternatively use the function <b>reset_database()</b> function in the Session class in holoclean/holoclean.py
+Or alternatively use the function <b>reset_database()</b> function in the Holoclean class in holoclean/holoclean.py
 
 
 ### 2. Install HoloClean Using Conda 

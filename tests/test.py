@@ -12,20 +12,22 @@ class Testing:
     def __init__(self):
         self.holo_obj = HoloClean(
             holoclean_path="..",         # path to holoclean package
-            verbose=False,
+            verbose=True,
             # to limit possible values for training data
-            pruning_threshold1=0.1,
+            pruning_threshold1=0.0,
             # to limit possible values for training data to less than k values
             pruning_clean_breakoff=6,
             # to limit possible values for dirty data (applied after
             # Threshold 1)
-            pruning_threshold2=0,
+            pruning_threshold2=0.0,
             # to limit possible values for dirty data to less than k values
             pruning_dk_breakoff=6,
             # learning parameters
             learning_iterations=30,
             learning_rate=0.001,
-            batch_size=5
+            batch_size=5,
+            # number of inferred values
+            k_inferred=2
         )
         self.session = Session(self.holo_obj)
 
@@ -40,7 +42,7 @@ class Testing:
         ground_truth = "data/hospital_clean.csv"
         print("using ground_truth: {}".format(ground_truth))
 
-        # uncheck this if you dont have ground truth
+        # uncheck this if you don't have ground truth
         # ground_truth = 0
 
         # Ingesting Dataset and Denial Constraints
@@ -73,6 +75,7 @@ class Testing:
             print "Execution finished"
 
         exit(0)
+
 
 if __name__ == "__main__":
     new_hc = Testing()

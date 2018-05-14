@@ -1,5 +1,5 @@
 import random
-from pyspark.sql.types import StructField, StructType, StringType, IntegerType
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType
 
 
 class Dataset:
@@ -73,7 +73,14 @@ class Dataset:
             'Attribute_temp': [],
             'Dimensions_clean': [],
             'Dimensions_dk': [],
-            'Inferred_values': [],
+            'Inferred_values': StructType([
+                    StructField("probability", DoubleType(), False),
+                    StructField("vid", IntegerType(), False),
+                    StructField("attr_name", StringType(), False),
+                    StructField("attr_val", StringType(), False),
+                    StructField("tid", IntegerType(), False),
+                    StructField("domain_id", IntegerType(), False)
+                ]),
             'Repaired_dataset': [],
             'Correct': [],
             'Correct_flat': [],

@@ -11,3 +11,6 @@ _templates
 **/execution_time.txt
 .DS_store
 .venv
+build/
+dist/
+holoclean.egg-info/
