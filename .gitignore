@@ -10,3 +10,7 @@ _templates
 **/dataset_id.txt
 **/execution_time.txt
 .DS_store
+build/
+dist/
+holoclean.egg-info/
+
