@@ -11,6 +11,8 @@ _templates
 **/execution_time.txt
 .DS_store
 .venv
+cleaning-experiments/
+*.swp
 build/
 dist/
 holoclean.egg-info/
