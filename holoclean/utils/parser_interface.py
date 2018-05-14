@@ -84,6 +84,17 @@ class Predicate:
 
         :return: list of predicate components
         """
+
+        # HC currently only supports DCs with two tuples per predicate
+        # so raise an exception if a different number present
+        num_tuples = len(predicate_string.split(','))
+        if num_tuples < 2:
+            raise DCFormatException('Less than 2 tuples in predicate: ' +
+                                    predicate_string)
+        elif num_tuples > 2:
+            raise DCFormatException('More than 2 tuples in predicate: ' +
+                                    predicate_string)
+
         operation = self.operation_string
         if predicate_string[0:len(operation)] != operation:
             raise \
@@ -183,10 +194,8 @@ class DenialConstraint:
                 append(Predicate(split[i], self.tuple_names, schema))
 
         # Create CNF form of the DC
-        for predicate in self.predicates:
-            self.cnf_form += predicate.cnf_form
-            self.cnf_form += " AND "
-        self.cnf_form = self.cnf_form[:-5]  # remove AND and spaces at the end
+        cnf_forms = [predicate.cnf_form for predicate in self.predicates]
+        self.cnf_form = " AND ".join(cnf_forms)
         return
 
     @staticmethod
