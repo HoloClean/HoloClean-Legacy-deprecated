@@ -21,26 +21,26 @@ HoloClean is a statistical inference engine to impute, clean, and enrich data. A
 This file will go through the steps needed to install the required packages and software to run HoloClean.
 
 ### 1. Install Postgresql
-<b> 2.1 Ubuntu Installation: </b>
+<b> 1.1 Ubuntu Installation: </b>
 
 Install Postgres by running:
 ```
 sudo apt-get install postgresql postgresql-contrib
 ```
 <br>
-<b> 2.2 Using Postgres on Ubuntu </b>
+<b> 1.2 Using Postgres on Ubuntu </b>
 
 To start postgres run:
 ```
 sudo -u postgres psql
 ```
-<b> 2.3 Mac Installation </b>
+<b> 1.3 Mac Installation </b>
 <br>
 Check out the following page to install Postgres for MacOS
 <br>
 https://www.postgresql.org/download/macosx/
 <br>
-<b> 2.4 Setup Postgres for Holoclean </b>
+<b> 1.4 Setup Postgres for Holoclean </b>
 
 Create the database and user by running the following on the Postgres console:
 ```
@@ -127,26 +127,13 @@ Activate the new `py27Env` envrionment with:
 <b> Make sure to keep the environment activated for the rest of the installation process </b>
 
 
-### 4. Installing Pytorch
-
-Follow instructions for your OS at:
-http://pytorch.org/
-To install pytorch
-<br>
-make sure to use Python 2.7 for installation (the other settings can be left as default)
-<br>
-Make sure to install <b>version 0.3.0</b> or later
-<br>
-
-### 5. Installing Required Packages
+### 4. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
 ```
 
-
-
-### 6. Install JDK 8
+### 5. Install JDK 8
 <b> 5.1 For Ubuntu: </b>
 <br>
 Check if you have JDK 8 installed by running
@@ -167,7 +154,8 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 7. Install  Spark (MacOS only)
+
+### 6. Install  Spark (MacOS only)
 
 To install Spark on MacOS run
 
@@ -178,7 +166,8 @@ brew install apache-spark
 After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
 your python path.
 
-### 8. Getting Started
+### 7. Getting Started
+
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
