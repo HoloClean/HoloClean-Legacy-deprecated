@@ -20,55 +20,27 @@ HoloClean is a statistical inference engine to impute, clean, and enrich data. A
 
 This file will go through the steps needed to install the required packages and software to run HoloClean.
 
-### 1. Setting Up and Using Conda 
- <b>1.1 Ubuntu: </b>
- <b>For 32 bit machines, run:</b>
- 
- ```
- wget  wget https://repo.continuum.io/archive/Anaconda-2.3.0-Linux-x86.sh
- bash Anaconda-2.3.0-Linux-x86.sh
- ```
-
-<b>For 64 bit machines, run: </b>
-```
-wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
-bash Anaconda-2.3.0-Linux-x86_64.sh
-```
-<h4>1.2 MacOS: <h4>
-
-Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install Anaconda (Not miniconda) for MacOS
-
-<h4> 1.3 Using Conda </h4>
-Open/Restart the terminal and create a Python 2.7 environment by running the command:
-
-	conda create -n py27Env python=2.7 anaconda
-
-Then the environment can be activated by running:
-
-	source activate py27Env
-<b> Make sure to keep the environment activated for the rest of the installation process </b>
-
-### 2. Install Postgresql
-<b> 2.1 Ubuntu Installation: </b>
+### 1. Install Postgresql
+<b> 1.1 Ubuntu Installation: </b>
 
 Install Postgres by running:
 ```
 sudo apt-get install postgresql postgresql-contrib
 ```
 <br>
-<b> 2.2 Using Postgres on Ubuntu </b>
+<b> 1.2 Using Postgres on Ubuntu </b>
 
 To start postgres run:
 ```
 sudo -u postgres psql
 ```
-<b> 2.3 Mac Installation </b>
+<b> 1.3 Mac Installation </b>
 <br>
 Check out the following page to install Postgres for MacOS
 <br>
 https://www.postgresql.org/download/macosx/
 <br>
-<b> 2.4 Setup Postgres for Holoclean </b>
+<b> 1.4 Setup Postgres for Holoclean </b>
 
 Create the database and user by running the following on the Postgres console:
 ```
@@ -93,16 +65,76 @@ create database holo;
 Or alternatively use the function <b>reset_database()</b> function in the Holoclean class in holoclean/holoclean.py
 
 
-### 3. Installing Required Packages
+### 2. Install HoloClean Using Conda 
+
+#### 2.1. Install Conda
+
+##### 2.1.1 Ubuntu:
+ <b>For 32 bit machines, run:</b>
+ 
+ ```
+ wget  wget https://repo.continuum.io/archive/Anaconda-2.3.0-Linux-x86.sh
+ bash Anaconda-2.3.0-Linux-x86.sh
+ ```
+
+<b>For 64 bit machines, run: </b>
+```
+wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
+bash Anaconda-2.3.0-Linux-x86_64.sh
+```
+##### 2.1.2 MacOS:
+
+Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install Anaconda (Not miniconda) for MacOS
+
+#### 2.2 Create new Conda environment
+Open/Restart the terminal and create a Python 2.7 environment by running the command:
+
+	conda create -n py27Env python=2.7 anaconda
+
+Then the environment can be activated by running:
+
+	source activate py27Env
+<b> Make sure to keep the environment activated for the rest of the installation process </b>
+
+
+### 3. Install HoloClean Using Virtualenv
+
+If you are already familiar with Virtualenv please create a new environment with **Python 2.7** with your preferred virtualenv wrapper, e.g.:
+
+- [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (Bourne-shells)
+- [virtualfish](https://virtualfish.readthedocs.io/en/latest/) (fish-shell)
+
+Otherwise, continue with the instructions on installing Virtualenv below.
+
+#### 3.1 Install Virtualenv
+
+Install `Virtualenv` following the instructions from [their homepage](https://virtualenv.pypa.io/en/stable/installation/).
+For example install globally via pip:
+
+    $ [sudo] pip install virtualenv
+
+#### 3.2 Create a new Virtualenv environment
+
+Create a new directory for your virtual environment with Python 2.7:
+
+    $ virtualenv --python=python2.7 py27Env
+
+Where `py27Env` is a folder, where all virtual environments will be stored and `python2.7` is a valid python executable.
+Activate the new `py27Env` envrionment with:
+
+    $ source bin/activate
+
+<b> Make sure to keep the environment activated for the rest of the installation process </b>
+
+
+### 4. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
 ```
 
-
-
-### 4. Install JDK 8
-<b> 4.1 For Ubuntu: </b>
+### 5. Install JDK 8
+<b> 5.1 For Ubuntu: </b>
 <br>
 Check if you have JDK 8 installed by running
 ```
@@ -122,7 +154,20 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-### 5. Getting Started
+
+### 6. Install  Spark (MacOS only)
+
+To install Spark on MacOS run
+
+```
+brew install apache-spark
+```
+
+After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
+your python path.
+
+### 7. Getting Started
+
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run
