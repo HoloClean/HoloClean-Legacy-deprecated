@@ -7,7 +7,7 @@
 [![Documentation Status](https://readthedocs.org/projects/holoclean/badge/?version=latest)](http://holoclean.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**_v0.1.0_**
+**_v0.1.1_**
 
 <p>
 <br>
