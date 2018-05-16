@@ -12,4 +12,3 @@ torchvision==0.2.0
 tqdm==4.20.0
 scipy==1.0.1
 Pandas==0.20.3
-

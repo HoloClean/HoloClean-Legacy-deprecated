@@ -16,6 +16,7 @@ class Accuracy:
         self.spark_session = session.holo_env.spark_session
         self.ground_truth_flat = None
         self.session = session
+        self.flatten_init()
 
     def accuracy_calculation(self):
 
@@ -79,11 +80,32 @@ class Accuracy:
             inferred_count = correct_count + incorrect_count
             incorrect_init_count = incorrect_init.count()
 
+            checkable_general_query = "SELECT I.tid,I.attr_name," \
+                                       "I.attr_val, G.attr_val as " \
+                                       "g_attr_val FROM  " + \
+                                       self.dataset.table_specific_name(
+                                           'Init_flatten') + " as I ," + \
+                                       self.dataset.table_specific_name(
+                                           'Groundtruth') + " AS G WHERE " \
+                                                            "I.tid=G.tid " \
+                                                            "AND " \
+                                                            "G.attr_name= " \
+                                                            "I.attr_name"
+
+            init_general = self.dataengine.query(checkable_general_query, 1)
+            incorrect_init_general = \
+                init_general.where(init_general.attr_val != init_general.g_attr_val).drop(
+                    "attr_val","g_attr_val")
+            incorrect_init_general_count = incorrect_init_general.count()
+
+            print ("We have detected " + str(incorrect_init_count) +
+                   " errors out of  " + str(incorrect_init_general_count) + "total")
+
             if inferred_count:
                 precision = float(correct_count) / float(inferred_count)
 
                 print ("The top-" + str(self.session.holo_env.k_inferred) +
-                       " precision  is : " + str(precision))
+                       " precision  is : " + str(("%.3f" % precision)))
                 uncorrected_inferred = incorrect_init.intersect(
                     incorrect_inferred)
                 uncorrected_count = uncorrected_inferred.count()
@@ -95,8 +117,9 @@ class Accuracy:
                     recall = 1.0
 
                 print ("The top-" + str(self.session.holo_env.k_inferred) +
-                       " recall is : " + str(recall) + " out of " + str(
-                    incorrect_init_count))
+                       " recall is : " + str(
+                            ("%.3f" % recall)) + " for  " + str(
+                            incorrect_init_count) + " cells")
 
             # Report the MAP accuracy if you are predicting more than 1 value
             if self.session.holo_env.k_inferred > 1:
@@ -130,7 +153,7 @@ class Accuracy:
                 if inferred_map_count:
                     map_precision = float(correct_map_count) / float(
                         inferred_map_count)
-                    print ("The  MAP precision  is : " + str(map_precision))
+                    print ("The  MAP precision  is : " + str(("%.3f" % map_precision)))
                     uncorrected_map = incorrect_init.intersect(
                         incorrect_map)
                     uncorrected_map_count = uncorrected_map.count()
@@ -139,9 +162,10 @@ class Accuracy:
                             incorrect_init_count))
                     else:
                         recall = 1.0
-                    print ("The MAP recall is : " + str(recall) + " out of " +
+                    print ("The MAP recall is : " + str(
+                        ("%.3f" % recall)) + " for " +
                            str(
-                        incorrect_init_count))
+                               incorrect_init_count) + " cells ")
 
     def read_groundtruth(self):
 
@@ -164,3 +188,26 @@ class Accuracy:
 
         self.dataengine.add_db_table(
             'Groundtruth', self.ground_truth_flat, self.dataset)
+
+    def flatten_init(self):
+        """
+        We create a flatten table of the init dataset
+        :return:
+        """
+        all_attr = self.dataset.get_schema('Init')
+        all_attr.remove(GlobalVariables.index_name)
+        table_name = self.dataset.table_specific_name("Init_flatten")
+
+        query = "CREATE TABLE " + table_name + "(tid INT, attr_name varchar(255)," \
+                                               " attr_val varchar(255));"
+        self.dataengine.query(query)
+
+        for attribute in all_attr:
+            query = "select __ind ,'" + attribute + "' as attr_name," + attribute + \
+                    " as attr_val from " + self.dataset.table_specific_name(
+                "Init")
+            insert_signal_query = "INSERT INTO " + table_name + \
+                                  "(" + query + ");"
+            self.dataengine.query(insert_signal_query)
+
+        return
