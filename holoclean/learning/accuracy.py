@@ -99,7 +99,7 @@ class Accuracy:
             incorrect_init_general_count = incorrect_init_general.count()
 
             print ("We have detected " + str(incorrect_init_count) +
-                   " errors out of  " + str(incorrect_init_general_count) + "total")
+                   " errors out of " + str(incorrect_init_general_count) + " total")
 
             if inferred_count:
                 precision = float(correct_count) / float(inferred_count)
@@ -118,8 +118,8 @@ class Accuracy:
 
                 print ("The top-" + str(self.session.holo_env.k_inferred) +
                        " recall is : " + str(
-                            ("%.3f" % recall)) + " for  " + str(
-                            incorrect_init_count) + " cells")
+                            ("%.3f" % recall)) + " over the " + str(
+                            incorrect_init_count) + " errors found during error detection")
 
             # Report the MAP accuracy if you are predicting more than 1 value
             if self.session.holo_env.k_inferred > 1:
@@ -163,9 +163,9 @@ class Accuracy:
                     else:
                         recall = 1.0
                     print ("The MAP recall is : " + str(
-                        ("%.3f" % recall)) + " for " +
+                        ("%.3f" % recall)) + " over the " +
                            str(
-                               incorrect_init_count) + " cells ")
+                               incorrect_init_count) + " errors found during error detection")
 
     def read_groundtruth(self):
 
