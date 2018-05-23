@@ -17,7 +17,6 @@ class LogReg(torch.nn.Module):
         """
         Initializes weight tensor with random values
         ties init and dc weights if specified
-
         :return: Null
         """
         torch.manual_seed(42)
@@ -43,19 +42,16 @@ class LogReg(torch.nn.Module):
                     signals_W = Parameter(
                         torch.randn(featurizer.count, self.output_dim))
             else:
-                signals_W = \
-                    Parameter(
-                        torch.randn(
-                            featurizer.count, 1).expand(-1, self.output_dim))
+                signals_W = Parameter(torch.randn(featurizer.count,
+                                                  1).expand(-1,
+                                                            self.output_dim))
             self.weight_tensors.append(signals_W)
-
         return
 
-    def __init__(self, featurizers, input_dim_non_dc, input_dim_dc, output_dim,
+    def __init__(self, featurizers, output_dim,
                  tie_init, tie_dc):
         """
         Constructor for our logistic regression
-
         :param input_dim_non_dc: number of init + cooccur features
         :param input_dim_dc: number of dc features
         :param output_dim: number of classes
@@ -66,8 +62,6 @@ class LogReg(torch.nn.Module):
 
         self.featurizers = featurizers
 
-        self.input_dim_non_dc = input_dim_non_dc
-        self.input_dim_dc = input_dim_dc
         self.output_dim = output_dim
 
         self.tie_init = tie_init
@@ -78,7 +72,6 @@ class LogReg(torch.nn.Module):
     def forward(self, X, index, mask):
         """
         Runs the forward pass of our logreg.
-
         :param X: values of the features
         :param index: indices to mask at
         :param mask: tensor to remove possibility of choosing unused class
@@ -122,20 +115,14 @@ class SoftMax:
     def __init__(self, session, X_training):
         """
         Constructor for our softmax model
-
         :param X_training: x tensor used for training the model
         :param session: session object
-
         """
         self.session = session
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
         self.holo_obj = session.holo_env
         self.spark_session = self.holo_obj.spark_session
-        query = "SELECT COUNT(*) AS dc FROM " + \
-                self.dataset.table_specific_name("Feature_id_map") + \
-                " WHERE Type = 'DC'"
-        self.DC_count = self.dataengine.query(query, 1).collect()[0].dc
         dataframe_offset = self .dataengine.get_table_to_dataframe(
             "Dimensions_clean", self.dataset)
         list = dataframe_offset.collect()
@@ -166,7 +153,6 @@ class SoftMax:
     def _setupY(self):
         """
         Initializes a y tensor to compare to our model's output
-
         :return: Null
         """
         possible_values = self.dataengine .get_table_to_dataframe(
@@ -181,9 +167,7 @@ class SoftMax:
     def _setupX(self, sparse=0):
         """
         Initializes an X tensor of features for prediction
-
         :param sparse: 0 if dense tensor, 1 if sparse
-
         :return: Null
         """
         feature_table = self .dataengine.get_table_to_dataframe(
@@ -211,9 +195,7 @@ class SoftMax:
     def setuptrainingX(self, sparse=0):
         """
         Initializes an X tensor of features for training
-
         :param sparse: 0 if dense tensor, 1 if sparse
-
         :return: x tensor of features
         """
         dataframe_offset = self.dataengine.get_table_to_dataframe(
@@ -254,11 +236,9 @@ class SoftMax:
     def setupMask(self, clean=1, N=1, L=1):
         """
         Initializes a masking tensor for ignoring impossible classes
-
         :param clean: 1 if clean cells, 0 if don't-know
         :param N: number of examples
         :param L: number of classes
-
         :return: masking tensor
         """
         lookup = "Kij_lookup_clean" if clean else "Kij_lookup_dk"
@@ -276,40 +256,34 @@ class SoftMax:
             self.testmask = mask
         return mask
 
-    def build_model(self,  featurizers, input_dim_non_dc, input_dim_dc,
+    def build_model(self,  featurizers,
                     output_dim, tie_init=True, tie_DC=True):
         """
         Initializes the logreg part of our model
-
         :param input_dim_non_dc: number of init + cooccur features
         :param featurizers: list of featurizers
         :param input_dim_dc: number of dc features
         :param output_dim: number of classes
         :param tie_init: boolean to decide weight tying for init features
         :param tie_DC: boolean to decide weight tying for dc features
-
         :return: newly created LogReg model
         """
         model = LogReg(
             featurizers,
-            input_dim_non_dc,
-            input_dim_dc,
             output_dim,
             tie_init,
-            tie_DC,)
+            tie_DC)
         return model
 
     def train(self, model, loss, optimizer, x_val, y_val, mask=None):
         """
         Trains our model on the clean cells
-
         :param model: logistic regression model
         :param loss: loss function used for evaluating performance
         :param optimizer: optimizer for our neural net
         :param x_val: x tensor - features
         :param y_val: y tensor - output for comparison
         :param mask: masking tensor
-
         :return: cost of traininng
         """
         x = Variable(x_val, requires_grad=False)
@@ -340,11 +314,9 @@ class SoftMax:
     def predict(self, model, x_val, mask=None):
         """
         Runs our model on the test set
-
         :param model: trained logreg model
         :param x_val: test x tensor
         :param mask: masking tensor to restrict domain
-
         :return: predicted classes with probabilities
         """
         x = Variable(x_val, requires_grad=False)
@@ -362,12 +334,11 @@ class SoftMax:
     def logreg(self, featurizers):
         """
         Trains our model on clean cells and predicts vals for clean cells
-
         :return: predictions
         """
         n_examples, n_features, n_classes = self.X.size()
         self.model = self.build_model(
-            featurizers, self.M - self.DC_count, self.DC_count, n_classes)
+            featurizers, n_classes)
         loss = torch.nn.CrossEntropyLoss(size_average=True)
         optimizer = optim.SGD(
             self.model.parameters(),
@@ -400,24 +371,33 @@ class SoftMax:
     def save_prediction(self, Y):
         """
         Stores our predicted values in the database
-
         :param Y: tensor with probability for each class
-
         :return: Null
         """
-        max_result = torch.max(Y, 1)
+        k_inferred = self.session.holo_env.k_inferred
+
+        if k_inferred > Y.size()[1]:
+            k_inferred = Y.size()[1]
+
+        max_result = torch.topk(Y,k_inferred,1)
         max_indexes = max_result[1].data.tolist()
         max_prob = max_result[0].data.tolist()
+
         vid_to_value = []
         df_possible_values = self.dataengine.get_table_to_dataframe(
             'Possible_values_dk', self.dataset).select(
             "vid", "attr_name", "attr_val", "tid", "domain_id")
+
+        # Save predictions upt to the specified k unless Prob = 0.0
         for i in range(len(max_indexes)):
-            vid_to_value.append([i + 1, max_indexes[i] + 1, max_prob[i]])
+                for j in range(k_inferred):
+                    if max_prob[i][j]:
+                        vid_to_value.append([i + 1, max_indexes[i][j] + 1,
+                                             max_prob[i][j]])
         df_vid_to_value = self.spark_session.createDataFrame(
             vid_to_value, StructType([
-                StructField("vid2", IntegerType(), False),
-                StructField("domain_id2", IntegerType(), False),
+                StructField("vid1", IntegerType(), False),
+                StructField("domain_id1", IntegerType(), False),
                 StructField("probability", DoubleType(), False)
             ])
         )
@@ -425,21 +405,19 @@ class SoftMax:
         df2 = df_possible_values
         df_inference = df1.join(
             df2, [
-                df1.vid2 == df2.vid,
-                df1.domain_id2 == df2.domain_id], 'inner')\
-            .drop("vid2", "domain_id2")
+                df1.vid1 == df2.vid,
+                df1.domain_id1 == df2.domain_id], 'inner')\
+            .drop("vid1","domain_id1")
 
         self.session.inferred_values = df_inference
-
         self.session.holo_env.logger.info\
-            ("The Inferred_values Dataframe has been created")
+            ("The Inferred_values Data frame has been created")
         self.session.holo_env.logger.info("  ")
         return
 
     def log_weights(self):
         """
         Writes weights in the logger
-
         :return: Null
         """
         self.model.concat_weights()

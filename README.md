@@ -7,7 +7,7 @@
 [![Documentation Status](https://readthedocs.org/projects/holoclean/badge/?version=latest)](http://holoclean.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**_v0.1.0_**
+**_v0.1.1_**
 
 <p>
 <br>
@@ -20,8 +20,56 @@ HoloClean is a statistical inference engine to impute, clean, and enrich data. A
 
 This file will go through the steps needed to install the required packages and software to run HoloClean.
 
-### 1. Setting Up and Using Conda 
- <b>1.1 Ubuntu: </b>
+### 1. Install Postgresql
+<b> 1.1 Ubuntu Installation: </b>
+
+Install Postgres by running:
+```
+sudo apt-get install postgresql postgresql-contrib
+```
+<br>
+<b> 1.2 Using Postgres on Ubuntu </b>
+
+To start postgres run:
+```
+sudo -u postgres psql
+```
+<b> 1.3 Mac Installation </b>
+<br>
+Check out the following page to install Postgres for MacOS
+<br>
+https://www.postgresql.org/download/macosx/
+<br>
+<b> 1.4 Setup Postgres for Holoclean </b>
+
+Create the database and user by running the following on the Postgres console:
+```
+CREATE database holo;
+CREATE user holocleanuser;
+ALTER USER holocleanuser WITH PASSWORD 'abcd1234';
+GRANT ALL PRIVILEGES on database holo to holocleanUser ;
+\c holo
+ALTER SCHEMA public OWNER TO holocleanUser;
+```
+In general, to connect to the holo database run:
+```
+\c holo
+```
+HoloClean currently appends new tables to the database holo with each instance that is ran.
+To clear the database, open PSQL with holocleanUser and run:
+```
+drop database holo;
+create database holo;
+```
+
+Or alternatively use the function <b>reset_database()</b> function in the Holoclean class in holoclean/holoclean.py
+
+
+### 2. Install HoloClean Using Conda 
+
+#### 2.1. Install Conda
+
+##### 2.1.1 Ubuntu:
  <b>For 32 bit machines, run:</b>
  
  ```
@@ -34,11 +82,11 @@ This file will go through the steps needed to install the required packages and 
 wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh
 bash Anaconda-2.3.0-Linux-x86_64.sh
 ```
-<h4>1.2 MacOS: <h4>
+##### 2.1.2 MacOS:
 
 Follow instructions [here](https://conda.io/docs/user-guide/install/macos.html) to install Anaconda (Not miniconda) for MacOS
 
-<h4> 1.3 Using Conda </h4>
+#### 2.2 Create new Conda environment
 Open/Restart the terminal and create a Python 2.7 environment by running the command:
 
 	conda create -n py27Env python=2.7 anaconda
@@ -48,69 +96,42 @@ Then the environment can be activated by running:
 	source activate py27Env
 <b> Make sure to keep the environment activated for the rest of the installation process </b>
 
-### 2. Install Postgresql
-<b> 2.1 Ubuntu Installation: </b>
 
-Install Postgres by running:
-```
-sudo apt-get install postgresql postgresql-contrib
-```
-<br>
-<b> 2.2 Using Postgres on Ubuntu </b>
+### 3. Install HoloClean Using Virtualenv
 
-To start postgres run:
-```
-sudo -u postgres psql
-```
-<b> 2.3 Mac Installation </b>
-<br>
-Check out the following page to install Postgres for MacOS
-<br>
-https://www.postgresql.org/download/macosx/
-<br>
-<b> 2.4 Setup Postgres for Holoclean </b>
+If you are already familiar with Virtualenv please create a new environment with **Python 2.7** with your preferred virtualenv wrapper, e.g.:
 
-Create the database and user by running the following on the Postgres console:
-```
-CREATE database holo;
-CREATE user holocleanuser;
-ALTER USER holocleanuser WITH PASSWORD 'abcd1234';
-GRANT ALL PRIVILEGES on database holo to holocleanUser ;
-```
-To Connect to the holo database run:
-```
-\c holo
-```
-HoloClean currently appends new tables to the database holo with each instance that is ran.
-To clear the database, open PSQL with holocleanUser and run:
-```
-drop database holo;
-create database holo;
-```
+- [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (Bourne-shells)
+- [virtualfish](https://virtualfish.readthedocs.io/en/latest/) (fish-shell)
 
-Or alternatively use the function <b>reset_database()</b> function in the Session class in holoclean/holoclean.py
+Otherwise, continue with the instructions on installing Virtualenv below.
 
+#### 3.1 Install Virtualenv
 
+Install `Virtualenv` following the instructions from [their homepage](https://virtualenv.pypa.io/en/stable/installation/).
+For example install globally via pip:
 
+    $ [sudo] pip install virtualenv
 
-### 3. Installing Pytorch
+#### 3.2 Create a new Virtualenv environment
 
-Follow instructions for your OS at:
-http://pytorch.org/
-To install pytorch
-<br>
-make sure to use Python 2.7 for installation (the other settings can be left as default)
-<br>
-Make sure to install <b>version 0.3.0</b> or later
-<br>
+Create a new directory for your virtual environment with Python 2.7:
+
+    $ virtualenv --python=python2.7 py27Env
+
+Where `py27Env` is a folder, where all virtual environments will be stored and `python2.7` is a valid python executable.
+Activate the new `py27Env` envrionment with:
+
+    $ source bin/activate
+
+<b> Make sure to keep the environment activated for the rest of the installation process </b>
+
 
 ### 4. Installing Required Packages
 Again go to the repo's root directory directory and run:
 ```
 pip install -r python-package-requirement.txt
 ```
-
-
 
 ### 5. Install JDK 8
 <b> 5.1 For Ubuntu: </b>
@@ -133,6 +154,7 @@ Check if you have JDK 8 by running
 <br>
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
+
 ### 6. Install  Spark (MacOS only)
 
 To install Spark on MacOS run
@@ -145,6 +167,7 @@ After installation of spark, add a `SPARK_HOME` environment variable to your she
 your python path.
 
 ### 7. Getting Started
+
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
 To run the tutorials in Jupyter Notebook go to the root directory in the terminal and run

@@ -71,9 +71,9 @@ copyright = u'2018, Holoclean team'
 author = u'Holoclean team'
 
 # The short X.Y version
-version = u'0.1.0'
+version = u'0.1.1'
 # The full version, including alpha/beta/rc tags
-release = u'0.1.0'
+release = u'0.1.1'
 
 
 # Add any paths that contain templates here, relative to this directory.

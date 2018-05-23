@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from sys import exit
 from pyspark.sql.types import *
 from global_variables import GlobalVariables
 from utils.reader import Reader
