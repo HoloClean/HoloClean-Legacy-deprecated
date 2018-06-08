@@ -165,6 +165,7 @@ class DataEngine:
             self.holo_env.logger.error('Could not execute Query' + sql_query,
                                        exc_info=e)
             print "Could not execute Query ", sql_query, "Check log for info"
+            self.db_backend[1].abort()
             exit(5)
 
     def ingest_data(self, filepath, dataset):
