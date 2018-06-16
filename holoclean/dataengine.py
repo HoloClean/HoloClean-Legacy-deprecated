@@ -164,6 +164,7 @@ class DataEngine:
         except Exception as e:
             self.holo_env.logger.error('Could not execute Query' + sql_query,
                                        exc_info=e)
+            self.db_backend[1].rollback()
             print "Could not execute Query ", sql_query, "Check log for info"
             exit(5)
 
