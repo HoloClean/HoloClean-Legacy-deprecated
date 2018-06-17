@@ -18,7 +18,6 @@ class DataEngine:
 
         :param holo_env: HoloClean
            The HoloClean object from holoclean.py
-           module which contains all the connection information.
 
         """
 
@@ -164,16 +163,16 @@ class DataEngine:
         except Exception as e:
             self.holo_env.logger.error('Could not execute Query' + sql_query,
                                        exc_info=e)
-            print "Could not execute Query ", sql_query, "Check log for info"
+            print("Could not execute Query ", sql_query, "Check log for info")
             exit(5)
 
     def ingest_data(self, filepath, dataset):
         """
         Load data from a file to a dataframe and store it on the db
 
-        filepath : String
+        :param filepath : String
             File path of the .csv file for the dataset
-        dataset: DataSet
+        :param dataset: DataSet
             The DataSet object that holds the Session ID for HoloClean
 
         """

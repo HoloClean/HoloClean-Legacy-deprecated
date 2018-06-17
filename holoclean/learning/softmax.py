@@ -52,8 +52,7 @@ class LogReg(torch.nn.Module):
                  tie_init, tie_dc):
         """
         Constructor for our logistic regression
-        :param input_dim_non_dc: number of init + cooccur features
-        :param input_dim_dc: number of dc features
+        :param featurizers: a list of featurizer modules
         :param output_dim: number of classes
         :param tie_init: boolean, determines weight tying for init features
         :param tie_dc: boolean, determines weight tying for dc features
@@ -92,7 +91,7 @@ class LogReg(torch.nn.Module):
 
     def concat_weights(self):
         """
-        Reties the weight
+        Reties the weight tensor
         """
         for feature_index in range(0, len(self.weight_tensors)):
             if self.feature_id[feature_index] == 'SignalInit':
@@ -260,9 +259,7 @@ class SoftMax:
                     output_dim, tie_init=True, tie_DC=True):
         """
         Initializes the logreg part of our model
-        :param input_dim_non_dc: number of init + cooccur features
         :param featurizers: list of featurizers
-        :param input_dim_dc: number of dc features
         :param output_dim: number of classes
         :param tie_init: boolean to decide weight tying for init features
         :param tie_DC: boolean to decide weight tying for dc features
@@ -334,6 +331,7 @@ class SoftMax:
     def logreg(self, featurizers):
         """
         Trains our model on clean cells and predicts vals for clean cells
+        :param featurizers: a list of featurizer modules
         :return: predictions
         """
         n_examples, n_features, n_classes = self.X.size()
