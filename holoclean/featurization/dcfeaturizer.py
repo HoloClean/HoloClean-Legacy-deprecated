@@ -46,9 +46,9 @@ class SignalDC(Featurizer):
         """
         This method creates a list of all the relaxed DC's for a specific DC
 
-        :param dc_object: The dc object that we want to relax
+        :param dc_object: The Denial Constraint object that we want to relax
 
-        :return: A list of all relaxed DC's for dc_name
+        :return: A list of all relaxed DC's for dc_object
         """
         relax_dcs = []
         index_name = GlobalVariables.index_name
@@ -138,7 +138,7 @@ class SignalDC(Featurizer):
 
     def get_query(self, clean=1):
         """
-        Creates a list of strings for the queries that are used to create the
+        Creates a list of query strings that are used to create the
         DC Signals
 
         :param clean: shows if the method creates the feature table for the

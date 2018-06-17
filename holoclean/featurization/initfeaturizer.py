@@ -24,7 +24,7 @@ class SignalInit(Featurizer):
 
     def get_query(self, clean=1):
         """
-        Creates a string for the query that it is used to create the Initial
+        Creates a string for the query that is used to create the Initial
         Signal
 
         :param clean: shows if the method creates the feature table for the

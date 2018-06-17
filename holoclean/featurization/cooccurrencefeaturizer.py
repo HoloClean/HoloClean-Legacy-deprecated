@@ -35,7 +35,8 @@ class SignalCooccur(Featurizer):
 
     def insert_to_tensor(self, tensor, clean):
         """
-        Inserting co-occur data into tensor
+        Inserting co-occur data directly into tensor as we do not need to query
+        for the co-occurrence signal
 
         :param tensor: tensor object
         :param clean: The value that identifies if we are calculating feature
