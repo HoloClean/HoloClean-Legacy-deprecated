@@ -79,7 +79,7 @@ class SignalCooccur(Featurizer):
         """
         Adding co-occur feature
 
-        :param clean: shows if HoloClean is in training phase
+        :param clean: shows if HoloClean is in the training phase
 
         :return list
         """
