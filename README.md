@@ -79,7 +79,7 @@ If you do not have JDK 8, run the following command:
 sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 5.2 For MacOS </b>
+<b> 2.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
 
@@ -97,7 +97,7 @@ To install Spark on MacOS run
 brew install apache-spark
 ```
 
-After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
+After installation of spark, add a `SPARK_HOME` environment variable to your shell by running the set_env.sh script, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
 your python path.
 
 
@@ -107,7 +107,7 @@ In the python 2.7 environment of your choice (`conda`, `virtualenv`, etc.) `cd` 
 
 `python setup.py install`
 
-### 7. Getting Started
+### 5. Getting Started
 
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
