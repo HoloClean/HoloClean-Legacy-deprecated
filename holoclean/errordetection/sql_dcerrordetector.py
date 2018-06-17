@@ -10,7 +10,7 @@ __metaclass__ = type
 class SqlDCErrorDetection(ErrorDetection):
     """
     This class is a subclass of ErrorDetection class and
-    will returns don't know cells and clean cells based on the
+    will return noisy (don't know) cells and clean cells based on the
     denial constraints
     """
 
@@ -49,8 +49,8 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def _get_noisy_cells_for_dc(self, dc_name):
         """
-        Returns a dataframe that consist of index of noisy cells index and
-        attribute
+        Returns a dataframe that consist of indexes and attributes
+        of noisy cells
 
         :param dc_name: denial constraint
         :return: spark_dataframe
@@ -137,8 +137,8 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def _get_sym_noisy_cells_for_dc(self, dc_name):
         """
-        Returns a dataframe that consists of index of noisy cells index,
-        attribute
+        Returns a dataframe that consists of indexes and attributes
+        of noisy cells
 
         :param dc_name: denial constraint
         :return: spark_dataframe
@@ -218,8 +218,8 @@ class SqlDCErrorDetection(ErrorDetection):
     # Getters
     def get_noisy_cells(self):
         """
-        Returns a dataframe that consists of index of noisy cells index,
-         attribute
+        Returns a dataframe that consists of indexes and attributes
+        of noisy cells
 
         :return: spark_dataframe
         """
@@ -238,8 +238,8 @@ class SqlDCErrorDetection(ErrorDetection):
 
     def get_clean_cells(self):
         """
-        Returns a dataframe that consists of index of clean cells index,
-         attribute
+        Returns a dataframe that consists of indexes and attributes
+        of clean cells
 
         :return: spark dataframe
         """

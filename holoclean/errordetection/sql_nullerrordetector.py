@@ -9,13 +9,13 @@ __metaclass__ = type
 class SqlnullErrorDetection(ErrorDetection):
     """
     This class is a subclass of the error detection class and
-    will returns don't know cells and clean cells based on if
-    they have null value
+    will returns noisy (don't know) cells and clean cells based
+    on if they have null value
     """
 
     def __init__(self, session):
         """
-        Initialize the error detection for null detection
+        Initializes the error detection for null detection
 
         :param session: Holoclean session
         """
@@ -28,8 +28,8 @@ class SqlnullErrorDetection(ErrorDetection):
     # Getters
     def get_noisy_cells(self):
         """
-        Returns a dataframe that consists of index of noisy cells index,
-         attribute
+        Returns a dataframe that consists of indexes and attributes
+        of noisy cells
 
         :return: spark_dataframe
         """
@@ -46,7 +46,7 @@ class SqlnullErrorDetection(ErrorDetection):
 
     def discovering_cells_with_null_values(self):
         """
-        Adds to C_dk_temp_null table all the cells that are NULL
+        Adds all the cells that are NULL to C_dk_temp_null table
         """
 
         all_attr = self.session.dataset.get_schema('Init')
@@ -72,8 +72,8 @@ class SqlnullErrorDetection(ErrorDetection):
 
     def get_clean_cells(self):
         """
-        Returns a dataframe that consists of index of clean cells index,
-        attribute
+        Returns a dataframe that consists of indexes and attributes
+        of clean cells
 
         :return: spark dataframe
         """
