@@ -79,7 +79,7 @@ If you do not have JDK 8, run the following command:
 sudo apt-get install openjdk-8-jre
 ```
 <br>
-<b> 5.2 For MacOS </b>
+<b> 2.2 For MacOS </b>
 <br>
 Check if you have JDK 8 by running
 
@@ -107,7 +107,7 @@ In the python 2.7 environment of your choice (`conda`, `virtualenv`, etc.) `cd` 
 
 `python setup.py install`
 
-### 7. Getting Started
+### 5. Getting Started
 
 To get started, the following tutorials in the tutorial directory will get you familiar with the HoloClean framework
 <br>
