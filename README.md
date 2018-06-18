@@ -89,7 +89,18 @@ Check if you have JDK 8 by running
 If you do not have JDK 8, download and install JDK 8 for MacOS from the oracle website: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 
-### 3. Install  Spark (MacOS only)
+### 3. Install  Spark 
+
+<b>3.1 For Ubuntu</b>
+
+To install Spark on Ubuntu first download the `.tgz` from https://spark.apache.org/downloads.html and then run
+
+`tar xvf spark-2.0.2-bin-hadoop2.7.tgz`
+
+and put the resulting directory at the location `/usr/local/spark`. You will also want to put `/usr/local/spark/bin` in your path, and set  the environment variable `SPARK_HOME=/usr/local/spark`.
+
+
+<b> 3.2 For MacOS </b>
 
 To install Spark on MacOS run
 
@@ -97,8 +108,7 @@ To install Spark on MacOS run
 brew install apache-spark
 ```
 
-After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
-your python path.
+After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to your python path.
 
 
 ### 4. Install HoloClean
