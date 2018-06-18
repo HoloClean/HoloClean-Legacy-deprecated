@@ -4,12 +4,58 @@ from pyspark.sql.types import StructField, StructType, StringType, IntegerType, 
 
 class Dataset:
     """
-    This class keep the name of tables in Holoclean project
+    This class keeps the name of tables in Holoclean project
     """
 
     def __init__(self):
         """
-                The constructor for Dataset class
+        Each element in attributes stands for some data that the holoclean
+         needs to create:
+            id : unique id for the dataset and it will be used in
+             registering and retrieving data
+            Init : initial data that get to the database from a file
+             that user gives
+            C_clean : table with index of clean cells
+            C_dk : table of indices that we don't know if they
+             are noisy or clean
+            C_dk_temp : table of indices that we don't know if they
+             are noisy or clean based on the dcs
+            C_dk_temp_null : table of indices that we don't know if they
+             are noisy or clean based on the null cells
+            T1_attributes:  attributes of the first tuple in dc grounding
+            T2_attributes:  attributes of the second tuple in dc grounding
+            Possible_values: table of all possible values for the
+             do not know cells
+            Observed_Possible_values_clean : table with the observed
+             values for the clean cells
+            Observed_Possible_values_dk : table with the observed
+             values for the do not know cells
+            C_clean_flat: table for the clean cells that are
+             flatted on three columns (index, attribute, and value)
+            C_dk_flat: table for the dk cells that are flatted
+             on three columns (index, attribute, and value)
+            Kij_lookup: table with the cardinality of the
+             domain for each cell
+            Init_join: self join of init table
+            Map_schema: table with the schema of the Init table
+            Init_flat_join: self join of C_clean_flat table
+            Init_flat_join_dk: self join of C_dk_flat table
+            Feature_id_map: table that maps each feature to a number
+            Sources: table that maps each source to a number
+            Sources_temp: temporary table for saving the sources
+            Attribute_temp: temporary table for saving the attributes
+            Dimensions_clean: table with the dimensions for the
+             X tensor for training
+            Dimensions_dk: table with the dimensions for the
+             X tensor for learning
+            Inferred_values: table with the inferred values
+            Repaired_dataset: dataset table after we apply
+             repairs to initial data
+            Correct: table with the correct values for our dataset
+            Correct_flat: table with the correct data that
+             are flatted on three columns (index, attribute, and value)
+            Feature: table with feature value for each random variable
+            and assigned value
         """
         self.attribute = {}
         self.schema = ""
@@ -126,13 +172,13 @@ class Dataset:
 
     def table_specific_name(self, table_general_name):
         """
-        Returning the name of the table for this dataset
+        Returns the name of the table for this dataset
 
         :param table_general_name: String
                 This the general name of table
 
         :return: String
-                Specific name correspond to table general name
+                Specific name corresponding to table general name
         """
         return table_general_name + "_" + self.return_id()
 

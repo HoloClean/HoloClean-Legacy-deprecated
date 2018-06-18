@@ -239,6 +239,7 @@ class HoloClean:
         conf.set("spark.driver.extraClassPath",
                  self.holoclean_path + "/" + self.pg_driver)
 
+        # Some configurations that help Spark works on large datasets
         conf.set('spark.driver.memory', '20g')
         conf.set('spark.executor.memory', '20g')
         conf.set("spark.network.timeout", "6000")
@@ -247,6 +248,8 @@ class HoloClean:
         conf.set("spark.driver.maxResultSize", '70g')
         conf.set("spark.ui.showConsoleProgress", "false")
 
+        # This parameter path a spark cluster that holoclean can run on it
+        # otherwise it run on local machine default master
         if self.spark_cluster:
             conf.set("spark.master", self.spark_cluster)
 
@@ -361,6 +364,7 @@ class Session:
         if index < 0 or index >= len(self.Denial_constraints):
             raise IndexError("Given Index Out Of Bounds")
 
+        # This part remove the denial constrant at index
         self.dc_objects.pop(self.Denial_constraints[index])
         return self.Denial_constraints.pop(index)
 
