@@ -310,7 +310,9 @@ class Session:
         self._ingest_dataset(file_path)
 
         init = self.init_dataset
-
+        self.schema_types = {}
+        for field in init.schema.fields:
+            self.schema_types[field.name] = field.dataType
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
@@ -895,9 +897,12 @@ class Session:
         if value_predictions:
             for j in range(len(value_predictions)):
                 tid = value_predictions[j]['tid'] - 1
-                column = attribute_map[value_predictions[j]['attr_name']]
+                column_name = value_predictions[j]['attr_name']
+                column = attribute_map[column_name]
+                pyspark_type = self.schema_types[column_name]
+                python_type = self.dataset.type_dict[pyspark_type.simpleString()]
                 corrected_dataset[tid][column] =\
-                    value_predictions[j]['attr_val']
+                    python_type(value_predictions[j]['attr_val'])
 
         correct_dataframe = \
             self.holo_env.spark_sql_ctxt.createDataFrame(
