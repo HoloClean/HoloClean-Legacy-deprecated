@@ -184,7 +184,7 @@ class DataEngine:
         df = filereader.read(filepath,1)
 
         # Store dataframe to DB table
-        schema = df.schema.names
+        schema = df.schema
         name_table = dataset.table_specific_name('Init')
         self.dataframe_to_table(name_table, df)
         dataset.attributes['Init'] = schema

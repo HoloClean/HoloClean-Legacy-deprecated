@@ -191,4 +191,4 @@ class Dataset:
         :return: list of string if table
         """
 
-        return list(self.attributes[table_name])
+        return list(self.attributes[table_name].names)

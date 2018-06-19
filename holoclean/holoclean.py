@@ -847,14 +847,14 @@ class Session:
         init = self.init_dataset.collect()
         attribute_map = {}
         index = 0
-        for attribute in self.dataset.attributes['Init']:
+        for attribute in self.dataset.attributes['Init'].names:
             attribute_map[attribute] = index
             index += 1
         corrected_dataset = []
 
         for i in range(len(init)):
             row = []
-            for attribute in self.dataset.attributes['Init']:
+            for attribute in self.dataset.attributes['Init'].names:
                 row.append(init[i][attribute])
             corrected_dataset.append(row)
 

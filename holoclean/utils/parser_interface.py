@@ -146,7 +146,7 @@ class Predicate:
                   predicate_string[i + 1] == ')') and \
                     predicate_string[i] != "'":
 
-                if str_so_far in self.schema:
+                if str_so_far in self.schema.names:
                     current_component.append(str_so_far)
                     str_so_far = ""
                     components.append(current_component)

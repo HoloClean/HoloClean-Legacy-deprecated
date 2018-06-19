@@ -67,7 +67,7 @@ class CSVReader:
         :return: pyspark dataframe
         """
         if schema is None:
-            df = spark_session.read.csv(file_path, header=True)
+            df = spark_session.read.csv(file_path, inferSchema=True, header=True)
         else:
             df = spark_session.read.csv(file_path, header=True, schema=schema)
 
