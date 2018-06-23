@@ -63,6 +63,7 @@ class DataEngine:
             self.holo_env.logger.\
                 error('No connection to data database', exc_info=e)
             print("No connection to data database")
+            exit(1)
 
         cur = conn.cursor()
         return cur, conn
