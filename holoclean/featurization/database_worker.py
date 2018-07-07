@@ -107,6 +107,7 @@ class PopulateTensor(Thread):
     def __init__(self, table_name, X_tensor, session):
         """
         Constructor for populate tensor
+
         :param table_name: string to refer accessed table
         :param X_tensor: tensor for input data into the model
         :param session: session object
@@ -153,13 +154,14 @@ class PopulateTensor(Thread):
 
 class RunQuery(Thread):
     """
-    RunQuery will just take in a query to run on a separate Thread
+    RunQuery will take in a query to run on a separate Thread
     """
     __lock = Lock()
 
     def __init__(self, query, session):
         """
         Constructor for running the queries inside threads
+
         :param query: given query
         :param session: session object
         """

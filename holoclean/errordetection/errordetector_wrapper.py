@@ -14,9 +14,9 @@ class ErrorDetectorsWrapper:
     def get_noisy_dknow_dataframe(self):
 
         """
-        Returns tuple of noisy cells and clean cells dataframes
+        Returns tuple of noisy (don't know) cells and clean cells dataframes
 
-        :return:  don't know cells
+        :return:  noisy (i.e. don't know) cells
         :return:  clean cells
         """
 

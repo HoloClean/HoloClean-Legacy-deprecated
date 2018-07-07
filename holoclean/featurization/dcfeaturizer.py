@@ -14,10 +14,10 @@ class SignalDC(Featurizer):
     def __init__(self, denial_constraints, session):
 
         """
-        Initializing dc signal object
+        Initializing DC signal object
 
         :param denial_constraints: list of denial_constraints
-        :param session: a Holoclean session
+        :param session: session object
         """
 
         super(SignalDC, self).__init__(session)
@@ -136,14 +136,13 @@ class SignalDC(Featurizer):
 
         return relax_dcs
 
-    def get_query(self, clean=1, dcquery_prod=None):
+    def get_query(self, clean=1):
         """
         Creates a list of strings for the queries that are used to create the
         DC Signals
 
-        :param clean: shows if we create the feature table for the clean or the
-        dk cells
-        :param dcquery_prod: a thread that we will produce the final queries
+        :param clean: shows if the method creates the feature table for the
+        clean or the dk cells
 
         :return a list of strings for the queries for this feature
         """

@@ -27,8 +27,8 @@ class SignalInit(Featurizer):
         Creates a string for the query that it is used to create the Initial
         Signal
 
-        :param clean: shows if create the feature table for the clean or
-        the don't know cells
+        :param clean: shows if the method creates the feature table for the
+        clean or the don't know cells
 
         :return a list of length 1 with a string with the query
         for this feature

@@ -18,7 +18,6 @@ class Featurizer:
         self.dataengine = session.holo_env.dataengine
         self.dataset = session.dataset
 
-        # Replacing this variable with a list of factors
         # if the Signal creates a dataframe instead of using SQL
         self.direct_insert = False
 
