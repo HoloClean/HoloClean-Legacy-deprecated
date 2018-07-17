@@ -59,12 +59,13 @@ class SignalDC(Featurizer):
             full_form_components = \
                 predicate.cnf_form.split(predicate.operation)
             if not isinstance(component1, str):
+                psql_type = self.dataset.sql_type_dict[self.session.schema_types[component1[1]].simpleString()]
                 self.attributes_list.append(component1[1])
                 relax_dc = "postab.tid = " + component1[0] + \
                            "." + index_name + " AND " + \
                            "postab.attr_name = '" + component1[1] + \
-                           "' AND " + "postab.attr_val"   \
-                           + predicate.operation + \
+                           "' AND " + "CAST(postab.attr_val AS " + psql_type  \
+                           + ") " + predicate.operation + \
                            full_form_components[1]
 
                 if len(dc_object.tuple_names) > 1:
@@ -98,13 +99,15 @@ class SignalDC(Featurizer):
                 relax_dcs.append([relax_dc, dc_object.tuple_names])
 
             if not isinstance(component2, str):
+                psql_type = self.dataset.sql_type_dict[self.session.schema_types[component1[1]].simpleString()]
                 self.attributes_list.append(component2[1])
                 relax_dc = "postab.tid = " + component2[0] +\
                            "." + index_name + " AND " + \
                            "postab.attr_name ='" + component2[1] +\
                            "' AND " + full_form_components[0] + \
                            predicate.operation + \
-                           "postab.attr_val"
+                           "CAST(postab.attr_val AS " + psql_type  \
+                           + ") "
                 if len(dc_object.tuple_names) > 1:
                     if isinstance(component1, list) and isinstance(
                             component2, list):

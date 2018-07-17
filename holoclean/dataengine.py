@@ -184,7 +184,7 @@ class DataEngine:
         df = filereader.read(filepath,1)
 
         # Store dataframe to DB table
-        schema = df.schema.names
+        schema = df.schema
         name_table = dataset.table_specific_name('Init')
         self.dataframe_to_table(name_table, df)
         dataset.attributes['Init'] = schema
@@ -245,7 +245,11 @@ class DataEngine:
                         GlobalVariables.index_name:
 
                     create_table = create_table + "INT,"
+                elif dataframe.schema.fields[i].dataType == LongType()\
+                        or dataframe.schema.names[i] == \
+                        GlobalVariables.index_name:
 
+                    create_table = create_table + "BIGINT,"
                 elif dataframe.schema.fields[i].dataType == DoubleType() \
                         or dataframe.schema.names[i] == \
                         GlobalVariables.index_name:

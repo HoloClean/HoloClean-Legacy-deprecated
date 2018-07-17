@@ -1,5 +1,5 @@
 import random
-from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType, LongType, FloatType
 
 
 class Dataset:
@@ -57,6 +57,21 @@ class Dataset:
             Feature: table with feature value for each random variable
             and assigned value
         """
+        # holds casting information to cast from pyspark datatype to python types
+        self.type_dict = {
+            IntegerType().simpleString(): int,
+            StringType().simpleString(): unicode,
+            DoubleType().simpleString(): float,
+            LongType().simpleString(): int,
+            FloatType().simpleString(): float
+        }
+        self.sql_type_dict = {
+            IntegerType().simpleString(): 'INTEGER',
+            StringType().simpleString(): 'VARCHAR(255)',
+            DoubleType().simpleString(): 'DOUBLE PRECISION',
+            LongType().simpleString(): 'BIGINT',
+            FloatType().simpleString(): 'REAL'
+        }
         self.attribute = {}
         self.schema = ""
         self.dataset_tables_specific_name = []
@@ -191,4 +206,4 @@ class Dataset:
         :return: list of string if table
         """
 
-        return list(self.attributes[table_name])
+        return list(self.attributes[table_name].names)
