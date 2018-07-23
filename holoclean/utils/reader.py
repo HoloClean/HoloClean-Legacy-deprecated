@@ -10,13 +10,14 @@ class Reader:
     Finds the extension of the file and calls the appropriate reader
     """
 
-    def __init__(self, spark_session):
+    def __init__(self, holo_object):
         """
         Constructing reader object
 
-        :param spark_session: The spark_session we created in Holoclean object
+        :param holo_object: Holoclean object
         """
-        self.spark_session = spark_session
+        self.holo_object = holo_object
+        self.spark_session = holo_object.spark_session
 
     # Internal Methods
     def _findextesion(self, filepath):
@@ -39,7 +40,7 @@ class Reader:
 
         """
         if self._findextesion(filepath) == "csv":
-            csv_obj = CSVReader()
+            csv_obj = CSVReader(self.holo_object)
             df = csv_obj.read(filepath, self.spark_session, indexcol, schema)
             return df
         else:
@@ -51,8 +52,14 @@ class CSVReader:
     CSVReader class: Reads a csv file and send its content back
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, holo_object):
+        """
+        Constructing csvreader object
+
+        :param holo_object: Holoclean object
+        """
+
+        self.holo_obj = holo_object
 
     # Setters
     def read(self, file_path, spark_session, indexcol=0, schema=None):
@@ -66,13 +73,18 @@ class CSVReader:
 
         :return: dataframe
         """
-        if schema is None:
-            df = spark_session.read.csv(file_path, header=True)
-        else:
-            df = spark_session.read.csv(file_path, header=True, schema=schema)
+        try:
+            if schema is None:
+                df = spark_session.read.csv(file_path, header=True)
+            else:
+                df = spark_session.read.csv(file_path, header=True, schema=schema)
 
-        if indexcol == 0:
-            return df
+            if indexcol == 0:
+                return df
+        except Exception as e:
+            self.holo_obj.logger.info("File not found")
+            print("File not found")
+            exit(1)
 
         index_name = GlobalVariables.index_name
 

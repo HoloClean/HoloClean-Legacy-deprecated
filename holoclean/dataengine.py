@@ -62,6 +62,7 @@ class DataEngine:
         except Exception as e:
             self.holo_env.logger.\
                 error('No connection to data database', exc_info=e)
+            print("No connection to data database")
             exit(1)
 
         cur = conn.cursor()
@@ -179,7 +180,7 @@ class DataEngine:
         """
 
         # Spawn new reader and load data into dataframe
-        filereader = Reader(self.holo_env.spark_session)
+        filereader = Reader(self.holo_env)
 
         # read with an index column
         df = filereader.read(filepath,1)
