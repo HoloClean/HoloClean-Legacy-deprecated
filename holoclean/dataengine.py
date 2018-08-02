@@ -168,22 +168,31 @@ class DataEngine:
             print "Could not execute Query ", sql_query, "Check log for info"
             exit(5)
 
-    def ingest_data(self, filepath, dataset):
+    def ingest_data(self, filepath, dataset, sep=None, escape=None, multiLine=None):
         """
-        Load data from a file to a dataframe and store it on the db
+        Load data from a file to a dataframe and store it on the db.
+
+        The named parameters `sep`, `escape`, `multiLine`
+        correspond to those for `pyspark.sql.DataFrameReader.csv`.
 
         filepath : String
             File path of the .csv file for the dataset
         dataset: DataSet
             The DataSet object that holds the Session ID for HoloClean
-
+        sep : String
+            Single character used as a field separator
+        escape : String
+            Single character used for escaping quoted values
+        multiLine : boolean
+            Parse records that span multiple lines
         """
 
         # Spawn new reader and load data into dataframe
         filereader = Reader(self.holo_env.spark_session)
 
         # read with an index column
-        df = filereader.read(filepath,1)
+        df = filereader.read(filepath, indexcol=1, sep=sep,
+                             escape=escape, multiLine=multiLine)
 
         # Store dataframe to DB table
         schema = df.schema.names
