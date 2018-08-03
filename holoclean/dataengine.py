@@ -188,7 +188,7 @@ class DataEngine:
         """
 
         # Spawn new reader and load data into dataframe
-        filereader = Reader(self.holo_env.spark_session)
+        filereader = Reader(self.holo_env)
 
         # read with an index column
         df = filereader.read(filepath, indexcol=1, sep=sep,
