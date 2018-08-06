@@ -91,11 +91,11 @@ class CSVReader:
         try:
             if schema is None:
                 df = spark_session.read.csv(file_path, header=True, sep=sep,
-                                            escape=escape, multiLine=multiLine))
+                                            escape=escape, multiLine=multiLine)
             else:
                 df = spark_session.read.csv(file_path, header=True, schema=schema,
                                             sep=sep, escape=escape,
-                                            multiLine=multiLine))
+                                            multiLine=multiLine)
 
             if indexcol == 0:
                 return df
