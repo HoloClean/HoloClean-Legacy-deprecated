@@ -20,28 +20,37 @@ class Reader:
         self.spark_session = holo_object.spark_session
 
     # Internal Methods
-    def _findextesion(self, filepath):
+    def _findextension(self, filepath):
         """
-        Finds the extesion of the file.
+        Finds the extension of the file.
 
         :param filepath: The path to the file
         """
-        extention = filepath.split('.')[-1]
-        return extention
+        extension = filepath.split('.')[-1]
+        return extension
 
-    def read(self, filepath, indexcol=0, schema=None):
+    def read(self, filepath, indexcol=0, schema=None, sep=None,
+             escape=None, multiLine=None):
         """
         Calls the appropriate reader for the file
 
+        The named parameters `schema`, `sep`, `escape`, `multiLine`
+        correspond to those for `pyspark.sql.DataFrameReader.csv`.
+
         :param schema: optional schema when known
         :param filepath: The path to the file
+        :param sep: Single character used as a field separator
+        :param escape: Single character used for escaping quoted values
+        :param multiLine: Parse records that span multiple lines
 
         :return: data frame of the read data
 
         """
-        if self._findextesion(filepath) == "csv":
+        if self._findextension(filepath) == "csv":
             csv_obj = CSVReader(self.holo_object)
-            df = csv_obj.read(filepath, self.spark_session, indexcol, schema)
+            df = csv_obj.read(filepath, self.spark_session, indexcol, schema,
+                              sep=sep, escape=escape, multiLine=multiLine)
+
             return df
         else:
             print("This extension doesn't support")
@@ -62,22 +71,31 @@ class CSVReader:
         self.holo_obj = holo_object
 
     # Setters
-    def read(self, file_path, spark_session, indexcol=0, schema=None):
+    def read(self, file_path, spark_session, indexcol=0, schema=None, sep=None, escape=None, multiLine=None):
         """
-        Creates a dataframe from the csv file
+        Creates a dataframe from the csv file.
+
+        The named parameters `schema`, `sep`, `escape`, `multiLine`
+        correspond to those for `pyspark.sql.DataFrameReader.csv`.
 
         :param indexcol: if 1, create a tuple id column as auto increment
         :param schema: optional schema of file if known
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
+        :param sep: Single character used as a field separator
+        :param escape: Single character used for escaping quoted values
+        :param multiLine: Parse records that span multiple lines
 
         :return: dataframe
         """
         try:
             if schema is None:
-                df = spark_session.read.csv(file_path, header=True)
+                df = spark_session.read.csv(file_path, header=True, sep=sep,
+                                            escape=escape, multiLine=multiLine)
             else:
-                df = spark_session.read.csv(file_path, header=True, schema=schema)
+                df = spark_session.read.csv(file_path, header=True, schema=schema,
+                                            sep=sep, escape=escape,
+                                            multiLine=multiLine)
 
             if indexcol == 0:
                 return df
@@ -128,7 +146,7 @@ class CSVReader:
             dataframe = self.ignore_columns(columns, dataframe)
         return dataframe
 
-    def ignore_columns(self,  columns, dataframe):
+    def ignore_columns(self, columns, dataframe):
         """
         This method asks the user if he wants to drop a column which has a
         string with more than 255 characters

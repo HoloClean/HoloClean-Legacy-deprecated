@@ -293,18 +293,26 @@ class Session:
         self.inferred_values = None
         self.feature_count = 0
 
-    def load_data(self, file_path):
+    def load_data(self, file_path, sep=None, escape=None,
+                  multiLine=None):
         """
-        Loads a dataset from file into the database
+        Loads a dataset from file into the database.
+
+        The named parameters `sep`, `escape`, `multiLine`
+        correspond to those for `pyspark.sql.DataFrameReader.csv`.
 
         :param file_path: path to data file
+        :param sep: Single character used as a field separator
+        :param escape: Single character used for escaping quoted values
+        :param multiLine: Parse records that span multiple lines
 
         :return: pyspark dataframe
         """
         if self.holo_env.verbose:
             start = time.time()
 
-        self._ingest_dataset(file_path)
+        self._ingest_dataset(file_path, sep=sep, escape=escape,
+                             multiLine=multiLine)
 
         init = self.init_dataset
 
@@ -516,17 +524,25 @@ class Session:
         acc = Accuracy(self, truth_path)
         acc.accuracy_calculation()
 
-    def _ingest_dataset(self, src_path):
+    def _ingest_dataset(self, src_path, sep=None, escape=None,
+                        multiLine=None):
         """
-        Ingests a dataset from given source path
+        Ingests a dataset from given source path.
+
+        The named parameters `sep`, `escape`, `multiLine`
+        correspond to those for `pyspark.sql.DataFrameReader.csv`.
 
         :param src_path: string literal of path to the .csv file of the dataset
+        :param sep: Single character used as a field separator
+        :param escape: Single character used for escaping quoted values
+        :param multiLine: Parse records that span multiple lines
 
         :return: Null
         """
         self.holo_env.logger.info('ingesting file:' + src_path)
         self.init_dataset, self.attribute_map = \
-            self.holo_env.dataengine.ingest_data(src_path, self.dataset)
+            self.holo_env.dataengine.ingest_data(src_path, self.dataset,
+                                                 sep=sep, escape=escape, multiLine=multiLine)
         self.holo_env.logger.info(
             'creating dataset with id:' +
             self.dataset.print_id())
