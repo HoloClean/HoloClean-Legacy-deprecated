@@ -35,7 +35,7 @@ class Testing:
 
         t1 = time.time()
 
-        dataset = "data/hospital_type.csv"
+        dataset = "data/hospital.csv"
         print("using dataset: {}".format(dataset))
         denial_constraints = "data/hospital_constraints.txt"
         print("using denial_constraints: {}".format(denial_constraints))
