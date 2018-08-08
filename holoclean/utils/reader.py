@@ -66,13 +66,19 @@ class CSVReader:
 
         :return: pyspark dataframe
         """
-        if schema is None:
-            df = spark_session.read.csv(file_path, inferSchema=True, header=True)
-        else:
-            df = spark_session.read.csv(file_path, header=True, schema=schema)
+        try:
+            if schema is None:
+                df = spark_session.read.csv(file_path, inferSchema=True,
+                                            header=True)
+            else:
+                df = spark_session.read.csv(file_path, header=True, schema=schema)
 
-        if indexcol == 0:
-            return df
+            if indexcol == 0:
+                return df
+        except Exception as e:
+            self.holo_obj.logger.info("File not found")
+            print("File not found")
+            exit(1)
 
         index_name = GlobalVariables.index_name
 
