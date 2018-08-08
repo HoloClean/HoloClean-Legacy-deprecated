@@ -207,3 +207,14 @@ class Dataset:
         """
 
         return list(self.attributes[table_name].names)
+
+    def get_schema_structure(self, table_name):
+        """
+        Returns a copy of  attributes for the given table_name
+
+        :param table_name: Name of the table
+
+        :return: StructType of attribute
+        """
+
+        return self.attributes[table_name]

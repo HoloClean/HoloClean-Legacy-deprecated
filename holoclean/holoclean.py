@@ -347,7 +347,7 @@ class Session:
 
         :return: string array of dc's
         """
-        dc_object = DenialConstraint(dc, self.dataset.get_schema("Init"))
+        dc_object = DenialConstraint(dc, self.dataset.get_schema_structure("Init"))
         self.Denial_constraints.append(dc)
         self.dc_objects[dc] = dc_object
         return self.Denial_constraints
