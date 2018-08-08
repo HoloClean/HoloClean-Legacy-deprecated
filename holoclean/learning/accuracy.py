@@ -178,7 +178,7 @@ class Accuracy:
         Takes as argument the full path name of the csv file
         and the spark_session
         """
-        filereader = Reader(self.spark_session)
+        filereader = Reader(self.session.holo_env)
 
         groundtruth_schema = StructType([
             StructField("tid", IntegerType(), False),
