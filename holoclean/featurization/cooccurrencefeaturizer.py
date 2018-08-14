@@ -35,10 +35,11 @@ class SignalCooccur(Featurizer):
 
     def insert_to_tensor(self, tensor, clean):
         """
-        Inserting co-occur data into tensor
+        Inserting co-occur data directly into tensor as we do not need to query
+        for the co-occurrence signal
 
         :param tensor: tensor object
-        :param clean: Nat value that identifies if we are calculating feature
+        :param clean: The value that identifies if we are calculating feature
         value for training data (clean cells) or testing data
 
         :return: None
@@ -79,8 +80,7 @@ class SignalCooccur(Featurizer):
         """
         Adding co-occur feature
 
-        :param clean: shows if create the feature table for the clean or the dk
-         cells
+        :param clean: shows if HoloClean is in the training phase
 
         :return list
         """

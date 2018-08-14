@@ -153,8 +153,8 @@ class Pruning:
 
         :param original_attribute: the name of first attribute
         :param original_attr_value: the initial value of the first attribute
-        :param cooccured_attribute: the name of second attribute
-        :param cooccured_attr_value: the initial value of the second attribute
+        :param cooccurred_attribute: the name of second attribute
+        :param cooccurred_attr_value: the initial value of the second attribute
 
         :return: probability
         """
@@ -184,8 +184,7 @@ class Pruning:
 
     def _find_dk_domain(self, assignment, trgt_attr):
         """
-        This method finds the domain for each dirty cell for inference
-
+        This method finds the domain for each dirty cell for inference and saves into a dictionary
 
         :param assignment: the values for every attribute
         :param trgt_attr: the name of attribute
@@ -350,7 +349,7 @@ class Pruning:
 
     def _generate_coocurences(self):
         """
-        This method creates all value of co-occurences
+        This method saves all cooccurrence values into the cooccurrence_lookup dictionary
 
         :return: Null
         """
@@ -404,7 +403,7 @@ class Pruning:
 
             # assignment is a dictionary for each cell copied
             # the row of that cell
-            # with all attribute to find the cooccurance
+            # with all attribute to find the cooccurrence
             assignment = {}
             for cid in self.cellvalues[tplid]:
                 c = self.cellvalues[tplid][cid]
@@ -458,7 +457,8 @@ class Pruning:
 
     def _create_dataframe(self):
         """
-        Creates spark dataframes from cell_domain for all the cells
+        Uses the cell domains of each ranto create possible values dataframe then saves the dataframe
+        into a Postgres Table
 
         :return: Null
         """

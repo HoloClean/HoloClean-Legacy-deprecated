@@ -16,7 +16,9 @@ setup(
     author_email='contact@holoclean.io',
     license='Apache License 2.0',
     url='http://www.holoclean.io/',
-    packages=['holoclean'],
+    packages=['holoclean', 'holoclean.utils', 'holoclean.learning',
+              'holoclean.lib', 'holoclean.errordetection',
+              'holoclean.featurization'],
     install_requires=[
         'ipython==5.6.0',
         'jupyter==1.0.0',
@@ -32,6 +34,7 @@ setup(
         'tqdm==4.20.0',
         'scipy==1.0.1',
         'Pandas==0.20.3'
-    ]
+    ],
+    include_package_data=True
 )
 

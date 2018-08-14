@@ -36,7 +36,7 @@ class Reader:
         :param schema: optional schema when known
         :param filepath: The path to the file
 
-        :return: data frame of the read data
+        :return: dataframe of the read data
 
         """
         if self._findextesion(filepath) == "csv":
@@ -49,7 +49,7 @@ class Reader:
 
 class CSVReader:
     """
-    CSVReader class: Reads a csv file and send its content back
+    CSVReader class: Reads a csv file and send its content back in a pyspark dataframe
     """
 
     def __init__(self, holo_object):
@@ -67,15 +67,16 @@ class CSVReader:
         Creates a dataframe from the csv file
 
         :param indexcol: if 1, create a tuple id column as auto increment
-        :param schema: optional schema of file if known
         :param spark_session: The spark_session we created in Holoclean object
         :param file_path: The path to the file
+        :param schema: optional schema of file if known
 
-        :return: dataframe
+        :return: pyspark dataframe
         """
         try:
             if schema is None:
-                df = spark_session.read.csv(file_path, header=True)
+                df = spark_session.read.csv(file_path, inferSchema=True,
+                                            header=True)
             else:
                 df = spark_session.read.csv(file_path, header=True, schema=schema)
 
@@ -110,7 +111,7 @@ class CSVReader:
 
     def checking_string_size(self, dataframe):
         """
-        This method checks if the dataframe has  columns with strings with more
+        This method checks if the dataframe has columns with strings with more
         than 255 characters
 
         :param dataframe:  the initial dataframe

@@ -239,6 +239,7 @@ class HoloClean:
         conf.set("spark.driver.extraClassPath",
                  self.holoclean_path + "/" + self.pg_driver)
 
+        # Some configurations that help Spark works on large datasets
         conf.set('spark.driver.memory', '20g')
         conf.set('spark.executor.memory', '20g')
         conf.set("spark.network.timeout", "6000")
@@ -247,6 +248,8 @@ class HoloClean:
         conf.set("spark.driver.maxResultSize", '70g')
         conf.set("spark.ui.showConsoleProgress", "false")
 
+        # This parameter path a spark cluster that holoclean can run on it
+        # otherwise it run on local machine default master
         if self.spark_cluster:
             conf.set("spark.master", self.spark_cluster)
 
@@ -307,7 +310,9 @@ class Session:
         self._ingest_dataset(file_path)
 
         init = self.init_dataset
-
+        self.schema_types = {}
+        for field in init.schema.fields:
+            self.schema_types[field.name] = field.dataType
         if self.holo_env.verbose:
             end = time.time()
             log = 'Time to Load Data: ' + str(end - start) + '\n'
@@ -342,7 +347,7 @@ class Session:
 
         :return: string array of dc's
         """
-        dc_object = DenialConstraint(dc, self.dataset.get_schema("Init"))
+        dc_object = DenialConstraint(dc, self.dataset.get_schema_structure("Init"))
         self.Denial_constraints.append(dc)
         self.dc_objects[dc] = dc_object
         return self.Denial_constraints
@@ -361,6 +366,7 @@ class Session:
         if index < 0 or index >= len(self.Denial_constraints):
             raise IndexError("Given Index Out Of Bounds")
 
+        # This part remove the denial constrant at index
         self.dc_objects.pop(self.Denial_constraints[index])
         return self.Denial_constraints.pop(index)
 
@@ -843,14 +849,14 @@ class Session:
         init = self.init_dataset.collect()
         attribute_map = {}
         index = 0
-        for attribute in self.dataset.attributes['Init']:
+        for attribute in self.dataset.attributes['Init'].names:
             attribute_map[attribute] = index
             index += 1
         corrected_dataset = []
 
         for i in range(len(init)):
             row = []
-            for attribute in self.dataset.attributes['Init']:
+            for attribute in self.dataset.attributes['Init'].names:
                 row.append(init[i][attribute])
             corrected_dataset.append(row)
 
@@ -891,9 +897,12 @@ class Session:
         if value_predictions:
             for j in range(len(value_predictions)):
                 tid = value_predictions[j]['tid'] - 1
-                column = attribute_map[value_predictions[j]['attr_name']]
+                column_name = value_predictions[j]['attr_name']
+                column = attribute_map[column_name]
+                pyspark_type = self.schema_types[column_name]
+                python_type = self.dataset.type_dict[pyspark_type.simpleString()]
                 corrected_dataset[tid][column] =\
-                    value_predictions[j]['attr_val']
+                    python_type(value_predictions[j]['attr_val'])
 
         correct_dataframe = \
             self.holo_env.spark_sql_ctxt.createDataFrame(

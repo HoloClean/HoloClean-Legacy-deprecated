@@ -22,7 +22,7 @@ class ParserInterface:
         :param file_path: path to dc file
         :param all_current_dcs: list of current dcs in the session
 
-        :return: string array of dc's
+        :return: list of Denial Constraint strings and their respective Denial Constraint Objects
         """
         denial_constraints_strings = []
         denial_constraints = {}
@@ -78,9 +78,9 @@ class Predicate:
 
     def parse_components(self, predicate_string):
         """
-        Parsing the components of given predicate string
-
-        :param predicate_string: predicate
+        Parses the components of given predicate string
+        Example: 'EQ(t1.ZipCode,t2.ZipCode)' returns [['t1', 'ZipCode'], ['t2','ZipCode']]
+        :param predicate_string: predicate string
 
         :return: list of predicate components
         """
@@ -146,7 +146,7 @@ class Predicate:
                   predicate_string[i + 1] == ')') and \
                     predicate_string[i] != "'":
 
-                if str_so_far in self.schema:
+                if str_so_far in self.schema.names:
                     current_component.append(str_so_far)
                     str_so_far = ""
                     components.append(current_component)
@@ -171,6 +171,7 @@ class DenialConstraint:
     def __init__(self, dc_string, schema):
         """
         Constructing denial constraint object
+        This class contains a list of predicates and the tuple_names which define a Denial Constraint
 
         :param dc_string: string for denial constraint
         :param schema: list of attribute

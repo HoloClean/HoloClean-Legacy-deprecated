@@ -14,10 +14,10 @@ class SignalDC(Featurizer):
     def __init__(self, denial_constraints, session):
 
         """
-        Initializing dc signal object
+        Initializing DC signal object
 
         :param denial_constraints: list of denial_constraints
-        :param session: a Holoclean session
+        :param session: session object
         """
 
         super(SignalDC, self).__init__(session)
@@ -46,9 +46,9 @@ class SignalDC(Featurizer):
         """
         This method creates a list of all the relaxed DC's for a specific DC
 
-        :param dc_object: The dc object that we want to relax
+        :param dc_object: The Denial Constraint object that we want to relax
 
-        :return: A list of all relaxed DC's for dc_name
+        :return: A list of all relaxed DC's for dc_object
         """
         relax_dcs = []
         index_name = GlobalVariables.index_name
@@ -59,12 +59,13 @@ class SignalDC(Featurizer):
             full_form_components = \
                 predicate.cnf_form.split(predicate.operation)
             if not isinstance(component1, str):
+                psql_type = self.dataset.sql_type_dict[self.session.schema_types[component1[1]].simpleString()]
                 self.attributes_list.append(component1[1])
                 relax_dc = "postab.tid = " + component1[0] + \
                            "." + index_name + " AND " + \
                            "postab.attr_name = '" + component1[1] + \
-                           "' AND " + "postab.attr_val"   \
-                           + predicate.operation + \
+                           "' AND " + "CAST(postab.attr_val AS " + psql_type  \
+                           + ") " + predicate.operation + \
                            full_form_components[1]
 
                 if len(dc_object.tuple_names) > 1:
@@ -98,13 +99,15 @@ class SignalDC(Featurizer):
                 relax_dcs.append([relax_dc, dc_object.tuple_names])
 
             if not isinstance(component2, str):
+                psql_type = self.dataset.sql_type_dict[self.session.schema_types[component1[1]].simpleString()]
                 self.attributes_list.append(component2[1])
                 relax_dc = "postab.tid = " + component2[0] +\
                            "." + index_name + " AND " + \
                            "postab.attr_name ='" + component2[1] +\
                            "' AND " + full_form_components[0] + \
                            predicate.operation + \
-                           "postab.attr_val"
+                           "CAST(postab.attr_val AS " + psql_type  \
+                           + ") "
                 if len(dc_object.tuple_names) > 1:
                     if isinstance(component1, list) and isinstance(
                             component2, list):
@@ -136,14 +139,13 @@ class SignalDC(Featurizer):
 
         return relax_dcs
 
-    def get_query(self, clean=1, dcquery_prod=None):
+    def get_query(self, clean=1):
         """
-        Creates a list of strings for the queries that are used to create the
+        Creates a list of query strings that are used to create the
         DC Signals
 
-        :param clean: shows if we create the feature table for the clean or the
-        dk cells
-        :param dcquery_prod: a thread that we will produce the final queries
+        :param clean: shows if the method creates the feature table for the
+        clean or the dk cells
 
         :return a list of strings for the queries for this feature
         """

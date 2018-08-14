@@ -19,10 +19,13 @@ class Accuracy:
         self.flatten_init()
 
     def accuracy_calculation(self):
-
+        """
+        flattens database and uses this to calculate the accuracy
+        :return:
+        """
         if self.session.inferred_values is None:
             self.session.holo_env.logger.error('No inferred values')
-            print ("The precision and recall cannot be calculated")
+            print("The precision and recall cannot be calculated")
 
         else:
             self.read_groundtruth()
