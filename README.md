@@ -162,9 +162,13 @@ To install Spark on MacOS run
 ```
 brew install apache-spark
 ```
+Do NOT add anything to the environment variable `SPARK_HOME` (this will cause the latest version (2.3.1) to crash in the notebook).
+Add `/usr/local/Cellar/apache-spark/<LATEST-VERSION>/libexec/python` to the beginning of your path i.e. in your ~/.zshrc or ~/.profile
+```
+export PATH="/usr/local/Cellar/apache-spark/<LATEST-VERSION>/libexec/python:$PATH"
+```
+where you can find the latest version installed by brew via `brew list apache-spark`.
 
-After installation of spark, add a `SPARK_HOME` environment variable to your shell, and add `/usr/local/Cellar/apache-spark/<version>/libexec/python` to 
-your python path.
 
 ### 7. Getting Started
 
